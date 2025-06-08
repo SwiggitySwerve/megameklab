@@ -1,0 +1,188 @@
+{
+  "quirks": [
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "TSEMP Cannon",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Left Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Torso",
+      "item_type": "StreakSrm6"
+    }
+  ],
+  "era": 3131,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Shadow Cat",
+  "model": "F",
+  "mul_id": "6912",
+  "config": "Biped Omnimech",
+  "source": "Record Sheets: 3145 New Tech New Upgrades",
+  "rules_level": "3",
+  "role": "Sniper",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Barcella Beta"
+    },
+    {
+      "name": "Clan Protectorate Arms"
+    },
+    {
+      "name": "Barcella"
+    },
+    {
+      "name": "Irece"
+    },
+    {
+      "name": "Asellus Australis"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Shadow Cat is a heavily-armed and maneuverable medium OmniMech developed by Clan Nova Cat to replace the Ice Ferret in the early 31st century during preparations for Operation Revival.",
+    "capabilities": "This expensive OmniMech makes use of weight-saving technologies in the form of an Endo Steel internal structure, an XL Engine, and seven tons of Ferro-Fibrous armor. All of these together allow the Shadow Cat to employ more pod space than the Ice Ferret at the expense of speed. To counteract this, the base chassis employs enough jump jets to vault up to 180 meters in a single bound and Myomer Accelerated Signal Circuitry that enables it to move up to 130 km/h in bursts.",
+    "deployment": "Another Dark Age configuration, this variant carries a TSEMP cannon, ER PPC, and Streak SRM-6.",
+    "history": "First used against Inner Sphere forces during the Battle of Luthien, the successful Shadow Cat was subsequently deployed by the Clans against ComStar during the Battle of Tukayyid. The Shadow Cat is one of the few Invasion-era Clan 'Mechs to lack a separate Inner Sphere designation; every Inner Sphere pilot who encountered the 'Mech before the Battle of Tukayyid was killed in action, and ComStar was informed of its designation before that battle which resulted in both sides using the same name to refer to the Shadow Cat. Production of the Shadow Cat in the Clan Homeworlds faltered in the years after the Great Refusal, and stopped altogether around the time of the Wars of Reaving. This 'Mech was one of several older designs that were being phased out of manufacture in the Homeworlds. The reasons for the cessation of Shadow Cat production were never explicitly given, but it is possible that the 'Mech's association with the exiled Clan Nova Cat played a role in the decision to phase out this 'Mech. In the Inner Sphere, however, no such reservations existed - despite its historical associations, the Shadow Cat remains a highly successful design that has seen continued production by Clan Nova Cat well into the Dark Age period. Rights to produce the 'Mech were acquired by the rechristened Clan Sea Fox, who continue to sell Shadow Cats to most Clans and even Inner Sphere militaries.",
+    "notes": "The Shadow Cat was such a successful design that it has seen continued production by Clan Nova Cat well into the Dark Age period.\nsystemmanufacturer:CHASSIS:Type 79-45 Endo Steel\nsystemmanufacturer:ENGINE:RFUM 270 XL\nsystemmanufacturer:ARMOR:Compound H17 Ferro-Fibrous with CASE\nsystemmanufacturer:JUMPJET:Model KY Boosters\nsystemmanufacturer:COMMUNICATIONS:JNE Integrated\nsystemmanufacturer:TARGETING:Build 2 CAT TTS"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 134
+  }
+}

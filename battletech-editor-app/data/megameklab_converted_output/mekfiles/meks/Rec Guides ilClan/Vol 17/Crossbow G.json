@@ -1,0 +1,213 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Left Arm",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Left Arm",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Left Arm",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Right Arm",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Right Arm",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Right Arm",
+      "item_type": "StreakLrm5"
+    }
+  ],
+  "era": 3136,
+  "tech_base": "Clan",
+  "chassis": "Crossbow",
+  "model": "G",
+  "mul_id": "8237",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #17",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 65,
+  "engine": {
+    "rating": 325,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Novy Minsky Armaments Plant"
+    },
+    {
+      "name": "New Kent"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Anaconda OmniHeavy"
+    },
+    {
+      "type": "ENGINE",
+      "name": "New Kent Type 325"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound V6"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Bishop 211 Meridian"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Spanke 112-A"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Developed during the Golden Century by Clan Steel Viper as an early second-generation OmniMech, the Crossbow is a relatively cheap OmniMech.",
+    "capabilities": "Often described as a sleeker version of the Star League Longbow, the Crossbow is solidly protected by twelve tons of armor, though its traditionally missile-heavy weapons loadout means that it does not need any extra double heat sinks.",
+    "deployment": "Each arm carries three Streak LRM-5 missile launchers and two tons of ammunition.",
+    "history": "The Crossbow was Clan Steel Viper's first attempt to crash-start their OmniMech manufacturing capability, and was initiated in part by a small cadre of captured Clan Snow Raven scientist caste. Since both parties were relatively new to Omni-technology, the teams developed a novel Omni-pod system confined to replacing the 'Mech's arms. Since only the arms of early Crossbows can mount Omni-pods, early Crossbows are jump-incapable(more recently, configurations have been published containing weapon systems in the torsos). As the Crossbow is much less flexible than most OmniMechs, and since the Crossbow lacks of lighter materials of most OmniMechs, the Crossbow has largely been relegated to second-line duty, though it still appears frequently in the front lines, especially within Clan Steel Viper. However, the Crossbow is still quite effective - from its first engagement at Firebase Climax on Homer in 2870 to the present, the Crossbow's mix of arm-mounted missiles make it a superb fire-support choice. Considered a rare design by the Jihad era, the Crossbow's remaining production facilities would end up being destroyed in 3074 during the Wars of Reaving, effectively phasing it out of use in the Clan Homeworlds. The Crossbow would find new life in the Inner Sphere during the next century, as Clan Wolf used Arcturus' factories to mass-produce the design when they took the planet in 3128. During that battle a Wolf MechWarrior named Andreas managed to destroy an entire company of Lyran 'Mechs while piloting a Crossbow, earning a posthumous place in the Remembrance and ensuring that the newly-won factory would produce more of the design. Sporting an upgraded configuration Crossbows saw extensive use in the Clan Wolf touman, notably with the Seventy-ninth Wolf Battle Cluster on Denebola. When the Jade Falcons later claimed Arcturus after it was abandoned by the Wolves, they neglected the Crossbow's production lines, allowing Clan Sea Fox to buy and sell the design in large numbers. In Jade Falcon service Crossbows were used to less effect, partly because they were relegated to inferior units."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 192
+  }
+}

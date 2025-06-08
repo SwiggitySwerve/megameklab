@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "pro_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "AC/20",
+      "location": "Center Torso",
+      "item_type": "Ac20"
+    }
+  ],
+  "era": 3048,
+  "tech_base": "Inner Sphere",
+  "chassis": "Axman",
+  "model": "AXM-1N",
+  "mul_id": "184",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 65,
+  "engine": {
+    "rating": 260,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "ejection": "Full Head Ejection System",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Johnston Industries"
+    },
+    {
+      "name": "New Syrtis"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Dorwinion AXM Standard"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 260 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Kallon Unity Weave Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "HildCo Model 12"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Johnston Wide Band"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Rander Pinpoint-HY"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Developed by Team Banzai as the big brother of the highly successful Hatchetman, the Axman was designed exclusively to be a 'Mech killer",
+    "capabilities": "The Axman has a ground speed of only 64.8 km/h, which is average for a Heavy weight, but improved in part by the inclusion of Jump Jets. The 'Mech is covered with eleven tons of Ferro-Fibrous armor that gives it a great deal of protection, with ten Double Heat Sinks offering average heat dissipation. Much like its lighter brother, the Axman was designed to utilize the Full-Head Ejection System to safe-guard its MechWarrior.",
+    "deployment": "The two primary weapons on board the Axman are its massive Hatchet, which alone weighs five tons and can cleave through enemy 'Mech armor like a knife through butter, and a Luxor Devastator-20 Autocannon/20, which can strip over a ton of armor off of an enemy 'Mech with ease. The 'Mech also carries a trio of Intek Medium Lasers and a highly accurate Sutel Precision Line Large Pulse Laser for short to intermediate range combat.",
+    "history": "The Axman was also intended as a symbol of solidarity throughout the Federated Commonwealth by using components that were produced in Federated Suns, Lyran Commonwealth, and even former Capellan Confederation space. The collapse of the Federated Commonwealth in 3057 almost rendered the design extinct because of this, production slowing to a trickle as both the Federated Suns and Lyran Alliance were forced to rely on surplus stores while developing new variants utilizing locally sourced components."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 179
+  }
+}

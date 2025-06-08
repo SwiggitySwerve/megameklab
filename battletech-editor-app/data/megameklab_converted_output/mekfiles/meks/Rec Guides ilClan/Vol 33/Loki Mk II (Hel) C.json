@@ -1,0 +1,176 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ATM 12",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 12",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 12",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 12",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3130,
+  "tech_base": "Clan",
+  "generator": "MegaMek Suite 0.49.20-SNAPSHOT on 2024-06-01",
+  "chassis": "Loki Mk II (Hel)",
+  "model": "C",
+  "mul_id": "9571",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #33",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 65,
+  "engine": {
+    "rating": 260,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Introduced before the Blackout, the Loki Mk II has become prevalent within the Clans, particularly the Jade Falcon and Hellâs Horses toumans. It represents an evolution in Clan warfare, balancing firepower, armor, and versatility.",
+    "capabilities": "The Loki Mk II trades some of the original Lokiâs speed for an impressive forty tons of pod space and significantly increased armor. This design shift allows for a variety of configurations, each suited to different combat roles. The primary configuration is tailored for long-range engagement, while the A configuration offers a balanced mix of anti-armor and anti-personnel weaponry, suitable for operations away from supply lines. The B configuration provides heavy fire support, though its specialization comes at the cost of reduced defensive capabilities.",
+    "deployment": "No information on this variant",
+    "history": "The Loki Mk II's combat history is marked by notable deployments and engagements. In July 3142, the Ninth Falcon Talon Cluster of the Jade Falcons used it in a bombardment campaign on Sargasso. The robustness of the Mk IIâs armor was proven when Star Captain Henryâs unit survived a rockslide triggered during combat with the Wolves-in-Exile. Despite losing their Long Toms, the Mk IIs played a crucial role in thwarting the recapture of the world.\nmanufacturer:Csesztreg, Sudeten\nprimaryfactory:Csesztreg Industriplex Alpha , Olivetti Weaponry\nsystemmanufacturer:CHASSIS:T-E H65 Omni\nsystemmanufacturer:ENGINE:Model SF-3 (XL)\nsystemmanufacturer:ARMOR:Compound H17 Ferro-Fibrous\nsystemmanufacturer:COMMUNICATIONS:CH2B Alpha-Com\nsystemmanufacturer:TARGETING:Version Delta-II TTS(A)"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 182
+  }
+}

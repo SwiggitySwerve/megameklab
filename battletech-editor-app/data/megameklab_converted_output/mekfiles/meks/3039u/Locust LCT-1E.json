@@ -1,0 +1,202 @@
+{
+  "quirks": [
+    "compact_mech",
+    "low_profile",
+    "cramped_cockpit",
+    "no_arms",
+    "weak_legs",
+    "ubiquitous_clan",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Right Arm",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Arm",
+      "item_type": "SmallLaser"
+    }
+  ],
+  "era": 2811,
+  "tech_base": "Inner Sphere",
+  "chassis": "Locust",
+  "model": "LCT-1E",
+  "mul_id": "1897",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Scout",
+  "mass": 20,
+  "engine": {
+    "rating": 160,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "8",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Bergan"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garrett"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P"
+    }
+  ],
+  "systemmode": "TARGETING:911",
+  "fluff_text": {
+    "overview": "The Locust is undoubtedly one of the most popular and prevalent light BattleMechs ever made. First produced in 2499, the almost dozen distinct factories manufacturing the design quickly spread it to every power in human space. Its combination of tough armor (for its size), exceptional speed, and most importantly, low cost have all contributed to the Locust's success. It remains the benchmark for many scouting designs, and its continual upgrades have ensured that it remains just as effective with every new conflict that appears.",
+    "capabilities": "As the Locust was first developed as a recon platform, speed is paramount to the design's philosophy. While many variants change the weaponry to fill specific tasks or purposes, Locusts are nearly always pressed into service in ways where they can best take advantage of their speed. When in line regiments, they can act as a deadly flankers or harassers, and are often used in reactionary roles to quickly plug holes in a fluid battle line. The structural form of Locusts themselves are their greatest weakness; with no hands, they are disadvantaged in physical combat and occasionally have difficulty righting themselves after a fall.",
+    "deployment": "One of the most common designs even produced, even the smallest mercenary or pirate outfits will often field one or more of the design. Production for the Locust has continued uninterrupted for centuries, and it plays an important role in the militaries of many smaller nations. Lacking any nose-mounted weaponry, the -1E is used to attack \"harder\" targets than the base variant. It is a common model, and is commonly found throughout known space."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 64
+  }
+}

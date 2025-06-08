@@ -1,0 +1,192 @@
+{
+  "quirks": [
+    "reinforced_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    }
+  ],
+  "era": 3059,
+  "tech_base": "Clan",
+  "chassis": "Pack Hunter",
+  "mul_id": "2392",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 210,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "WC Site 3"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type AR1 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Light Force (Standard) 210"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Royal-7 Standard"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Leaper Model, L5"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "K9 Communications System"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hunter (3) Dedicated TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Fast and with a sharp bite, the Pack Hunter is the first new design produced by Clan Wolf-in-Exile on Arc-Royal.",
+    "capabilities": "Built around an Endo Steel skeleton, standard 210 Fusion Engine and seven jump jets, a max speed of more than a hundred kilometers per hour and an impressive jumping range make the Pack Hunter an excellent flanking or vanguard BattleMech. Though lacking the high-powered sensor equipment that would make it an excellent scout, its ability to handle itself in nearly any situation makes up for that perceived deficiency. The use of a standard engine its internal Double Heat Sinks make the 'Mech cheaper to manufacture.",
+    "deployment": "The Pack Hunter's Ripper Series A1 ER PPC, capable of decapitating a foe in a single blast, gives any 'Mech that faces it a good reason to worry. The 'Mech excels when staying at extreme range and using its speed to keep that distance between it and larger 'Mechs, especially with multiple Pack Hunters acting in unison as its name implies. However, the Pack Hunter is hard pressed to defend itself if attacked by multiple opponents due to its lack of secondary weapons and its meager four tons of standard armor.",
+    "history": "Following their arrival on Arc-Royal in the wake of the Refusal War, Khan Phelan Kell's newly Exiled Wolves quickly set about constructing production facilities to support their touman. Though many Exiled Wolf Warriors pushed for a heavy flagship OmniMech that would command attention from the other Clans as their first BattleMech, Khan Kell pragmatically realized that a second-line machine was of more immediate usefulness as well as serving as a proof-of-concept for the new production lines, allowing problems to be identified and fixed without the risk of producing a flawed OmniMech. Showing his bias for lighter, faster designs, Khan Phelan Kell directed his scientists to create a 'Mech offering \"impressive speed but with a bite. A real pack hunter.\" Production of the Pack Hunter also showed the strength of the Exiled Wolves' ties to the Kell Hounds, the 'Mech carrying standard composite armor and communication equipment manufactured by the Hounds and purchased as part of a trade agreement for access to Endo Steel from an Exiled Wolf orbital factory. While the lion share of Pack Hunters were deployed in Clan Wolf-in-Exile's second-line and garrison clusters as fast as they can be produced, the Kell Hounds deployed a few in their own regiments. Intended for obsolescence from the very start, repeated delays and false starts would ensure the Pack Hunter saw continued production until the introduction not of a new OmniMech, but the updated and upgraded Pack Hunter II in 3077 instead. Amazingly the original design would reappear over seventy years later during the Dark Ages thanks to the Wolf Empire's capture of the Technicron Manufacturing/Irian BattleMechs Unlimited plant on Tongatapu. Rather than upgrade the Tongatapu Hermes 4K line to Clan standards, the Empire instead used it as the basis to reintroduce the Pack Hunter. Though how the Empire acquired the plans is unknown, the decision was intended not as a snub to the Exiled Wolves but an attempt at enticing its survivors to join the Empire following the fall of Arc-Royal."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 64
+  }
+}

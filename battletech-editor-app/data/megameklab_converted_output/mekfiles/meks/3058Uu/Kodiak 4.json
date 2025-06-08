@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LB 20-X AC",
+      "location": "Right Torso",
+      "item_type": "Lb20XAc"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    }
+  ],
+  "era": 3066,
+  "tech_base": "Clan",
+  "chassis": "Kodiak",
+  "model": "4",
+  "mul_id": "1808",
+  "config": "Biped",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Bergan Industries"
+    },
+    {
+      "name": "Alshain"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Bergan Version 12.6 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound 12A2"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret L20"
+    },
+    {
+      "type": "TARGETING",
+      "name": "RCA Instatrac Mark IX"
+    }
+  ],
+  "fluff_text": {
+    "capabilities": "Though not taken to the same extreme as other Clan Totem 'Mechs, the Kodiak does epitomize the Ghost Bears' method of warfare, combining an impressive defensive platform with surprising amounts of speed and firepower. Its massive 400-rated XL Engine propels the Kodiak to a maximum speed of 64.8 km/h, while seventeen and a half tons of Compound 12A2 gives it impressive armor protection. Though it mounts an incredible amount of firepower, even the use of twenty double heat sinks cannot prevent overheating problems when they are all fired simultaneously, though most MechWarriors learn to use their weapons sparingly and love the 'Mech's ability to deliver a massive knockout punch. The Kodiak incorporates the Garret L20 as its communications system, and uses the RCA Instatrac Mark IX for targeting, however the \"claws\" mounted on both of its arms are purely aesthetic.",
+    "deployment": "This variant mounts an Artemis IV FCS enhanced LRM-20 and a pair of ER Medium Lasers in each arm. For additional short range firepower, an LB 20-X AC is carried in the right torso.",
+    "history": "The vast majority of Kodiaks are used by the Ghost Bears, and indeed was exclusive to them in the first years since its introduction. Of those which are found in other toumans, Clan Snow Raven has the largest share, payment for their help in relocating to the Inner Sphere, followed by Clan Goliath Scorpion and Clan Cloud Cobra. Among the Crusader Clans though, only Clan Ice Hellion fields a handful of these 'Mechs. As a interesting note, and proof of the expansion of the Kodiak, at least two of these mechs were found in a Smoke Jaguar unit on planet Asgard, during Operation Bulldog."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 280
+  }
+}

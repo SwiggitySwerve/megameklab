@@ -1,0 +1,174 @@
+{
+  "quirks": [
+    "no_arms",
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-10-12",
+  "chassis": "Catapult",
+  "model": "CPLT-K2 (Kasigi)",
+  "config": "Biped",
+  "source": "Force Manual Kurita",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 65,
+  "engine": {
+    "rating": 260,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 18,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Catapult, though a well-designed BattleMech, has had a tumultuous existence. Produced by Hollis Incorporated in record numbers for the SLDF, the Terran Hegemony ultimately decided to forgo contract renewal, leaving Hollis with a BattleMech line but no customer. When the facility was eventually retooled to produce the BattleMaster, they chose to completely abandon their Catapult chassis, and its numbers began to decline. The attrition of the Succession Wars left the Draconis Combine with many Catapults but no parts for them. Contracting Yori Mech Works, a production line was eventually built and new Catapults began entering the DCMS by 3033. The Capellan Confederation would follow suit and the Catapult would finally claim the popularity that it deserved.",
+    "capabilities": "Carrying two LRM launchers in its \"ears\" and four medium lasers in its body, the Catapult was a fire support 'Mech akin to the slightly larger Archer. The inclusion of jump jets, though, and the placement of the lasers allowed many Catapults to be their own bodyguards. Many Catapult MechWarriors choose to fire all of their LRM missiles at their chosen targets before closing in to exploit any armor breaches with their lasers. This does make the Catapult slightly more flexible than many traditional support 'Mechs, although its limited ammunition stores can hamper it in extended ranged battles.",
+    "deployment": "While visible in every military of note, the Capellan Confederation and Draconis Combine would lay claim to the lion's share of the design. When production for the Catapult began in both states, the divide only increased, with many states losing all of their examples of the design by the conclusion of the Jihad. A Kuritan innovation, the CPLT-K2 would replace both LRM \"ears\" with twin PPCs. This, combined with strengthed armor and twin machine guns, would turn the -K2 into a powerful line 'Mech suited to the Samurai mentality of many Combine MechWarriors. The formation of the Free Rasalhague Republic would see it enter service in the young state as well, though more advanced version of the -K2 would eventually lead to its disappearance.\nsystemmanufacturer:CHASSIS:Hollis\nsystemmode:CHASSIS:Mark II\nsystemmanufacturer:ENGINE:Magna\nsystemmode:ENGINE:260\nsystemmanufacturer:ARMOR:Durallex\nsystemmode:ARMOR:Heavy\nsystemmanufacturer:COMMUNICATIONS:O/P\nsystemmode:COMMUNICATIONS:Com-211\nsystemmanufacturer:TARGETING:O/P\nsystemmode:TARGETING:1078"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 176
+  }
+}

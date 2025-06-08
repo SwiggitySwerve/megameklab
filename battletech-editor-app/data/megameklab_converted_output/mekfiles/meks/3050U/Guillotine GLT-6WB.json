@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "2 ISERMediumLaser",
+      "location": "Right Arm",
+      "item_type": "2Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISHeavyPPC",
+      "location": "Left Arm",
+      "item_type": "1Isheavyppc"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISLRM15",
+      "location": "Center Torso",
+      "item_type": "1Islrm15"
+    },
+    {
+      "item_name": "1 ISImprovedC3CPU",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3068,
+  "tech_base": "Inner Sphere",
+  "chassis": "Guillotine",
+  "model": "GLT-6WB",
+  "mul_id": "1342",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "gyro": "Compact Gyro",
+  "cockpit": "Small Cockpit",
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISImprovedC3CPU",
+        "ISImprovedC3CPU",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Irian BattleMechs Unlimited"
+    },
+    {
+      "name": "Irian"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Crucis-I Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "VOX 280"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Special Heavy"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Anderson 398"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "StarLink 955G"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Pulsar Tri-X"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Guillotine was originally designed in 2499 as a front-line BattleMech for the Terran Hegemony and was the Star League Defense Force's standard heavy 'Mech for generations.",
+    "capabilities": "While its weaponry was ample for its era, as time went by the march of technology allowed for the development of larger 'Mechs which were significantly better armed. However few of these new 'Mechs could match the Guillotine in maneuverability or staying power, and so the 'Mech simply transitioned from the front-line shock role to that of a heavy raider - a task it excels at thanks to its quick speed and use of jump jets. Its mobility also makes the 'Mech adept at fighting in difficult terrain such as jungle or mountainous regions. The only serious issue with the 'Mech ironically are its weapons, which have been plagued with various problems over the centuries.",
+    "deployment": "Produced by Irian Technologies in 3068, the 6WB is an upgrade similar in some ways to the 8D. A Small Cockpit and Ferro-Fibrous armor make room for an Improved C3 CPU, allowing the 'Mech to share targeting data with other units. The large laser has been replaced with a Heavy PPC, while the missile launcher has been swapped out for an LRM-15, though it only has one ton of ammunition. Eleven double heat sinks are barely adequate to keep waste heat from crippling the 'Mech thanks to its four ER Medium Lasers. A Compact Gyro allows the LRM-15 to be mounted in the center torso.",
+    "history": "Newhart Industries built the Guillotine from their factory on New Earth, but this was destroyed during the Amaris Civil War in 2776 as part of a celebration put on by the 12th Republican Guard. At the same time Irian BattleMechs Unlimited was building Guillotines under contract from Newheart out of Irian and continued to do so for another half-century; Lycomb-Davion IntroTech had also been producing the Guillotine from their main manufacturing facility on Demeter, but this facility was destroyed by Capellan Confederation forces early in the First Succession War. The collapse of the Star League and exodus of the SLDF scattered Guillotines across all of the Great Houses, while ComStar succeeded in raiding New Earth in 2788 and acquiring a battalion's worth from former Newhart stockpiles. In the wake of the First Succession War a shortage of the advanced components necessary for the 'Mech forced IBMU to design a downgraded variant, the GLT-4L, which they continued to produce off and on for the next few centuries. The recovery of the Helm Memory Core inspired a number of old designs, the Guillotine included, to be upgraded with lostech. Using the refurbished Newhart factory Irian's new GLT-5M model not only restored the Guillotine to its former glory but improved upon it with better (and importantly more reliable) weaponry. Irian continued producing new Guillotines, which would go on to take part in the FedCom Civil War and the Jihad."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 197
+  }
+}

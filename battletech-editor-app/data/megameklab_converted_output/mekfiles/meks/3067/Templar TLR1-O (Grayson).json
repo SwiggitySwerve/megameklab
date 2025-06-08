@@ -1,0 +1,224 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "AC/5",
+      "location": "Left Arm",
+      "item_type": "Ac5"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Left Arm",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Left Arm",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "AC/5",
+      "location": "Right Arm",
+      "item_type": "Ac5"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3065,
+  "tech_base": "Inner Sphere",
+  "chassis": "Templar",
+  "model": "TLR1-O (Grayson)",
+  "mul_id": "5192",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3067",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 85,
+  "engine": {
+    "rating": 340,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "13",
+  "walk_mp": "4",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Kallon Industries"
+    },
+    {
+      "name": "Talon"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Kallon Type XIX Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "KalTek 340 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield A with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Newberg Telescan 17"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Spar 3C MegaTrak"
+    }
+  ],
+  "fluff_text": {
+    "capabilities": "This configuration was invented by Lieutenant-Colonel Grayson Addison from the 8th Syrtis Fusiliers. The Grayson configuration is armed with two Autocannon/5s for long range combat and has four ER Medium Lasers for close combat. The autocannons and lasers are all linked to a Targeting Computer for increased accuracy. To seek out weak points in an enemy's armor, the Grayson configuration has two Streak SRM-4 launchers. In order to handle its heat load more easily, this configuration has an additional double heat sink and also has three jump jets, which allow it to jump up to ninety meters.",
+    "deployment": "The Templar is built on a lightweight Kallon Type XIX Endo Steel chassis and is powered by a KalTek 340 XL engine that gives the 'Mech a top speed of 64.8 km/h while sacrificing durability. The Templar has thirteen fixed double heat sinks and is armored with sixteen and a half tons of Starshield A armor with CASE fixed in the right torso. Overall, this allows the Templar to have forty tons of free pod space for weapons and equipment which the 'Mech uses effectively in its various configurations.",
+    "history": "With a noticeable lack of OmniMechs designed in the Federated Suns, Field Marshal Duke George Hasek went over the heads of the Department of the Quartermaster and commissioned Kallon Industries to design an assault OmniMech and backed the project with his own considerable financial resources. The resulting 'Mech is a force to be reckoned with on the modern battlefield."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 44,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 263
+  }
+}

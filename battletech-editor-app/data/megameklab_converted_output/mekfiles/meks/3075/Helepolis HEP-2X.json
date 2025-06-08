@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "reinforced_legs",
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Laser",
+      "location": "Left Arm",
+      "item_type": "LargeLaser"
+    },
+    {
+      "item_name": "Sniper",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Left Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Center Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Head",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 2488,
+  "tech_base": "Inner Sphere",
+  "chassis": "Helepolis",
+  "model": "HEP-2X",
+  "mul_id": "8471",
+  "config": "Biped",
+  "source": "TRO: 3075",
+  "rules_level": "3",
+  "role": "Missile Boat",
+  "mass": 75,
+  "engine": {
+    "rating": 225,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Medium Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Mitchell Vehicles"
+    },
+    {
+      "name": "Graham IV"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Mitchell Heavy HEP"
+    },
+    {
+      "type": "ENGINE",
+      "name": "VOX 225"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Armorscale with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Exeter Longscan 100"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Tacticon Tracer 150b"
+    }
+  ],
+  "fluff_text": {
+    "overview": "First unleashed by the Terran Hegemony in 2460, the Helepolis is a ponderous BattleMech designed to deliver artillery fire.",
+    "capabilities": "The Helepolis is built around an Armstrong Industries Sniper Artillery Piece. The accurate, long-range fire makes it effective against static defenses.",
+    "deployment": "The 'Mech does carry some backup weapons to augment its screening forces. It can defend itself with a Coventry Starfire LRM-10 and Nova Large Laser. If an enemy gets close, the MechWarrior can call upon a Thunderstroke SRM-6 and a Starflash medium laser. This model which debuted in 2488, is identical to the -2H all respects except having 10 single heat sinks instead of 10 double heat sinks",
+    "history": "The 'Mech was proven ineffective on multiple occasions and, following the destruction of the production facilities in 2775, the design was lost during the Succession Wars. The HEP-2H dates to 2567, replacing the 2X. The Helepolis is a slow heavy 'Mech with a maximum speed of 54 km/h. It has a respectable thirteen tons of armor, however. When rebels within the Hegemony military launched the September Revolt, the new Director-General, Ian Cameron deployed batteries of Helepolis 'Mechs to keep them pinned down within the capital city of Geneva on Terra."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 208
+  }
+}

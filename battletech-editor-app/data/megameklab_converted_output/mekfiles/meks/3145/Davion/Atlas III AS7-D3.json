@@ -1,0 +1,192 @@
+{
+  "quirks": [
+    "command_mech",
+    "distracting",
+    "pro_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Rotary AC/2",
+      "location": "Right Arm",
+      "item_type": "RotaryAc2"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Streak LRM 20",
+      "location": "Right Torso",
+      "item_type": "StreakLrm20"
+    }
+  ],
+  "era": 3137,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Atlas III",
+  "model": "AS7-D3",
+  "mul_id": "6358",
+  "config": "Biped",
+  "source": "TRO: 3145 Federated Suns",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "weaponquirk": "jettison_capable:RA:4:ISRotaryAC2",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit (ARMORED)",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "A Dark Age-era evolution of the original Atlas, featuring a mix between advanced Clan and Inner Sphere technologies. The Atlas III is usually used as a Command 'Mech among the ranks of the AFFS and the Republic of the Sphere Armed Forces.",
+    "capabilities": "The D3's construction reflects its intended role as (almost) a custom design for Commanders. The 'Mech is designed for dealing punishing attacks, while retaining the survivability and speed of the original Atlas. Engineers used 19.5 ton of Standard Armor fitted to an Endo Steel skeleton, and for the MechWarrior's protection the Atlas III employs an Armored Cockpit and a pair of Small Shields, with the latter split between both arms.",
+    "deployment": "The D3's construction reflects its intended role as (almost) a custom design for Commanders. The 'Mech is designed for dealing punishing attacks, while retaining the survivability and speed of the original Atlas. Engineers used 19.5 ton of Standard Armor fitted to an Endo Steel skeleton, and for the MechWarrior's protection the Atlas III employs an Armored Cockpit and a pair of Small Shields, with the latter split between both arms. An advanced Angel ECM Suite has also been installed, giving the 'Mech greater capability to manage electronic warfare threats. Powering the Atlas III is the tried-and-true 300-rated Vlar Fusion Engine, which provides modest speeds and adequate protection on the battlefield. Along with the 'Mech's 12 Double Heat Sinks, a Radical Heat Sink System has been fitted in order to help manage the 'Mech's heat.",
+    "history": "The AS7-D versions of this generation of the Atlas was constructed with a mixture of Advanced Clan and Inner Sphere technologies. When it was first produced, the D3 was rare among the ranks of the AFFS and its ally, the Republic of the Sphere, where it was used by Battalion and Regimental leaders as a Command 'Mech. It is unclear if the D3 model of the 'Mech remained in production after the Draconis Combine's capture of Robinson in 3144.\nmanufacturer:General Motors,Robinson Standard BattleWorks\nprimaryfactory:El Dorado,Robinson\nsystemmanufacturer:CHASSIS:Foundation 12X Endo Steel\nsystemmanufacturer:ENGINE:Vlar 300\nsystemmanufacturer:ARMOR:Starshield Special Heavy with CASE II\nsystemmanufacturer:COMMUNICATIONS:Rander Comm-Marshal with Angel ECM Suite\nsystemmanufacturer:TARGETING:Dalban HiRez V"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 50,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

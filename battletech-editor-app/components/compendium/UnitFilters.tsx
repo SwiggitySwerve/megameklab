@@ -7,6 +7,7 @@ export interface UnitFilterState {
   weightClass: string;
   techBase: string;
   era: string;
+  hasQuirk?: string;
 }
 
 interface UnitFiltersProps {
@@ -18,6 +19,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
   const [weightClass, setWeightClass] = useState('');
   const [techBase, setTechBase] = useState('');
   const [era, setEra] = useState('');
+  const [hasQuirk, setHasQuirk] = useState('');
 
   const [weightClasses, setWeightClasses] = useState<string[]>([]);
   const [techBases, setTechBases] = useState<string[]>([]);
@@ -52,8 +54,8 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
   }, []);
 
   const handleApply = () => {
-    onFiltersApply({ searchTerm, weightClass, techBase, era });
-    console.log('Applying Unit Filters:', { searchTerm, weightClass, techBase, era });
+    onFiltersApply({ searchTerm, weightClass, techBase, era, hasQuirk });
+    console.log('Applying Unit Filters:', { searchTerm, weightClass, techBase, era, hasQuirk });
   };
 
   const handleClear = () => {
@@ -61,7 +63,8 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
     setWeightClass('');
     setTechBase('');
     setEra('');
-    onFiltersApply({ searchTerm: '', weightClass: '', techBase: '', era: '' });
+    setHasQuirk('');
+    onFiltersApply({ searchTerm: '', weightClass: '', techBase: '', era: '', hasQuirk: '' });
      console.log('Cleared Unit Filters');
   };
 
@@ -70,7 +73,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
 
   return (
     <div className="p-4 bg-gray-200 rounded mb-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"> {/* Adjusted grid to 5 cols */}
         <div>
           <label htmlFor="searchTerm" className="block text-sm font-medium text-gray-700">Search Name/Model</label>
           <input
@@ -116,6 +119,17 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
             <option value="">All</option>
             {eras.map(er => <option key={er} value={er}>{er}</option>)}
           </select>
+        </div>
+        <div>
+          <label htmlFor="hasQuirk" className="block text-sm font-medium text-gray-700">Has Quirk (Name)</label>
+          <input
+            type="text"
+            id="hasQuirk"
+            value={hasQuirk}
+            onChange={(e) => setHasQuirk(e.target.value)}
+            placeholder="e.g., Command Unit"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+          />
         </div>
       </div>
       <div className="mt-4 flex space-x-2">

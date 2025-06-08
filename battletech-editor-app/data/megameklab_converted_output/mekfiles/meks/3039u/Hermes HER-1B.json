@@ -1,0 +1,192 @@
+{
+  "quirks": [
+    "imp_com",
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Center Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 2856,
+  "tech_base": "Inner Sphere",
+  "chassis": "Hermes",
+  "model": "HER-1B",
+  "mul_id": "1486",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 270,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "9",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Irian Chassis"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Irian"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Wasat"
+    }
+  ],
+  "systemmode": "TARGETING:Aggressor",
+  "fluff_text": {
+    "overview": "The Star League, showing its industrial and economic might, commissioned a new dedicated scout in 2632. Irian BattleMechs Unlimited won the contract, and was able to fulfill initial orders for this new Hermes quicker then anticipated. This caused concern in the SLDF's Quartermaster Command despite the 'Mech apparently meeting all requirements. These suspicions were quickly confirmed, as many 'Mechs in the initial run had unresolved issues with their electronics that made their targeting systems all but useless. While these problems were eventually rectified, the time needed for the fix was not insignificant, and the 'Mech would develop a negative reputation that would follow it during the remainder of the Star League era.",
+    "capabilities": "Emphasizing mobility over firepower, the Hermes was faster than nearly every 'Mech in service at the time of its introduction. Once the glitches surrounding the targeting systems were fixed, the Alexis Photon proved popular with technicians as it reduced wear and tear on the laser systems. The initial production variant used a fuel-based flamer instead of the more modern version that would tap directly into a 'Mech's fusion plant. Considered to be quite safe, MechWarriors piloting Hermes could even choose to jettison the fuel storage cylinders if needed.",
+    "deployment": "The Hermes only served in the SLDF for 19 years, after which they were put in storage or relegated to militia commands. The Succession Wars forced the Hermes back into frontline regiments through sheer need, though Irian chose to re-engineer the 'Mech in the heavier Hermes II instead of putting the base chassis back into production. Instead, Irian would refit existing Hermes chassis into downgraded variants as the Succession Wars spurred technological decline. The HER-1B would be a minor shoot-off of the main downgrade, slightly increasing the 'Mech's firepower. Only seeing service in the Free Worlds League military, the variant would rapidly vanish after the rediscovery of advanced technology in the Helm Core."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 56
+  }
+}

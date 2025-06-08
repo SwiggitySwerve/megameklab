@@ -1,0 +1,212 @@
+{
+  "quirks": [
+    "compact_mech",
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3137,
+  "tech_base": "Mixed (Clan Chassis)",
+  "generator": "MegaMek Suite 0.49.19-SNAPSHOT on 2024-03-09",
+  "chassis": "Jackalope",
+  "model": "JLP-NH 'Tepoztecatl'",
+  "mul_id": "9637",
+  "config": "Biped",
+  "source": "Shrapnel #16",
+  "rules_level": "3",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 240,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "8",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLECMSuite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Victory Conditions Industries"
+    },
+    {
+      "name": "Eris Enterprises Design Group"
+    },
+    {
+      "name": "Mizar"
+    },
+    {
+      "name": "Capolla"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Triumph Dynamic Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Victory 240 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Advantage Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Angst Clear Channel 5"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P TA1240 with Light Active Probe"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Jackalope, once thought to be a myth, emerged as a prominent 'Mech following the widespread combat post-Blackout, earning a nearly indelible reputation. Produced by the Galatean Defense League and utilized extensively by the RAF and on Mizar, its visibility in Solaris VII's combats prior to Clan Wolf's conquest cemented its place in popular culture.",
+    "capabilities": "The Jackalope is a swift, well-armed reconnaissance unit. Its relatively light armor is compensated by a compact design and effective Clean-Sweep anti-missile systems. Typically operating independently or in scout lances, its operational range is primarily limited by the ammunition for its missile launchers, making it a versatile asset in fast-paced recon missions.",
+    "deployment": "No Information on this variant",
+    "history": "The Jackalope's deployment extends across a wide array of military and mercenary units, with its presence notably strong in the Republic Remnant due to the heroics of figures like Gloria Hansen. Her actions, particularly during significant conflicts with Clan Wolf, have not only etched the Jackalope into the annals of military legend but also inspired a generation of MechWarriors within the Remnant and beyond.<p>In the tumultuous period following the Blackout, the Jackalope's usage expanded significantly. The 'Mech's adaptability made it a preferred choice in diverse combat scenarios, from guerrilla warfare to structured battlefield engagements. Its presence in the Free Worlds League and the RAF showcases its strategic value, serving in roles that capitalize on its reconnaissance and quick-strike capabilities.</p><p>Mercenary groups, especially those operating on the fringes of the Inner Sphere, prize the Jackalope for its reliability and combat prowess. In the training regiments of prestigious units like the Wolf Dragoons, the Jackalope serves as a crucial element in preparing MechWarriors for the rigors of front-line combat. The losses incurred during the invasion of the Federated Suns highlighted the Jackalope's role in rapid response and high-mobility tactics, leading to an accelerated transition of trainees into active combat roles to replenish striker and Gamma Regiment ranks. This dynamic shift underscores the Jackalope's integral part in both training and operational deployment, solidifying its stature as a versatile and indispensable asset in modern warfare.</p>"
+  },
+  "armor": {
+    "type": "Stealth",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 88
+  }
+}

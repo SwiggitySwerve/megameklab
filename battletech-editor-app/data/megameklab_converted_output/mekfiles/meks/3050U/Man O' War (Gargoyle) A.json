@@ -1,0 +1,184 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    }
+  ],
+  "era": 2945,
+  "tech_base": "Clan",
+  "chassis": "Man O' War",
+  "clanname": "Gargoyle",
+  "model": "A",
+  "mul_id": "2002",
+  "config": "Biped Omnimech",
+  "source": "TRO: Clan Invasion",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "weaponquirk": "stable_weapon:LA:8:CLERSmallLaser",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "16",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Gargoyle is an extremely fast assault OmniMech developed with the Timber Wolf as replacements for the first-generation Woodsman OmniMech. The Gargoyle is therefore commonly seen among Clan Wolf, and was a featured assault OmniMech during the Clan Invasion. The Gargoyle earned the name Man O' War from the Inner Sphere forces because of its effectiveness. Along with the Timber Wolf and Naga, the Gargoyle debuted in 2945.",
+    "capabilities": "Also an effective all around 'Mech, the A configuration ups the firepower with two ER PPCs as its primary long-range weapons. These are supported by a Large Pulse Laser for intermediate range engagements and a Medium Pulse Laser, ER Medium Laser, and ER Small Laser for close combat.",
+    "deployment": "The Gargoyle is capable of reaching ground speeds of up to 86.4 km/h thanks to its massive 400 Model SF-3 XL Engine, accounting for over twenty percent of the 'Mech's mass. Built on a standard structure, the Gargoyle has sixteen double heat sinks in its base chassis, which can dissipate heat from most of the Gargoyle's configurations quite effectively. The Gargoyle carries eleven tons of Ferro-Fibrous armor which is light for its size, but provides protection equal to that of most heavy 'Mechs. Even the Gargoyles relatively light twenty-one and half tons of available pod space emphasizes speed; all Gargoyle configs mount weaponry almost exclusively in the arms, reducing the amount of time required to alter the weapon systems; however, with most of the weaponry placed in the arms, the Gargoyle is at the risk of being disarmed by a couple of well-placed shots.\nmanufacturer:Wolf Clan Site OZ-1, Tokasha Mechworks, Tamar HH Industriplex Alpha\nprimaryfactory:Tamar, Tokasha,  Tamar\nsystemmanufacturer:CHASSIS:Clan Series Assault SXC\nsystemmanufacturer:ENGINE:400 Model SF-3 XL\nsystemmanufacturer:ARMOR:Forging C629/j Ferro-Fibrous\nsystemmanufacturer:COMMUNICATIONS:Raldon R1\nsystemmanufacturer:TARGETING:Version Kappa-III TTS"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 211
+  }
+}

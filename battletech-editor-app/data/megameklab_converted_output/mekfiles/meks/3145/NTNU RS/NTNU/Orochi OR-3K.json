@@ -1,0 +1,172 @@
+{
+  "quirks": [
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Silver Bullet Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Silver Bullet Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3144,
+  "tech_base": "Inner Sphere",
+  "chassis": "Orochi",
+  "model": "OR-3K",
+  "mul_id": "7999",
+  "config": "Biped",
+  "source": "Record Sheets: 3150",
+  "rules_level": "2",
+  "mass": 90,
+  "engine": {
+    "rating": 360,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISERSmallLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 44,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 279
+  }
+}

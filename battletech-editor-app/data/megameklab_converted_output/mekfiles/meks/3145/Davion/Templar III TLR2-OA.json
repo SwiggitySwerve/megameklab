@@ -1,0 +1,215 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3100,
+  "tech_base": "Inner Sphere",
+  "chassis": "Templar III",
+  "model": "TLR2-OA",
+  "mul_id": "6354",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3145 Federated Suns",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 85,
+  "engine": {
+    "rating": 340,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Heavy Duty Gyro",
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "13",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "General Motors"
+    },
+    {
+      "name": "New Valencia"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Kallon Type XX Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 340 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarGuard CIV"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Newberg Telescan 17"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Spar 3C MegaTrak"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Templar III is a Dark Age era Assault Class OmniMech, first produced by General Motors for the Federated Suns. It was intended as a replacement for the original Templar, whose factory lines were destroyed during the Jihad. General Motors established a new production line on New Valencia for what was to become the next generation of the Templar with newer technologies.",
+    "capabilities": "Like its predecessor, the Templar III is typically utilized as a Command 'Mech by AFFS forces. With its alternate configurations the 'Mech is able to handle various combat situations thanks to access to Advanced equipment.",
+    "deployment": "Intended for intermediate to short-range combat, the A Configuration is armed with a pair of Large Pulse Lasers and two medium pulse lasers. The configuration's only long-range weapons consists of a pair of 7-Tubed Multi-Missile Launchers with two tons of ammunition.",
+    "history": "Among the most noticeable differences when comparing the original Templar to the Templar III is its smaller Pod Capacity. The new 'Mech has a 29 ton Pod capacity in comparison to the old Templar's 40 tons. However, the 'Mech's heavier Light Engine provides improved durability while retaining the original design's maximum speed and armor protection."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 44,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 263
+  }
+}

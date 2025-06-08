@@ -1,0 +1,180 @@
+{
+  "quirks": [
+    "good_rep_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISLRM10",
+      "location": "Left Torso",
+      "item_type": "1Islrm10"
+    },
+    {
+      "item_name": "1 ISRotaryAC5",
+      "location": "Right Arm",
+      "item_type": "1Isrotaryac5"
+    },
+    {
+      "item_name": "1 ISPlasmaRifle",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "chassis": "Lao Hu",
+  "model": "LHU-3L",
+  "mul_id": "5695",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "source": "Record Sheets: 3067 Unabridged",
+  "mass": 75,
+  "engine": {
+    "rating": 375,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo-Steel",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Shengli Arms"
+    },
+    {
+      "name": "Victoria"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Chariot Type II Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 375 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Star Shell Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dian-bao Comms, Standard"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P 911 Targeting and Tracking System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed by a student at the Victoria Academy of Arms and Technology, the Lao Hu (\"Tiger\") is based on the Thunder BattleMech and is designed to correct perceived flaws in the Thunder by using new technologies available to the Capellan Confederation.",
+    "capabilities": "The Lao Hu is built on a lightweight Chariot Type II Endo Steel that carries a GM 375 XL Engine which gives the 'Mech a top speed of 86.4 km/h while sacrificing some survivability for more free weight and a heavier weapons payload. The Lao Hu is protected by an impressive thirteen and a half tons of armor, making it capable of weathering hits from all but the heaviest weapons.",
+    "deployment": "Introduced in the Jihad, this version of the Lao Hu turns the enemy's equipment against him. It carries a Rotary AC/5 in the right arm, while the left carries a Plasma Rifle. An advanced Targeting Computer ties into these weapons, making them more accurate. The LRM-10 has been enhanced with an Artemis IV fire control system."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

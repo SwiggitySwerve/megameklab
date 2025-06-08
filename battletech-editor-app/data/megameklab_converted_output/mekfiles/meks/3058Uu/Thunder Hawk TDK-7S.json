@@ -1,0 +1,216 @@
+{
+  "quirks": [
+    "variable_range_long",
+    "good_rep_1",
+    "difficult_maintain",
+    "command_mech"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Head",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 3065,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.49.18-SNAPSHOT on 2024-01-06",
+  "chassis": "Thunder Hawk",
+  "model": "TDK-7S",
+  "mul_id": "3221",
+  "config": "Biped",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Medium Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Norse-Storm Technologies"
+    },
+    {
+      "name": "Inc"
+    },
+    {
+      "name": "Loxley"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Norse Heavy XTI-4C"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "ArcShield Heavy Type K"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Tek BattleCom"
+    },
+    {
+      "type": "TARGETING",
+      "name": "DLK Type Phased Array Sensor System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thunder Hawk, developed by Norse Technologies for the Amaris-Terran Hegemony invasion, became a staple in General Aleksandr Kerensky's forces. Surviving 'Mechs were taken into Exodus, symbolizing their significance. In the 3050s, Norse-Storm BattleMechs revived the Thunder Hawk among other Star League-era designs.",
+    "capabilities": "Dominating the Thunder Hawk's arsenal are three Norse Gauss rifles, accounting for over half its weight. These long-range weapons can incapacitate most foes with a single barrage. Ammunition is distributed throughout the torso to mitigate critical damage risks. However, its Achilles' heel lies in the extra-light Vlar fusion engine. While heavily armored, any breach in the torso significantly compromises the BattleMechâs structural integrity, rendering it inoperable.",
+    "deployment": "The Thunder Hawk TDK-7S variant emerged towards the end of the FedCom Civil War, marking Norse-Storm's innovative approach to modernizing the venerable design. This variant was developed to enhance survivability in close combat situations while retaining the Thunder Hawk's signature firepower and speed.<p>In the TDK-7S, Norse designers made a significant modification by replacing the extra-light engine with a more robust 300 Light Engine. This change aimed to increase the 'Mech's longevity in the heat of battle without compromising its main armaments or mobility. To accommodate this heavier engine, the 7S sacrifices two medium lasers, two tons of ammunition for the Gauss Rifles, and a ton of armor.</p><p>Armed with three Gauss Rifles, one each in the right arm, left torso, and right torso, the TDK-7S maintains the Thunder Hawk's capability for delivering devastating long-range strikes. Complementing this are two Medium Lasers, one in the right arm and one in the head, providing effective secondary weaponry for closer engagements.</p><p>As of now, only a dozen TDK-7S models have been produced. Norse-Storm is cautiously monitoring the reception of this variant before committing to full-scale production. This caution stems from the variant's experimental nature and the significant changes made to the original design.</p><p>Despite these alterations, the TDK-7S retains the Thunder Hawk's iconic status as a command 'Mech with a good reputation. It presents a unique blend of traditional firepower with an experimental approach to durability, making it a potential game-changer on the battlefield for units that can adapt to its strengths and limitations.</p>",
+    "history": "The Thunder Hawk became a hallmark of the Lyran Alliance, extensively utilized during the FedCom Civil War. Contrary to its design as a support 'Mech, Loyalists deployed it in direct combat, leveraging its heavy armor. Post-war, Archon Peter Steiner Davion allocated new Thunder Hawks to units loyal to Allied forces. Plans for export are pending until the completion of military restructuring."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 49,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 296
+  }
+}

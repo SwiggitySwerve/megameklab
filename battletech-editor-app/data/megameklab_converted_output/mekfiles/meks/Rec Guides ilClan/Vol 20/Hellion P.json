@@ -1,0 +1,234 @@
+{
+  "quirks": [
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MicroPulseLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "TAG (Clan)",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3124,
+  "tech_base": "Clan",
+  "chassis": "Hellion",
+  "model": "P",
+  "mul_id": "8327",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #20",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 210,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "8",
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLTAG (OMNIPOD)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Hellion is a product of Clan Ice Hellion and their philosophy that espouses speed above all else. Based on the Mist Lynx, the Hellion is a fast OmniMech that has respectable firepower.",
+    "capabilities": "This light 'Mech is rather difficult to kill, incorporating five and a half tons of Ferro-Fibrous armor. To save weight, the Hellion also uses an Endo Steel chassis. While it is not especially fast for its size, the Hellion does use MASC to allow for bursts of additional speed.",
+    "deployment": "Unknown\nmanufacturer:Hector MechWorks Facility Alpha,Prosoma War Works,Svarstaad Industriplex Alpha\nprimaryfactory:Hector,Valencia,Svarstaad\nsystemmanufacturer:CHASSIS:Hellion Light Endo Steel V5\nsystemmanufacturer:ENGINE:210 XL\nsystemmanufacturer:ARMOR:Compound Gamma Ferro-Fibrous\nsystemmanufacturer:COMMUNICATIONS:HCFA 3035 3.0\nsystemmanufacturer:TARGETING:HCFA 3047 1.5"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 105
+  }
+}

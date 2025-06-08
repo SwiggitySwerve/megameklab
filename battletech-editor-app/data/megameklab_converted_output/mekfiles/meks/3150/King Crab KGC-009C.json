@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "command_mech"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "HAG/20",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "HAG/20",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3143,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "King Crab",
+  "model": "KGC-009C",
+  "mul_id": "8066",
+  "config": "Biped",
+  "source": "TRO: 3150",
+  "rules_level": "2",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Heavy Duty Gyro",
+  "heat_sinks": {
+    "count": 14,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISGuardianECMSuite",
+        "ISGuardianECMSuite",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Unknown"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "StarFrame Hill Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "ProtecTech 12 with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dalban Commline with ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban HiRez-B"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The King Crab has been a horror on the battlefield since its introduction just before the old Star League's demise, and it is well known for its ability to quickly kill most BattleMechs under eighty tons.",
+    "capabilities": "While not the most heavily armored 'Mech, the King Crab is still tough to crack, with sixteen tons of ferro-fibrous armor and CASE protecting its ammunition stores; however, the arms are probably the most susceptible area to receive damage and an internal hit is likely to knock an autocannon out of the fight. The 'Mech is also slow, with a cruising speed of 32 km/h and top speed of 54 km/h, and has been described as a \"notorious hangar queen\".",
+    "deployment": "No information on this variant",
+    "history": "The KGC-000, designed by Cosara Weaponries scientists under General Kerensky's directives, performed brilliantly in its specified mission, though it was nowhere near the command vehicle that Defiance Industries' later Atlas was. The majority of King Crabs joined Kerensky on his Exodus, including all surviving -010 platforms; those that remained were surreptitiously purchased by ComStar and mothballed on Terra. Upon the Clans' arrival and the Battle of Tukayyid, most Com Guard commanders discovered that the original Imperator-D autocannon design could not close quickly enough with Clan machines to cause considerable damage. After being approached by ComStar, Cosara Weaponries created the -001 variant; the additional range gave the King Crab some much-needed reach. ComStar, pleased with their performance, gave Cosara permission to mass-produce the enhanced King Crab for general market sale, with ComStar receiving a major portion of the yearly earnings. Northwind production ended after the Word of Blake blockaded the system, and scattered intelligence reports indicate that the Blakists took control the Cosara plant. After being shut down for some months, the plant reopened in late 3069, continuously producing and sending a newer King Crab variant to Protectorate forces. First Precentor Dow took an extraordinary action for the once-secret organization after losing a major weapons supply. ComStar was able to infiltrate the Cosara plant and grab the new engineering designs by hiring a tiny mercenary group that specialized in corporate espionage. ComStar then approached Starcorps Industries and gave the young company the opportunity to create a new King Crab variation, the KGC-007. StarCorps accepted, eager to expand their product line, and the first -007s are scheduled to roll off the Son Hoa line in late 3071. The first three production runs have already been purchased by the LAAF and AFFC."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

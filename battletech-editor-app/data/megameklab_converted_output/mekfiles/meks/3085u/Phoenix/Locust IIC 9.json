@@ -1,0 +1,169 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "low_profile",
+    "no_arms",
+    "weak_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Laser AMS",
+      "location": "Head",
+      "item_type": "LaserAms"
+    }
+  ],
+  "era": 3085,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Locust IIC",
+  "model": "9",
+  "mul_id": "1922",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Striker",
+  "mass": 25,
+  "engine": {
+    "rating": 350,
+    "type": "XXL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "14",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "imagefile": ".\\data\\images\\fluff\\Mech\\3085 Locustiic .jpg",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLLaserAntiMissileSystem",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "IS Heavy Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "IS Heavy Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Heavy Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 89
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "quirks": [
+    "difficult_maintain",
+    "pro_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "ER Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Improved Heavy Large Laser",
+      "location": "Right Torso",
+      "item_type": "ImprovedHeavyLargeLaser"
+    }
+  ],
+  "era": 3088,
+  "tech_base": "Mixed (IS Chassis)",
+  "generator": "MegaMek Suite 0.49.16-SNAPSHOT on 2023-12-29",
+  "chassis": "Thunderbolt IIC",
+  "model": "2",
+  "mul_id": "5240",
+  "config": "Biped",
+  "source": "Iron Wind Metals",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "weaponquirk": "mod_weapons:RT:4:CLImprovedHeavyLargeLaser",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Heavy Duty Gyro",
+  "heat_sinks": {
+    "count": 15,
+    "type": "Clan Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLECMSuite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Ferro-Fibrous",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Ferro-Fibrous",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thunderbolt IIC is a second-line heavy BattleMech that was originally developed for Clan Jade Falcon in 3085.",
+    "capabilities": "The Thunderbolt IIC is a blend of standard and Advanced Clan technology. Due to the then-experimental nature of its weaponry, its MechWarriors were required to keep detailed logs noting the equipment's performance.",
+    "deployment": "Introduced in 3088, this advanced variant of the Thunderbolt IIC is built with durability in mind. This variant's engine is downgraded to a less fragile 280 Standard Fusion, however its lost speed is compensated with the mobility of four Jump Jets. These jump Jets did cost the 'Mech two of its Double Heatsinks. Further durability is provided with the incorporation of a Heavy-Duty Gyro. Its hull is protected by 11 tons of Ferro Fibrous Armor, and an ECM Suite is included. The Thunderbolt IIC 2 is armed with an Extended Range Large Pulse Laser in its right arm, a standard Heavy Large Laser in place of the Standard's missile launcher, a trio of Medium Pulse Lasers that replaces the extended range trio, and a single Small Pulse Laser in its left arm.",
+    "history": "The design came into existence due to that Clan's need to re-purpose surplus components being produced for their Loki and Thor OmniMech designs. Using one of Olivetti Weaponry's previous Inner Sphere designs, the classic Thunderbolt, they reworked it as a replacement for second-line 'Mechs lost during the Jihad.\nmanufacturer:Olivetti Weaponry\nprimaryfactory:Sudeten\nsystemmanufacturer:CHASSIS:Olivetti TDR-II\nsystemmanufacturer:ARMOR:Forging Omni H24\nsystemmanufacturer:COMMUNICATIONS:Model J-D 067\nsystemmanufacturer:TARGETING:Hawkeye 58"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 211
+  }
+}

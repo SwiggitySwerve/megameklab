@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "hyper_actuator",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Left Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Center Torso",
+      "item_type": "Srm4"
+    }
+  ],
+  "era": 2847,
+  "tech_base": "Inner Sphere",
+  "chassis": "Quickdraw",
+  "model": "QKD-4H",
+  "mul_id": "2611",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Technicron"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Riese"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dynatec"
+    }
+  ],
+  "systemmode": "TARGETING:2180",
+  "fluff_text": {
+    "overview": "Few business decisions have been as questionable as those that lead to the original reasoning for the Quickdraw. Intended to replace the Rifleman, the Quickdraw lacked any of the capabilities that made the Rifleman such a popular fire support platform. Had the Star League stood for longer, perhaps the Quickdraw would have faded into obscurity, but the rapid start of the Succession Wars only seven years after the Quickdraw's introduction instead sent it into the armies of every Great House. There it created its own legacy as a generalist workhouse, able to fill many different roles with its maneuverable movement profile and varied armament.",
+    "capabilities": "Many Quickdraw variants carry weapons for every angle, including rarely seen rear-mount firepower. With its specially-modified arm actuators allowing it to flip its arms towards the rear, the Quickdraw is well suited for forays in the midst of an enemy formation. Pilots must be cautious of the Quickdraw's fragility in physical combat, however. The ankle actuators, though allowing the Quickdraw unparalleled stability on uneven ground, are susceptible to damage that can quickly paralyze the BattleMech.",
+    "deployment": "The Quickdraw shows few favorites, and has notable concentrations in most armies of the Inner Sphere. The Draconis Combine and Free Worlds League are both home to manufacturing lines for the design, and the 'Mech tends to be a more common sight in most of their formations as a result. The -4H variant is a simple swap, bringing all of the lasers to the front of the 'Mech while positioning the SRM in its rear."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 128
+  }
+}

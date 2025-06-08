@@ -1,0 +1,275 @@
+{
+  "quirks": [
+    "command_mech",
+    "distracting",
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "MRM 20",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "TSEMP Cannon",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "SRM 2",
+      "location": "Left Torso",
+      "item_type": "Srm2"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "SRM 2",
+      "location": "Right Torso",
+      "item_type": "Srm2"
+    },
+    {
+      "item_name": "SRM 2",
+      "location": "Center Torso",
+      "item_type": "Srm2"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3136,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Poseidon",
+  "model": "PSD-V2",
+  "mul_id": "6684",
+  "config": "Tripod",
+  "source": "TRO: 3145 Republic of the Sphere",
+  "rules_level": "3",
+  "role": "Juggernaut",
+  "mass": 125,
+  "engine": {
+    "rating": 375,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Superheavy Tripod Cockpit",
+  "gyro": "Superheavy Gyro",
+  "heat_sinks": {
+    "count": 20,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "center_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISAntiPersonnelPod",
+        "ISAntiPersonnelPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISAntiPersonnelPod",
+        "ISAntiPersonnelPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISAntiPersonnelPod",
+        "ISAntiPersonnelPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Rhodes Foundry"
+    },
+    {
+      "name": "Devilâs Rock"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Rhodes-P Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "PlasmaStar 375 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Maximillian 320 with CASE II"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Titanâs Shout Mk. IVA"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Titanâs Vantage Mk. II with Apollo FCS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "<p>The Poseidon represents a groundbreaking achievement in BattleMech engineering, successfully surpassing the â100-ton barrierâ that had long been a limit for Mech design. Emergent from the chaos of the Jihad and the technological innovations of the Word of Blake, the Poseidon was developed by the Republic of the Sphere as part of the ambitious Rhodes Project. This super-heavy tripod Mech, often referred to as a \"Colossal,\" embodies the culmination of efforts to create a Mech that is bigger, stronger, and more formidable than any predecessor. It stands as a testament to the Republic's readiness to embrace advanced warfare technology in the wake of the Blackout and the subsequent Fortress Republic initiative.</p>",
+    "capabilities": "<p>The PSD-V2 Poseidon, drawing inspiration from the Orca project and the Word of Blakeâs Omega, features reengineered endo steel bones and reinforced actuators for enhanced stability and battlefield flexibility. Unlike its spiritual predecessor, the Orca, the Poseidon boasts greater stability and flexibility, making it a formidable presence on the battlefield. This super-heavy tripod is designed not just for raw power but also for operational versatility, showcasing the pinnacle of Mech engineering in the post-Jihad era.</p>",
+    "history": "<p>\nThe Poseidon BattleMech, emerging in the wake of the Jihad and amid the complex political landscape of the Fortress Republic, represents a significant milestone in the evolution of BattleMech technology. Developed as part of the Republic of the Sphere's ambitious Rhodes Project, the Poseidon broke through the â100-ton barrier,â a long-standing limitation in Mech design, to become a symbol of the Republic's commitment to advanced warfare technology."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 55,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 21,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 384
+  }
+}

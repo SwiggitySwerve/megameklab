@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import { Database } from 'sqlite';
+import { openDatabase, safeJsonParse } from '../../services/db';
+import { withErrorHandling } from '../../middleware/errorMiddleware';
 
 const SQLITE_DB_FILE: string = "battletech_dev.sqlite";
 
@@ -64,36 +66,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let finalQueryParamsForLog: any[] = []; // For logging on error
 
   try {
-    db = await open({
-      filename: SQLITE_DB_FILE,
-      driver: sqlite3.Database
-    });
+    db = await openDatabase();
 
-    if (id) {
-      const result: Unit | undefined = await db.get<Unit>(
-        'SELECT id, chassis, model, mass, tech_base, rules_level, era, source, data, type FROM units WHERE id = ?',
+    if (id) {      const result: Unit | undefined = await db.get<Unit>(
+        'SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type FROM units WHERE id = ?',
         [id]
-      );
-      if (!result) {
+      );      if (!result) {
         return res.status(404).json({ message: 'Unit not found' });
-      }
-      // Parse the data field if it's a string
+      }      // Parse the data field if it's a string
       if (result.data && typeof result.data === 'string') {
-        result.data = JSON.parse(result.data);
+        result.data = safeJsonParse(result.data, {});
       }
       return res.status(200).json(result);
     } else {
       let mainQueryFrom: string = 'FROM units';
       let whereConditions: string[] = [];
-      let queryParams: any[] = [];
-
-      if (q) {
+      let queryParams: any[] = [];      if (q) {
         // SQLite LIKE is case-insensitive by default for ASCII. For broader Unicode, use LOWER()
         whereConditions.push(`(LOWER(chassis) LIKE LOWER(?) OR LOWER(model) LIKE LOWER(?))`);
         queryParams.push(`%${typeof q === 'string' ? q : ''}%`, `%${typeof q === 'string' ? q : ''}%`);
       }
       if (unit_type) {
-        whereConditions.push(`type = ?`);
+        whereConditions.push(`unit_type = ?`);
         queryParams.push(unit_type);
       }
       if (tech_base_array) {
@@ -146,11 +140,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       mainQueryStringForLog = countQueryString; // Log this version
       finalQueryParamsForLog = queryParamsForCount;
       const totalResult: { total: any } | undefined = await db.get(countQueryString, queryParamsForCount);
-      let totalItems: number = parseInt(totalResult?.total, 10) || 0;
-
-      // Main query construction
-      let mainQueryString: string = `SELECT id, chassis, model, mass, tech_base, rules_level, era, source, data, type ${mainQueryFrom}${whereClauseForMain}`;
-      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass', 'tech_base', 'rules_level', 'era', 'type'];
+      let totalItems: number = parseInt(totalResult?.total, 10) || 0;      // Main query construction
+      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type ${mainQueryFrom}${whereClauseForMain}`;
+      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'tech_base', 'era', 'unit_type'];
       const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'id';
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
       mainQueryString += ` ORDER BY "${effectiveSortBy}" ${effectiveSortOrder}`;
@@ -171,11 +163,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         mainQueryStringForLog = mainQueryString;
         finalQueryParamsForLog = queryParamsForMain;
         items = await db.all<Unit[]>(mainQueryString, queryParamsForMain);
-      }
-
-      items = items.map(row => {
+      }      items = items.map(row => {
         if (row.data && typeof row.data === 'string') {
-          row.data = JSON.parse(row.data) as UnitData;
+          row.data = safeJsonParse(row.data, {} as UnitData);
         }
         return row;
       });

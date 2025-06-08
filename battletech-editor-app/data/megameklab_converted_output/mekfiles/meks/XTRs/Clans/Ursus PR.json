@@ -1,0 +1,191 @@
+{
+  "quirks": [
+    "distracting",
+    "pro_actuator",
+    "cramped_cockpit",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ProtoMech AC/8",
+      "location": "Right Arm",
+      "item_type": "ProtomechAc8"
+    },
+    {
+      "item_name": "ProtoMech AC/8",
+      "location": "Right Arm",
+      "item_type": "ProtomechAc8"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Head",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    }
+  ],
+  "era": 3074,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Ursus",
+  "model": "PR",
+  "mul_id": "5330",
+  "config": "Biped",
+  "source": "XTR: Clans",
+  "rules_level": "4",
+  "role": "Brawler",
+  "mass": 50,
+  "engine": {
+    "rating": 200,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLERFlamer",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 163
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "hyper_actuator",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3068,
+  "tech_base": "Inner Sphere",
+  "chassis": "Initiate",
+  "model": "INI-04",
+  "mul_id": "1621",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 40,
+  "engine": {
+    "rating": 160,
+    "type": "Light Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Australia"
+    },
+    {
+      "name": "Terra"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Geometric 1000 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV 160"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Strasbourg Armaments Type 3"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Blow 55 Net"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Scope 2000"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Initiate is a reliable trooper 'Mech that is capable of filling a variety of roles on the modern battlefield.",
+    "capabilities": "It is built on a Geometric 1000 Endo Steel chassis to save weight and is powered by a LTV 160 fusion engine that gives it a top speed of 64.8 km/h. For protection from enemy fire, the Initiate carries eight and a half tons of armor that allows the 'Mech to stand up to fire from most other 'Mechs of the same weight class or lower, and enjoys increased durability because of its CASE system that protects against ammunition explosions.",
+    "deployment": "Introduced during the Jihad, this is a modernization of the 'Mech utilizing newer technologies. The WoB engineers first exchanged the 02 variant's fusion engine with a Light Fusion model. This new engine allowed for a slight increase of armor, but allow more room for this era's latest production weaponry. All the 'Mech's original weaponry has been removed in favor of a Seven-Tubed Multi-Missile Launcher, three Small Pulse Lasers, and a pair of Light PPCs. To keep the 'Mech more compatible with modern WoB formations, a C3i Computer was added. To help handle the 'Mech's heat load, an additional double heat sink was added as well.",
+    "history": "The Initiate started production after the Word of Blake retook Terra. This medium 'Mech has been produced in record numbers by the Word of Blake with no shortage of pilots."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 137
+  }
+}

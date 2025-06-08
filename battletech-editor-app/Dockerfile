@@ -7,12 +7,11 @@ WORKDIR /usr/src/app
 RUN apk add --no-cache python3 py3-pip sqlite sqlite-dev build-base
 
 # Copy scripts and data needed for DB population from project root
-COPY schema_sqlite.sql ./
-COPY populate_db.py ./
-COPY megameklab_converted_output ./megameklab_converted_output/
+# Copy all necessary data files and scripts for DB population
+COPY battletech-editor-app/data ./data/
 
 # Run populate_db.py to create and populate the SQLite database
-RUN python3 populate_db.py
+RUN python3 data/populate_db.py
 
 # Now proceed with Node.js app setup
 # Copy app's package.json and package-lock.json

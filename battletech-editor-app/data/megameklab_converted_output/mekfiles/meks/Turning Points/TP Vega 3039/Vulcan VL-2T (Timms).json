@@ -1,0 +1,213 @@
+{
+  "quirks": [
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Flamer",
+      "location": "Left Arm",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Right Arm",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Torso",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Left Torso",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "AC/2",
+      "location": "Right Torso",
+      "item_type": "Ac2"
+    }
+  ],
+  "era": 3034,
+  "tech_base": "Inner Sphere",
+  "chassis": "Vulcan",
+  "model": "VL-2T (Timms)",
+  "mul_id": "7797",
+  "config": "Biped",
+  "source": "Turning Points: War of 3039 - Vega",
+  "rules_level": "1",
+  "role": "Scout",
+  "mass": 40,
+  "engine": {
+    "rating": 240,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Mather Tech 500"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 240"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarGuard I"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Model 9 Pitban"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Hartford 200S"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hartford TA10"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Vulcan was designed as an anti-infantry 'Mech in 2775 during the closing years of the Amaris Civil War.",
+    "capabilities": "The Vulcan is lightly armored at only five tons, though this is typically sufficient when facing infantry forces and its narrow profile makes it a harder target to hit. A cruising speed of 97.2 km/h is enhanced by six jump jets mounted in the rear of the Vulcan's torso, specially vented to reduce heat buildup, giving it a jumping range of 180 meters.",
+    "deployment": "Piloted by Richard Timms of the 3rd Davion Guards during the failed attack on Vega during the War of 3039. The machine guns, ammo and medium laser were replaced with two additional Flamers and a Small laser.",
+    "history": "As the SLDF battled Republican troops in the streets and thoroughfares of the Terran Hegemony, many 'Mechs were destroyed by dug-in infantry during these urban battles. In response to this problem, MatherTechno Inc. designed the Vulcan to pack weaponry capable of taking out large numbers of enemy troops and capable of unparalleled mobility in an urban environment, though not intended to engage in all-out battles with larger 'Mechs. The Vulcan's distinct profile would eventually give rise to its nickname \"Scarecrow.\" Production of the Vulcan began as soon as MatherTechno's factory on Northwind was liberated by the SLDF, with Aleksandr Kerensky himself specifically ordering their production lines converted to produce the Vulcan. The design's baptism of fire came during Operation Liberation, the final battle of the civil war to liberate Terra from Stefan Amaris, where it served as part of the Volunteer Regiments and earned its reputation as a tough city fighter. Each of the Great Houses had a sizable number of Vulcans at the start of the First Succession War when, just a few months into the conflict, MatherTechno's factory on Northwind was destroyed. Only the Lyran Commonwealth and Free Worlds League managed to acquire the design specifications for the Vulcan and keep it in limited production throughout the rest of the Succession Wars, with the League awarding the schematics to Nimakachi Fusion Products Limited and the Commonwealth giving theirs to Coventry Metal Works. Of the other Great Houses the Capellan Confederation had the fewest number of Vulcans as a result of the loss of Sappho, where the majority of their Vulcans were stationed, to House Marik during the Second Succession War. The Federated Suns kept their Vulcans going thanks to several spare part supply dumps located in their territory, and used the 'Mech extensively during the reconquest of Kentares IV. The majority of the Draconis Combine's Vulcan inventory was used during a raid on Dobson in 3020 where they decimated several key Davion aerospace fighter bases. Following the recovery of several lostech components Nimakachi was able to create a new variant, the VT-5M, and begin limited production in 3050, eventually increasing their lines to produce twenty a month. Coventry Metal Works produced their own upgraded variant around the same time, the VT-5S, which played a pivotal role during the FedCom Civil War as part of the Allied forces. The Word of Blake purchased a number of Vulcans in preparation for their seizure of Terra in 3058, codenamed Operation Odysseus. The Blakists would go on to seize more Vulcans after the start of the Jihad following their sacking of Nimakachi's Tematagi plant in 3069, with many transferred to the Protectorate Militia for policing duties."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 80
+  }
+}

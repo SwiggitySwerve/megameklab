@@ -1,0 +1,227 @@
+{
+  "quirks": [
+    "obsolete",
+    "poor_target_long",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Arm",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Arm",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Arm",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Arm",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Large Laser",
+      "location": "Right Torso",
+      "item_type": "LargeLaser"
+    }
+  ],
+  "era": 2468,
+  "tech_base": "Inner Sphere",
+  "chassis": "Crossbow",
+  "model": "CRS-X",
+  "mul_id": "5583",
+  "config": "Biped",
+  "source": "XTR: Primitives II",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "weaponquirk": "poor_cooling:RT:0:Large Laser",
+  "mass": 60,
+  "engine": {
+    "rating": 290,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Arcturan Arms"
+    },
+    {
+      "name": "Arcturus"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unknown"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unknown"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unknown"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unknown"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The predecessor to Clan Steel Viper's Crossbow OmniMech, the original Crossbow first saw battlefield action for the Lyran Commonwealth in 2468. The 60-ton 'Mech is speedy for its era, capable of 86 km/h. This came at the expense of armor, however, as the Crossbow is only protected by eight tons of armor.",
+    "capabilities": "The prototype used less sophisticated components, forcing the downgrade of many weapon systems. Each arm carried a pair of LRM-5 launchers and a Medium Laser, while a single Large Laser mounted in the torso provided additional long range firepower. The Primitive Engine drove this version of the Crossbow at a top speed of 64km/h. The bulk of the engine, cockpit, and armor required engineers to devote more tonnage to armor. This would be overcome in later versions of the Crossbow",
+    "history": "The production model, the 6B, came a few years later. The heavy 'Mech was the first produced by Arcturan Arms and the third homegrown BattleMech produced in the Commonwealth. Arcturan Arms fell on hard times when the capital was relocated from Arcturus to Tharkad, forcing them to shut down the factory in 2490 after producing only a few hundred Crossbows. MacEnroe Motors bought out the financially troubled company in 2541, which shut down Crossbow production in 2550."
+  },
+  "armor": {
+    "type": "Primitive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 123
+  }
+}

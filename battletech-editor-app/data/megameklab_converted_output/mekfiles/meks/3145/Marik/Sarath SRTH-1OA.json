@@ -1,0 +1,258 @@
+{
+  "quirks": [
+    "distracting",
+    "compact_mech",
+    "low_profile",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3122,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Sarath",
+  "model": "SRTH-1OA",
+  "mul_id": "6507",
+  "config": "Quad Omnimech",
+  "source": "TRO: 3145 Free Worlds League",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "IS Ammo MML-3 LRM (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "IS Ammo MML-3 SRM (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Clan Ammo LRM-15 (omnipod)",
+        "Clan Ammo LRM-15 (omnipod)",
+        "TSM",
+        "TSM",
+        "TSM",
+        "TSM",
+        "TSM",
+        "TSM",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "CLLRM15 (T) (omnipod)",
+        "CLLRM15 (T) (omnipod)",
+        "CLLRM15 (T) (omnipod)",
+        "CLLRM15 (T) (omnipod)",
+        "ISMML3 (T) (omnipod)",
+        "ISMML3 (T) (omnipod)",
+        "ISMML3 (T) (omnipod)",
+        "ISMML3 (T) (omnipod)",
+        "ISQuadTurret",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Jump Jet (omnipod)",
+        "CLERSmallLaser (omnipod)"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISERSmallLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "Clan Ammo LRM-15 (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "Clan Ammo LRM-15 (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 184
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "barrel_fists_la",
+    "barrel_fists_ra",
+    "pro_actuator",
+    "oversized",
+    "poor_performance",
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Left Torso",
+      "item_type": "Lb5XAc"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Left Torso",
+      "item_type": "Lb5XAc"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Right Torso",
+      "item_type": "Lb5XAc"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Right Torso",
+      "item_type": "Lb5XAc"
+    }
+  ],
+  "era": 2846,
+  "tech_base": "Clan",
+  "chassis": "Behemoth",
+  "clanname": "Stone Rhino",
+  "model": "5",
+  "mul_id": "3815",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Stone Rhino was one of the most remarkable surprises sprung upon the Inner Sphere by the invading Clans. The Inner Sphere named the 'Mech Behemoth. It was apparently derived from the Matar, which was also known as \"Amaris' Folly\".",
+    "capabilities": "Though visually resembling the Matar, the Stone Rhino is ten tons lighter than \"Amaris' Folly\", marking it an assault-class 'Mech instead of a superheavy design. Despite the reduced weight it achieves a roughly similar damage output through superior Clan weaponry. Similar to its progenitor, the Stone Rhino is a fairly slow design with the addition of Jump Jets barely mitigating the mobility issues over short distances. Eighteen tons of armor provides reasonable protection until the 'Mech becomes a target of priority. Thus, despite bringing awesome firepower to the battlefield, these machines often cannot be used effectively by field commanders because they ultimately cannot afford to lose one.",
+    "deployment": "A design based off of early specifications for Amaris's Folly, the Stone Rhino 5 uses a 400XL engine to reach speeds up up to 64.8kph. It is armed with four LB-5X Autocannons mounted in the torsos backed up by six ER Medium Lasers in the arms.",
+    "history": "Developed during the Golden Century as somewhat of a passion project, the Scientist Caste of Clan Smoke Jaguar sought to prove the superiority of the Clans by turning the flawed Matar into a successful design to achieve what the Inner Sphere could not. The resulting 'Mech was christened the Stone Rhino in honor of the nearly indestructible beast native to Eden. Mainly seen in the Smoke Jaguars touman, scattered examples of the Stone Rhino do appear in other Clans even though it was produced in somewhat limited numbers. Because of these low production numbers, most Stone Rhinos in existence are ancient machines with long and storied histories of their combat actions and their quirks in the hangar. Following the fall of the Smoke Jaguars, Clan Goliath Scorpion's need for new machines to defend their captured Jaguar holdings led them to revisit the Matars original design specs. They rapidly developed a visually different and powerful \"new\" 'Mech that was immediately put into production on Tokasha while still using the Stone Rhino name. However, the Scorpions would soon need to scramble to establish new production elsewhere after Clan Hell's Horses captured their Tokasha holdings. This allowed the Horses to produce new variants, and the Horses ultimately established a production line for the 'Mech on Csesztreg following their ejection from the Clan Homeworlds.\nmanufacturer:Tokasha Mechworks\nprimaryfactory:Tokasha\nsystemmanufacturer:CHASSIS:Star League Monster (Standard)\nsystemmanufacturer:ENGINE:Type 79 400 XL Fusion\nsystemmanufacturer:ARMOR:Compound 12A1 Standard with CASE\nsystemmanufacturer:JUMPJET:Grandthrust Mk. 5\nsystemmanufacturer:COMMUNICATIONS:Garret L15\nsystemmanufacturer:TARGETING:RCA Instatrac Version 8a"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 264
+  }
+}

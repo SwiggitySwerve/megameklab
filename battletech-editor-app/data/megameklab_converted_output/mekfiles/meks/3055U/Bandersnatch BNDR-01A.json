@@ -1,0 +1,245 @@
+{
+  "quirks": [
+    "stable",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Center Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Center Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Head",
+      "item_type": "Lrm5"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Inner Sphere",
+  "chassis": "Bandersnatch",
+  "model": "BNDR-01A",
+  "mul_id": "217",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "LRM 5",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Bander BattleMechs"
+    },
+    {
+      "name": "Kressly WarWorks"
+    },
+    {
+      "name": "Terra Firma (Bander BattleMechs)"
+    },
+    {
+      "name": "Epsilon Eridani (Kressly WarWorks)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Bander Custom 1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Valiant Chainmail"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Winston Mega Boozee Mark IX"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Winston Sidewinder"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Bandersnatch, who receives his name from the monster mentioned in Lewis Carroll's \"Wonderland\" series, is the brainchild of Felifious Bander and is built around the concept of an affordable and effective BattleMech for sale to mercenary units.",
+    "capabilities": "The Bandersnatch is built using some common components with the Marauder in an attempt to make the 'Mech cheaper and easier to repair. The 'Mech has a top speed of 64.8 kph which is average for a 'Mech of its weight. The Bandersnatch also uses double heat sinks for their superior heat dissipation capabilities, allowing a heavy weapons payload to be used by the 'Mech. Finally, the Bandersnatch carries a respectable eleven tons of armor. While not the maximum amount of armor that the chassis can handle, the 'Mech is still well protected.",
+    "deployment": "The Bandersnatch is primarily armed for long to medium range combat. The first weapons that it would bring to bear on an enemy are a trio of Holly LRM-5 missile launchers, which can lay down a powerful barrage of missiles. The next weapons that the Bandersnatch can employ are a pair of Armstrong Class-B ClusterGuns LB-X Autocannon/10s that fire both solid and cluster rounds. These are effective against a variety of targets and make the Bandersnatch capable of anti-aircraft duties. Finally, in the event that an enemy does close to short ranges, the 'Mech carries six Magna Mk II Medium Lasers, two of which are rear mounted, giving it good close range protection."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 176
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "quirks": [
+    "multi_trac",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Left Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3054,
+  "tech_base": "Inner Sphere",
+  "chassis": "Grand Titan",
+  "model": "T-IT-N10M",
+  "mul_id": "1265",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISAntiMissileSystem",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Earthwerks Ltd."
+    },
+    {
+      "name": "Keystone Plant #3"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean Model 101BLP Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Hartford JEA-1"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P FiberFeed 201 with Artemis IV FCS Interface"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grand Titan was designed by Vining Engineering and Salvage Team to take on the best 'Mechs that the Inner Sphere or the Clans had to offer.",
+    "capabilities": "The 'Mech is built on an Endo Steel chassis and with a LTV 400 XL Engine, which propels the Grand Titan to a top speed of 64.8 kph, to save as much weight as possible. The Grand Titan also carries eighteen tons of armor.",
+    "deployment": "The Grand Titan carries a large arsenal of weapons that allow it to work best at short to medium range. The longest-range weapon carried is a Holly LRM-15 launcher linked to an Artemis IV fire control system for greater accuracy. The 'Mech also carries two Diverse Optics Type 20 Large Pulse Lasers which it brings to bear on an enemy as it closes ranges. Once at close range, the 'Mech carries two Diverse Optics Medium Pulse Lasers, two Diverse Optics Small Pulse Lasers, and a pair of Holly SRM-6 launchers with Artemis IV fire control systems. For protection from missile attacks, the 'Mech has a McArthur Anti-Missile System.",
+    "history": "The design of the Grand Titan was sold to Earthwerks Incorporated in the Free Worlds League and has become a 'Mech commonly seen in the FWLM and the Word of Blake militia."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 19,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 288
+  }
+}

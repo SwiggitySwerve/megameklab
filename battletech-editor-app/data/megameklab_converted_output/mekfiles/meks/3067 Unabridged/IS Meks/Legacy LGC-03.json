@@ -1,0 +1,223 @@
+{
+  "quirks": [
+    "directional_torso_mount",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy PPC",
+      "location": "Left Torso",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Heavy PPC",
+      "location": "Right Torso",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Right Torso",
+      "item_type": "StreakSrm4"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Legacy",
+  "model": "LGC-03",
+  "mul_id": "4490",
+  "config": "Biped",
+  "source": "TRO: Jihad",
+  "rules_level": "2",
+  "role": "Brawler",
+  "weaponquirk": "direct_torso_mount:LA:4:ISERSmallLaser",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Skobel MechWorks"
+    },
+    {
+      "name": "Russia"
+    },
+    {
+      "name": "Terra"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Skobel Template 8 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 240"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Aldis Plate with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "CurtissJet 80"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Skobel Wave VII Comm with C3i Computer"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Falcon 15 Watcher"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Legacy was produced as a testbed for new technologies, including the Ultra AC/10 and C3i Computer.",
+    "capabilities": "They upgraded its targeting system and included the C3i, which allows six units to coordinate fire. Its thick armor protection, standard fusion engine, and CASE give the Legacy remarkable staying power on the battlefield. One of the weaknesses of the 'Mech is its slow speed compared to other 'Mechs of similar size, but the inclusion of jump jets sought to counter that with superior maneuverability.",
+    "deployment": "This upgrade of the Legacy utilizes a Light Fusion Engine to increase the 'Mech's top speed to 64 km/h, though its jumping capacity does not increase commensurately. All of the 'Mech's backup weapons remain the same, but the autocannons are replaced with a pair of Heavy PPCs. The 'Mech's heat dissipation capability has also not kept up, utilizing only fourteen double heat sinks.",
+    "history": "At the request of Word of Blake Precentor Martial Cameron St. Jamais. The designers used a failed Star League 'Mech called the Rising Star as the base for the Legacy."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 247
+  }
+}

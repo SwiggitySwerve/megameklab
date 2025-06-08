@@ -1,0 +1,186 @@
+{
+  "quirks": [
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Re-engineered Laser",
+      "location": "Left Arm",
+      "item_type": "MediumReEngineeredLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "SmallXPulseLaser"
+    },
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "SmallXPulseLaser"
+    },
+    {
+      "item_name": "Anti-Missile System",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3140,
+  "tech_base": "Inner Sphere",
+  "chassis": "Nexus",
+  "model": "NXS1-C",
+  "mul_id": "8412",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #23",
+  "rules_level": "3",
+  "role": "Striker",
+  "mass": 25,
+  "engine": {
+    "rating": 175,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The 'Mech known as the Nexus was originally called the Jackrabbit and was built for the Star League Defense Force by Skobel MechWorks.",
+    "capabilities": "The Nexus has a top speed of 119 km/h and is powered by a Nissan 175 fusion engine which is both light and rugged. To save weight without the vulnerability of an extralight engine, the Nexus is built on a Skobel 100-ROB Endo Steel chassis. For protection, the 'Mech carries a light two tons of Krupp 200 Ferro-Fibrous armor, relying on its speed and maneuverability, which is enhanced with a jumping capability of up to one hundred and twenty meters. Finally, to handle the heat from the arsenal of energy weapons, the Nexus carries ten double heat sinks.",
+    "deployment": "Unknown",
+    "history": "Ironically, the Jackrabbit ended testing two weeks before Stefan Amaris seized power on Terra and was primarily used by units loyal to Amaris against the SLDF in General Kerensky's drive to liberate the Terran Hegemony. The design was later reworked on orders from Precentor Martial Anastasius Focht and renamed the Nexus.\nmanufacturer:Imperial BattleMechs\nprimaryfactory:Braunschweig\nsystemmanufacturer:CHASSIS:Imperial 1a Endo\nsystemmanufacturer:ENGINE:Antwerp 175\nsystemmanufacturer:ARMOR:Compound Rho Special Reflective\nsystemmanufacturer:COMMUNICATIONS:CGS-Comm-1a\nsystemmanufacturer:TARGETING:CGS-TTS-VIIa"
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 59
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "hyper_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3049,
+  "tech_base": "Inner Sphere",
+  "chassis": "Caesar",
+  "model": "CES-3R",
+  "mul_id": "455",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Johnston Industries"
+    },
+    {
+      "name": "New Syrtis"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Dorwinion CES Standard"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 280 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Kallon Royalstar with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Johnston Wide Band"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Randar Pinpoint-HY"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Originally a reverse engineered version of the Capellan Confederation's Cataphract intended to mask development of the Federated Commonwealth's fearsome Axman, the Caesar would turn out to be a good but not great BattleMech in its own right.",
+    "capabilities": "The Caesar was built to do as much damage to an enemy at as great a stand-off range as possible. The 'Mech therefore carries primarily long-ranged armament. The 'Mech also uses an 280-rated XL engine and sixteen double heat sinks, both of which save significant amounts of weight, in order to carry as many weapons and as much armor as possible. The 'Mech utilizes CASE to protect against ammunition explosions should an enemy be able to breach the ten and a half tons of armor that protect it.",
+    "deployment": "The primary long-ranged weapon on the Caesar is a Poland Main Model A Gauss rifle that can shear off just under a ton of armor with each shot, supplied with two tons of reloads. This is backed up at long ranges by a Johnston High Speed ER PPC, which can do two-thirds of the damage of the Gauss rifle but is not dependent on limited ammunition. For close-range engagements, the Caesar carries four Sutel Precision Line medium pulse lasers, two of which are rear-mounted, allowing it to put up a crippling defense against any enemies that can get close to the 'Mech. The large volume of heat sinks carried ensure the Caesar can fire all its weapons while hardly breaking a sweat, making it a popular choice for missions in areas of extremely high temperatures.",
+    "history": "Supposedly the sole design intended to come out of Johnston Industries' then-new 'Mech lines on New Syrtis, the Caesar received notable public attention in an attempt to distract from development of the Axman. The finished 'Mech surprisingly enough proved to be a high-quality design itself. Though never attracting great sales, the Caesar would prove to be relatively popular in the Capellan March, among Lyran units on the Clan front, and with both FedCom-employed mercenaries and the Com Guards. Johnston attempted to redress its mediocre sales in the wake of the FedCom Civil War, developing two new variants intended to focus specifically on the qualities desired by the Lyran Alliance and Federated Suns. The resulting upswing in sales saw the Caesar in increasing use among those opposing the Word of Blake during the Jihad, with the LAAF in particular adopting the design almost as a means of honoring the assassinated Caesar Steiner."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 168
+  }
+}

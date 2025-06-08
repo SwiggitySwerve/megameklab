@@ -1,0 +1,244 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Torso",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Left Torso",
+      "item_type": "HeavyLargeLaser"
+    }
+  ],
+  "era": 3132,
+  "tech_base": "Clan",
+  "chassis": "Boreas",
+  "model": "D",
+  "mul_id": "7355",
+  "config": "QuadVee Omnimech",
+  "source": "XTR: Republic II",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "motive": "Track",
+  "heat_sinks": {
+    "count": 14,
+    "type": "Laser"
+  },
+  "base_chassis_heat_sinks": "9",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Conversion Gear",
+        "Tracks"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Conversion Gear",
+        "Tracks",
+        "Laser Heat Sink",
+        "Laser Heat Sink",
+        "CLHeavyLargeLaser (omnipod)",
+        "CLHeavyLargeLaser (omnipod)",
+        "CLHeavyLargeLaser (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "CLHeavyLargeLaser (omnipod)",
+        "CLHeavyLargeLaser (omnipod)",
+        "CLHeavyLargeLaser (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "Laser Heat Sink (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Laser Heat Sink (omnipod)",
+        "Laser Heat Sink (omnipod)"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Cockpit",
+        "Sensors",
+        "Life Support"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Conversion Gear",
+        "Tracks"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Conversion Gear",
+        "Tracks"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "Csesztreg Industriplex Alpha Annex"
+    },
+    {
+      "name": "Csesztreg"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown"
+    },
+    {
+      "type": "ENGINE",
+      "name": "240 Standard Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unknown"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unknown"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unknown"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Developed by Clan Hell's Horses in 3132, the Boreas is an experimental Heavy Class hybrid Quad BattleMech / Combat Vehicle known as a QuadVee.",
+    "capabilities": "The Boreas utilizes a Standard 240-rated Fusion Engine to move up to 64 km/h while in either Vehicle or BattleMech form. The vehicle is protected by 11.5 tons of armor, giving it less than stellar armor for a typical Clan BattleMech. Aside from its revolutionary conversion abilities, scientists also created a two-man cockpit. The cockpit is set up for pilot and gunner positions. This arrangement allows for the gunner to target multiple enemies with little trouble while the pilot handles the 'Mech's movement. Unlike other quadruped 'Mechs, the Boreas has a turret-like structure mounted on the main body. This allows all weapons mounted in this section to be aimed with any facing the gunner chooses. Should the vehicle's gyro be destroyed during combat, the vehicle can simply convert itself into vehicular form. It would also be able to be change into a 'Mech should one of its four tracks be rendered useless. Built with the modularity of an OmniMech, this OmniQuadVee has twelve tons of Pod Space, which gives some flexibility over later fixed-configuration QuadVees.",
+    "deployment": "Heat burden configuration, this configuration mounts a pair of Heavy Large Lasers in either side of its turret-like torso. Four additional Laser Heat Sinks are added as well.",
+    "history": "Created by Hell's Horses scientists, the Mech has the ability to transform itself from a tracked combat vehicle into a quadruped BattleMech, benefiting from some of the best qualities of both. Developed at the Csesztreg Industriplex Alpha Annex on Csesztreg. The Boreas was the first of its kind to be developed, it would be later in 3136 when production versions of the QuadVee would be fielded in combat with OmniPod technology."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 184
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "quirks": [
+    "rugged_1",
+    "difficult_eject"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "BattleMech Taser",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Laser AMS",
+      "location": "Head",
+      "item_type": "LaserAms"
+    }
+  ],
+  "era": 3078,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Vindicator",
+  "model": "VND-3LD (Dao)",
+  "mul_id": "3427",
+  "config": "Biped",
+  "source": "XTR: Liao",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 45,
+  "engine": {
+    "rating": 180,
+    "type": "Compact Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISLaserAntiMissileSystem",
+        "ISLaserAntiMissileSystem",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Vindicator is one of the most well-known Capellan Confederation BattleMechs. This workhorse of the CCAF was built in 2826 between the First and Second Succession War to maximize the effectiveness of the Confederation's surviving production capabilities and fulfill as many roles as possible.",
+    "capabilities": "The 'Mech has a top speed of only 64.8 km/h, which allows it to keep up with most heavy 'Mechs and some slower medium 'Mechs. Four jump jets give it a jumping capability of up to 120 meters that, while not up to par with the greater distances of 'Mechs like the Phoenix Hawk, allows the Vindicator the ability to outmaneuver most heavier 'Mechs, as well as making it easier to traverse rough terrain. It also carries more armor than the Phoenix Hawk with good overall coverage, particularly on its rear torso and legs, making it better protected than smaller 'Mechs. Armament for the 'Mech is adequate though its primary weapons are unsuited for point-blank ranges, while sixteen heat sinks help keep it cool.",
+    "deployment": "This custom-designed model is piloted by a Capellan bounty hunter. It has been rebuilt using Clan-technology heat sinks, Ferro-Fibrous Armor, and Endo Steel. A Clan ER PPC is the primary weapon, and the 'Mech also carries a BattleMech Taser to aid in capturing targets alive. A Supercharger and an Actuator Enhancement System add to the Vindicator's speed and accuracy.",
+    "history": "Designed by committee, the Vindicator's \"jack-of-all-trades\" nature means it does not excel in any one role but fulfills them adequately. With almost all of its components produced on Capella, the Vindicator is also cheap, easy to mass produce, and quick to repair with a ready supply of spare parts. Unfortunately, early models of the Vindicator suffered from a design flaw wherein the head-mounted laser created a bulge in the cockpit. More than making the space cramped for tall MechWarriors, it also interfered with the ejection propulsion system, resulting in the deaths of a number of MechWarriors when their ejection seats exploded during ejection. Engineers managed to redesign the cockpit layout prior to the War of 3039, eliminating the deadly intrusion and decreasing the chance of said unfortunate malfunction. Due to its relatively lackluster design and the outrageous mark-ups on spare parts sold to out-of-state parties, the Vindicator has remained almost exclusive to the Capellan Confederation since its introduction. Even in the wake of the Fourth Succession War, with a good portion of their military complex and resources gone, the Capellan leadership continued funding production of this 'Mech and updated it with the rediscovery of lostech. Following the introduction of the Firestarter OmniMech and its spread by the Second Star League production of the Vindicator was curtailed, though the line would be partially revived with a couple of specialized variants in 3060.\nmanufacturer:Refit\nprimaryfactory:Refit\nsystemmanufacturer:CHASSIS:Ceresplex IV\nsystemmanufacturer:ENGINE:GM 180\nsystemmanufacturer:ARMOR:Starshield with CASE\nsystemmanufacturer:JUMPJET:Anderson Propulsion 30\nsystemmanufacturer:COMMUNICATIONS:CeresCom Model 21-Rs\nsystemmanufacturer:TARGETING:C-Apple Churchill"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 153
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Right Torso",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Head",
+      "item_type": "SmallPulseLaser"
+    }
+  ],
+  "era": 3056,
+  "tech_base": "Inner Sphere",
+  "chassis": "Nightsky",
+  "model": "NGS-4T",
+  "mul_id": "2280",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Striker",
+  "weaponquirk": "mod_weapons:RA:4:Hatchet",
+  "mass": 50,
+  "engine": {
+    "rating": 300,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISSmallPulseLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Industries"
+    },
+    {
+      "name": "Hesperus II"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Dorwinion Standard"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Kallon Royalstar"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "HildCo Model 13"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TharHes Calliope Hm10"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TharHes Ares-8a"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Nightsky was a mid-range continuation of the Federated Commonwealth's successful Hatchetman-Axman series, which established melee combat weapons as a powerful and heat-efficient close-combat option for the experienced MechWarrior. Intended to provide both speed and firepower.",
+    "capabilities": "The Nightsky is built around a massive Vlar 300 XL extralight engine that propels the 'Mech up to speeds of 97.2 km/h. Superb ground speed and the added maneuverability provided by six HildCo Model 13 jump jets that allow the Nightsky to jump up to 180 meters make the Nightsky a capable heavy recon 'Mech. It is also protected with nine and a half tons of armor, providing the Nightsky with good armor protection for its size.",
+    "deployment": "The 4T is a variant of the Nightsky that looks to make the 'Mech more powerful in both long and close range combat. This is done by swapping the large pulse laser for an ER large laser with an anti-missile system for added defense against enemy missiles. The 'Mech also adds an additional small laser for added-close range firepower",
+    "history": "After their introduction in 3053, Nightskys quickly proliferated throughout the Federated Commonwealth, with many replacing Hatchetmen or Axmen lost in the early years of the Clan invasion. The distribution of this design had become fairly even between the two once-allied states by the time of the Lyran secession from the Commonwealth, resulting in Nightskys appearing among as many pro-Victor Davion troops as pro-Katherine Steiner forces during the FedCom Civil War."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 152
+  }
+}

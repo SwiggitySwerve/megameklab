@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "pro_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 10",
+      "location": "Left Arm",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Right Arm",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Right Torso",
+      "item_type": "Flamer"
+    }
+  ],
+  "era": 3037,
+  "tech_base": "Clan",
+  "chassis": "Hankyu",
+  "clanname": "Arctic Cheetah",
+  "model": "D",
+  "mul_id": "1381",
+  "config": "Biped Omnimech",
+  "source": "TRO: Clan Invasion",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 30,
+  "engine": {
+    "rating": 240,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "9",
+  "walk_mp": "8",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Foster MechWorks Facility Beta"
+    },
+    {
+      "name": "Mualang Alpha"
+    },
+    {
+      "name": "Foster"
+    },
+    {
+      "name": "Coudoux"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Hellion Light Endo Steel V3"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Warrior 240 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound Beta Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "HCFA 3001 5.7"
+    },
+    {
+      "type": "TARGETING",
+      "name": "HCFA 3005 4.3"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Arctic Cheetah was originally designed by Clan Ice Hellion to replace the Mist Lynx OmniMech.",
+    "capabilities": "The Arctic Cheetah uses all the weight-saving materials that were available to the Clans in the 3030s: an Endo Steel structure, an XL Engine, and four tons of Ferro-Fibrous armor. It maintains enough jump jets in the base chassis to leap up to one hundred eighty meters at a time. Every variant of the Arctic Cheetah mounts a modular Flamer somewhere on the 'Mech for anti-infantry work.",
+    "deployment": "A capable long-range missile boat, configuration D mounts a pair of LRM-10s in each arm with a Medium Pulse Laser and a Flamer mounted in the Left Torso.",
+    "history": "Shortly after they began production in 3037, Clan Smoke Jaguar conquered the factory on Foster that produced the design, enabling the Jaguars to replace their Mist Lynx 'Mechs. The design was dubbed the Hankyu (Japanese for \"short bow\") by the Draconis Combine forces that first encountered it during the Battle of Luthien. The Ice Hellions subsequently recovered or recaptured Foster MechWorks Facility Beta, but by that point, the majority of the Ice Hellion MechWarriors preferred the Hellion OmniMech."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 76
+  }
+}

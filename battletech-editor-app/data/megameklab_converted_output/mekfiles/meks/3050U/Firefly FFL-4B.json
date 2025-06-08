@@ -1,0 +1,213 @@
+{
+  "quirks": [
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Center Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISLRM5",
+      "location": "Right Torso",
+      "item_type": "1Islrm5"
+    },
+    {
+      "item_name": "1 ISAntiMissileSystem",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3047,
+  "tech_base": "Inner Sphere",
+  "chassis": "Firefly",
+  "model": "FFL-4B",
+  "mul_id": "1088",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 150,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Refit"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks Firefly"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 150"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab/1"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Lexington Lifters"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Datcom 18"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Radcom TXX"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Firefly is a well-armed recon 'Mech that tips the scales at thirty tons, with a maximum ground speed of 86.4 km/h, the and ability to jump up to 120 meters. As a scout 'Mech, the Firefly gives average performance with its energy weapon-heavy arsenal and is useful in both a recon and guerrilla fighter role.",
+    "capabilities": "Although it was slow in comparison to other 'Mechs of its weight class, it was powerfully armed and armored, and it frequently served as an anvil against which opposing forces' recon units were smashed.",
+    "deployment": "The Firefly is armed with a Coventry Five-Tube LRM-5 for long-range firepower and to attempt to keep enemies at a distance. If facing a determined enemy that is intent on closing, the Firefly carries three Martell medium lasers, which can cause a considerable amount of damage. Finally, to protect against missile attacks, the Firefly carries a SureFire 444 anti-missile system in the left arm, with a \"false\" AMS in the right arm.",
+    "history": "The Firefly, which entered service in the late 27th century, was one of the SLDF's primary light 'Mechs in its later years. Cases occurred in all House forces, but not in the numbers deployed by the SLDF, and all were presumed destroyed by the end of the Second Succession War, save for tales of anomalous examples in the Periphery. The design reappeared with Wolf's Dragoons in the early 31st century, raising eyebrows, yet the secret of the Firefly's origin was exposed when the Dragoons' Clan origins were revealed. In the 3040s, the advent of a small number of Fireflys with the Com Guard forces elicited a similar reaction."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 104
+  }
+}

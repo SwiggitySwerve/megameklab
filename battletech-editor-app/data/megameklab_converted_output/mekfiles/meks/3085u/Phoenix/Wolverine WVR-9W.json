@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "command_mech",
+    "ext_twist",
+    "imp_com",
+    "pro_actuator",
+    "ubiquitous_clan",
+    "ubiquitous_is",
+    "cramped_cockpit"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "MML 5",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Head",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3073,
+  "tech_base": "Inner Sphere",
+  "chassis": "Wolverine",
+  "model": "WVR-9W",
+  "mul_id": "3583",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Striker",
+  "weaponquirk": "jettison_capable:RA:7:Light PPC",
+  "mass": 55,
+  "engine": {
+    "rating": 275,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISERMediumLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Luthien Armor Works"
+    },
+    {
+      "name": "Dieron"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Crucis-A"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Core Tek 275"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Maximillian 60"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Northrup 12000"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T11-b"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Sync Tracker(39-42071)"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Wolverine commonly served as a heavy scout unit. Often deployed in situations where heavy opposition could easily destroy lighter BattleMechs, it has had a reliable service record ever since its initial deployment within the Star League Defense Force. With respectable armor, speed, and firepower, it can easily outfight lighter enemy scouts and defend itself capably if ambushed.",
+    "capabilities": "The autocannon, missile system and laser found on most Wolverines are all reliable and well-storied systems. Unfortunately, the jump jets suffer from an opposing reputation; the Northrup 12000's are underpowered and prone to breakdowns. The one defining system to be found on the Wolverine, however, are its superb Tek BattleCom and Garret T11-b communications systems. The comgear, regardless of the manufacturer, is well-shielded and features a multi-channel transmitter and receiver, making the Wolverine a powerful Command BattleMech for scouting formations.",
+    "deployment": "This 3077 variant carries a pair of Light PPCs, an MML-5 with Artemis IV, and a single ER medium laser. To coordinate fire with friendly units, it's equipped with an Improved C3 Computer. Seven Improved Jump Jets provide a 210 meter jump range, and the Mech is protected by an experimental CASE II system and Light Ferro-Fibrous armor.",
+    "history": "A widespread part of every major military, the Wolverine has manufacturing plants scattered throughout the entire Inner Sphere. While certain states-notably the Free Worlds League-have larger numbers of the design, only the Capellans began facing a shortage of the Wolverine after the loss of their Nanking facilities."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 169
+  }
+}

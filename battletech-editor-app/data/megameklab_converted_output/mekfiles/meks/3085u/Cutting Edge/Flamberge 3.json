@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "imp_target_med"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "SRM 4",
+      "location": "Left Arm",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "Ultra AC/20",
+      "location": "Left Torso",
+      "item_type": "UltraAc20"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Right Arm",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MicroPulseLaser"
+    }
+  ],
+  "era": 3087,
+  "tech_base": "Clan",
+  "chassis": "Flamberge",
+  "model": "3",
+  "mul_id": "1115",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Olivetti Weaponry"
+    },
+    {
+      "name": "Sudeten"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "JF 7 Light Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "280 XL Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "JF Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JF Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "JFIX/Olivetti Pinpoint Advanced"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Initially a Partial Wing test-bed, the Flamberge became a prominent Clan Jade Falcon OmniMech, helping to inspire the Falcon's Dark Age era design style aesthetic.",
+    "capabilities": "Built on an Endo Steel chassis, powered by a 280 rated XL Engine, and clad in thirteen and a half tons of armor, while slower than other front-line OmniMechs of similar weight, the bulk of the Flamberge's variants feature Jump Jets and the design was built with them in mind. Mounting eleven double heat sinks on its base frame, the design had thirty-five tons of available pod space.",
+    "deployment": "With performance identical to the Flamberge 2, the Flamberge 3 has a completely different weapons load. It's armed with an Ultra AC/20, paired SRM-4 launchers, Medium Pulse Lasers, and a single Micro Pulse Laser rounding out the armament.",
+    "history": "Developing the experimental Partial Wing technology in the 3060s, attempts by the Falcon scientists to develop a new production design using it were unsuccessful and the project was ultimately shelved. Cut-off from the Clan Homeworlds as losses mounted in the Jihad, in 3074 then Khan Marthe Pryde tasked Merchant Daniel and the Falcon design teams to use whatever was available to rebuild her forces. After removing much of the internal components of the wings, retaining the inbuilt Pattern J7 SRM-6 launchers in the shoulders to avoid further delays, the reborn test-bed featured an imposing bird-like cosmetic appearance that helped the Flamberge secure a prominent position in the Clan Jade Falcon Touman."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

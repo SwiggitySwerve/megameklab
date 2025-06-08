@@ -1,0 +1,234 @@
+{
+  "quirks": [
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Left Arm",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 3050,
+  "tech_base": "Clan",
+  "chassis": "Uller",
+  "clanname": "Kit Fox",
+  "model": "S",
+  "mul_id": "3348",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 180,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "7",
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "Jump Jet (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet (omnipod)",
+        "Jump Jet (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Babylon MechWorks V (Cloud Cobra)"
+    },
+    {
+      "name": "Production Line Gamma 2 (Snow Raven)"
+    },
+    {
+      "name": "Ironhold Plant 9 (Jade Falcon)"
+    },
+    {
+      "name": "Snow Raven Industrial Complex Beta"
+    },
+    {
+      "name": "Babylon"
+    },
+    {
+      "name": "Lum"
+    },
+    {
+      "name": "Ironhold"
+    },
+    {
+      "name": "Mitchella"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Process 12 Endo-steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Starfire 180 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H18"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CobraTalk 12"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Series XXX MultiTrack"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Kit Fox is a light Clan OmniMech with long-range combat as a primary focus, earning it the Inner Sphere codename of Uller, after the Norse god of archery.",
+    "capabilities": "Often fielded by Clan Jade Falcon, the Kit Fox has a surprising amount of firepower, with the ten built-in double heat sinks sometimes barely able to fully cool the 'Mech down. However, the Kit Fox is somewhat slow for its weight class, only capable of a top speed of 97.2 km/h, provided by a lightweight 180 XL Fusion Engine. Available tonnage is further increased by the use of a lightweight Endo Steel chassis. Four tons of Ferro-Fibrous armor provide the Kit Fox with ample protection.",
+    "deployment": "The Kit Fox S is intended for urban combat situations, and mounts six Jump Jets for increased flexibility. A Large Pulse Laser provides the Kit Fox S with its primary source of firepower. A Medium Pulse Laser and a Small Pulse Laser complement this, with a Streak SRM-4 for additional firepower. For point defense versus infantry, the Kit Fox S also mounts dual Machine Guns.",
+    "history": "The Kit Fox was another light OmniMech designed by Clan Cloud Cobra, and was first produced in 2890 with the aid of new resources coming from the Tanite Worlds. Rather than emphasize speed, the Kit Fox emphasizes armor and firepower, complementary to the role of the Fire Moth. Clan Jade Falcon Khan Bret Malthus took note of the new design after a string of Cloud Cobra victories, and issued a batchall to the Cobras, a challenge the Jade Falcons only very narrowly won. Clan Snow Raven also produces the Kit Fox, which they acquired by trade. All other Clans field the Kit Fox as isorla, except Clan Blood Spirit, who was gifted the Kit Fox by the generous (or Machiavellian?) Ravens."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 76
+  }
+}

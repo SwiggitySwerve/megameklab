@@ -1,0 +1,192 @@
+{
+  "quirks": [
+    "command_mech",
+    "cowl",
+    "reinforced_legs",
+    "difficult_eject"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ATM 6",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 6",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Torso",
+      "item_type": "Lrm20"
+    }
+  ],
+  "era": 3147,
+  "tech_base": "Clan",
+  "chassis": "Highlander IIC",
+  "model": "4",
+  "mul_id": "9433",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #30",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 90,
+  "engine": {
+    "rating": 270,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "One of the most popular Star League BattleMechs, many a Highlander accompanied General Aleksandr Kerensky into exile. Some were mothballed, but many found their way into the toumans of the Clans.",
+    "capabilities": "With the use of newer, lighter weapons, the damage potential of the Highlander has roughly doubled. The IIC also contains enough ammunition that it rarely needs to conserve any during Trials. Clan scientists were forced to rearrange the placement of some weapons within the 'Mech to allow it proper ammo feeds, but the design is largely unchanged. It carries the maximum amount of Ferro-Fibrous armor that can be crammed on the frame, fourteen and a half tons. As with the original, the IIC carries enough jump jets to move up to ninety meters at a time, allowing MechWarriors to execute the \"Highlander Burial\".",
+    "deployment": "Clan Hell's Horses did not take everything when they took the W-7 Facilities location in 3142. Highlanders had been refitted to IIC standards for seventy years, therefore the boneyard was enormous. Spare Highlanders suitable for upgrading were few in the Inner Sphere, so the Horses modified the line to construct the SL-XT chassis while sourcing parts from New Oslo to Alnabog, the latter to our advantage. While not identical to the ancient Clan 'Mech, the new Highlander IIC 4 proved to be a formidable package when unleashed in Operation Noyan.",
+    "history": "As technology advanced, the weapons systems were upgraded until the design known as the Highlander IIC finally emerged. Though no new Highlanders have been produced in over a century, several hundred are still in scattered use throughout the touman of every Clan.\nmanufacturer:W-7 Facilities\nprimaryfactory:Weingarten\nsystemmanufacturer:CHASSIS:SL-XT Modified\nsystemmanufacturer:ENGINE:Fusion 270 Standard\nsystemmanufacturer:ARMOR:Arcadia Compound Delta VII Ferro-Fibrous\nsystemmanufacturer:JUMPJET:Prentiss-IIIA\nsystemmanufacturer:COMMUNICATIONS:C-XII Series B4 GDS\nsystemmanufacturer:TARGETING:C-12 Mk. III with Artemis IV FCS"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 17,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 278
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "quirks": [
+    "oversized"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "HAG/30",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargePulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "iATM 12",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "iATM 12",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3072,
+  "tech_base": "Clan",
+  "chassis": "Savage Coyote",
+  "model": "Z",
+  "mul_id": "5831",
+  "config": "Biped Omnimech",
+  "source": "Wars of Reaving",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "NovaCEWS (omnipod)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Landen"
+    },
+    {
+      "name": "Picuris"
+    },
+    {
+      "name": "and Zuni âMech Production Complexes"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Assault Series SXG"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 255 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZK11 Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TJ6 âBellâ Integrated Communications System"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TRTTS Mark II CWS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Savage Coyote OmniMech was created as a showcase OmniMech. The 'Mech was also part of Khan Koga's attempts to revitalize the fading Clan that invented the OmniMech.",
+    "capabilities": "This assault 'Mech uses an XL Engine to save enough weight to devote forty-five tons of space to modular equipment and fifteen tons of armor. The base chassis contains fourteen fixed double heat sinks.",
+    "deployment": "Developed by The Society this Savage Coyote mounts a Nova CEWS system, an iATM 12 in the side torsos, a HAG 30 in the left arm, while the right arm carries a pair of ER Medium Lasers and a single ER Large Pulse Laser. These experimental systems provide the Savage Coyote Z pilot with a chance to destroy better trained Clan pilots.",
+    "history": "Following the development of Advanced Tactical Missile technology. The creation of the Savage Coyote was a direct result of both the warriors of Clan Coyote clamoring for new weapons to use and the election of Khan Sullivan Koga in 3052."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 240
+  }
+}

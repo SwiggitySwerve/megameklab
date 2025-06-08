@@ -1,0 +1,201 @@
+{
+  "quirks": [
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3093,
+  "tech_base": "Clan",
+  "chassis": "Thor II",
+  "clanname": "Grand Summoner",
+  "model": "E",
+  "mul_id": "7426",
+  "config": "Biped Omnimech",
+  "source": "Iron Wind Metals",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "14",
+  "walk_mp": "5",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Eagle Craft Group"
+    },
+    {
+      "name": "Erewhon"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Olivetti T4 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 350 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound Beta FF"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Model J-D 067"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hawkeye 58"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thor II is a Heavy Class Clan OmniMech which was first produced by Clan Jade Falcon during the early years of the thirty-second century.",
+    "capabilities": "The Thor II shares some similarities to its predecessor, such as the same size XL Fusion Engine, and physical appearance. What differs from the older design is its Pod Capacity; the Thor II has a 30.5 ton capacity over the older model's 22.5. This increase of capacity comes from the reshuffling of the 'Mech's internal components and dropping the original's permanently-mounted Jump Jets from the design. The Thor II's armor protection is slightly greater than the original, with half a ton more.",
+    "deployment": "Equipped with Improved Jump Jets for greater mobility, two ER PPC allow it to slug it out at range.",
+    "history": "Initially produced by the Eagle Craft Group on Erewhon in the Inner Sphere, the Thor II (also known by the Clan as the Grand Summoner) proved to be a highly reliable replacement for the original Thor OmniMech. The design would soon be traded among other Inner Sphere Clans and became popular among their Warrior castes. One of the 'Mech's most noted actions was during Clan Wolf's Trial of Possession for then Clan Diamond Shark's entire Swimmer Khanateâs Beta Aimag. The flotillaâs commanders were able to bid down the Clan Wolf commander to a Clusterâs worth of forces on the world of Feltre. The Thor II's performance in the hands of Diamond Shark MechWarriors in this difficult terrain helped to turn the tide of battle and resulted in winning the Trial. Clan Jade Falcon first produced the Thor II as a distinct symbol of honor. This 'Mech is painted yearly in the parade scheme of a unit chosen by the Clan's Khan as part of tradition of honoring Clusters who had performed services honoring the Clan."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 192
+  }
+}

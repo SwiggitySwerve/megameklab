@@ -1,0 +1,170 @@
+{
+  "quirks": [
+    "hyper_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 Hatchet",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERSmallLaser",
+      "location": "Left Arm",
+      "item_type": "1Isersmalllaser"
+    },
+    {
+      "item_name": "1 ISERSmallLaser",
+      "location": "Left Arm",
+      "item_type": "1Isersmalllaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    }
+  ],
+  "era": 3067,
+  "tech_base": "Inner Sphere",
+  "chassis": "Ti Ts'ang",
+  "model": "TSG-9 'China Doll'",
+  "mul_id": "5241",
+  "config": "Biped",
+  "rules_level": "4",
+  "role": "None",
+  "source": "BattleCorps",
+  "mass": 60,
+  "engine": {
+    "rating": 300,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo-Steel",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ImprovedJump Jet",
+        "ImprovedJump Jet",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ImprovedJump Jet",
+        "ImprovedJump Jet"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 200
+  }
+}

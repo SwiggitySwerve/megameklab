@@ -1,0 +1,217 @@
+{
+  "quirks": [
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    }
+  ],
+  "era": 3120,
+  "tech_base": "Clan",
+  "chassis": "Ryoken",
+  "clanname": "Stormcrow",
+  "model": "K",
+  "mul_id": "7554",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #7",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 55,
+  "engine": {
+    "rating": 330,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 15,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Industrial Complex Alpha"
+    },
+    {
+      "name": "Various"
+    },
+    {
+      "name": "Dante"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Model MHO-7E Endo-Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Fusion 330 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H17/2 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "GBX Series Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Tokasha B4-T&T"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Stormcrow is a wide-spread, second generation OmniMech fielded by many Clans. However, within the Clan Smoke Jaguar touman, the Stormcrow was especially common during the Clan Invasion and was codenamed the Ryokenï¼a misspelling of ryÅken - hunting dog) by the warriors of the DCMS who encountered it. Because of its versatility through its combination of mobility, armor, and firepower in its various configurations, the Stormcrow is a feared opponent on the battlefield.",
+    "capabilities": "The Stormcrow is built on a lightweight Endo Steel chassis and is powered by a 330 XL engine that propels it to a top speed of 97.2 km/h. The Stormcrow is protected by nine and a half tons of Ferro-Fibrous armor, giving the 'Mech the ability to survive encounters with other units that it isn't capable of outpacing.",
+    "deployment": "Four right arm improved heavy medium lasers give the K a deadly bite, and are fearsome enough on their own. Despite this, a Gauss rifle is mounted in the left arm and it is supplied with two tons of ammo in the left torso. Five additional heat sinks are mounted.",
+    "history": "The Stormcrow was designed by Clan Hell's Horses and debuted during the Battle of Tokasha. It is also implied that Stormcrow prototypes were produced on Tokasha at Tokasha MechWorks. However, prototypes of the Stormcrow had only just debuted when Clan Ghost Bear won Tokasha through the Battle of Tokasha. As a result of the upheaval, design copies and moulds for the Stormcrow were scattered throughout Clan space. The final production version of the Stormcrow debuted in 2930, when Clan Snow Raven scientists finished with a series of minor design changes and rechristened the OmniMech."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 182
+  }
+}

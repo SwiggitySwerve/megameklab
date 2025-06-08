@@ -1,0 +1,204 @@
+{
+  "quirks": [
+    "rugged_1",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Large Laser",
+      "location": "Right Arm",
+      "item_type": "LargeLaser"
+    }
+  ],
+  "era": 2640,
+  "tech_base": "Inner Sphere",
+  "chassis": "Spector",
+  "model": "SPR-4F",
+  "mul_id": "3002",
+  "config": "Biped",
+  "source": "TRO: 3058",
+  "rules_level": "4",
+  "role": "Striker",
+  "mass": 35,
+  "engine": {
+    "rating": 245,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Chameleon Light Polarization Shield",
+        "Mek Null Signature System",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Chameleon Light Polarization Shield",
+        "Mek Null Signature System",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Norse Technologies"
+    },
+    {
+      "name": "Loxley"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Norse XT-Light Type AE (Endo)"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 245 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield Light"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "HildCo Model 11c"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "AR-12 Sheathed Directional Beacon with Norse Guardian ECM Suite"
+    },
+    {
+      "type": "TARGETING",
+      "name": "DLK Type Phased Array Sensor System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Spector was originally designed by Norse Technologies to be a lighter version of the Exterminator BattleMech, made to hunt down light command 'Mechs.",
+    "capabilities": "The Spector was originally designed to use the advanced Null-Signature system, able to hide the 'Mech's radar and heat signatures, and Chameleon Light Polarization Shield, capable of obscuring the BattleMech's appearance. However, these technologies were lost during the Succession Wars and have not yet been replicated. The current incarnation of the Spector, SPR-5F, does not carry a Null Signature System nor the Chameleon LPS because of this.",
+    "deployment": "This variant carries a Guardian ECM suite, one large laser in the right arm and two medium lasers in the left. More importantly, the SPR-4F is extremely stealthy, mounting both a Chameleon LPS and a Null-Signature system.",
+    "history": "The first Spector rolled off the assembly line on June 6th, 2639, and following extensive testing the SLDF ordered 600 units, the first run of which were delivered in April of 2640. The Star League's enthusiasm for the Spector is due to the BattleMechs stealth capabilities, combining both Chameleon Light Polarization Shield and a Null-Signature system. All Spectors, and all reports on them, were believed lost with the fall of the Star League until 3048, when rumors spread that the mercenary units McCarron's Armored Cavalry and Storm's Metal Thunder were fielding Spectors, presumably recovered from an ancient cache, although neither admitted to fielding vintage Star League era 'Mechs."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 119
+  }
+}

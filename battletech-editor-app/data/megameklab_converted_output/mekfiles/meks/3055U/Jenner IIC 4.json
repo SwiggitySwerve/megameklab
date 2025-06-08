@@ -1,0 +1,203 @@
+{
+  "quirks": [
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ATM 3",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 3",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Center Torso",
+      "item_type": "StreakSrm4"
+    }
+  ],
+  "era": 3061,
+  "tech_base": "Clan",
+  "chassis": "Jenner IIC",
+  "model": "4",
+  "mul_id": "1701",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 35,
+  "engine": {
+    "rating": 315,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "9",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Irece Alpha"
+    },
+    {
+      "name": "Irece"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type D-SA Modified Endo-Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Series V Fusion 315 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Epsilon Compound 31 Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Clan Type 2 Light"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "NCO System 7"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Build 1 HLF TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "This fast second-line striker BattleMech is still a fast light that is now capable of delivering plenty of short-range missiles.",
+    "capabilities": "To achieve this, it uses an XL Engine, Endo Steel structure, and mounts only three and a half tons of Ferro-Fibrous armor. It also carries enough jump jets to leap up to 210 meters at a time. This results in an expensive garrison 'Mech, but one that is still in production nonetheless. Unique among the IIC models, the Jenner IIC changes the leg mechanism found on the original design. While the original Jenner, despite otherwise sharing design characteristics common in Marauder-descended reverse articulated 'Mechs, had standard forward articulated legs, the IIC model has reverse articulated legs similar to those on the Stormcrow.",
+    "deployment": "Clan Nova Cat, the primary users of the Jenner IIC, created this variant after they moved to the Inner Sphere. Though it changes the appearance of the 'Mech, the actual specifications of the design changed little. It retains the Streak SRM-4, but replaced the standard missile launchers with a pair of ATM 3s, each of which is accompanied by a ton of ammunition.",
+    "history": "The Jenner was first fielded in September 2784, the same year the Exodus fleet that would eventually become the Clans left the Inner Sphere in November. How exactly they acquired this design in that short timeframe is not known, but what is known is that the Clan version fields Clan weaponry, so it is known as the Jenner IIC."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 67
+  }
+}

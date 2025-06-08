@@ -1,0 +1,217 @@
+{
+  "quirks": [
+    "ext_twist",
+    "imp_com",
+    "searchlight",
+    "ubiquitous_is",
+    "cramped_cockpit",
+    "no_arms",
+    "obsolete",
+    "weak_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Head",
+      "item_type": "SmallLaser"
+    }
+  ],
+  "era": 2480,
+  "tech_base": "Inner Sphere",
+  "chassis": "Longbow",
+  "model": "LGB-0C",
+  "mul_id": "5619",
+  "config": "Biped",
+  "source": "XTR: Primitives III",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 85,
+  "engine": {
+    "rating": 310,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 15,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Small Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Lockenburg-Holly Industries"
+    },
+    {
+      "name": "Emris IV"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "StarCorps 100 LGB"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Strand 255"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab/9.5 Mk I"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "O/P 3000 COMSET"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Octagon Tartrac System C"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Longbow, introduced in 2480 as the LGB-0C Longbow, has seen service in the armies of the Inner Sphere since the days of the Star League and is one of the most well-known fire support 'Mechs in existence.",
+    "capabilities": "The Longbow is a massive BattleMech weighing in at 85 tons and is able to move at a top speed of 54.0 km/h, thanks to a Strand 255 fusion engine. The Longbow is protected by fourteen and a half tons of armor. Some have criticized the design for its lack of CASE - making an otherwise rugged 'Mech vulnerable to a loss by an ammunition explosion. As a fire-support 'Mech though, the Longbow is a trusted and reliable machine that can be counted on to carry out the mission it is designed for.",
+    "deployment": "The original Longbow built in 2480, this Free Worlds League design carried twin LRM-20s each with three tons of ammunition, supported by two Medium Lasers and a Small Laser. The Primitive Technology used limited the design's top speed to 54km/h, but this was deemed acceptable for a fire support unit. The location of the LRM launchers in the arms allowed it to fire in a wider arc, a feature prized by pilots. The Primitive Armor provided some protection, but many felt it was too thin. This design would go on to become one of the most popular and widely distributed as the manufacturer, Lockenburg-Holly Industries, merged with several other manufacturers to form StarCorps Industries."
+  },
+  "armor": {
+    "type": "Primitive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

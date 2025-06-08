@@ -1,0 +1,168 @@
+{
+  "quirks": [
+    "low_profile",
+    "difficult_maintain",
+    "weak_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Left Torso",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Torso",
+      "item_type": "LightPpc"
+    }
+  ],
+  "era": 3132,
+  "tech_base": "Inner Sphere",
+  "chassis": "Cricket",
+  "model": "RWN-01",
+  "mul_id": "7523",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #6",
+  "rules_level": "3",
+  "role": "Scout",
+  "mass": 30,
+  "engine": {
+    "rating": 210,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISTargeting Computer",
+        "ISTargeting Computer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Ballistic-Reinforced",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Ballistic-Reinforced",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Cricket 'Mech was developed by the DCMS as a raider and harasser.",
+    "capabilities": "The Cricket was constructed using every delicate, weight-saving technique available. These technologies are frequently derided as being too risky for use in line units. The spindly Cricket, on the other hand, is designed to harass opposing forces, following in the footsteps of long-time Kuritan favorites the Spider and Venom. The 'Mech makes good use of the weight saved by its delicate internals. When employing MASC, it can achieve even greater ground speed than its forefathers, but it also integrates as much ballistic-reinforced plate as could be put on its shell before the frame buckled. In this sense, the designers may have made a mistake: the Cricket has become renowned as a hanger queen, frequently requiring costly chassis work. Despite its all-energy weapon loadout, it has proven unpopular as a scout or guerilla unit due to its tiny cockpit, which makes extended durations in the field exhausting. However, the Cricket's mix of speed and lethal precise long-range PPCs has made it a favorite among DCMS skirmishers.",
+    "deployment": "Built on a composite chassis and equipped with a small cockpit, XL gyro, and XXL engine, the Cricket carries a pair of light PPCs tied into an advanced targeting computer to allow accurate long-ranged fire. The smaller, lighter equipment allows the Cricket to carry nine tons of ballistic reinforced armor. This makes it resistant to the weapons often employed by the AFFS. The downside to these advanced systems is increased maintenance times; The Cricket has developed a reputation as a \"hangar queen\".",
+    "history": "The Cricket made its debut on Dieron during 3132's confusing free for all, one of the first actions after the Blackout. Though Katana Tormark's Dragon's Fury received no official Kuritan help, LAW surreptitiously deployed a lance of Cricket prototypes to assist her (and generate valuable field-test data). It was not a good start: the prototypes spent nearly as much time on gantries as they did in the field. When they were operational, however, they were incredibly effective at distracting Exarch Redburn's forces. In one memorable instance, a Cricket landed squarely in the sights of a Republic Legionnaire and took a full barrage of rotary autocannon fire, only to shake it off, giggle mockingly, and run away. Such interactions aided in convincing the DCMS that the 'Mech was worthy of production.\nmanufacturer:Luthien Armor Works\nprimaryfactory:New Samarkand\nsystemmanufacturer:CHASSIS:New Samarkand Class 22 Composite\nsystemmanufacturer:ENGINE:GM 210 XXL\nsystemmanufacturer:ARMOR:Durallex Ballistic-Reinforced\nsystemmanufacturer:JUMPJET:Icarus 81\nsystemmanufacturer:COMMUNICATIONS:Sipher CommSys 4\nsystemmanufacturer:TARGETING:Dynatec 990 with Targeting Computer"
+  },
+  "armor": {
+    "type": "Ballistic-Reinforced",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 105
+  }
+}

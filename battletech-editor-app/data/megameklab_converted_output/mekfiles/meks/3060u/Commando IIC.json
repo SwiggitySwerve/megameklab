@@ -1,0 +1,184 @@
+{
+  "quirks": [
+    "low_profile",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Right Arm",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Left Torso",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Right Torso",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Center Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 2856,
+  "tech_base": "Clan",
+  "chassis": "Commando IIC",
+  "mul_id": "678",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 25,
+  "engine": {
+    "rating": 150,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Created for the Lyran Commonwealth Armed Forces and one of the first 'Mechs ever designed for reconnaissance, several Lyran loyalist joined the Exodus and brought their machines with them.",
+    "capabilities": "With only four and half tons of armor to protect itself, the Commando is not meant to participate in a stand-up fight against heavier enemies, but it excels at hit-and-run tactics and as a scout hunter. Though this 'Mech is itself a variant of the original Commando, there are no other Clan 'Mechs that use the Commando chassis.",
+    "deployment": "Two Series 2d ER Medium Lasers provide energy backup to a Pattern J7 SRM-6 and three SEP Class SRM-4 launchers. These powerful missiles provide devastating barrages, but the wasteful launchers can quickly eat through the Commando IIC's ammunition supply. Lacking Streak, or even Artemis IV FCS technology, Warriors must be sparing with their shots",
+    "history": "During the Amaris Civil War, several Lyran MechWarriors joined with Commanding General Aleksandr Kerensky in defiance of their government's official policy of neutrality. With this came the coup that the Star League Defense Force had attempted to pull off for decades: the acquisition of the Lyran Commando. Long considered one of the better scout 'Mechs in the Inner Sphere, at least one of these Commandos accompanied General Kerensky into exile and several of them appeared in the forces Nicholas Kerensky organized in preparation for Operation KLONDIKE. As newer weapons and 'Mechs made their way into the Clan arsenal, these Commandos began to show their age, so Clan Goliath Scorpion began a program to upgrade theirs. Dubbed the Commando IIC, this upgrade used newer technologies to outperform its venerable cousin. With the proliferation of OmniMechs, most Commando IICs were relegated to the status of \"reserve\" or \"second line\", though the Scorpions still continue to outfit some of their pirate hunters with these 'Mechs. Four and a half tons of armor provide half a ton more protection than the original.\nmanufacturer:Marshall Light Assembly Station\nprimaryfactory:Marshall\nsystemmanufacturer:CHASSIS:Model ML-225 Endo Steel\nsystemmanufacturer:ENGINE:Fusion 150 Standard\nsystemmanufacturer:ARMOR:Forging OTR17b with CASE\nsystemmanufacturer:COMMUNICATIONS:Build 1685/3 Tacticom\nsystemmanufacturer:TARGETING:Mark 11 IHADS"
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 72
+  }
+}

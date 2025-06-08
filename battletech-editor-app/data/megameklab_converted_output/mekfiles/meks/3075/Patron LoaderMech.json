@@ -1,0 +1,149 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 2550,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-11-09",
+  "chassis": "Patron",
+  "model": "LoaderMech",
+  "mul_id": "4792",
+  "config": "Biped",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Ambusher",
+  "mass": 15,
+  "engine": {
+    "rating": 30,
+    "type": "Fuel Cell Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Industrial Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 1,
+    "type": "Single"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "cargo": "SIZE:1.0",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Heavy Industrial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 24
+  }
+}

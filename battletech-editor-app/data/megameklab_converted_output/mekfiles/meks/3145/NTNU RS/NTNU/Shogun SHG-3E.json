@@ -1,0 +1,175 @@
+{
+  "quirks": [
+    "barrel_fists_la",
+    "barrel_fists_ra",
+    "difficult_maintain",
+    "non_standard"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Left Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Snub-Nose PPC",
+      "location": "Right Torso",
+      "item_type": "SnubNosePpc"
+    }
+  ],
+  "era": 3090,
+  "tech_base": "Inner Sphere",
+  "chassis": "Shogun",
+  "model": "SHG-3E",
+  "mul_id": "8003",
+  "config": "Biped",
+  "source": "Record Sheets: 3150",
+  "rules_level": "2",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 241
+  }
+}

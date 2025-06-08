@@ -1,0 +1,198 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "imp_life_support",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Laser",
+      "location": "Right Arm",
+      "item_type": "LargeLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Arm",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Arm",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Center Torso",
+      "item_type": "Flamer"
+    }
+  ],
+  "era": 2501,
+  "tech_base": "Inner Sphere",
+  "chassis": "Flea",
+  "model": "FLE-4",
+  "mul_id": "1140",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Scout",
+  "mass": 20,
+  "engine": {
+    "rating": 120,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Livingston"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Neil"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban"
+    }
+  ],
+  "systemmode": "TARGETING:HiRez-B",
+  "fluff_text": {
+    "overview": "The Flea was the direct descendant of the Free Worlds League first scout 'Mech, the Trooper. Neither the Trooper nor the Flea would impress any military analysts, though, with their generally slow speed and fragile armor making them easy prey for even the lightest opposing BattleMechs. With production of the Flea ceasing even before the start of the Succession Wars, this generally unpopular design seemed destined for the history books until the appearance of Wolf's Dragoons and their many ancient BattleMechs, Flea included.",
+    "capabilities": "The Flea, as a 'Mech with many different variants, can accomplish many different roles. However, most of these models work best in infantry support roles, where the heavier armor and firepower of the 'Mech make it a valued friend and a dangerous foe. The firepower of the Flea itself is stronger than one might suspect; if cornered, inattentive scout 'Mechs can quickly find themselves at the mercy of a Flea.",
+    "deployment": "The main Earthwerks factory for the Flea was reopened following the signing of an exclusive contract with the Wolf's Dragoons. Initially only producing replacement parts and an occasional replacement 'Mech, Earthwerks eventually opened a second line to keep up with increasing demand. Expiration of the Dragoon contract in 3041 was welcomed by Earthwerks; the publicity gained through the Dragoons had created a healthy market for the Flea. Their original model, the FLE-4, would remain in Free Worlds League service until the tail end of the Clan Invasion."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 32
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "quirks": [
+    "ext_twist",
+    "low_profile",
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "PPC",
+      "location": "Right Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Center Torso",
+      "item_type": "Lrm10"
+    }
+  ],
+  "era": 3024,
+  "tech_base": "Inner Sphere",
+  "chassis": "Grand Dragon",
+  "model": "DRG-1G",
+  "mul_id": "1256",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Luthien Armor Works"
+    },
+    {
+      "name": "Luthien"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Alshain Type 56-60H"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Sipher CommSys 3"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Eagle Eye SY10-10"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grand Dragon is the successful follow-up to the Dragon BattleMech.",
+    "capabilities": "Protected by ten tons of armor, the Grand Dragon uses thirteen double heat sinks for excellent heat management and uses a 16.5 ton Hermes 360 XL engine to achieve a moderate cruising speed of 64 km/h. Originally the Grand Dragon used the same Alshain Type 56-60H chassis as was found in the Dragon 'Mech it replaced. However, when the new Nykvarn plant was being set up an innovative engineering team came up with a way to increase the Grand Dragon's rotation from 250Â° to 300Â° by using an alternative assembly method for the hip and torso structure. This improvement was responsible for Nykvarn being awarded the honor of restarting Grand Dragon production, with all new Grand Dragons using this Nykvarn Type 58-66SH chassis",
+    "deployment": "Arguably the original Grand Dragon produced in 3024, this 'Mech is little more than a variant of the Dragon. The 'Mech is armed with a PPC, LRM-10 launcher, and a trio of medium lasers split between the left arm, right torso and rear left torso. It is also only capable of achieving a top speed of 86.4 km/h, as it employs a standard fusion engine due to the technical limitations of the Third Succession War.",
+    "history": "The 'Mech was originally a simple variant of the Dragon with some modifications, chiefly replacing the autocannon with a particle projection cannon, introduced around the end of the Fourth Succession War. In 3040 this DRG-1G variant was turned into a production model, with several of the Dragon's production lines turned over to building Grand Dragons. As it reached Draconis Combine Mustered Soldiery units the Grand Dragon became well-liked for its all-around effectiveness in terms of speed, heat management and weaponry. Luthien Armor Works went ahead with phasing in the Grand Dragon, retooling their Dragon factories on Luthien, Saffel, Yorii and Dieron to build the new 'Mechs exclusively, by 3055 all Dragon production had ceased in favor of the Grand Dragon. Just like the Dragon, the Grand Dragon quickly became a favorite in the DCMS, with nearly every line unit fielding a company of either design. Production of the Grand Dragon continued unabated until the Jihad, when the Word of Blake devastated LAW's factories in 3068. It took two years for LAW to get new Grand Dragon factories up and running, the first on Nykvarn followed by Abiy Adi and Savinsville, and ensure the continued use of the 'Mech in years to come."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 160
+  }
+}

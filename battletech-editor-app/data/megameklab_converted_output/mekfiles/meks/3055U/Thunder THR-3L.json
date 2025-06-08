@@ -1,0 +1,173 @@
+{
+  "quirks": [
+    "cowl"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Arrow IV",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3066,
+  "tech_base": "Inner Sphere",
+  "chassis": "Thunder",
+  "model": "THR-3L",
+  "mul_id": "3216",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "3",
+  "role": "Missile Boat",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "IS Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Triple Strength Myomer",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thunder is a product of the aftermath of the Fourth Succession War.",
+    "capabilities": "The 3L variant of the Thunder is intended for artillery fire support. The 'Mech is armed with an Arrow IV artillery missile launcher and carries a pair of ER Medium Lasers and a Streak SRM-6 for close range protection. The 'Mech is also outfitted with Triple Strength Myomer, allowing it to travel at speeds of 97.2 km/h when operating at the correct temperature. The 'Mech is also armored with Stealth Armor, making it a much harder target to hit.",
+    "history": "The 'Mech was built to make the most of new technologies that had made their way to the Capellan Confederation at the beginning of the 3050s. This was done by building the 'Mech around a Magna 350 XL Engine to maximize the available weight in the 'Mech. The Thunder also uses double heat sinks to make it capable of handling a high heat load from its weapons systems. The 'Mech is well protected with thirteen and a half tons of armor. Its weapons payload, and the design in general, uses a mix of advanced and off the shelf parts. This balanced mix makes the Thunder a valuable asset on the modern battlefield.\nmanufacturer:Ceres Metals Industries\nprimaryfactory:Sian, Capella and St. Ives\nsystemmanufacturer:CHASSIS:Hollis Mk III\nsystemmanufacturer:ENGINE:Magna 350 XL\nsystemmanufacturer:ARMOR:Ceres Heavy with CASE\nsystemmanufacturer:COMMUNICATIONS:Ceres Metals Model 21-Rs\nsystemmanufacturer:TARGETING:C-Apple Churchill"
+  },
+  "armor": {
+    "type": "Stealth",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

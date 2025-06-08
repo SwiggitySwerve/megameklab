@@ -1,0 +1,239 @@
+{
+  "quirks": [
+    "anti_air",
+    "searchlight",
+    "ubiquitous_is",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Left Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3061,
+  "tech_base": "Inner Sphere",
+  "chassis": "Longbow",
+  "model": "LGB-12C",
+  "mul_id": "1931",
+  "config": "Biped",
+  "source": "TRO: 3085u",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISERSmallLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "StarCorps (FWL) Industries"
+    },
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "Crofton"
+    },
+    {
+      "name": "Emris IV"
+    },
+    {
+      "name": "Fletcher (TH)"
+    },
+    {
+      "name": "Loburg"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "StarCorps 100 LGB"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Strand 255 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab/9.5 Mk II"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "O/P 3000 COMSET"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Octagon Tartrac System C"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Longbow, introduced in 2480 as the LGB-0C Longbow, has seen service in the armies of the Inner Sphere since the days of the Star League and is one of the most well-known fire support 'Mechs in existence.",
+    "capabilities": "The Longbow is a massive BattleMech weighing in at 85 tons and is able to move at a top speed of 54.0 km/h, thanks to a Strand 255 fusion engine. The Longbow is protected by fourteen and a half tons of armor. Some have criticized the design for its lack of CASE - making an otherwise rugged 'Mech vulnerable to a loss by an ammunition explosion. As a fire-support 'Mech though, the Longbow is a trusted and reliable machine that can be counted on to carry out the mission it is designed for.",
+    "deployment": "A recent upgrade of the Longbow, the 12C variant is designed to maximize the 'Mech's fire support capabilities. The 'Mech has two LRM-20 launchers and two LRM-15 launchers, giving it an incredible bombardment capability and is capable of firing 40% more missiles down range than the base model. The 'Mech has three ER Small Lasers for close combat. The 12C variant is capable of doing this through the use of an XL engine that saves a great deal of weight."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 200
+  }
+}

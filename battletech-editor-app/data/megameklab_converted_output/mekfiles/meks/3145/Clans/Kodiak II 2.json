@@ -1,0 +1,240 @@
+{
+  "quirks": [
+    "command_mech",
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Streak LRM 20",
+      "location": "Right Arm",
+      "item_type": "StreakLrm20"
+    },
+    {
+      "item_name": "Streak LRM 20",
+      "location": "Left Arm",
+      "item_type": "StreakLrm20"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3139,
+  "tech_base": "Clan",
+  "chassis": "Kodiak II",
+  "model": "2",
+  "mul_id": "6296",
+  "config": "Biped",
+  "source": "TRO: 3145 The Clans",
+  "rules_level": "4",
+  "role": "Brawler",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XXL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Alshain Weapons"
+    },
+    {
+      "name": "Alshain"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Alshain LXL Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "400 Fusion XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging AD56 Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret L20"
+    },
+    {
+      "type": "TARGETING",
+      "name": "RCA Instatrac Mark IX with Artemis IV"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed for Clan Ghost Bear, the Kodiak II is an Assault Class BattleMech which was first produced during the last decade of the thirty-first century.",
+    "capabilities": "The 'Mech was engineered so it could serve as both a Command 'Mech and as a powerful assault 'Mech via a fitting of a heavy arsenal of missiles and a large array of energy weaponry. The design is based on the fourth variant of the original Kodiak. The Kodiak II is known for its Command facilities and its endurance. The powerful 'Mech carries 19 tons of Alshain Weapon's Forging AD56 Standard armor, giving it heavy resistance against weapons fire directed at it. At the heart of the machine is a 400-rated Extra-Light Fusion Engine, which while not as quick as other designs its weight saving qualities allows the 'Mech to carry is substantial weapons load out.",
+    "deployment": "The second variant of the Kodiak II is known for its resilience as well as its accurate weaponry. Introduced in the early 32nd Century, the Kodiak II 2 utilizes a number of advanced technologies which includes three torso mounted HarJel III Self-Repair Systems. Aside from inclusion of the new repair system, the version of the Kodiak II differs only slightly from the original. While retaining most of 'Mech weaponry and the Targeting Computer, the 'Mech's long-range weaponry are swapped out for pair of Streak LRM-20 launchers, while the 10-tubed launcher is dropped.",
+    "history": "The Kodiak II would become a favorite design within the Clan Ghost Bear touman, being produced on Alshain at the Alshain Weapons factory. One of the Kodiak II's noted actions was during a border skirmish on the world of Jabuka, wherein elements of Clan Jade Falcon's 53rd Battle Cluster tangled with the 2nd Bear Regulars commanded by Star Colonel Anton Hall from the cockpit of a Kodiak II. The 'Mech would show its perseverance in the face of the 53rd's artillery bombardment of the Star Colonel's surviving units and ended up being the deciding factor which won the battle for the Ghost Bears."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 304
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "chassis": "Arctic Fox",
+  "model": "AF1E",
+  "mul_id": "96",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 30,
+  "engine": {
+    "rating": 180,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "7",
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Arc-Royal MechWorks"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "AR-3 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 180 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Royal-7 Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "K9 Communications System"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Type IV Bloodhound T & T System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "<P>The Kell Hounds' first OmniMech came with their salvage from Luthien, and recognizing the value of a reconfigurable 'Mech, they sought to replicate the machine. The Arctic Fox is their successful attempt, embodying versatility and adaptability in battle.</P>",
+    "capabilities": "<P>Well armored for a light âMech, the Arctic Fox can stand up to most Inner Sphere designs of similar weight. Upon reaching an efficient range for its weapons load, the OmniMech is best used holding that range and taking advantage of natural cover. For warriors with a penchant for up-close-and-personal combat, however, the Arctic Fox does not disappoint. The Arctic Foxâs snarling visage is backed by fourteen tons of pod space for weapons.</P>",
+    "deployment": "<!-- Variant E --><P>Produced during the Jihad, employs a pair of ER medium lasers in left torso, while fitting a pair of light PPCs in each arm actuator slot, providing a balanced mix of energy weaponry for various combat scenarios.</P>",
+    "history": "<P>Morgan Kell had the Arc-Royal facilities attempt a clone of the machine. However, only after Phelan Kell and his Wolves-In-Exile arrived were the final bugs worked out. In return for the Kell Hounds' material support for Phelan's Wolves, Clan technical advisors helped the Kells finish reverse-engineering a Clan Uller (known to the Clans as a Kit Fox). Though the Kells have access to Clan materials, the Arctic Fox is built with only Inner Sphere technology, for logistical as well as strategic reasons. The Kell Hounds use most of the Clan material they get for the upkeep of their captured Clan 'Mechs. Also, with their support of \"training farm\" units and ARDC defense regiments, the Kells wished to offer this versatile design to those who could afford it, but had no Clan technology. The Kell Hounds do not use the designation of AF1. In Clan fashion, they refer to the basic machine as the Arctic Fox Prime. The name evokes the 'Mech's progenitor, the Clan Kit Fox, as well as the new Wolf-in-Exile Clan 'Mech, the Arctic Wolf. Variants are designated A, B, C and D.</P>"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 96
+  }
+}

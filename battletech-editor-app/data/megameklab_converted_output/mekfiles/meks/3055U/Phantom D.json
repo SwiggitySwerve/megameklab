@@ -1,0 +1,216 @@
+{
+  "quirks": [
+    "imp_sensors"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Right Arm",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Clan",
+  "chassis": "Phantom",
+  "model": "D",
+  "mul_id": "2484",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 40,
+  "engine": {
+    "rating": 360,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "9",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "W-5 Facilities"
+    },
+    {
+      "name": "Wolf Clan Site 1"
+    },
+    {
+      "name": "Eden"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type-A Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Light Force 360 (XL)"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Composite A-2 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Howler 79"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Model 92 âStalkerâ"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Phantom was pushed into production by Khan Phelan Ward shortly before the Refusal War between Clan Wolf and Clan Jade Falcon, designed around Khan Ward's extensive experience with Inner Sphere tactics.",
+    "capabilities": "Intended to push a medium reconnaissance 'Mech to the most extreme limits, the Phantom is built on a lightweight Type-A Endo Steel chassis and is propelled to a top speed of 151.2 km/h by a Light Force 360 XL Engine. The Phantom also boasts strong protection for its size with six tons of Composite A-2 Ferro-Fibrous armor.",
+    "deployment": "The D configuration is something of a compromise between the B and C configurations. The 'Mech carries three ER Medium Lasers and an ER Small Laser for a powerful short range punch. These are backed up by a highly accurate Streak SRM-4 launcher.",
+    "history": "After the Wars of Reaving, the Phantom replaced the Fire Moth Omnimech for the remaining Home Clans because of its similar role and heavier profile."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 115
+  }
+}

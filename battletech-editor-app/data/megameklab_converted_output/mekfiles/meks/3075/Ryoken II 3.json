@@ -1,0 +1,174 @@
+{
+  "quirks": [
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Left Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "HAG/20",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "HAG/20",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3076,
+  "tech_base": "Clan",
+  "chassis": "Ryoken II",
+  "model": "3",
+  "mul_id": "2760",
+  "config": "Biped",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 75,
+  "engine": {
+    "rating": 375,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "After the success of the Mad Cat Mk II design, which increased the tonnage and weaponry of the Mad Cat, Clan Ghost Bear applied these same changes to the medium Ryoken.",
+    "capabilities": "The Ryoken II is slower than its antecedent, only capable of 87 km/h, though it has more weight available for equipment and weapons. It is built on an Endo Steel chassis and is protected by thirteen and a half tons of armor.",
+    "deployment": "A Hell's Horses' variant from the Jihad era, which is based on the Ryoken II 2 variant. The Horses removed the original's LB2-X guns for a pair of Class 20 Hyper Assault Gauss Rifles mounted in its side torsos, and the pair of LRM 15 launchers from the original Ryoken II. The launchers' ammunition is moved to the 'Mech's arms while the HAG ammunition is stored in the side torsos along with the guns. This variant retains the same armor protection of the Ryoken II 2.",
+    "history": "The Ryoken II, first walked off the assembly line in 3075 during the Word of Blake Jihad. When the Ghost Bears later decided to sell some to the Republic of the Sphere, it caused a ruckus among some of the Clans, including a few Trials of Grievance from Clan Hell's Horses.\nmanufacturer:Bergan Industries\nprimaryfactory:Alshain\nsystemmanufacturer:CHASSIS:DSAM ENDO 5\nsystemmanufacturer:ENGINE:GM 375 Fusion Extralight\nsystemmanufacturer:ARMOR:Forging ZK20\nsystemmanufacturer:COMMUNICATIONS:Garret GBX-2 Amalgamated Targeting and Tracking\nsystemmanufacturer:TARGETING:Alshain B4 Series 2 T&T"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 184
+  }
+}

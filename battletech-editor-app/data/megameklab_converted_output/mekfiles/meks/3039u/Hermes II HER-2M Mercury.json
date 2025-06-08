@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Left Arm",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 2802,
+  "tech_base": "Inner Sphere",
+  "chassis": "Hermes II",
+  "model": "HER-2M 'Mercury'",
+  "mul_id": "1496",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Striker",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Single"
+  },
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Irian Chassis"
+    },
+    {
+      "type": "ENGINE",
+      "name": "VOX"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Riese"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Irian"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Wasat"
+    }
+  ],
+  "systemmode": "TARGETING:Aggressor",
+  "fluff_text": {
+    "overview": "The original Hermes scout 'Mech rapidly developed a poor reputation. Plagued by electronic glitches and oft-criticized for its lack of firepower or armor, manufacturing for the 'Mech ceased, and Irian's lines fell silent. The start of the Succession Wars, however, would create a massive demand for BattleMechs of any sort; Irian, instead of restarting their Hermes line as-is, would rework the chassis into the heavier, slower, and tougher Hermes II. Though early tests involving an advanced torso-mounted autocannon failed, Irian quickly redesigned the Hermes II to use a more reliable Oriente autocannon placed in one of the arms. The reliable 'Mech would rapidly become one of the main heavy scouts of the FWLM, serving in numbers that few other designs could match.",
+    "capabilities": "With enough speed to stay ahead of most Free Worlds formations, the Hermes II carries decent firepower for its role. Seven and a half tons of armor keep the Hermes II well-protected, and it can outlast many other scouts on the field. The Hermes II uses many reliable and well-made systems; its E.A.R communications system is extremely advanced, able to connect to communications satellites and hard to track by enemy monitoring systems. The autocannon is durable and rarely malfunctions, and the flamer serves well as a utility weapon and as a means for the Hermes II to break visual contact with enemy forces.",
+    "deployment": "As an Irian design, the Hermes II mostly serves within FWLM forces. It has served there for centuries, and massive production lines ensure large numbers of the 'Mech enter service every year. The HER-2M, dubbed the \"Mercury\" (and not to be confused with the Star League-era 'Mech of the same name), is a radical rebuilt of the design. A much deadly infighter, this faster variant is exclusively fielded by Free Worlds Forces; even then, most are concentrated within SAFE's Dark Shadow units."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 120
+  }
+}

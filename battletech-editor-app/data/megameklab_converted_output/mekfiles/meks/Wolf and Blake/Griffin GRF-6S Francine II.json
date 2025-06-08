@@ -1,0 +1,213 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "rugged_1",
+    "ubiquitous_clan",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISSNPPC",
+      "location": "Right Arm",
+      "item_type": "1Issnppc"
+    },
+    {
+      "item_name": "2 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "2Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISLRM15",
+      "location": "Right Torso",
+      "item_type": "1Islrm15"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Center Torso",
+      "item_type": "1Isermediumlaser"
+    }
+  ],
+  "era": 3071,
+  "tech_base": "Inner Sphere",
+  "chassis": "Griffin",
+  "model": "GRF-6S (Francine II)",
+  "mul_id": "1308",
+  "config": "Biped",
+  "source": "Starterbook: Wolf & Blake",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "weaponquirk": "jettison_capable:RA:4:ISSNPPC",
+  "mass": 55,
+  "engine": {
+    "rating": 275,
+    "type": "Light Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Field Refit"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks GRF Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 275 Light Engine"
+    },
+    {
+      "type": "ARMOR",
+      "name": "ArcShield Reflective"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Chilton 950"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Neil 6000"
+    },
+    {
+      "type": "TARGETING",
+      "name": "RCA Instatrac Mk X"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Built in 2492 the Griffin was originally classified as a heavy BattleMech, filling in the weight gap between mammoth machines like the Mackie and smaller recon 'Mechs like the Wasp, and intended for close assaults",
+    "capabilities": "The massive and efficient fusion engine of the Griffin, giving it a cruising speed of 57.1 km/h, combined with five jump jets occupying the rear torso areas for a total jumping distance of 150 meters, is what distinguishes it from other medium 'Mechs and has kept the Griffin in the game over the centuries. Unfortunately, like most other early 'Mechs, the Griffin suffers from insufficient heat capacity with only twelve heat sinks installed. The result is that Griffin pilots, lacking the ability to do both, must choose at the outset of a fight whether to engage or withdraw. Nine and a half tons of armor plating compares quite favorably to many other medium 'Mechs, although as is often the case the Griffin will find itself in combat with larger 'Mechs. For this reason, two pairs of false armor baffles were added to the 'Mech, one on its shoulders providing limited protection to the LRM launcher and cockpit, and a smaller pair on the legs protecting the knees joints.",
+    "deployment": "After becoming part of Stacy Church's new Black Widow Command Lance, Francine's Griffin was upgraded with experimental technologies. Dropping the Artemis IV and the rear facing small laser for a Supercharger to increase its speed, her 'Mech's armor was replaced with Laser Reflective plating, making it extremely resistant to the Word of Blake's new Variable-Speed Pulse Lasers.",
+    "history": "Combining tremendous speed and firepower in one frame the Griffin briefly dominated in this role before being superseded by larger and better-equipped 'Mechs. However the Griffin was very popular among commanders and pilots alike and so Earthwerks Incorporated kept it in production, this time reclassified as a medium 'Mech and tasked with long-range fire support for medium lances. In this capacity the Griffin has excelled, combining good striking power, endurance and speed, with its only major weakness being a lack of close-range defensive weapons. During the Succession Wars the Griffin could be found in almost every unit of all the Great Houses, thanks in part to its diverse number of manufacturers. Besides being constructed from Earthwerks' factory on Keystone the Griffin was later acquired and built by Defiance Industries (Hesperus II), Kallon Industries (Talon), Brigadier Corporation (Oliver), and Norse BattleMech Works (later Victory Industries, Marduk). It was even manufactured in the Periphery by Vandenberg Mechanized Industries on Illiushin. Only the Capellan Confederation lacked a means of building the 'Mech, although they made up for it by purchasing a limited number from the Taurian Concordat. During the Fourth Succession War some of these manufacturers exchanged hands, with the Draconis Combine capturing Marduk from the Federated Suns and the Lyran Commonwealth taking Oliver from the Free Worlds League. This exchange also happened to coincide with several new variants being designed to exploit recently-recovered lostech. As such variants meant specifically for either Houses Kurita, Marik or the Federated Commonwealth found their way into the arsenals of all of them. During the Clan Invasion these manufacturers produced the new variants to meet the Clan threat while Vandenberg Industries continued to build original GRF-1N Griffins. When Vicore Industries began shopping around its \"Project Phoenix\" initiative, Defiance and Kallon Industries signed on to begin producing the completely redesigned GRF-6S Griffin. Victory Industries later signed up as well after the legal battle between Wolf's Dragoons and the Lyran Alliance saw the famous mercenary group selling its Light Fusion technology to both the Draconis Combine and Free Worlds League. The League designed a native update to the Griffin while ComStar had their own built as well which, ominously, soon began appearing in the ranks of the Word of Blake Militia. The Griffin would continue to remain a staple of the battlefields of the Inner Sphere during the maelstrom of the Jihad, the era of the Republic of the Sphere and the rise of the ilClan, with models still in production within the Free Worlds League and the Wolf Empire."
+  },
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 184
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "quirks": [
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    }
+  ],
+  "era": 2594,
+  "tech_base": "Inner Sphere",
+  "chassis": "Galahad",
+  "model": "GLH-2D",
+  "mul_id": "1168",
+  "config": "Biped",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 60,
+  "engine": {
+    "rating": 180,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Mitchell Vehicles"
+    },
+    {
+      "name": "Defiance Industries"
+    },
+    {
+      "name": "Graham IV (destroyed 2775)"
+    },
+    {
+      "name": "Hesperus II"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League VI"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 180"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Grumman-3 Ferro Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "HartfordCo COM 3000"
+    },
+    {
+      "type": "TARGETING",
+      "name": "HartfordCo XHW 7"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Born from the Terran Hegemony's attempts to create a medium fire-support platform that would be more advanced than the RLN-1N Rifleman.",
+    "capabilities": "The Galahad utilizes special building materials in the form of eleven tons of Ferro-Fibrous armor and Endo Steel internals. To fit the massive weapons on the Galahad, the engine was dropped to a GM 180, giving it a maximum speed of only 54 km/h, making it difficult for the 'Mech to keep up with its companions in most cases.",
+    "deployment": "The GLH-2D carries two massive M-7 Gauss Rifles, with two tons of ammo for each rifle. It was a showing of the powerful new weapons at the time and earned it the nickname of \"Gausszilla\". One problem with the two massive rifles was the recoil, the Galahad's shoulder-rotation rings being originally designed for the GLH-1D's all energy load-out. During the Reunification War, multiple reports of catastrophic failure of the shoulder couplings came in from the front lines with Mitchell completely redesigned GLH-2D's shoulder couplings in response. Even with the additional bracing, the recoil of the Gauss Rifles contributed the fact the Galahad spent an average of fifteen percent more time in the repair bay undergoing preventative maintenance compared to other designs of similar weight.",
+    "history": "Mitchell Vehicles unveiled the GLH-1D Galahad in 2570. Though it outgunned the earlier design and found significant acceptance within the Hegemony Armed Forces, the Galahad suffered from the same heat issues as the BattleMech it was meant to replace. With the development of the new Gauss Rifle, Mitchell Vehicles decided in 2594 to redesign the Galahad around these new weapons, changing it into a heavy design in the process. Production of the 2D Galahad continued for almost two centuries, only stopping when the Graham IV manufacturing center was destroyed during the First Succession War. While the older GLH-1D did spread to the Member State militaries, because the GLH-2D possessed so much advanced technology, the Galahad was mainly (but not exclusively) reserved for SLDF Royal Units. Most functioning GLH-2D Galahads departed the Inner Sphere during Kerensky's Exodus. Though sizable numbers of the less advanced GLH-1D remained behind, the technological decline of the Succession Wars era soon made it impossible for the Inner Sphere to maintain either variant. Outside the secret stockpiles of ComStar and patchwork examples in the Periphery or other backwaters, the Galahad was one of many designs that disappeared from the battlefield. During the Word of Blake Jihad, the Blakists put the Galahad back in production for the first time in centuries at the massive Defiance Industries plant on Hesperus II. After the factory was retaken by the Lyran Alliance and its allies, production of the 'Mech would continue for the Lyrans as of 3079."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 197
+  }
+}

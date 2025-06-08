@@ -1,0 +1,164 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 Lift Hoist",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Lift Hoist",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Cargo (0.5 tons)",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Cargo (1 ton)",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Cargo (1 ton)",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Cargo (1 ton)",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 Cargo (1 ton)",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 2764,
+  "tech_base": "Inner Sphere",
+  "chassis": "Powerman",
+  "model": "SC XI LoaderMech",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Ambusher",
+  "source": "Historical: Operation Klondike",
+  "mul_id": "2564",
+  "mass": 35,
+  "engine": {
+    "rating": 140,
+    "type": "I.C.E. Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Industrial Cockpit",
+  "heat_sinks": {
+    "count": 0,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Commercial",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 60
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISC3SlaveUnit",
+      "location": "Head",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISGuardianECM",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Center Torso",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISHeavyPPC",
+      "location": "Left Arm",
+      "item_type": "1Isheavyppc"
+    },
+    {
+      "item_name": "1 ISMML9",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMML9",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISRotaryAC5",
+      "location": "Right Torso",
+      "item_type": "1Isrotaryac5"
+    }
+  ],
+  "era": 3083,
+  "tech_base": "Inner Sphere",
+  "chassis": "Akuma",
+  "model": "AKU-2XK",
+  "mul_id": "5714",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "source": "Record Sheets: 3067 Unabridged",
+  "mass": 90,
+  "engine": {
+    "rating": 270,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "gyro": "Compact Gyro",
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISC3SlaveUnit",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Independence Weaponry"
+    },
+    {
+      "name": "New Samarkand"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Foundation AKU Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 270"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Special Heavy with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Sipher Security Plus ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Matabushi Sentinel"
+    }
+  ],
+  "fluff_text": {
+    "overview": "A low-cost alternative to the Atlas-K: the AKU-1X Akuma.",
+    "capabilities": "Akuma was smaller and lighter than anÂ Atlas to minimize costs. The lighter fusion engine saved money. Despite its tiny size, the Akuma has comparable armor protection and ground speed. The 'Mech's enormous mask makes it look like the monster it's named after. The Combine MechWarrior fires first after the Akuma scares the adversary.Â Advanced weaponry function best at short and medium ranges on the 'Mech. The 'Mech's poor speed doesn't matter because it's designed for defense or slow advances against static or dug-in opponents.Â",
+    "deployment": "This variant, also introduced during the Jihad, replaces all the existing weaponry for a C3 slave, Heavy PPC, Rotary AC/5, two Medium Pulse Lasers, an ER medium laser, and a pair of MML-9 launchers. It also carries a Guardian ECM Suite to disrupt electronic warfare systems. Like the AKU-2XC, it uses a Compact Gyro. The protection is further enhanced through the use of CASE.",
+    "history": "During the Clan invasion, Theodore Kurita issued a broad plea to manufacturers to develop more cost-effective BattleMechs, both in terms of original investment and ongoing maintenance. Independence Weaponry, known for their heavy and assault 'Mechs, reacted with the AKU-1X Akuma, a low-cost counterpart to their own Atlas-K. The Akuma shares several components with the original Atlas-D and has a price tag comparable to it. Independence Weaponry decreased the overall cost of both units by increasing demand for the same set of parts. The Ryuken-go have always been the most vocal supporters of the Akuma, fielding it in a variety of attack lances. Other front-line units were slow to embrace the Akuma until it demonstrated its worth during the assault on Clan Smoke Jaguar, and demand has since outstripped supply. The Akuma 1XJ recently made its debut in the counterassaults that eventually took the Davion worlds of Breed and Kesai IV in Duke Robinson's ill-fated onslaught against the Combine."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 43,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 279
+  }
+}

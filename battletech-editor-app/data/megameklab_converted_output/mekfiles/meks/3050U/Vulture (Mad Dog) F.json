@@ -1,0 +1,187 @@
+{
+  "quirks": [
+    "imp_target_med"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "HAG/20",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "HAG/20",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Clan",
+  "chassis": "Vulture",
+  "clanname": "Mad Dog",
+  "model": "F",
+  "mul_id": "3471",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "nocrit": "Standard:None",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Mad Dog is a heavy Clan OmniMech used for long-range indirect fire support. With hunched shoulders, a protruding head, and reverse-jointed legs, the Mad Dog resembles a vulture, so much so that it was codenamed Vulture and Hagetaka (\"Vulture\" in Japanese) by the Inner Sphere forces which first encountered it.",
+    "capabilities": "The Mad Dog F has a pair of HAG 20s. Though they don't have the sheer power of the larger guns, the four tons of ammunition provide substantially better staying power than the E variant has. To back the HAGs up, the F mounts four ER Medium Lasers.",
+    "deployment": "The name also fit the battlefield role of the Mad Dog; to act as a support 'Mech, and it often holds a hill maintaining constant watch over the entire battlefield, like a vulture waiting for its prey. With its ample firepower and decent speed of 86.4 km/h, it makes a highly mobile firing platform, and as such has spread to near ubiquity among the forces deployed by the Clans, although the design is favored more by Clan Ghost Bear MechWarriors. The Mad Dog carries eight and a half tons of Ferro-Fibrous armor for decent protection, although it will not be able to stand up to heavy fire.",
+    "history": "The Mad Dog was designed by Clan Smoke Jaguar as a second generation OmniMech based on the original heavy OmniMech Lupus of Clan Coyote. The Mad Dog also used some of the same moulds of the Clan Wolf Timber Wolf OmniMech. However, despite using some of the same moulds (which might be viewed as high praise), the Mad Dog was named as a slur to the Lupus and Timber Wolf, and to Clans Wolf and Coyote. Because of its widespread production, most Clans maintain a large number of Mad Dogs in their toumans.\nmanufacturer:Various,Svarstaad Industriplex Beta\nprimaryfactory:Various,Svarstaad\nsystemmanufacturer:CHASSIS:Eden Mk 60-OM\nsystemmanufacturer:ENGINE:300 Type I XL\nsystemmanufacturer:ARMOR:Compound SJ6CW Ferro-Fibrous\nsystemmanufacturer:COMMUNICATIONS:Build OSJ-41\nsystemmanufacturer:TARGETING:Catâs Eye MD6"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 163
+  }
+}

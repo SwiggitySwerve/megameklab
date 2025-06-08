@@ -1,0 +1,233 @@
+{
+  "quirks": [
+    "imp_com",
+    "ubiquitous_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Left Arm",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Right Arm",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Narc",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 2872,
+  "tech_base": "Clan",
+  "chassis": "Thor",
+  "clanname": "Summoner",
+  "model": "B",
+  "mul_id": "3175",
+  "config": "Biped Omnimech",
+  "source": "TRO: Clan Invasion",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "14",
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Eagle Craft Group"
+    },
+    {
+      "name": "St. Louis MechWorks"
+    },
+    {
+      "name": "Svarstaad Industriplex Gamma"
+    },
+    {
+      "name": "Ironhold"
+    },
+    {
+      "name": "Niles"
+    },
+    {
+      "name": "Svarstaad"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "JFS-703"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Redline 350 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "J63-3E Ferro Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "JF Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Model J-D 067"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hawkeye 58"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Summoner is a highly mobile heavy OmniMech with a mix of speed, mobility, armor, and firepower. Making it a highly effective and reliable mech commonly used by Clan Jade Falcon in a wide variety of roles.",
+    "capabilities": "The Summoner is powered by a lightweight 350 XL engine that gives the 'Mech a top speed of 86.4 km/h. The mobility of the Summoner is enhanced with five jump jets that allow it to jump up to one hundred and fifty meters. The Summoner has fourteen double heat sinks which are capable of handling the heat produced in most of the 'Mechs configurations with ease. To protect it from damage, the Summoner carries nine and a half tons of Ferro-Fibrous armor.",
+    "deployment": "A missile bombardment configuration, the B configuration carries a pair of LRM-20 launchers for long range engagements. For close combat, the Summoner B has two SRM-4 launchers. A Narc Missile Beacon allows the Summoner to designate targets for missile fire from other friendly units. The Summoner B has further protection through the use of an Anti-Missile System which gives it increased protection from missile attacks.",
+    "history": "Barely a second generation OmniMech, the Jade Falcons introduced the Summoner just after becoming the first Clan to win OmniMech technology from Clan Coyote in 2863. The Summoner was dubbed Thor, its Inner Sphere reporting name, by Victor Steiner-Davion himself after fighting one on Trellwan. The name was supposedly inspired by the weapons loadout (in Prime configuration): a PPC and an AC, lightning and thunder, which are associated with the Norse god Thor. Largely supplanted within the Jade Falcons by its successor the Grand Summoner during the Dark Age era, Clan Hell's Horses maintained production of the original on Svarstaad, ensuring by 3150 the Summoner was the oldest continuously produced OmniMech."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 182
+  }
+}

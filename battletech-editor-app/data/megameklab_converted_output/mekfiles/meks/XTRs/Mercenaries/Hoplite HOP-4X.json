@@ -1,0 +1,181 @@
+{
+  "quirks": [
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 CLRotaryAC5",
+      "location": "Right Arm",
+      "item_type": "1Clrotaryac5"
+    },
+    {
+      "item_name": "1 CLStreakLRM15",
+      "location": "Left Arm",
+      "item_type": "1Clstreaklrm15"
+    },
+    {
+      "item_name": "1 CLLightActiveProbe",
+      "location": "Head",
+      "item_type": "1Cllightactiveprobe"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Hoplite",
+  "model": "HOP-4X",
+  "mul_id": "1544",
+  "config": "Biped",
+  "rules_level": "3",
+  "role": "Sniper",
+  "source": "XTR: Mercenaries",
+  "mass": 55,
+  "engine": {
+    "rating": 275,
+    "type": "Light Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLLightActiveProbe",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Arc-Royal MechWorks (Refit)"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown Composite"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 275 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Lexington Ltd. High Grade"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "MultiGab 2000"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban HiRez II with Probe"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Martinson Armaments designed the Hoplite as a support 'Mech for deployment alongside the infantry divisions of the newly formed Star League Defense Force.",
+    "capabilities": "The Hoplite is slow for a medium 'Mech, with a top speed of only 64.8 km/h. However its 11.5 tons of armor and heavy arsenal, both impressive for a 'Mech of its size, makes the Hoplite a rugged machine able to fight its way out of most situations using superior firepower.",
+    "deployment": "Developed by Arc-Royal MechWorks and led by Clan scientist Janus in the midst of the Jihad, the extensively modified HOP-4X variant utilizes experimental Inner Sphere and Clan technologies. Built on a composite internal structure supplied by Coventry Metal Works, IS grade double heat sinks, CASE, and ferro-fibrous armor enhance protection and combat ability while an 275-rated light fusion engine boosts the Hoplite's speed by 10 km/h. While the body is Inner Sphere tech, the weaponry is all Clan: the original AC/10 and LRM-5 combination is replaced by a Clan RAC/5 and Streak LRM-15, supplied with three tons of autocannon ammunition and two tons of Streak missile reloads. A Clan light active probe completes the package.",
+    "history": "The Hoplite first saw service with the newly formed Star League Defense Force during the Reunification War before being relegated to Terran Hegemony militia units in the twenty-seventh century. While every Hoplite in the Inner Sphere was destroyed during the Amaris Crisis and the early Succession Wars, Aleksandr Kerensky's SLDF exiles found the simple and rugged design ideal for bolstering their forces in the months prior to the Exodus Civil War. Selected by Wolf's Dragoons in the belief that the ancient design wouldn't arouse undue attention, it had the complete opposite effect, and only raised more questions as to the Dragoons' origins when they arrived in 3005. After the mercenaries cut ties with the Clan Homeworlds in 3020, they also lost access to replacement Hoplites, with attrition bringing the design close to extinction by the Jihad. During the Jihad, when the surviving Dragoons relocated to Arc-Royal, experimental refits were performed on the remaining Hoplites, which continued after the conflict's end."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 185
+  }
+}

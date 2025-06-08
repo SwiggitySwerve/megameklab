@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "hyper_actuator",
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy PPC",
+      "location": "Left Arm",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "Heavy PPC",
+      "location": "Right Arm",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Center Torso",
+      "item_type": "MediumVspLaser"
+    },
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Center Torso",
+      "item_type": "MediumVspLaser"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Inner Sphere",
+  "chassis": "Devastator",
+  "model": "DVS-X10 MUSE EARTH",
+  "mul_id": "896",
+  "config": "Biped",
+  "source": "XTR: Davion",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo-Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Reactive",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip (armored)",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Composite",
+        "Reactive",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip (armored)",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Composite",
+        "Reactive",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Corean Enterprises Test Annex (Refit)"
+    },
+    {
+      "name": "Novaya Zemlya"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League XT Endo-Composite"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unknown 400 XXL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown Reactive Armor"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Johnston Wide Band"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Randar Pinpoint-HY"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed by General Kerensky himself right before the start of the Amaris Civil War, development of the Devastator ended abruptly when Stefan the Usurper took control of the Terran Hegemony.",
+    "capabilities": "In order to overcome its poor speed, long-range power was designed. Although the Devastator is capable of holding its own in close quarters battle, its capacity to control heat is its most striking trait. Pilots are able to move with the utmost speed and fire all of the heavy weaponry without fear thanks to fourteen double heat sinks. A Devastator pilot just needs to slightly scale back his movements to prevent the design from overheating, even when doused in inferno gel or subjected to several engine strikes.",
+    "deployment": "The Devastator MUSE EARTH project created to push the limitations of existing Assault 'Mechs to new heights during the Jihad. Their first step was to install a 400-rated XXL engine to increase the Devastator's maximum ground speed to 64 km/h. By combining a Supercharger with a MASC system, Dr. Ned Morgan, John Heidl and the other engineers assigned to this project created a design that that can move at a top speed of over 100 km/h for short bursts. Not content with nearly twenty tons of Reactive Armor, the engineers also armored the 'Mech's cockpit, Compact Gyro, Supercharger, and the shoulder and hip actuators. The MUSE EARTH Devastator carries a Heavy PPC and PPC Capacitor in each arm and a pair of Medium Variable Speed Pulse Lasers in the center torso. To make room for all the armor, large engine, and supercharger, the MUSE EARTH uses a Compact Gyro and an Endo Composite skeleton.",
+    "history": "Although funds were diverted to the war effort, the design team remained so committed to the project that, just before General Kerensky launched the invasion of Terra, they submitted six prototypes for testing, with team expenses covered out of pocket. As no battle logs for the Devastator have ever been discovered, historians are unable to assess how one of the final original Star League Defense Force designs performed or even if any of the prototypes survived. The blueprints were recovered in 3023 on Hoff by a team looking into a recently found Star League facility, but the first engineers to look at the blueprints were unable to replicate any of the new technology that went into the original. The NAIS didn't build a Devastator prototype utilizing available technologies until 3033. A few years later, moderate production started, and until early 3048, when the Federated Commonwealth was able to start producing a fully equipped version, the low tech DVS-1D was given to elite units."
+  },
+  "armor": {
+    "type": "Reactive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 50,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "quirks": [
+    "low_profile",
+    "weak_head_2"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISSniperArtCannon",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Head",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISTAG",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISC3SlaveUnit",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Jinggau",
+  "model": "JN-G8BX (Rush)",
+  "mul_id": "1709",
+  "config": "Biped",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "source": "Jihad Turning Points: Sian",
+  "mass": 65,
+  "engine": {
+    "rating": 325,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "gyro": "XL Gyro",
+  "cockpit": "Small Cockpit",
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISMediumXPulseLaser",
+        "Light Ferro-Fibrous",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Refit"
+    },
+    {
+      "name": "Victoria"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Chariot Type II Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "VOX 325 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Hellespont Lite"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Hellespont Leapers"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dian-bao Comms, heavily insulated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dynatec Special T&T"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Jinggau is made to engage in direct combat, not lurk at the periphery or wait for a few fortunate long-range hits.",
+    "capabilities": "It can close relatively easily in virtually any terrain thanks to its top-end mobility for its weight, which includes a running speed of over 85 kph and a 150-meter leap capacity. With more than eleven tons of armor, the Jinggau has a very good chance of surviving whether traversing wide terrain or fighting in stand-up combat. The major offense comes from a number of strong hitting primary weapons including the Zhi-tong-yao (\"painkiller\") Gauss rifle. The weapon fires piercing shots until the Jinggau is within striking distance of its secondary lasers, which can frighten the pilot of even an assault mech. At that point, the main armaments continue to unleash their knockdown power punches while the lasers look for vulnerable areas to butcher an enemy machine.",
+    "deployment": "This was testbed 'Mech which was fitted with experimental weaponry and equipment by Warrior House Imarra. The Jinggau's main weaponry was replaced with an experimental Sniper Cannon and four Medium X-Pulse Lasers. The 'Mech was equipped with an XL Gyro, TAG, and a C3 slave.",
+    "history": "Word of Blake's Toyama faction started sending technicians and supplies to Capellan Chancellor Sun-Tzu Liao toward the end of 3058 to assist with the completion of overhauling the old Star League production facility on Victoria. This assistance, which appeared to be a personal debt owed to Chancellor Liao, aided the Capellans in finishing up construction on the Jinggau assembly line and increased production of the Duan Gung BattleMech design. The first Jinggau, which is Chinese for siren, is said to have left the factory in early 3059, but for unknown reasons, production was suspended for more than a year before being partially resumed. Presenting a lance of Jinggau to the Fourth Tau Ceti Rangers, Sun-Tzu Liao said, âThis is not a âMech relegated to support roles, or reconnaissance or garrison duty. This is a BattleMech for seeking out your opponent and doing him harm. This is a âMech with which to make your enemy miserable.â The Jinggau's extended-range medium lasers, which are made by the Free Worlds League, intrigue engineers studying it. All of the Jinggau's components, with the exception of its jump jets and targeting system, are supposed to be constructed on Victoria, just like the Duan Gung."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 195
+  }
+}

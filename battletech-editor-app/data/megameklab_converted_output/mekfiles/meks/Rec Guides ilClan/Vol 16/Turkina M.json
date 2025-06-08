@@ -1,0 +1,199 @@
+{
+  "quirks": [
+    "easy_pilot"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb5XAc"
+    },
+    {
+      "item_name": "LB 2-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb2XAc"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "LB 5-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb5XAc"
+    },
+    {
+      "item_name": "LB 2-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb2XAc"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3058,
+  "tech_base": "Clan",
+  "chassis": "Turkina",
+  "model": "M",
+  "mul_id": "8213",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #16",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 95,
+  "engine": {
+    "rating": 285,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "11",
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Turkina is a powerful OmniMech that was first seen in the Turkina Keshik at the Battle of Tukayyid, and entered general service with Clan Jade Falcon following the end of the Refusal War. In a design oddity, the Turkina mounts enough jump jets to vault 90 meters hardwired onto the frame, rather than using them in modular pods. While this simplified repair, it also uses tonnage that could be devoted to other systems when a mission does not call for jumping. Designers also included fifteen double heat sinks, four more than could be fit into the engine, so they are fixed in the torso. The Turkina has 42 tons available for modular pods.",
+    "capabilities": "Each arm of this Turkina configuration carries an ER Large Laser, LB 2-X, and an LB 5-X, plus a ton of ammunition for each autocannon. These are supplemented by an LRM-5 in each side torso and a center torso mounted Medium Pulse Laser. Sixteen double heat sinks are carried as well.",
+    "history": "The Turkina is named after Turkina, the first Jade Falcon to be tamed, who inspired the leaders of Clan Jade Falcon in its early days. The name of the Turkina Keshik is also derived from this bird.\nmanufacturer:Complex Beta, Olivetti Weapons\nprimaryfactory:Ironhold, Sudeten\nsystemmanufacturer:CHASSIS:JF Standard\nsystemmanufacturer:ENGINE:285 JF Extralight\nsystemmanufacturer:ARMOR:JF Standard\nsystemmanufacturer:COMMUNICATIONS:JF Integrated"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 288
+  }
+}

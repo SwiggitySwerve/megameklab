@@ -1,0 +1,177 @@
+{
+  "quirks": [
+    "vestigial_hands_la",
+    "vestigial_hands_ra"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Prototype ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "PrototypeErMediumLaser"
+    },
+    {
+      "item_name": "Improved Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Improved LRM 20",
+      "location": "Left Torso",
+      "item_type": "ImprovedLrm20"
+    },
+    {
+      "item_name": "Anti-Missile System",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Prototype ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "PrototypeErSmallLaser"
+    }
+  ],
+  "era": 2825,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Excalibur",
+  "model": "EXC-B2b-EC",
+  "mul_id": "7683",
+  "config": "Biped",
+  "source": "TRO: Golden Century",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "history": "After KLONDIKE, Wolf techs radically altered the regular Excaliburs in their possession. They replaced the gauss rifle and LRM launcher with new improved versions, which freed up enough room to include a prototype ER medium laser in the left arm and four tons of additional armor. The biggest change to the old design was the replacement of the single heat sinks with surplus doubles and moving the anti-missile ammunition to a CASE-protected torso location. Throughout the early clan years, Wolf Excaliburs were some of the coolest-running âMechs in clan space."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 217
+  }
+}

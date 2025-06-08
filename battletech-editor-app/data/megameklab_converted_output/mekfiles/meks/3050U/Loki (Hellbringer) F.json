@@ -1,0 +1,190 @@
+{
+  "quirks": [
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3054,
+  "tech_base": "Clan",
+  "chassis": "Loki",
+  "clanname": "Hellbringer",
+  "model": "F",
+  "mul_id": "5489",
+  "config": "Biped Omnimech",
+  "source": "TRO: Clan Invasion",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 65,
+  "engine": {
+    "rating": 325,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "13",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Hellbringer is a very widespread design developed by Clan Hell's Horses. However, due to its poor armor, the Hellbringer is often passed over for more robust OmniMechs.",
+    "capabilities": "This variant carries a pair of LB 10-X's, one in each arm, supported by an ER Medium Laser. Another pair of ER Medium Lasers and a single SRM-6 launcher round out the weapons.",
+    "history": "The Inner Sphere first encountered the Hellbringer facing Clan Jade Falcon, which favors the design for its immense offensive potential. Earning the codename Loki by Galen Cox, an AFFC officer who declared each of the Hellbringer's various versions as an \"utterly mad configuration,\" the 'Mech does at first glance appear to be highly unusual, mounting a spread of weapons, anti-personnel equipment and electronics. The Hellbringer utilizes a standard internal structure, and has decent mobility, with a top speed of 86.4 km/h. Though it has vast firepower at its disposal, the design is not particularly durable, mounting a mere eight tons of Standard armor, and the Hellbringer is not particularly suitable for defensive situations or extended engagements. In the aftermath of the Battle of Tokasha and the loss of Tokasha Mechworks, the Hell's Horses began developing several OmniMechs. Only the Hellbringer met with success. Development time for the Hellbringer was reduced through the use of modules used in the Summoner. Despite the poor armor, the Hellbringer devotes almost 43% of its mass to pods, allowing for great offensive potential. The design spread quickly after its introduction for two reasons: the Horses promptly lost the primary production facility, and used their remaining production to curry favor with other Clans through trade and gifts. After The Wars of Reaving in Clan Space, the Hellbringer would fall out of favor with the surviving Home Clans due in part to its association with the Inner Sphere based Clans. The design would be replaced by the Ebon Jaguar in military service of those in Clan Space, with the exception of Clan Coyote which still fields the 'Mech. Even after the introduction of the updated and upgraded Loki II successor design in 3121, Clan Jade Falcon would continue to produce the cheap and easy to manufacture original version on Sudeten during the Dark Age era, with disgraced, solahma or even just overly aggressive warriors still finding its offense over defense focus desirable.\nmanufacturer:Various, Olivetti Weaponry\nprimaryfactory:Various, Sudeten\nsystemmanufacturer:CHASSIS:T-E H65 Standard\nsystemmanufacturer:ENGINE:Fusion 325 XL\nsystemmanufacturer:ARMOR:Forging Omni-H24\nsystemmanufacturer:COMMUNICATIONS:CH2B Alpha-Com\nsystemmanufacturer:TARGETING:Version Delta-II TTS(A)"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 128
+  }
+}

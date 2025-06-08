@@ -1,0 +1,153 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 2737,
+  "tech_base": "Inner Sphere",
+  "chassis": "MuckRaker",
+  "model": "GMMM-2 MiningMech",
+  "mul_id": "4220",
+  "config": "Biped",
+  "source": "TRO: Irregulars",
+  "rules_level": "2",
+  "role": "None",
+  "mass": 70,
+  "engine": {
+    "rating": 140,
+    "type": "ICE Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Industrial Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 0,
+    "type": "Single"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "cargo": "size:11.0",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The MuckRaker is the most prominent departure from the MiningMech pattern so heavily influenced by the Dig Lord. Introduced at the height of the Star League as a âwalking dump-truckâ for deployment at inaccessible mining sites, its eminent usefulness and simple, yet sturdy construction ensured continuing usage even while many other IndustrialMech classes disappeared during the Succession Wars. More common now than ever before, it is not rare to see MuckRakers deployed as mobile weapons platforms. While GM may be just as complicit to on-site military modifications as other manufacturers, there is evidence that third parties are focusing particularly on the MuckRaker, most troubling of which is a surfaced copy of a Zhanzheng de guang Terrorist Handbook recommending this MiningMech above all other IndustrialMechs for ad-hoc weaponizing.",
+    "capabilities": "The MuckRaker is bigger, slower, but extremely well-armored compared to its peers, and also features a sturdy gyro which makes the unit very stable. The terroristsâ pamphlet particularly focuses on the large truck bed which âpresents the finest platform of any IndustrialMech for weapon jury-rigging.â In general, such modified MuckRakers are lumbering monstrosities with autocannons welded onto their backhoe arm and banks of missiles occupying the MiningMechsâ cargo space. They will not catch any foe on the open battlefield, but are a veritable nightmare when encountered in confined spaces.",
+    "deployment": "With such a long history, the MuckRaker has spread to every corner of the Inner Sphere and Periphery and has expanded its usage profile to more than just mining. From construction to archaeology, from salvage to simple garbage collection, this venerable design has seen it all. It is hardly surprising, therefore, to find it taking a prominent role in the increasing militarization of IndustrialMechs currently seen in the Republic. A recent Wyldâs Jokers raid against the town of Marlinspike on Addicks drew reprisals from an unexpected source. While the Jokers lance looted the town, a single teenage resident on his sport monocycle raced into the surrounding mountains, where many of the townsfolk worked in the mines. Quickly rigging ad-hoc armaments from material at the site, the miners descended from the mountains and struck back at the Jokers. Led by four MuckRakers mounting homemade rocket launchers and harpoon guns made from modified industrial air hammers, they managed to surprise and outmaneuver the Bannson forces, pinning them down in the townâs central square. A four-hour standoff followed until a detachment from the local Standing Guard arrived to take the Jokers into custody. Flush with pride after receiving compliments from the Guard commander on their skill and bravery, the leader of the miners, a young townswoman named Felina Robbins, offered their services to complement the militia. Although the militia commander politely declined, many in the town have begun to promote the Marlinspike MuckRakers to other nearby communities.\nmanufacturer:General Motors\nprimaryfactory:El Dorado, New Valencia, Talcott\nsystemmanufacturer:CHASSIS:GM Specialheavy Industrial\nsystemmanufacturer:ENGINE:GM 140 Turbine\nsystemmanufacturer:ARMOR:Durallex\nsystemmode:ARMOR:Heavy Industrial\nsystemmanufacturer:COMMUNICATIONS:Overlook J9\nsystemmanufacturer:TARGETING:Kallon Lock-On"
+  },
+  "armor": {
+    "type": "Heavy Industrial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 192
+  }
+}

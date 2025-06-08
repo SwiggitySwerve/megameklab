@@ -1,0 +1,208 @@
+{
+  "quirks": [
+    "hyper_actuator",
+    "bad_rep_is",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3065,
+  "tech_base": "Inner Sphere",
+  "chassis": "Lightray",
+  "model": "LGH-4W",
+  "mul_id": "4519",
+  "config": "Biped",
+  "source": "TRO: 3067",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 55,
+  "engine": {
+    "rating": 385,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ferro-Fibrous",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Australia"
+    },
+    {
+      "name": "Terra"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Geometric 33B Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV 385 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Strasbourg Armaments Type 4 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Blow 107 Net (Improved)"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Scope 3580 with Targeting Computer"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Lightray was designed by Martinson Armaments to be a heavy scout 'Mech and was put into production in 3064.",
+    "capabilities": "The Lightray is built on a lightweight Geometric 33B Endo Steel chassis to help maximize the available weight for weapons and equipment and features a gigantic LTV 385 XL engine, the largest that can possibly be carried by a 'Mech its size. The engine allows the scout 'Mech to outpace most other medium designs with a top speed of 118 kilometers per hour, though it lacks the added maneuverability that could be provided by jump jets. The Lightray carries ten and a half tons of Strasbourg Armaments Type 4 Ferro-Fibrous armor, giving the 'Mech a great deal of protection.",
+    "deployment": "The main weapon of the Lightray is its Tronel XIII Large Pulse Laser. Coupled with the Targeting Computer technology stolen from House Davion, this Word of Blake design is deadly accurate, even when moving at its top speed. The pair of Diverse Optics ER Medium Lasers and the Diverse Optics ER Small Laser add to the close-range damage the 'Mech can deal."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 185
+  }
+}

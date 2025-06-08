@@ -1,0 +1,209 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "Anti-Missile System",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    }
+  ],
+  "era": 3150,
+  "tech_base": "Clan",
+  "chassis": "Star Python",
+  "mul_id": "8413",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #23",
+  "rules_level": "3",
+  "role": "Scout",
+  "mass": 25,
+  "engine": {
+    "rating": 175,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "manufacturers": [
+    {
+      "name": "Imperial BattleMechs"
+    },
+    {
+      "name": "Braunschweig"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Imperial 1a Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Antwerp 175"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound Rho Special Reflective"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Rawlings 55"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CGS-Comm-1a"
+    },
+    {
+      "type": "TARGETING",
+      "name": "CGS-TTS-VIIa"
+    }
+  ],
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Reflective",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Reflective",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 72
+  }
+}

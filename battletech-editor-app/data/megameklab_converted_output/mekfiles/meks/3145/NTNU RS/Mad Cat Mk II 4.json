@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "imp_target_med"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Left Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    }
+  ],
+  "era": 3090,
+  "tech_base": "Clan",
+  "chassis": "Mad Cat Mk II",
+  "model": "4",
+  "mul_id": "6850",
+  "config": "Biped",
+  "source": "Record Sheets: 3145 New Tech New Upgrades",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 90,
+  "engine": {
+    "rating": 360,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLLightActiveProbe",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Manufacturing Plant DSF-94"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "DSAM Endo 4"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 79 360 XL Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZM15 Ferro Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Grandthrust Mk. 5"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "MegaBand System 21"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dtrac Suite 4"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed to be sold to fellow Clans, this rebuild of the Timber Wolf carries thirteen tons of ferro-fibrous armor while being one of most nimble BattleMechs of its class, yet still packing serious weaponry.",
+    "capabilities": "This variant of the Mad Cat carries two ER Large Lasers in each arm and a pair of LRM-15 launchers. A Light Active Probe identifies hidden units. It also boasts an expanded jump range of 120 meters.",
+    "deployment": "Despite this, Mk II's most notable potential buyers, Clan Wolf and Clan Jade Falcon, did not purchase even a single unit, though they won some numbers in Trials. Significant numbers of Mad Cat Mk II were sold to Clan Nova Cat, and the Mech served also in Clan Ice Hellion, Clan Jade Falcon, Clan Wolf-in-Exile in addition to Diamond Shark itself. On a limited basis, Clan Diamond Shark sold unmodified Mad Cat Mk IIs to Inner Sphere factions, most notably the Draconis Combine and Federated Commonwealth, and also the Lyran Alliance bought an unknown amount of Mad Cat Mark IIs.",
+    "history": "The Mad Cat Mk II was in development for fifteen months by the time production began in 3061. The sole rationale for the Mad Cat Mk II was to increase profits for Clan Diamond Shark after war with the Inner Sphere in the 3050s."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 278
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "quirks": [
+    "imp_target_short"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Left Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    }
+  ],
+  "era": 3085,
+  "tech_base": "Clan",
+  "chassis": "Arctic Wolf II",
+  "model": "Prime",
+  "mul_id": "107",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "WC Site 1"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "AR1 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Light Force 280 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Royal-7a Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Grandthrust Mk. 4"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "HWLR Designation ComSys"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hunter (7) Dedicated TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Arctic Wolf II is a Clan Wolf-in-Exile Medium OmniMech that was developed during the Jihad, and finally deployed in 3085.",
+    "capabilities": "The design is based on the OmniMech variant of the original Arctic Wolf. The original OmniMech version had a number of problems, including technical glitches and a lack of speed. The Arctic Wolf II addresses speed concerns by using the original Arctic Wolf's Light Force 280 rated XL Fusion Engine. Seven Grandthrust Mk. 4 Jump Jets were also installed to increase the Mech's tactical options and exploit capabilities that were gained from the failed OmniMech J Configuration. The 'Mech has over 14 tons of pod space available for its techs to install weapons and equipment. Perhaps one of the Arctic Wolf II's only weaknesses is its light armor protection, boasting only 6.5 ton of Ferro Fibrous armor.",
+    "deployment": "Designed for long-range engagements, the Primary configuration boasts a pair of shoulder mounted LRM-15 launchers with three tons of ammunition. The launchers are backed up by a pair of ER medium lasers mounted in each of the 'Mechs arms and a small pulse laser in the right torso. The 11 mounted double heat sinks handle the majority of the heat burden."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 124
+  }
+}

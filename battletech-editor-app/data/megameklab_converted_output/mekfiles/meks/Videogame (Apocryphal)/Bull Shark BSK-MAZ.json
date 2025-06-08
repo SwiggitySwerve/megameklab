@@ -1,0 +1,197 @@
+{
+  "quirks": [
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Ultra AC/5",
+      "location": "Left Arm",
+      "item_type": "UltraAc5"
+    },
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Ultra AC/5",
+      "location": "Right Arm",
+      "item_type": "UltraAc5"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Thumper Cannon",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3012,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Bull Shark",
+  "model": "BSK-MAZ",
+  "config": "Biped",
+  "source": "Videogame (Apocryphal)",
+  "rules_level": "4",
+  "mass": 95,
+  "engine": {
+    "rating": 285,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Clan Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS LB 10-X AC Ammo",
+        "Clan Ultra AC/5 Ammo",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS LB 10-X Cluster Ammo",
+        "Clan Ultra AC/5 Ammo",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "\"I've never seen anything like this, Commander. This 'Mech oozes deadly grace and can obviously devastate anything in its path. It's... otherworldly, but clearly influenced by Star League 'tech. It has a mounted artillery piece to boot - I wonder where it came from.\" - Yang Virtanen",
+    "deployment": "The Bull Shark is a 95-ton Assault 'Mech described as a \"Heavy Brawler\", and is equipped to engage targets across a fairly wide range bracket with its somewhat unusual arsenal. Some of its long-range firepower comes from a Thumper Artillery Cannon that takes up most of the right torso. This is backed up by two extended range medium lasers in each torso, while each arm mounts an LB 10-X AC and an Ultra AC/5. The design features two tons of LB 10-X ammo and four tons of Ultra AC/5 ammo. Thirteen Double Heat Sinks (two in the left torso plus eleven in the engine) attempt to keep the very high heat generation of its ER medium lasers in check.",
+    "history": "The Bull Shark is a mysterious singular 'Mech of unknown origin and design discovered aboard an abandoned jumpship in the times of the Arano Restoration. Little clue was left as for who made it or why it was left behind, other than the ship's name - 'Dobrev' - and references to an old Terran mammal known as a wolverine. What is known is that it carries a powerful armament of ballistic weaponry and advanced 'tech that harkens back to the days of the Star League, even exceeding it somehow. Word of the discovery through black market communications and rumours brought the Black Widow Company's Natasha Kerensky to fight the legendary Bounty Hunter, the Baumann Group, and a small mercenary company in an attempt to destroy the ship and everything aboard.\nmanufacturer:Minnesota Tribe\nprimaryfactory:Dobrev",
+    "notes": "The following regards tabletop play: Thumper Cannon may be treated as preloaded with two shots, and only two shots. Optionally remove Thumper ammo bin and replace with LB 10-X ammo, otherwise add 4 points armour to each arm and leg. Thumper Cannon may use an updated damage profile of 15/5A if agreed upon. Suggest following the above note of preloaded ammo. The following regards derivation of loadout: Clan Wolverine was Annihilated in 2823. ER Med. Laser (C) available in 2824. UAC/5 (C) available in 2825. LB 10-X (C) available in 2828. UAC/5 (C) used because frankly the design mandates it. Assume it was somehow sourced by survivors. Since ER Med. Lasers were available the year before, assume they were sourced as well. [In tabletop] If you wish to use prototype ER lasers, the stats for those are identical to ER Med. (IS) but weighing 1.5 tons each. Remove the Thumper ammo bin and one ton of armour. LB 10-X (C) assumed to be too late to source, and relic LB 10-X (IS) are mounted instead; also to enforce the mixed tech nature of the 'mech and follow the weight layout.\nsystemmode:CHASSIS:Endo-Steel\nsystemmode:ENGINE:285 XL\nsystemmode:ARMOR:Standard\nsystemmanufacturer:JUMPJET:N/A\nsystemmode:JUMPJET:N/A"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 248
+  }
+}

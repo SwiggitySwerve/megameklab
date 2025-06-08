@@ -1,0 +1,230 @@
+{
+  "quirks": [
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy PPC",
+      "location": "Left Arm",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "MRM 40",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Head",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Head",
+      "item_type": "Flamer"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "chassis": "Seraph",
+  "model": "C-SRP-OC Comminus",
+  "mul_id": "2872",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 15,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "Flamer (omnipod)",
+        "Flamer (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "TSM",
+        "TSM",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "TSM",
+        "TSM",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs"
+    },
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Gibson (Gibson Federated)"
+    },
+    {
+      "name": "Terra (Martinson)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Celestial Series SP1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 255 Light Fusion with Triple-Strength Myomer"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Divine Guardian"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Masterâs Voice Cel-Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Masterâs Sight 1-Omega"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The light assault 'Mech of the Celestial series of OmniMechs, the Seraph is somewhat slow for its weight, but it attempts to make up for that with the inclusion of Triple-Strength Myomer that enables the 'Mech to speed up to 64 kph when it runs hot.",
+    "capabilities": "Like the other Celestials, the Seraph makes use of a light fusion engine and a small cockpit, though other newer technologies are present only in its weaponry. As with the other Celestials, a C3i Computer is included. The main criticism of the Seraph Invictus is that it does not make very good use of its Triple-Strength Myomer. The design does not build enough heat to activate the musculature, a problem the Streak missile system only exacerbates.",
+    "deployment": "Though the Comminus variant is quite powerful against conventional units, it sacrifices little firepower against other 'Mechs. An MRM 40 is useful against either type of opponent, though it is more difficult to aim than other weapons. A Heavy PPC and two ER Medium Lasers work well against hardened targets. A Plasma Rifle deals heavy damage against enemy units, but is especially potent against infantry. Also heavily damaging to unarmored troops are the pair of Flamers. To protect the Seraph C from enemy electronics, it mounts a Guardian ECM Suite."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 256
+  }
+}

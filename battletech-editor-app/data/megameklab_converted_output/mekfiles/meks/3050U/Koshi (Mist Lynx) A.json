@@ -1,0 +1,186 @@
+{
+  "quirks": [
+    "imp_sensors",
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Clan TAG",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Right Arm",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 2926,
+  "tech_base": "Clan",
+  "chassis": "Koshi",
+  "clanname": "Mist Lynx",
+  "model": "A",
+  "mul_id": "1827",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Scout",
+  "mass": 25,
+  "engine": {
+    "rating": 175,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "7",
+  "walk_mp": "7",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLActiveProbe",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLAntiPersonnelPod (omnipod)",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLAntiPersonnelPod (omnipod)",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Weighing in at twenty five tons, the Mist Lynx is a lightweight workhorse OmniMech. The Mist Lynx is a common light OmniMech among the Clans that invaded the Inner Sphere, and is part of the toumans of every clan.",
+    "capabilities": "The Mist Lynx is built on a lightweight Endo Steel chassis to save weight and is powered by a 175 XL engine that gives the 'Mech a top speed of 118.8 km/h. The Mist Lynx also has six Jump Jets that allow the 'Mech to jump up to one hundred and eighty meters. The Mist Lynx has a fixed Active Probe that allows the 'Mech to protect itself from ambush by letting it detect any hidden enemy units before they can strike. For protection from enemy fire, the Mist Lynx has three and a half tons of Ferro-Fibrous armor.",
+    "deployment": "Before the Great Refusal, the Mist Lynx was most prominently fielded by Clan Smoke Jaguar and earned the code name Koshi, or \"small death\", from the DCMS forces which encountered it during Operation Revival. Designed by Clan Smoke Jaguar around 2910, production of the Mist Lynx was continued by Clans Ice Hellion and Steel Viper after the Annihilation of Clan Smoke Jaguar.\nmanufacturer:Huntress Production Facility Epsilon, Arcadia BattleMech Plant CM-O3, Manufacturing Plant SFF-AL1\nprimaryfactory:Huntress, Arcadia,  Alnabog\nsystemmanufacturer:CHASSIS:Light Series II Endo-steel\nsystemmanufacturer:ENGINE:Type II 175 XL\nsystemmanufacturer:ARMOR:Compound H17 Ferro-Fibrous\nsystemmanufacturer:JUMPJET:Clan Light Series Mk. I\nsystemmanufacturer:COMMUNICATIONS:Build 1685/5 Tacticom\nsystemmanufacturer:TARGETING:Series III GDS with Active Probe"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 67
+  }
+}

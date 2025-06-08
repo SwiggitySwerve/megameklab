@@ -1,0 +1,264 @@
+{
+  "quirks": [
+    "barrel_fists_la",
+    "barrel_fists_ra",
+    "pro_actuator",
+    "oversized",
+    "poor_performance",
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Right Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Right Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Left Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Left Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Left Torso",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Right Torso",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 2846,
+  "tech_base": "Clan",
+  "chassis": "Behemoth",
+  "clanname": "Stone Rhino",
+  "model": "4",
+  "mul_id": "3814",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Heat Sink",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Tokasha Mechworks"
+    },
+    {
+      "name": "Tokasha"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League Monster (Standard)"
+    },
+    {
+      "type": "ENGINE",
+      "name": "General Systems 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound 12A1 Standard with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Grandthrust Mk. 5"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret L15"
+    },
+    {
+      "type": "TARGETING",
+      "name": "RCA Instatrac Version 8a"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Stone Rhino was one of the most remarkable surprises sprung upon the Inner Sphere by the invading Clans. The Inner Sphere named the 'Mech Behemoth. It was apparently derived from the Matar, which was also known as \"Amaris' Folly\".",
+    "capabilities": "Though visually resembling the Matar, the Stone Rhino is ten tons lighter than \"Amaris' Folly\", marking it an assault-class 'Mech instead of a superheavy design. Despite the reduced weight it achieves a roughly similar damage output through superior Clan weaponry. Similar to its progenitor, the Stone Rhino is a fairly slow design with the addition of Jump Jets barely mitigating the mobility issues over short distances. Eighteen tons of armor provides reasonable protection until the 'Mech becomes a target of priority. Thus, despite bringing awesome firepower to the battlefield, these machines often cannot be used effectively by field commanders because they ultimately cannot afford to lose one.",
+    "deployment": "A Smoke Jaguar test platform, the Stone Rhino 4 is a variable range variant which uses an XL Engine to provide weight savings for four LRM 10s to lay down impressive long range fire. Backing these up are a pair of Ultra AC-10s for mid-range engagements. From there, four ER Medium Lasers provide a solid short range punch. Lastly, four Machine Guns provide anti-infantry support. These combine to make a solid and well rounded configuration.",
+    "history": "Developed during the Golden Century as somewhat of a passion project, the Scientist Caste of Clan Smoke Jaguar sought to prove the superiority of the Clans by turning the flawed Matar into a successful design to achieve what the Inner Sphere could not. The resulting 'Mech was christened the Stone Rhino in honor of the nearly indestructible beast native to Eden. Mainly seen in the Smoke Jaguars touman, scattered examples of the Stone Rhino do appear in other Clans even though it was produced in somewhat limited numbers. Because of these low production numbers, most Stone Rhinos in existence are ancient machines with long and storied histories of their combat actions and their quirks in the hangar. Following the fall of the Smoke Jaguars, Clan Goliath Scorpion's need for new machines to defend their captured Jaguar holdings led them to revisit the Matars original design specs. They rapidly developed a visually different and powerful \"new\" 'Mech that was immediately put into production on Tokasha while still using the Stone Rhino name. However, the Scorpions would soon need to scramble to establish new production elsewhere after Clan Hell's Horses captured their Tokasha holdings. This allowed the Horses to produce new variants, and the Horses ultimately established a production line for the 'Mech on Csesztreg following their ejection from the Clan Homeworlds."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 264
+  }
+}

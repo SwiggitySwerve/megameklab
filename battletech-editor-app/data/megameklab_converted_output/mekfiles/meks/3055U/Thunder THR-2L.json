@@ -1,0 +1,211 @@
+{
+  "quirks": [
+    "cowl"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "LB 20-X AC",
+      "location": "Right Torso",
+      "item_type": "Lb20XAc"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3063,
+  "tech_base": "Inner Sphere",
+  "chassis": "Thunder",
+  "model": "THR-2L",
+  "mul_id": "3215",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Stealth",
+        "Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Stealth",
+        "Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Ceres Metals Industries"
+    },
+    {
+      "name": "Sian"
+    },
+    {
+      "name": "Capella and St. Ives"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Hollis Mk III"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 350 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Ceres Heavy with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Ceres Metals Model 21-Rs"
+    },
+    {
+      "type": "TARGETING",
+      "name": "C-Apple Churchill"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thunder is a product of the aftermath of the Fourth Succession War.",
+    "capabilities": "The 2L model of the Thunder upgrades the design with some of the latest technology, making it a highly destructive close combat 'Mech. The Autocannon/20 has been replaced with an LB-X Autocannon/20 which is capable of using both solid rounds and cluster shot which acts like a giant 'Mech sized shotgun. The 'Mech is also armed with two ER Medium Lasers and an ER Small Laser. Additionally, the LRM-5 has been dropped in favor of a Streak SRM-6 launcher for additional close range firepower. The final touch on the 'Mech is the use of Stealth Armor which makes the 'Mech much harder for an enemy unit to target. Triple Strength Myomer has also been added to let the Thunder benefit from its higher than average operating temperature.",
+    "history": "The 'Mech was built to make the most of new technologies that had made their way to the Capellan Confederation at the beginning of the 3050s. This was done by building the 'Mech around a Magna 350 XL Engine to maximize the available weight in the 'Mech. The Thunder also uses double heat sinks to make it capable of handling a high heat load from its weapons systems. The 'Mech is well protected with thirteen and a half tons of armor. Its weapons payload, and the design in general, uses a mix of advanced and off the shelf parts. This balanced mix makes the Thunder a valuable asset on the modern battlefield."
+  },
+  "armor": {
+    "type": "Stealth",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 208
+  }
+}

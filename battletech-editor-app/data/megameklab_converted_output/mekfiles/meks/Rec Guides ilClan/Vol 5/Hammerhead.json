@@ -1,0 +1,169 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3146,
+  "tech_base": "Clan",
+  "chassis": "Hammerhead",
+  "mul_id": "7511",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #5",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISAES",
+        "ISAES",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISAES",
+        "ISAES",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Hammerhead is a medium Clan BattleMech designed as a skirmisher by Clan Sea Fox.",
+    "capabilities": "Intended for close-in combat, the Hammerhead has 15 tons of hardened armor to help resist damage. Unlike most Clan Mechs, this one is intended to allow inexperienced pilots to survive their first engagements and learn from the experience. With the assistance of leg-mounted actuator enhancement systems, the 'Mech's heavy armor helps its pilot keep the 'Mech standing, further assisting newer MechWarriors.",
+    "deployment": "Not heavily armed, the Mech's arsenal consists of medium and close range weapons. The main gun is a Series 44h large pulse laser, while a Series 2b ER medium laser and Type VI Streak SRM-6 allow the Mech to handle an opponent once the Hammerhead closes in to short range. The 'Mech is built on a SFAM endo steel skeleton and is powered by a Firebox 270 XL extralight engine, which gives the it enough power to support the weight of its hardened armor and still move at a top speed of 86.4 km/h.",
+    "history": "The design, which is roughly based on a hammerhead shark, is designed to be aggressive with its opponents while also being structured around the concept of never being knocked off its feet. Despite its meager weaponry, the Hammerhead has proven to be an effective shock trooper, plowing through enemy formations to combat with opponents twice its size at close range. The Hammerhead has quickly become a signature 'Mech for Clan Sea Fox and its touman, and it is also sold and exported to any interested Clan purchasers, with Clan Ghost Bear particularly fond of its strong and uncompromising attributes. In the lead-up to the ilClan era, the intensifying rivalry between Clans Jade Falcon and Wolf would result in heavy orders from both sides as they confronted the opposing Hammerhead in increasing numbers. The sole issue with the Hammerhead is that non-Sea Fox MechWarriors have reported occasional malfunctions in various systems in exported production versions. The Sea Foxes blame this to the diverging and conflicting software requirements of so many different buyers, and the issues are modest enough that they have not materially harmed Mech sales.\nmanufacturer: Manufacturing Plant SFF-IT1\nprimaryfactory: Itabaiana\nsystemmanufacturer:CHASSIS:SFAM Endo Steel\nsystemmanufacturer:ENGINE:Firebox 270 XL\nsystemmanufacturer:ARMOR:Double-Forged ZX20 Hardened\nsystemmanufacturer:COMMUNICATIONS:Comset 1\nsystemmanufacturer:TARGETING:Dtrac Suite 4"
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 120
+  }
+}

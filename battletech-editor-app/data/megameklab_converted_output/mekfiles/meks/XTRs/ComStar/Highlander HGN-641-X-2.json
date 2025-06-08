@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "command_mech",
+    "cowl",
+    "reinforced_legs",
+    "difficult_eject",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISGaussRifle",
+      "location": "Right Arm",
+      "item_type": "1Isgaussrifle"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISAngelECM",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISC3SlaveUnit",
+      "location": "Head",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMML7",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMML7",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Highlander",
+  "model": "HGN-641-X-2",
+  "mul_id": "5552",
+  "config": "Biped",
+  "source": "XTR: ComStar",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 90,
+  "engine": {
+    "rating": 270,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "IS Reinforced",
+    "manufacturer": null
+  },
+  "gyro": "XL Gyro",
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISC3SlaveUnit",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "Light Ferro-Fibrous",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "Light Ferro-Fibrous"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Refit (ComStar)"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League XT-R"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 270 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Krupp 205 Light Ferro-Fibrous with CASE II"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "HildCo Model 10"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Hector VII"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Starlight LX-1"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Highlander is one of the most well-known Star League Defense Force assault 'Mechs, serving with distinction for almost two centuries since first entering service in 2592.",
+    "capabilities": "Initially designed as a dedicated city and installation defender, the original model featured a variety of weaponry along with fifteen and a half tons of Ferro-Fibrous armor, but perhaps its most useful asset were the three HildCo jump jets giving it a jumping range of 90 meters. The heaviest 'Mech design to feature jump jets at the time, their original task was to allow the Highlander the ability to jump over inconvenient obstacles such as buildings and outpace other 'Mechs with a faster ground speed, but because of this increased mobility and its versatile weaponry the Highlander proved to be a capable fighter on any battlefield and within decades nearly every BattleMech regiment of the Regular and Royal Armies featured them.",
+    "deployment": "This ComStar developed variant is equipped with a pair of Artemis IV-equipped MML-7 launchers with four tons of ammo. It keeps the Gauss Rifle of the standard Highlander and mounts a pair of ER Medium Lasers. CASE II systems protect the Gauss Rifle and missile ammunition from explosions. A C3 Slave unit allows the Highlander to share targeting data. Light Ferro-Fibrous armor and a Reinforced Structure provide protection from weapons fire. To make room for all the equipment, this Highlander uses an XL Engine and XL Gyro.",
+    "history": "During the design's initial trial runs pilots began using these 'Mechs in what would infamously become known as the \"Highlander Burial\". Leaping into the air and landing directly on their enemy, a Highlander could literally drive a light 'Mech into the ground. So successful was this maneuver that the design team re-engineered the legs to withstand repeated death-from-above attacks and turned what had been a desperation move into an art form, giving Highlander pilots an additional psychological edge. As with other Star League era designs the Highlander would suffer the loss of technology brought about by the Succession Wars, and when StarCorps' factory on Son Hoa was devastated towards the end of the Second Succession War the original HGN-732 became virtually extinct. An agreement between StarCorps and Hollis Incorporated to rebuild destroyed chassis from scratch using readily-available technology kept the line going until the mid-3030s when limited production was restarted by StarCorps on Son Hoa and Corey, producing barely a dozen new 'Mechs per year. These HGN-733 Highlanders were used in small numbers by the Capellan Confederation and Lyran Commonwealth, commonly as part of lances containing Exterminators, Victors, Grasshoppers and Catapults. Unbeknownst to many, ComStar also maintained a large stock of Highlanders left over from the Star League, some of which they gifted to the Draconis Combine during the War of 3039. The appearance of so many seemingly rare 733s, along with a few 732s whose advanced technology managed to slip through ComStar screening, had a large impact on Lyran morale during that conflict. ComStar would also use the design in their own military forces, the Com Guard, and even during the Clan Invasion a few original 732s would take to the field as part of the Clans' fighting forces. The Northwind Highlanders especially favored this namesake Battlemech. In fact, during the Succession Wars, they were the only Inner Sphere army to keep a large number of them operational, along with ComStar. The Highlanders are specially skilled in delivering the famed Highlander Burial maneuver. By 3057 StarCorps' Son Hoa line was at full production, producing brand-new original-spec Highlanders for Lyran units of the Federated Commonwealth, just in time to take part in the FedCom Civil War. Highlanders would continue to be produced all the way through to the Jihad, where advanced variants fought both for and against the Word of Blake."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 254
+  }
+}

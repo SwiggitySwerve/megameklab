@@ -1,0 +1,182 @@
+{
+  "quirks": [
+    "barrel_fists_la",
+    "barrel_fists_ra",
+    "difficult_maintain",
+    "non_standard"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 15",
+      "location": "Left Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Arm",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    }
+  ],
+  "era": 3029,
+  "tech_base": "Inner Sphere",
+  "chassis": "Shogun",
+  "model": "SHG-2F",
+  "mul_id": "2933",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The initial specifications for the 'Mech were for a \"highly survivable multi-role assault BattleMech.\" When the Shogun project started the design phase in 2771, those needs had altered little, save to compensate for fundamental flaws in the Stalker's design.",
+    "capabilities": "Though the Shogun isn't any faster than its predecessor, the inclusion of jump jets allows it to be much more maneuverable. The Shogun's CASE and ferro fiber armor also make it significantly more survivable than the Stalker.",
+    "deployment": "Though built for close combat, the weapons payload on the Shogun is built for long range combat. The 'Mech carries as its primary weapon a Magna Firestar ER PPC and two Coventry Star Fire LRM-15 launchers which allow the 'Mech to engage an enemy very effectively at long ranges. The 'Mech does carry two Thunderstroke SRM-6 launchers for close combat, allowing the 'Mech to find any weak spots in an enemy's armor when they do get to close ranges with the Shogun.",
+    "history": "The Shogun's history was cloaked in myth and legend, at least until the Clan and Inner Sphere records could be compared. The SLDF issued the original requirements for the Shogun in the late 26th century, although the 'Mech itself did not reach construction for another two centuries. The success and widespread distribution of the Stalkerâwhich served the role of the Shogun, if imperfectlyâalong with the outbreak of the Reunification War, and then the tranquility of the Star League's Golden Age, saw the original design criteria scrapped. After General Kerensky's conflict, the SLDF needed a new attack BattleMech to replenish its ranks. The Shogun had a good chance of succeeding the Stalker, but Kerensky's Exodus and the First Succession War interfered. Mitchell Vehicles, who won the design when the SLDF regained Graham IV, completed only eight manufacturing runs prior to the Exodus, and only a few more before their plants were destroyed in the First Succession War. That left the Shogun to slip into obscurityâat least until the Wolf's Dragoons returned a few to the Inner Sphere before the Exodus, and only a few more runs before their factories were destroyed in the First Succession War. As a result, the Shogun died quicklyâat least until the Wolf's Dragoons returned a few to the Inner Sphere.\nmanufacturer:Refit\nprimaryfactory:Outreach\nsystemmanufacturer:CHASSIS:Kitushi Shogun\nsystemmanufacturer:ENGINE:Strand 255\nsystemmanufacturer:ARMOR:Riese-350\nsystemmanufacturer:JUMPJET:Anderson Propulsion 21\nsystemmanufacturer:COMMUNICATIONS:HartfordCo COM 4000\nsystemmanufacturer:TARGETING:HartfordCo XKZ 1"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 248
+  }
+}

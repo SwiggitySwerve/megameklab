@@ -1,0 +1,241 @@
+{
+  "quirks": [
+    "command_mech",
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Thunderbolt 10",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Blazer Cannon",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Blazer Cannon",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Head",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Head",
+      "item_type": "ErFlamer"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Archangel",
+  "model": "C-ANG-OS Caelestis",
+  "mul_id": "71",
+  "source": "Jihad Secrets: The Blake Documents",
+  "config": "Biped Omnimech",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Compact Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ER Flamer (omnipod)",
+        "ER Flamer (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs"
+    },
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Gibson (Gibson Federated)"
+    },
+    {
+      "name": "Terra (Martinson)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Celestial Series AA1E"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Immortus 300 Compact Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy Gold"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Masterâs Voice Cel-Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Masterâs Sight 1-Omega"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Debuting in 3069, the Celestial series of OmniMechs are engineered to be used by the elite Word of Blake Manei Domini troops.",
+    "capabilities": "The Archangel is the largest of these. Designed to be an \"anchor\" for Word formations, the 'Mech is known as a \"zombie\" because of its ability to take extreme amounts of damage and continue operating. The Archangel features a compact fusion engine, compact gyro, a small cockpit, and nineteen and a half tons of standard armor, which frees up a large amount of internal space, while an Endo Steel frame opens up free tonnage, making heavier components possible. A C3i Computer helps direct and coordinate fire.",
+    "history": "An experimental testbed configuration sighted in use among the Blakist Shadow Divisions in 3075, the Caelestis config features a right arm mounted Thunderbolt 10 complimented by a Binary Laser Cannon in each side torso. Support weaponry comes in the form of a pair of Clan-tech ER Small Lasers in the left arm, two Clan ER Mediums in the center torso and a pair of head mounted ER Flamers. A single ton of thunderbolt missiles is carried, while seventeen double heat sinks keep its energy weapons firing."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

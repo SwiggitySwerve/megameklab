@@ -1,0 +1,221 @@
+{
+  "quirks": [
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Center Torso",
+      "item_type": "StreakSrm4"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Clan",
+  "chassis": "Guillotine IIC",
+  "model": "2",
+  "mul_id": "1346",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Unknown"
+    },
+    {
+      "name": "Angell II"
+    },
+    {
+      "name": "Weingarten"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Clan Modified Heavy Type X"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Clan Standard 280 series"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging OTR17b"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Clan Series Type 4 Heavy"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JNE Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Series VI KITT"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Guillotine IIC is a simple upgrade of the original Guillotine BattleMech using Clan technology.",
+    "capabilities": "This version of that venerable 'Mech uses double heat sinks and an Endo Steel internal structure to save weight. These weight savings were used to upgrade the 'Mech's weapon systems. The original twelve tons of armor was left unchanged.",
+    "deployment": "Developed during the Jihad in 3070, this variant was remodelled for close-quarter combat. The variant removes both Large Pulse Lasers, using the space for two additional ER Medium Lasers and a Targeting Computer to guide them. The SRM 6 is exchanged for a Streak SRM 4 Launcher and one ton of ammunition. The standard armor was exchanged for Ferro-Fibrous armor, and the 'Mech was equipped with six Improved Jump Jets.",
+    "history": "Although Clan Coyote created this upgrade, Clan Star Adder was the first to use it in combat in 2892. With the introduction of the OmniMech, most Guillotine IICs were relegated to second-line and solahma duty.\nmanufacturer:Omega Orbital Production Plant, Irian BattleMechs Unlimited (Refit ),  W-7 Facilities (Refit)"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 217
+  }
+}

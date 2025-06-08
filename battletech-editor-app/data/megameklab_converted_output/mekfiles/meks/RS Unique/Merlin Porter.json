@@ -1,0 +1,197 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISLargeLaser",
+      "location": "Right Torso",
+      "item_type": "1Islargelaser"
+    },
+    {
+      "item_name": "1 ISSRM4",
+      "location": "Left Torso",
+      "item_type": "1Issrm4"
+    }
+  ],
+  "era": 3064,
+  "tech_base": "Inner Sphere",
+  "chassis": "Merlin",
+  "model": "MLN-1B (Porter)",
+  "mul_id": "2179",
+  "source": "Record Sheets: Unique Mechs",
+  "config": "Biped",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 20,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Mountain Wolf BattleMechs"
+    },
+    {
+      "name": "Vandenberg Mechanized Industries"
+    },
+    {
+      "name": "Alpheratz"
+    },
+    {
+      "name": "New Vandenberg"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Heavy Star QAT-4"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 240"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Longanecker PlastiSteel with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Pitban LFT 50"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Magestrix Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Magestrix Gamma"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Merlin uses components that are all reliable and readily available, making the Merlin a durable and easy-to-repair 'Mech.",
+    "capabilities": "The 'Mech is powered by a Pitban 240 fusion engine that gives it a top speed of 64.8 km/h. The Merlin carries ten and a half tons of armor, which is a respectable amount of protection for its weight. Additionally, the Merlin carries eighteen heat sinks to handle its heavy heat load.",
+    "deployment": "A uniquely customized Merlin introduced in 3064, which was created by a tech named Porter Romero on the world Armington. He salvaged the 'Mech from a pirate raid during the 3060s. Using a wrecked militia Bulldog for parts, he replaced the ruined PPC and LRM-5 with the tank's Large Laser and SRM 4 Launcher as well as adding additional armor.",
+    "history": "The Merlin debuted in 3010 as a product of the rebuilt Mountain Wolf BattleMechs. The Merlin was hailed as a technological marvel at the time it was released, as it was the first completely new design to be developed in over 100 years."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 200
+  }
+}

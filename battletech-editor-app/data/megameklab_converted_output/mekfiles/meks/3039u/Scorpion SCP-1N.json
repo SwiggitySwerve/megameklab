@@ -1,0 +1,264 @@
+{
+  "quirks": [
+    "bad_rep_clan",
+    "bad_rep_is",
+    "hard_pilot"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "PPC",
+      "location": "Right Torso",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 2570,
+  "tech_base": "Inner Sphere",
+  "chassis": "Scorpion",
+  "model": "SCP-1N",
+  "mul_id": "2837",
+  "config": "Quad",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "mass": 55,
+  "engine": {
+    "rating": 330,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "IS Ammo SRM-6",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "PPC",
+        "PPC",
+        "PPC",
+        "SRM 6",
+        "SRM 6",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Brigadier"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vox"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Garret"
+    }
+  ],
+  "systemmode": "TARGETING:GRNDTRK 9",
+  "fluff_text": {
+    "overview": "Every company has their beginnings. Many know Brigadier Corporation as one of the industrial powerhouses of the Free Worlds League. But at first, Brigadier was little more than a contract manufacturer for existing Hegemony designs. Ambitionâalong with a healthy lust for profitsâwould eventually spurn Brigadier to lunge towards manufacturing their own in-house designs, which would be boldly launched with the Scorpion: a quad BattleMech. Though Dr. Harrison, a strong proponent for quad designs, claimed that his new Scorpion would revolutionize 'Mech warfare, the Scorpion turned out to be barely more than a boondoggle. Sales were low, and few mourned the loss of the main factory on Oliver when it was destroyed in 2837.",
+    "capabilities": "The Scorpion is typically armed with a reliable one-two weapon combination. A primary large energy weapon or autocannon opens up holes, while a missile weapon usually takes advantage of any exposed weaknesses. While powerful in theory, in practice the Scorpion mounts barely more firepower than 'Mechs twenty tons lighter. With armor coverage barely better than some light 'Mechs, a badly positioned Scorpion is easy prey for better-armed BattleMechs. Combined with the bucking, bumpy ride the Scorpion has to offer, few choose to voluntarily pilot the design.",
+    "deployment": "Scorpions can be found throughout every part of the Inner Sphere. They are not a common design, and the limitations of the Succession Wars lead many Successor States to neglect their Scorpions in favor of better, more reliable designs. Upgrade kits would eventually appear with the discovery of the Helm Core, which gradually lead to the base SCP-1N Scorpion remaining solely in the hands of poorer nations or mercenary commands."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 112
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "quirks": [
+    "stable",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Left Arm",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "PPC",
+      "location": "Right Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Head",
+      "item_type": "StreakSrm2"
+    }
+  ],
+  "era": 3065,
+  "tech_base": "Inner Sphere",
+  "chassis": "Bandersnatch",
+  "model": "BNDR-01B",
+  "mul_id": "219",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISStreakSRM2",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Bander BattleMechs"
+    },
+    {
+      "name": "Kressly WarWorks"
+    },
+    {
+      "name": "Terra Firma (Bander BattleMechs)"
+    },
+    {
+      "name": "Epsilon Eridani (Kressly WarWorks)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Bander Custom 1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Valiant Chainmail"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Winston Mega Boozee Mark IX"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Winston Sidewinder"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Bandersnatch, who receives his name from the monster mentioned in Lewis Carroll's \"Wonderland\" series, is the brainchild of Felifious Bander and is built around the concept of an affordable and effective BattleMech for sale to mercenary units.",
+    "capabilities": "The Bandersnatch is built using some common components with the Marauder in an attempt to make the 'Mech cheaper and easier to repair. The 'Mech has a top speed of 64.8 kph which is average for a 'Mech of its weight. The Bandersnatch also uses double heat sinks for their superior heat dissipation capabilities, allowing a heavy weapons payload to be used by the 'Mech. Finally, the Bandersnatch carries a respectable eleven tons of armor. While not the maximum amount of armor that the chassis can handle, the 'Mech is still well protected.",
+    "deployment": "A complete upgrade of the original design, the 01B variant replaces the XL engine with a Light Fusion Engine. To make up for the weight lost to the engine, the entire weapons arsenal has been re-evaluated and the 'Mech carries a new weapons compliment. The primary long-range weapons are a pair of LRM-5 launchers. For intermediate ranges, the 01B model carries an Ultra Autocannon/10 and a PPC providing it with a powerful punch. Finally, for close range combat, the 'Mech has four Medium Lasers and a Streak SRM-2 launcher."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 208
+  }
+}
