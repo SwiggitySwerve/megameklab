@@ -1,0 +1,232 @@
+{
+  "quirks": [
+    "searchlight",
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 3130,
+  "tech_base": "Clan",
+  "chassis": "Warhammer IIC",
+  "model": "12",
+  "mul_id": "6857",
+  "config": "Biped",
+  "source": "Record Sheets: 3145 New Tech New Upgrades",
+  "rules_level": "4",
+  "role": "Brawler",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XXL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLECMSuite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Heat-Dissipating",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Heat-Dissipating",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Snow Raven Industrial Complex Alpha"
+    },
+    {
+      "name": "Mu Manufacturing Plant 3H"
+    },
+    {
+      "name": "Sheridan LM-TA 8-10"
+    },
+    {
+      "name": "Dante"
+    },
+    {
+      "name": "Paxon"
+    },
+    {
+      "name": "Sheridan"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "SFX-80 Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 79 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown Heat-Dissipating Armor"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TDWS-37 Mk 2.2 with ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "âHephaestusâ CT-44"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Clan's interpretation on the classic Warhammer has never been subtle. The BattleMech's hyper-advanced technology only emphasized and improved its duty as a frontline brawler; boosting its mass by 10 tons (with equivalent increases in armor protection) made it even more powerful.",
+    "capabilities": "Thanks to their technological expertise, they were able to add ten tons with the same speed and firepower and nearly double the armor of the original. The Warhammer IIC is built on an Endo Steel frame and is protected by tons of ferro-fibrous armor. The result is a dangerous 'Mech, able to hold its own in any battle against the Inner Sphere. Also note that the armor was the primary concern when designing the IIC version rivaling even 100 ton assault 'Mechs in durability and protection.",
+    "deployment": "This version uses an XXL engine to reach top speeds of 86 km/h. Its weapon load hearkens back to the original Warhammer, carrying ER PPCs in the arms and a single ER Medium Laser and ER Small Laser in the left and right torso. An SRM-6 is also carried in the right torso, and an ECM Suite disrupts enemy communications and targeting. This version is protected by Heat-Dissipating Armor.",
+    "history": "The Warhammer IIC is now the most common Clan BattleMech in the Inner Sphere. These remarkable machines are fielded by every major Inner Sphere force, Clan, and many large mercenary groups. It is only found on the periphery, where its equally outstanding price tag is simply too high for these countries to justify."
+  },
+  "armor": {
+    "type": "Heat-Dissipating",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 230
+  }
+}

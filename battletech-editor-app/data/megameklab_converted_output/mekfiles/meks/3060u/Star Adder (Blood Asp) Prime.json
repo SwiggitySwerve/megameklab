@@ -1,0 +1,231 @@
+{
+  "quirks": [
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Center Torso",
+      "item_type": "StreakSrm6"
+    }
+  ],
+  "era": 3060,
+  "tech_base": "Clan",
+  "chassis": "Star Adder",
+  "clanname": "Blood Asp",
+  "model": "Prime",
+  "mul_id": "406",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 90,
+  "engine": {
+    "rating": 360,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 18,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "14",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Sheridan LM-TA 8-10"
+    },
+    {
+      "name": "Sheridan"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type MAES-90 Light"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Consolidated Fusion 360 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZZ7 Ceramic Plate"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Series D8 CC-25X"
+    },
+    {
+      "type": "TARGETING",
+      "name": "âHermesâ CT-42 Mk. II"
+    }
+  ],
+  "fluff_text": {
+    "overview": "One of the first 'Mechs to field the breakthrough Heavy Laser technology, the Blood Asp proves to be an offensive powerhouse. Delivering incredible damage at all ranges, the Blood Asp makes short work of any enemy regardless of size.",
+    "capabilities": "Based on the Kingfisher, the Blood Asp adds an XL engine, but space constraints forced the replacement of the Kingfisher's ferro-fibrous armor with standard plate. The Blood Asp incorporates sixteen tons of this armor and fourteen double heat sinks in the base chassis.",
+    "deployment": "The Blood Asp's primary weapons are a pair of Gauss rifles that can strip off nearly a ton of armor at the range of six hundred and sixty meters, though they do not have a lot of ammunition, so MechWarriors must be sparing with their shots. These are backed up by four Heavy Medium Lasers, a pair of Medium Pulse Lasers, and a Streak SRM-6 for close-range work. To aid in heat dissipation, the primary configuration incorporates four additional heat sinks.",
+    "history": "Created by Clan Star Adder as an insult to their enemies, Clan Blood Spirit, the Blood Asp has a large amount of available pod space for its size."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 256
+  }
+}

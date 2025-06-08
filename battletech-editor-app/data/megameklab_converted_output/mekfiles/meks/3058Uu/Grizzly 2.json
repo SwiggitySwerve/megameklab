@@ -1,0 +1,242 @@
+{
+  "quirks": [
+    "difficult_maintain",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ATM 9",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Torso",
+      "item_type": "ErMicroLaser"
+    }
+  ],
+  "era": 3063,
+  "tech_base": "Clan",
+  "chassis": "Grizzly",
+  "model": "2",
+  "mul_id": "1333",
+  "config": "Biped",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "JÃ¶tunn BattleWorx"
+    },
+    {
+      "name": "Bergan Industries - Alshain Weapons(formerly GK&T owned)"
+    },
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Goito"
+    },
+    {
+      "name": "Jarett"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type 56-45C Modified Endo Steel"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Arcadia Compound Delta VII Standard"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Clan Standard 14X Series"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T10B"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Series VI KITT"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grizzly is a multi-role heavy 'Mech with design elements shared with Clan Ghost Bear's two most common Omnis, the Vulture and the Gladiator. Because it lacks a specific combat emphasis, it has been plagued with the \"jack of all trades, master of none\" stigma and has never truly found a role in the Ghost Bear troops.",
+    "capabilities": "Despite problems in its designâits layers of sloped armor tend to lodge in place when destroyed, causing havoc with joints and even weapon portsâit is still used by several garrison troops. The Grizzly can jump and has a variety of weaponry that cover a wide spectrum of fighting ranges.",
+    "deployment": "During the Combine-Ghost Bear War, Star Captain Scott of the Gurdel Bloodhouse came to fame for his customized Grizzly that has reignited this failed design. A potent urban defender, Scott's loadout is now a standard, with old Grizzlies being recalled for refit. The variant keeps the Gauss rifle, but swaps out the pulse lasers for an ER Large Laser and six ER Micro Lasers. The missile launcher is replaced with an ATM 9 and two tons of ammunition that are usually High-Explosive rounds as they are the most useful in an urban environment. This refit is especially potent against infantry, both conventional and battle armor.",
+    "history": "Because it lacks a specific combat emphasis, it has been plagued with the \"jack of all trades, master of none\" stigma and has never truly found a role in the Ghost Bear troops.Â With reports of atrocities in the Rasalhague Republic during the current Jihad, the Bear Touman has began to reconsider this out-of-production design for immediate production in order to fast augment material for their anticipated entry into conflict. The Grizzly's production ended in 3013, yet there are still a big number of the design distributed around the Ghost Bear Touman. After the Combine War in 3063 revealed that the Combine was using combat armor personnel more successfully, a recent redesign of the Grizzly was tested. In tandem with the Golem battle armor project, the Technician and Scientist Caste set out to create a 'Mech design to compliment the urban-style defensive armor. Most deployed Grizzlys are being recalled to be reconfigured as a newer, more lethal urban defence variant."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 208
+  }
+}

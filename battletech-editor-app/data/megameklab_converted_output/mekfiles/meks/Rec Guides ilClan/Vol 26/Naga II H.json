@@ -1,0 +1,217 @@
+{
+  "quirks": [
+    "ext_twist",
+    "bad_rep_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyMediumLaser"
+    },
+    {
+      "item_name": "Heavy Small Laser",
+      "location": "Center Torso",
+      "item_type": "HeavySmallLaser"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Left Torso",
+      "item_type": "Lrm20"
+    }
+  ],
+  "era": 3059,
+  "tech_base": "Clan",
+  "chassis": "Naga II",
+  "model": "H",
+  "mul_id": "9326",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #26",
+  "rules_level": "2",
+  "role": "Brawler",
+  "weaponquirk": "stable_weapon:LA:2:CLGaussRifle",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Refit"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type BMH-7 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Fusion 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forged Type 34 Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Type G3, Mk. XII"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Version Kappa-III TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Naga II is a refashioned version of the early Clan Woodsman OmniMech, developed by Clan Wolf. This model diverged from the initial Woodsman design due to technical challenges with its XL engine and endo-steel structure, which led to the creation of the Naga and eventually the Naga II. The Naga II's existence is primarily attributed to necessity, utilized when more advanced OmniMechs are not available.",
+    "capabilities": "Engineered with a focus on heavy firepower, the Naga II serves as a formidable artillery platform. Its design allows for significant weapon customization due to its ample pod space. Despite its notable firepower, the Naga II is encumbered by lighter armor compared to contemporary OmniMechs. This makes it a suitable choice for specific combat roles, particularly in scenarios requiring heavy bombardment from a distance.",
+    "deployment": "The Naga II Model H is a formidable 80-ton Clan OmniMech, designed as a brawler with a focus on heavy-hitting weaponry. It operates with a 400 XL Clan Engine, encased in Clan Endo Steel for durability, and moves at a speed of 54 km/h.</p><p>Its armament is a blend of high-powered ballistic and energy weapons. The left arm is equipped with a Clan Gauss Rifle, offering devastating long-range firepower. For close to mid-range combat, the right arm mounts a Clan Heavy Large Laser, augmented by two Clan Heavy Medium Lasers, delivering intense energy bursts. A Clan Heavy Small Laser in the center torso provides additional firepower and flexibility in various combat situations.</p><p>An LRM 20 launcher in the left torso extends the Naga II H's reach, enabling it to engage targets at longer distances effectively. The Mechâs 16 Clan Double Heat Sinks efficiently manage the substantial heat generated, allowing for sustained fire in battle. The extended twisting capability and stable weapons platform of the Naga II H make it a formidable adversary in any combat scenario, capable of delivering a potent mix of precision and power.</p>",
+    "history": "The Naga II saw initial use within Clan Wolfâs garrison clusters after Operation Revival. Its combat effectiveness, however, was questioned following a notable engagement in 3055, where its vulnerabilities were exposed during a raid on Icar. Despite this, conversions from Naga to Naga II continued as situational demands arose. The Exiled Wolves also utilized the Naga II, notably during conflicts like the fall of Arc-Royal, further indicating the continued, albeit limited, relevance of the Naga II in modern Clan warfare. Its deployment, while effective in certain contexts, often highlights the trade-off between its powerful offensive capabilities and its defensive shortcomings."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

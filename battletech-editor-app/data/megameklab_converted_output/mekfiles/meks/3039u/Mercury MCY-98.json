@@ -1,0 +1,208 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISSmallLaser",
+      "location": "Head",
+      "item_type": "1Issmalllaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISSmallLaser",
+      "location": "Center Torso",
+      "item_type": "1Issmalllaser"
+    }
+  ],
+  "era": 2810,
+  "tech_base": "Inner Sphere",
+  "chassis": "Mercury",
+  "model": "MCY-98",
+  "mul_id": "4624",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Scout",
+  "weaponquirk": "mod_weapons:RA:4:Medium Laser",
+  "mass": 20,
+  "engine": {
+    "rating": 160,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "8",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISSmallLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Mitchell Vehicles"
+    },
+    {
+      "name": "Field Refits"
+    },
+    {
+      "name": "Sirius V"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Bergan MX II"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV 160"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Mitchell-091 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "DataTech 401"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Skyhunter IV Overview"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Mercury debuted for the first time in 2742, intended as a replacement for the aging Wasps and Stingers in use by the Star League Defense Force. Hailed as the beginning of a new age in 'Mech design, the Mercury was faster and better-armed than its competition without sacrificing armor protection.",
+    "capabilities": "It also featured an advancement in weapons installation, making use of a modular replacement system to allow for easier repairs. The ideal scout and raider, sales of the Mercury were limited exclusively to the SLDF.",
+    "deployment": "This variant of the Mercury is the downgraded version introduced during the Succession Wars in 2810. While it retains the same armament and engine of the original, the primary changes in the 'Mech is its armor, using standard plating in place of Ferro-Fibrous, and the MASC system, which has been removed to allow for the armor to be one ton heavier. These changes lower its maximum speed to 129.6 km/h and slightly increases the overall armor protection. It also features a Datacom communication system and Scarborough Track targeting system.",
+    "history": "After the Amaris Civil War and the dissolution of the Star League, those SLDF units which still fielded the Mercury were either stationed on Terra or at the Graham IV factory, all of whom left with General Kerensky in the Exodus. In the Succession Wars which followed, the Mercury factories were destroyed and the design teetered on the edge of the abyss. Of those SLDF units which stayed behind, the 3rd Regimental Combat Team had the highest concentration of the 'Mechs, with twelve Mercuries gathered together in the 8th Recon Battalion. All of them were ultimately lost during fighting on Sendai in 2798. As the years wore on those desperate few Mercuries still clinging to existence were increasingly rebuilt in haphazard fashion with less advanced and more shoddy parts until they ceased to look quite like the noble 'Mechs they once were. In the end nothing could be done to stop the decline of the Mercury and it eventually became extinct in the Inner Sphere. It was with some surprise that ComStar unveiled their Com Guards early in the thirty-first century, a brand-new military force fielding a number of extinct designs such as the Mercury. Precentor Martial Anastasius Focht even went so far as to restart three of the mothballed Mercury production lines on Terra to resume production of the original model. A new variant, the MCY-97, was unveiled in time to meet the Clan Invasion (the Clans had also preserved the Mercury, and indeed its revolutionary design was responsible for their development of the OmniMech). One of these lines was eventually turned over to making the Nexus in 3054 while the rest continued to produce so many Mercuries that the 'Mech's life was extended for several more years. This included the dark years of the Jihad, when the Word of Blake also used the Mercury to outfit their Militia."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 64
+  }
+}

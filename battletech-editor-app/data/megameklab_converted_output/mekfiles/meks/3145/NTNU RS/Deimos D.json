@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "anti_air"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Rotary AC/2",
+      "location": "Left Arm",
+      "item_type": "RotaryAc2"
+    },
+    {
+      "item_name": "Rotary AC/2",
+      "location": "Right Arm",
+      "item_type": "RotaryAc2"
+    },
+    {
+      "item_name": "Streak LRM 20",
+      "location": "Left Torso",
+      "item_type": "StreakLrm20"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Streak LRM 20",
+      "location": "Right Torso",
+      "item_type": "StreakLrm20"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3119,
+  "tech_base": "Clan",
+  "chassis": "Deimos",
+  "model": "D",
+  "mul_id": "6856",
+  "config": "Biped Omnimech",
+  "source": "Record Sheets: 3145 New Tech New Upgrades",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLAntiMissileSystem",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Snow Raven Industrial Complex Alpha"
+    },
+    {
+      "name": "Dante"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Model MHO-14E Endo-Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 255 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Longanecker PlastiSteel"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TDWS-37 Mk. 2.2"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Hermes CT-44"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Deimos is a Clan Assault OmniMech, which was developed by Clan Snow Raven.",
+    "capabilities": "The 85-tonner is powered by a Type 255-rated Extralight Fusion Engine, which it shares with the second-line Assault 'Mech, the Omen. Fourteen Double Heat Sinks are fitted to mitigate any heat issues that the 'Mech's systems may generate. Because its top speed is slower than more typical OmniMechs of the same size, engineers installed a MASC system, which allows the Deimos to go marginally faster and keep up with comparable older designs. The 'Mech is protected by 14.5 tons of Standard Armor, where it again differs from more typical contemporaries. Aside from its 43-ton equipment capacity, the 'Mech has a few permanently mounted weapons. These include two ER Medium Lasers, one assigned to each of the 'Mech's side torsos. To provide protection from inbound missile fire, an Anti-Missile System is mounted in the Deimos' head. The single ton of ammunition for the AMS is located in the center torso.",
+    "deployment": "The D configuration was introduced during the Dark Age era in 3119. It carries two Streak LRM-20s, two Rotary AC/2s, and two ER Medium Lasers. The single Anti-Missile System is retained.",
+    "history": "The 'Mech was first introduced during the middle of the 3060s, allegedly on the Kerensky Cluster world of Lum. However, Inner Sphere intelligence agencies stopped hearing rumors about the 'Mech during the Jihad and it faded from memory. In 3085, the Snow Ravens revealed the existence of the Deimos to the Inner Sphere. It was produced on the Clan's Inner Sphere world, Dante. When it first appeared in the Inner Sphere, the Deimos was considered the pride of the Clan and at least one was assigned to every cluster within the Snow Raven touman."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 232
+  }
+}

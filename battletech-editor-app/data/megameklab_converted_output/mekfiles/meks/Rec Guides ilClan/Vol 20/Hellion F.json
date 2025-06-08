@@ -1,0 +1,226 @@
+{
+  "quirks": [
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Left Arm",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Center Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Clan",
+  "chassis": "Hellion",
+  "model": "F",
+  "mul_id": "5659",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #20",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 210,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "8",
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLActiveProbe (omnipod)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Hector MechWorks Facility Alpha"
+    },
+    {
+      "name": "Prosoma War Works"
+    },
+    {
+      "name": "Svarstaad Industriplex Alpha"
+    },
+    {
+      "name": "Hector"
+    },
+    {
+      "name": "Valencia"
+    },
+    {
+      "name": "Svarstaad"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Hellion Light Endo Steel V5"
+    },
+    {
+      "type": "ENGINE",
+      "name": "210 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound Gamma Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "HCFA 3035 3.0"
+    },
+    {
+      "type": "TARGETING",
+      "name": "HCFA 3047 1.5"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Hellion is a product of Clan Ice Hellion and their philosophy that espouses speed above all else. Based on the Mist Lynx, the Hellion is a fast OmniMech that has respectable firepower.",
+    "capabilities": "This light 'Mech is rather difficult to kill, incorporating five and a half tons of Ferro-Fibrous armor. To save weight, the Hellion also uses an Endo Steel chassis. While it is not especially fast for its size, the Hellion does use MASC to allow for bursts of additional speed.",
+    "deployment": "This variant carries an Active Probe in the head. It also carries two AP Gauss Rifles, an ER Large Laser, ER Medium Laser, and ER Flamer. Finally an SRM-6 provides additional firepower."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 105
+  }
+}

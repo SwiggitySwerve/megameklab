@@ -1,0 +1,226 @@
+{
+  "quirks": [
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Heavy PPC",
+      "location": "Right Arm",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Inner Sphere",
+  "chassis": "Grigori",
+  "model": "C-GRG-OU Exanimus",
+  "mul_id": "1327",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "9",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISMASS (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs"
+    },
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Gibson (Gibson Federated)"
+    },
+    {
+      "name": "Terra (Martinson)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Celestial Series GG1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 240 Light Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Divine Shield-B Light Ferro"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Masterâs Voice Cel-Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Masterâs Sight 1-Omega"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grigori is one of the Word of Blake's new Celestial series OmniMechs designed by Doctor Devon Cortland.",
+    "capabilities": "It is constructed on a standard chassis, but makes use of eleven tons of Light Ferro-Fibrous armor, a light fusion engine, and an XL Gyro; as well as the small cockpit that is common to all of the Celestials. Like the other Celestials, the Grigori has a C3i Computer to help direct its fire.",
+    "deployment": "The Exanimus configuration is designed to defend underwater locations. Equipped with a quartet of UMUs, it can travel at approximately 46km/h underwater. The use of a MASS allows support forces to rescue the pilot in case of a hull breach. Unlike most designs intended for underwater combat, the armament of the Exanimus lacks torpedoes. Instead it carries a Heavy PPC, ER PPC, a pair of ER Medium Lasers and a pair of ER Small Lasers. To ensure it finds enemy forces early, it also carries a Beagle Active Probe.",
+    "history": "The Grigori (named after fallen angels from Christianity) was added to the Word of Blake Militia's arsenal in late 3069 as Doctor Cortland oversaw the final production personally."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 186
+  }
+}

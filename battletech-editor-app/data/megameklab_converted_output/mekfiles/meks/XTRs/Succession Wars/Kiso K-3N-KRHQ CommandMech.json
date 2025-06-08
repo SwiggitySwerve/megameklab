@@ -1,0 +1,241 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 2823,
+  "tech_base": "Inner Sphere",
+  "chassis": "Kiso",
+  "model": "K-3N-KRHQ CommandMech",
+  "mul_id": "5773",
+  "config": "Quad",
+  "source": "XTR: Succession Wars",
+  "rules_level": "4",
+  "mass": 100,
+  "engine": {
+    "rating": 200,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Command Console",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Searchlight",
+        "Searchlight",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Searchlight",
+        "Searchlight",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Heat Sink",
+        "Heat Sink",
+        "Machine Gun",
+        "Machine Gun",
+        "Machine Gun (R)",
+        "IS Machine Gun Ammo - Half",
+        "Communications Equipment (3 ton)",
+        "Communications Equipment (3 ton)",
+        "Communications Equipment (3 ton)",
+        "Lift Hoist",
+        "Lift Hoist",
+        "Lift Hoist",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "ISCollapsibleCommandModule",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Cargo Container (10 tons)",
+        "Cargo Container (10 tons)"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Cockpit",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Searchlight",
+        "Searchlight",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Searchlight",
+        "Searchlight",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "fluff_text": {
+    "history": "This mech is NOT valid. Command Console Isn't coded into MegaMek included for completeness."
+  },
+  "armor": {
+    "type": "Heavy Industrial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 248
+  }
+}

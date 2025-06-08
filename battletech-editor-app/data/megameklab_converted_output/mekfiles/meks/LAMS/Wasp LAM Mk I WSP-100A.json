@@ -1,0 +1,199 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Right Torso",
+      "item_type": "Lrm10"
+    }
+  ],
+  "era": 2697,
+  "tech_base": "Inner Sphere",
+  "chassis": "Wasp LAM Mk I",
+  "model": "WSP-100A",
+  "mul_id": "5393",
+  "config": "LAM",
+  "source": "TRO: 3085",
+  "rules_level": "3",
+  "role": "Scout",
+  "mass": 30,
+  "engine": {
+    "rating": 150,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Avionics",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Harvard Company"
+    },
+    {
+      "name": "Inc."
+    },
+    {
+      "name": "Epsilon Eridani"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Harvard 12K"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 150"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Light"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "GM ATO 100"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Rand 1200"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Rand LAMTar 100"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed right after the Stinger LAM proved the Land-Air 'Mech concept, the aerodynamic Wasp chassis also seemed to promise a successful conversion. However, weapon accuracy was severely hampered on initial prototypes. Only after the Harvard Company hired Katherine Piscalla was a successful Wasp LAM actually produced.",
+    "capabilities": "The Wasp LAM is similar to the Stinger LAM, maintaining the same ground and air speed. The only real difference is in the armament.",
+    "deployment": "This version of the Wasp LAM replaces the bomb bay with an LRM-10 launcher and an extra jump jet. This variant was later used as the inspiration for the Valkyrie.",
+    "history": "The Wasp LAM is able to convert from BattleMech to Aerospace Fighter faster than any other Land-Air 'Mech. The Wasp LAM also mounts no lostech (save the conversion equipment). The ease of use and ability to drop bombs from bomb bays made the Wasp LAM especially successful in air-to-ground strikes, no matter where that ground may be. During its first operation, Wasp LAMs were tasked with destroying a nuclear weapons facility orbiting in the Terran Oort Cloud in 2690. Generations of SLDF ground soldiers loved the Wasp LAM so much, they bestowed upon it the moniker \"angels on our shoulders\". The Wasp LAM was a highly sought-after prize, and a jealously guarded commodity when most of the Wasp LAM production facilities were destroyed shortly after the start of the First Succession War. By the thirty-first century, the Wasp LAM was an exceedingly rare sight within the Inner Sphere."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 64
+  }
+}

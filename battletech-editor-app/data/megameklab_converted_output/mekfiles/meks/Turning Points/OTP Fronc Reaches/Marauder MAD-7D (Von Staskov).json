@@ -1,0 +1,176 @@
+{
+  "quirks": [
+    "command_mech",
+    "hyper_actuator",
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Light AC/5",
+      "location": "Center Torso",
+      "item_type": "LightAc5"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Marauder",
+  "model": "MAD-7D (Von Staskov)",
+  "mul_id": "7697",
+  "config": "Biped",
+  "source": "Operational Turning Points: Fronc Reaches",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "imagefile": ".\\data\\images\\fluff\\mech\\Marauder 7D.jpg",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Light Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 228
+  }
+}

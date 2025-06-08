@@ -1,18 +1,13 @@
 // battletech-editor-app/pages/api/meta/equipment_categories.js
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
-
-const SQLITE_DB_FILE: string = "../../../battletech_dev.sqlite"; // Path relative to pages/api/meta
+import { Database } from 'sqlite';
+import { openDatabase } from '../../../services/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
   try {
-    db = await open({
-      filename: SQLITE_DB_FILE,
-      driver: sqlite3.Database,
-      mode: sqlite3.OPEN_READONLY // Open in readonly mode
-    });
+    db = await openDatabase(true); // Open in readonly mode
 
     const result: { type: string }[] = await db.all("SELECT DISTINCT type FROM equipment WHERE type IS NOT NULL AND TRIM(type) <> '' ORDER BY type ASC");
     const values: string[] = result.map(row => row.type);

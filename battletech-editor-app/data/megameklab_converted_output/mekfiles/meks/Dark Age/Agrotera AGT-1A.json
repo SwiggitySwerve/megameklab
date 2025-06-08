@@ -1,0 +1,185 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Right Arm",
+      "item_type": "MediumVspLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "SmallPulseLaser"
+    },
+    {
+      "item_name": "TAG",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3108,
+  "tech_base": "Inner Sphere",
+  "chassis": "Agrotera",
+  "model": "AGT-1A",
+  "mul_id": "6459",
+  "config": "Biped",
+  "source": "TRO: 3145 Capellan Confederation",
+  "rules_level": "3",
+  "role": "Striker",
+  "mass": 50,
+  "engine": {
+    "rating": 300,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "ejection": "Full Head Ejection System",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISTAG",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Agrotera is a medium BattleMech that would go on to serve in the armed forces of both the Magistracy of Canopus and its ally, the Capellan Confederation. Based on the Word of Blake's variant of the Phoenix Hawk, the Agrotera is designed as a multipurpose and ammunition-efficient design.",
+    "capabilities": "Designed with advanced technology in mind, the 'Mech's engineers outfitted the Agrotera with new advancements made during the Jihad. Like the 3060s redesigned Phoenix Hawk, the 'Mech is fitted with a Full-Head Ejection System, which allows for increased comfort and safety for the MechWarrior should its nine and a half tons of standard armor fail. A partial wing boosts mobility and cooling. The design also benefits from weight savings by being fitted with a Rawlings 300 XL extralight engine and an XL gyro. TAG equipment is fitted to allow the Agrotera to act as a spotter for friendly fire-support units.",
+    "deployment": "The Agrotera's long-range weapon is its Ceres Arms Smasher ER PPC, mounted in its left arm actuator, its accuracy enhanced with the fitting of an Actuator Enhancement System. In addition to the ER PPC, the 'Mech also has a single Diverse Optics medium variable speed pulse laser found in the right arm, a regular medium pulse laser, and a pair of Diverse Optics small pulse lasers, one on each of the side torsos as a means to deter infantry and battle armor threats.",
+    "history": "The design would see action with the MoC's 1st Magistracy Highlanders on Bethonolog in 3108 against more dangerous pirates, where a pair of Agroteras engaged a full lance of heavy BattleMechs. While trying to buy time for the rest of the Highlanders to arrive, the two 'Mechs managed to force the bandits into submission through the Agrotera's steady delivery of damaging blows against them while simultaneously outmaneuvering them. Their performance soon proved to be too much for the pirates, and the survivors surrendered just as the rest of the Highlanders' heavier units arrived on the scene.\nmanufacturer:Majesty Metals and Manufacturing\nprimaryfactory:Canopus IV\nsystemmanufacturer:CHASSIS:Earthwerks PXH II Reinforced Endo Steel\nsystemmanufacturer:ENGINE:Rawlings 300 XL\nsystemmanufacturer:ARMOR:Durallex Light\nsystemmanufacturer:JUMPJET:Rawlings 45 with Partial Wing\nsystemmanufacturer:COMMUNICATIONS:Tek BattleCom\nsystemmanufacturer:TARGETING:Tek Tru-Trak with TAG"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 152
+  }
+}

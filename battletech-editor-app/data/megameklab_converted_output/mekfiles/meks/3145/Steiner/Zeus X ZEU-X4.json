@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "command_mech",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "Light Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumXPulseLaser"
+    }
+  ],
+  "era": 3119,
+  "tech_base": "Inner Sphere",
+  "chassis": "Zeus-X",
+  "model": "ZEU-X4",
+  "mul_id": "6630",
+  "config": "Biped",
+  "source": "TRO: 3145 Lyran Commonwealth",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Command Console",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Cockpit",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Reactive",
+        "IS Reactive",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Reactive",
+        "IS Reactive",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Manufacturing Annex"
+    },
+    {
+      "name": "Kwangjong-ni"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Chariot III Ultralight Composite"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 400 XXL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Shockwave Reactive with CASE II"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TharHes Calliope ZE-5A2"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TharHes Ares-X9-B"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The original ZEU-X was a technological milestone. It was also an unwieldy mess of patchwork armor, reactive composites, and illogical short-range weapons, the limited manufacturing of which during the Civil War functioned only as propaganda. The following model was a massive failure, as the marriage of armored components and composite structure frequently ended in a pile of intact internal components as the only remains of a defeated ZEU-X2. A 3080s model was an inefficient jumping monster informed by Solaris research on the enigmatic Sasquatch. Only the sub-variant ZEU-WD series, which combined X-series improvements with conventional Zeus chassis, was a success.",
+    "capabilities": "Manufactured on by Defiance, the Zeus X was both a poster child for excellence in production engineering and an innovative high-technology platform, while at the same time struggling with emerging technologies.",
+    "deployment": "The Zeus X mounted a Corean Light Gauss Rifle with a ton of ammunition in the left arm, and a Doombud LRM-20 Launcher in the right arm, fed by two tons of ammunition stored in the right torso. A Defiance Model 6 Extended Range Large Laser was mounted in the left torso and a Defiance X5M Medium X-Pulse Laser in the center torso.",
+    "history": "The Zeus personifies Steiner's \"wall of steel.\" The LCAF's indigenous pride and joy was reportedly the ultimate demonstration that superior production quality could compensate for weak battlefield prowess. It was picked for a facelift after three centuries of steadfast service to demonstrate Defiance's reputation as one of the Inner Sphere's major manufacturers. The Zeus X is equal parts celebrity and cutting-edge high-tech platform. Its modifications bring the ancient BattleMech up to date, even by thirty-second-century standards. The Zeus X-series is characterised structurally by a massive engine and a light yet brittle structure coated in layers of experimental armor. These qualities were carefully integrated with appropriate equipment when the ZEU-X4 was ready for manufacturing in the late 3110. The thick reactive plating is now production quality and completely covers the 'Mech. The LCAF received a command 'Mech when a roomy rumble seat was upgraded to a full console. Armed with modest but effective weapons, the ZEU-X4 attacks foes who are nothing more than approaching blots on the horizon. end of the Third Succession War, with the resulting ZEU-6T variant being the standard during the Fourth Succession War and later the War of 3039. The design was also well received by mercenary units, particularly the Zeta Battalion of Wolf's Dragoons."
+  },
+  "armor": {
+    "type": "Reactive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 232
+  }
+}

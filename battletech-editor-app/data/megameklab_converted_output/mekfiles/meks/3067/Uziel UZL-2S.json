@@ -1,0 +1,180 @@
+{
+  "quirks": [
+    "cowl",
+    "bad_rep_is",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "PPC",
+      "location": "Left Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "PPC",
+      "location": "Right Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Center Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 3063,
+  "tech_base": "Inner Sphere",
+  "chassis": "Uziel",
+  "model": "UZL-2S",
+  "mul_id": "5331",
+  "config": "Biped",
+  "source": "TRO: 3067",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 50,
+  "engine": {
+    "rating": 300,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Built at Defiance Industries' Furillo plant, the Uziel is an effective medium 'Mech that is looked down upon by the LAAF simply because it is produced on Furillo and not at the prestigious Hesperus facility. A varied weapons mix makes the Uziel an excellent trooper 'Mech.",
+    "capabilities": "The Uziel is built on a Foundation E50 Endo Steel chassis that has a GM 300 XL engine that provides the 'Mech with a top speed of 97.2 km/h. The 'Mech's mobility is enhanced with six Rawlings 50 jump jets that allow the 'Mech to jump up to one hundred and eighty meters. The Uziel is armored with eight tons of Maximillian 100 armor that gives the Uziel adequate protection from enemy fire. To dissipate the heat produced by the 'Mech's weapons, it carries eleven double heat sinks.",
+    "deployment": "Based on the original prototype of the Uziel developed in 3063, the 2S carries a pair of PPCs as its primary weapons for long range combat. A SRM-6 launcher provides close combat capabilities and a pair of Machine Guns provide anti-infantry capabilities. A Beagle Active Probe allows the 'Mech to detect hidden units and protects the Uziel from ambushes.\nmanufacturer:Defiance Industries\nprimaryfactory:Furillo\nsystemmanufacturer:CHASSIS:Foundation E50 Endo Steel\nsystemmanufacturer:ENGINE:GM 300 XL\nsystemmanufacturer:ARMOR:Maximillian 100\nsystemmanufacturer:JUMPJET:Rawlings 50\nsystemmanufacturer:COMMUNICATIONS:Neil 6000-g\nsystemmanufacturer:TARGETING:RCA Instatrac Mark XXII"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 128
+  }
+}

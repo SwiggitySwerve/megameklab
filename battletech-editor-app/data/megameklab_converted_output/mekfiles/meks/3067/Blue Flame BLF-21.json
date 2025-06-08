@@ -1,0 +1,250 @@
+{
+  "quirks": [
+    "directional_torso_mount",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Left Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Right Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Head",
+      "item_type": "StreakSrm2"
+    }
+  ],
+  "era": 3062,
+  "tech_base": "Inner Sphere",
+  "chassis": "Blue Flame",
+  "model": "BLF-21",
+  "mul_id": "3840",
+  "config": "Quad",
+  "source": "TRO: 3067",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 45,
+  "engine": {
+    "rating": 225,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISERLargeLaser",
+        "ISERLargeLaser",
+        "ISStreakSRM2",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "ISERLargeLaser",
+        "ISERLargeLaser",
+        "ISStreakSRM2",
+        "IS Streak SRM 2 Ammo",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISC3iUnit",
+        "ISC3iUnit"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISStreakSRM2",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 169
+  }
+}

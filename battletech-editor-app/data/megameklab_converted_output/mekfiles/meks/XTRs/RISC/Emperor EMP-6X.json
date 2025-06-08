@@ -1,0 +1,180 @@
+{
+  "quirks": [
+    "combat_computer",
+    "command_mech",
+    "non_standard"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "RISC Hyper Laser",
+      "location": "Left Arm",
+      "item_type": "RiscHyperLaser"
+    },
+    {
+      "item_name": "RISC Hyper Laser",
+      "location": "Right Arm",
+      "item_type": "RiscHyperLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Head",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 3136,
+  "tech_base": "Mixed (IS Chassis)",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-10-27",
+  "chassis": "Emperor",
+  "model": "EMP-6X",
+  "mul_id": "964",
+  "config": "Biped",
+  "source": "XTRO RISC",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "weaponquirk": "imp_cooling:RA:3:ISRISCHyperLaser",
+  "mass": 90,
+  "engine": {
+    "rating": 360,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Super-Cooled",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sink_kit": "RISC Heat Sink Override Kit",
+  "heat_sinks": {
+    "count": 18,
+    "type": "Clan Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Medium Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Void Signature System",
+        "ISSuperCooledMyomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Void Signature System",
+        "ISSuperCooledMyomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 48,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 38,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 279
+  }
+}

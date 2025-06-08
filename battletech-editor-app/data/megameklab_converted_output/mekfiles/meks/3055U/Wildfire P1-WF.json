@@ -1,0 +1,167 @@
+{
+  "quirks": [
+    "non_standard",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMachine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "1 ISMachine Gun",
+      "location": "Head",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "1 ISLargePulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Islargepulselaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISSmallPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Issmallpulselaser"
+    },
+    {
+      "item_name": "1 ISStreakSRM2",
+      "location": "Right Leg",
+      "item_type": "1Isstreaksrm2"
+    },
+    {
+      "item_name": "1 ISStreakSRM2",
+      "location": "Left Leg",
+      "item_type": "1Isstreaksrm2"
+    }
+  ],
+  "era": 3053,
+  "tech_base": "Inner Sphere",
+  "chassis": "Wildfire",
+  "model": "P1-WF",
+  "mul_id": "5409",
+  "config": "Biped",
+  "source": "Unbound",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "mass": 65,
+  "engine": {
+    "rating": 390,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "cockpit": "Torso-Mounted Cockpit",
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Sensors",
+        "Sensors",
+        "ISMachine Gun",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISStreakSRM2",
+        "Ferro-Fibrous",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISStreakSRM2",
+        "Ferro-Fibrous"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 197
+  }
+}

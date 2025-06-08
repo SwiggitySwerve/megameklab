@@ -1,0 +1,167 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "imp_target_med"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Rotary AC/5",
+      "location": "Right Torso",
+      "item_type": "RotaryAc5"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Legionnaire",
+  "model": "LGN-2X1 MUSE FIRE",
+  "mul_id": "1864",
+  "config": "Biped",
+  "source": "XTR: Davion",
+  "rules_level": "4",
+  "role": "Striker",
+  "weaponquirk": "exposed_linkage:RT:4:CLRotaryAC5",
+  "mass": 50,
+  "engine": {
+    "rating": 350,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Torso-Mounted Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Sensors",
+        "Sensors",
+        "CLRotaryAC5 Ammo",
+        "CLRotaryAC5 Ammo",
+        "CLRotaryAC5 Ammo",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 152
+  }
+}

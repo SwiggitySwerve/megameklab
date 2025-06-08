@@ -14,6 +14,8 @@
 /properties_local.gradle
 /.idea/
 /.vscode/
+*.sqlite
+/node_modules
 
 /megameklab/.gradle/
 /megameklab/.idea/

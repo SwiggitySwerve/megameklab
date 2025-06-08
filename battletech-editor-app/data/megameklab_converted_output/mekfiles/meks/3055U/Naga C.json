@@ -1,0 +1,212 @@
+{
+  "quirks": [
+    "ext_twist",
+    "bad_rep_clan",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Arrow IV",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Arrow IV",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 2869,
+  "tech_base": "Clan",
+  "chassis": "Naga",
+  "model": "C",
+  "mul_id": "2249",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3055",
+  "rules_level": "3",
+  "role": "Missile Boat",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Manufacturing Plant WA3"
+    },
+    {
+      "name": "Arcadia"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type BMH-7 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Fusion 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forged Type 34 Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Type G3, Mk. XII"
+    },
+    {
+      "type": "TARGETING",
+      "name": "ArTrack 2 TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Naga BattleMech, named for its resemblance to a mythological cobra, stands as an unusual design in a culture that values personal glory and ritual combat. Originating from Clan Wolf, the Naga was developed from a modified Woodsman chassis, equipped to carry a pair of Arrow IV launchers. Despite initial skepticism due to its focus on indirect fire support rather than direct combat, the Naga quickly demonstrated its strategic value on the battlefield.",
+    "capabilities": "The primary role of the Naga is to provide sustained artillery support while maintaining a degree of mobility. Its standard configuration emphasizes this role, equipped with six tons of missile ammunition but minimal short-range defense,",
+    "deployment": "The Naga C, a variant of the 80-ton Clan OmniMech, maintains its role as an artillery support unit with a focus on mixed-range combat. It features a robust 400 XL (Clan) Engine encased in a Clan Endo Steel structure, granting it notable speed and strength for its class.<p>Equipped with dual Arrow IV missile systems in the torso, the Naga C excels in long-range bombardment, similar to other models in its series. However, it diverges from its counterparts by including an SRM 6 launcher, enhancing its effectiveness in closer combat situations. This addition, along with a pair of ER Small Lasers, gives the Naga C a more balanced approach to battlefield engagements, allowing it to effectively support its allies in both long-range artillery strikes and more direct skirmishes. The inclusion of short-range missiles alongside its long-range arsenal makes the Naga C a versatile asset on the battlefield, capable of adapting to various combat scenarios.</p>",
+    "history": "First deployed in the mid-2900s, the Naga's adoption across various Clans was gradual. Its effectiveness was convincingly demonstrated during the battle for Tukayyid, where Clan Wolf's Naga-equipped artillery Stars played a pivotal role. Notably, the Nagas were instrumental in Wolfâs victory at Brzo and Skupo, significantly weakening ComStarâs Tenth Army. This success led to its wider acceptance and deployment among several other Clans, including the Hellâs Horses, Snow Ravens, Star Adders, Cloud Cobras, and in limited numbers, the Jade Falcons."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

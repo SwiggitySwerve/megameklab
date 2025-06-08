@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "imp_target_long",
+    "imp_target_med"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3073,
+  "tech_base": "Clan",
+  "chassis": "Clint IIC",
+  "model": "2",
+  "mul_id": "653",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 40,
+  "engine": {
+    "rating": 240,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLECMSuite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Eden Rose [Potemkin Class]/Facility 12-D (Refit)"
+    },
+    {
+      "name": "Snow Raven Industrial Complex Alpha (Refit)"
+    },
+    {
+      "name": "Eden Rose [Potemkin Class]"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "SR 2830/b"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 81 Fusion 240 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Alpha Compound Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Andoran Model JJII-Improved"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Raldon R1 with ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Sloane 220 Lockover System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Clan refit of the prototyle Clint the SLDF took into exile. Primarily designed as a cheap recon unit, with the capabilities of a well-armed, low-end medium weight 'Mech, and in this regard it served well.",
+    "capabilities": "It is capable of ranging far beyond supply lines thanks to its four tons of ammunition, though it only uses 10 single heat sinks and seven tons of standard armor.",
+    "deployment": "Developed during the Jihad in 3073, the Clint IIC 2 was fitted with an all-energy weapons configuration. The 'Mech mounts five medium pulse lasers divided amongst its center torso, left torso, and right arm; one in each of the torso locations, and the remaining three in the arm. This variant has been provided eight improved jump jets to greatly enhance its mobility in tactical situations. To cope with the new levels of heat, 10 double heat sinks are used instead of the single versions. Additionally, an ECM suite has been allocated to the head. Lastly, ferro-fibrous armor now protects the design in place of the original standard armor.",
+    "history": "When General Aleksandr Kerensky led most of the Star League Defense Force into exile in 2784, they brought prototypes of the Clint BattleMech with them. After the annihilation of Clan Wolverine, Clan Snow Raven revisited these prototypes and was able to begin mass-production of the 'Mech in 2830 and introduced them in 2842. They ensured that it kept up with advances in Clan technology, eventually becoming the design that is now known as the Clint IIC. Production ceased in 2917, and in the late 30th century, the Ravens decided to decommission many less-effective designs of all sorts. It seemed fortuitous, then, when Clan Blood Spirit offered to trade some of their WarShips to the Ravens in exchange for ground units. The Ravens were only too happy to get rid of vehicles that were going to be stockpiled anyways, so many Clint IICs found their way into Clan Blood Spirit, but most of them were subsequently destroyed during the Spirits' conflict with the Adders and Burrocks. The waning fortunes of the Clint IIC were reversed in 3052, when the Ravens restarted production of the 'Mech to trade to the invading Clans for resources from the Inner Sphere."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 134
+  }
+}

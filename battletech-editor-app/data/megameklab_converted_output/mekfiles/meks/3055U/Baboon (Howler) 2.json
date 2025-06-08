@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "ext_twist",
+    "low_profile",
+    "searchlight"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ATM 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ATM 3",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3063,
+  "tech_base": "Clan",
+  "chassis": "Baboon",
+  "clanname": "Howler",
+  "model": "2",
+  "mul_id": "190",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 20,
+  "engine": {
+    "rating": 120,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Novy Minsky Armaments Plant"
+    },
+    {
+      "name": "New Kent"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type-A Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "General Systems 120 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Type 2 Ferro Fibrous w/CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Mercer 973"
+    },
+    {
+      "type": "TARGETING",
+      "name": "GEG Pattern 490/1"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Howler is a potent missile boat for its size. Meant to provide fire support to light garrison Stars.",
+    "capabilities": "It is relatively fast for a 'Mech its size, topping out at 119 km/h. Its good speed and armament is made possible by the use of an endo steel structure and three tons of ferro-fibrous armor.",
+    "deployment": "The Howler was redesigned by Clan Steel Viper scientists to improve their light second-line units after the Clan was expelled from the Inner Sphere by Clan Jade Falcon. A smaller extralight engine provides the space for four ATM-3s along with two tons of ammunition. Though the 'Mech's running speed is reduced, it uses MASC to accelerate to 130 km/h in short bursts.",
+    "history": "The Howler (or Baboon, as the Inner Sphere calls it) was first seen in Clan Jade Falcon's second-line Clusters. Once thought to be unique to that Clan, the design has now appeared among the Snow Ravens, Star Adders, and Steel Vipers.Â The Steel Vipers returned to the Clan homeworlds and restructured their touman after the Jade Falcons kicked them out of the Inner Sphere occupied zones. Aside from improvements in front-line troops, numerous second-line units gained new people and equipment. Steel Vipers addressed the needs of its heavy forces with designs like as the Matador, Scylla, the heavy laser form of the Phoenix Hawk IIC, and the upgraded version of the Viper. Lighter second-line BattleMech formations, on the other hand, lagged behind. The Viper Khans explored acceptable designs to correct this imbalance and eventually settled on the successful Baboon."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 57
+  }
+}

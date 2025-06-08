@@ -1,0 +1,204 @@
+{
+  "quirks": [
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 CLUltraAC10",
+      "location": "Right Arm",
+      "item_type": "1Clultraac10"
+    },
+    {
+      "item_name": "1 CLLRM15",
+      "location": "Left Arm",
+      "item_type": "1Cllrm15"
+    },
+    {
+      "item_name": "2 CLMediumPulseLaser",
+      "location": "Left Torso",
+      "item_type": "2Clmediumpulselaser"
+    },
+    {
+      "item_name": "1 CLERMediumLaser",
+      "location": "Center Torso",
+      "item_type": "1Clermediumlaser"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Clan",
+  "chassis": "Hoplite",
+  "model": "C",
+  "mul_id": "1540",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 55,
+  "engine": {
+    "rating": 220,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Blackwell Corporation (Refit)"
+    },
+    {
+      "name": "Outreach"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League HO-01a"
+    },
+    {
+      "type": "ENGINE",
+      "name": "DAV 220"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown Clan Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "MultiGab 2000"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban HiRez II"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Martinson Armaments designed the Hoplite as a support 'Mech for deployment alongside the infantry divisions of the newly formed Star League Defense Force.",
+    "capabilities": "The Hoplite is slow for a medium 'Mech, with a top speed of only 64.8 km/h. However its 11.5 tons of armor and heavy arsenal, both impressive for a 'Mech of its size, makes the Hoplite a rugged machine able to fight its way out of most situations using superior firepower.",
+    "deployment": "Developed after the Battle of Luthien, the Hoplite C is a variant exclusively used by the Wolf's Dragoons that uses all Clan technology. Clad in 10 tons of ferro-fibrous and fitted with double heat sinks, the 'Mech carries a UAC/10 as its primary weapon, supported by an LRM-15 launcher for long-range engagements, and two medium pulse lasers and an ER medium laser for close range combat",
+    "history": "The Hoplite first saw service with the newly formed Star League Defense Force during the Reunification War before being relegated to Terran Hegemony militia units in the twenty-seventh century. While every Hoplite in the Inner Sphere was destroyed during the Amaris Crisis and the early Succession Wars, Aleksandr Kerensky's SLDF exiles found the simple and rugged design ideal for bolstering their forces in the months prior to the Exodus Civil War. Selected by Wolf's Dragoons in the belief that the ancient design wouldn't arouse undue attention, it had the complete opposite effect, and only raised more questions as to the Dragoons' origins when they arrived in 3005. After the mercenaries cut ties with the Clan Homeworlds in 3020, they also lost access to replacement Hoplites, with attrition bringing the design close to extinction by the Jihad. During the Jihad, when the surviving Dragoons relocated to Arc-Royal, experimental refits were performed on the remaining Hoplites, which continued after the conflict's end."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 185
+  }
+}

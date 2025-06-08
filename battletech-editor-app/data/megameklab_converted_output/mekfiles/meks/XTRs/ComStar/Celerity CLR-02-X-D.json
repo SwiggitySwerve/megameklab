@@ -1,0 +1,260 @@
+{
+  "quirks": [
+    "prototype",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [],
+  "era": 3052,
+  "tech_base": "Inner Sphere",
+  "chassis": "Celerity",
+  "model": "CLR-02-X-D",
+  "mul_id": "5553",
+  "config": "Quad",
+  "source": "XTR: ComStar",
+  "rules_level": "4",
+  "role": "Scout",
+  "mass": 15,
+  "engine": {
+    "rating": 240,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "16",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Heat Sink",
+        "ISMASC",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISDroneOperatingSystem",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISC3iUnit",
+        "ISC3iUnit",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "Comstar"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unknown"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unknown"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unknown"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unknown"
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 16
+  }
+}

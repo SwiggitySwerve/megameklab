@@ -1,0 +1,179 @@
+{
+  "quirks": [
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 2766,
+  "tech_base": "Inner Sphere",
+  "chassis": "Victor",
+  "model": "VTR-9B (Kataga)",
+  "mul_id": "6969",
+  "config": "Biped",
+  "source": "Historical Turning Points: New Dallas",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Victor was built in 2508 under contract to the Terran Hegemony as a support 'Mech with jump capabilities.",
+    "capabilities": "Standing at 14 meters tall, the Victor approaches the concept of support in an unorthodox way for a 'Mech of its weight class. While only possessing a ground speed of 64.8 km/h, the Victor achieves a high degree of mobility instead through the use of four jump jets, allowing it to jump up to one hundred and twenty meters. A Victor can therefore \"support\" friendly units by jumping directly into the fray and bringing its deadly close range arsenal to bear, an ability which can surprise inexperienced MechWarriors and prove advantageous in mountainous terrain. One sacrifice made for this superb mobility is the 'Mech's relatively light armor of only eleven and a half tons, while the lack of proper anti-infantry capabilities is a minor problem.",
+    "deployment": "This custom Victor was used by SLDF Major General Carlos Kataga. It upgrades the engine to a 320 XL, and the chassis to Endo Steel. This allowed for a 30% increase in overall armor, which was rebalanced towards the front. The AC/20 was upgraded to a Gauss Rifle and the two Medium Lasers and SRM 4 were replaced with Large Pulse Lasers, two Medium Lasers, and a Beagle Active Probe. The heat sinks were upgraded to double strength.",
+    "history": "An estimated one thousand Victors had been produced by the time the Star League fell. Many of these left with Aleksandr Kerensky during the Exodus, and when HildCo Interplanetary's three Victor factories were destroyed during the First Succession War, the 'Mech became a prized target with all sides scrambling to salvage serviceable units. Only Independence Weaponry retained the ability to build new Victors, and with their capture by the Federated Suns during the Second Succession War it became the AFFS' primary assault 'Mech and a favorite command model for battalion and regimental commanders. Though the Draconis Combine would eventually retake the company following the War of 3039, most Kurita samurai were too proud to adopt a 'Mech now associated with their enemy, while the Davions made do with purchasing new models from the rebuilt HildCo factory in the St. Ives Compact and funding the construction of Styk's Tao MechWorks.\nmanufacturer:Field Refit\nprimaryfactory:Various\nsystemmanufacturer:CHASSIS:HildCo Type V-E\nsystemmanufacturer:ENGINE:Pitban 340 XL\nsystemmanufacturer:ARMOR:Durallex Heavy\nsystemmanufacturer:JUMPJET:HildCo Model 12\nsystemmanufacturer:COMMUNICATIONS:Opus III Highbeam\nsystemmanufacturer:TARGETING:MaLandry 34"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 39,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 240
+  }
+}

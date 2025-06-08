@@ -1,0 +1,193 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "command_mech",
+    "distracting",
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Torso",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "Rotary AC/5",
+      "location": "Right Arm",
+      "item_type": "RotaryAc5"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3139,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Atlas II",
+  "model": "AS7-DK-H",
+  "mul_id": "8459",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #24",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 100,
+  "engine": {
+    "rating": 400,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ferro-Fibrous",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ferro-Fibrous",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The technologically-advanced Hegemony counterpart to the SLDF's regular army's AS7-D Atlas, the Atlas II was exclusively reserved for SLDF Royal Regiments.",
+    "capabilities": "The weapons payload gives the design more broad range attack ability versus the Atlas's brawling weaponry and its limited long range attack capacities.",
+    "deployment": "The Atlas II is armed with an array of weaponry, including an LB-X Autocannon/10, a pair of ER Large Lasers, and a 20-tube Long Range Missile Launcher for long range attacks. For close range combat, the 'Mech is equipped with a pair of Medium Pulse Lasers and a Holly Six Pack. In addition, the 'Mech has been given CASE for both sides of the torso in order to keep an ammunition cook-off from consuming the 'Mech.",
+    "history": "First fielded in 2765, the Atlas II was designed by the Hegemony Research and Development Department, Weapons Division of the original Star League to maintain the technological edge over the other Great Houses. It was exclusively for the SLDF's Royal Regiments. In 2785, when General Aleksandr Kerensky put out his call for loyal forces to join him in his Exodus, every Atlas II pilot responded and left with him. These 'Mechs are prized by the Clans when they were found. One such 'Mech was spotted in 3052 during the Battle of Tukayyid. In the early 3070s, the design was resurrected by the Word of Blake when they captured Hesperus II's factories. After the liberation of Defiance Industries, Devlin Stone's coalition forces kept the 'Mechs in production.\nmanufacturer:Defiance Industries\nprimaryfactory:Hesperus II\nsystemmanufacturer:CHASSIS:Foundation Type 10X\nsystemmanufacturer:ENGINE:Vlar 300\nsystemmanufacturer:ARMOR:StarSlab/2 Ferro Fibrous with CASE II\nsystemmanufacturer:JUMPJET:Army Comm Class 5\nsystemmanufacturer:COMMUNICATIONS:Army Corporation Type 29K"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 295
+  }
+}

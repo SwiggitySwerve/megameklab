@@ -1,0 +1,176 @@
+{
+  "quirks": [
+    "imp_com",
+    "rugged_1",
+    "searchlight",
+    "difficult_eject"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Binary Laser (Blazer) Cannon",
+      "location": "Left Arm",
+      "item_type": "BinaryLaserBlazerCannon"
+    },
+    {
+      "item_name": "Binary Laser (Blazer) Cannon",
+      "location": "Right Arm",
+      "item_type": "BinaryLaserBlazerCannon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3124,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Viper",
+  "model": "VP-7",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mul_id": "9489",
+  "source": "Rec Guide:ilClan #32",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLActiveProbe",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

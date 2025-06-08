@@ -1,0 +1,181 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargePulseLaser"
+    },
+    {
+      "item_name": "ER Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumPulseLaser"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Left Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Left Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumPulseLaser"
+    },
+    {
+      "item_name": "AP Gauss Rifle",
+      "location": "Right Torso",
+      "item_type": "GaussRifle"
+    }
+  ],
+  "era": 3150,
+  "tech_base": "Mixed (Clan Chassis)",
+  "generator": "MegaMek Suite 0.49.16-SNAPSHOT on 2023-12-29",
+  "chassis": "Vixen",
+  "clanname": "Incubus",
+  "model": "9",
+  "mul_id": "7544",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #7",
+  "rules_level": "3",
+  "role": "Striker",
+  "weaponquirk": "jettison_capable:RA:4:CLERLargePulseLaser",
+  "mass": 30,
+  "engine": {
+    "rating": 270,
+    "type": "XXL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "9",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Reflective",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Reflective",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 104
+  }
+}

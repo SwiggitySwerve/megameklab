@@ -1,0 +1,217 @@
+{
+  "quirks": [
+    "imp_sensors"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Flamer",
+      "location": "Left Arm",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Right Arm",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Torso",
+      "item_type": "StreakSrm6"
+    }
+  ],
+  "era": 3076,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Stealth",
+  "model": "STH-5X",
+  "mul_id": "5130",
+  "config": "Biped",
+  "source": "XTR: Steiner",
+  "rules_level": "4",
+  "role": "Striker",
+  "mass": 45,
+  "engine": {
+    "rating": 315,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Chameleon Light Polarization Shield",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Chameleon Light Polarization Shield",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "General Motors"
+    },
+    {
+      "name": "Kathil"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "GM Stealth Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 315 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Medium"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "100AFVTA"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dalban Micronics"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban HiRez with Active Probe"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Stealth is a heavy scout 'Mech that is in use by the Federated Suns and the Lyran Alliance.",
+    "capabilities": "The 'Mech has a GM 315 XL Engine that allows the Stealth to move at speeds of 118.8 kph and the MASC system on board can push the 'Mech to 151.2 kph in short bursts. This amazing mobility is augmented by jump jets which the Stealth can use to jump up to two hundred and ten meters. The Stealth is also outfitted with a Cyclops-Beagle Sensory Active Probe that the Stealth can use to find hidden enemy units.",
+    "deployment": "This version uses an experimental Composite Structure as its skeleton. An XL Engine and MASC allow this Stealth variant to reach speeds of 140km/h. In addition, several Clan spec systems have been installed on the chassis, including an Active Probe, ECM Suite, a Streak SRM-6, and a trio of ER Medium Lasers. Two arm mounted ER Flamers provide anti-infantry capabilities. Most interesting is the use of a Chameleon Light Polarization Shield to make this Stealth live up to its name."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 143
+  }
+}

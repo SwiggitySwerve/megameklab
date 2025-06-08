@@ -1,0 +1,221 @@
+{
+  "quirks": [
+    "command_mech",
+    "ext_twist",
+    "imp_com",
+    "pro_actuator",
+    "ubiquitous_clan",
+    "ubiquitous_is",
+    "cramped_cockpit"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Laser",
+      "location": "Right Arm",
+      "item_type": "LargeLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Head",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 2816,
+  "tech_base": "Inner Sphere",
+  "chassis": "Wolverine",
+  "model": "WVR-6M",
+  "mul_id": "3572",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "weaponquirk": "jettison_capable:RA:4:Large Laser",
+  "mass": 55,
+  "engine": {
+    "rating": 275,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Medium Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs (A Division of Free Worlds Defense Industries)"
+    },
+    {
+      "name": "Kallon Weapon Industries"
+    },
+    {
+      "name": "Gibson"
+    },
+    {
+      "name": "Thermopolis"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Crucis-A"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Core Tek 275"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Maximillian 60"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Northrup 12000"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T11-b"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Sync Tracker(39-42071)"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Wolverine commonly served as a heavy scout unit. Often deployed in situations where heavy opposition could easily destroy lighter BattleMechs, it has had a reliable service record ever since its initial deployment within the Star League Defense Force. With respectable armor, speed, and firepower, it can easily outfight lighter enemy scouts and defend itself capably if ambushed.",
+    "capabilities": "The autocannon, missile system and laser found on most Wolverines are all reliable and well-storied systems. Unfortunately, the jump jets suffer from an opposing reputation; the Northrup 12000's are underpowered and prone to breakdowns. The one defining system to be found on the Wolverine, however, are its superb Tek BattleCom and Garret T11-b communications systems. The comgear, regardless of the manufacturer, is well-shielded and features a multi-channel transmitter and receiver, making the Wolverine a powerful Command BattleMech for scouting formations.",
+    "deployment": "Eventually becoming the sole variant manufactured by Kallon's Thermopolis plant, the 6M was introduced in 2816 after Lyran raiders destroyed the plant's stockpiles of GM Whirlwind autocannons in the later years of the First Succession War. Boasting increased firepower and endurance as a strike raider, Kallon fitted a Magna Mk III large laser into the GM's semi-detachable mount. The weight saved also allowed the Marik designers to add a second Medium Laser to the right arm, as well as two additional Heat Sinks to help with the extra heat load, and one more ton of armor for added protection. Unlike the similar 6K, the 6M still retains the five jump jets of the 6R, though this causes it to run hot in heavy combat.",
+    "history": "A widespread part of every major military, the Wolverine has manufacturing plants scattered throughout the entire Inner Sphere. While certain states-notably the Free Worlds League-have larger numbers of the design, only the Capellans began facing a shortage of the Wolverine after the loss of their Nanking facilities."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 168
+  }
+}

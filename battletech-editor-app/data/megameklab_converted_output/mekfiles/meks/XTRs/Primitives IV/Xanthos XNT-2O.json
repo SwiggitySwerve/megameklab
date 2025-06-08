@@ -1,0 +1,320 @@
+{
+  "quirks": [
+    "pro_actuator",
+    "bad_rep_is",
+    "obsolete",
+    "poor_performance",
+    "prototype",
+    "unbalanced"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Laser",
+      "location": "Left Torso",
+      "item_type": "LargeLaser"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Left Torso",
+      "item_type": "Srm4"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Torso",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "AC/10",
+      "location": "Right Torso",
+      "item_type": "Ac10"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Head",
+      "item_type": "SmallLaser"
+    }
+  ],
+  "era": 2564,
+  "tech_base": "Inner Sphere",
+  "chassis": "Xanthos",
+  "model": "XNT-2O",
+  "mul_id": "3603",
+  "config": "Quad",
+  "source": "XTR: Primitives IV",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 360,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 18,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Large Laser",
+        "Large Laser",
+        "SRM 4",
+        "Medium Laser",
+        "Small Laser (R)",
+        "IS Ammo SRM-4",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Autocannon/10",
+        "Medium Laser",
+        "IS Ammo AC/10",
+        "IS Ammo AC/10",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Small Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "Hollis Incorporated"
+    },
+    {
+      "name": "Taurus Territorial Industries"
+    },
+    {
+      "name": "Osaka Heavy Metrics"
+    },
+    {
+      "name": "Hollis Incorporated"
+    },
+    {
+      "name": "Corey"
+    },
+    {
+      "name": "Illiushin"
+    },
+    {
+      "name": "Togura"
+    },
+    {
+      "name": "Tsinghai"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unknown"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unknown"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unknown"
+    }
+  ],
+  "fluff_text": {
+    "overview": "<p>The Xanthos, a trailblazing four-legged BattleMech, represents a significant leap in Mech engineering. Developed by Hollis Inc. under the guidance of Dr. David Harrison, it was a pioneering attempt to create a stable and robust firing platform. Introduced in 2564, the Xanthos combined the vision of advanced Mech technology with practical battlefield application. Despite its challenging debut and initial design hurdles, the Xanthos was a harbinger of the technological advancements to come, influencing subsequent Mech designs like the Scorpion and Goliath. Its unique quad-legged structure set it apart in the realm of BattleMechs, making it a notable addition to the arsenals of House Liao and, later, various elite units across the Inner Sphere.</p>",
+    "capabilities": "<p>The refined Xanthos emerged as a formidable assault Mech, well-equipped for enduring combat. Boasting over twenty tons of armor and twenty-three heat sinks, it was designed for sustained battlefield presence. Its armament included a long-range PPC and a powerful GE autocannon, complemented by a trio of lasers and an SRM-6 for close-quarters engagement. Despite limited ammunition for the autocannon and missile rack, the Xanthosâs energy weapons provided ample firepower for cleanup operations, making it a reliable asset in prolonged engagements. The Mech's design evolution overcame initial hurdles, cementing its status as a solid assault platform.</p>",
+    "deployment": "An early prototype, now mostly found in museums or landfills, used heavier and outdated components, lighter weaponry, and fewer heat sinks compared to the 3O.",
+    "history": "<p>The Xanthos's history is marked by both innovation and adversity. Born from Hollis Inc.'s foray into BattleMech construction, the Xanthos was a bold step into uncharted design territory. Dr. Harrison's vision of a stable, four-legged Mech was ahead of its time but faced challenges due to Hollis's inexperience and secretive development approach. The early versions of the Xanthos, particularly the 2O prototype, were plagued by mechanical and design inefficiencies, resulting in poor performance during Star League trials.</p><p>Despite these initial failures, the Xanthos eventually found a degree of success with House Liao, though issues with delivery and changing military needs led to its decline by the Second Succession War. Hollis Inc.'s financial struggles and the eventual success with the BattleMaster marked a turning point for the company, but the Xanthos remained a symbol of early technological ambition.</p><p>The rediscovery of the Hegemony Memory Core in the 3070s led to a resurgence of interest in the Xanthos design. Newer variants, incorporating modern technologies and refinements, were developed and deployed by various factions, including the Capellan Confederation, Lyran Commonwealth, and mercenary units. These modern iterations of the Xanthos demonstrated the enduring potential of Dr. Harrison's original concept, adapted to the evolving demands of futuristic warfare.</p>"
+  },
+  "armor": {
+    "type": "Primitive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 160
+  }
+}

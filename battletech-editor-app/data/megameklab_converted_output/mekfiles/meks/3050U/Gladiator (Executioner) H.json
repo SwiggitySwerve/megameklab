@@ -1,0 +1,180 @@
+{
+  "quirks": [
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Ultra AC/20",
+      "location": "Left Arm",
+      "item_type": "UltraAc20"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Left Torso",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3059,
+  "tech_base": "Clan",
+  "chassis": "Gladiator",
+  "clanname": "Executioner",
+  "model": "H",
+  "mul_id": "1208",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 95,
+  "engine": {
+    "rating": 380,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "15",
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Fast and powerful, the Executioner, known as the Gladiator in the Inner Sphere, is an assault OmniMech often deployed by Clan Ghost Bear. Though originally produced by Clan Ghost Bear, design schematics for the Executioner were actually acquired in a trial with Clan Burrock. Using a massive Heavy Force 380 XL Engine, the Executioner has a top speed of 64.8 km/h. A MASC system enhances the top speed to 86.4 km/h (albeit only in short bursts), and four permanently mounted Pryzhok WM10 jump jets give the 'Mech the ability to propel itself 120 meters into the air. This unusual emphasis on speed gives the Executioner unmatched speed for its weight class, as it is often capable of keeping up with 'Mechs twenty or thirty tons lighter than itself. The Executioner also carries thirteen and a half tons of Ferro-Fibrous armor, which is below average for its weight class, but generally adequate. Sixteen double heat sinks are mounted to cool the 'Mech down.",
+    "capabilities": "Using recently developed heavy laser technology, the Executioner H specializes in close combat, and mounts a Heavy Large Laser for prodigious medium-range firepower. Complementing the laser is a devastatingly powerful Ultra Autocannon/20. Supporting this heavy firepower is a pair of ER Medium Lasers and a Flamer, which is very effective against infantry, and is also a powerful tactical weapon.",
+    "deployment": "Even though the design has not been used since the 3060s, the Home Clans withdrew it from use after the Wars of Reaving, possibly due to its reputation with the Spheroid Clans like Clan Ghost Bear.\nmanufacturer:Alshain BattleWorx\nprimaryfactory:Alshain\nsystemmanufacturer:CHASSIS:Clan Series Assault SXE\nsystemmanufacturer:ENGINE:380 Heavy Force XL\nsystemmanufacturer:ARMOR:Arcadia Compound Delta VII Ferro-Fibrous\nsystemmanufacturer:JUMPJET:Pryzhok WM 10\nsystemmanufacturer:COMMUNICATIONS:Dash-2 Optima\nsystemmanufacturer:TARGETING:HakkÃ¸n-Morris LAP"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 259
+  }
+}

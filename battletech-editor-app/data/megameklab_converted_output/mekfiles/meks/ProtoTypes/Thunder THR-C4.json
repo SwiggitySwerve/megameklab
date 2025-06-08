@@ -1,0 +1,196 @@
+{
+  "quirks": [
+    "cowl",
+    "hard_pilot",
+    "easy_maintain",
+    "reinforced_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Head",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISThunderbolt20",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3083,
+  "tech_base": "Inner Sphere",
+  "chassis": "Thunder",
+  "model": "THR-C4",
+  "mul_id": "5230",
+  "config": "Biped",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "source": "TRO: Prototypes",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISMediumXPulseLaser",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Ceres Metals Industries"
+    },
+    {
+      "name": "Sian"
+    },
+    {
+      "name": "Capella and St. Ives"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Hollis Mk III"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 350 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Ceres Heavy with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Ceres Metals Model 21-Rs"
+    },
+    {
+      "type": "TARGETING",
+      "name": "C-Apple Churchill"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thunder is a product of the aftermath of the Fourth Succession War.",
+    "capabilities": "This version of the Thunder replaces the heavy autocannon with a Sian/Ceres Hellcat Thunderbolt 20 missile launcher. It also mounts three Ceres Arms ER Medium Lasers and a single Ceres Arms Model X Medium X-Pulse Laser for close combat. The XL engine is smaller than the standard Thunders engine, reducing the top speed to 64 km/h. To offset this loss of speed, the C4 mounts six Anderson High Propulsion 12s Improved Jump Jets. For protection against ammunition explosions, the four tons of Thunderbolt ammunition is protected by CASE II. Built on an Endo Steel chassis, the rest of the 'Mech is covered in thirteen tons of armor.",
+    "history": "The 'Mech was built to make the most of new technologies that had made their way to the Capellan Confederation at the beginning of the 3050s. This was done by building the 'Mech around a Magna 350 XL Engine to maximize the available weight in the 'Mech. The Thunder also uses double heat sinks to make it capable of handling a high heat load from its weapons systems. The 'Mech is well protected with thirteen and a half tons of armor. Its weapons payload, and the design in general, uses a mix of advanced and off the shelf parts. This balanced mix makes the Thunder a valuable asset on the modern battlefield."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

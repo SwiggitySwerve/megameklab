@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
-
-const SQLITE_DB_FILE: string = "battletech_dev.sqlite";
+import { Database } from 'sqlite';
+import { openDatabase, safeJsonParse } from '../../services/db';
 
 interface EquipmentData {
   era?: string;
@@ -48,25 +47,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let queryParamsForLog: any[] = [];
 
   try {
-    db = await open({
-      filename: SQLITE_DB_FILE,
-      driver: sqlite3.Database
-    });
-
-    if (id) {
+    db = await openDatabase();    if (id) {
       const result: Equipment | undefined = await db.get<Equipment>(
-        'SELECT id, name, type, tech_base, era, source, data FROM equipment WHERE id = ?',
+        'SELECT id, name, type, tech_base, data FROM equipment WHERE id = ?',
         [id]
-      );
-      if (!result) {
+      );      if (!result) {
         return res.status(404).json({ message: 'Equipment not found' });
       }
       if (result.data && typeof result.data === 'string') {
-        result.data = JSON.parse(result.data) as EquipmentData;
+        result.data = safeJsonParse(result.data, {} as EquipmentData);
       }
       // Augment with data from the blob if available
-      result.era = result.data?.era || result.era;
-      result.source = result.data?.source || result.source;
+      result.era = result.data?.era || null;
+      result.source = result.data?.source || null;
 
       return res.status(200).json(result);
     } else {
@@ -86,9 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           whereConditions.push(`type IN (${placeholders})`);
           queryParams.push(...types);
         }
-      }
-
-      if (tech_base_array) {
+      }      if (tech_base_array) {
         const techBases: string[] = Array.isArray(tech_base_array) ? tech_base_array : (typeof tech_base_array === 'string' ? tech_base_array.split(',') : []);
         if (techBases.length > 0) {
           const placeholders: string = techBases.map(() => `?`).join(', ');
@@ -97,15 +88,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
 
-      if (era_array) {
-        const eras: string[] = Array.isArray(era_array) ? era_array : (typeof era_array === 'string' ? era_array.split(',') : []);
-        if (eras.length > 0) {
-          const placeholders: string = eras.map(() => `?`).join(', ');
-          whereConditions.push(`era IN (${placeholders})`);
-          queryParams.push(...eras);
-        }
-      }
-
+      // We can't filter by era directly since it's in the data JSON
+      // The era_array filter would need custom JSON processing
+      
       let whereClause: string = '';
       if (whereConditions.length > 0) {
         whereClause = ' WHERE ' + whereConditions.join(' AND ');
@@ -114,11 +99,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const countQueryString: string = `SELECT COUNT(*) AS total ${mainQueryFrom}${whereClause}`;
       queryStringForLog = countQueryString; // Log this version
       queryParamsForLog = [...queryParams]; // Log params for count
-      const totalResult: { total: any } | undefined = await db.get(countQueryString, queryParams);
-      const totalItems: number = parseInt(totalResult?.total, 10) || 0;
+      const totalResult: { total: any } | undefined = await db.get(countQueryString, queryParams);      const totalItems: number = parseInt(totalResult?.total, 10) || 0;
 
-      let mainQueryString: string = `SELECT id, name, type, tech_base, era, source, data ${mainQueryFrom}${whereClause}`;
-      const validSortColumns: string[] = ['id', 'name', 'type', 'tech_base', 'era'];
+      let mainQueryString: string = `SELECT id, name, type, tech_base, data ${mainQueryFrom}${whereClause}`;
+      const validSortColumns: string[] = ['id', 'name', 'type', 'tech_base'];
       const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'name';
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
       mainQueryString += ` ORDER BY "${effectiveSortBy}" ${effectiveSortOrder}`;
@@ -130,17 +114,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const finalQueryParams: any[] = [...queryParams, limitValue, offsetValue];
       queryStringForLog = mainQueryString; // Log this version
-      queryParamsForLog = finalQueryParams;
-
-      let items: Equipment[] = await db.all<Equipment[]>(mainQueryString, finalQueryParams);
-
-      items = items.map(row => {
+      queryParamsForLog = finalQueryParams;      let items: Equipment[] = await db.all<Equipment[]>(mainQueryString, finalQueryParams);      items = items.map(row => {
         if (row.data && typeof row.data === 'string') {
-          row.data = JSON.parse(row.data) as EquipmentData;
+          row.data = safeJsonParse(row.data, {} as EquipmentData);
         }
         // Augment with data from the blob if available
-        row.era = row.data?.era || row.era;
-        row.source = row.data?.source || row.source;
+        row.era = row.data?.era || null;
+        row.source = row.data?.source || null;
         return row;
       });
 

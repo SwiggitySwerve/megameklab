@@ -1,0 +1,146 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 CLERFlamer",
+      "location": "Left Arm",
+      "item_type": "1Clerflamer"
+    },
+    {
+      "item_name": "1 CLLargePulseLaser",
+      "location": "Right Torso",
+      "item_type": "1Cllargepulselaser"
+    },
+    {
+      "item_name": "1 ISLightPPC",
+      "location": "Right Arm",
+      "item_type": "1Islightppc"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Hermes II",
+  "model": "HER-7S",
+  "mul_id": "1505",
+  "config": "Biped",
+  "source": "XTR: Marik",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 40,
+  "engine": {
+    "rating": 320,
+    "type": "XXL Fusion Engine",
+    "manufacturer": "Inner Sphere"
+  },
+  "structure": {
+    "type": "Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double (Inner Sphere)"
+  },
+  "walk_mp": "8",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 120
+  }
+}

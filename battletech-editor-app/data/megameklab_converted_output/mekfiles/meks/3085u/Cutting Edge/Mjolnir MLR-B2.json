@@ -1,0 +1,159 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Inner Sphere",
+  "chassis": "Mjolnir",
+  "model": "MLR-B2",
+  "mul_id": "2194",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "3",
+  "role": "Scout",
+  "weaponquirk": "accurate:LA:4:Mace",
+  "mass": 25,
+  "engine": {
+    "rating": 150,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 80
+  }
+}

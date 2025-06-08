@@ -1,0 +1,171 @@
+{
+  "quirks": [
+    "ext_twist",
+    "exp_actuator",
+    "bad_rep_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumPulseLaser"
+    },
+    {
+      "item_name": "ER Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumPulseLaser"
+    },
+    {
+      "item_name": "ER Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargePulseLaser"
+    },
+    {
+      "item_name": "Light TAG",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3084,
+  "tech_base": "Clan",
+  "generator": "MegaMek Suite 0.49.16-SNAPSHOT on 2023-12-29",
+  "chassis": "Beowulf IIC",
+  "mul_id": "3818",
+  "config": "Biped",
+  "source": "TRO: Prototypes",
+  "rules_level": "2",
+  "role": "Scout",
+  "weaponquirk": "em_interference:RA:4:CLERLargePulseLaser",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLLightTAG",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 153
+  }
+}

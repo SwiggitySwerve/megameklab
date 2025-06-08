@@ -1,0 +1,216 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 3074,
+  "tech_base": "Inner Sphere",
+  "chassis": "Uni",
+  "model": "ATAE-70T CargoMech",
+  "mul_id": "7175",
+  "config": "Quad",
+  "source": "Record Sheets: Vehicle Annex - IndustrialMechs & Exoskeletons",
+  "rules_level": "3",
+  "role": "Ambusher",
+  "mass": 70,
+  "engine": {
+    "rating": 210,
+    "type": "Fuel Cell Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Industrial Triple-Strength",
+    "manufacturer": null
+  },
+  "cockpit": "Industrial Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 1,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Lift Hoist/Arresting Hoist (R)",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Cargo Container (10 tons)",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Industrial Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "cargo": "SIZE:3.5",
+  "right_torso": "",
+  "center_torso": "",
+  "armor": {
+    "type": "Commercial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

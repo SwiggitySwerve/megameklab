@@ -1,0 +1,189 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "weak_head_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ATM 9",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Left Torso",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Torso",
+      "item_type": "Lrm20"
+    }
+  ],
+  "era": 3076,
+  "tech_base": "Clan",
+  "chassis": "Tundra Wolf",
+  "mul_id": "3315",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "imagefile": ".\\data\\images\\fluff\\Mech\\3076Tundra Wolf.jpg",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 231
+  }
+}

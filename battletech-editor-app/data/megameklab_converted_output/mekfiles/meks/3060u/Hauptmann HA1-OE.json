@@ -1,0 +1,211 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "ext_twist"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "MML 5",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 5",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3073,
+  "tech_base": "Inner Sphere",
+  "chassis": "Hauptmann",
+  "model": "HA1-OE",
+  "mul_id": "1425",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 95,
+  "engine": {
+    "rating": 285,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "11",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Coventry Metal Works"
+    },
+    {
+      "name": "Coventry"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Coventry HAI III"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 285"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Glasgow Limited with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TharHes Muse 54-58S"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Cyclops 9c"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The first OmniMech both designed and built by the Lyran Alliance. The OmniMech is named after the rank held by officers in the LAAF.",
+    "capabilities": "The Hauptmann is built on a standard chassis and powered by a 285 fusion engine, adding to the 'Mech's durability as it cannot be killed by a side torso loss. The Hauptmann has eleven double heat sinks fixed on the chassis and can add more if needed in its various configurations. For protection, the Hauptmann carries eighteen and a half tons of armor and has CASE fixed in the right torso to protect against an ammunition explosion.",
+    "deployment": "The E Configuration was, like the D configuration, developed during the Jihad. It was designed to use a large quantity of range-weaponry as its primary focus. The Hauptmann's right arm is fitted with a Gauss Rifle with 2 tons of ammunition mounted in that section. In the left arm, a Plasma Rifle has been fitted. Both arms have their lower arm actuators removed to allow for the pilot to flip arms. The Plasma Rifle's 2 tons of ammunition are stored in the left arm and in the left torso. The 'Mech's only secondary weapons are a pair of 5-Tubed Multi-Missile Launchers mounted in each side torso. The Hauptmann has been given 3 tons of CASE protected ammunition for the missile weaponry.",
+    "history": "The inspiration for the Hauptmann is drawn from the Daishi OmniMech used by the Clans. Using information from captured Daishis and data gleaned from the construction of the Firestarter OmniMech, which was shared by the Draconis Combine, the end result is a powerful OmniMech capable of defending itself in most combat situations."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 293
+  }
+}

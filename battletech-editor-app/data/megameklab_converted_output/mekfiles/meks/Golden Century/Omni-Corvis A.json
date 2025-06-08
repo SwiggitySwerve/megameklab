@@ -1,0 +1,205 @@
+{
+  "quirks": [
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Small Pulse Laser",
+      "location": "Head",
+      "item_type": "SmallPulseLaser"
+    }
+  ],
+  "era": 2921,
+  "tech_base": "Clan",
+  "chassis": "Omni-Corvis",
+  "model": "A",
+  "mul_id": "7611",
+  "config": "Biped Omnimech",
+  "source": "TRO: Golden Century",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "manufacturers": [
+    {
+      "name": "Niles Industriplex Alpha"
+    },
+    {
+      "name": "Tokasha"
+    },
+    {
+      "name": "Niles"
+    }
+  ],
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLSmallPulseLaser (OMNIPOD)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Ferro-Fibrous",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 153
+  }
+}

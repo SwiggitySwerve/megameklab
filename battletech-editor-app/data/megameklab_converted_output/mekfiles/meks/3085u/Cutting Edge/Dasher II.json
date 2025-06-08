@@ -1,0 +1,177 @@
+{
+  "quirks": [
+    "poor_performance"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Right Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    },
+    {
+      "item_name": "ER Micro Laser",
+      "location": "Left Arm",
+      "item_type": "ErMicroLaser"
+    }
+  ],
+  "era": 3077,
+  "tech_base": "Clan",
+  "chassis": "Dasher II",
+  "mul_id": "848",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Scout",
+  "mass": 40,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "10",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 57
+  }
+}

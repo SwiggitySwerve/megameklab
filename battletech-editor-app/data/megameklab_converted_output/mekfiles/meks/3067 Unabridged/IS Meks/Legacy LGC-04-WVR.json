@@ -1,0 +1,205 @@
+{
+  "quirks": [
+    "directional_torso_mount",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Snub-Nose PPC",
+      "location": "Left Torso",
+      "item_type": "SnubNosePpc"
+    },
+    {
+      "item_name": "Snub-Nose PPC",
+      "location": "Right Torso",
+      "item_type": "SnubNosePpc"
+    }
+  ],
+  "era": 3072,
+  "tech_base": "Inner Sphere",
+  "chassis": "Legacy",
+  "model": "LGC-04-WVR",
+  "mul_id": "5702",
+  "config": "Biped",
+  "source": "Record Sheets: Record Sheets: 3067 Unabridged",
+  "rules_level": "3",
+  "role": "Brawler",
+  "weaponquirk": "direct_torso_mount:LT:2:ISSNPPC",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Light Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Skobel MechWorks"
+    },
+    {
+      "name": "Russia"
+    },
+    {
+      "name": "Terra"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Skobel Template 8 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 240"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Aldis Plate with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "CurtissJet 80"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Skobel Wave VII Comm with C3i Computer"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Falcon 15 Watcher"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Legacy was produced as a testbed for new technologies, including the Ultra AC/10 and C3i Computer.",
+    "capabilities": "They upgraded its targeting system and included the C3i, which allows six units to coordinate fire. Its thick armor protection, standard fusion engine, and CASE give the Legacy remarkable staying power on the battlefield. One of the weaknesses of the 'Mech is its slow speed compared to other 'Mechs of similar size, but the inclusion of jump jets sought to counter that with superior maneuverability.",
+    "deployment": "This Legacy uses the same frame and engine as the 03 model but uses a Compact Gyro to provide enough room to add MASC. This means it can reach a speed of 86km/h. The weaponry has been replaced with a pair of Snub-Nose PPCs, and the hand actuators have been replaced by Claws. The standard armor is replaced by Light Ferro-Fibrous.",
+    "history": "At the request of Word of Blake Precentor Martial Cameron St. Jamais. The designers used a failed Star League 'Mech called the Rising Star as the base for the Legacy."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 245
+  }
+}

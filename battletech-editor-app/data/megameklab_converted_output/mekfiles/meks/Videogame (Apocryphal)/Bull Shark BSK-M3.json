@@ -1,0 +1,212 @@
+{
+  "quirks": [
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Improved Autocannon/5",
+      "location": "Left Arm",
+      "item_type": "ImprovedAutocannon5"
+    },
+    {
+      "item_name": "AC/10",
+      "location": "Left Arm",
+      "item_type": "Ac10"
+    },
+    {
+      "item_name": "Improved Autocannon/5",
+      "location": "Right Arm",
+      "item_type": "ImprovedAutocannon5"
+    },
+    {
+      "item_name": "AC/10",
+      "location": "Right Arm",
+      "item_type": "Ac10"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Left Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "LRM 5",
+      "location": "Right Torso",
+      "item_type": "Lrm5"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 3035,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Bull Shark",
+  "model": "BSK-M3",
+  "config": "Biped",
+  "source": "Videogame (Apocryphal)",
+  "rules_level": "3",
+  "mass": 95,
+  "engine": {
+    "rating": 285,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ammo AC/10",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ammo AC/10",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "\"This is something brand-new to me, Commander. I don't know where this 'Mech came from, but it's a serious force to be reckoned with because of its heavy weaponry and nearly impenetrable armor. Quite a find!\" - Yang Virtanen",
+    "deployment": "The Bull Shark is a 95-ton Assault 'Mech described as a \"Heavy Brawler\", and is equipped to engage targets across a fairly wide range bracket. This Inner Sphere production variant uses conventional and rediscovered 'tech, unlike its original prototype, and carries a more versatile loadout and hardpoint set-up. A pair of LRM-5s and one ton of ammo are fitted to each torso, while medium lasers replace the original extended range versions. Each arm mounts a standard AC/10 and an Improved AC/5. The design features two tons of AC/10 ammo and one ton of AC/5 ammo. The replacement of the original's Thumper Artillery Cannon allows the chassis to carry a full 18.5 tons of armour, providing protection that nearly rivals an Atlas.  Only ten Single Heat Sinks mounted in the engine fight to keep the 'Mech from burning up, with MechWarriors needing to keep careful track of their heat generation.",
+    "history": "Following the discovery and subsequent loss of the original Bull Shark BSK-MAZ aboard the abandoned jumpship Dobrev, the shadowy organisation known as the Baumann Group set to recreate the design. While the original 'Mech was lost to them during a conflict with the Black Widow Company, a large equipment cache of mysterious origin was still aboard and available for them to use, primarily consisting of seemingly cast-off but high-quality autocannons. After a few years of design and production set-up, the initial results were less than desirable, with the 'Mech unable to match its original's speed without sacrificing firepower or armour. The rediscovery of Endo-Steel and Extralight Fusion Engine manufacturing in 3035, around a decade after the original Bull Shark had been lost, allowed the Baumann Group to progress their recreation further. With their influence and black market dealings, they sourced the new material and engines for their efforts. Using standard Inner Sphere weaponry - paired with the Improved Autocannons from the Dobrev - a limited run of BSK-M3s were produced and sold to those with the right connections and enough C-Bills to afford the exotic-looking new 'Mechs.\nmanufacturer:Baumann Group",
+    "notes": "The following regards derivation of the design: Improved Autocannons must be used to fit in the arms. Assume they are from a Clan equipment stash found aboard the Dobrev where the MAZ prototype was discovered. Inner Sphere Endo-Steel and XL engines are reintroduced in 3035 in the Combine and Commonwealth respectively. Assume the well-connected Baumann Group was able to source these for limited production.  Design runs 2 tons light. This is legal; or alternatively view that if normal AC-5s were (somehow) fitted as with HBS' design in the videogame, it would come to 95 tons total.\nsystemmode:CHASSIS:Endo-Steel\nsystemmode:ENGINE:285 XL\nsystemmode:ARMOR:Standard\nsystemmanufacturer:JUMPJET:N/A\nsystemmode:JUMPJET:N/A"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 293
+  }
+}

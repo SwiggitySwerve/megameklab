@@ -1,0 +1,170 @@
+{
+  "quirks": [
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Long Tom Cannon",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-11-09",
+  "chassis": "Victor",
+  "model": "VTR-9K2 (St. James)",
+  "mul_id": "3412",
+  "config": "Biped",
+  "source": "XTR: Pirates",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ferro-Fibrous",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Ferro-Fibrous",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Victor was built in 2508 under contract to the Terran Hegemony as a support 'Mech with jump capabilities.",
+    "capabilities": "Standing at 14 meters tall, the Victor approaches the concept of support in an unorthodox way for a 'Mech of its weight class. While only possessing a ground speed of 64.8 km/h, the Victor achieves a high degree of mobility instead through the use of four jump jets, allowing it to jump up to one hundred and twenty meters. A Victor can therefore \"support\" friendly units by jumping directly into the fray and bringing its deadly close range arsenal to bear, an ability which can surprise inexperienced MechWarriors and prove advantageous in mountainous terrain. One sacrifice made for this superb mobility is the 'Mech's relatively light armor of only eleven and a half tons, while the lack of proper anti-infantry capabilities is a minor problem.",
+    "deployment": "After his son was killed in the Taurian Concordat invasion of the Federated Suns, Benedict St. James had his VTR-9K refitted with experimental weapons and equipment to allow him to take his revenge. Replacing the standard weapons with a Long Tom Cannon and two Medium X-Pulse Lasers, St. James' Victor can inflict massive amounts of damage on his prey. The 'Mech's jump jets had to be removed to make way for the weapons load, and technicians equipped it with a patchwork of Ferro-Fibrous and Standard Armor as another weight saving measure. A Supercharger mounted on the engine provides the Victor with unexpected bursts of speed.",
+    "history": "An estimated one thousand Victors had been produced by the time the Star League fell. Many of these left with Aleksandr Kerensky during the Exodus, and when HildCo Interplanetary's three Victor factories were destroyed during the First Succession War, the 'Mech became a prized target with all sides scrambling to salvage serviceable units. Only Independence Weaponry retained the ability to build new Victors, and with their capture by the Federated Suns during the Second Succession War it became the AFFS' primary assault 'Mech and a favorite command model for battalion and regimental commanders. Though the Draconis Combine would eventually retake the company following the War of 3039, most Kurita samurai were too proud to adopt a 'Mech now associated with their enemy, while the Davions made do with purchasing new models from the rebuilt HildCo factory in the St. Ives Compact and funding the construction of Styk's Tao MechWorks. By the time of the Clan Invasion new models of Victors were being produced which incorporated new-found lostech into their design. The formation of the Second Star League and destruction of Clan Smoke Jaguar would finally win the design acceptance by Combine warriors, while the conquest of Styk and St. Ives by the Capellan Confederation forced the Federated Commonwealth to contract General Motors to build more Victors. Though it had officially fallen out of favor, during the FedCom Civil War the Victor remained the favorite of Allied forces, with newer variants seeing use in the years afterwards\nmanufacturer:Field Refit\nprimaryfactory:Field Refit\nsystemmanufacturer:CHASSIS:Alshain Class 920 Endo Steel\nsystemmanufacturer:ENGINE:Pitban 340\nsystemmanufacturer:ARMOR:Various\nsystemmanufacturer:COMMUNICATIONS:Sipher Security Plus\nsystemmanufacturer:TARGETING:Matabushi Sentinel"
+  },
+  "armor": {
+    "type": "Patchwork",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 0,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 35
+  }
+}

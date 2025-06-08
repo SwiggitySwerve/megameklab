@@ -1,0 +1,163 @@
+{
+  "quirks": [
+    "exp_actuator",
+    "weak_legs",
+    "distracting",
+    "imp_sensors",
+    "bad_rep_is",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "LargePulseLaser"
+    }
+  ],
+  "era": 3074,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Wight",
+  "model": "WGT-4NC 'Dezgra'",
+  "mul_id": "5600",
+  "config": "Biped",
+  "source": "XTR: Phantoms",
+  "rules_level": "4",
+  "role": "Striker",
+  "mass": 35,
+  "engine": {
+    "rating": 280,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "8",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Null Signature System",
+        "Chameleon Light Polarization Shield",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Null Signature System",
+        "Chameleon Light Polarization Shield",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 115
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "quirks": [
+    "low_profile",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Arm",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "SRM 4",
+      "location": "Right Torso",
+      "item_type": "Srm4"
+    }
+  ],
+  "era": 2997,
+  "tech_base": "Inner Sphere",
+  "chassis": "Hornet",
+  "model": "HNT-152",
+  "mul_id": "1546",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Striker",
+  "mass": 20,
+  "engine": {
+    "rating": 100,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Fischer"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Bulletban"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Tri-Word"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dalban"
+    }
+  ],
+  "systemmode": "TARGETING:HiRez II",
+  "fluff_text": {
+    "overview": "Kallon Industries designed the Hornet to fill the urban reconnaissance role for the SLDF. Unfortunately for Kallon, the Hornet was firmly rejected and the 'Mech was only produced for a scant two years before its lines shut down. After the collapse of the Star League, the furious combat (and casualties) of the Succession Wars would force many training, militia, or otherwise undesirable 'Mechs into frontline commands. As a result, when Kallon Industries rediscovered the plans for their Hornet design, they rushed it back into production knowing full well that they would doubtlessly be able to sell their full output.",
+    "capabilities": "Slow but well armored for its size, the Hornet stands apart from other \"bug\" 'Mechs with its LRM rack. Giving it the ability to hit at ranges well beyond most other light scouts, the Hornet can easily harry larger 'Mechs or finish off fleeing units. Therefore, it is often used in the scout hunting or light fire support role, where it offers steady if somewhat lackluster service.",
+    "deployment": "A common and straightforward field refit, the HNT-152 uses an SRM launcher instead of the standard LRM. Most were used by mercenary outfits, periphery forces, or planetary militias within the Federated Suns. It was only after its deployment by Wolf's Dragoons-who made good use of the design time and time again-that this Hornet saw larger deployment by House Davion."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 64
+  }
+}

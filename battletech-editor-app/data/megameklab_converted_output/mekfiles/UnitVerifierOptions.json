@@ -1,0 +1,147 @@
+{
+  "entityverifier": {
+    "mek": {
+      "ceilWeight": [
+        {
+          "engine": "HALFTON",
+          "structure": "HALFTON",
+          "armor": "HALFTON",
+          "controls": "HALFTON",
+          "weapons": "TON",
+          "targcomp": "TON",
+          "gyro": "HALFTON"
+        }
+      ],
+      "showOverweighted": [
+        {}
+      ],
+      "maxOverweight": [
+        {}
+      ],
+      "showUnderweighted": [
+        {}
+      ],
+      "minUnderweight": [
+        {}
+      ],
+      "ignoreFailedEquipment": [
+        {}
+      ],
+      "skip": [
+        {}
+      ],
+      "targCompCrits": [
+        {}
+      ],
+      "printSize": [
+        {}
+      ],
+      "showCorrectArmorPlacement": [
+        {}
+      ],
+      "showCorrectCriticalAllocation": [
+        {}
+      ],
+      "showFailedEquip": [
+        {}
+      ],
+      "showIncorrectIntroYear": [
+        {}
+      ],
+      "introYearMargin": [
+        {}
+      ]
+    },
+    "protomek": {
+      "ceilWeight": [
+        {
+          "engine": "KILO",
+          "structure": "KILO",
+          "armor": "KILO",
+          "controls": "KILO",
+          "weapons": "KILO",
+          "targcomp": "KILO",
+          "gyro": "KILO"
+        }
+      ],
+      "showOverweighted": [
+        {}
+      ],
+      "maxOverweight": [
+        {}
+      ],
+      "showUnderweighted": [
+        {}
+      ],
+      "minUnderweight": [
+        {}
+      ],
+      "ignoreFailedEquipment": [
+        {}
+      ],
+      "skip": [
+        {}
+      ],
+      "targCompCrits": [
+        {}
+      ],
+      "printSize": [
+        {}
+      ],
+      "showCorrectArmorPlacement": [
+        {}
+      ],
+      "showCorrectCriticalAllocation": [
+        {}
+      ],
+      "showFailedEquip": [
+        {}
+      ],
+      "showIncorrectIntroYear": [
+        {}
+      ],
+      "introYearMargin": [
+        {}
+      ]
+    },
+    "tank": {
+      "ceilWeight": [
+        {
+          "engine": "HALFTON",
+          "structure": "HALFTON",
+          "armor": "HALFTON",
+          "controls": "HALFTON",
+          "weapons": "TON",
+          "targcomp": "TON",
+          "turret": "HALFTON",
+          "lifting": "HALFTON",
+          "poweramp": "HALFTON"
+        }
+      ],
+      "showOverweighted": [
+        {}
+      ],
+      "maxOverweight": [
+        {}
+      ],
+      "showUnderweighted": [
+        {}
+      ],
+      "minUnderweight": [
+        {}
+      ],
+      "ignoreFailedEquipment": [
+        {}
+      ],
+      "skip": [
+        {}
+      ],
+      "showIncorrectIntroYear": [
+        {}
+      ],
+      "introYearMargin": [
+        {}
+      ]
+    }
+  }
+}

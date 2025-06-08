@@ -1,0 +1,229 @@
+{
+  "quirks": [
+    "rugged_1",
+    "bad_rep_is",
+    "non_standard",
+    "obsolete"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Right Torso",
+      "item_type": "Srm6"
+    }
+  ],
+  "era": 2772,
+  "tech_base": "Inner Sphere",
+  "chassis": "Thug",
+  "model": "THG-11ECX (Jose)",
+  "mul_id": "7322",
+  "config": "Biped",
+  "source": "XTR: Gunslingers",
+  "rules_level": "4",
+  "role": "Brawler",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Command Console",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Cockpit",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Mek Null Signature System",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Mek Null Signature System",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Maltex Corporation"
+    },
+    {
+      "name": "Earthwerks Incorporated"
+    },
+    {
+      "name": "Errai"
+    },
+    {
+      "name": "Keystone"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks VOL Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 320"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Mitchell Argon with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Colmax 90"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TharHes Ares-5"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Thug was designed by Maltex Corporation as a direct competitor to the popular Warhammer BattleMech. First seeing production in 2572.",
+    "capabilities": "The armament on the Thug is a very simple, yet effective, combination. Piloted by mercenary Jose Magellan during the fall of the Star League, this Thug variant replaces the standard engine with an extralight model. The PPCs are replaced by ER Large Lasers. In the space freed by the XL Engine, Magellan installed three more SRM-6 launchers, for a total of five. The cockpit adds a Command Console to allow a Rim Worlds commander to see the entire battlefield. Four jump jets allow the Thug Jose to cover 120 meters at a time. Finally, a Null Signature System interfered with SLDF targeting systems.",
+    "history": "The Thug sought to directly address some of the challenges which faced the Warhammer, chief of which was to increase armor protection without sacrificing firepower. When compared side-by-side, the Thug has a great many advantages over the Warhammer, yet it never wholly replaced the venerable 'Mech. Still the Thug proved popular enough that Maltex Corporation was forced to contract Earthwerks Incorporated to produce the Thug on Keystone in order to meet demand. Although it has had its detractors, the Thug has proven itself for over five hundred years to be the quintessential \"zombie 'Mech.\" Production of the Thug from Maltex's original factory on Errai ceased when it was destroyed in 2835, one of many causalities of the Succession Wars, leaving only Earthwerks to continue building new Thugs at a rate of twelve per year. Unfortunately the same terrible conflict resulted in the loss of much advanced knowledge and technology, threatening their ability to keep even this meager production rate up. In a twist of fate it was the Warhammer which helped keep the Thug production line alive: with the loss of their original PPC weaponry, Earthwerks instead reworked the design to make use of the extensive stockpile of Donal PPCs used by the Warhammer, allowing new Thugs to be built and repairs to be made more easily. Beyond the few still in service to the Great Houses the largest user of Thugs was ComStar, a fact confirmed upon the reveal of their Com Guards. Eventually the recovery of lostech would allow both Earthwerks and Maltex to restart production of original-model Thugs during the 3050s. These were supplanted by new variants which, following the formation of the Second Star League, were supplied to ComStar, the SLDF, the Draconis Combine and Federated Suns. New Thugs were also built for the Word of Blake and those forces of the Free Worlds League aligned with them during the Jihad."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 232
+  }
+}

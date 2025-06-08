@@ -1,0 +1,336 @@
+{
+  "quirks": [
+    "multi_trac",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "B-Pod",
+      "location": "Rear Left Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "B-Pod",
+      "location": "Rear Right Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "B-Pod",
+      "location": "Front Left Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "B-Pod",
+      "location": "Front Right Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Left Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun Array",
+      "location": "Left Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Heavy PPC",
+      "location": "Right Torso",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Right Torso",
+      "item_type": "Lrm10"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun Array",
+      "location": "Right Torso",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 3071,
+  "tech_base": "Inner Sphere",
+  "chassis": "Goliath",
+  "model": "GOL-6H",
+  "mul_id": "1237",
+  "config": "Quad",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISBPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISBPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "LRM 10",
+        "LRM 10",
+        "Light Machine Gun",
+        "Light Machine Gun",
+        "Light Machine Gun",
+        "ISLMGA",
+        "IS Light Machine Gun Ammo - Half",
+        "IS Ammo LRM-10",
+        "IS Ammo LRM-10",
+        "ISCASE",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Heavy PPC",
+        "Heavy PPC",
+        "Heavy PPC",
+        "Heavy PPC",
+        "LRM 10",
+        "LRM 10",
+        "Light Machine Gun",
+        "Light Machine Gun",
+        "Light Machine Gun",
+        "ISLMGA",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISBPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISBPod",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Refit"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean VIII"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 320 Light Fusion Engine"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Corean TransBand-J9"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Corean B-Tech"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Goliath is used as a general assault 'Mech and until recently was not usually seen in large numbers because of the bias against quad 'Mechs prior to the 3060s.",
+    "capabilities": "The Goliath is armed with what would be considered a paltry armament for a 'Mech of its size.",
+    "deployment": "This variant uses a Light Engine to power a design that is similar to the 3M, but with added anti-infantry capabilities. The pair of Delta Dart LRM-10s are still present, along with a two-ton, CASE-protected ammunition bin. Also for use at long range is the Fusigon Strongtooth Heavy PPC that deals as much damage as the 3M's Gauss Rifle, albeit at reduced range. Up close, the 6H can call upon two Machine Gun Array-linked trios of Sperry Browning Light Machine Guns. This variant also has a B-Pod in each of its legs to protect against attacks from battle armor.",
+    "history": "The Goliath is the second 'Mech built in 2652 by Brigadier Corporation. The Goliath is based on lessons that were learned from the Scorpion. The first and most important difference is that the Goliath weighs in at 80 tons allowing it to carry a much heavier weapons payload and armor at the cost of mobility. In the late 3060s the Goliath saw renewed production and renewed popularity and has since become a powerful and respected assault 'Mech. In 3143, The Corean Enterprises - MacAdams-Suharno plant on Stewart was captured by Clan Wolf, and it's GOL-6M variant production line converted to produce a Clan version of the 'Mech."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 19,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 240
+  }
+}

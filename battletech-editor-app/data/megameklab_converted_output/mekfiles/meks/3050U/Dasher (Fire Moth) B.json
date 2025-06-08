@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "low_profile",
+    "overhead_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Right Arm",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 2874,
+  "tech_base": "Clan",
+  "chassis": "Dasher",
+  "clanname": "Fire Moth",
+  "model": "B",
+  "mul_id": "839",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 20,
+  "engine": {
+    "rating": 200,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "8",
+  "walk_mp": "10",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLAntiPersonnelPod (omnipod)",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Dominion Facility Kappa-4 and -5"
+    },
+    {
+      "name": "Goito"
+    },
+    {
+      "name": "Thule"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Dominator Light-Alpha 20"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Firebox 200 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "IceSheet Ferro Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Untermarkt IV-a"
+    },
+    {
+      "type": "TARGETING",
+      "name": "HakkÃ¸n MicroSystems"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Fire Moth is a light Clan OmniMech intended for scouting and infantry support and transport, often deployed by Clan Ghost Bear.",
+    "capabilities": "The Fire Moth is easily one of the quickest designs ever produced, with a running speed of 162.0 km/h and accelerating up to 216.0 km/h with the MASC system fitted on the 'Mech's chassis, which is why the Inner Sphere assigned it the codename Dasher. The Fire Moth's higher speed stems from its 200-rated extralight fusion engine, which is typical of many light 'Mechs in its liberal use of lightweight materials. An endo steel chassis saves space, as does two tons of ferro-fibrous armor; this meager amount of armor serves as the only barrier between an attacker and the 'Mech's fragile internals, and as a result, the Fire Moth relies on speed rather than durability for survival. The 'Mech's heat is easily dissipated by the conventional 10 double heat sinks.",
+    "deployment": "A close combat configuration, the Fire Moth B replaces the ER medium lasers with medium pulse lasers. Dual machine guns easily dispose of any infantry the 'Mech may encounter, and an A-Pod secures the 'Mech's legs against any that manage to close in.",
+    "history": "The Fire Moth was originally designed by Clan Cloud Cobra scientists as an infantry support OmniMech. The high-placed arms were positioned in order for a pair of infantry \"pods\" underslung on the arms of the prototype Fire Moth. Designed to ease transporting Elementals into battle, the \"pods\" were discarded after the first field test, but the arms were never adjusted when the OmniMech debuted in 2874. Clan Ghost Bear came into possession of the Fire Moth when Clan Cloud Cobra traded the design for five years of trade considerations. Both the Ghost Bears and Clan Hell's Horses make extensive use of the Fire Moth for reconnaissance, dueling, and infantry support. Because the Fire Moth is poorly armed and armored, and infantry support is a lack-luster assignment, the Fire Moth is frequently assigned to warriors who are older and lack bloodnames before they reach solahma units. These warriors tend to be extremely aggressive. Most of the Fire Moth factories were moved to the Inner Sphere after Operation Revival. Though the 'Mech is rare in Clan Space, it is commonly passed over in favor of the Phantom OmniMech by the remaining Home Clans, as it fulfills the same roles of the Fire Moth but with heavier armor."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 38
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "quirks": [
+    "multi_trac",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Rear Left Leg",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Small VSP Laser",
+      "location": "Rear Right Leg",
+      "item_type": "SmallVspLaser"
+    },
+    {
+      "item_name": "Small VSP Laser",
+      "location": "Front Left Leg",
+      "item_type": "SmallVspLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Front Right Leg",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Torso",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3083,
+  "tech_base": "Inner Sphere",
+  "chassis": "Goliath",
+  "model": "GOL-6M",
+  "mul_id": "1238",
+  "config": "Quad",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 80,
+  "engine": {
+    "rating": 240,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISSmallVariableSpeedLaser",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISERMediumLaser",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISGaussRifle (T)",
+        "ISMML7 (T)",
+        "ISMML7 (T)",
+        "ISMML7 (T)",
+        "ISMML7 (T)",
+        "ISQuadTurret",
+        "ISMML7",
+        "ISMML7",
+        "ISMML7",
+        "ISMML7",
+        "IS Ammo MML-7 LRM",
+        "IS Ammo MML-7 LRM",
+        "IS Ammo MML-7 SRM",
+        "IS Ammo MML-7 SRM",
+        "IS Gauss Ammo",
+        "IS Gauss Ammo",
+        "ISCASE",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISERMediumLaser (R)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISSmallVariableSpeedLaser (R)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "Corean Enterprises - MacAdams-Suharno"
+    },
+    {
+      "name": "Stewart"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean VIII"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes 240"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Corean TransBand-J9"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Corean B-Techpg"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Goliath is used as a general assault 'Mech and until recently was not usually seen in large numbers because of the bias against quad 'Mechs prior to the 3060s.",
+    "capabilities": "The Goliath is armed with what would be considered a paltry armament for a 'Mech of its size.",
+    "deployment": "This Goliath variant mounts a Gauss Rifle and MML-7 in an experimental BattleMech Turret. An additional MML-7 and several leg-mounted lasers (both ER Medium Lasers and Small VSP Lasers) provide additional firepower.",
+    "history": "The Goliath is the second 'Mech built in 2652 by Brigadier Corporation. The Goliath is based on lessons that were learned from the Scorpion. The first and most important difference is that the Goliath weighs in at 80 tons allowing it to carry a much heavier weapons payload and armor at the cost of mobility. In the late 3060s the Goliath saw renewed production and renewed popularity and has since become a powerful and respected assault 'Mech. In 3143, The Corean Enterprises - MacAdams-Suharno plant on Stewart was captured by Clan Wolf, and it's GOL-6M variant production line converted to produce a Clan version of the 'Mech."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 19,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 232
+  }
+}

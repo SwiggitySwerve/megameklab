@@ -1,0 +1,204 @@
+{
+  "quirks": [
+    "easy_pilot"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Center Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 2860,
+  "tech_base": "Clan",
+  "chassis": "Mongoose",
+  "model": "C 2",
+  "mul_id": "7604",
+  "config": "Biped",
+  "source": "TRO: Golden Century",
+  "rules_level": "2",
+  "role": "Scout",
+  "mass": 25,
+  "engine": {
+    "rating": 200,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "8",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLERSmallLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Cudahy Assembly Plant Delta"
+    },
+    {
+      "name": "Circe"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Kell/F Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Nissan 200 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H17 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "ON-5"
+    },
+    {
+      "type": "TARGETING",
+      "name": "ON-6 with Beagle Active Probe"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Mongoose BattleMech was introduced in 2660 as a deep recon 'Mech and a direct competitor (and hopeful replacement) for the Locust.",
+    "capabilities": "The Kell/D Chassis around which the Mongoose is built uses Endo Steel construction techniques that, combined with an all energy weapon armament and standard engine, made the Mongoose very sturdy for its size. This also allows it to mount five tons of Ferro-Fibrous armor, much more than other light 'Mechs and gives the Mongoose the capability to survive a direct PPC hit to the chest without suffering internal damage. A top speed of 129 km/h and cruising speed of 86 km/h, one of the fastest of any 'Mech, makes up for the lack of jump jets on the design. Only ten heat sinks means the 'Mech is liable to run hot if the pilot is not careful, especially when the cooling jacket protecting the center torso laser fails",
+    "deployment": "The Mongoose C 2 served as a testbed for Clan Mongoose's newly-developed Targeting Computer technology, dropping a number of double heat sinks to free up the weight required. The success of this variant would ensure the Smoke Jaguars retained the Targeting Computer for their own use, and the technology would later proliferate among all the Clans.",
+    "history": "As the 'Mech reached Star League Defense Force units though, it was found that the Beagle Active Probe on the Mongoose gave it extremely good command and control features that endeared it to light 'Mech command lances. Within eight years of its introduction the Mongoose was the standard command 'Mech for all light and recon lances. Due to its advanced electronics the Mongoose was capable of coordinating the maneuverings of an entire company of light 'Mechs and at the same time could engage medium 'Mechs with some success thanks to its weaponry and armoring. Its popularity ensured that the Mongoose had a target on its back after the dissolution of the Star League. The start of the TRO: Golden Century went poorly for the Mongoose when its factory on Ozawa was destroyed in 2837. The loss of the factory meant the 'Mech was already becoming a rarity by the Second TRO: Golden Century and with many of its components now lostech surviving Mongooses were forced to make-do with inferior spare parts. This was especially true for the Beagle Active Probe, and by the end of the TRO: Golden Century not a single operational Mongoose serving the Great Houses had a functioning example. This trend was reversed with the recovery of the Helm Memory Core and many Mongooses were rebuilt to their former glory. ComStar was also revealed to have kept many Mongooses in their secret storage facilities which they used to outfit the Com Guards. Diplan 'MechYards eventually restarted Mongoose production from their factory on Aix-la-Chapelle and the design would continue to see use for years to come, including during the Jihad."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 86
+  }
+}

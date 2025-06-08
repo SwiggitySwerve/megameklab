@@ -1,0 +1,222 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 2613,
+  "tech_base": "Inner Sphere",
+  "chassis": "Scavenger",
+  "model": "SC-V SalvageMech",
+  "mul_id": "4987",
+  "config": "Quad",
+  "source": "Record Sheets: Vehicle Annex - IndustrialMechs & Exoskeletons",
+  "rules_level": "2",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Fuel Cell Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Industrial Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 2,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Searchlight",
+        "MechSprayer",
+        "Light Fluid Suction System (Mech)",
+        "Liquid Storage (1 ton)",
+        "Liquid Storage (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Cargo (1 ton)",
+        "Cargo (1 ton)"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "armor": {
+    "type": "Heavy Industrial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 112
+  }
+}

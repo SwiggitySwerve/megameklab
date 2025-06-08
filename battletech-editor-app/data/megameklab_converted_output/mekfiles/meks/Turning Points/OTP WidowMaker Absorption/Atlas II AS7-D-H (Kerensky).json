@@ -1,0 +1,237 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "command_mech",
+    "distracting",
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Left Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Torso",
+      "item_type": "Lrm20"
+    }
+  ],
+  "era": 2833,
+  "tech_base": "Clan",
+  "chassis": "Atlas II",
+  "model": "AS7-D-H (Kerensky)",
+  "mul_id": "7310",
+  "config": "Biped",
+  "source": "Operational Turning Points: Widowmaker",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 19,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Industries"
+    },
+    {
+      "name": "Hegemony Research and Development Department"
+    },
+    {
+      "name": "Weapons Division"
+    },
+    {
+      "name": "Hesperus II"
+    },
+    {
+      "name": "New Earth"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Foundation Type 10X"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab/2 Ferro Fibrous with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Army Comm Class 5"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Army Corporation Type 29K"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The technologically-advanced Hegemony counterpart to the SLDF's regular army's AS7-D Atlas, the Atlas II was exclusively reserved for SLDF Royal Regiments.",
+    "capabilities": "The weapons payload gives the design more broad range attack ability versus the Atlas's brawling weaponry and its limited long range attack capacities.",
+    "deployment": "The custom version used by Nicholas Kerensky, this version of the Atlas II retains the weapon array of the original but swaps the Inner Sphere components for more advanced Clan equivalents. It also adds a second SRM launcher. All the missile systems are equipped with Artemis IV fire control systems. Double heat sinks were replaced with their less bulky Clan equivalents and increased to nineteen. The ferro-fibrous armor protection remains the same, but again was replaced by more compact Clan version. To handle electronic warfare duties, a small ECM Suite and Active Probe were added to the center torso. The CASE systems were integrated into the side torsos, as was common to all Clan designs.",
+    "history": "First fielded in 2765, the Atlas II was designed by the Hegemony Research and Development Department, Weapons Division of the original Star League to maintain the technological edge over the other Great Houses. It was exclusively for the SLDF's Royal Regiments. In 2785, when General Aleksandr Kerensky put out his call for loyal forces to join him in his Exodus, every Atlas II pilot responded and left with him. These 'Mechs are prized by the Clans when they were found. One such 'Mech was spotted in 3052 during the Battle of Tukayyid. In the early 3070s, the design was resurrected by the Word of Blake when they captured Hesperus II's factories. After the liberation of Defiance Industries, Devlin Stone's coalition forces kept the 'Mechs in production."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 47,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

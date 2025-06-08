@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "ubiquitous_clan",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Flamer",
+      "location": "Left Arm",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Center Torso",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Center Torso",
+      "item_type": "Flamer"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Firestarter",
+  "model": "FS9-B",
+  "mul_id": "1094",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Scout",
+  "weaponquirk": "exposed_linkage:LA:4:Flamer",
+  "mass": 35,
+  "engine": {
+    "rating": 210,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Coventry Metal Works"
+    },
+    {
+      "name": "Coventry"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Foundation Ultralight Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 210 light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Lexington Limited Light Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Luxor Load Lifters (I)"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Cyclops 14"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Tansech C30-97"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Originally intended as a mobile incendiary âMech, the Firestarter evolved into a decent scouting and reconnaissance platform.",
+    "capabilities": "Despite being shielded by five and a half tons of armor and capable of jumping 180 meters, the Firestarter was powerless against medium or heavyweight opponents. Instead, an entire strategy was built around its ability to cause wildfires, with strategically positioned blazes routing an opponent or covering a withdrawal and impeding any pursuit. Firestarter MechWarriors enjoyed setting fire to densely forested areas when enemy 'Mechs marched through them, as well as any buildings where the enemy was hiding. Other applications for the 'Mech included scorched earth tactics, though this grew less common as it became more important to capture rather than destroy the declining amount of precious resources, or leading units of Wasps and Stingers in deep penetration scouting and light raiding operations. This approach altered in the later Succession Wars when it was discovered that the Firestarter could not only set flames to prevent an enemy from following it, but also clear ambush spots for the advancing of friendly forces.",
+    "deployment": "Following the capture of Coventry, the Word of Blake converted the Firestarter line to produce a new variant in 3070 that could be better integrated into their units. An additional ton of upgraded light ferro-fibrous armor is added, the chassis has been replaced with an endo steel model, and a light fusion engine provides power. Three flamers are devastating to conventional units, while an ER medium laser provides firepower against hardened targets. A C3i Computer allows it to share targeting data from other units. The use of single heat sinks is confusing in such a unit, and it means that the -B can build heat quickly. It uses eight improved jump jets to cover 240 meters in a jump.",
+    "history": "Firestarters, both ancient and contemporary, can still be found in abundance among planetary militias and House troops. Even though Blakist forces have taken over CMW's principal plant on Coventry, spare parts are still accessible from other Firestarter producers (including LAW, Ceres Metals, Defiance, and Independence Weaponry). Loki field offices near the Circinus Federation frontier are concerned about reports of a new variety using endo steel technology on Federation-occupied worlds. With its particular load-out, this new variation appears to be designed to spread chaos and destruction. Firestarters have also been seen in Level II formations with Blakist soldiers in their Protectorate, most frequently at \"police demonstrations\" and guarding suspected prison sites. These versions are thought to be Coventry goods."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 93
+  }
+}

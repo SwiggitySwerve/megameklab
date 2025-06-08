@@ -1,0 +1,198 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISFlamer",
+      "location": "Center Torso",
+      "item_type": "1Isflamer"
+    },
+    {
+      "item_name": "1 ISFlamer",
+      "location": "Left Arm",
+      "item_type": "1Isflamer"
+    },
+    {
+      "item_name": "1 ISFlamer (R)",
+      "location": "Center Torso (R)",
+      "item_type": "1IsflamerR"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumXPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumxpulselaser"
+    },
+    {
+      "item_name": "1 ISPlasmaRifle",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3074,
+  "tech_base": "Inner Sphere",
+  "chassis": "Firestarter",
+  "model": "FS9-X81",
+  "mul_id": "1092",
+  "config": "Biped",
+  "source": "XTR: Corporations",
+  "rules_level": "4",
+  "role": "Striker",
+  "mass": 35,
+  "engine": {
+    "rating": 210,
+    "type": "XXL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Industries (Refit)"
+    },
+    {
+      "name": "Kwangjong-ni"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Argile H/09"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 210 XXL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Livingston Ceramics"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Luxor Load Lifters"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Cyclops 14"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Cyclops 9"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Originally intended as a mobile incendiary âMech, the Firestarter evolved into a decent scouting and reconnaissance platform.",
+    "capabilities": "Despite being shielded by five and a half tons of armor and capable of jumping 180 meters, the Firestarter was powerless against medium or heavyweight opponents. Instead, an entire strategy was built around its ability to cause wildfires, with strategically positioned blazes routing an opponent or covering a withdrawal and impeding any pursuit. Firestarter MechWarriors enjoyed setting fire to densely forested areas when enemy 'Mechs marched through them, as well as any buildings where the enemy was hiding. Other applications for the 'Mech included scorched earth tactics, though this grew less common as it became more important to capture rather than destroy the declining amount of precious resources, or leading units of Wasps and Stingers in deep penetration scouting and light raiding operations. This approach altered in the later Succession Wars when it was discovered that the Firestarter could not only set flames to prevent an enemy from following it, but also clear ambush spots for the advancing of friendly forces.",
+    "deployment": "This is an experimental prototype of the Firestarter that was created by Defiance Industries of Kwangjong-ni. Only three of these prototypes were produced as of 3074, and suffered from developmental problems with their components. Using the FS9-H as its base, the 'Mech is fitted with an XXL engine, a plasma rifle with 10 rounds as its main weapon, and a pair of medium X-Pulse lasers, both mounted in the right arm. The 'Mech retains the original base model's flamers and jump capabilities.",
+    "history": "Firestarters, both ancient and contemporary, can still be found in abundance among planetary militias and House troops. Even though Blakist forces have taken over CMW's principal plant on Coventry, spare parts are still accessible from other Firestarter producers (including LAW, Ceres Metals, Defiance, and Independence Weaponry). Loki field offices near the Circinus Federation frontier are concerned about reports of a new variety using endo steel technology on Federation-occupied worlds. With its particular load-out, this new variation appears to be designed to spread chaos and destruction. Firestarters have also been seen in Level II formations with Blakist soldiers in their Protectorate, most frequently at \"police demonstrations\" and guarding suspected prison sites. These versions are thought to be Coventry goods."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 88
+  }
+}

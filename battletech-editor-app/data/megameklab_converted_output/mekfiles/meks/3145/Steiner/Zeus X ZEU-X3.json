@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "command_mech",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3089,
+  "tech_base": "Inner Sphere",
+  "chassis": "Zeus-X",
+  "model": "ZEU-X3",
+  "mul_id": "6633",
+  "config": "Biped",
+  "source": "TRO: 3145 Lyran Commonwealth",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "IS Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Improved Jump Jet",
+        "Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Manufacturing Annex"
+    },
+    {
+      "name": "Kwangjong-ni"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Chariot III Ultralight Composite"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 400 XXL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Valiant Lamellor"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unknown Improved Jump Jet"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "TharHes Calliope ZE-5A2"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TharHes Ares-X9-B"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The original ZEU-X was a technological milestone. It was also an unwieldy mess of patchwork armor, reactive composites, and illogical short-range weapons, the limited manufacturing of which during the Civil War functioned only as propaganda. The following model was a massive failure, as the marriage of armored components and composite structure frequently ended in a pile of intact internal components as the only remains of a defeated ZEU-X2. A 3080s model was an inefficient jumping monster informed by Solaris research on the enigmatic Sasquatch. Only the sub-variant ZEU-WD series, which combined X-series improvements with conventional Zeus chassis, was a success.",
+    "capabilities": "Manufactured on by Defiance, the Zeus X was both a poster child for excellence in production engineering and an innovative high-technology platform, while at the same time struggling with emerging technologies.",
+    "deployment": "The -X3 carried four ER Medium Lasers in the right arm and an ER PPC in the left arm, connected to a Targeting Computer. The true uniqueness of the design came in its use of Improved Jump Jets: the -X3 could jump up to 240 meters, which rivaled the jumping capability of any light 'Mech. This combination of heavy armor, speed and firepower made -the X3 the nightmare of any light or medium 'Mech and could outmaneuver any heavy or assault 'Mech. The -X3 mounted seventeen double heat sinks.",
+    "history": "The Zeus personifies Steiner's \"wall of steel.\" The LCAF's indigenous pride and joy was reportedly the ultimate demonstration that superior production quality could compensate for weak battlefield prowess. It was picked for a facelift after three centuries of steadfast service to demonstrate Defiance's reputation as one of the Inner Sphere's major manufacturers. The Zeus X is equal parts celebrity and cutting-edge high-tech platform. Its modifications bring the ancient BattleMech up to date, even by thirty-second-century standards. The Zeus X-series is characterised structurally by a massive engine and a light yet brittle structure coated in layers of experimental armor. These qualities were carefully integrated with appropriate equipment when the ZEU-X4 was ready for manufacturing in the late 3110. The thick reactive plating is now production quality and completely covers the 'Mech. The LCAF received a command 'Mech when a roomy rumble seat was upgraded to a full console. Armed with modest but effective weapons, the ZEU-X4 attacks foes who are nothing more than approaching blots on the horizon. end of the Third Succession War, with the resulting ZEU-6T variant being the standard during the Fourth Succession War and later the War of 3039. The design was also well received by mercenary units, particularly the Zeta Battalion of Wolf's Dragoons."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 37,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 232
+  }
+}

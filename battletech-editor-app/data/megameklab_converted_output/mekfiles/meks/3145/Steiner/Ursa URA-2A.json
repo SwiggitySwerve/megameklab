@@ -1,0 +1,263 @@
+{
+  "quirks": [
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Rotary AC/2",
+      "location": "Right Torso",
+      "item_type": "RotaryAc2"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumXPulseLaser"
+    },
+    {
+      "item_name": "Medium X-Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumXPulseLaser"
+    }
+  ],
+  "era": 3122,
+  "tech_base": "Inner Sphere",
+  "chassis": "Ursa",
+  "model": "URA-2A",
+  "mul_id": "6627",
+  "config": "Quad",
+  "source": "TRO: 3145 Lyran Commonwealth",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "weaponquirk": "exposed_linkage:RT:3:ISRotaryAC2",
+  "mass": 65,
+  "engine": {
+    "rating": 325,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISERPPC",
+        "ISERPPC",
+        "ISERPPC",
+        "ISMediumXPulseLaser",
+        "ISMediumXPulseLaser",
+        "ISMASC",
+        "ISMASC",
+        "ISMASC",
+        "IS Endo Steel",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISRotaryAC2",
+        "ISRotaryAC2",
+        "ISRotaryAC2",
+        "ISMediumXPulseLaser",
+        "ISMediumXPulseLaser",
+        "ISRotaryAC2 Ammo",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "IS Endo Steel",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "TharHes Industries"
+    },
+    {
+      "name": "Tharkad"
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 200
+  }
+}

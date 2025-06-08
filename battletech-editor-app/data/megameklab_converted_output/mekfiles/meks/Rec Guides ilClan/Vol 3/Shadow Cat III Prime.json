@@ -1,0 +1,204 @@
+{
+  "quirks": [
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3111,
+  "tech_base": "Clan",
+  "chassis": "Shadow Cat III",
+  "model": "Prime",
+  "mul_id": "7491",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #3",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Barcella Beta"
+    },
+    {
+      "name": "Irece"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type 79-45 Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "RFUM 270 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H17Ferro-Fibrous with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Model KY Boosters"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Sipher CommCon SCU-9"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Build 4 CAT TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Shadow Cat III was born from the Shadow Cat, after Clan Nova Cat's Touman and facilities were heavily damaged during the Second Combine-Dominion War.",
+    "capabilities": "This expensive OmniMech makes use of weight-saving technologies in the form of an Endo Steel internal structure, an XL Engine, and eight tons of Ferro-Fibrous armor. The Shadow Cat III employs more pod space than the Shadow Cat at the expense of jump jets, but keeps the Myomer Accelerated Signal Circuitry that enables it to move up to 130 km/h in bursts.",
+    "deployment": "The primary configuration of the Shadow Cat III wields a Gauss Rifle allowing it to handily defeat smaller opponents, often before they can get within range. A pair of Medium Pulse Lasers back up the rifle.",
+    "history": "The Clan's scientists took a cue from Clan Jade Falcon's Thor II, and removed the Shadow Cat's fixed jump jets to free up mass that would be used mostly for pod space and an enhancement of the 'Mech's armor coverage."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 153
+  }
+}

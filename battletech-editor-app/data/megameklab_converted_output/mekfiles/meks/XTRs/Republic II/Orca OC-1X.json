@@ -1,0 +1,194 @@
+{
+  "quirks": [
+    "distracting",
+    "hard_pilot",
+    "obsolete",
+    "poor_performance",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Sniper Cannon",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Left Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "SRM 6",
+      "location": "Center Torso",
+      "item_type": "Srm6"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Left Torso",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "SmallXPulseLaser"
+    }
+  ],
+  "era": 3103,
+  "tech_base": "Inner Sphere",
+  "chassis": "Orca",
+  "model": "OC-1X",
+  "mul_id": "7356",
+  "config": "Biped",
+  "source": "XTR: Republic II",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 200,
+  "engine": {
+    "rating": 400,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Superheavy Gyro",
+  "heat_sinks": {
+    "count": 19,
+    "type": "Double"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISGuardianECMSuite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 61,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 61,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 61,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 61,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 90,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 80,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 80,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 30,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 576
+  }
+}

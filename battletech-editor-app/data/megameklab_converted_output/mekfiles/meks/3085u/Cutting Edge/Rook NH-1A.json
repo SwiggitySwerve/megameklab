@@ -1,0 +1,191 @@
+{
+  "quirks": [
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "PPC",
+      "location": "Right Torso",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Head",
+      "item_type": "SmallLaser"
+    }
+  ],
+  "era": 3074,
+  "tech_base": "Inner Sphere",
+  "chassis": "Rook",
+  "model": "NH-1A",
+  "mul_id": "2740",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 55,
+  "engine": {
+    "rating": 200,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 14,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "imagefile": ".\\data\\images\\fluff\\Mech\\3076Rook.jpg",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Small Laser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Primitive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 160
+  }
+}

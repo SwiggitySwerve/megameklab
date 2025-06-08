@@ -1,0 +1,221 @@
+{
+  "quirks": [
+    "command_mech",
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Heavy PPC",
+      "location": "Right Arm",
+      "item_type": "HeavyPpc"
+    },
+    {
+      "item_name": "Snub-Nose PPC",
+      "location": "Center Torso",
+      "item_type": "SnubNosePpc"
+    },
+    {
+      "item_name": "Snub-Nose PPC",
+      "location": "Head",
+      "item_type": "SnubNosePpc"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "chassis": "Archangel",
+  "model": "C-ANG-OB Infernus",
+  "mul_id": "67",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Compact Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISSNPPC (omnipod)",
+        "ISSNPPC (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs"
+    },
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Gibson (Gibson Federated)"
+    },
+    {
+      "name": "Terra (Martinson)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Celestial Series AA1E"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Immortus 300 Compact Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy Gold"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Masterâs Voice Cel-Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Masterâs Sight 1-Omega"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Debuting in 3069, the Celestial series of OmniMechs are engineered to be used by the elite Word of Blake Manei Domini troops.",
+    "capabilities": "The Archangel is the largest of these. Designed to be an \"anchor\" for Word formations, the 'Mech is known as a \"zombie\" because of its ability to take extreme amounts of damage and continue operating. The Archangel features a compact fusion engine, compact gyro, a small cockpit, and nineteen and a half tons of standard armor, which frees up a large amount of internal space, while an Endo Steel frame opens up free tonnage, making heavier components possible. A C3i Computer helps direct and coordinate fire.",
+    "history": "Similar in some respects to the Dominus, the Infernus also mounts a Heavy PPC in the arm, but the other arm contains two Light PPCs. The weight saved allows the Archangel B to carry two Snub-Nose PPCs."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 47,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

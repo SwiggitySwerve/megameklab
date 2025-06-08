@@ -1,0 +1,202 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISLRM5",
+      "location": "Left Torso",
+      "item_type": "1Islrm5"
+    },
+    {
+      "item_name": "1 ISLRM5",
+      "location": "Right Torso",
+      "item_type": "1Islrm5"
+    }
+  ],
+  "era": 2801,
+  "tech_base": "Inner Sphere",
+  "chassis": "Harvester Ant",
+  "model": "KIC-3M-B AgroMech (LRM)",
+  "mul_id": "7153",
+  "config": "Quad",
+  "source": "Record Sheets: Operation Klondike",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 20,
+  "engine": {
+    "rating": 60,
+    "type": "I.C.E. Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 2,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "ISLRM5",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "ISLRM5",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Engine",
+        "Engine",
+        "Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Engine",
+        "Engine",
+        "Engine",
+        "ISLRM5 Ammo",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "armor": {
+    "type": "Commercial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 48
+  }
+}

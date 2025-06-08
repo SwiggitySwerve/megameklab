@@ -1,0 +1,174 @@
+{
+  "quirks": [
+    "difficult_maintain",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "HAG/40",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3088,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Mangonel",
+  "model": "MNL-4S",
+  "mul_id": "6871",
+  "config": "Biped",
+  "source": "Record Sheets: 3145 New Tech New Upgrades",
+  "rules_level": "3",
+  "role": "Brawler",
+  "mass": 70,
+  "engine": {
+    "rating": 350,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 179
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "quirks": [
+    "distracting",
+    "command_mech",
+    "reinforced_legs"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Left Arm",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Left Arm",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Center Torso",
+      "item_type": "Lrm10"
+    }
+  ],
+  "era": 3115,
+  "tech_base": "Clan",
+  "generator": "MegaMek Suite 0.49.16-SNAPSHOT on 2023-12-29",
+  "chassis": "Shrike",
+  "model": "2",
+  "mul_id": "6293",
+  "config": "Biped",
+  "source": "TRO: 3145 The Clans",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "weaponquirk": "exposed_linkage:LA:7:CLUltraAC10",
+  "mass": 95,
+  "engine": {
+    "rating": 380,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Laser"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Shrike's humble origins derive from Red Devil Industries' Onager, which was clearly inspired by the aesthetics of Olivetti's Flamberge and Eyrie.",
+    "capabilities": "Despite being heavier than its spiritual forefather, the Shrike outperforms the Onager in every way. It can outmaneuver many heavy and assault 'Mechs, and jump jets combined with a partial wing allow the Shrike to reach regions where most 'Mechs in its weight class cannot. The Shrike's armaments and targeting computer let it to remain a safe distance from its opponents, perhaps keeping the pilot safe without sacrificing accuracy, and reinforced legs promote Death From Above strikes on those who get too close. The Shrike is a command 'Mech with heavy armor, a command station, and a terrifying falcon shape.",
+    "deployment": "Introduced in 3115, the second variant of the Shrike replaces the ER Large Lasers with ER medium lasers, which allows the autocannons to be upgraded to pair of Ultra Autocannon/10s.",
+    "history": "At first appearance, one might mistake the ferocious Shrike for another falcon-themed BattleMech manufactured by Olivetti Weaponry. Eagle Craft Group adopted the Onager concept and retooled it to fit the Clan Council's rejuvenation mandates and design philosophy, following in the footsteps of the Eyrie. The heavier Shrike, which debuted shortly after Olivetti's similarly fashioned Gyrfalcon, drew praise from the warrior caste when it outperformed the Onager in every category. Many Falcon fighters issued Trials of Possession for Shrikes after observing them struggle against fast, heavy 'Mechs.Â Because of its agility, thick armor, range, precision, and terrifying battlefield presence, the Shrike has quickly become a favorite among Galaxy and Cluster commanders.Â Although a few salvaged chassis have appeared on Lyran blackÂ markets, the Shrike remains a Jade Falcon asset.\nmanufacturer:Eagle Craft Group\nprimaryfactory:Erewhon\nsystemmanufacturer:CHASSIS:DSAM Endo 4\nsystemmanufacturer:ENGINE:Olivetti 380 XL\nsystemmanufacturer:ARMOR:Forging ZM15 Ferro-Fibrous\nsystemmanufacturer:JUMPJET:Grandthrust Mk 5 with Partial Wing\nsystemmanufacturer:COMMUNICATIONS:Raptor X-T Type iii\nsystemmanufacturer:TARGETING:Goshawk E-Series"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 44,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 39,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 39,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 288
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "quirks": [
+    "ext_twist",
+    "no_arms",
+    "bad_rep_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Arrow IV",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Arrow IV",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 2869,
+  "tech_base": "Clan",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-11-09",
+  "chassis": "Naga",
+  "model": "Prime",
+  "mul_id": "2251",
+  "config": "Biped OmniMek",
+  "source": "TRO: 3055",
+  "rules_level": "3",
+  "role": "Missile Boat",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Naga BattleMech, named for its resemblance to a mythological cobra, stands as an unusual design in a culture that values personal glory and ritual combat. Originating from Clan Wolf, the Naga was developed from a modified Woodsman chassis, equipped to carry a pair of Arrow IV launchers. Despite initial skepticism due to its focus on indirect fire support rather than direct combat, the Naga quickly demonstrated its strategic value on the battlefield.",
+    "capabilities": "The primary role of the Naga is to provide sustained artillery support while maintaining a degree of mobility. Its standard configuration emphasizes this role, equipped with six tons of missile ammunition but minimal short-range defense.",
+    "deployment": "The Naga Prime, an 80-ton Clan OmniMech, is a distinct design within the arsenal of Clan warfare, primarily serving as a missile boat. Introduced around 2945 and noted for its specialized role, this variant is built on a Clan Endo Steel structure and powered by a 400 XL (Clan) Engine, allowing a respectable speed for its class.<p>Its primary armament consists of dual Arrow IV launchers located in the left and right torsos, making it a formidable force in long-range artillery engagements. For close-range defense, the Naga Prime is equipped with three ER Small Lasers, one each in the left and right torsos, and one in the center torso. This configuration allows for some defensive capability against units that manage to close the distance.</p><p>Despite its firepower, the Naga Prime has certain drawbacks. It lacks arm-mounted weaponry, limiting its versatility in certain combat scenarios. Additionally, its reputation within the Clans is somewhat tarnished, potentially affecting the morale or perception of its pilots. The Mech's ability to twist its torso extensively compensates to some extent for the lack of armaments, providing a broader arc of fire. The Prime variant is well-suited for commanders who require a steady platform for long-range bombardment while maintaining a degree of mobility on the battlefield.</p>",
+    "history": "First deployed in the mid-2900s, the Naga's adoption across various Clans was gradual. Its effectiveness was convincingly demonstrated during the battle for Tukayyid, where Clan Wolf's Naga-equipped artillery Stars played a pivotal role. Notably, the Nagas were instrumental in Wolfâs victory at Brzo and Skupo, significantly weakening ComStarâs Tenth Army. This success led to its wider acceptance and deployment among several other Clans, including the Hellâs Horses, Snow Ravens, Star Adders, Cloud Cobras, and in limited numbers, the Jade Falcons.\nmanufacturer:Manufacturing Plant WA3\nprimaryfactory:Arcadia\nsystemmanufacturer:CHASSIS:Type BMH-7 Endo Steel\nsystemmanufacturer:ENGINE:Fusion 400 XL\nsystemmanufacturer:ARMOR:Forged Type 34 Standard\nsystemmanufacturer:COMMUNICATIONS:Type G3, Mk. XII\nsystemmanufacturer:TARGETING:ArTrack 2 TTS"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

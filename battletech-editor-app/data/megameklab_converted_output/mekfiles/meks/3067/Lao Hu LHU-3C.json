@@ -1,0 +1,198 @@
+{
+  "quirks": [
+    "good_rep_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISGaussRifle",
+      "location": "Right Arm",
+      "item_type": "1Isgaussrifle"
+    },
+    {
+      "item_name": "1 ISERLargeLaser",
+      "location": "Left Arm",
+      "item_type": "1Iserlargelaser"
+    },
+    {
+      "item_name": "3 ISLRM5",
+      "location": "Left Torso",
+      "item_type": "3Islrm5"
+    }
+  ],
+  "era": 3064,
+  "tech_base": "Inner Sphere",
+  "chassis": "Lao Hu",
+  "model": "LHU-3C",
+  "mul_id": "4480",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Sniper",
+  "source": "TRO: 3067",
+  "mass": 75,
+  "engine": {
+    "rating": 375,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Shengli Arms"
+    },
+    {
+      "name": "Victoria"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Chariot Type II Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 375 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Star Shell Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dian-bao Comms, Standard"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P 911 Targeting and Tracking System"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Designed by a student at the Victoria Academy of Arms and Technology, the Lao Hu (\"Tiger\") is based on the Thunder BattleMech and is designed to correct perceived flaws in the Thunder by using new technologies available to the Capellan Confederation.",
+    "capabilities": "The Lao Hu is built on a lightweight Chariot Type II Endo Steel that carries a GM 375 XL Engine which gives the 'Mech a top speed of 86.4 km/h while sacrificing some survivability for more free weight and a heavier weapons payload. The Lao Hu is protected by an impressive thirteen and a half tons of armor, making it capable of weathering hits from all but the heaviest weapons.",
+    "deployment": "The 3C is intended to spar with its enemies at long range. The 'Mech replaced the LB 20-X AC with a powerful Gauss Rifle. Additionally, the 3C removed the LRM-15 in favor of three LRM-5 launchers, giving it the same firepower but allowing it to spread it over a greater number of targets."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

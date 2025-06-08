@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
-
-const SQLITE_DB_FILE: string = "battletech_dev.sqlite";
+import { Database } from 'sqlite';
+import { openDatabase, safeJsonParse } from '../../../services/db';
 
 // Define expected response data structure
 interface CustomVariantDetail {
@@ -39,7 +38,7 @@ export default async function handler(
         return res.status(400).json({ message: 'variantId must be a valid number.' });
       }
 
-      db = await open({ filename: SQLITE_DB_FILE, driver: sqlite3.Database });
+      db = await openDatabase();
 
       const variant: CustomVariantDetail | undefined = await db.get(
         'SELECT id, base_unit_id, variant_name, notes, custom_data, created_at, updated_at FROM custom_unit_variants WHERE id = ?',
@@ -48,16 +47,9 @@ export default async function handler(
 
       if (!variant) {
         return res.status(404).json({ message: 'Custom variant not found.' });
-      }
-
-      // Parse custom_data from JSON string to object
+      }      // Parse custom_data from JSON string to object
       if (variant.custom_data && typeof variant.custom_data === 'string') {
-        try {
-          variant.custom_data = JSON.parse(variant.custom_data);
-        } catch (parseError: any) {
-          console.error('Failed to parse custom_data for variant ID:', variant.id, parseError);
-          return res.status(500).json({ message: 'Failed to parse custom_data for the variant.', error: parseError.message });
-        }
+        variant.custom_data = safeJsonParse(variant.custom_data, {});
       }
 
       return res.status(200).json({ variant });

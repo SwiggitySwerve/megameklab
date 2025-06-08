@@ -1,0 +1,163 @@
+{
+  "quirks": [
+    "non_standard"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Small Laser",
+      "location": "Left Torso",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Right Torso",
+      "item_type": "SmallLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Center Torso",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Inner Sphere",
+  "chassis": "Mantis",
+  "model": "SA-MN",
+  "mul_id": "2027",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "3",
+  "role": "Scout",
+  "mass": 30,
+  "engine": {
+    "rating": 270,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "9",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 89
+  }
+}

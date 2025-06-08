@@ -1,0 +1,201 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMRM20",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMRM20",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISC3SlaveUnit",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3059,
+  "tech_base": "Inner Sphere",
+  "chassis": "Trebuchet",
+  "model": "TBT-9K",
+  "mul_id": "3302",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Striker",
+  "weaponquirk": "fast_reload:RT:3:MRM 20",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Field Refit"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean-II Deluxe Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 250 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Rawlings 50"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Corean TransBand-J9"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Corean B-Tech"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Trebuchet (also jovially referred to as the Trenchbucket) is a mainline medium weight BattleMech considered to be a fine blend of long- and short-range fire support for a unit of its size.",
+    "capabilities": "Unlike many other pre-Clan 'Mechs, the Trebuchet was designed from the beginning to work as part of a lance instead of functioning as a standalone model.",
+    "deployment": "The 9K variant of the Trebuchet is a field refit of the 7M with a distinctive Kurita feel to it. Built on an Endo Steel chassis and powered by an XL engine, the 9K replaced the LRMs for two MRM-20 launchers with three tons of ammo total. The medium lasers in the right arm are replaced with two Medium Pulse Lasers while the left arm-mounted medium laser is kept, and a C3 slave unit in the left torso allows it to share targeting telemetry with other units. The jump jets are also kept, giving it a jumping distance of one hundred and fifty meters.",
+    "history": "The Trebuchet first walked off assembly lines in 2780 for the SLDF in the final years of the Star League, between the liberation of Terra from Stefan Amaris and Aleksandr Kerensky's departure. With the onset of the Succession Wars the Trebuchet would become an almost exclusive staple of the Free Worlds League since its manufacturing site on Stewart fell within their territory. However the original TBT-3C models proved to be too difficult to repair and produce with the disappearance of advanced technology, and in 2799 Corean Enterprises went back to the drawing board to create the TBT-5N using older, mass-producible technology. The Free Worlds League Military often partnered the Trebuchet with the Archer, while lances consisting of an Archer, two Trebuchets and a Centurion became a common configuration used for siege operations and by the Regulan Hussars. However the design also found its way into the hands of the other Great Houses and served with distinction during the Succession Wars in nearly every major operation, with a number of variants created to fulfill various needs. The technological renaissance which swept through the Inner Sphere during the 3030s allowed first Kali Yama and then the Irian corporations to begin producing the Trebuchet as well, culminating in upgraded designs debuting several years prior to the Clan Invasion. As late as 3071 advanced Trebuchet variants would continue to be produced and found themselves used by new actors on the galactic stage, most notoriously the Word of Blake."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

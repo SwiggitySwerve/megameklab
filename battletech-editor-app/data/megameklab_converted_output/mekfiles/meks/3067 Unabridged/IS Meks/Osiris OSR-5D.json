@@ -1,0 +1,171 @@
+{
+  "quirks": [
+    "ext_twist"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISHeavyPPC",
+      "location": "Right Torso",
+      "item_type": "1Isheavyppc"
+    }
+  ],
+  "era": 3081,
+  "tech_base": "Inner Sphere",
+  "chassis": "Osiris",
+  "model": "OSR-5D",
+  "mul_id": "5660",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Striker",
+  "source": "Record Sheets: 3067 Unabridged",
+  "mass": 30,
+  "engine": {
+    "rating": 210,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "gyro": "XL Gyro",
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "Light Ferro-Fibrous",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "Light Ferro-Fibrous"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Achernar BattleMechs"
+    },
+    {
+      "name": "New Avalon"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "FITES-O"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pharaoh 240 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarGuard Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Achernar Electronics HID-8.7"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Federated Hunter Mk. VII"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Osiris was essentially modeled after the Clan Dragonfly and designed by the same engineers who designed the Anubis. The Osiris was designed to be a fast, hit-and-fade style offensive platform and can perform well in that capacity with its awesome speed, although it does appear to rely too heavily on its mobility to protect it from damage.",
+    "capabilities": "While the limits of Inner Sphere technology forced the designers to skimp on the specifications somewhat, the Osiris does maintain the same speed as the design it is based off of with its powerful Pharaoh 240 XL. The armor and jump capacity are sadly lacking, however, as the Osiris can only jump half as far as the Dragonfly with its four Rawlings 61 jump jets and is armored with four and a half tons of StarGuard Ferro-Fibrous.",
+    "deployment": "This Jihad-era variant developed in 3081 drops all the weaponry in favor of a single Heavy PPC. The 'Mech makes room for this by using an XL Gyro and a smaller XL Engine that reduces the top speed to approximately 110km/h. This Osiris variant has a 210 meter jump capability and is protected by Light Ferro-Fibrous armor."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 101
+  }
+}

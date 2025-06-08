@@ -1,0 +1,212 @@
+{
+  "quirks": [
+    "ext_twist",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Left Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Left Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyLargeLaser"
+    }
+  ],
+  "era": 3059,
+  "tech_base": "Clan",
+  "chassis": "Nova Cat",
+  "model": "D",
+  "mul_id": "2302",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "11",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Barcella Alpha"
+    },
+    {
+      "name": "Irece Alpha"
+    },
+    {
+      "name": "Barcella"
+    },
+    {
+      "name": "Irece"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Mynx Type Heavy"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Consolidated Fusion 280 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Alpha Compound Plate"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JNE Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Build 2 CAT TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "A Nova Cat heavy OmniMech built to protect the Nova Cats spiritually and militarily.",
+    "capabilities": "The basic components of this design, combined with its characteristics as an OmniMech, make it very simple to repair and leave room for the large amount of double heat sinks most variants carry. 13 Â½ tons of standard armor make this 'Mech very difficult to kill.",
+    "deployment": "The D configuration is very similar to the C variant, being equipped with an LB 10-X AC and three Heavy Large Lasers. The extra heat sinks are still overtaxed by the heavy lasers, though a targeting computer does make them more accurate.",
+    "history": "After its defeat on Tukayyid, Khan Severen Leroux of Clan Nova Cat commissioned the Nova Cat OmniMech, meant to protect the Clan both militarily and spiritually. The 12 meter tall 'Mech is inspired by the Night Gyr created by Clan Jade Falcon."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

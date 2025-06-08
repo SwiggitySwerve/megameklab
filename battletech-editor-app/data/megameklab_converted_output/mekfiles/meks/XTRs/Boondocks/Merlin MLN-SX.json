@@ -1,0 +1,205 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Left Arm",
+      "item_type": "MediumVspLaser"
+    },
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Right Arm",
+      "item_type": "MediumVspLaser"
+    },
+    {
+      "item_name": "Bombast Laser",
+      "location": "Right Torso",
+      "item_type": "BombastLaser"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Inner Sphere",
+  "chassis": "Merlin",
+  "model": "MLN-SX",
+  "mul_id": "2181",
+  "config": "Biped",
+  "source": "XTR: Boondocks",
+  "rules_level": "4",
+  "role": "Juggernaut",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo-Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "nocrit": "Standard:None",
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Sabanillas Mining Company"
+    },
+    {
+      "name": "Sabanillas"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Heavy Star QAT-4 Endo-Composite"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 240 Light Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Longanecker PlastiSteel with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Pitban LFT 50"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Magestrix Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Magestrix Gamma"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Merlin uses components that are all reliable and readily available, making the Merlin a durable and easy-to-repair 'Mech.",
+    "capabilities": "The 'Mech is powered by a Pitban 240 fusion engine that gives it a top speed of 64.8 km/h. The Merlin carries ten and a half tons of armor, which is a respectable amount of protection for its weight. Additionally, the Merlin carries eighteen heat sinks to handle its heavy heat load.",
+    "deployment": "An experimental variant of the Merlin which was created by the FedSuns' Sabanillas Mining Company and developed in 3075. Created by retired FedSun Major Caleb Gruber, he used his company to produce three of these modified Merlins. Gruber had the Merlin's internal structured strengthened by installing Endo-Composite Internal Structure and switching out the Standard Pitban Fusion Engine for a Lighter version. He then added five tons of Armored Shielding to protect the 'Mech's engine and side torsos. Gruber then exchanged the original 1A's medium lasers for Blakist tech Medium VSP Lasers. He then added ancient or Retrotech Laser Insulators to help cool down the VSP lasers. Lastly, he exchanged the old PPC for a Bombast Laser. The MLN-SX also sports 14 Double heat sinks.",
+    "history": "The Merlin debuted in 3010 as a product of the rebuilt Mountain Wolf BattleMechs. The Merlin was hailed as a technological marvel at the time it was released, as it was the first completely new design to be developed in over 100 years."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 176
+  }
+}

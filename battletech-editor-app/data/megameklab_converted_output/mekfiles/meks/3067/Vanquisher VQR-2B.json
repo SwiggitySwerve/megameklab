@@ -1,0 +1,220 @@
+{
+  "quirks": [
+    "stable",
+    "bad_rep_clan",
+    "bad_rep_is",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "2 ISUltraAC5",
+      "location": "Right Arm",
+      "item_type": "2Isultraac5"
+    },
+    {
+      "item_name": "2 ISUltraAC5",
+      "location": "Left Arm",
+      "item_type": "2Isultraac5"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISImprovedC3CPU",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Head",
+      "item_type": "1Isermediumlaser"
+    }
+  ],
+  "era": 3067,
+  "tech_base": "Inner Sphere",
+  "chassis": "Vanquisher",
+  "model": "VQR-2B",
+  "mul_id": "5339",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "source": "TRO: 3067",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISERMediumLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Skobel MechWorks"
+    },
+    {
+      "name": "Russia"
+    },
+    {
+      "name": "Terra"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Hollis Alteration Mark VI"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Aldis Plate with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Skobel Wave VI Comm with C3i Computer"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Falcon 12b Watcher"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Based on the King Crab, and built in the same factory that first produced the Mackie, the Vanquisher has a legendary pedigree.",
+    "capabilities": "In order to allow it to carry as heavy a payload as possible without sacrificing durability, the 'Mech is built on a Hollis Alteration Mark VI Endo Steel that carries a Vlar 300 fusion engine, which propels the 'Mech to a top speed of 54 km/h. The Vanquisher is protected by nineteen and a half tons of armor with CASE in both side torsos to protect the 'Mech from going down in an ammunition explosion.",
+    "deployment": "The 2B variant of the Vanquisher makes up roughly fifteen percent of the current production run. This variant carries four Ultra Autocannon/5s in place of the Light Gauss Rifles and ER Large Lasers. While this variant is much more reliant on ammunition based weapons, the four Ultra Autocannon/5s allow the 'Mech to put more fire downrange at a somewhat shorter range envelope than the 2A variant.",
+    "history": "The Vanquisher has its genesis in the development of reverse engineered Improved C3 Computers. Once the Word of Blake had perfected their version of C3i, Cameron St. Jamais contacted Skobel MechWorks and contracted them to produce a 'Mech that would showcase the features of the new system. The Vanquisher was the result of that request."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 47,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

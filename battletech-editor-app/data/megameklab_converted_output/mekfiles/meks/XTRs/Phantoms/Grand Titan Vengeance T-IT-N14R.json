@@ -1,0 +1,205 @@
+{
+  "quirks": [
+    "multi_trac",
+    "difficult_maintain",
+    "cowl",
+    "imp_life_support"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Thumper",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Grand Titan",
+  "model": "T-IT-N14R 'Vengeance'",
+  "mul_id": "5604",
+  "config": "Biped",
+  "source": "XTR: Phantoms",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "nocrit": "IS Hardened:None",
+  "walk_mp": "3",
+  "jump_mp": "2",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit (armored)",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Regulan Defense Force"
+    },
+    {
+      "name": "Tiger Valley?"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean Model 101BLP Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "LTV 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Hartford JEA-1"
+    },
+    {
+      "type": "TARGETING",
+      "name": "O/P FiberFeed 201 with Artemis IV FCS Interface"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grand Titan was designed by Vining Engineering and Salvage Team to take on the best 'Mechs that the Inner Sphere or the Clans had to offer.",
+    "capabilities": "The 'Mech is built on an Endo Steel chassis and with a LTV 400 XL Engine, which propels the Grand Titan to a top speed of 64.8 kph, to save as much weight as possible. The Grand Titan also carries eighteen tons of armor.",
+    "deployment": "Developed by the Principality of Regulus during the Jihad, the Grand Titan Vengeance trades the weaponry and armor of the standard version for Hardened Armor, an Armored Compact Gyro, Armored Engine, and Armored Cockpit. The 'Mech also has a Full-Head Ejection System. All this protection, and a 60-meter jump radius, seems strange, but the Vengeance has a single Thumper Artillery Piece with two tons of ammo in a CASE II protected bin. This, along with two Clan built ER Medium Lasers, are the only weapons on the unit. This would seem a ridiculously light amount of weaponry, but intelligence reports suggest that the Vengeance uses the Thumper to launch nuclear warheads.",
+    "history": "The design of the Grand Titan was sold to Earthwerks Incorporated in the Free Worlds League and has become a 'Mech commonly seen in the FWLM and the Word of Blake militia."
+  },
+  "armor": {
+    "type": "Hardened",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 47,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 276
+  }
+}

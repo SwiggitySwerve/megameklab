@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "imp_life_support"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ATM 6",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3060,
+  "tech_base": "Clan",
+  "chassis": "Shadow Hawk IIC",
+  "model": "4",
+  "mul_id": "2914",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Barcella Alpha"
+    },
+    {
+      "name": "Irece Alpha"
+    },
+    {
+      "name": "Barcella"
+    },
+    {
+      "name": "Irece"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Lang T3"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Consolidated Fusion 270 Standard"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H17 Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Northrup Starlifters M45"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JNE Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TRTTS Mark II"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Shadow Hawk IIC is a second-line Clan BattleMech based upon the Shadow Hawk that was first fielded by the Star League.",
+    "capabilities": "The inexpensive unit is protected by seven and a half tons of Ferro-Fibrous armor, mounted on a weight-saving Endo Steel chassis. This medium 'Mech can reach a respectable top speed of 97 km/h, though it also carries enough jump jets to vault up to 180 meters at a time.",
+    "deployment": "First fielded in 3060, the IIC 4 was a joint effort by Clan Nova Cat and Clan Diamond Shark to upgrade their second-line forces. The result was a 'Mech that is visually very different from the design it is considered a variant of. This 'Mech carries a Type 6 Series ATM System with three tons of ammunition to allow for flexibility of choice. The missile launcher is backed up by two Series 14NC Medium Pulse Lasers and a Series 2NC ER Medium Laser."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

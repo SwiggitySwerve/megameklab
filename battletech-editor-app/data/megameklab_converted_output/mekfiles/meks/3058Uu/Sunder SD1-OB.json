@@ -1,0 +1,249 @@
+{
+  "quirks": [
+    "ext_twist"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "C3 Master with TAG",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "C3 Master with TAG",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Center Torso",
+      "item_type": "Lrm10"
+    }
+  ],
+  "era": 3056,
+  "tech_base": "Inner Sphere",
+  "chassis": "Sunder",
+  "model": "SD1-OB",
+  "mul_id": "3126",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 90,
+  "engine": {
+    "rating": 360,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 15,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "14",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "Luthien Armor Works"
+    },
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "Crofton"
+    },
+    {
+      "name": "Loburg"
+    },
+    {
+      "name": "Luthien"
+    },
+    {
+      "name": "Son Hoa"
+    },
+    {
+      "name": "St. Ives"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Alshain Class 98 Omni"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes 360 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Mitchell Argon"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Sipher Security Plus"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Matabushi Sentinel"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Sunder OmniMech is a product of the Draconis Combine's initiative to reengineer captured Clan Loki and Thor chassis for similar roles. Though initially plagued by actuator wear and missile exhaust issues, it was not until late 3056 that the Sunder was deployed widely.",
+    "capabilities": "This ninety-ton behemoth is powered by a Hermes 360 XL engine, enabling a top speed of 65 km/h, which is respectable for its weight class. The Sunder is armored with sixteen and a half tons of protection and equipped with fifteen double heat sinks to manage the heat load from its diverse weaponry. The Sunder can carry up to 36 tons of pod-mounted equipment. Despite its slower speed and the quality difference between Inner Sphere and Clan technology, the Sunder performs its intended roles marginally well.",
+    "deployment": "Serving as the nerve center of a large C3 network, this configuration enhances battlefield coordination, allowing allied units to share targeting data for improved accuracy. While it primarily engages from afar with its LRM launchers, the Medium Pulse Lasers and Medium Lasers provide a reasonable short-range defense against rushing attacks.",
+    "history": "<p>Sunders were key players in Operation Bulldog, particularly along the Clan border. Their 36-ton pod space, utilized to peak efficiency, allowed them to compete favorably with Clan Masakari and Gladiator OmniMechs. Many Sunders were also equipped as lance or company C3 nodes, significantly enhancing DCMS units' performance. They continued to prove their worth in subsequent conflicts like the Lyons Thumb incident and the Ghost Bear War, showcasing the strategic advantages of OmniMech technology in protracted engagements. Noteworthy engagements and MechWarriors have contributed to the Sunder's reputation.</p> <p>During Operation Bulldog, a commander of the Fourth Pesht Regulars distinguished himself against Nova Cat opponents, later earning renown on Kiamba by challenging a Second Bear Regulars Trinary's Star Captain to single combat, thereby allowing his unit to regroup. Another MechWarrior known as 'the Scourge of Addicks' gained repute for her unique configurations specializing in anti-infantry warfare, employing flamers, machine guns, and Inferno SRM launchers. These historical narratives underline the Sunder's versatility and the valor of its pilots in various combat scenarios. The production of this OmniMech in the Draconis Combine was halted due to the destruction of the Luthien Armor Works factory by Word of Blake forces in 3068.</p>"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 264
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Right Arm",
+      "item_type": "UltraAc10"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Arm",
+      "item_type": "StreakSrm6"
+    }
+  ],
+  "era": 3062,
+  "tech_base": "Inner Sphere",
+  "chassis": "Templar",
+  "model": "TLR1-OA",
+  "mul_id": "5195",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3067",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 85,
+  "engine": {
+    "rating": 340,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "13",
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Kallon Industries"
+    },
+    {
+      "name": "Talon"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Kallon Type XIX Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "KalTek 340 Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield A with CASE"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Newberg Telescan 17"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Spar 3C MegaTrak"
+    }
+  ],
+  "fluff_text": {
+    "capabilities": "Intended for long range combat, the Templar A is configured to engage an enemy at long ranges. To do this, it carries an ER PPC as its primary weapon backed up by an Ultra Autocannon/10 which can fire at twice the rate of a standard autocannon. Both of these are linked to an advanced Targeting Computer for increased accuracy. For close combat, the Templar A has a Streak SRM-6 launcher and for increased mobility this configuration has four jump jets, letting it jump up to one hundred and twenty meters. To protect the 'Mech from enemy electronic warfare systems, the 'Mech has a Guardian ECM Suite and to handle the 'Mech's heavy heat load, it has an additional double heat sink.",
+    "deployment": "The Templar is built on a lightweight Kallon Type XIX Endo Steel chassis and is powered by a KalTek 340 XL engine that gives the 'Mech a top speed of 64.8 km/h while sacrificing durability. The Templar has thirteen fixed double heat sinks and is armored with sixteen and a half tons of Starshield A armor with CASE fixed in the right torso. Overall, this allows the Templar to have forty tons of free pod space for weapons and equipment which the 'Mech uses effectively in its various configurations.",
+    "history": "With a noticeable lack of OmniMechs designed in the Federated Suns, Field Marshal Duke George Hasek went over the heads of the Department of the Quartermaster and commissioned Kallon Industries to design an assault OmniMech and backed the project with his own considerable financial resources. The resulting 'Mech is a force to be reckoned with on the modern battlefield."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 44,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 263
+  }
+}

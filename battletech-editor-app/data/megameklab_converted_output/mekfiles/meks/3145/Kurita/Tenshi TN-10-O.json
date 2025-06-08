@@ -1,0 +1,229 @@
+{
+  "quirks": [
+    "distracting",
+    "searchlight",
+    "difficult_eject"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Rocket Launcher 10",
+      "location": "Left Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Rocket Launcher 10",
+      "location": "Right Leg",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    }
+  ],
+  "era": 3101,
+  "tech_base": "Inner Sphere",
+  "chassis": "Tenshi",
+  "model": "TN-10-O",
+  "mul_id": "6421",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3145 Draconis Combine",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 95,
+  "engine": {
+    "rating": 285,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo-Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 14,
+    "type": "IS Double"
+  },
+  "base_chassis_heat_sinks": "11",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo-Composite",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "RL10 (OMNIPOD)",
+        "IS Endo-Composite",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "RL10 (OMNIPOD)",
+        "IS Endo-Composite",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Luthien Armor Works"
+    },
+    {
+      "name": "Luthien"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Luthien Class 105A"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes 285 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Mitchel Argon Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Sipher Clarion"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Matabushi Tenbatsu"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Tenshi, (\"Angel\" in japanese), is an Assault Class OmniMech, which was manufactured during the early thirty-second century for the Draconis Combine's armed forces.",
+    "capabilities": "Among the Tenshi's design features is its durability and having a heavy equipment payload. The designers saw fit to equip the 'Mech with a Compact Gyro and 18.5 tons of Standard Armor. The Tenshi also uses a number of new technologies that had finally entered production in the decades preceding the Jihad. The use of an Endo-Composite internal structure and a Light Fusion Engine granted the design a huge pod capacity of 48 tons. However, this large capacity had come at a price; that price being a slightly lower maximum speed than other comparable designs of the era.",
+    "deployment": "The Tenshi's Primary configuration is equipped mainly with standard technologies that allow the 'Mech to engage an enemy unit at long-range. Its main weapon is an arm-mounted Gauss Rifle which is fed with 3 tons of ammunition. Its other set of long range weaponry consists five Light Particle Projection Cannons, all of which are fitted into the 'Mech's right arm. For a last resort, the 'Mech sports a pair of 10-tubed Rocket Launchers, with one placed in each of its legs. All of the energy weapons are tied to a Targeting Computer for greater accuracy. Among other equipment found in this configuration is a Guardian ECM, providing an electronic screen against enemy attacks, while a Supercharger is fitted into the center torso to help temporarily increase ground speed.",
+    "history": "A product of House Kurita's hidden efforts to rebuild its decimated 'Mech regiments, the Tenshi was designed to use resources found within the Combine. The Tenshi was first deployed among the ranks of the Ghost Regiments in the early 3100s, its deployment with a less-renowned brigade was part of the DCMS' two-fold effort of testing the 'Mech while also providing a fire-wall to save face should the design prove to be a failure in combat. One of its first deployments was in 3103, when the 1st Ghost conducted a raid on the Ghost Bear Dominion world of Grumium. The eight Tenshis among the Ghosts' ranks performed well, with most of their numbers returning to"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 293
+  }
+}

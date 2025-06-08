@@ -1,0 +1,185 @@
+{
+  "quirks": [
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "MML 7",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 7",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Plasma Rifle",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Head",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3069,
+  "tech_base": "Inner Sphere",
+  "chassis": "Grigori",
+  "model": "C-GRG-OB Infernus",
+  "mul_id": "1322",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "base_chassis_heat_sinks": "9",
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISMediumPulseLaser (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Grigori is one of the Word of Blake's new Celestial series OmniMechs designed by Doctor Devon Cortland.",
+    "capabilities": "It is constructed on a standard chassis, but makes use of eleven tons of Light Ferro-Fibrous armor, a light fusion engine, and an XL Gyro; as well as the small cockpit that is common to all of the Celestials. Like the other Celestials, the Grigori has a C3i Computer to help direct its fire.",
+    "deployment": "Another missile-heavy variant, the Grigori B mounts an Artemis IV-guided MML 7 in each arm. A Plasma Rifle provides respectable firepower and forces conventional units to reconsider attacking the Infernus variant. A Medium Pulse Laser provides a more accurate weapon. A rear-mounted ER Small Laser makes small units think twice about attacking the 'Mech's rear. Like the Invictus, this configuration can also jump up to 120 meters.",
+    "history": "The Grigori (named after fallen angels from Christianity) was added to the Word of Blake Militia's arsenal in late 3069 as Doctor Cortland oversaw the final production personally.\nmanufacturer:Gibson Federated BattleMechs, Martinson Armaments\nprimaryfactory:Gibson (Gibson Federated), Terra (Martinson)\nsystemmanufacturer:CHASSIS:Celestial Series GG1\nsystemmanufacturer:ENGINE:GM 240 Light Fusion\nsystemmanufacturer:ARMOR:Divine Shield-B Light Ferro\nsystemmanufacturer:COMMUNICATIONS:Masterâs Voice Cel-Alpha\nsystemmanufacturer:TARGETING:Masterâs Sight 1-Omega"
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 186
+  }
+}

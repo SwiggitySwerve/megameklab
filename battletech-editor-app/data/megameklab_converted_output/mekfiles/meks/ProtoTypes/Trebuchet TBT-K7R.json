@@ -1,0 +1,222 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "fast_reload",
+    "bad_rep_is",
+    "non_standard"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Mech Taser",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Left Torso",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "ER Flamer",
+      "location": "Left Torso",
+      "item_type": "ErFlamer"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Torso",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3088,
+  "tech_base": "Inner Sphere",
+  "chassis": "Trebuchet",
+  "model": "TBT-K7R",
+  "mul_id": "5275",
+  "config": "Biped",
+  "rules_level": "4",
+  "role": "Skirmisher",
+  "source": "TRO: Prototypes",
+  "weaponquirk": "exposed_linkage:LA:5:Mek Taser",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Kali Yama Weapons Industries Inc (Refit)"
+    },
+    {
+      "name": "Kalidasa"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Corean-II Deluxe Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes 250 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield with CASE"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Rawlings 50"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Corean TransBand-J9"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Corean B-Tech"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Trebuchet (also jovially referred to as the Trenchbucket) is a mainline medium weight BattleMech considered to be a fine blend of long- and short-range fire support for a unit of its size.",
+    "capabilities": "Unlike many other pre-Clan 'Mechs, the Trebuchet was designed from the beginning to work as part of a lance instead of functioning as a standalone model.",
+    "deployment": "This variant is a factory refit performed by Kali Yama Weapons Industries based on a custom Trebuchet found in the Periphery. It removes all the standard weaponry, the engine, and the skeleton, replacing them with a Light Engine, Endo Steel skeleton, and a new weapons array. Intended for short range combat, the TBT-K7R carries a pair of ER Medium Lasers, a pair of ER Flamers, a Streak SRM-6, and a Chain Whip. What makes it most deadly however, is the BattleMech Taser in the left arm. With this weapon the Trebuchet can capture an enemy 'Mech. The Trebuchet also carries Triple Strength Myomer, allowing it to pin 'Mechs as heavy as an Atlas. Ten and a half tons of armor and a 150 meter jump range protect the 'Mech.",
+    "history": "The Trebuchet first walked off assembly lines in 2780 for the SLDF in the final years of the Star League, between the liberation of Terra from Stefan Amaris and Aleksandr Kerensky's departure. With the onset of the Succession Wars the Trebuchet would become an almost exclusive staple of the Free Worlds League since its manufacturing site on Stewart fell within their territory. However the original TBT-3C models proved to be too difficult to repair and produce with the disappearance of advanced technology, and in 2799 Corean Enterprises went back to the drawing board to create the TBT-5N using older, mass-producible technology. The Free Worlds League Military often partnered the Trebuchet with the Archer, while lances consisting of an Archer, two Trebuchets and a Centurion became a common configuration used for siege operations and by the Regulan Hussars. However the design also found its way into the hands of the other Great Houses and served with distinction during the Succession Wars in nearly every major operation, with a number of variants created to fulfill various needs. The technological renaissance which swept through the Inner Sphere during the 3030s allowed first Kali Yama and then the Irian corporations to begin producing the Trebuchet as well, culminating in upgraded designs debuting several years prior to the Clan Invasion. As late as 3071 advanced Trebuchet variants would continue to be produced and found themselves used by new actors on the galactic stage, most notoriously the Word of Blake."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 168
+  }
+}

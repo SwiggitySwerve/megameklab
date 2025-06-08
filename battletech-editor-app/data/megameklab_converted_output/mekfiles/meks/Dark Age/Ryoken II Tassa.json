@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 CLStreakSRM6",
+      "location": "Right Torso",
+      "item_type": "1Clstreaksrm6"
+    },
+    {
+      "item_name": "1 CLERPPC",
+      "location": "Right Torso",
+      "item_type": "1Clerppc"
+    },
+    {
+      "item_name": "1 CLERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Clermediumlaser"
+    },
+    {
+      "item_name": "1 CLStreakSRM6",
+      "location": "Left Torso",
+      "item_type": "1Clstreaksrm6"
+    },
+    {
+      "item_name": "1 CLERPPC",
+      "location": "Left Torso",
+      "item_type": "1Clerppc"
+    },
+    {
+      "item_name": "1 CLERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Clermediumlaser"
+    }
+  ],
+  "era": 3132,
+  "tech_base": "Clan",
+  "chassis": "Ryoken II",
+  "model": "(Tassa)",
+  "mul_id": "8219",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "None",
+  "source": "TRO: Dark Age",
+  "mass": 75,
+  "engine": {
+    "rating": 375,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 15,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Bergan Industries"
+    },
+    {
+      "name": "Alshain"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "DSAM ENDO 5"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 375 Fusion Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZK20"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret GBX-2 Amalgamated Targeting and Tracking"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Alshain B4 Series 2 T&T"
+    }
+  ],
+  "fluff_text": {
+    "overview": "After the success of the Mad Cat Mk II design, which increased the tonnage and weaponry of the Mad Cat, Clan Ghost Bear applied these same changes to the medium Ryoken.",
+    "capabilities": "The Ryoken II is slower than its antecedent, only capable of 87 km/h, though it has more weight available for equipment and weapons. It is built on an Endo Steel chassis and is protected by thirteen and a half tons of armor.",
+    "deployment": "Her customized version utilizes twelve tons of Ferro-Fibrous armor, the most the design can mount. Two ER PPCs provide long range damage capability, while a pair of ER Medium Lasers and Streak SRM-6s can exploit the holes the PPCs makes in an enemy's armor. Fifteen double heat sinks keeps the 'Mech relatively cool, while jump jets enable her to vault up to 150 meters at a time. The weapons loadout bears a great resemblance to the Warhammer her genetic mother Natasha Kerensky piloted as a member of Wolf's Dragoons.",
+    "history": "The Ryoken II, first walked off the assembly line in 3075 during the Word of Blake Jihad. When the Ghost Bears later decided to sell some to the Republic of the Sphere, it caused a ruckus among some of the Clans, including a few Trials of Grievance from Clan Hell's Horses."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 231
+  }
+}

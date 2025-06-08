@@ -1,0 +1,230 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Center Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Head",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "LB 20-X AC",
+      "location": "Right Torso",
+      "item_type": "Lb20XAc"
+    },
+    {
+      "item_name": "LB 20-X AC",
+      "location": "Left Torso",
+      "item_type": "Lb20XAc"
+    }
+  ],
+  "era": 3142,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Pillager",
+  "model": "PLG-6Z",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "source": "Rec Guide:ilClan #31",
+  "mul_id": "9464",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISMediumPulseLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Triple Strength Myomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "General Motors"
+    },
+    {
+      "name": "HildCo Interplanetary"
+    },
+    {
+      "name": "Kathil"
+    },
+    {
+      "name": "St. Ives"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "HildCo Heavy Type VIIQT"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab/9.5 Mk II"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "HildCo Model 13"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CeresCom Recon Model 12K"
+    },
+    {
+      "type": "TARGETING",
+      "name": "C-Apple Churchill"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The largest BattleMech ever built by HildCo Interplanetary, the Pillager is built as a larger version of the Victor, and is intended for assaulting urban centers and hardened fortifications.",
+    "capabilities": "Based on a range of engine types, the Pillager has average mobility for its size, with a top speed of 54 km/h. Three HildCo Model 13 jump jets allow the 'Mech to jump up to ninety meters, increasing its mobility. The Pillager possesses outstanding armor protection and more than enough heat sinks to meet the Pillager's needs.",
+    "deployment": "Clan LB 20-X autocannons were traded to the Capellan Confederation for germanium in the new variant. The PLG-6Z retains the previous variant's triple-strength myomer. This makes the 'Mech slightly faster and more lethal in melee combat. The ER big laser has limited long-range firepower. Inexperienced pilots may be doomed by this poor, lone backup armament. The Strategios issued an order to keep the new Pillager near support 'Mechs in open ground, but MechWarriors eager to battle the enemy ignored it.",
+    "history": "The Pillager was the largest 'Mech ever built by HildCo during the Reunification War. The destruction of the manufacturing facilities that produced the Pillager's advanced technologies halted production during the Second Succession War, but the decoding of the Gray Death memory core allowed the Pillager to be reintroduced to the Inner Sphere. The Pillager has a long and colorful battle history. From the Reunification Battle through the Succession Wars, it has seen action in every war. Records show that during those fights, enemy forces tended to retreat at the sight of approaching Pillagers. The Pillager most recently demonstrated its amazing strength during the FedCom and the Capellan/St. Ives Civil Wars. When a Pillager-led unit attacked, many strongholds and defenses crumbled. Even now, in the struggle between Hasek's Capellan March and House Liao, the Pillager is making an impact on the battlefield, just as it did during the Amaris Civil War. The Pillager now serves in the majority of house militaries and mercenary troops. Because of the reintegration of St. Ives, the Capellan military has the most brawny 'Mechs."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 52,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

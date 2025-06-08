@@ -1,0 +1,202 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 2865,
+  "tech_base": "Clan",
+  "chassis": "Night Chanter",
+  "model": "Prime",
+  "config": "Biped Omnimech",
+  "source": "Turning Points: Foster",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mul_id": "9232",
+  "mass": 45,
+  "engine": {
+    "rating": 225,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "9",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "manufacturers": [
+    {
+      "name": "Various"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "HM-1A Modified"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Type 225 Standard Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "CI Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CI-Com 2"
+    },
+    {
+      "type": "TARGETING",
+      "name": "CI-X 2"
+    }
+  ],
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLERSmallLaser (OMNIPOD)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

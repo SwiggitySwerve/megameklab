@@ -1,0 +1,211 @@
+{
+  "quirks": [
+    "command_mech",
+    "obsolete"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "PPC",
+      "location": "Right Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "AC/5",
+      "location": "Right Torso",
+      "item_type": "Ac5"
+    }
+  ],
+  "era": 3025,
+  "tech_base": "Inner Sphere",
+  "chassis": "Cataphract",
+  "model": "CTF-0X",
+  "mul_id": "5795",
+  "config": "Biped",
+  "source": "XTR: Succession Wars",
+  "rules_level": "3",
+  "role": "Sniper",
+  "mass": 70,
+  "engine": {
+    "rating": 280,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Heat Sink",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Earthwerks Ltd."
+    },
+    {
+      "name": "Earthwerks Ltd."
+    },
+    {
+      "name": "Grand Base"
+    },
+    {
+      "name": "Tikonov"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks CTF"
+    },
+    {
+      "type": "ENGINE",
+      "name": "VOX 280"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Kallon Royalstar"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CommuTech Multi-Channel 10"
+    },
+    {
+      "type": "TARGETING",
+      "name": "BlazeFire Sightlock"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Cataphract is a heavy BattleMech and one of the first original designs since the start of the Succession Wars.",
+    "capabilities": "The Cataphract, with its armor layers, can easily absorb damage, but it can also deal it. The CeresArms Smasher PPC (taken from the Vindicator) and the SarLon MaxiCannon combine to deliver a brutal punch at greater ranges. A quartet of CeresArms medium lasers close in to give short-range firepower to both the front and rear.",
+    "deployment": "The Confederation experimented with a Cataphract variant carrying the Electronic Warfare Equipment that was mounted on the Raven which was being designed around the same time. It was equipped with a single PPC and autocannon/5, as well as two arm mounted medium lasers, the EW equipment, and a remote sensor dispenser on the rear center torso. A single shipment of CTF-0X prototypes was sent to Sian but line production did not commence afterwards because a request for more EW components was denied.",
+    "history": "Desperate for a heavy 'Mech design that could be produced and maintained sustainably by their deteriorating infrastructure, the Capellan Confederation built the Cataphract in 3025 to be assembled from pieces they could still manufacture. The Cataphract, dubbed a FrankenMech for its appearance and built with parts from the Marauder, Shadow Hawk, and Phoenix Hawk, was destined to become the Confederation's new standard heavy 'Mech. It entered service just before the Fourth Succession War, when the Tikonov production line was taken over by the Federated Suns. This humiliating defeat was exacerbated when numerous Davion troops, especially the Crucis Lancers, adopted the Cataphract as their own. Tikonov's product quality, on the other hand, left the Federated Suns wanting (at least in part due to deliberate obstruction by workers still loyal to the Confederation). The Confederation finally restored the lost plant with one on Betelgeuse in 3032, building their own Cataphracts in time for the Andurien Crisis. Shortly after seizing Tikonov, the Federated Commonwealth began development of the CTF-3D, which was designed to compete with an attack 'Mech while being as adaptable as feasible. Despite the modifications, the CTF-3D was only used sparingly by the Armed Forces of the Federated Commonwealth before being consigned to the Crucis March Militia as an affront to the Capellans. When the Clan Invasion began, everything that was still in production, including the Cataphract, was rushed to the front lines. The Capellans, for their part, were able to manufacture the CTF-3D from stolen schematics and went on to create their own variant, the CTF-3L, which would go on to account for 25% of all newly acquired heavy 'Mechs during the 3050s. The design's popularity would decrease in the years that followed, while a few new varieties would continue to be created as new technologies and demands arose."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 176
+  }
+}

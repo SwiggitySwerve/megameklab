@@ -1,0 +1,158 @@
+{
+  "quirks": [
+    "cramped_cockpit",
+    "ubiquitous_clan",
+    "rugged_1",
+    "ubiquitous_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Right Arm",
+      "item_type": "LightPpc"
+    }
+  ],
+  "era": 3076,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.49.18-SNAPSHOT on 2024-01-09",
+  "chassis": "Stinger",
+  "model": "STG-5G",
+  "mul_id": "3062",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #13",
+  "rules_level": "3",
+  "role": "Scout",
+  "mass": 20,
+  "engine": {
+    "rating": 140,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "ejection": "Full Head Ejection System",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 69
+  }
+}

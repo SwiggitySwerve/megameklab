@@ -1,0 +1,260 @@
+{
+  "quirks": [
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Flamer",
+      "location": "Left Torso",
+      "item_type": "Flamer"
+    },
+    {
+      "item_name": "Laser AMS",
+      "location": "Left Torso",
+      "item_type": "LaserAms"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Ultra AC/2",
+      "location": "Right Arm",
+      "item_type": "UltraAc2"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Right Torso",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak LRM 5",
+      "location": "Right Torso",
+      "item_type": "StreakLrm5"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Arm",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MicroPulseLaser"
+    }
+  ],
+  "era": 3142,
+  "tech_base": "Clan",
+  "chassis": "Nobori-nin",
+  "clanname": "Huntsman",
+  "model": "T",
+  "mul_id": "7781",
+  "config": "Biped Omnimech",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "source": "Rec Guide:ilClan #12",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Irece Alpha"
+    },
+    {
+      "name": "Avon Alpha"
+    },
+    {
+      "name": "and Brim Ironworks"
+    },
+    {
+      "name": "Clan Protectorate Arms"
+    },
+    {
+      "name": "Irece"
+    },
+    {
+      "name": "Avon"
+    },
+    {
+      "name": "Brim"
+    },
+    {
+      "name": "Asellus Australis"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Mynx Type Medium Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "250 Consolidated XL Fusion"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Alpha Compound Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Northrup Starlifters M50s Standard"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Exemplifying the OmniMech concept, the flexible Huntsman was the premier medium 'Mech of Clan Nova Cat during Operation REVIVAL.",
+    "deployment": "This configuration provides a wide variety of weapons. Each arm carries a pair of Improved Heavy Medium Lasers. Long range fire is provided by an Ultra AC/2 in the right arm and a pair of Streak LRM-5 launchers in the right torso. A Micro Pulse Laser, ER Small Laser, and Flamer are provided to threaten infantry and armor forces. The left arm carries a Streak SRM-6 launcher. Additional protection is provided by a Laser Anti-Missile System. The missile launchers and autocannon each have a ton of ammunition provided.",
+    "capabilities": "No expense has been spared in the construction of this front-line OmniMech that uses an Extra-Light Engine, Endo Steel structure, and nine tons of Ferro-Fibrous armor. Five jump jets enable it to leap up to 150 meters at a time.",
+    "history": "First seen within the 119th Nova Cat Striker Cluster during the Battle of Luthien, a Draconis Combine Mustered Soldiery intelligence officer dubbed the OmniMech with the name of \"Nobori-nin\" (Japanese for \"Banner-bearer\") due to the single fin-like projection rising from the back of the 'Mech reminding him of the banner samurai worn on their backs in feudal Japan. Prized for its flexibility across a wide range of opponents and battlefield conditions, the Huntsman was almost exclusively a Nova Cat design during the initial Clan Invasion, but prior to the Word of Blake Jihad had entered service with Clans Diamond Shark, Cloud Cobra and Star Adder."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 169
+  }
+}

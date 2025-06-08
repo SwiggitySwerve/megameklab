@@ -1,0 +1,155 @@
+{
+  "quirks": [
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISGuardianECM",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISSNPPC",
+      "location": "Right Arm",
+      "item_type": "1Issnppc"
+    },
+    {
+      "item_name": "1 ISSNPPC",
+      "location": "Left Arm",
+      "item_type": "1Issnppc"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Sha Yu",
+  "model": "SYU-6B",
+  "mul_id": "5670",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Striker",
+  "source": "Record Sheets: 3067 Unabridged",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Stealth Armor",
+        "Stealth Armor",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Stealth Armor",
+        "Stealth Armor"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Stealth Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 120
+  }
+}

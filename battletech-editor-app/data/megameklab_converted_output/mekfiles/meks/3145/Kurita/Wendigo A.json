@@ -1,0 +1,166 @@
+{
+  "quirks": [
+    "distracting"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Head",
+      "item_type": "Lrm15"
+    }
+  ],
+  "era": 3150,
+  "tech_base": "Clan",
+  "chassis": "Wendigo",
+  "model": "A",
+  "mul_id": "6404",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3145 Draconis Combine",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 50,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Torso-Mounted Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 14,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "6",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Sensors",
+        "Sensors",
+        "CLLRM15 (OMNIPOD)",
+        "CLLRM15 (OMNIPOD)",
+        "Clan Ammo LRM-15 (OMNIPOD)",
+        "Clan Ammo LRM-15 (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 152
+  }
+}

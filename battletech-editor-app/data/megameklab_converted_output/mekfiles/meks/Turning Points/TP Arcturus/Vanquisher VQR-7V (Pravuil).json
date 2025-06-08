@@ -1,0 +1,195 @@
+{
+  "quirks": [
+    "bad_rep_is",
+    "stable",
+    "no_arms",
+    "bad_rep_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large VSP Laser",
+      "location": "Left Arm",
+      "item_type": "LargeVspLaser"
+    },
+    {
+      "item_name": "Large VSP Laser",
+      "location": "Left Arm",
+      "item_type": "LargeVspLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 3",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3073,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.49.19-SNAPSHOT on 2024-03-16",
+  "chassis": "Vanquisher",
+  "model": "VQR-7V (Pravuil)",
+  "mul_id": "7342",
+  "config": "Biped",
+  "source": "Turning Points: Arcturus",
+  "rules_level": "3",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 15,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "Based on the King Crab, and built in the same factory that first produced the Mackie, the Vanquisher has a legendary pedigree.",
+    "capabilities": "In order to allow it to carry as heavy a payload as possible without sacrificing durability, the 'Mech is built on a Hollis Alteration Mark VI Endo Steel that carries a Vlar 300 fusion engine, which propels the 'Mech to a top speed of 54 km/h. The Vanquisher is protected by nineteen and a half tons of armor with CASE in both side torsos to protect the 'Mech from going down in an ammunition explosion.",
+    "deployment": "This variant is based on the VQR-7V, but replaces the heavy duty gyro with a Compact Gyro. It has a Gauss Rifle in the right arm and two Large Variable Speed Pulse Lasers in the left arm as its main striking power. Supporting these are twin MML-3s and two ER Medium Lasers. Two tons of ammo are carried for the MMLs and Gauss Rifle. This variant was used by Demi-Precentor Pravuil, who was second in command of the 40th Shadow Division.",
+    "history": "The Vanquisher has its genesis in the development of reverse engineered Improved C3 Computers. Once the Word of Blake had perfected their version of C3i, Cameron St. Jamais contacted Skobel MechWorks and contracted them to produce a 'Mech that would showcase the features of the new system. The Vanquisher was the result of that request.\nmanufacturer:Skobel MechWorks\nprimaryfactory:Russia, Terra\nsystemmanufacturer:CHASSIS:Hollis Alteration Mark VI\nsystemmanufacturer:ENGINE:Vlar 300\nsystemmanufacturer:ARMOR:Aldis Plate with CASE\nsystemmanufacturer:COMMUNICATIONS:Skobel Wave VI Comm with C3i Computer\nsystemmanufacturer:TARGETING:Falcon 12b Watcher"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 45,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 304
+  }
+}

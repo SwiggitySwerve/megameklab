@@ -1,0 +1,216 @@
+{
+  "quirks": [
+    "low_profile",
+    "bad_rep_clan"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISERLargeLaser",
+      "location": "Left Arm",
+      "item_type": "1Iserlargelaser"
+    },
+    {
+      "item_name": "2 ISSmallLaser",
+      "location": "Left Arm",
+      "item_type": "2Issmalllaser"
+    },
+    {
+      "item_name": "1 ISBeagleActiveProbe",
+      "location": "Right Torso",
+      "item_type": "1Isbeagleactiveprobe"
+    },
+    {
+      "item_name": "1 ISGuardianECM",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Center Torso",
+      "item_type": "1Ismediumlaser"
+    }
+  ],
+  "era": 2823,
+  "tech_base": "Inner Sphere",
+  "chassis": "Mercury II",
+  "model": "MCY-100",
+  "mul_id": "2173",
+  "source": "Jihad Secrets: The Blake Documents",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Striker",
+  "weaponquirk": "stable_weapon:CT:10:Medium Laser",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Unknown"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unknown"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unknown 280 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unknown Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unknown"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unknown"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Mercury II is a BattleMech designed by Clan Wolverine. The Not-Named-Clan designed the 'Mech in 2823 during the Clans' early years.",
+    "capabilities": "The Mercury II was an enlarged and updated design of the Mercury produced by Clan Wolverine. This 'Mech lacks its predecessor's unique modular repair system, being a standard post-SLDF/early Clan era BattleMech.",
+    "deployment": "Though the Mercury II is designed to be a scout, it can hold its own in a fight. An ER Large Laser gives it a credible ranged threat, while paired Medium Lasers and Small Lasers make it an effective hunter-killer.",
+    "history": "The fledgling society built this new design around the existing Mercury, but upgraded it to make it a more effective combatant at the cost of speed. Since the design was produced in the formative years of the Clans, it uses Star League technology. The Wolverines spared no expense in the production of the Mercury II, including seven and a half tons of Ferro-Fibrous armor, double heat sinks and an XL Engine. Despite this the medium 'Mech is still slower than its lighter antecedent, only managing 119 km/h, though it makes up for that with jump jets that enable it to leap up to 210 meters at a time. The inclusion of a Beagle Active Probe and Guardian ECM Suite make the 'Mech a capable scout. Clan Coyote claimed their losses on the battlefield during the Not-Named-Clan's annihilation had been acceptable due to capturing a Mercury II, and the design appears to have inspired in part the Coyotl, the very first OmniMech."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 134
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "anti_air",
+    "imp_com"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Right Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Heavy Large Laser",
+      "location": "Left Arm",
+      "item_type": "HeavyLargeLaser"
+    },
+    {
+      "item_name": "Plasma Cannon",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Plasma Cannon",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Head",
+      "item_type": "MicroPulseLaser"
+    }
+  ],
+  "era": 3078,
+  "tech_base": "Clan",
+  "chassis": "Rifleman IIC",
+  "model": "7",
+  "mul_id": "2716",
+  "config": "Biped",
+  "source": "TRO: 3085",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 65,
+  "engine": {
+    "rating": 195,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLMicroPulseLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Improved Jump Jet",
+        "Clan Improved Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Irece Alpha (Refit)"
+    },
+    {
+      "name": "Irece"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "CCo-B Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Fusion 195 Mk. VI, Mod. 3"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZM15 Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "\"Highlifter\" 44"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T11-A"
+    },
+    {
+      "type": "TARGETING",
+      "name": "GH D5j TTS with Active Probe"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Rifleman IIC is an upgrade of the venerable Rifleman BattleMech. Five tons heavier than the design it is based on, the Rifleman IIC is also slower.",
+    "capabilities": "Five tons heavier than the design it is based on, the Rifleman IIC is also slower. This creates a great deal more room with which to mount other equipment. Further weight savings are found in the use of an Endo Steel frame. One of the first upgrades to the design was maxing out its protection, with eleven tons of Ferro-Fibrous armor.",
+    "deployment": "The Nova Cats introduced this version in 3078. Based on the IIC 5, it keeps the jump capability but replaces all weapons with arm mounted Heavy Large Lasers and Plasma Cannons. A Targeting Computer makes these weapons extremely effective.",
+    "history": "An ancient rebuild of an already ancient design, the Rifleman IIC has soldiered on throughout the centuries. The âMech can be found in service with most Clans (a notable exception is Clan Wolf, which prefers the Glass Spider) and several Inner Sphere powers. Its simplicity is matched only by its effectiveness, and new variants continue to debut."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 208
+  }
+}

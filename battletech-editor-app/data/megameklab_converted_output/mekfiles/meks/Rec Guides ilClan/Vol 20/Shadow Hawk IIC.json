@@ -1,0 +1,228 @@
+{
+  "quirks": [
+    "battle_fists_la",
+    "battle_fists_ra",
+    "imp_life_support"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Left Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Left Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Right Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Right Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Head",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 2831,
+  "tech_base": "Clan",
+  "chassis": "Shadow Hawk IIC",
+  "mul_id": "2911",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #20",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLERMediumLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Unknown"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Lang T3"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Consolidated Fusion 270 Standard"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound H17 Ferro-Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Northrup Starlifters M45"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JNE Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "TRTTS Mark II"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Shadow Hawk IIC is a second-line Clan BattleMech based upon the Shadow Hawk that was first fielded by the Star League.",
+    "capabilities": "The inexpensive unit is protected by seven and a half tons of Ferro-Fibrous armor, mounted on a weight-saving Endo Steel chassis. This medium 'Mech can reach a respectable top speed of 97 km/h, though it also carries enough jump jets to vault up to 180 meters at a time.",
+    "deployment": "The first version of the Shadow Hawk IIC that Inner Sphere forces encountered is meant for close-range fighting, and appears to be designed with urban warfare in mind. Two Medium Pulse Lasers are incredibly accurate in close. Four Streak SRM-2s are best at exploiting holes in an enemy's armor, while the Streak technology ensures the missiles will inflict no collateral damage. An ER Medium Laser and ER Small Laser rounds out the weaponry. Ten double heat sinks take care of most heat, especially since the Streaks will build no heat if they do not achieve a lock and fire."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

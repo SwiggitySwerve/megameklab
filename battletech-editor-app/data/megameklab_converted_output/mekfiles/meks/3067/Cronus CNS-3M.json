@@ -1,0 +1,168 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISLargeLaser",
+      "location": "Right Arm",
+      "item_type": "1Islargelaser"
+    },
+    {
+      "item_name": "2 ISMediumLaser",
+      "location": "Right Torso",
+      "item_type": "2Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISSRM4",
+      "location": "Center Torso",
+      "item_type": "1Issrm4"
+    }
+  ],
+  "era": 3031,
+  "tech_base": "Inner Sphere",
+  "chassis": "Cronus",
+  "model": "CNS-3M",
+  "mul_id": "4020",
+  "config": "Biped",
+  "rules_level": "1",
+  "role": "Skirmisher",
+  "source": "TRO: 3067",
+  "mass": 55,
+  "engine": {
+    "rating": 275,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 14,
+    "type": "Single"
+  },
+  "walk_mp": "5",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Heat Sink",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 168
+  }
+}

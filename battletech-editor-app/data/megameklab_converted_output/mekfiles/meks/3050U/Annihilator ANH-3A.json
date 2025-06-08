@@ -1,0 +1,225 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "2 ISLAC2",
+      "location": "Right Arm",
+      "item_type": "2Islac2"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "2 ISLAC2",
+      "location": "Left Arm",
+      "item_type": "2Islac2"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "2 ISLAC2",
+      "location": "Right Torso",
+      "item_type": "2Islac2"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "2 ISLAC2",
+      "location": "Left Torso",
+      "item_type": "2Islac2"
+    }
+  ],
+  "era": 3068,
+  "tech_base": "Inner Sphere",
+  "chassis": "Annihilator",
+  "model": "ANH-3A",
+  "mul_id": "41",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 200,
+    "type": "Compact Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "gyro": "Compact Gyro",
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Light Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Arc-Royal MechWorks"
+    },
+    {
+      "name": "Arc-Royal"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Star League MN-01"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Nissan 200"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield Light Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T19-G"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Wasat Aggressor Type 5"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Originally developed in the final year of the Amaris Civil War as the ultimate fixed position city defense BattleMech.",
+    "capabilities": "The Annihilator is armed with an arsenal that is built to instill fear in an enemy as much as damage them. The 100-ton 'Mech has a maximum speed of 32.4 km/h, making it one of the slowest 'Mechs ever designed together with the UrbanMech. It is by no means intended to use speed to outmaneuver an enemy, instead depending on its twelve and a half tons of armor to weather any fire that is directed at the 'Mech.",
+    "deployment": "This upgrade made use of double heat sinks and used the tonnage saved to max out the armor on the Annihilator. Offensively, four ER Medium Lasers and eight Light Autocannon/2s were incredibly accurate thanks to the inclusion of a Targeting Computer. Ample autocannon ammunition (five tons) allowed flexibility when choosing special munitions, making this 'Mech very effective against vehicles. To fit all this equipment, a Compact Engine and Compact Gyro are mounted in the center torso. The 'Mech is protected by Light Ferro Fibrous armor and CASE.",
+    "history": "The Annihilator was built as a sign of the military strength of both the Star League in Exile and the newly created Clans. Discontinued before the Clans' Golden Century, in one of their few missteps, the Wolf's Dragoons brought a number of unknown designs with them in 3009, raising more questions to their origins while at the same time adding to their mystique. It was exclusive to the Dragoons until the Jihad disseminated the design to Arc-Royal due to the strengthening of the relationship that Wolf's Dragoons forged with the Kell Hounds and Clan Wolf-in-Exile following their flight from Outreach."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 307
+  }
+}

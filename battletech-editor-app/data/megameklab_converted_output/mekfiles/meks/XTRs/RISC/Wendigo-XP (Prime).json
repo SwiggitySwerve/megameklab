@@ -1,0 +1,187 @@
+{
+  "quirks": [
+    "distracting",
+    "prototype"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Arm",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ProtoMech AC/2",
+      "location": "Right Arm",
+      "item_type": "ProtomechAc2"
+    },
+    {
+      "item_name": "LRM 10",
+      "location": "Head",
+      "item_type": "Lrm10"
+    }
+  ],
+  "era": 3151,
+  "tech_base": "Mixed (Clan Chassis)",
+  "generator": "MegaMek Suite 0.50.1-SNAPSHOT on 2024-10-25",
+  "chassis": "Wendigo-XP",
+  "model": "(Prime)",
+  "config": "Biped OmniMek",
+  "source": "XTRO:RISC",
+  "rules_level": "5",
+  "role": "Brawler",
+  "mass": 50,
+  "engine": {
+    "rating": 250,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Super-Cooled",
+    "manufacturer": null
+  },
+  "cockpit": "Torso-Mounted Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 12,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Sensors",
+        "Sensors",
+        "CLLRM10 (OMNIPOD)",
+        "Clan Ammo LRM-10 (OMNIPOD)",
+        "ISReconCamera (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISSuperCooledMyomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISSuperCooledMyomer",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 152
+  }
+}

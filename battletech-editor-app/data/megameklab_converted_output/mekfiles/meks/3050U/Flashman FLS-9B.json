@@ -1,0 +1,226 @@
+{
+  "quirks": [
+    "rugged_1"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISERLargeLaser",
+      "location": "Right Arm",
+      "item_type": "1Iserlargelaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISERLargeLaser",
+      "location": "Left Arm",
+      "item_type": "1Iserlargelaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Left Torso",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISERSmallLaser",
+      "location": "Center Torso",
+      "item_type": "1Isersmalllaser"
+    },
+    {
+      "item_name": "1 ISImprovedC3CPU",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3070,
+  "tech_base": "Inner Sphere",
+  "chassis": "Flashman",
+  "model": "FLS-9B",
+  "mul_id": "1125",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 75,
+  "engine": {
+    "rating": 375,
+    "type": "Light Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "gyro": "Compact Gyro",
+  "cockpit": "Small Cockpit",
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISImprovedC3CPU",
+        "ISImprovedC3CPU",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Industries"
+    },
+    {
+      "name": "Hesperus II"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "FLS/HV-1 Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Defiance 375 Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield Light"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Duoteck 195"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Faust/Shinji AT/TS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Flashman is an underrated heavy 'Mech, commonly called a \"flashbulb\" by MechWarriors for its heavy-energy configuration.",
+    "capabilities": "Designed to provide continuous energy based fire support for lancemates moving to attack or covering fire for withdrawing units. The use of a Faust/Shinji AT/TS targeting-tracking system gives the Flashman a level of accuracy few can match, while fifteen double heat sinks give it an effective heat management system. The 'Mech is also notable for using an extralight engine which makes it fast for its size, though not at the expense of protection thanks to thirteen and a half tons of armor.",
+    "deployment": "The first variant produced by Word of Blake in 3068 following their conquest of Hesperus II, the 9B utilizes a Light Fusion Engine, Compact Gyro, Endo Steel structure, Light Ferro-Fibrous armor, and a Small Cockpit. Twelve double heat sinks struggle to cool the all-laser configuration. Two ER Large Lasers enable the Flashman to strike from long distances. Two ER Medium Lasers, two Medium Pulse Lasers, and an ER Small Laser are powerful up close. A C3i Computer enables the 9B to share targeting telemetry with other, like-equipped units.",
+    "history": "The Flashman, which was first introduced in 2701, is a 'Mech that is capable of engaging an enemy for extended periods of time with little re-supply. This made it one of the most prized 'Mechs in a commander's arsenal during the Star League and saw heavy use by line regiments, typically in a \"fire brigade\" role for heavy and assault lances. During advances it would stay to the rear to protect against ambushes and provide fire support for its lancemates. Towards the end of the Star League, several divisions had battalions composed of nothing but Flashmen, and thanks to its popularity these 'Mechs saw frequent use on the front lines. When the League dissolved, the design spread amongst the Successor States but fewer than 500 Flashmen were still operational at the start of the First Succession War. Their heavy use during this fighting saw many destroyed and production of new 'Mechs abruptly stopped in 2796 when Renault-Prime Industries on Wasat was destroyed. The Flashman was saved from extinction thanks to Defiance Industries, which was able to acquire the schematics and produced a downgraded version at their Hesperus II plant. Thanks to the fact that they owned the only remaining Flashman factory and could replace their combat losses, the Lyran Commonwealth remained the largest user of Flashman 'Mechs throughout the Succession Wars - at least until the unveiling of the Com Guards. ComStar also supplied examples of downgraded Flashmen to the Draconis Combine as part of Operation Rosebud. Following the recovery of the Helm Memory Core, Defiance Industries was able to restart production of original-model Flashman 'Mechs in the 3050s and built new variants for ComStar. After the Word of Blake seized control of Defiance Industries they also produced new variants which were supplied to their Militia for the Jihad."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 220
+  }
+}

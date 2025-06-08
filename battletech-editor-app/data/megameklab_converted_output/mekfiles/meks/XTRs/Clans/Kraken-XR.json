@@ -1,0 +1,209 @@
+{
+  "quirks": [
+    "difficult_maintain",
+    "poor_performance",
+    "prototype",
+    "ext_twist",
+    "pro_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 CLRotaryAC2",
+      "location": "Left Arm",
+      "item_type": "1Clrotaryac2"
+    },
+    {
+      "item_name": "1 CLRotaryAC2",
+      "location": "Left Arm",
+      "item_type": "1Clrotaryac2"
+    },
+    {
+      "item_name": "1 CLRotaryAC2",
+      "location": "Right Arm",
+      "item_type": "1Clrotaryac2"
+    },
+    {
+      "item_name": "1 CLRotaryAC2",
+      "location": "Right Arm",
+      "item_type": "1Clrotaryac2"
+    },
+    {
+      "item_name": "1 CLStreakLRM10",
+      "location": "Right Torso",
+      "item_type": "1Clstreaklrm10"
+    },
+    {
+      "item_name": "1 CLStreakLRM10",
+      "location": "Left Torso",
+      "item_type": "1Clstreaklrm10"
+    },
+    {
+      "item_name": "1 CLERLargeLaser",
+      "location": "Left Torso",
+      "item_type": "1Clerlargelaser"
+    }
+  ],
+  "era": 3073,
+  "tech_base": "Clan",
+  "chassis": "Kraken-XR",
+  "mul_id": "4463",
+  "config": "Biped",
+  "source": "XTR: Clans",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo-Composite",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Reflective",
+        "Reflective",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Reflective",
+        "Reflective"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Tokasha MechWorks Alpha"
+    },
+    {
+      "name": "Olivetti Weapons"
+    },
+    {
+      "name": "Tokasha"
+    },
+    {
+      "name": "Sudeten"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Type AXT, Mk. XX"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Fusion 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging C745"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JNE Integrated"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Series VI TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Bane is a BattleMech that is based upon a Star League prototype that was never put into production. Tagged the Kraken by Inner Sphere forces who opposed it.",
+    "capabilities": "The Bane was first built in 2827. It was originally a significant part of many Clan toumans, but was gradually relegated to second-line status following the introduction of the OmniMech. As such, it is still critical to many defensive units. The design uses a lightweight XL Engine so that it can mount the arsenal that it does. Nineteen tons of armor protects this venerable assault 'Mech.",
+    "deployment": "A Clan Jade Falcon variant that uses Experimental Technology extensively, the Kraken-XR was first spotted at Olivetti Weaponry on Sudeten. The standard Kraken skeleton was replaced by an Endo-Composite Structure to save weight while keeping strength. The Kraken-XR uses sixteen Laser Heat Sinks, and carries nineteen tons of Reflective Armor for protection. The weapons load appears to be a cross between the Bane 2 and Bane 3 variants, consisting of a pair of Rotary AC/2s in each arm and a Streak LRM-10 in each torso. A single ER Large Laser acts as a backup weapon in case the ammunition runs dry. For more protection the Kraken-XR mounts CASE II in each ammunition bay."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 42,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 304
+  }
+}

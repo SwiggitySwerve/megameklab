@@ -1,0 +1,280 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "'Mech Mortar 4",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "'Mech Mortar 4",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Head",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Light Machine Gun",
+      "location": "Head",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 3117,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Antlion",
+  "model": "LK-3D",
+  "mul_id": "6338",
+  "config": "Quad",
+  "source": "TRO: 3145 Federated Suns",
+  "rules_level": "4",
+  "role": "Missile Boat",
+  "mass": 45,
+  "engine": {
+    "rating": 225,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Reinforced",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "criticals": [
+    {
+      "location": "Front Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Front Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Machine Gun Ammo - Half",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "ISDoubleHeatSink",
+        "Clan Mech Mortar-4",
+        "Clan Mech Mortar-4",
+        "BloodhoundActiveProbe",
+        "BloodhoundActiveProbe",
+        "BloodhoundActiveProbe",
+        "RemoteSensorDispenser",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Clan Mech Mortar-4",
+        "Clan Mech Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "Clan Ammo SC Mortar-4",
+        "ISCASEII",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Gyro",
+        "Fusion Engine",
+        "Fusion Engine",
+        "Fusion Engine"
+      ]
+    },
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "Light Machine Gun",
+        "Light Machine Gun",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Left Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    },
+    {
+      "location": "Right Leg",
+      "slots": [
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Light Ferro-Fibrous",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "manufacturers": [
+    {
+      "name": "StarCorps Industries"
+    },
+    {
+      "name": "Crofton"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "StarFrame Medium Reinforced"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM SuperFusion 225 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Valiant Ringmail Light Ferro-Fibrous with CASE II"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "O/P 3950 COMSET M7"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Martin-Quarry Tarsys XLR 2.7 with Bloodhound Active"
+    }
+  ],
+  "fluff_text": {
+    "overview": "<p>The Antlion, a unique quad BattleMech developed by StarCorps, is a specialized unit in the Armed Forces of the Federated Suns, purpose-built for indirect fire support. Designed to address the diminishing efficiency of LRMs due to the rise of anti-missile systems, the Antlion stands out for its specific role in warfare. Despite limited adoption beyond the AFFS and select mercenary units, its production continues, underscoring its niche yet vital function on the battlefield. The Antlion represents a tactical shift in mech warfare, focusing on bombardment from cover rather than direct engagement.</p>",
+    "capabilities": "<p>The Antlion is characterized by its light frame and slow speed, making it unsuitable for direct combat. Its primary strength lies in its exceptional sensor capabilities, with an active probe that ensures nothing can approach undetected within a 240-meter radius. However, its armament, limited to a pair of light machine guns, offers minimal offensive capability, barely posing a threat even to unarmored infantry. The Antlion's real value is in its specialized role, utilizing its advanced sensor systems for indirect fire missions and tactical positioning rather than frontline engagement.</p>",
+    "deployment": "This is the only known variant",
+    "history": "<p>\nThe Antlion's inception by StarCorps marks a strategic evolution in BattleMech design, focusing on indirect fire support to counteract the growing efficiency of anti-missile systems. Initially designed to complement the Osiris and intended for the Federated Suns' military, the Antlion found its place after Gittleman and Abzug moved to the New Colony Region and collaborated with Detroit Consolidated MechWorks. This transition facilitated the Antlion's integration into the AFFS and highlighted its unique role in modern warfare."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "FLL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "FRL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RLL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RRL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 161
+  }
+}

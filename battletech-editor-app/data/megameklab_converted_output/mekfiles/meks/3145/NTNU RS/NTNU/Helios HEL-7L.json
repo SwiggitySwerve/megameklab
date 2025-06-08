@@ -1,0 +1,176 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Light PPC",
+      "location": "Left Arm",
+      "item_type": "LightPpc"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "MML 5",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "MML 5",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3144,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.50.0-SNAPSHOT on 2024-07-24",
+  "chassis": "Helios",
+  "model": "HEL-7L",
+  "mul_id": "7989",
+  "config": "Biped",
+  "source": "Record Sheets: 3150",
+  "rules_level": "3",
+  "role": "Sniper",
+  "mass": 60,
+  "engine": {
+    "rating": 240,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo-Composite",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Light Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo-Composite",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo-Composite",
+        "IS Light Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 169
+  }
+}

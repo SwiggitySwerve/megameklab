@@ -1,0 +1,201 @@
+{
+  "quirks": [
+    "cowl"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Right Leg",
+      "item_type": "SmallXPulseLaser"
+    },
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Head",
+      "item_type": "SmallXPulseLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Small X-Pulse Laser",
+      "location": "Left Leg",
+      "item_type": "SmallXPulseLaser"
+    }
+  ],
+  "era": 3131,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Gunslinger",
+  "model": "GUN-3ERD",
+  "mul_id": "9354",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #27",
+  "rules_level": "3",
+  "role": "Juggernaut",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Standard Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "3",
+  "jump_mp": "2",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISSmallXPulseLaser",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "ISSmallXPulseLaser (R)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "ISSmallXPulseLaser (R)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Clan invasion produced some strange bedfellows, the most unlikely of which was the Federated Commonwealth-Draconis Combine quasi-alliance. Though that relationship has deteriorated over the years, the Gunslinger stands as a testament to what can happen when two bitter enemies put aside their mutual hatred and work together to achieve a common goal.",
+    "capabilities": "To power the Gunslinger, a VOX 255 XL engine is used to give the 'Mech a top speed of 54 km/h. This is augmented by a pair of HildCo Model 12 jump jets that allow the Gunslinger to traverse rough terrain and provide extra mobility at close ranges. The 'Mech is also equipped with a Guardian ECM Suite and a Beagle Active Probe, giving the Gunslinger superior detection capabilities and protection from advanced enemy electronic warfare equipment. Finally, the Gunslinger is protected by fifteen and a half tons of armor, giving the 'Mech excellent armor protection.",
+    "deployment": "No information on this variant",
+    "history": "On December 5, 3053, the first FedCom Gunslinger rolled off the assembly line at Defiance Industries. Because of issues with the Gauss weapons, it took nearly two years for the first Combine Gunslinger to leave the Quentin plant. Since then, both plants have built as many Gunslingers as they possibly can each year, severely taxing their resources while breaking production records year after year. Beginning with Operation Guerrero in 3057 and the Lyran Alliance's Jade Falcon invasion in 3058, the Gunslinger demonstrated its capabilities, as it has in every other significant military operation in the Inner Sphere since. As a result, the Gunslinger is still in high demand.\nmanufacturer:Defiance Industries, Independence Weaponry\nprimaryfactory:Hesperus II,Quentin\nsystemmanufacturer:CHASSIS:Star League XT\nsystemmanufacturer:ENGINE:Various Clan 255 XL\nsystemmanufacturer:ARMOR:Kevlar 5000\nsystemmanufacturer:JUMPJET:HildCo Model 12\nsystemmanufacturer:COMMUNICATIONS:Nashan Quartet ComSy with Guardian ECM\nsystemmanufacturer:TARGETING:Nashan Diana Mark II Targeting Computer"
+  },
+  "armor": {
+    "type": "Ballistic-Reinforced",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 17,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 246
+  }
+}

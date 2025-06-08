@@ -1,0 +1,230 @@
+{
+  "quirks": [
+    "imp_com",
+    "imp_sensors",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Streak LRM 10",
+      "location": "Left Arm",
+      "item_type": "StreakLrm10"
+    },
+    {
+      "item_name": "Streak LRM 10",
+      "location": "Right Arm",
+      "item_type": "StreakLrm10"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Streak LRM 10",
+      "location": "Right Torso",
+      "item_type": "StreakLrm10"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Head",
+      "item_type": "LargePulseLaser"
+    }
+  ],
+  "era": 3075,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Seraph",
+  "model": "C-SRP-OS Caelestis",
+  "mul_id": "2876",
+  "source": "Jihad Secrets: The Blake Documents",
+  "config": "Biped Omnimech",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 85,
+  "engine": {
+    "rating": 255,
+    "type": "Light Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "CLLargePulseLaser (omnipod)",
+        "CLLargePulseLaser (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "TSM",
+        "TSM",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "TSM",
+        "TSM",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Gibson Federated BattleMechs"
+    },
+    {
+      "name": "Martinson Armaments"
+    },
+    {
+      "name": "Gibson (Gibson Federated)"
+    },
+    {
+      "name": "Terra (Martinson)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Celestial Series SP1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 255 Light Fusion with Triple-Strength Myomer"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Divine Guardian"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Masterâs Voice Cel-Alpha"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Masterâs Sight 1-Omega"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The light assault 'Mech of the Celestial series of OmniMechs, the Seraph is somewhat slow for its weight, but it attempts to make up for that with the inclusion of Triple-Strength Myomer that enables the 'Mech to speed up to 64 kph when it runs hot.",
+    "capabilities": "Like the other Celestials, the Seraph makes use of a light fusion engine and a small cockpit, though other newer technologies are present only in its weaponry. As with the other Celestials, a C3i Computer is included. The main criticism of the Seraph Invictus is that it does not make very good use of its Triple-Strength Myomer. The design does not build enough heat to activate the musculature, a problem the Streak missile system only exacerbates.",
+    "deployment": ""
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 35,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 256
+  }
+}

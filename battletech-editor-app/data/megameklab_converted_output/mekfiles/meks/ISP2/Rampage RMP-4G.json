@@ -1,0 +1,181 @@
+{
+  "quirks": [
+    "vestigial_hands_ra",
+    "bad_rep_clan",
+    "bad_rep_is",
+    "obsolete"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISLBXAC10",
+      "location": "Right Arm",
+      "item_type": "1Islbxac10"
+    },
+    {
+      "item_name": "1 ISGaussRifle",
+      "location": "Left Arm",
+      "item_type": "1Isgaussrifle"
+    },
+    {
+      "item_name": "1 ISMediumLaser",
+      "location": "Right Torso",
+      "item_type": "1Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISAntiMissileSystem",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISFlamer",
+      "location": "Left Torso",
+      "item_type": "1Isflamer"
+    },
+    {
+      "item_name": "1 ISLargePulseLaser",
+      "location": "Center Torso",
+      "item_type": "1Islargepulselaser"
+    }
+  ],
+  "era": 2750,
+  "tech_base": "Inner Sphere",
+  "chassis": "Rampage",
+  "model": "RMP-4G",
+  "mul_id": "2636",
+  "source": "Jihad Conspiracies: Interstellar Players 2",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 85,
+  "engine": {
+    "rating": 340,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "MASC",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo Steel",
+        "Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 40,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 13,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 248
+  }
+}

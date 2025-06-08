@@ -1,0 +1,207 @@
+{
+  "quirks": [
+    "imp_target_long",
+    "difficult_eject"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Arm",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "LB 10-X AC",
+      "location": "Right Arm",
+      "item_type": "Lb10XAc"
+    },
+    {
+      "item_name": "Ultra AC/2",
+      "location": "Left Torso",
+      "item_type": "UltraAc2"
+    },
+    {
+      "item_name": "Ultra AC/2",
+      "location": "Left Torso",
+      "item_type": "UltraAc2"
+    },
+    {
+      "item_name": "Ultra AC/2",
+      "location": "Right Torso",
+      "item_type": "UltraAc2"
+    },
+    {
+      "item_name": "Ultra AC/2",
+      "location": "Right Torso",
+      "item_type": "UltraAc2"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Center Torso",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3010,
+  "tech_base": "Clan",
+  "chassis": "Daishi",
+  "clanname": "Dire Wolf",
+  "model": "B",
+  "mul_id": "814",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 15,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink",
+        "CLDoubleHeatSink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Dire Wolf is one of the OmniMechs that became feared throughout the Inner Sphere during the initial Clan Invasion and rightly so.",
+    "capabilities": "The Dire Wolf weighs in at an impressive one hundred tons and has a relatively slow cruising speed of 54 km/h provided by a 300 XL engine. Its speed and armor protection matches that of an Atlas, but it has superior potential firepower with fifty and a half tons of free pod space for weapons and equipment. It is these traits which saw the 'Mech christened Daishi (pseudo-Japanese for \"Great Death\") by the criminal underbelly of the Draconis Combine, a name that would be proven grimly accurate time and time again.",
+    "deployment": "The B configuration is armed for long range engagements with four Ultra Autocannon/2s which have a reach of 810 meters and are backed up by a pair of ER PPCs for even greater punch. An LB-X Autocannon/10 provides excellent medium to long range firepower and allows the Dire Wolf B to act in a variety of roles including vehicle hunting and anti-aircraft. For close combat, the B configuration has two Medium Pulse Lasers and an ER Small Laser.",
+    "history": "The Dire Wolf was the brainchild of the Clan Wolf scientist caste, but was actually first produced by Clan Smoke Jaguar. Hearing rumors that Clan Wolf was developing the \"Ultimate Assault OmniMech\", the Jaguars won the plans and production rights in a trial that, rumor has it, was fought dishonorably. Production commenced on Huntress in 3010. In 3019, Clan Wolf began production of the OmniMech on Strana Mechty as well; Star Colonel Ulric won a trial of possession to expand manufacture into Clan Wolf. Beyond the limited manufacture of the Dire Wolf on Outreach, all Dire Wolves outside of Clans Smoke Jaguar and Wolf (or the Wolf's Dragoons) are either gifts, isorla, or were acquired through trade.\nmanufacturer:Phan Industriplex, Wolf Clan Site #1, Svarstaad Industriplex Delta\nprimaryfactory:Huntress, Strana Mechty, Svarstaad\nsystemmanufacturer:CHASSIS:Titan HX\nsystemmanufacturer:ENGINE:Starfire 300 XL\nsystemmanufacturer:ARMOR:Compound 12B2 Standard\nsystemmanufacturer:COMMUNICATIONS:TJ6 âBellâ Integrated Communication System\nsystemmanufacturer:TARGETING:Mars System 9"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 47,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 14,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 304
+  }
+}

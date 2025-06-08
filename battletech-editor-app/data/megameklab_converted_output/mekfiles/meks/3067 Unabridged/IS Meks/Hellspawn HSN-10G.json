@@ -1,0 +1,190 @@
+{
+  "quirks": [
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISLightPPC",
+      "location": "Right Torso",
+      "item_type": "1Islightppc"
+    },
+    {
+      "item_name": "1 ISMML7",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMML7",
+      "location": "Right Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Left Arm",
+      "item_type": "1Ismediumpulselaser"
+    },
+    {
+      "item_name": "1 ISMediumPulseLaser",
+      "location": "Right Arm",
+      "item_type": "1Ismediumpulselaser"
+    }
+  ],
+  "era": 3076,
+  "tech_base": "Inner Sphere",
+  "chassis": "Hellspawn",
+  "model": "HSN-10G",
+  "mul_id": "5673",
+  "config": "Biped",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "source": "Record Sheets: 3067 Unabridged",
+  "mass": 45,
+  "engine": {
+    "rating": 270,
+    "type": "XL Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo-Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "6",
+  "jump_mp": "5",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Light Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "General Motors"
+    },
+    {
+      "name": "Talcott"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "GM Fury-M Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 270 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarGuard III"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dalban SuperMicronics with Guardian ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "GME HiTrak-3"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The flagship design of GM's Talcott production facility, the Hellspawn was designed in response to a call from the Armed Forces of the Federated Commonwealth for a modern, highly mobile, fire-support BattleMech to compete with the older Dervish.",
+    "capabilities": "The Hellspawn is built on a GM Fury-M Endo Steel chassis that weighs half as much as a standard chassis. The Hellspawn carries a GM 270 XL engine that gives it a top speed of 97.2 km/h and also weighs half as much as a standard engine while making the 'Mech susceptible to a combat kill from a side torso loss. For protection from enemy electronic warfare equipment such as C3 or Artemis IV, the Hellspawn is equipped with a Guardian ECM Suite. To enhance the 'Mech's mobility it has six Rawlings 80 jump jets that allow the 'Mech to jump up to one hundred and eighty meters. Finally, the Hellspawn has six and a half tons of armor that is barely adequate when compared to other medium 'Mechs.",
+    "deployment": "This version introduced in 3076 equipped with a pair of MML-7s and Medium Pulse Lasers, supplemented with a Light PPC. This variant loses a jump jet, restricting its jump range to 150 meters."
+  },
+  "armor": {
+    "type": "Light Ferro-Fibrous",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 127
+  }
+}

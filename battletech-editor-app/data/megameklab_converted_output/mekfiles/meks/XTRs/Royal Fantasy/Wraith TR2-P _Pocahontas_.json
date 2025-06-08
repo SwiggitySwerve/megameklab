@@ -1,0 +1,209 @@
+{
+  "quirks": [
+    "ubiquitous_is",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3130,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Wraith",
+  "model": "TR2-P 'Pocahontas'",
+  "mul_id": "8381",
+  "config": "Biped",
+  "source": "XTR: Royal Fantasy",
+  "rules_level": "3",
+  "role": "Skirmisher",
+  "mass": 55,
+  "engine": {
+    "rating": 385,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Ferro-Lamellor",
+        "Clan Ferro-Lamellor",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Ferro-Lamellor",
+        "Clan Ferro-Lamellor",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Refit"
+    },
+    {
+      "name": "Refit"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Curtiss Wraith"
+    },
+    {
+      "type": "ENGINE",
+      "name": "385 JF Extralight with MASC"
+    },
+    {
+      "type": "ARMOR",
+      "name": "385 JF Extralight"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "CurtissJet 55"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "CurtissComm Mk I"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dynatec 2780"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Wraith is a 'Mech that, when properly employed, can wreak havoc on an enemy with its astounding speed and maneuverability.",
+    "capabilities": "It is built around a massive LTV 385 XL engine that allows it to reach speeds of just under 119 km/h. The 'Mech is also fitted with seven CurtissJet 55 jump jets which allow it to jump up to two hundred and ten meters, giving it the ability to outmaneuver most BattleMechs in existence, and also allowing the Wraith to quickly traverse any rough terrain. The 'Mech's speed, firepower, and decent armor make the Wraith a considerable threat to many 'Mechs â some being almost twice its weight.",
+    "deployment": "Debuted in 3141 on the Tennessee Valley Arena and piloted by Ira Kuhn-Bedard, the variant keeps the best features of this hundred-year-old machine and make it even better. Clan Ferro-Lamellor Armor improves its resistance to nearly all forms of damage and is combined with a Clan-spec XL engine model instead of the original Inner Sphere one to improve endurance, MASC to boost its land speed, and four Clan ER Medium Lasers that replace all of the original weaponry. A hatchet has been fitted to make it more appealing to the viewers of the Solaris Games.",
+    "history": "The Wraith marked Curtiss Militech's entry into BattleMech production. When the design was announced, many felt that the design would be little more than a walking water cooler. What the critics got was a shock. Following the destruction of its sole factory, Curtiss Hydroponics announced its withdrawal from the military market altogether and the sale of its Curtiss Militech assets. By 3085, Hellespont Industrials have expressed interest in the Wraith; and by 3145 Production had been ongoing at one of Hellespont Industrials locations in the Sian Commonality for Capellan use."
+  },
+  "armor": {
+    "type": "Ferro-Lamellor",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 119
+  }
+}

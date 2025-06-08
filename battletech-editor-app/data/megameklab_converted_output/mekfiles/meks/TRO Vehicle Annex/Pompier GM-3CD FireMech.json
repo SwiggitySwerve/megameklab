@@ -1,0 +1,144 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 3062,
+  "tech_base": "Inner Sphere",
+  "chassis": "Pompier",
+  "model": "GM-3CD Firemech",
+  "mul_id": "4843",
+  "config": "Biped",
+  "source": "TRO: Vehicle Annex (Revised)",
+  "rules_level": "3",
+  "mass": 15,
+  "engine": {
+    "rating": 30,
+    "type": "Fuel Cell Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 1,
+    "type": "Single"
+  },
+  "walk_mp": "2",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Environmental Sealing",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Environmental Sealing",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Environmental Sealing",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Heavy Industrial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 2,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 24
+  }
+}

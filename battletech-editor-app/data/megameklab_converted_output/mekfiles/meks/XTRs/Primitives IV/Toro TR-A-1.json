@@ -1,0 +1,204 @@
+{
+  "quirks": [
+    "low_profile",
+    "cramped_cockpit",
+    "obsolete"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Large Laser",
+      "location": "Left Arm",
+      "item_type": "LargeLaser"
+    },
+    {
+      "item_name": "SRM 2",
+      "location": "Right Torso",
+      "item_type": "Srm2"
+    },
+    {
+      "item_name": "SRM 2",
+      "location": "Left Torso",
+      "item_type": "Srm2"
+    }
+  ],
+  "era": 2481,
+  "tech_base": "Inner Sphere",
+  "chassis": "Toro",
+  "model": "TR-A-1",
+  "mul_id": "3276",
+  "config": "Biped",
+  "source": "XTR: Primitives IV",
+  "rules_level": "4",
+  "role": "Brawler",
+  "weaponquirk": "poor_cooling:LA:3:Large Laser",
+  "mass": 35,
+  "engine": {
+    "rating": 170,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Taurus WarWorks"
+    },
+    {
+      "name": "Taurus (discontinued 2598)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Humanoid Mk. VI TR"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 175"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Ecto-Mineral Armorplate 2"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "VeraTech MilCom Suite 3"
+    },
+    {
+      "type": "TARGETING",
+      "name": "VeraTech MechTnT XVT20S"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Toro was the Taurian Concordat's first indigenous BattleMech. First produced in 2481, the design was based on captured Firebees and developed as a collaboration between the three best arms manufacturers in the Concordat.",
+    "capabilities": "The light 'Mech is slow by 31st century standards, but it was quite maneuverable for the Age of War. The design topped out at 86 km/h. It was protected by a respectable six and a half tons of armor. Its comparatively low cost allowed entire battalions to swiftly be equipped with BattleMechs",
+    "deployment": "The original prototype was closer to a variant of the primitive Firebee, developed in 2481. It had two SRM-2s which shared a ton of ammunition and a Large Laser. Though it could only manage 64 km/h, the A-1 had more armor protection than the Firebee, ten and a half tons of Primitive Armor.",
+    "history": "The Toro took to the front lines against the Star League in the Reunification War, but was not enough to stop the combined might of the Inner Sphere. The League shut down and demolished all of the Toro factories by 2598 in the hope that it would crush Taurian nationalism, though there is no evidence it had the desired effect. Under the Star League aegis, the Taurian heavy industry produced League 'Mechs, a situation they pragmatically continued with following its fall. Thanks to the dissemination of the Hegemony Memory Core during the Jihad the Toro was finally revived by manufacturers in the Concordat, Calderon Protectorate, Magistracy of Canopus and ironically the Federated Suns."
+  },
+  "armor": {
+    "type": "Primitive",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 112
+  }
+}

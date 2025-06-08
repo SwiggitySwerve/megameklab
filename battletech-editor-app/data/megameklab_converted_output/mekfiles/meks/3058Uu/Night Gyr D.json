@@ -1,0 +1,216 @@
+{
+  "quirks": [
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "LRM 20",
+      "location": "Left Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Arm",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Left Torso",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "LRM 20",
+      "location": "Right Torso",
+      "item_type": "Lrm20"
+    },
+    {
+      "item_name": "Large Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "LargePulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Head",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3052,
+  "tech_base": "Clan",
+  "chassis": "Night Gyr",
+  "model": "D",
+  "mul_id": "2266",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Missile Boat",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLMediumPulseLaser (omnipod)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Ironhold"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "JF 7 Light Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "300 JF Extralight"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Compound JF Ferro Fibrous"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "JF Standard"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "JF 3048 Series II"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Ironhold Mk II"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Night Gyr came back with Clan Jade Falcon leaders following their return to the Clan homeworlds in 3051 to elect a new ilKhan. It has become more prevalent in the Falcon touman following the Refusal War.",
+    "capabilities": "No expense was spared in the manufacture of this OmniMech that uses an XL Engine and Endo Steel to save weight. It also incorporates eleven and a half tons of Ferro-Fibrous armor. Though it is on the slow end for a Clan heavy 'Mech, the Night Gyr mounts four fixed jump jets that enable it to jump up to 120 meters in a single bound. The design was a testbed for some new technologies, including the Laser Heat Sink, which was eventually phased out due to a lack of increased performance.",
+    "deployment": "This missile boat carries four LRM-20 launchers, each of which is slaved to an Artemis IV FCS. Six tons of ammunition is barely enough to keep it firing for a minute. A Large Pulse Laser and Medium Pulse Laser are effective backup weapons.",
+    "history": "During the Wars of Reaving, Night Gyr's production facilities on Ironhold, would end up being destroyed in 3076.\nmanufacturer:Ironhold Gamma Complex"
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 220
+  }
+}

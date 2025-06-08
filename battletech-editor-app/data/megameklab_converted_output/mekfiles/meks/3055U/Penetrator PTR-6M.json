@@ -1,0 +1,224 @@
+{
+  "quirks": [
+    "good_rep_1",
+    "stable"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "AMS",
+      "location": "Center Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3058,
+  "tech_base": "Inner Sphere",
+  "chassis": "Penetrator",
+  "model": "PTR-6M",
+  "mul_id": "2467",
+  "config": "Biped",
+  "source": "TRO: 3055",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Kallon Weapon Industries"
+    },
+    {
+      "name": "Talon (Wernke)"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Crucis G"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Vlar 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Anderson 398"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Dalban Micronics"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Matabushi Sentinel"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The designers at Kallon Industries used the Black Hawk Clan OmniMech as the basis for the Penetrator.",
+    "capabilities": "The Penetrator has an all energy weapons arsenal and uses twelve double heat sinks to handle the massive heat load from its weapons. The 'Mech is lacking in speed though when compared to the Black Hawk. This is because the 'Mechs designers used a Vlar 300 fusion engine for its combat durability, giving the 'Mech a top speed of 64.8 km/h. To help offset the 'Mech's lack of mobility, the Penetrator has four Anderson 398 jump jets giving it added mobility with a jumping distance of one hundred and twenty meters. The Penetrator also carries a respectable thirteen tons of armor. The 'Mech's heavy armor protection, combined with its standard engine and unlimited amounts of ammunition, make for a 'Mech that is very rugged and hard to kill.",
+    "deployment": "The 6M is a variant of the Penetrator that looks to alleviate the 'Mech's heat buildup by removing two of the Medium Pulse Lasers and a ton of armor and adding five additional double heat sinks.",
+    "history": "With the threat of the Clans looming over it, the Federated Commonwealth dispatched a large number of Penetrators to units stationed in Lyran space. Following the secession of the Commonwealth's Lyran half and the formation of the Lyran Alliance under Katherine Steiner-Davion in 3058, many Penetrators ended up on the LAAF's rolls. Penetrators served on both sides of the FedCom Civil War, demonstrating their toughness yet again. The 'Mech's low reliance on ammunition made it ideal for the mobile campaigns that defined that conflict. Archer's Avengers and other allied forces conducted a planet-hopping campaign, always staying one step ahead of the Loyalist forces pursuing them. The Avengers had to live off the land because reliable supply lines were almost non-existent. The Penetrator was an ideal combat unit because it required little ammunition and had few advanced components. Several Penetrators were captured by mercenary units during the FedCom Civil War. According to rumors, Kallon Industries may soon change its policy of only selling the design to the Federated Commonwealth and now the Federated Suns."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 29,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 192
+  }
+}

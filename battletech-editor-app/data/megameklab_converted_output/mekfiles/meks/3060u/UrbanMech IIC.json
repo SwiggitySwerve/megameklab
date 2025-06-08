@@ -1,0 +1,199 @@
+{
+  "quirks": [
+    "ext_twist",
+    "low_profile",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Arm",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Ultra AC/10",
+      "location": "Right Arm",
+      "item_type": "UltraAc10"
+    }
+  ],
+  "era": 2849,
+  "tech_base": "Clan",
+  "chassis": "UrbanMech IIC",
+  "mul_id": "3361",
+  "config": "Biped",
+  "source": "TRO: 3060",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 30,
+  "engine": {
+    "rating": 90,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "3",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Heat Sink",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Heat Sink",
+        "Heat Sink",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Beta Plant 2W"
+    },
+    {
+      "name": "Tamaron"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Mk. VI Standard Light Chassis"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Clan Model XT4 Standard (90)"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Forging ZK11 Standard"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Clan Light Series Mk. II"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Build 1685 Tacticom"
+    },
+    {
+      "type": "TARGETING",
+      "name": "HT9 TTS"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The UrbanMech IIC is a Clan IIC-style upgrade of the original UrbanMech.",
+    "capabilities": "Designed as a cheap, efficient urban combat vehicle, the UrbanMech IIC improves upon its predecessor by utilizing an Ultra AC/10 that allows the 'Mech's main gun to fire twice as fast as the old version, though the MechWarrior must still watch ammo consumption carefully. The ER Small Laser is a backup weapon that allows the design to stay in the fight after its ammunition has run out.",
+    "deployment": "They simply upgraded the autocannon to a Type 9 Ultra Autocannon/10 and the Small Laser to a Series 1 Extended Range Small Laser. The more advanced Clan technology allowed the technicians to increase the 'Mech's speed by fifty percent and improve its jumping capacity to 90 meters, though they did not change the six tons of standard armor or the ten standard heat sinks.",
+    "history": "Around the same time as the development of the OmniMech during the Golden Century, Clan Coyote technicians reworked this venerable design. They studied battle data from as far back as the Amaris Civil War and used this research as the basis for their upgrades. They apparently decided that the UrbanMech (known as the Urbie to its fans and detractors alike) did not need much reworking. While the Coyotes field the most UrbanMech IICs, the 'Mechs are also fielded by the Goliath Scorpions, Snow Ravens, Ice Hellions, and Hell's Horses."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 96
+  }
+}

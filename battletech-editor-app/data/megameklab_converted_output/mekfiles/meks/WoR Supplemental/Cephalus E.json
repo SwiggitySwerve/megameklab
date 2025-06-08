@@ -1,0 +1,162 @@
+{
+  "quirks": [
+    "imp_life_support",
+    "bad_rep_clan",
+    "difficult_maintain",
+    "no_arms"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Light TAG",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3072,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Cephalus",
+  "model": "E",
+  "mul_id": "5641",
+  "config": "Biped Omnimech",
+  "source": "Wars of Reaving",
+  "rules_level": "4",
+  "role": "Sniper",
+  "mass": 25,
+  "engine": {
+    "rating": 250,
+    "type": "XXL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "10",
+  "walk_mp": "10",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "NovaCEWS",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Null Signature System",
+        "Chameleon Light Polarization Shield",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Mek Null Signature System",
+        "Chameleon Light Polarization Shield",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Ferro-Lamellor",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 84
+  }
+}

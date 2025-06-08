@@ -1,0 +1,241 @@
+{
+  "quirks": [
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Left Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "LRM 15",
+      "location": "Right Torso",
+      "item_type": "Lrm15"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Center Torso",
+      "item_type": "MachineGun"
+    },
+    {
+      "item_name": "Machine Gun",
+      "location": "Center Torso",
+      "item_type": "MachineGun"
+    }
+  ],
+  "era": 2866,
+  "tech_base": "Clan",
+  "chassis": "Woodsman",
+  "model": "Prime",
+  "mul_id": "3587",
+  "config": "Biped Omnimech",
+  "source": "TRO: Golden Century",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 17,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Wolf Clan Site #2"
+    },
+    {
+      "name": "Earthwerks Inc."
+    },
+    {
+      "name": "Strana Mechty"
+    },
+    {
+      "name": "Keystone"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "WOD-1"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Wolf 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "WolfCom 3-4"
+    },
+    {
+      "type": "TARGETING",
+      "name": "CW3"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The first heavy OmniMech developed by Clan Wolf, the Woodsman was one of the most heavily tested weapons ever produced by the Clan.",
+    "capabilities": "Heavy armor provided excellent protection, while a standard fusion engine improved longevity on the battlefield. The light Endo Steel chassis allowed the Woodsman to devote 27 tons to pod space, allowing many mission specific loadouts and prototype weapon configurations. The permanently installed MASC system allowed a pilot to briefly exceed 80 km/h to either withdraw or capitalize on breaches in enemy ranks. The Woodsman was so versatile that it was often used by Wolf scientists to test new weapons and weapon configurations. The Naga's dual Arrow IV launcher configuration, for example, was tested on the Woodsman chassis.",
+    "deployment": "The primary Woodsman configuration would be mirrored in the default Timber Wolf weapon load. Each arm carried an ER Large Laser and an ER Medium Laser, and a pair of LRM-15s rounded out the configuration in each side torso. To provide anti-infantry capability, a pair of Machine Guns were mounted in the center torso. Five additional pod mounted double heat sinks brought the total up to seventeen, allowing the Woodsman to fire most of its weaponry without worrying about heat overloads.",
+    "history": "Every last detail was considered and problems were eliminated before production began. This resulted in a chassis that would not only function well in the Clan's front line forces for nearly a century, but also inspire the Timber Wolf, Gargoyle, and Naga OmniMechs. Though it served the Wolf Clan well, it was eventually surpassed by newer designs. The Woodsman was relegated to second-line units, and then eventually phased out of service completely by the time of Operation Revival. There are some rumors that a few Dark Caste bandits may have a Woodsman, but these reports remain unconfirmed. In 3149 the Woodsman was returned to production in the Wolf Empire to quickly rebuild the touman."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 33,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 216
+  }
+}

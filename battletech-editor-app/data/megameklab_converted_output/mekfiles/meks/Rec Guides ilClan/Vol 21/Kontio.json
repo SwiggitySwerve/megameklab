@@ -1,0 +1,224 @@
+{
+  "quirks": [
+    "distracting",
+    "bad_rep_clan",
+    "bad_rep_is"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Torso",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "Micro Pulse Laser",
+      "location": "Center Torso",
+      "item_type": "MicroPulseLaser"
+    }
+  ],
+  "era": 3145,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Kontio",
+  "mul_id": "8352",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #21",
+  "rules_level": "2",
+  "role": "Striker",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Triple-Strength",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Clan Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "manufacturers": [
+    {
+      "name": "Bergan Industries"
+    },
+    {
+      "name": "Alshain"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Alshain M Endo-Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "280 Fusion XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Hellespont Lite Stealth"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret L20"
+    },
+    {
+      "type": "TARGETING",
+      "name": "RCA Instatrac Mark IX"
+    }
+  ],
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Stealth",
+        "IS Stealth",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 18,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 136
+  }
+}

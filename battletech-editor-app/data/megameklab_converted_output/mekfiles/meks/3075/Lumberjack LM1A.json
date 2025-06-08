@@ -1,0 +1,147 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [],
+  "era": 2355,
+  "tech_base": "Inner Sphere",
+  "chassis": "Lumberjack",
+  "model": "LM1/A",
+  "mul_id": "4545",
+  "config": "Biped",
+  "source": "Record Sheets: 3075",
+  "rules_level": "4",
+  "role": "Ambusher",
+  "mass": 60,
+  "engine": {
+    "rating": 220,
+    "type": "ICE Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Industrial",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Primitive Industrial Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 0,
+    "type": "Single"
+  },
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "armor": {
+    "type": "Commercial",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 6,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 84
+  }
+}

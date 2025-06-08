@@ -1,0 +1,231 @@
+{
+  "quirks": [],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Left Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Left Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Gauss Rifle",
+      "location": "Right Arm",
+      "item_type": "GaussRifle"
+    },
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Arm",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Left Torso",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Left Torso",
+      "item_type": "MediumPulseLaser"
+    },
+    {
+      "item_name": "Anti-Missile System",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Right Torso",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "Medium Pulse Laser",
+      "location": "Right Torso",
+      "item_type": "MediumPulseLaser"
+    }
+  ],
+  "era": 3063,
+  "tech_base": "Clan",
+  "chassis": "Tomahawk",
+  "model": "(Prime)",
+  "mul_id": "6298",
+  "config": "Biped Omnimech",
+  "source": "TRO: 3145 The Clans",
+  "rules_level": "2",
+  "role": "Juggernaut",
+  "mass": 100,
+  "engine": {
+    "rating": 300,
+    "type": "XL (Clan) Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 18,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "3",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "CLECMSuite (OMNIPOD)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "CLDoubleHeatSink (OMNIPOD)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Clan Wolf"
+    },
+    {
+      "name": "Unknown"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Unspecified"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Unspecified"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Unspecified"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unspecified"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Unspecified"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Unspecified"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Tomahawk is an assault-class OmniMech designed by Clan Wolf in 3063. The 'Mech ultimately failed to enter production and remained a prototype, presumably due at least in part to the Clan's troubles during the Jihad.",
+    "deployment": "The Prime configuration is similar in its weapon layout to the later Tomahawk II. The Tomahawk's main weapons focus on pair of Gauss Rifles and ER Large Lasers, which are mounted in its arms. The close-range weaponry includes pair of Medium Pulse Lasers and Streak 4 launchers found in the side torsos. Other features include three additional Double Heat Sinks, an Anti-Missile System, and an ECM Suite.",
+    "history": "One of these prototypes was piloted by Nathan Wolf in a Circle of Equals on Tamar when he attained the rank of Star Colonel. Although he was victorious against a Thor, it was noted that the Tomahawk still suffered from numerous system errors and gremlins and was not yet ready for mass production. Still, Nathan retained the 'Mech for his subsequent assignment to Omega Galaxy and successfully piloted it in combat on Novo Cressidas in the Star's End system on 11 April 3064. After the Jihad, the design was revisited and improved, and became the Tomahawk II which did enter line production."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 46,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 41,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 15,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 304
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "quirks": [
+    "battle_fists_la"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Right Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Left Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Small Laser",
+      "location": "Left Arm",
+      "item_type": "SmallLaser"
+    }
+  ],
+  "era": 3051,
+  "tech_base": "Inner Sphere",
+  "chassis": "Awesome",
+  "model": "AWS-9Ma",
+  "mul_id": "5594",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "3",
+  "role": "Sniper",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Command Console",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 20,
+    "type": "Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Cockpit",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "LÃ¼neburg Vehicle Corporation"
+    },
+    {
+      "name": "Lyran 'Mech Corporation"
+    },
+    {
+      "name": "Technicron Manufacturing"
+    },
+    {
+      "name": "Braunschweig"
+    },
+    {
+      "name": "Nichol's Rest"
+    },
+    {
+      "name": "Savannah"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Technicron Type G"
+    },
+    {
+      "type": "ENGINE",
+      "name": "320 Hermes XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Durallex Heavy Special"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garrett T19-G with ECM"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dynatec 2780"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Awesome was designed in 2665 for the Star League by the Technicron Conglomorate and was based on the aging STR-2C Striker. While not as fast as its forefather, the Awesome is a strong assault 'Mech.",
+    "capabilities": "The Awesome's abilities are nearly entirely dependent on its particle projection cannons. The AWS can withstand a severe and consistent onslaught from its weaponry thanks to several heat sinks. With one and a half tons more armor than the Striker, the AWS is more protected than even the BattleMaster. The Awesome, like any other BattleMech, has weaknesses. While it is lethal at range, it is less effective in close-quarters combat since its PPCs have a tougher time connecting with the victim. In that case, it just possesses a light weapon and a left fist to fall back on. Because of its limited mobility, it is vulnerable to flanking attacks from speedier opponents seeking to get past the PPCs. While they face arguably of the heaviest rear armor found on any BattleMech, the Awesome's lack of rear facing armaments or a weapon mount on its left arm has offered numerous MechWarriors a fighting chance. Formations of Awesomes (or even just a few) are incredibly effective and tough to stop or defeat when correctly placed by commanders who are knowledgeable of the AWS's limitations.",
+    "deployment": "A customized variant of the stock AWS-9M model that was utilized by Adam Steiner during the 1st Somerset Strikers' liberation of Somerset in the midst of the Clan Invasion. The pulse lasers were removed and the AWS-8Q's standard Small Laser was restored; the remaining weight was devoted to a Guardian ECM Suite, Command Console, and two tons of advanced Communications Equipment. The small laser was moved to the left arm, and twenty double heat sinks kept things cool.",
+    "history": "Awesomes can be found in every military House.Â Because the Free Worlds League has the last remaining manufacturing factories capable of generating the Awesome, it also has the most Awesomes of any of the Great Houses. Opinions on the 'Mech vary greatly within the League. Many people laud its powers, while others believe that its limited mobility is too high a price to pay for what it can do. Similar sentiments exist in the other Houses, but none of them can debate the issue beyond academics. Few commanders would turn down the opportunity to acquire an Awesome for their army. The Awesome is typically used to assault a fixed position or to breach the enemy's line of defense. They are also in demand for defensive operations. MechWarriors piloting the Awesome can expect to be involved in heavy battle and to be charged with obtaining or guarding the most crucial objectives from the adversary."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 30,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 10,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 20,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 247
+  }
+}

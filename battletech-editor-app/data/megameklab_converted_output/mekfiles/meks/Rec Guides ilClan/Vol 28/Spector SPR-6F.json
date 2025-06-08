@@ -1,0 +1,177 @@
+{
+  "quirks": [
+    "rugged_1",
+    "difficult_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Medium VSP Laser",
+      "location": "Right Arm",
+      "item_type": "MediumVspLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Head",
+      "item_type": "ErSmallLaser"
+    }
+  ],
+  "era": 3119,
+  "tech_base": "Mixed (IS Chassis)",
+  "chassis": "Spector",
+  "model": "SPR-6F",
+  "mul_id": "9375",
+  "config": "Biped",
+  "source": "Rec Guide:ilClan #28",
+  "rules_level": "3",
+  "role": "Striker",
+  "mass": 35,
+  "engine": {
+    "rating": 280,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "Standard Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "8",
+  "jump_mp": "8",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "ISERSmallLaser",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Spector was originally designed by Norse Technologies to be a lighter version of the Exterminator BattleMech, made to hunt down light command 'Mechs.",
+    "capabilities": "The Spector was originally designed to use the advanced Null-Signature system, able to hide the 'Mech's radar and heat signatures, and Chameleon Light Polarization Shield, capable of obscuring the BattleMech's appearance. However, these technologies were lost during the Succession Wars and have not yet been replicated. The current incarnation of the Spector, SPR-5F, does not carry a Null Signature System nor the Chameleon LPS because of this.",
+    "deployment": "No Information on this variant",
+    "history": "The first Spector rolled off the assembly line on June 6th, 2639, and following extensive testing the SLDF ordered 600 units, the first run of which were delivered in April of 2640. The Star League's enthusiasm for the Spector is due to the BattleMechs stealth capabilities, combining both Chameleon Light Polarization Shield and a Null-Signature system. All Spectors, and all reports on them, were believed lost with the fall of the Star League until 3048, when rumors spread that the mercenary units McCarron's Armored Cavalry and Storm's Metal Thunder were fielding Spectors, presumably recovered from an ancient cache, although neither admitted to fielding vintage Star League era 'Mechs.\nmanufacturer:Norse Technologies\nprimaryfactory:Loxley\nsystemmanufacturer:CHASSIS:Norse XT-Light Type AE (Endo)\nsystemmanufacturer:ENGINE:Magna 245 XL\nsystemmanufacturer:ARMOR:Starshield Light\nsystemmanufacturer:JUMPJET:HildCo Model 11c\nsystemmanufacturer:COMMUNICATIONS:AR-12 Sheathed Directional Beacon with Norse Guardian ECM Suite\nsystemmanufacturer:TARGETING:DLK Type Phased Array Sensor System"
+  },
+  "armor": {
+    "type": "Reflective",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 12,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 16,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 5,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 119
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "cramped_cockpit",
+    "non_standard",
+    "poor_life_support"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISERMediumLaser",
+      "location": "Right Arm",
+      "item_type": "1Isermediumlaser"
+    },
+    {
+      "item_name": "1 ISLBXAC5",
+      "location": "Right Torso",
+      "item_type": "1Islbxac5"
+    }
+  ],
+  "era": 3062,
+  "tech_base": "Inner Sphere",
+  "chassis": "Assassin",
+  "model": "ASN-30",
+  "mul_id": "129",
+  "config": "Biped",
+  "source": "TRO: 3050",
+  "rules_level": "2",
+  "role": "Scout",
+  "mass": 40,
+  "engine": {
+    "rating": 280,
+    "type": "Light Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "7",
+  "jump_mp": "7",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Endo-Steel",
+        "Endo-Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Defiance Industries"
+    },
+    {
+      "name": "Furillo"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Maltex 40 Endo-Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "280 Edasich Light"
+    },
+    {
+      "type": "ARMOR",
+      "name": "100 AFVTA"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Lox Lift Series 1"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T15 B"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Garret 500S"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Many military finance experts outside the Star League saw the Assassin as more of a political pork project than a powerful fighting machine, yet it turned out to be a strong 'Mech in combat against light lances.",
+    "capabilities": "The Assassin was able to destroy these lighter 'Mechs due to its good speed and maneuverability, good armor coverage (in comparison to the 'Mechs it was built to battle against), and strong weaponry.Â The weapons of the 'Mech is essentially comprised of three systems: the long-range missile rack, the short-range missile rack, and the arm-mounted Martell midrange laser. The design is limited in durability unless assigned supply units for support because it can only carry a total of seventy-four salvos for both launchers. The most significant disadvantage for most pilots is the incredibly tight cockpitâone of the most confined cockpit designs in the Inner Sphere.",
+    "deployment": "TThe -30 variant of the Assassin, produced under license by Defiance Industries, was a radical departure from the classic formula for the 'Mech. The chassis was redesigned to utilize endo steel construction and the engine upgraded to a light fusion engine. The saved weight was used to upgrade the medium laser to an ER medium laser, and the LRM-5 and SRM-2 are removed in favor of an LB-X AC/5. Additionally, the armor was increased by two full tons and the single heat sinks upgraded to double strength versions. Used by the Lyran side of the FedCom Civil War, this design is considered a failure and few of them were ever produced.",
+    "history": "Maltex has changed the cockpit cooling system dozens of times over the Assassin's four hundred year service history in a bid to provide extra elbow room, but none of the attempts have been effective. As a result, most pilots experience a tight, painful ride that limits in-cockpit time to half that of most other conventional designs; many ex-Assassin pilots have established a history of back issues that will bother them for the rest of their lives. The ammo feed system for the short-range missile rack was the only other issue with the Assassin (mostly those made up to 2815). It commonly failed during high-heat settings due to chronic jamming and could only be repaired through total disassembly in a mechanical bay. Under significant corporate pressure, Holly ultimately introduced a new feed system in 2815 and even paid several years of recall repairs; nonetheless, there are still a huge number of individually owned Assassins that may still mount the problematic system. Maltex produced only a few hundred ASN-21s after their launch. Due to a lack of spare parts, those Assassins in service were utilized sparingly, however House Marik enthusiastically used the 'Mech late in the Third Succession War. When a rush of new BattleMech types entered the markets after 3058, the Assassin was nearly phased out of service. Those that have stayed in service are usually family heirlooms with some modifications."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 11,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 104
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "quirks": [
+    "obsolete",
+    "poor_target_long"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Large Laser",
+      "location": "Right Torso",
+      "item_type": "ErLargeLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Left Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Left Arm",
+      "item_type": "StreakSrm6"
+    },
+    {
+      "item_name": "Streak SRM 6",
+      "location": "Right Arm",
+      "item_type": "StreakSrm6"
+    }
+  ],
+  "era": 3071,
+  "tech_base": "Inner Sphere",
+  "chassis": "Crossbow",
+  "model": "CRS-9A",
+  "mul_id": "735",
+  "config": "Biped",
+  "source": "TRO: 3075",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "weaponquirk": "mod_weapons:LA:3:ISStreakSRM6",
+  "mass": 60,
+  "engine": {
+    "rating": 300,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 10,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Ferro-Fibrous",
+        "Ferro-Fibrous",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Arcturan Arms Refit Facility"
+    },
+    {
+      "name": "Arcturus"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Arc Walker 6X-B"
+    },
+    {
+      "type": "ENGINE",
+      "name": "AA Eterna 300"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Diamond Skin Beta Series"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "Unknown"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Arc Signal 1100"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Arc Walker T&T Prime"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The predecessor to Clan Steel Viper's Crossbow OmniMech, the original Crossbow first saw battlefield action for the Lyran Commonwealth in 2468. The 60-ton 'Mech is speedy for its era, capable of 86 km/h. This came at the expense of armor, however, as the Crossbow is only protected by eight tons of armor.",
+    "capabilities": "Produced by Arcturan Arms Refit Facility a variant dating to the 3070s, the 9A upgrades the Crossbow by removing all the weapons. In their places are two Streak SRM-6s and a pair of ER Medium Lasers. An ER Large Laser provides long-range firepower for this close-range brawler. The heat dissipation system is upgraded with double heat sinks, giving it adequate capabilities. The use of the remaining tonnage and Ferro-Fibrous armor allowed the designers to substantially upgrade the armor protection",
+    "history": "The production model, the 6B, came a few years later. The heavy 'Mech was the first produced by Arcturan Arms and the third homegrown BattleMech produced in the Commonwealth. Arcturan Arms fell on hard times when the capital was relocated from Arcturus to Tharkad, forcing them to shut down the factory in 2490 after producing only a few hundred Crossbows. MacEnroe Motors bought out the financially troubled company in 2541, which shut down Crossbow production in 2550."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 27,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 28,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 197
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "quirks": [
+    "easy_maintain",
+    "barrel_fists_la",
+    "multi_trac"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Light AC/5",
+      "location": "Right Torso",
+      "item_type": "LightAc5"
+    }
+  ],
+  "era": 3115,
+  "tech_base": "Inner Sphere",
+  "generator": "MegaMek Suite 0.49.18-SNAPSHOT on 2024-01-06",
+  "chassis": "Hatamoto-Ku",
+  "model": "HTM-27W2",
+  "mul_id": "7350",
+  "config": "Biped",
+  "source": "XTR: Republic II",
+  "rules_level": "3",
+  "role": "Brawler",
+  "mass": 80,
+  "engine": {
+    "rating": 320,
+    "type": "Fusion Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "IS Double"
+  },
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "IS Endo Steel",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Maltex Corporation"
+    },
+    {
+      "name": "Unity"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Earthwerks VOL"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Pitban 320"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Mitchell Argon"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Colmax 90"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Garret D2j"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Hatamoto-Series BattleMechs represent a pinnacle of strategic innovation within the Draconis Combine, marking a fusion of advanced Star League technology with existing Combine frameworks. The development of this series was initiated to leverage the influx of SLDF BattleMechs gifted by ComStar, focusing on reverse-engineering efforts that combined the strengths of the Thug with the Charger chassis. Spearheaded by the foresight of the future Coordinator of the Draconis Combine, this endeavor aimed to create a long-term technological advantage. Integrating advanced weaponry onto a robust and readily available chassis, the Hatamoto-Series stands as a significant achievement in military engineering, reflecting a progressive approach to Mech warfare.",
+    "capabilities": "The Hatamoto-Series is characterized by its formidable balance of firepower and defensive capabilities. These Mechs are equipped with a diverse array of energy and missile weapons, enabling effective engagement at multiple ranges. Their considerable armor plating allows them to endure severe combat scenarios, solidifying their role as primary combat units. A key design focus of the Hatamoto-Series is the prioritization of armament strength and survivability, though this comes at the cost of limited heat management and reduced mobility. The series faces challenges in heat dissipation during high-intensity battles, necessitating strategic weapon use by pilots. Despite these constraints, the Hatamoto-Series remains a testament to the Draconis Combine's engineering acumen, blending lethal offensive power with robustness to fulfill various combat requirements effectively.",
+    "deployment": "The HTM-27W2 is a tactical upgrade of the Hatamoto-Ku variant, distinguished by its focus on enhanced direct fire capabilities. It replaces its predecessor's weapons with two ER PPCs and a Light AC/5, supported by ample ammunition housed in a CASE II protected bay. The integration of a C3 boosted slave unit further augments its role in coordinated combat scenarios, allowing for efficient data sharing and improved battlefield connectivity. This variant stands out for its blend of powerful ranged armaments and advanced communication technologies, making it a formidable asset in both offensive and defensive engagements.",
+    "history": "The Hatamoto-Chi's development and subsequent variants have played a pivotal role in the evolution of the Draconis Combine's military might. After the introduction of the HTM-26T and 27T models, the Hatamoto-Chi underwent a series of modifications, each tailored to specific tactical needs and technological advancements within the Combine. The HTM-27U, known as the Hatamoto-Hi, emerged as a response to the need for a more heat-efficient and close-combat capable Mech. The integration of Medium Pulse Lasers and an additional heat sink in the 27U variant made it a popular choice for MechWarriors engaging in more aggressive combat scenarios.<p>Similarly, the HTM-27V (Hatamoto-Kaze) and HTM-27W (Hatamoto-Ku) variants represented strategic shifts towards long-range and direct fire combat, respectively. The 27V's focus on missile weaponry and the 27W's implementation of an Autocannon/5 provided MechWarriors with greater versatility in battlefield engagements, enhancing the Hatamoto-Chi's adaptability across different combat situations.</p>"
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 25,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 34,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 16,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 247
+  }
+}

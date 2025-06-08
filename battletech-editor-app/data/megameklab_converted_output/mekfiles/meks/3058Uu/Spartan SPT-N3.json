@@ -1,0 +1,219 @@
+{
+  "quirks": [
+    "imp_sensors"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER PPC",
+      "location": "Left Torso",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "TAG",
+      "location": "Left Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Center Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "Streak SRM 2",
+      "location": "Center Torso",
+      "item_type": "StreakSrm2"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    },
+    {
+      "item_name": "ER Medium Laser",
+      "location": "Right Arm",
+      "item_type": "ErMediumLaser"
+    }
+  ],
+  "era": 3064,
+  "tech_base": "Inner Sphere",
+  "chassis": "Spartan",
+  "model": "SPT-N3",
+  "mul_id": "2996",
+  "config": "Biped",
+  "source": "TRO: 3058",
+  "rules_level": "2",
+  "role": "Skirmisher",
+  "mass": 80,
+  "engine": {
+    "rating": 400,
+    "type": "XL Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 16,
+    "type": "Double"
+  },
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Field Refit"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Geometric 500 Hard Core"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Dantrus 400 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Strausburg Armaments 206 Diamond Weave"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Blow 300 SNA Net"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Scope 40 RNDST"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Spartan, a Star League era BattleMech, began full production just before the Civil War at Terra's Martinson Armaments facility. Conceived as a general service 'Mech, the Spartan was known for its remarkable speed and diverse range capabilities, distinguishing it from similar weight class 'Mechs like the Crockett and Thug. Though only a little over 600 units were produced before the destruction of the manufacturing facility during Stefan Amaris' coup, the Spartan dispersed throughout the Inner Sphere, with a few remaining operational in Com Guards and other factions by 3042.",
+    "capabilities": "The Spartan's hallmark was its versatility across various combat ranges. Its primary long-range weapon, the Kinslaughter ER PPC, was notable for its lower heat generation and ease of maintenance. Medium-range combat was handled by three Blankenburg Technologies medium pulse lasers, offering greater damage output despite a slightly reduced range. For close engagements, it relied on two Streak SRM-2 packs located in the upper center torso. A unique feature was its auxiliary escape hatch, providing an alternate exit when standard ejection was compromised. Its superior speed, capable of reaching over 86 kph, allowed Spartan pilots to effectively control engagement ranges, using speed as a defensive asset.",
+    "deployment": "The Spartan SPT-N1, a variant of the classic 80-ton Spartan, is a skirmisher designed for a balance of mobility, firepower, and sensor capability. This model is powered by a 400 XL Engine, enabling it to reach a top speed of 86.4 km/h. This significant speed for its weight class makes the SPT-N1 adept at flanking maneuvers and rapid positioning on the battlefield.<p>Armament-wise, the SPT-N1 is equipped with three Medium Pulse Lasers in its right arm, delivering effective short-range damage, particularly useful in hit-and-run tactics. For longer engagements, it carries an Extended-Range Particle Projection Cannon (ER PPC) in its left torso, providing a powerful punch at extended distances. The inclusion of TAG (Target Acquisition Gear) in its left torso enhances its role in coordinated attacks, allowing for precision strikes in conjunction with allied artillery or air support.</p><p>In terms of defense, the SPT-N1 carries an Anti-Missile System (AMS) in its right torso to intercept incoming missile attacks, enhancing its survivability. Additionally, it is equipped with two Streak SRM-2 launchers in the center torso, offering reliable missile fire with improved targeting capabilities. The 'Mech's standard armor provides a balance between protection and mobility.</p><p>A notable feature of the SPT-N1 is its improved sensors, granting it enhanced detection capabilities, which are critical for its role as a skirmisher. This makes the Spartan SPT-N1 a versatile asset on the battlefield, capable of engaging enemies at various ranges while providing vital reconnaissance for its unit.</p>",
+    "history": "The Spartan, initially produced in limited numbers by the Star League, saw a decline in deployment during the Succession Wars due to production cessation and battlefield attrition. Despite this, the 'Mech maintained a niche presence, particularly among mercenary groups and peripheral states where its balanced capabilities in assault roles were valued. The Spartan's rarity made it a target for salvage operations, and those that survived became prized assets for their owners."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 31,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 26,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 12,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 224
+  }
+}

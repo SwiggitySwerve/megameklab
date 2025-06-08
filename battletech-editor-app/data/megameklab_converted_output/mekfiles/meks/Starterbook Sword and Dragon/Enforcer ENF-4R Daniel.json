@@ -1,0 +1,205 @@
+{
+  "quirks": [
+    "barrel_fists_la",
+    "barrel_fists_ra"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "1 ISGaussRiflePrototype",
+      "location": "Right Arm",
+      "item_type": "1Isgaussrifleprototype"
+    },
+    {
+      "item_name": "2 ISMediumLaser",
+      "location": "Left Arm",
+      "item_type": "2Ismediumlaser"
+    },
+    {
+      "item_name": "1 ISSmallLaser",
+      "location": "Left Torso",
+      "item_type": "1Issmalllaser"
+    }
+  ],
+  "era": 3039,
+  "tech_base": "Inner Sphere",
+  "chassis": "Enforcer",
+  "model": "ENF-4R (Daniel)",
+  "mul_id": "977",
+  "config": "Biped",
+  "source": "Starterbook: Sword and Dragon",
+  "rules_level": "4",
+  "role": "Brawler",
+  "weaponquirk": "fast_reload:RA:3:ISGaussRiflePrototype",
+  "mass": 50,
+  "engine": {
+    "rating": 200,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 11,
+    "type": "Single"
+  },
+  "walk_mp": "4",
+  "jump_mp": "4",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "-Empty-",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Achernar BattleMechs"
+    },
+    {
+      "name": "New Avalon"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Dorwinion Standard"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Nissan 200"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Starshield"
+    },
+    {
+      "type": "JUMPJET",
+      "name": "McCloud Specials"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Achernar Electronics HICS-11"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Federated Hunter"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Since it first walked off of the production line, the Enforcer has been the iconic medium-weight workhorse of the Federated Suns' Succession Wars era military.",
+    "capabilities": "The Enforcer fulfilled the roles of a mobile barrage vehicle, laying down an intense hail of fire as a prelude to an offensive or to blunt an enemy's attack, and as a trooper 'Mech, using its thick frontal armor and good jumping distance of one hundred and twenty meters to effectively brawl with the enemy despite lacking hand actuators. The sturdy and inexpensive design's mobility also made it an ideal city fighter, especially when sniping the enemy during hit-and-run attacks. One of the design's problems was that, with most of its nine tons of armor concentrated forward, the amount of protection in its rear torso is less than on some light 'Mechs. The Enforcer's biggest flaw though was its limited ammunition stores, though when possible a truck-and-crane reloading system is used during less-mobile battles. Attempts were made to replace the small laser with another ton of ammunition, however there were complicated linkage problems in getting the ammo from the left torso to the right arm, increasing the rate of jamming or reducing the rate of fire to unacceptable levels. What's more the rounds had to be routed along the 'Mechs back where its armor was weakest.",
+    "history": "This is in large part due to production of the Enforcer remaining largely undisturbed throughout the Succession Wars, despite the relative lack of industrialization that has long hampered the Federated Suns. With the autocannon-obsessed Armed Forces of the Federated Suns building up its BattleMech forces upon the collapse of the Star League, the discovery on Achernar of schematics for an unbuilt autocannon-carrying Star League 'Mech was a case of perfect timing. Modifying the design by swapping two medium lasers for a single larger one, Achernar BattleMechs rushed it through development and began production in 2777.",
+    "deployment": "The personal 'Mech of Fox's Teeth member Daniel Waylen, after his unit was selected to receive among the first experimental weapons developed from the Helm Memory Core by the New Avalon Institute of Science in the lead-up to the War of 3039, his Enforcer was chosen as the test bed for an experimental NAIS Mk. I Gauss Rifle prototype. To free up the mass required for this weapon and two tons of reloads, the NAIS engineers adopted the laser armament from the original design, mounting a pair of ChisComp 39 Medium Lasers in the left arm in place of the large laser."
+  },
+  "armor": {
+    "type": "Standard Armor",
+    "manufacturer": null,
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 14,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 23,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 20,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 3,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 144
+  }
+}

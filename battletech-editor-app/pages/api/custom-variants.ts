@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import { Database } from 'sqlite';
+import { openDatabase, safeJsonParse } from '../../services/db';
 
 // Define the path to the SQLite database file
 const SQLITE_DB_FILE: string = "battletech_dev.sqlite"; // Adjust if your DB file is elsewhere or named differently
@@ -63,10 +64,7 @@ export default async function handler(
         return res.status(400).json({ message: 'customData.loadout and customData.criticals must be arrays.' });
       }
 
-      db = await open({
-        filename: SQLITE_DB_FILE,
-        driver: sqlite3.Database
-      });
+      db = await openDatabase();
 
       const customDataString = JSON.stringify(customData);
       const baseUnitIdNum = typeof baseUnitId === 'string' ? parseInt(baseUnitId, 10) : baseUnitId;
@@ -97,30 +95,56 @@ export default async function handler(
       if (db) {
         await db.close();
       }
-    }
-  } else if (req.method === 'GET') {
+    }  } else if (req.method === 'GET') {
     let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
     try {
       const { baseUnitId, variantName } = req.query;
 
-      if (!baseUnitId || !variantName) {
-        return res.status(400).json({ message: 'baseUnitId and variantName query parameters are required for GET.' });
-      }
-      if (typeof baseUnitId !== 'string' || typeof variantName !== 'string') {
-         return res.status(400).json({ message: 'baseUnitId and variantName must be strings for GET.' });
-      }
+      db = await openDatabase();
+        // If specific parameters are provided, filter by them
+      if (baseUnitId && variantName) {
+        if (typeof baseUnitId !== 'string' || typeof variantName !== 'string') {
+          return res.status(400).json({ message: 'baseUnitId and variantName must be strings for GET.' });
+        }
 
-      const baseUnitIdNum = parseInt(baseUnitId, 10);
-      if (isNaN(baseUnitIdNum)) {
+        const baseUnitIdNum = parseInt(baseUnitId, 10);
+        if (isNaN(baseUnitIdNum)) {
           return res.status(400).json({ message: 'baseUnitId must be a valid number for GET request.' });
+        }
+
+        const variants: CustomVariantListItem[] = await db.all(
+          'SELECT id, base_unit_id, variant_name, notes, created_at, updated_at FROM custom_unit_variants WHERE base_unit_id = ? AND variant_name = ? ORDER BY created_at DESC',
+          [baseUnitIdNum, variantName]
+        );
+
+        return res.status(200).json({ items: variants });
+      } 
+      // If only baseUnitId is provided, filter by baseUnitId
+      else if (baseUnitId) {
+        if (typeof baseUnitId !== 'string') {
+          return res.status(400).json({ message: 'baseUnitId must be a string for GET.' });
+        }
+
+        const baseUnitIdNum = parseInt(baseUnitId, 10);
+        if (isNaN(baseUnitIdNum)) {
+          return res.status(400).json({ message: 'baseUnitId must be a valid number for GET request.' });
+        }
+
+        const unitVariants: CustomVariantListItem[] = await db.all(
+          'SELECT id, base_unit_id, variant_name, notes, created_at, updated_at FROM custom_unit_variants WHERE base_unit_id = ? ORDER BY created_at DESC',
+          [baseUnitIdNum]
+        );
+
+        return res.status(200).json({ items: unitVariants });
       }
+      // Otherwise return all variants
+      else {
+        const variants: CustomVariantListItem[] = await db.all(
+          'SELECT id, base_unit_id, variant_name, notes, created_at, updated_at FROM custom_unit_variants ORDER BY created_at DESC'
+        );
 
-      db = await open({ filename: SQLITE_DB_FILE, driver: sqlite3.Database });
-
-      const variants: CustomVariantListItem[] = await db.all(
-        'SELECT id, base_unit_id, variant_name, notes, created_at, updated_at FROM custom_unit_variants WHERE base_unit_id = ? AND variant_name = ? ORDER BY created_at DESC',
-        [baseUnitIdNum, variantName]
-      );
+        return res.status(200).json({ items: variants });
+      }
 
       return res.status(200).json({ items: variants });
 

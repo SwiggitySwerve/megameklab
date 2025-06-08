@@ -1,0 +1,197 @@
+{
+  "quirks": [
+    "overhead_arms",
+    "exp_actuator"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Re-engineered Laser",
+      "location": "Left Torso",
+      "item_type": "MediumReEngineeredLaser"
+    },
+    {
+      "item_name": "Medium Re-engineered Laser",
+      "location": "Right Torso",
+      "item_type": "MediumReEngineeredLaser"
+    }
+  ],
+  "era": 3136,
+  "tech_base": "Inner Sphere",
+  "chassis": "Prey Seeker",
+  "model": "PY-SR10",
+  "mul_id": "6331",
+  "config": "Biped",
+  "source": "TRO: 3145 Federated Suns",
+  "rules_level": "3",
+  "role": "Striker",
+  "mass": 15,
+  "engine": {
+    "rating": 180,
+    "type": "XXL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "cockpit": "Small Cockpit",
+  "gyro": "XL Gyro",
+  "heat_sinks": {
+    "count": 10,
+    "type": "IS Double"
+  },
+  "walk_mp": "12",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Sensors",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "IS Endo Steel",
+        "IS Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Achernar BattleMechs"
+    },
+    {
+      "name": "Cahokia"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "A1 Type 22 Ultralight Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Magna 180 XXL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarGuard CIV"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "PCE-4X âBlasterâ"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Federated Hunter Mk.VII"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Achernar BattleMechs' Prey Seeker evolved from a variety of sources. Its off-putting arm construction, as well as its phenomenal speed, harkens back to the Clan Dasher's distinctive profile, but its roleâold-fashioned BattleMech scoutingâspeaks to a quiet dissatisfaction among the AFFS' MechWarriors who feel increasingly marginalized by the rise of combined-arms warfare.",
+    "capabilities": "Capable of running at a staggering 194 km/h thanks to the extralight, but frighteningly expensive, Magna 180 XXL engine, the Prey Seeker takes a minimalist approach to equipment to pay for that high rate of speed. Mounting a small cockpit and an XL gyro, the Prey Seeker features three and a half tons of armor and lacks jump jets. The minimal armor present over the rear of the Prey Seeker means that if hit from behind by any but the lightest of weapons, the Prey Seeker runs the risk of taking internal damage.",
+    "deployment": "Mounting a pair of ChisComp 73 medium re-engineered lasers for defense, the Prey Seeker isn't a brawler, but the uncommon weapons do offer an advantage against opponents that make use advanced armor types such as hardened armor, ferro-lamellor, and reflective armor.",
+    "history": "Soon after Fortress Republic, Prey Seekers were pressed into combat deployments.Without appropriate time for testing and doctrine formation, many MechWarriors were forced to discover and define what successfulâand failingâtactics would be. The extended raid is one role that the Prey Seekers have proved to excel in. Many AFFS commanders have deployed small bands of Prey Seekers on long paths around enemy concentrations, despite their uncomfortable cockpits."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 6,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 1,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 55
+  }
+}

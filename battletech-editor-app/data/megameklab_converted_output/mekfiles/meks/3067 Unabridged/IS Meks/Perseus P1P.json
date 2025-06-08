@@ -1,0 +1,236 @@
+{
+  "quirks": [
+    "anti_air",
+    "easy_maintain"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Leg",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Left Leg",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Leg",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "ER Small Laser",
+      "location": "Right Leg",
+      "item_type": "ErSmallLaser"
+    },
+    {
+      "item_name": "MRM 20",
+      "location": "Left Arm",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "PPC",
+      "location": "Left Arm",
+      "item_type": "Ppc"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Arm",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Rotary AC/5",
+      "location": "Right Arm",
+      "item_type": "RotaryAc5"
+    },
+    {
+      "item_name": "Streak SRM 4",
+      "location": "Center Torso",
+      "item_type": "StreakSrm4"
+    },
+    {
+      "item_name": "TAG",
+      "location": "Head",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3078,
+  "tech_base": "Inner Sphere",
+  "chassis": "Perseus",
+  "model": "P1P",
+  "mul_id": "5698",
+  "config": "Biped Omnimech",
+  "source": "TRO: Jihad",
+  "rules_level": "2",
+  "role": "Brawler",
+  "mass": 75,
+  "engine": {
+    "rating": 300,
+    "type": "XL Engine",
+    "manufacturer": "IS"
+  },
+  "structure": {
+    "type": "IS Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Double"
+  },
+  "base_chassis_heat_sinks": "12",
+  "walk_mp": "4",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "ISTAG (omnipod)",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISERSmallLaser (omnipod)",
+        "ISERSmallLaser (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "ISERSmallLaser (omnipod)",
+        "ISERSmallLaser (omnipod)",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Kali Yama Weapons Industries"
+    },
+    {
+      "name": "Kalidasa"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Kali Yama Endo Steel"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Hermes 300 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Valiant Lamellor"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Irian Orator-5K"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Wasat Aggressor Type 5 with OmniLink"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Perseus is the product of a program begun by the League Central Coordination and Command to create an OmniMech completely indigenous to the Free Worlds League from concept to production.",
+    "capabilities": "While on paper the Perseus is a capable 'Mech with forty-tons of available pod space, the design has earned something of a lackluster reputation when compared to other modern OmniMechs such as the Templar or Hauptmann. This is largely due to the small size of it's weapon bays which limit the type of weaponry of the Perseus can mount, only the arms can carry larger autocannons and the hand and lower-arm actuators must be removed to be able do so, with a number of configurations also forced to mount weaponry in the 'Mech's legs. More critically the small size of the bays hampers the volume of extra double heat sinks that can be carried, consequently most of the Perseus's configurations utilize ballistic and missile weaponry over more heat-intensive energy loadouts. Built on a lightweight Endo Steel chassis, the Perseus is powered by a Hermes 300 XL engine helping save even more weight and giving the 'Mech a top speed of 64.8 km/h. The advanced structure and engine save a great deal of weight for weapons and equipment. The Perseus is protected by fourteen tons of Valiant Lamellor armor, giving it around average armor protection for a 'Mech of its size. It also has twelve double heat sinks that are fixed on the chassis.",
+    "deployment": "This Perseus configuration has a Rotary AC/5, MRM-20, PPC, and Streak SRM-4. Each leg carries a Small Laser. A Guardian ECM Suite disrupts enemy networks, while a head mounted TAG system allows the Perseus-P to designate artillery targets.",
+    "history": "The Perseus shares much with the venerable Orion, a staple of Free Worlds League Military, both broadly resembling the older design visually and using a number of the same components. This similarity prompted more than a few FWLM technicians to nickname the new design the \"Omni-Orion\" and the deployment of Perseus has largely been to front-line units that fielded large concentrations of its progenitor, replacing older Orions on a one-for-one basis."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 21,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 24,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 36,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 224
+  }
+}

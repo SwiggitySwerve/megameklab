@@ -1,0 +1,215 @@
+{
+  "quirks": [
+    "low_profile"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Ultra AC/5",
+      "location": "Left Arm",
+      "item_type": "UltraAc5"
+    },
+    {
+      "item_name": "ER PPC",
+      "location": "Right Arm",
+      "item_type": "ErPpc"
+    },
+    {
+      "item_name": "Improved Heavy Medium Laser",
+      "location": "Left Torso",
+      "item_type": "ImprovedHeavyMediumLaser"
+    },
+    {
+      "item_name": "Streak LRM 10",
+      "location": "Left Torso",
+      "item_type": "StreakLrm10"
+    },
+    {
+      "item_name": "Thunderbolt 5",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    },
+    {
+      "item_name": "Thunderbolt 5",
+      "location": "Right Torso",
+      "item_type": "Weapon"
+    }
+  ],
+  "era": 3142,
+  "tech_base": "Mixed (Clan Chassis)",
+  "chassis": "Cauldron-Born",
+  "clanname": "Ebon Jaguar",
+  "model": "T",
+  "mul_id": "8209",
+  "config": "Biped Omnimech",
+  "source": "Rec Guide:ilClan #16",
+  "rules_level": "2",
+  "role": "Sniper",
+  "mass": 65,
+  "engine": {
+    "rating": 325,
+    "type": "XL (Clan) Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Clan Endo Steel",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 13,
+    "type": "Clan Double"
+  },
+  "base_chassis_heat_sinks": "13",
+  "walk_mp": "5",
+  "jump_mp": "0",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Clan Ferro-Fibrous",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Clan Endo Steel",
+        "Clan Endo Steel",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Huntress Manufacturing Plant DL-6"
+    },
+    {
+      "name": "Huntress"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "CSJ Type 65.43 Endo"
+    },
+    {
+      "type": "ENGINE",
+      "name": "Consolidated Fusion 325 XL"
+    },
+    {
+      "type": "ARMOR",
+      "name": "Composite A-4 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Hector CC-22E"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Integrated Bravo-7"
+    }
+  ],
+  "fluff_text": {
+    "overview": "Introduced in 3049 to address flaws in the venerable Hellbringer, by Operation REVIVAL the Ebon Jaguar had only just started to spread through the Jaguar's touman with the Inner Sphere first encountering the design during the Battle of Luthien.",
+    "capabilities": "The T variant uses a mix of Inner Sphere and Clan weaponry. A Clan ER PPC is mounted in the right arm, opposite a Clan Ultra Autocannon/5 in the left. A Streak LRM-10 and an Improved Heavy Medium Laser are carried in the left torso with one ton of both LRM and Autocannon ammunition. The right torso mounts twin Thunderbolt 5 launchers and their two tons of ammunition. Both side torsos are equipped with CASE II.",
+    "history": "Facing it for the first time when engaging the First Jaguar Guards Cluster in the Kado-Guchi Valley, the 'Mech's ability to take damage and remain operational led the Inner Sphere warriors who fought it to call it the Cauldron-Born after the unstoppable zombies of Irish myth. Paradoxically many of the other Clans also used the Inner Sphere Cauldron-Born reporting name, having first learned detailed information of the design from Inner Sphere sources. By Operation BULLDOG the Cauldron-Born made up a large proportion of the heavy 'Mechs of the rebuilding Smoke Jaguars, and following their Annihilation the design proliferated the remaining Clans, save the Jade Falcons, Wolves and Coyotes who continued to favor the Hellbringer. Following the Wars of Reaving the Ebon Jaguar had finally supplanted the Hellbringer in most Homeworld Clans, save the Coyotes who remained loyal to redeeming the honor of the design."
+  },
+  "armor": {
+    "type": "Ferro-Fibrous",
+    "manufacturer": "Clan",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 17,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 22,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 32,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 19,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 8,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 9,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 182
+  }
+}

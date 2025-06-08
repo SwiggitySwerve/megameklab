@@ -1,0 +1,210 @@
+{
+  "quirks": [
+    "unbalanced"
+  ],
+  "weapons_and_equipment": [
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Left Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    },
+    {
+      "item_name": "Medium Laser",
+      "location": "Right Torso",
+      "item_type": "MediumLaser"
+    }
+  ],
+  "era": 2819,
+  "tech_base": "Inner Sphere",
+  "chassis": "Javelin",
+  "model": "JVN-10F 'Fire Javelin'",
+  "mul_id": "1674",
+  "config": "Biped",
+  "source": "TRO: 3039",
+  "rules_level": "1",
+  "role": "Striker",
+  "mass": 30,
+  "engine": {
+    "rating": 180,
+    "type": "Fusion Engine",
+    "manufacturer": null
+  },
+  "structure": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "myomer": {
+    "type": "Standard",
+    "manufacturer": null
+  },
+  "heat_sinks": {
+    "count": 12,
+    "type": "Single"
+  },
+  "walk_mp": "6",
+  "jump_mp": "6",
+  "left_arm": "",
+  "right_arm": "",
+  "left_torso": "",
+  "right_torso": "",
+  "center_torso": "",
+  "left_leg": "",
+  "right_leg": "",
+  "criticals": [
+    {
+      "location": "Head",
+      "slots": [
+        "Life Support",
+        "Sensors",
+        "Cockpit",
+        "Heat Sink",
+        "Sensors",
+        "Life Support",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "Hip",
+        "Upper Leg Actuator",
+        "Lower Leg Actuator",
+        "Foot Actuator",
+        "Jump Jet",
+        "Jump Jet",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-",
+        "-Empty-"
+      ]
+    }
+  ],
+  "manufacturers": [
+    {
+      "name": "Stormvanger Assemblies Light Division"
+    },
+    {
+      "name": "Refit"
+    },
+    {
+      "name": "Caph"
+    },
+    {
+      "name": "Various"
+    }
+  ],
+  "system_manufacturers": [
+    {
+      "type": "CHASSIS",
+      "name": "Duralyte 246"
+    },
+    {
+      "type": "ENGINE",
+      "name": "GM 180"
+    },
+    {
+      "type": "ARMOR",
+      "name": "StarSlab-1 Ferro-Fibrous"
+    },
+    {
+      "type": "COMMUNICATIONS",
+      "name": "Garret T10B"
+    },
+    {
+      "type": "TARGETING",
+      "name": "Dynatec 128C"
+    }
+  ],
+  "fluff_text": {
+    "overview": "The Javelin was first built in 2751 by Stormvanger Assemblies as a recon 'Mech meant to be exported to the member states of the Star League.",
+    "capabilities": "A compromise between speed and firepower, the Javelin was fast enough to avoid engagements with heavier 'Mechs while still having sufficient firepower to dissuade pursuit. In particular, the 'Mech's maneuverability meant that while its main function was to perform reconnaissance, the Javelin became adept at conducting ambushes, gaining a reputation for appearing out of nowhere and giving rise to the phrase \"sneaky as a Javelin.\" Notably, the missiles and their ammunition stores are placed so far forward in the 'Mech's torso that the Javelin has a front-heavy center of gravity, causing MechWarriors unfamiliar with the design's forward-lean while running to be prone to falling over while moving at high speeds in difficult terrain.",
+    "deployment": "The second version of the Javelin to carry the moniker of Fire Javelin, this upgrade of the 10F was introduced following the Clan Invasion in 3053 and mounts seven medium lasers, using double heat sinks to counter the massive amount of heat that can build up from using so many energy weapons. The conventional armor was also swapped out for ferro-fibrous and an additional ton was added to increase the overall protection for the Javelin. This design was a field refit often seen after other units had cast off their old parts.",
+    "history": "The Javelin had yet to be integrated into most SLDF regiments when the Amaris Civil War struck and Stormvanger Assemblies' factory on Caph was destroyed in 2774, ending all production of the Javelin design. Despite this, the Federated Suns - who had purchased the largest total number of Javelins from Stormvanger Assemblies - succeeded in their plans to incorporate the design into practically all of their 'Mech regiments at the start of the First Succession War, where its appearance took many enemy combatants off-guard. Though employed to varying degrees by the other Successor States, the Javelin quickly became synonymous with the Federated Suns, often anchoring scout lances, or, in certain units, teaming up with other Javelins to create mobile fire support lances. Following the creation of the Federated Commonwealth, the design was upgraded with newly-recovered lostech during the latter part of the 3040s, and at the behest of AFFC High Command, Jalastar Aerospace began production of new Javelins in 3055. Since then, the sturdy and reliable scout 'Mech has continued to serve with distinction on the battlefield; though the original's level of armor protection has been deemed as insufficient by some, new variants continue to be introduced as technology progresses, ensuring its continued service towards the end of the thirty-first century."
+  },
+  "armor": {
+    "type": "Standard",
+    "manufacturer": "Inner Sphere",
+    "locations": [
+      {
+        "location": "LA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RA",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RT",
+        "armor_points": 9,
+        "rear_armor_points": null
+      },
+      {
+        "location": "CT",
+        "armor_points": 15,
+        "rear_armor_points": null
+      },
+      {
+        "location": "HD",
+        "armor_points": 7,
+        "rear_armor_points": null
+      },
+      {
+        "location": "LL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "RL",
+        "armor_points": 13,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Left Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Right Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      },
+      {
+        "location": "Center Torso (Rear)",
+        "armor_points": 4,
+        "rear_armor_points": null
+      }
+    ],
+    "total_armor_points": 96
+  }
+}
