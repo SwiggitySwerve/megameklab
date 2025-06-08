@@ -24,6 +24,11 @@ import React, { useState, useEffect } from 'react';
       const [equipmentToRemove, setEquipmentToRemove] = useState<EquipmentToRemoveDetails | null>(null);
       const [validationWarnings, setValidationWarnings] = useState<string[]>([]);
 
+      const [variantName, setVariantName] = useState<string>("");
+      const [variantNotes, setVariantNotes] = useState<string>("");
+      const [saveStatus, setSaveStatus] = useState<string | null>(null);
+      const [isSaving, setIsSaving] = useState<boolean>(false);
+
       const isEmptySlot = (slotContent: string): boolean => {
         return slotContent === null || slotContent === undefined || slotContent.trim() === "" || slotContent.toLowerCase().includes("-empty-");
       };
@@ -150,6 +155,57 @@ import React, { useState, useEffect } from 'react';
         });
 
         setEquipmentToRemove(null); // Clear selection
+      };
+
+      const handleSaveVariant = async () => {
+        if (!selectedUnit) {
+          setSaveStatus("Error: No unit selected to customize and save.");
+          return;
+        }
+        if (!variantName.trim()) {
+          setSaveStatus("Error: Please enter a name for your custom variant.");
+          return;
+        }
+
+        setIsSaving(true);
+        setSaveStatus("Saving variant...");
+
+        const customDataPayload = {
+          loadout: customizedLoadout,
+          criticals: customizedCriticals,
+          // Include any other aspects of customization if they are tracked in state,
+          // e.g., armor changes, engine changes, etc. For now, it's loadout & crits.
+        };
+
+        try {
+          const response = await fetch('/api/custom-variants', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              baseUnitId: selectedUnit.id,
+              variantName: variantName.trim(),
+              notes: variantNotes.trim(), // Send notes if the field is used
+              customData: customDataPayload,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            setSaveStatus(`Success! Variant '${variantName.trim()}' saved with ID: ${result.variantId}`);
+            setVariantName(""); // Clear name for next save
+            setVariantNotes(""); // Clear notes
+          } else {
+            setSaveStatus(`Error: ${result.message || 'Failed to save variant.'} (${response.status})`);
+          }
+        } catch (error) {
+          console.error("Save variant error:", error);
+          setSaveStatus(`Error: An unexpected error occurred while saving. ${error instanceof Error ? error.message : ''}`);
+        } finally {
+          setIsSaving(false);
+        }
       };
 
       const runValidations = (currentLoadout: UnitEquipmentItem[], currentUnit: CustomizableUnit | null, allEquipment: EquipmentItem[]) => {
@@ -313,6 +369,53 @@ import React, { useState, useEffect } from 'react';
               </div>
             )}
             <ValidationMessagesPanel warnings={validationWarnings} />
+
+            {/* Save Variant Section */}
+            <div className="mt-6 p-4 border rounded shadow-md bg-gray-50">
+              <h2 className="text-xl font-semibold mb-3">Save Custom Variant</h2>
+              <div className="space-y-3">
+                <div>
+                  <label htmlFor="variantName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Variant Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="variantName"
+                    value={variantName}
+                    onChange={(e) => setVariantName(e.target.value)}
+                    placeholder="Enter a name for your variant (e.g., My Custom Atlas)"
+                    className="w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isSaving}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="variantNotes" className="block text-sm font-medium text-gray-700 mb-1">
+                    Notes (Optional)
+                  </label>
+                  <textarea
+                    id="variantNotes"
+                    value={variantNotes}
+                    onChange={(e) => setVariantNotes(e.target.value)}
+                    placeholder="Any notes about this custom configuration..."
+                    rows={3}
+                    className="w-full p-2 border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isSaving}
+                  />
+                </div>
+                <button
+                  onClick={handleSaveVariant}
+                  disabled={isSaving || !variantName.trim() || !selectedUnit}
+                  className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
+                >
+                  {isSaving ? 'Saving...' : 'Save As New Variant'}
+                </button>
+              </div>
+              {saveStatus && (
+                <div className={`mt-3 p-2 text-sm rounded ${saveStatus.toLowerCase().startsWith('error:') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                  {saveStatus}
+                </div>
+              )}
+            </div>
           </div>
         </Layout>
       );

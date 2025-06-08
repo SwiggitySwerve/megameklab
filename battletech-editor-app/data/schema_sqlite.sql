@@ -78,3 +78,21 @@ CREATE TABLE IF NOT EXISTS unit_validation_options (
 );
 
 -- End of schema_sqlite.sql
+
+-- =================================================================
+-- custom_unit_variants Table
+-- Stores user-customized unit configurations.
+-- =================================================================
+CREATE TABLE IF NOT EXISTS custom_unit_variants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    base_unit_id INTEGER NOT NULL,
+    variant_name TEXT NOT NULL,
+    notes TEXT, -- Optional user notes for their variant
+    custom_data TEXT NOT NULL, -- JSON blob storing { "loadout": [], "criticals": [], "armor": {} (optional) etc. }
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (base_unit_id) REFERENCES units(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_custom_variants_base_unit_id ON custom_unit_variants(base_unit_id);
+CREATE INDEX IF NOT EXISTS idx_custom_variants_variant_name ON custom_unit_variants(variant_name);

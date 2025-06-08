@@ -12,6 +12,9 @@
       rear_facing?: boolean;
       turret_mounted?: boolean;
       // Add other relevant fields from commonUnitSchema.json weapons_and_equipment
+      // For example, specific weapon stats if needed for deeper comparison
+      // heat?: number;
+      // damage?: string | number;
     }
 
     export interface CustomizableUnitData {
@@ -32,16 +35,16 @@
       [key: string]: any; // Allow other properties
     }
 
-    export interface CustomizableUnit {
+    export interface CustomizableUnit { // This is used by the CustomizerPage, represents a unit being customized
       id: string | number;
       chassis: string;
       model: string;
       mass: number; // This is mass_tons from DB, aliased as mass by API
       type: string; // Unit type from top level of API response
-      data: CustomizableUnitData; // The full JSON blob
+      data: CustomizableUnitData; // The full JSON blob from the base unit
     }
 
-    export interface EquipmentItem {
+    export interface EquipmentItem { // Represents an item selectable in the picker
       id: string | number;
       internal_id: string;
       name: string;
@@ -52,8 +55,8 @@
       tonnage: number;
       cost_cbills?: number;
       battle_value?: number;
-      weapon_details?: any;
-      ammo_details?: any;
+      weapon_details?: any; // Could be more specific
+      ammo_details?: any;   // Could be more specific
       data: any; // The full JSON blob for equipment
     }
 
@@ -69,4 +72,43 @@
       location: string;
       startIndex: number;
       count: number;
+    }
+
+    // == Types for Variant Comparison ==
+
+    export interface CustomVariantCustomData { // Data stored in custom_unit_variants.custom_data
+      loadout: UnitEquipmentItem[];
+      criticals: CriticalLocation[];
+      // Future additions: armor?: any; engine_modifications?: any;
+    }
+
+    export interface CustomVariantDetail { // Full detail of a saved custom variant from API
+      id: number;
+      base_unit_id: number;
+      variant_name: string;
+      notes?: string | null;
+      custom_data: CustomVariantCustomData; // Parsed custom_data JSON
+      created_at: string;
+      updated_at: string;
+    }
+
+    export interface LoadoutComparison {
+        onlyInA: UnitEquipmentItem[];
+        onlyInB: UnitEquipmentItem[];
+        // commonItems?: Array<{ itemA: UnitEquipmentItem; itemB: UnitEquipmentItem; differences?: string[] }>;
+    }
+
+    export interface CriticalsComparisonDifference {
+        location: string;
+        slotsA: string[];
+        slotsB: string[];
+    }
+
+    export interface ComparisonResult {
+      loadoutChanges: LoadoutComparison;
+      criticalsDifferences: CriticalsComparisonDifference[];
+      variantADetails: CustomVariantDetail;
+      variantBDetails: CustomVariantDetail;
+      totalEquipmentTonnageA: number; // Added
+      totalEquipmentTonnageB: number; // Added
     }
