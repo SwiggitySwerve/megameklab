@@ -1,0 +1,10 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+*.db
+*.db-journal
+data
+# (initially exclude 'data' from image, it will be created by app or mounted as volume)
