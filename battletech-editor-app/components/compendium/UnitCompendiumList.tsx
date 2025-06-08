@@ -2,18 +2,26 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { UnitFilterState } from './UnitFilters';
-import { getUnits, ApiListResponse } from '../../services/mockApiService';
 
-// Define a basic Unit interface for mock data - can be enhanced if needed
-interface MockUnit {
-  id: string;
+// Define the structure of the API response for a list of items
+export interface ApiListResponse<T> {
+  items: T[];
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+// Interface for the unit data coming from the API
+interface UnitFromApi {
+  id: string; // Assuming id is a string, adjust if it's a number from API
   chassis: string;
   model: string;
-  mass: number;
+  mass: number; // API provides 'mass' (after 'mass_tons AS mass' change)
   tech_base: string;
   era: string;
-  type: string;
-  [key: string]: any;
+  type: string; // API provides 'type'
+  // Add other fields if needed from the API response, e.g. source, rules_level
+  // data: any; // If the 'data' blob is used directly
 }
 
 interface UnitCompendiumListProps {
@@ -22,29 +30,45 @@ interface UnitCompendiumListProps {
 }
 
 const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, selectedCategory }) => {
-  const [unitData, setUnitData] = useState<ApiListResponse<MockUnit> | null>(null);
+  const [unitData, setUnitData] = useState<ApiListResponse<UnitFromApi> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // This could be made a prop or part of a settings context later
 
   useEffect(() => {
-    const fetchAndFilterUnits = async () => {
+    const fetchUnits = async () => {
       setLoading(true);
       try {
-        const queryParams: any = {
-          page: currentPage,
-          limit: itemsPerPage,
-          q: filters.searchTerm,
-          weight_class: filters.weightClass,
-          tech_base: filters.techBase, // mockApiService getUnits expects single tech_base from UnitFilters
-          era: filters.era, // mockApiService getUnits expects single era from UnitFilters
-        };
+        const params = new URLSearchParams();
+        params.append('page', currentPage.toString());
+        params.append('limit', itemsPerPage.toString());
+        if (filters.searchTerm) {
+          params.append('q', filters.searchTerm);
+        }
+        if (filters.weightClass) {
+          params.append('weight_class', filters.weightClass);
+        }
+        if (filters.techBase) {
+          // The API expects tech_base_array. Sending the single string.
+          // If API handles it, great. Otherwise, API might need tech_base_array: [filters.techBase]
+          params.append('tech_base_array', filters.techBase);
+        }
+        if (filters.era) {
+          params.append('era', filters.era);
+        }
+        if (filters.hasQuirk) {
+          params.append('has_quirk', filters.hasQuirk);
+        }
         if (selectedCategory) {
-          queryParams.unit_type = selectedCategory; // mockApiService getUnits uses unit_type for category
+          params.append('unit_type', selectedCategory);
         }
 
-        const data = await getUnits(queryParams);
+        const response = await fetch(`/api/units?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
         setUnitData(data);
         setError(null);
       } catch (e) {
@@ -55,7 +79,7 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
         setLoading(false);
       }
     };
-    fetchAndFilterUnits();
+    fetchUnits();
   }, [filters, selectedCategory, currentPage, itemsPerPage]);
 
   // Reset to page 1 when filters or category change

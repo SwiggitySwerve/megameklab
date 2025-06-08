@@ -4,14 +4,20 @@ import { open, Database } from 'sqlite';
 
 const SQLITE_DB_FILE: string = "battletech_dev.sqlite";
 
+interface EquipmentData {
+  era?: string;
+  source?: string;
+  [key: string]: any; // For other properties in data
+}
+
 interface Equipment {
   id: any;
   name: any;
   type: any;
   tech_base: any;
-  era: any;
-  source: any;
-  data: any;
+  era?: string | null; // Can come from column or from data blob
+  source?: string | null; // Can come from column or from data blob
+  data?: EquipmentData | null; // Parsed data object
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -56,8 +62,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ message: 'Equipment not found' });
       }
       if (result.data && typeof result.data === 'string') {
-        result.data = JSON.parse(result.data);
+        result.data = JSON.parse(result.data) as EquipmentData;
       }
+      // Augment with data from the blob if available
+      result.era = result.data?.era || result.era;
+      result.source = result.data?.source || result.source;
+
       return res.status(200).json(result);
     } else {
       let mainQueryFrom: string = 'FROM equipment';
@@ -126,8 +136,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       items = items.map(row => {
         if (row.data && typeof row.data === 'string') {
-          row.data = JSON.parse(row.data);
+          row.data = JSON.parse(row.data) as EquipmentData;
         }
+        // Augment with data from the blob if available
+        row.era = row.data?.era || row.era;
+        row.source = row.data?.source || row.source;
         return row;
       });
 

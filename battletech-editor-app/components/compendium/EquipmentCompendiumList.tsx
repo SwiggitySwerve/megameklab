@@ -2,15 +2,24 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { EquipmentFilterState } from './EquipmentFilters';
-import { getEquipment, ApiListResponse } from '../../services/mockApiService';
 
-interface MockEquipment {
-  id: string;
+// Define the structure of the API response for a list of items (consistent with UnitCompendiumList)
+export interface ApiListResponse<T> {
+  items: T[];
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+// Interface for the equipment data coming from the API
+interface EquipmentFromApi {
+  id: string; // Assuming id is a string
   name: string;
   type: string;
   tech_base: string;
-  era: string;
-  [key: string]: any;
+  era: string | null; // Era might be null if not a direct column or not available
+  source?: string | null; // Source might also be null or not directly available
+  // data: any; // If the 'data' blob is used
 }
 
 interface EquipmentCompendiumListProps {
@@ -19,28 +28,39 @@ interface EquipmentCompendiumListProps {
 }
 
 const EquipmentCompendiumList: React.FC<EquipmentCompendiumListProps> = ({ filters, selectedEquipmentCategory }) => {
-  const [equipmentData, setEquipmentData] = useState<ApiListResponse<MockEquipment> | null>(null);
+  const [equipmentData, setEquipmentData] = useState<ApiListResponse<EquipmentFromApi> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
-    const fetchAndFilterEquipment = async () => {
+    const fetchEquipment = async () => {
       setLoading(true);
       try {
-        const queryParams: any = {
-          page: currentPage,
-          limit: itemsPerPage,
-          q: filters.searchTerm,
-          tech_base: filters.techBase, // mockApiService getEquipment expects single tech_base
-          era: filters.era,           // mockApiService getEquipment expects single era
-        };
+        const params = new URLSearchParams();
+        params.append('page', currentPage.toString());
+        params.append('limit', itemsPerPage.toString());
+        if (filters.searchTerm) {
+          params.append('q', filters.searchTerm);
+        }
+        if (filters.techBase) {
+          // API expects tech_base_array
+          params.append('tech_base_array', filters.techBase);
+        }
+        if (filters.era) {
+          // API expects era_array
+          params.append('era_array', filters.era);
+        }
         if (selectedEquipmentCategory) {
-          queryParams.type = selectedEquipmentCategory; // mockApiService getEquipment uses 'type' for category
+          params.append('type_array', selectedEquipmentCategory); // API uses 'type_array' for category
         }
 
-        const data = await getEquipment(queryParams);
+        const response = await fetch(`/api/equipment?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
         setEquipmentData(data);
         setError(null);
       } catch (e) {
@@ -51,7 +71,7 @@ const EquipmentCompendiumList: React.FC<EquipmentCompendiumListProps> = ({ filte
         setLoading(false);
       }
     };
-    fetchAndFilterEquipment();
+    fetchEquipment();
   }, [filters, selectedEquipmentCategory, currentPage, itemsPerPage]);
 
   // Reset to page 1 when filters or category change

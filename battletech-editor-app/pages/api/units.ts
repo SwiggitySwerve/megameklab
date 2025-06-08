@@ -71,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (id) {
       const result: Unit | undefined = await db.get<Unit>(
-        'SELECT id, chassis, model, mass, tech_base, rules_level, era, source, data, type FROM units WHERE id = ?',
+        'SELECT id, chassis, model, mass_tons AS mass, tech_base, rules_level, era, source, data, type FROM units WHERE id = ?',
         [id]
       );
       if (!result) {
@@ -149,7 +149,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       let totalItems: number = parseInt(totalResult?.total, 10) || 0;
 
       // Main query construction
-      let mainQueryString: string = `SELECT id, chassis, model, mass, tech_base, rules_level, era, source, data, type ${mainQueryFrom}${whereClauseForMain}`;
+      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, rules_level, era, source, data, type ${mainQueryFrom}${whereClauseForMain}`;
       const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass', 'tech_base', 'rules_level', 'era', 'type'];
       const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'id';
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
