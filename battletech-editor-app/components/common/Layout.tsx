@@ -1,14 +1,22 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-// import Link from 'next/link'; // Example if you want a global nav bar
 
 interface LayoutProps {
   children: ReactNode;
   title?: string;
-  sidebar?: ReactNode; // Optional sidebar content
+  sidebarComponent?: ReactNode; // Renamed prop
+  isSidebarCollapsed?: boolean; // New prop for controlling margins
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, title = 'BattleTech Editor', sidebar }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  title = 'BattleTech Editor',
+  sidebarComponent,
+  isSidebarCollapsed,
+}) => {
+  // Determine margin based on sidebar state for md screens and up
+  const contentAndFooterMargin = isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64';
+
   return (
     <>
       <Head>
@@ -18,33 +26,26 @@ const Layout: React.FC<LayoutProps> = ({ children, title = 'BattleTech Editor', 
         {/* Add other meta tags, favicons etc. here */}
       </Head>
 
-      {/* Basic global header example - uncomment and style if needed
-      <header className="bg-gray-800 text-white p-4">
-        <nav className="container mx-auto flex justify-between">
-          <Link href="/" legacyBehavior><a className="hover:text-gray-300">Home</a></Link>
-          <div>
-            <Link href="/units" legacyBehavior><a className="mr-4 hover:text-gray-300">Units</a></Link>
-            <Link href="/equipment" legacyBehavior><a className="hover:text-gray-300">Equipment</a></Link>
-          </div>
-        </nav>
-      </header>
-      */}
+      <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+        {/* Sidebar is expected to be a fixed position component, rendered here */}
+        {sidebarComponent && <div className="print:hidden">{sidebarComponent}</div>}
 
-      <div className="flex min-h-screen bg-gray-50">
-        {sidebar && (
-          <aside className="w-full md:w-64 bg-gray-100 p-4 shadow-md print:hidden fixed h-full overflow-y-auto md:relative"> {/* Adjust for mobile fixed sidebar */}
-            {sidebar}
-          </aside>
-        )}
-        <main className={`flex-grow p-4 sm:p-6 ${sidebar ? 'md:pl-64' : ''} w-full`}> {/* Adjust padding if fixed sidebar on mobile */}
-          {/* Content width control can be managed by child page or here if a global max is desired */}
-          {/* Example: <div className="max-w-7xl mx-auto"> {children} </div> */}
+        {/* Main content area */}
+        <main
+          className={`flex-grow p-4 sm:p-6 w-full ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}
+        >
           {children}
         </main>
       </div>
 
-      <footer className="text-center p-4 bg-gray-200 text-xs text-gray-600 print:hidden">
-        <span>BattleTech Data Editor & Viewer | Concept by Jules</span>
+      {/* Footer */}
+      <footer
+        className={`p-4 bg-gray-200 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300 print:hidden ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}
+      >
+        <div className="container mx-auto px-4 text-center">
+          <p>BattleTech Data Editor & Viewer | Concept by Jules</p>
+          <p>&copy; {new Date().getFullYear()} BattleTech Editor Project. All rights reserved.</p>
+        </div>
       </footer>
     </>
   );
