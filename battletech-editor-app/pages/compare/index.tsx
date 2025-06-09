@@ -164,7 +164,7 @@ const CompareVariantsPage: React.FC = () => {
         try {
             // Assuming an API endpoint that can return all (or a large number of) equipment items
             // Adjust limit as necessary or implement pagination if the list is extremely large
-            const response = await fetch(\`/api/equipment?limit=2000\`);
+            const response = await fetch(`/api/equipment?limit=2000`);
             if (!response.ok) {
                 throw new Error('Failed to fetch all equipment data for tonnage calculation.');
             }
@@ -173,7 +173,7 @@ const CompareVariantsPage: React.FC = () => {
         } catch (err) {
             console.error("Error fetching all equipment:", err);
             // Handle error - perhaps set a page-level error state or a specific one for this
-            setComparisonError(\`Failed to load master equipment list: \${err instanceof Error ? err.message : String(err)} This may affect tonnage calculations.\`);
+            setComparisonError(`Failed to load master equipment list: ${err instanceof Error ? err.message : String(err)} This may affect tonnage calculations.`);
         }
     };
     fetchAllEquipment();

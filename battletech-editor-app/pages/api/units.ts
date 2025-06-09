@@ -79,9 +79,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       return res.status(200).json(result);
     } else {
-      let mainQueryFrom: string = 'FROM units';
-      let whereConditions: string[] = [];
-      let queryParams: any[] = [];      if (q) {
+      const mainQueryFrom: string = 'FROM units';
+      const whereConditions: string[] = [];
+      const queryParams: any[] = [];      if (q) {
         // SQLite LIKE is case-insensitive by default for ASCII. For broader Unicode, use LOWER()
         whereConditions.push(`(LOWER(chassis) LIKE LOWER(?) OR LOWER(model) LIKE LOWER(?))`);
         queryParams.push(`%${typeof q === 'string' ? q : ''}%`, `%${typeof q === 'string' ? q : ''}%`);
@@ -128,12 +128,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Quirk filter will be applied after fetching initial data if present
       const applyQuirkFilterLater: boolean = !!has_quirk;
-      let queryParamsForCount: any[] = [...queryParams]; // Params for count query before quirk filter
-      let whereClauseForCount: string = whereConditions.length > 0 ? ' WHERE ' + whereConditions.join(' AND ') : '';
+      const queryParamsForCount: any[] = [...queryParams]; // Params for count query before quirk filter
+      const whereClauseForCount: string = whereConditions.length > 0 ? ' WHERE ' + whereConditions.join(' AND ') : '';
 
       // If not applying quirk filter later, use these params for main query too
-      let queryParamsForMain: any[] = [...queryParams];
-      let whereClauseForMain: string = whereClauseForCount;
+      const queryParamsForMain: any[] = [...queryParams];
+      const whereClauseForMain: string = whereClauseForCount;
 
       // Count query (potentially without quirk filter if applied later)
       const countQueryString: string = `SELECT COUNT(*) AS total ${mainQueryFrom}${whereClauseForCount}`;

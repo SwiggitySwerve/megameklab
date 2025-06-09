@@ -96,9 +96,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
         <button
           onClick={toggleSidebar}
           className="p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} {/* Use isCollapsed from props */}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {props.isCollapsed ? ( // Use prop isCollapsed
+          {isCollapsed ? (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" /> {/* Shorter line for hamburger */}
             </svg>
@@ -111,10 +111,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
       </div>
       <nav className="flex-grow p-2 space-y-1 overflow-y-auto"> {/* Adjusted padding and spacing */}
         {navItems.map((item) => (
-          <NavItem key={item.label} {...item} isCollapsed={props.isCollapsed} /> // Pass prop isCollapsed
+          <NavItem key={item.label} {...item} isCollapsed={isCollapsed} />
         ))}
       </nav>
-      {!props.isCollapsed && ( // Use prop isCollapsed
+      {!isCollapsed && (
         <div className="p-4 border-t border-gray-700 text-xs text-gray-400">
           <span>Editor v0.1.0</span>
         </div>

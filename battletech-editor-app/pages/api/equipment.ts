@@ -63,9 +63,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       return res.status(200).json(result);
     } else {
-      let mainQueryFrom: string = 'FROM equipment';
-      let whereConditions: string[] = [];
-      let queryParams: any[] = [];
+      const mainQueryFrom: string = 'FROM equipment';
+      const whereConditions: string[] = [];
+      const queryParams: any[] = [];
 
       if (q) {
         whereConditions.push(`LOWER(name) LIKE LOWER(?)`);
