@@ -3,11 +3,13 @@ import json
 import sqlite3 # Changed from psycopg2
 from pathlib import Path
 
-# --- Database File ---
-SQLITE_DB_FILE = "battletech_dev.sqlite" # New SQLite DB file
+SCRIPT_DIR = Path(__file__).resolve().parent
 
-BASE_INPUT_DIR = "data/megameklab_converted_output"
-MEKFILES_INPUT_DIR = os.path.join(BASE_INPUT_DIR, "mekfiles")
+# --- Database File ---
+SQLITE_DB_FILE = SCRIPT_DIR / "battletech_dev.sqlite" # New SQLite DB file
+
+BASE_INPUT_DIR = SCRIPT_DIR / "megameklab_converted_output"
+MEKFILES_INPUT_DIR = BASE_INPUT_DIR / "mekfiles"
 
 def get_db_connection():
     conn = None
@@ -25,7 +27,7 @@ def get_db_connection():
 def create_schema(conn):
     """Creates database schema from schema_sqlite.sql if it doesn't exist."""
     try:
-        schema_path = "data/schema_sqlite.sql" # Assuming it's in the same directory
+        schema_path = SCRIPT_DIR / "schema_sqlite.sql" # Assuming it's in the same directory
         if not os.path.exists(schema_path):
             print(f"FATAL: Schema file not found: {schema_path}")
             return False
@@ -48,7 +50,7 @@ def create_schema(conn):
         return False
 
 def populate_equipment(conn):
-    filepath = os.path.join(MEKFILES_INPUT_DIR, "derivedEquipment.json")
+    filepath = MEKFILES_INPUT_DIR / "derivedEquipment.json"
     if not os.path.exists(filepath):
         print(f"Error: {filepath} not found.")
         return 0
@@ -56,7 +58,7 @@ def populate_equipment(conn):
     with open(filepath, 'r', encoding='utf-8') as f:
         equipment_list = json.load(f)
 
-    inserted_updated_count = 0
+    equipment_to_insert = []
     # SQLite uses ? for placeholders. ON CONFLICT requires an indexed column.
     # Assuming internal_id is unique and indexed for conflict resolution.
     sql = """
@@ -80,21 +82,29 @@ def populate_equipment(conn):
                 print(f"Skipping equipment item due to missing internal_id or name: {item.get('name', 'Unnamed')}")
                 continue
 
-            cur.execute(sql, (
+            equipment_to_insert.append((
                 internal_id, name, item_type, category,
                 tech_base, json.dumps(item) # Store full JSON data as TEXT
             ))
-            inserted_updated_count += 1
+        except Exception as ex: # Broad exception for data prep
+            print(f"Error preparing equipment data for {item.get('internal_id', 'N/A')}: {ex}")
+
+    inserted_updated_count = 0
+    if equipment_to_insert:
+        try:
+            cur.executemany(sql, equipment_to_insert)
+            conn.commit() # Commit all equipment inserts/replaces
+            inserted_updated_count = len(equipment_to_insert) # Or cur.rowcount if preferred
         except sqlite3.Error as e:
-            print(f"Error inserting/replacing equipment {item.get('internal_id', 'N/A')}: {e}")
-            # No conn.rollback() needed per statement in sqlite3 default mode, but good for consistency if batching
+            print(f"Error bulk inserting/replacing equipment: {e}")
+            conn.rollback()
         except Exception as ex:
-            print(f"Generic error processing equipment {item.get('internal_id', 'N/A')}: {ex}")
-    conn.commit() # Commit all equipment inserts/replaces
+            print(f"Generic error during bulk equipment processing: {ex}")
+            conn.rollback()
     return inserted_updated_count
 
 def populate_unit_validation_options(conn):
-    filepath = os.path.join(MEKFILES_INPUT_DIR, "UnitVerifierOptions.json")
+    filepath = MEKFILES_INPUT_DIR / "UnitVerifierOptions.json"
     if not os.path.exists(filepath):
         print(f"Error: {filepath} not found.")
         return 0
@@ -135,7 +145,15 @@ def populate_unit_validation_options(conn):
 
 def populate_units(conn):
     inserted_updated_count = 0
+    units_to_insert = []
+    BATCH_SIZE = 500
     cur = conn.cursor()
+
+    sql = """
+    INSERT OR REPLACE INTO units
+        (original_file_path, unit_type, chassis, model, mul_id, tech_base, era, mass_tons, role, source_book, data, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    """
 
     for dirpath, _, filenames in os.walk(MEKFILES_INPUT_DIR):
         for filename in filenames:
@@ -172,22 +190,38 @@ def populate_units(conn):
                     source_book = unit_json_data.get('source', unit_json_data.get('source_book'))
                     if not isinstance(source_book, str) and source_book is not None: source_book = str(source_book)
 
-                    sql = """
-                    INSERT OR REPLACE INTO units
-                        (original_file_path, unit_type, chassis, model, mul_id, tech_base, era, mass_tons, role, source_book, data, created_at, updated_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                    """
-                    cur.execute(sql, (
+                    units_to_insert.append((
                         original_file_rel_path, unit_type, chassis, model, mul_id,
                         tech_base, era, mass_tons, role, source_book, json.dumps(unit_json_data)
                     ))
-                    inserted_updated_count += 1
+
+                    if len(units_to_insert) >= BATCH_SIZE:
+                        cur.executemany(sql, units_to_insert)
+                        inserted_updated_count += len(units_to_insert)
+                        units_to_insert = []
+
                 except json.JSONDecodeError as e:
                     print(f"Error decoding JSON from {filepath}: {e}")
-                except sqlite3.Error as e:
-                    print(f"Database error processing unit {original_file_rel_path}: {e}")
+                except sqlite3.Error as e: # This will catch errors from executemany
+                    print(f"Database error processing batch of units (up to {original_file_rel_path}): {e}")
+                    # Decide if to rollback here or let main handle it
+                    conn.rollback() # Rollback this batch
+                    units_to_insert = [] # Clear batch as it failed
                 except Exception as ex:
                     print(f"Generic error processing unit file {filepath}: {ex}")
+
+    # Insert any remaining units
+    if units_to_insert:
+        try:
+            cur.executemany(sql, units_to_insert)
+            inserted_updated_count += len(units_to_insert)
+        except sqlite3.Error as e:
+            print(f"Database error processing final batch of units: {e}")
+            conn.rollback()
+        except Exception as ex:
+            print(f"Generic error processing final batch of units: {ex}")
+            conn.rollback()
+
     conn.commit() # Commit all unit inserts/replaces
     return inserted_updated_count
 
@@ -234,6 +268,8 @@ if __name__ == "__main__":
         print(f"Error: Input directory '{MEKFILES_INPUT_DIR}' not found.")
         print(f"Ensure the '{BASE_INPUT_DIR}' directory exists and contains 'mekfiles' with converted JSON data.")
         print(f"Current working directory: {os.getcwd()}")
-        print(f"Expected structure: {os.path.abspath(BASE_INPUT_DIR)}/mekfiles/")
+        # Use str() for printing Path objects in f-string if not implicitly converted,
+        # though modern Python handles it. os.path.abspath also works with Path objects.
+        print(f"Expected structure: {os.path.abspath(str(BASE_INPUT_DIR))}/mekfiles/")
     else:
         main()

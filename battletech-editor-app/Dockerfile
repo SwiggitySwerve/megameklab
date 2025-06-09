@@ -54,7 +54,9 @@ COPY --from=builder /usr/src/app/.next ./.next
 COPY --from=builder /usr/src/app/public ./public
 
 # Copy the populated SQLite database from the builder stage
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/battletech_dev.sqlite ./battletech_dev.sqlite
+# The source path /usr/src/app/data/battletech_dev.sqlite is because
+# COPY battletech-editor-app/. . in the builder stage copies the data/ directory.
+COPY --from=builder --chown=appuser:appgroup /usr/src/app/data/battletech_dev.sqlite ./battletech_dev.sqlite
 
 # Expose the port Next.js runs on (default 3000)
 EXPOSE 3000

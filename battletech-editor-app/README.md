@@ -42,7 +42,26 @@ The application will be running in development mode with hot-reload enabled, mea
 
 ### Database Setup
 
-The application uses SQLite for data storage. Make sure the `battletech_dev.sqlite` file is present in the root directory. If you need to initialize the database, refer to the data population scripts in the `data/` directory.
+The application uses an SQLite database (`battletech_dev.sqlite`) for data storage. This database is generated from source JSON files by the `populate_db.py` script located in the `battletech-editor-app/data/` directory.
+
+**Docker Builds:**
+When building the Docker image for this application, the `populate_db.py` script is run automatically to create and populate a fresh `battletech_dev.sqlite` database within the image.
+
+**Local Development:**
+If you are running the application locally (outside of Docker) and need to generate or update the database:
+
+1.  Ensure you have Python 3 installed.
+2.  Navigate to the `battletech-editor-app/data/` directory:
+    ```bash
+    cd battletech-editor-app/data
+    ```
+3.  Run the population script:
+    ```bash
+    python3 populate_db.py
+    ```
+    This will create or update the `battletech_dev.sqlite` file in the `battletech-editor-app/data/` directory. This file is ignored by Git (as per `.gitignore` settings).
+
+The `populate_db.py` script has been optimized with batch processing to improve database generation speed.
 
 ## Project Structure
 
