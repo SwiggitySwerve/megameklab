@@ -1,15 +1,14 @@
-import React from 'react'; // Removed useState
+import React, { ReactElement } from 'react';
 import Link from 'next/link';
 
 interface SidebarProps {
   isCollapsed: boolean;
   setIsCollapsed: (isCollapsed: boolean) => void;
-  // initialCollapsed?: boolean; // Example for future enhancement
 }
 
 interface NavItemProps {
   href: string;
-  icon: JSX.Element;
+  icon: ReactElement;
   label: string;
   isCollapsed: boolean;
 }
@@ -23,11 +22,9 @@ const NavItem: React.FC<NavItemProps> = ({ href, icon, label, isCollapsed }) => 
   </Link>
 );
 
-const Sidebar: React.FC<SidebarProps> = (props) => { // Added props
-  // const [isCollapsed, setIsCollapsed] = useState(false); // Removed internal state
-
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   const toggleSidebar = () => {
-    props.setIsCollapsed(!props.isCollapsed); // Use prop setter
+    setIsCollapsed(!isCollapsed);
   };
 
   // Basic SVG icons - can be replaced with a proper icon library
@@ -88,19 +85,18 @@ const Sidebar: React.FC<SidebarProps> = (props) => { // Added props
       label: 'Compare',
     },
   ];
-
   return (
     <div
       className={`bg-gray-800 text-white transition-all duration-300 ease-in-out print:hidden ${
-        props.isCollapsed ? 'w-20' : 'w-64' // Use prop isCollapsed
+        isCollapsed ? 'w-20' : 'w-64' // Use isCollapsed from props
       } fixed inset-y-0 left-0 z-30 flex flex-col shadow-lg`} // Ensure it's fixed and covers full height
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700 h-16"> {/* Fixed height for header */}
-        {!props.isCollapsed && <span className="text-xl font-bold">BattleTech</span>} {/* Use prop isCollapsed */}
+        {!isCollapsed && <span className="text-xl font-bold">BattleTech</span>} {/* Use isCollapsed from props */}
         <button
           onClick={toggleSidebar}
           className="p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-          aria-label={props.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} // Use prop isCollapsed
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} {/* Use isCollapsed from props */}
         >
           {props.isCollapsed ? ( // Use prop isCollapsed
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
