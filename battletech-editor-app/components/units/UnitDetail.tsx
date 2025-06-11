@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FullUnit, ArmorLocation, WeaponOrEquipmentItem, CriticalSlotLocation, FluffText, Quirks } from '../../types';
+import { FullUnit, ArmorLocation, WeaponOrEquipmentItem, CriticalSlotLocation, FluffText, UnitQuirk } from '../../types';
 
 interface UnitDetailProps {
   unit: FullUnit | null;
@@ -100,8 +100,8 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
         <>
           <SectionTitle>Quirks</SectionTitle>
           <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-700">
-            {uData.quirks.map((quirk: Quirks, index: number) => (
-              <li key={index}>{typeof quirk === 'string' ? quirk : quirk.Name}</li>
+            {uData.quirks.map((quirk: UnitQuirk, index: number) => (
+              <li key={index}>{typeof quirk === 'string' ? quirk : quirk.name}</li>
             ))}
           </ul>
         </>
@@ -119,7 +119,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
             <p className="font-semibold text-gray-800">{item.item_name} ({item.item_type})</p>
             <p className="text-sm text-gray-600">Location: {item.location} {item.rear_facing ? '(Rear)' : ''} {item.turret_mounted ? '(Turret)' : ''}</p>
             {item.damage && <DataPair label="Damage" value={typeof item.damage === 'object' ? JSON.stringify(item.damage) : String(item.damage)} />}
-            {item.range && item.range.short !== undefined && <DataPair label="Range (S/M/L/E)" value={`${item.range.short}/${item.range.medium}/${item.range.long}${item.range.extreme !== undefined ? '/'+item.range.extreme : ''}`} />}
+            {item.range && item.range.short !== undefined && <DataPair label="Range (S/M/L/E)" value={`${item.range.short || 'N/A'}/${item.range.medium || 'N/A'}/${item.range.long || 'N/A'}${item.range.extreme !== undefined ? '/'+item.range.extreme : ''}${item.range.minimum !== undefined ? ` (Min: ${item.range.minimum})` : ''}`} />}
             {item.ammo_per_ton && <DataPair label="Ammo/Ton" value={item.ammo_per_ton} />}
             {item.tons && <DataPair label="Tons" value={item.tons} />}
             {item.crits && <DataPair label="Crits" value={item.crits} />}
@@ -197,7 +197,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
     <>
       <SectionTitle>History & Background</SectionTitle>
       {(!uData.fluff_text || Object.keys(uData.fluff_text).length === 0) && <p className="text-sm text-gray-500">No fluff or historical information available.</p>}
-      {uData.fluff_text && Object.entries(uData.fluff_text as FluffText).map(([key, value]) => value && (
+      {uData.fluff_text && Object.entries(uData.fluff_text).map(([key, value]) => value && (
         <div key={key} className="mt-3">
           <h4 className="font-semibold text-md capitalize text-gray-700">{key.replace(/_/g, ' ')}</h4>
           <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">{String(value)}</p>

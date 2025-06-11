@@ -40,6 +40,8 @@ export interface UnitData {
   rules_level?: number | string;
   role?: { name?: string }; // Role might be an object in some MTFs
   mass?: number;
+  cockpit?: { type?: string; manufacturer?: string; };
+  gyro?: { type?: string; manufacturer?: string; };
   engine?: {
     type?: string;
     rating?: number;
@@ -65,6 +67,7 @@ export interface UnitData {
     jump_mp?: number;
     cruise_mp?: number;
     flank_mp?: number;
+    run_mp?: number;
     thrust_mp?: number;
     safe_thrust_mp?: number;
     dive_mp?: number;
@@ -73,10 +76,11 @@ export interface UnitData {
     type?: string;
     manufacturer?: string;
     locations: ArmorLocation[];
+    total_armor_points?: number;
   };
   weapons_and_equipment?: WeaponOrEquipmentItem[];
   criticals?: CriticalSlotLocation[];
-  quirks?: string[] | { name: string, description?: string }[]; // Quirk format can vary
+  quirks?: UnitQuirk[]; // Quirk format can vary
   manufacturers?: Manufacturer[];
   fluff_text?: FluffText;
   // LAM specific (examples)
@@ -101,8 +105,11 @@ export interface WeaponOrEquipmentItem {
   related_ammo?: string;
   // other fields like damage, range from .blk or derived equipment data
   damage?: string | number;
-  range?: string; // e.g., S/M/L
+  range?: { short?: number; medium?: number; long?: number; extreme?: number; minimum?: number; }; // e.g., S/M/L
   heat?: number;
+  ammo_per_ton?: number | string;
+  tons?: number | string;
+  crits?: number | string;
 }
 
 export interface CriticalSlotLocation {
@@ -125,6 +132,7 @@ export interface FluffText {
   [key: string]: string | undefined;
 }
 
+export type UnitQuirk = string | { name: string, description?: string };
 
 // Basic Equipment structure
 export interface BasicEquipment {
