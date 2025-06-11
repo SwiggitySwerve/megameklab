@@ -8,7 +8,7 @@ import EquipmentCategoryNav from '../../components/compendium/EquipmentCategoryN
 import EquipmentFilters, { EquipmentFilterState } from '../../components/compendium/EquipmentFilters';
 import EquipmentCompendiumList from '../../components/compendium/EquipmentCompendiumList';
 
-const initialUnitFilters: UnitFilterState = { searchTerm: '', weightClass: '', techBase: '', era: '' };
+const initialUnitFilters: UnitFilterState = { searchTerm: '', weightClass: '', techBase: '', hasQuirk: '', startYear: '', endYear: '' };
 const initialEquipmentFilters: EquipmentFilterState = { searchTerm: '', techBase: '', era: '' };
 
 const CompendiumPage: React.FC = () => {

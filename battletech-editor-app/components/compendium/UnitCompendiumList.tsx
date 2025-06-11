@@ -79,12 +79,13 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
           params.append('weight_class', filters.weightClass);
         }
         if (filters.techBase) {
-          // The API expects tech_base_array. Sending the single string.
-          // If API handles it, great. Otherwise, API might need tech_base_array: [filters.techBase]
-          params.append('tech_base_array', filters.techBase);
+          params.append('techBase', filters.techBase);
         }
-        if (filters.era) {
-          params.append('era', filters.era);
+        if (filters.startYear) {
+          params.append('startYear', filters.startYear);
+        }
+        if (filters.endYear) {
+          params.append('endYear', filters.endYear);
         }
         if (filters.hasQuirk) {
           params.append('has_quirk', filters.hasQuirk);

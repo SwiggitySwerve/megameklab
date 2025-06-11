@@ -96,9 +96,28 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
     }
   };
 
+  // Auto-apply filters with debouncing
+  useEffect(() => {
+    const yearFieldsValid = (startYear.length === 0 || startYear.length === 4) && 
+                           (endYear.length === 0 || endYear.length === 4);
+    
+    if (!yearFieldsValid) return;
+
+    const delay = searchTerm.length > 0 && searchTerm.length < 3 ? 0 : 500;
+    
+    const timeout = setTimeout(() => {
+      onFiltersApply({ searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
+      console.log('Auto-applying filters:', { searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [searchTerm, weightClass, techBase, hasQuirk, startYear, endYear]);
+
   const handleApply = () => {
     onFiltersApply({ searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
-    console.log('Applying filters:', { searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
+    console.log('Manually applying filters:', { searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
   };
 
   const handleClear = () => {
