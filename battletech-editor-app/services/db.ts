@@ -4,8 +4,12 @@ import { open, Database } from 'sqlite';
 import path from 'path';
 import { logApiError } from './errorLogger';
 
-// Define the path to the SQLite database file relative to the project root
-const SQLITE_DB_FILE = path.resolve(process.cwd(), 'data', 'battletech_dev.sqlite');
+// Define the path to the SQLite database file
+// Check if we're running in Docker (environment variable) or use local development path
+const SQLITE_DB_FILE = process.env.DB_PATH || 
+  (process.env.NODE_ENV === 'production' 
+    ? path.resolve('/usr/src/app', 'battletech_dev.sqlite')
+    : path.resolve(process.cwd(), 'data', 'battletech_dev.sqlite'));
 
 /**
  * Opens a connection to the SQLite database

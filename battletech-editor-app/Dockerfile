@@ -3,29 +3,16 @@ FROM node:18-alpine AS builder
 
 WORKDIR /usr/src/app
 
-# Install Python, pip, and SQLite for database population
-RUN apk add --no-cache python3 py3-pip sqlite sqlite-dev build-base
-
-# Copy scripts and data needed for DB population from project root
-# Copy all necessary data files and scripts for DB population
-COPY battletech-editor-app/data ./data/
-
-# Run populate_db.py to create and populate the SQLite database
-RUN python3 data/populate_db.py
-
-# Now proceed with Node.js app setup
-# Copy app's package.json and package-lock.json
+# Copy app's package files first for better caching
 COPY battletech-editor-app/package.json ./
 COPY battletech-editor-app/package-lock.json ./
-# Copy app's tsconfig.json
 COPY battletech-editor-app/tsconfig.json ./
-# If next.config.js existed in app, it would be: COPY battletech-editor-app/next.config.js ./
+COPY battletech-editor-app/next.config.ts ./
 
-# Install Node.js dependencies using npm ci for reproducible builds
+# Install Node.js dependencies
 RUN npm ci
 
-# Copy the rest of the application source code from the battletech-editor-app directory
-# into the current WORKDIR (/usr/src/app)
+# Copy the rest of the application source code
 COPY battletech-editor-app/. .
 
 # Build the Next.js application
@@ -36,30 +23,35 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
-# Install SQLite runtime libraries, crucial for the app to use the SQLite DB
-RUN apk add --no-cache sqlite
+# Install runtime dependencies: Python, SQLite, and bash for better script support
+RUN apk add --no-cache python3 py3-pip sqlite sqlite-dev bash
 
 # Set NODE_ENV to production for Next.js
 ENV NODE_ENV production
 
 # Create a non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
 
 # Copy necessary files from the builder stage
-# package.json is needed for Next.js to determine how to run 'next start'
 COPY --from=builder /usr/src/app/package.json ./package.json
-# Copy .next and public directories
 COPY --from=builder /usr/src/app/.next ./.next
 COPY --from=builder /usr/src/app/public ./public
 
-# Copy the populated SQLite database from the builder stage
-# The source path /usr/src/app/data/battletech_dev.sqlite is because
-# COPY battletech-editor-app/. . in the builder stage copies the data/ directory.
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/data/battletech_dev.sqlite ./battletech_dev.sqlite
+# Copy data directory with all mekfiles and scripts for database initialization
+COPY --chown=appuser:appgroup battletech-editor-app/data ./data/
+
+# Copy the initialization script
+COPY --chown=appuser:appgroup battletech-editor-app/scripts/init-db.sh ./scripts/init-db.sh
+
+# Make the initialization script executable
+RUN chmod +x ./scripts/init-db.sh
+
+# Switch to non-root user
+USER appuser
 
 # Expose the port Next.js runs on (default 3000)
 EXPOSE 3000
 
-# Set the command to start the Next.js application
-CMD ["npm", "start"]
+# Use the initialization script as the entry point
+# This will check for existing database, initialize if needed, then start the app
+CMD ["./scripts/init-db.sh"]

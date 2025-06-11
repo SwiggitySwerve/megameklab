@@ -77,8 +77,8 @@ const EquipmentList: React.FC = () => {
       setEquipment(data.items || []);
       setTotalPages(data.totalPages || 0);
       setCurrentPage(data.currentPage || 1);
-      setSortBy(data.sortBy || 'name');
-      setSortOrder(data.sortOrder || 'asc');
+      // setSortBy(data.sortBy || 'name');
+      // setSortOrder(data.sortOrder || 'asc');
 
 
       if ((data.items || []).length === 0 && (data.currentPage || 1) > 1 && page > 1) {

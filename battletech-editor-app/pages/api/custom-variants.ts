@@ -146,8 +146,6 @@ export default async function handler(
         return res.status(200).json({ items: variants });
       }
 
-      return res.status(200).json({ items: variants });
-
     } catch (error: any) {
       console.error('Error fetching custom variant list:', error);
       return res.status(500).json({ message: 'Failed to fetch custom variant list.', error: error.message });

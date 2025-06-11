@@ -41,7 +41,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   const tech_base = uData.tech_base || unit.tech_base;
   const era = uData.era || unit.era;
   const rules_level = uData.rules_level || unit.rules_level;
-  const role = uData.role?.name || (typeof uData.role === 'string' ? uData.role : unit.role); // Handle object or string role
+  const role = (typeof uData.role === 'object' && uData.role?.name) || (typeof uData.role === 'string' ? uData.role : unit.role); // Handle object or string role
   const source = uData.source || unit.source;
   const mul_id = uData.mul_id || unit.mul_id;
 
@@ -78,7 +78,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
           <SectionTitle>Heat Management</SectionTitle>
           <DataPair
             label="Heat Sinks"
-            value={`${uData.heat_sinks.count} ${uData.heat_sinks.type || ''} (Dissipating: ${uData.heat_sinks.dissipation_per_sink || uData.heat_sinks.count * (uData.heat_sinks.type?.includes("Double") ? 2 : 1) })`}
+            value={`${uData.heat_sinks.count || 0} ${uData.heat_sinks.type || ''} (Dissipating: ${uData.heat_sinks.dissipation_per_sink || (uData.heat_sinks.count || 0) * (uData.heat_sinks.type?.includes("Double") ? 2 : 1) })`}
           />
         </>
       )}
@@ -162,28 +162,28 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Armor</th>
-                {uData.armor.locations.some(loc => loc.rear_armor_points !== undefined && loc.rear_armor_points > 0) && (
+                {uData.armor?.locations.some(loc => loc.rear_armor_points !== undefined && loc.rear_armor_points > 0) && (
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rear Armor</th>
                 )}
               </tr>
             </thead>
             <tbody className="bg-gray-50 divide-y divide-gray-200">
-              {uData.armor.locations.map((loc: ArmorLocation) => (
+              {uData.armor?.locations.map((loc: ArmorLocation) => (
                 <tr key={loc.location}>
                   <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{loc.location}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{loc.armor_points}</td>
-                  {uData.armor.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && (
+                  {uData.armor?.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && (
                     <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{loc.rear_armor_points !== null && loc.rear_armor_points !== undefined ? loc.rear_armor_points : '-'}</td>
                   )}
                 </tr>
               ))}
             </tbody>
-            {uData.armor.total_armor_points && (
+            {uData.armor?.total_armor_points && (
                 <tfoot>
                     <tr className="bg-gray-50 font-semibold">
                         <td className="px-4 py-2 text-sm text-gray-700">Total Armor</td>
                         <td className="px-4 py-2 text-sm text-gray-700">{uData.armor.total_armor_points}</td>
-                        {uData.armor.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && <td className="px-4 py-2"></td>}
+                        {uData.armor?.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && <td className="px-4 py-2"></td>}
                     </tr>
                 </tfoot>
             )}

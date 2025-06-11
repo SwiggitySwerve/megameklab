@@ -59,13 +59,12 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
         })}
       </div>
 
-      {(Object.keys(eqData).length > 0 || equipment.rules_level || equipment.mul_id) && ( // Check if there's any data to show in specs
+      {(Object.keys(eqData).length > 0 || eqData.rules_level) && ( // Check if there's any data to show in specs
         <SectionTitle>Specifications</SectionTitle>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
         {/* Display root-level fields not shown in Basic Info, if they exist */}
-        {equipment.rules_level && <DataPair label="Rules Level" value={equipment.rules_level} />}
-        {equipment.mul_id && <DataPair label="MUL ID" value={equipment.mul_id} />}
+        {eqData.rules_level && <DataPair label="Rules Level" value={eqData.rules_level} />}
 
         {/* Common stats from eqData */}
         {eqData.tons !== undefined && <DataPair label="Tonnage" value={eqData.tons} />}
