@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from '../../components/common/Layout';
 import UnitList from '../../components/units/UnitList';
 import CategoryNavigation from '../../components/common/CategoryNavigation';
 
@@ -18,14 +17,22 @@ const UnitsPage: React.FC = () => {
   );
 
   return (
-    <Layout title="Units | BattleTech Editor" sidebar={unitPageSidebar}>
-      <div className="pt-16 md:pt-0"> {/* Add padding top for mobile if sidebar is fixed and overlapping */}
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800">
-          {selectedCategory ? `${selectedCategory} List` : 'All Units List'}
-        </h1>
-        <UnitList selectedCategory={selectedCategory} />
+    <div className="flex">
+      {/* Category Navigation Sidebar */}
+      <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 print:hidden">
+        {unitPageSidebar}
+      </aside>
+      
+      {/* Main Content */}
+      <div className="flex-grow">
+        <div className="pt-16 md:pt-0 p-4 sm:p-6">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 dark:text-white">
+            {selectedCategory ? `${selectedCategory} List` : 'All Units List'}
+          </h1>
+          <UnitList selectedCategory={selectedCategory} />
+        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

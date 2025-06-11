@@ -36,6 +36,35 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // This could be made a prop or part of a settings context later
 
+  // Function to convert unit type abbreviations to proper names
+  const getUnitTypeName = (type: string): string => {
+    const typeMap: { [key: string]: string } = {
+      'meks': 'BattleMech',
+      'vehicles': 'Vehicle',
+      'infantry': 'Infantry',
+      'battlearmor': 'Battle Armor',
+      'ge': 'Gun Emplacement',
+      'fighters': 'Aerospace Fighter',
+      'dropships': 'DropShip',
+      'warship': 'WarShip',
+      'protomeks': 'ProtoMech',
+      'convfighter': 'Conventional Fighter',
+      'smallcraft': 'Small Craft',
+      'spacestation': 'Space Station',
+      'jumpships': 'JumpShip',
+      'handheld': 'Handheld Weapon'
+    };
+    return typeMap[type] || type;
+  };
+
+  // Function to format mass display
+  const formatMass = (mass: number | null | undefined): string => {
+    if (mass === null || mass === undefined || mass === 0) {
+      return '';
+    }
+    return `${mass} tons`;
+  };
+
   useEffect(() => {
     const fetchUnits = async () => {
       setLoading(true);
@@ -100,8 +129,8 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
         {unitData.items.map((unit) => (
           <li key={unit.id} className="p-2 border rounded hover:bg-gray-50">
             <Link href={`/units/${unit.id}`} legacyBehavior>
-              <a className="text-blue-600 hover:text-blue-800">
-                {unit.chassis} {unit.model} ({unit.mass} tons) - {unit.type}
+              <a className="list-item-link">
+                {unit.chassis} {unit.model} {formatMass(unit.mass) && `(${formatMass(unit.mass)})`} - {getUnitTypeName(unit.type)}
               </a>
             </Link>
           </li>

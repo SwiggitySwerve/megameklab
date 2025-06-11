@@ -5,7 +5,7 @@ import path from 'path';
 import { logApiError } from './errorLogger';
 
 // Define the path to the SQLite database file relative to the project root
-const SQLITE_DB_FILE = path.resolve(process.cwd(), 'battletech_dev.sqlite');
+const SQLITE_DB_FILE = path.resolve(process.cwd(), 'data', 'battletech_dev.sqlite');
 
 /**
  * Opens a connection to the SQLite database

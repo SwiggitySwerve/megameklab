@@ -42,7 +42,7 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
 
 
   return (
-    <div className="p-4 sm:p-6 bg-white shadow-lg rounded-lg max-w-2xl mx-auto">
+    <div className="content-card max-w-2xl mx-auto">
       <header className="mb-6 text-center">
         <h1 className="text-3xl font-bold text-green-700">{name}</h1>
         {type && <p className="text-md text-gray-500">Type: {type}</p>}

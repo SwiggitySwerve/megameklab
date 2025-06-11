@@ -53,7 +53,7 @@ const VariantComparisonDisplay: React.FC<VariantComparisonDisplayProps> = ({ com
 
 
   return (
-    <div className="mt-6 p-4 border rounded shadow-lg bg-white">
+    <div className="content-card mt-6">
       <h2 className="text-2xl font-bold mb-4 text-center">Comparison: '{variantADetails.variant_name}' Subversions</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
 

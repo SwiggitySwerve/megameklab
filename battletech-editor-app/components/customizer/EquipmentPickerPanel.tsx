@@ -21,7 +21,7 @@ import React, { useState } from 'react';
           <input
             type="text"
             placeholder="Search equipment by name or ID..."
-            className="w-full p-2 border rounded mb-2"
+            className="w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 mb-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

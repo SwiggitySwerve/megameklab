@@ -170,6 +170,33 @@ def populate_units(conn):
 
                     chassis = unit_json_data.get('chassis', unit_json_data.get('name'))
                     model = unit_json_data.get('model', '')
+                    
+                    # If chassis is still None/empty, try to extract from filename
+                    if not chassis:
+                        # Extract chassis from filename (e.g., "Achileus BA (Sqd 4) [David].json" -> "Achileus BA")
+                        filename_without_ext = filename.replace('.json', '')
+                        # Split on first parenthesis to get the base name
+                        if '(' in filename_without_ext:
+                            chassis = filename_without_ext.split('(')[0].strip()
+                        else:
+                            chassis = filename_without_ext
+                    
+                    # If model is still empty, try to extract from filename
+                    if not model and '(' in filename and ')' in filename:
+                        # Extract model from parentheses and brackets (e.g., "(Sqd 4) [David]" -> "Sqd 4 David")
+                        import re
+                        # Find content in parentheses and brackets
+                        paren_match = re.search(r'\(([^)]+)\)', filename)
+                        bracket_match = re.search(r'\[([^\]]+)\]', filename)
+                        
+                        model_parts = []
+                        if paren_match:
+                            model_parts.append(paren_match.group(1))
+                        if bracket_match:
+                            model_parts.append(bracket_match.group(1))
+                        
+                        if model_parts:
+                            model = ' '.join(model_parts)
                     mul_id = str(unit_json_data.get('mul_id', '')) if unit_json_data.get('mul_id') is not None else None
 
                     tech_base = unit_json_data.get('techbase', unit_json_data.get('derived_tech_base', 'Unknown'))

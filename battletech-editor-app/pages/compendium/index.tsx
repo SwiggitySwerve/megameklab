@@ -1,6 +1,6 @@
 // battletech-editor-app/pages/compendium/index.tsx
 import React, { useState } from 'react';
-import Layout from '../../components/common/Layout';
+import Head from 'next/head';
 import UnitCategoryNav from '../../components/compendium/UnitCategoryNav';
 import UnitFilters, { UnitFilterState } from '../../components/compendium/UnitFilters';
 import UnitCompendiumList from '../../components/compendium/UnitCompendiumList';
@@ -24,7 +24,10 @@ const CompendiumPage: React.FC = () => {
   const handleEquipmentFiltersApply = (filters: EquipmentFilterState) => setCurrentEquipmentFilters(filters);
 
   return (
-    <Layout pageTitle="Compendium">
+    <>
+      <Head>
+        <title>Compendium | BattleTech Editor</title>
+      </Head>
       <div className="container mx-auto p-4">
         <div className="flex border-b mb-4">
           <button className={`py-2 px-4 ${activeView === 'units' ? 'border-b-2 border-blue-500' : ''}`} onClick={() => setActiveView('units')}>Units</button>
@@ -72,7 +75,7 @@ const CompendiumPage: React.FC = () => {
           </section>
         )}
       </div>
-    </Layout>
+    </>
   );
 };
 

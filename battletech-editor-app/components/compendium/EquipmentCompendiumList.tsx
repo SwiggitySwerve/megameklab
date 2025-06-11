@@ -91,7 +91,7 @@ const EquipmentCompendiumList: React.FC<EquipmentCompendiumListProps> = ({ filte
         {equipmentData.items.map((item) => (
           <li key={item.id} className="p-2 border rounded hover:bg-gray-50">
             <Link href={`/equipment/${item.id}`} legacyBehavior>
-              <a className="text-blue-600 hover:text-blue-800">
+              <a className="list-item-link">
                 {item.name} ({item.type}) - {item.tech_base} - Era: {item.era}
               </a>
             </Link>

@@ -138,7 +138,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
         {uData.criticals?.map((critLoc: CriticalSlotLocation) => (
           <div key={critLoc.location}>
             <h4 className="font-semibold text-md text-gray-700 bg-gray-100 px-2 py-1 rounded-t-md border-t border-x border-gray-200">{critLoc.location}:</h4>
-            <ul className="list-none list-inside text-sm text-gray-600 bg-white p-2 rounded-b-md border border-gray-200 shadow-sm">
+            <ul className="list-none list-inside text-sm text-gray-600 bg-gray-50 p-2 rounded-b-md border border-gray-200 shadow-sm">
               {critLoc.slots.map((slot, i) => (
                 <li key={i} className={`py-0.5 px-1 ${slot && slot !== '-Empty-' ? '' : 'text-gray-400'}`}>
                   {`${i + 1}: ${slot || '-Empty-'}`}
@@ -167,7 +167,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
                 )}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-gray-50 divide-y divide-gray-200">
               {uData.armor.locations.map((loc: ArmorLocation) => (
                 <tr key={loc.location}>
                   <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{loc.location}</td>
@@ -215,7 +215,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   ];
 
   return (
-    <div className="p-4 sm:p-6 bg-white shadow-lg rounded-lg">
+    <div className="content-card">
       <header className="mb-4">
         <h1 className="text-3xl font-bold text-blue-700">{chassis} {model}</h1>
       </header>

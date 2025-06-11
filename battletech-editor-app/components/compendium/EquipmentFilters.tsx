@@ -64,37 +64,37 @@ const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({ onFiltersApply }) =
   if (error) return <p className="text-red-500">Error loading filters: {error}</p>;
 
   return (
-    <div className="p-4 bg-gray-200 rounded mb-4">
+    <div className="navy-section mb-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="eqSearchTerm" className="block text-sm font-medium text-gray-700">Search Name</label>
+          <label htmlFor="eqSearchTerm">Search Name</label>
           <input
             type="text"
             id="eqSearchTerm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="eqTechBase" className="block text-sm font-medium text-gray-700">Tech Base</label>
+          <label htmlFor="eqTechBase">Tech Base</label>
           <select
             id="eqTechBase"
             value={techBase}
             onChange={(e) => setTechBase(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">All</option>
             {techBases.map(tb => <option key={tb} value={tb}>{tb}</option>)}
           </select>
         </div>
         <div>
-          <label htmlFor="eqEra" className="block text-sm font-medium text-gray-700">Era/Year</label>
+          <label htmlFor="eqEra">Era/Year</label>
           <select
             id="eqEra"
             value={era}
             onChange={(e) => setEra(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">All</option>
             {eras.map(er => <option key={er} value={er}>{er}</option>)}

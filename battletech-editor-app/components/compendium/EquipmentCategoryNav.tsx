@@ -41,13 +41,13 @@ const EquipmentCategoryNav: React.FC<EquipmentCategoryNavProps> = ({ onSelectCat
   // TODO: Consider a more sophisticated display if the number of categories is very large.
   // For now, a simple list.
   return (
-    <nav className="bg-gray-100 p-3 rounded mb-4">
-      <h3 className="font-semibold mb-2">Equipment Categories</h3>
+    <nav className="navy-section mb-4">
+      <h3>Equipment Categories</h3>
       <ul className="space-y-1 max-h-96 overflow-y-auto">
          <li>
             <button
               onClick={() => onSelectCategory(null)} // Allow deselecting
-              className={`text-blue-600 hover:text-blue-800 hover:underline w-full text-left ${!selectedCategory ? 'font-bold' : ''}`}
+              className={`hover:underline w-full text-left ${!selectedCategory ? 'font-bold' : ''}`}
             >
               All Equipment Types
             </button>
@@ -56,7 +56,7 @@ const EquipmentCategoryNav: React.FC<EquipmentCategoryNavProps> = ({ onSelectCat
           <li key={category}>
             <button
               onClick={() => onSelectCategory(category)}
-              className={`text-blue-600 hover:text-blue-800 hover:underline w-full text-left ${selectedCategory === category ? 'font-bold' : ''}`}
+              className={`hover:underline w-full text-left ${selectedCategory === category ? 'font-bold' : ''}`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>

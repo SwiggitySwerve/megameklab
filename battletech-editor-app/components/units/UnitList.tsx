@@ -80,8 +80,9 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
       setTotalPages(data.totalPages || 0);
       setCurrentPage(data.currentPage || 1);
       // setTotalItems(data.totalItems || 0);
-      setSortBy(data.sortBy || 'chassis'); // Update sort state from API response
-      setSortOrder(data.sortOrder || 'asc');
+      // Note: API may not return sortBy/sortOrder, so we keep current values
+      // setSortBy(data.sortBy || 'chassis'); 
+      // setSortOrder(data.sortOrder || 'asc');
 
 
       if ((data.items || []).length === 0 && (data.currentPage || 1) > 1 && page > 1) {
@@ -145,7 +146,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
         id="sortBy"
         value={sortBy}
         onChange={(e) => handleSortChange(e.target.value)}
-        className="p-2 border rounded text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       >
         <option value="chassis">Chassis</option>
         <option value="model">Model</option>
@@ -159,7 +160,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
       <select
         value={sortOrder}
         onChange={(e) => handleSortChange(sortBy, e.target.value as 'asc' | 'desc')}
-        className="p-2 border rounded text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       >
         <option value="asc">Asc</option>
         <option value="desc">Desc</option>
@@ -185,7 +186,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={handleInputKeyPress}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           <input
             type="text"
@@ -193,7 +194,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
             value={techBaseInput}
             onChange={(e) => setTechBaseInput(e.target.value)}
             onKeyPress={handleInputKeyPress}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           <input
             type="number"
@@ -201,7 +202,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
             value={massMin}
             onChange={(e) => setMassMin(e.target.value)}
             onKeyPress={handleInputKeyPress}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           <input
             type="number"
@@ -209,7 +210,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
             value={massMax}
             onChange={(e) => setMassMax(e.target.value)}
             onKeyPress={handleInputKeyPress}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           <input
             type="text"
@@ -217,7 +218,7 @@ const UnitList: React.FC<UnitListProps> = ({ selectedCategory }) => {
             value={quirk}
             onChange={(e) => setQuirk(e.target.value)}
             onKeyPress={handleInputKeyPress}
-            className="p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
         </div>
         <div className="mt-4 flex flex-col items-center md:flex-row md:justify-between">

@@ -1,16 +1,16 @@
 [
-  "battlemech",
-  "industrialmech",
-  "protomek",
-  "vehicle",
+  "meks",
+  "vehicles",
   "infantry",
   "battlearmor",
-  "conventionalfighter",
-  "aerospacefighter",
-  "smallcraft",
-  "dropship",
-  "jumpship",
+  "ge",
+  "fighters",
+  "dropships",
   "warship",
+  "protomeks",
+  "convfighter",
+  "smallcraft",
   "spacestation",
-  "gunemplacement"
+  "jumpships",
+  "handheld"
 ]

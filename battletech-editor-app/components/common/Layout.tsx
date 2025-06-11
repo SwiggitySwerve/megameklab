@@ -4,8 +4,9 @@ import Head from 'next/head';
 interface LayoutProps {
   children: ReactNode;
   title?: string;
-  sidebarComponent?: ReactNode; // Renamed prop
+  sidebarComponent?: ReactNode; // Global sidebar component
   isSidebarCollapsed?: boolean; // New prop for controlling margins
+  secondarySidebar?: ReactNode; // Optional page-specific sidebar
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -13,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({
   title = 'BattleTech Editor',
   sidebarComponent,
   isSidebarCollapsed,
+  secondarySidebar,
 }) => {
   // Determine margin based on sidebar state for md screens and up
   const contentAndFooterMargin = isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64';
@@ -27,15 +29,23 @@ const Layout: React.FC<LayoutProps> = ({
       </Head>
 
       <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-        {/* Sidebar is expected to be a fixed position component, rendered here */}
+        {/* Global sidebar is expected to be a fixed position component, rendered here */}
         {sidebarComponent && <div className="print:hidden">{sidebarComponent}</div>}
 
-        {/* Main content area */}
-        <main
-          className={`flex-grow p-4 sm:p-6 w-full ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}
-        >
-          {children}
-        </main>
+        {/* Main content area with optional secondary sidebar */}
+        <div className={`flex-grow flex ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}>
+          {/* Optional page-specific secondary sidebar */}
+          {secondarySidebar && (
+            <aside className="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 print:hidden">
+              {secondarySidebar}
+            </aside>
+          )}
+          
+          {/* Main content */}
+          <main className="flex-grow p-4 sm:p-6">
+            {children}
+          </main>
+        </div>
       </div>
 
       {/* Footer */}

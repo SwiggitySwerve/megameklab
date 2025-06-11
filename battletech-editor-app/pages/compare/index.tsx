@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/common/Layout';
+import Head from 'next/head';
 import {
     CustomVariantDetail,
     UnitEquipmentItem,
@@ -23,6 +23,13 @@ interface CustomVariantListItem { // This might come from types/customizer.ts if
 // Local or imported ApiListResponse for the subversion list
 interface SubversionListApiResponse { // Specific name to avoid conflict if ApiListResponse is generic elsewhere
     items: CustomVariantListItem[];
+}
+
+// Add missing type definition
+interface CriticalsComparisonDifference {
+    location: string;
+    slotsA: string[];
+    slotsB: string[];
 }
 
 
@@ -228,7 +235,10 @@ const CompareVariantsPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>Compare Variants | BattleTech Editor</title>
+      </Head>
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Compare Custom Unit Subversions</h1>
 
@@ -321,7 +331,7 @@ const CompareVariantsPage: React.FC = () => {
           <div className="mt-4 p-2 text-center text-gray-500">Click "Compare" to see the results.</div>
         )}
       </div>
-    </Layout>
+    </>
   );
 };
 

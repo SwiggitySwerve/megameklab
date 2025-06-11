@@ -12,6 +12,27 @@ const UnitCategoryNav: React.FC<UnitCategoryNavProps> = ({ onSelectCategory, sel
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Function to convert unit type abbreviations to proper names
+  const getCategoryDisplayName = (category: string): string => {
+    const categoryMap: { [key: string]: string } = {
+      'meks': 'BattleMechs',
+      'vehicles': 'Vehicles',
+      'infantry': 'Infantry',
+      'battlearmor': 'Battle Armor',
+      'ge': 'Gun Emplacements',
+      'fighters': 'Aerospace Fighters',
+      'dropships': 'DropShips',
+      'warship': 'WarShips',
+      'protomeks': 'ProtoMechs',
+      'convfighter': 'Conventional Fighters',
+      'smallcraft': 'Small Craft',
+      'spacestation': 'Space Stations',
+      'jumpships': 'JumpShips',
+      'handheld': 'Handheld Weapons'
+    };
+    return categoryMap[category] || category.charAt(0).toUpperCase() + category.slice(1);
+  };
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -39,28 +60,69 @@ const UnitCategoryNav: React.FC<UnitCategoryNavProps> = ({ onSelectCategory, sel
   if (!categories.length) return <p>No unit categories found.</p>;
 
   return (
-    <nav className="bg-gray-100 p-3 rounded">
-      <h3 className="font-semibold mb-2">Unit Categories</h3>
-      <ul className="space-y-1">
-         <li>
+    <nav className="navy-section">
+      <h3 className="text-lg font-semibold mb-3">Unit Categories</h3>
+      
+      {/* Desktop/Tablet vertical layout */}
+      <div className="hidden sm:block">
+        <ul className="space-y-1">
+          <li>
             <button
-              onClick={() => onSelectCategory(null)} // Allow deselecting/showing all
-              className={`text-blue-600 hover:text-blue-800 hover:underline w-full text-left ${!selectedCategory ? 'font-bold' : ''}`}
+              onClick={() => onSelectCategory(null)}
+              className={`hover:underline w-full text-left px-2 py-1 rounded transition-colors text-sm ${
+                !selectedCategory 
+                  ? 'font-bold bg-blue-100 text-blue-800' 
+                  : 'hover:bg-gray-100'
+              }`}
             >
               All Units
             </button>
           </li>
-        {categories.map((category) => (
-          <li key={category}>
+          {categories.map((category) => (
+            <li key={category}>
+              <button
+                onClick={() => onSelectCategory(category)}
+                className={`hover:underline w-full text-left px-2 py-1 rounded transition-colors text-sm ${
+                  selectedCategory === category 
+                    ? 'font-bold bg-blue-100 text-blue-800' 
+                    : 'hover:bg-gray-100'
+                }`}
+              >
+                {getCategoryDisplayName(category)}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Mobile horizontal scrollable layout */}
+      <div className="block sm:hidden">
+        <div className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
+          <button
+            onClick={() => onSelectCategory(null)}
+            className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-medium border transition-colors ${
+              !selectedCategory
+                ? 'bg-blue-500 text-white border-blue-500'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            All Units
+          </button>
+          {categories.map((category) => (
             <button
+              key={category}
               onClick={() => onSelectCategory(category)}
-              className={`text-blue-600 hover:text-blue-800 hover:underline w-full text-left ${selectedCategory === category ? 'font-bold' : ''}`}
+              className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                selectedCategory === category
+                  ? 'bg-blue-500 text-white border-blue-500'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
             >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
+              {getCategoryDisplayName(category)}
             </button>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 };

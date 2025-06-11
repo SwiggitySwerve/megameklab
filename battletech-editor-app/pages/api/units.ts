@@ -4,7 +4,6 @@ import { Database } from 'sqlite';
 import { openDatabase, safeJsonParse } from '../../services/db';
 import { withErrorHandling } from '../../middleware/errorMiddleware';
 
-const SQLITE_DB_FILE: string = "battletech_dev.sqlite";
 
 interface Unit {
   id: any;
@@ -36,13 +35,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     page = 1,
     limit = 10,
     q,
-    tech_base_array,
+    techBase, // Fixed parameter name
     mass_gte,
     mass_lte,
     has_quirk,
     unit_type,
-    era, // Added era
     weight_class, // Added weight_class
+    startYear, // Added startYear
+    endYear, // Added endYear
     sortBy,
     sortOrder = 'ASC'
   } = req.query as {
@@ -50,13 +50,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     page?: string | string[] | number;
     limit?: string | string[] | number;
     q?: string | string[];
-    tech_base_array?: string | string[];
+    techBase?: string | string[];
     mass_gte?: string | string[];
     mass_lte?: string | string[];
     has_quirk?: string | string[];
     unit_type?: string | string[];
-    era?: string | string[];
     weight_class?: string | string[];
+    startYear?: string | string[];
+    endYear?: string | string[];
     sortBy?: string | string[];
     sortOrder?: string | string[];
   };
@@ -69,7 +70,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     db = await openDatabase();
 
     if (id) {      const result: Unit | undefined = await db.get<Unit>(
-        'SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type FROM units WHERE id = ?',
+        'SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type FROM units WHERE id = ?',
         [id]
       );      if (!result) {
         return res.status(404).json({ message: 'Unit not found' });
@@ -90,25 +91,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         whereConditions.push(`unit_type = ?`);
         queryParams.push(unit_type);
       }
-      if (tech_base_array) {
-        const techBases: string[] = Array.isArray(tech_base_array) ? tech_base_array : (typeof tech_base_array === 'string' ? tech_base_array.split(',') : []);
-        if (techBases.length > 0) {
-          const placeholders: string = techBases.map(() => `?`).join(', ');
-          whereConditions.push(`tech_base IN (${placeholders})`);
-          queryParams.push(...techBases);
-        }
+      if (techBase) {
+        whereConditions.push(`tech_base = ?`);
+        queryParams.push(techBase);
       }
       if (mass_gte) {
-        whereConditions.push(`mass >= ?`);
+        whereConditions.push(`mass_tons >= ?`);
         queryParams.push(parseInt(mass_gte as string, 10));
       }
       if (mass_lte) {
-        whereConditions.push(`mass <= ?`);
+        whereConditions.push(`mass_tons <= ?`);
         queryParams.push(parseInt(mass_lte as string, 10));
-      }
-      if (era) {
-        whereConditions.push(`era = ?`);
-        queryParams.push(era);
       }
       if (weight_class) {
         const weightClassMap: { [key: string]: { gte: number; lte: number } } = {
@@ -119,11 +112,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
         const selectedWeightClass = weightClassMap[weight_class as string];
         if (selectedWeightClass) {
-          whereConditions.push(`mass >= ?`);
+          whereConditions.push(`mass_tons >= ?`);
           queryParams.push(selectedWeightClass.gte);
-          whereConditions.push(`mass <= ?`);
+          whereConditions.push(`mass_tons <= ?`);
           queryParams.push(selectedWeightClass.lte);
         }
+      }
+      if (startYear) {
+        // Filter units that were available at or before the start year
+        // Assuming units have an 'available_date' or similar field
+        whereConditions.push(`available_year >= ?`);
+        queryParams.push(parseInt(startYear as string, 10));
+      }
+      if (endYear) {
+        // Filter units that were available at or before the end year
+        whereConditions.push(`available_year <= ?`);
+        queryParams.push(parseInt(endYear as string, 10));
       }
 
       // Quirk filter will be applied after fetching initial data if present
@@ -141,7 +145,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       finalQueryParamsForLog = queryParamsForCount;
       const totalResult: { total: any } | undefined = await db.get(countQueryString, queryParamsForCount);
       let totalItems: number = parseInt(totalResult?.total, 10) || 0;      // Main query construction
-      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type ${mainQueryFrom}${whereClauseForMain}`;
+      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type ${mainQueryFrom}${whereClauseForMain}`;
       const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'tech_base', 'era', 'unit_type'];
       const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'id';
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';

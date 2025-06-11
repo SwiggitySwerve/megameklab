@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-    import Layout from '../../components/common/Layout';
+    import Head from 'next/head';
     import UnitDisplayPanel from '../../components/customizer/UnitDisplayPanel';
     import CriticalsPanel from '../../components/customizer/CriticalsPanel';
     import EquipmentPickerPanel from '../../components/customizer/EquipmentPickerPanel';
@@ -307,23 +307,54 @@ import React, { useState, useEffect } from 'react';
 
 
       if (isLoadingUnit || isLoadingEquipment) {
-        return <Layout><div className="container mx-auto p-4">Loading customizer data...</div></Layout>;
+        return (
+          <>
+            <Head>
+              <title>Unit Customizer | BattleTech Editor</title>
+            </Head>
+            <div className="container mx-auto p-4">Loading customizer data...</div>
+          </>
+        );
       }
 
       if (error && !selectedUnit && !isLoadingUnit) {
-        return <Layout><div className="container mx-auto p-4 text-red-500">Error loading unit data: {error}. Please ensure ID ('${HARDCODED_UNIT_ID}') is a valid unit with expected data structure.</div></Layout>;
+        return (
+          <>
+            <Head>
+              <title>Unit Customizer | BattleTech Editor</title>
+            </Head>
+            <div className="container mx-auto p-4 text-red-500">Error loading unit data: {error}. Please ensure ID ('{HARDCODED_UNIT_ID}') is a valid unit with expected data structure.</div>
+          </>
+        );
       }
 
       if (!selectedUnit && !isLoadingUnit) {
-         return <Layout><div className="container mx-auto p-4">No unit data loaded. This might be due to an invalid ID ('${HARDCODED_UNIT_ID}') or unexpected data structure.</div></Layout>;
+        return (
+          <>
+            <Head>
+              <title>Unit Customizer | BattleTech Editor</title>
+            </Head>
+            <div className="container mx-auto p-4">No unit data loaded. This might be due to an invalid ID ('{HARDCODED_UNIT_ID}') or unexpected data structure.</div>
+          </>
+        );
       }
 
       if (!selectedUnit) {
-          return <Layout><div className="container mx-auto p-4">Waiting for unit data...</div></Layout>;
+        return (
+          <>
+            <Head>
+              <title>Unit Customizer | BattleTech Editor</title>
+            </Head>
+            <div className="container mx-auto p-4">Waiting for unit data...</div>
+          </>
+        );
       }
 
       return (
-        <Layout>
+        <>
+          <Head>
+            <title>Unit Customizer | BattleTech Editor</title>
+          </Head>
           <div className="container mx-auto p-4">
             {error && !isLoadingEquipment && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">Error during data fetching: {error}</div>}
             <h1 className="text-2xl font-bold mb-4">Unit Customizer: {selectedUnit.chassis} {selectedUnit.model}</h1>
@@ -417,7 +448,7 @@ import React, { useState, useEffect } from 'react';
               )}
             </div>
           </div>
-        </Layout>
+        </>
       );
     };
     export default CustomizerPage;
