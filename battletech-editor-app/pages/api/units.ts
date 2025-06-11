@@ -154,13 +154,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         whereConditions.push(`config = ?`);
         queryParams.push(config);
       }
+      // Note: Era filtering temporarily disabled due to missing available_year column
+      // TODO: Add available_year column to database schema or use alternative era logic
       if (startYear) {
-        whereConditions.push(`available_year >= ?`);
-        queryParams.push(parseInt(startYear as string, 10));
+        // For now, we'll skip era filtering and just accept the parameter
+        console.warn('Era filtering (startYear) not implemented - missing available_year column');
       }
       if (endYear) {
-        whereConditions.push(`available_year <= ?`);
-        queryParams.push(parseInt(endYear as string, 10));
+        // For now, we'll skip era filtering and just accept the parameter  
+        console.warn('Era filtering (endYear) not implemented - missing available_year column');
       }
 
       // Quirk filter will be applied after fetching initial data if present
@@ -180,8 +182,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Main query construction
       let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type, is_omnimech, omnimech_base_chassis, omnimech_configuration, config ${mainQueryFrom}${whereClauseForMain}`;
-      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'tech_base', 'era', 'unit_type', 'is_omnimech', 'config'];
-      const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'id';
+      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'mass', 'tech_base', 'era', 'unit_type', 'is_omnimech', 'config', 'role'];
+      let effectiveSortBy: string = sortBy as string;
+      // Map 'mass' to 'mass_tons' for database compatibility
+      if (effectiveSortBy === 'mass') {
+        effectiveSortBy = 'mass_tons';
+      }
+      // Use 'id' as fallback for invalid or missing sort columns
+      if (!validSortColumns.includes(effectiveSortBy) && effectiveSortBy !== 'mass_tons') {
+        effectiveSortBy = 'id';
+      }
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
       mainQueryString += ` ORDER BY "${effectiveSortBy}" ${effectiveSortOrder}`;
 
@@ -208,6 +218,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (row.data && typeof row.data === 'string') {
           row.data = safeJsonParse(row.data, {} as UnitData);
         }
+        
+        // Convert SQLite integers to proper JavaScript booleans
+        row.is_omnimech = Boolean((row.is_omnimech as any) === 1);
         
         // Add validation status for each unit
         try {
@@ -246,7 +259,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         totalItems,
         totalPages,
         currentPage: pageValue,
-        sortBy: effectiveSortBy,
+        sortBy: effectiveSortBy === 'mass_tons' ? 'mass' : effectiveSortBy,
         sortOrder: effectiveSortOrder
       });
     }

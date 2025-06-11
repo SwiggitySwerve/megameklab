@@ -76,10 +76,10 @@ def populate_equipment(conn):
             name = item.get('name')
             item_type = item.get('type', 'Unknown')
             category = item.get('category', 'Unknown')
-            tech_base = item.get('tech_base', 'Unknown')
+            tech_base = item.get('tech_base', '')
             
             # Derive tech_base from naming patterns if not specified
-            if tech_base == 'Unknown' or not tech_base:
+            if not tech_base or tech_base == 'Unknown':
                 item_name_lower = (item.get('name', '') or internal_id or '').lower()
                 
                 # Clan tech patterns
@@ -109,6 +109,11 @@ def populate_equipment(conn):
                     tech_base = 'Clan'
                 else:
                     tech_base = 'IS'  # Default to IS for unknown items
+
+            # Debug: Check for invalid tech_base values
+            if tech_base not in ['IS', 'Clan', 'Mixed']:
+                print(f"Invalid tech_base '{tech_base}' for item: {item.get('name', 'Unnamed')} (internal_id: {internal_id})")
+                tech_base = 'IS'  # Force to valid value
 
             if not internal_id or not name:
                 print(f"Skipping equipment item due to missing internal_id or name: {item.get('name', 'Unnamed')}")
