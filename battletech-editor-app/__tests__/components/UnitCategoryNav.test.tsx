@@ -143,4 +143,53 @@ describe('UnitCategoryNav', () => {
       expect(mockGetMetadata).toHaveBeenCalledWith('/mockdata/mockUnitCategories.json');
     });
   });
+
+  it('calls onSelectCategory with correct category value when desktop button is clicked', async () => {
+    render(<UnitCategoryNav onSelectCategory={mockOnSelectCategory} selectedCategory={null} />);
+    
+    await waitFor(() => {
+      expect(screen.getAllByText('Vehicles')).toHaveLength(2);
+    });
+
+    // Click the desktop version (first one)
+    fireEvent.click(screen.getAllByText('Vehicles')[0]);
+    expect(mockOnSelectCategory).toHaveBeenCalledWith('vehicles');
+    expect(mockOnSelectCategory).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onSelectCategory with correct category value when mobile button is clicked', async () => {
+    render(<UnitCategoryNav onSelectCategory={mockOnSelectCategory} selectedCategory={null} />);
+    
+    await waitFor(() => {
+      expect(screen.getAllByText('Infantry')).toHaveLength(2);
+    });
+
+    // Click the mobile version (second one)
+    fireEvent.click(screen.getAllByText('Infantry')[1]);
+    expect(mockOnSelectCategory).toHaveBeenCalledWith('infantry');
+    expect(mockOnSelectCategory).toHaveBeenCalledTimes(1);
+  });
+
+  it('correctly maps category abbreviations to full names for filtering', async () => {
+    render(<UnitCategoryNav onSelectCategory={mockOnSelectCategory} selectedCategory={null} />);
+    
+    await waitFor(() => {
+      expect(screen.getAllByText('Battle Armor')).toHaveLength(2);
+    });
+
+    // Click Battle Armor but verify it passes the correct abbreviation
+    fireEvent.click(screen.getAllByText('Battle Armor')[0]);
+    expect(mockOnSelectCategory).toHaveBeenCalledWith('battlearmor');
+  });
+
+  it('handles category selection for aerospace fighters correctly', async () => {
+    render(<UnitCategoryNav onSelectCategory={mockOnSelectCategory} selectedCategory={null} />);
+    
+    await waitFor(() => {
+      expect(screen.getAllByText('Aerospace Fighters')).toHaveLength(2);
+    });
+
+    fireEvent.click(screen.getAllByText('Aerospace Fighters')[0]);
+    expect(mockOnSelectCategory).toHaveBeenCalledWith('fighters');
+  });
 });

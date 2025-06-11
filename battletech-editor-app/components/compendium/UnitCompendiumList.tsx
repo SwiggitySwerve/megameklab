@@ -28,9 +28,10 @@ interface ApiResponse {
 
 interface UnitCompendiumListProps {
   filters: UnitFilterState;
+  selectedCategory?: string | null;
 }
 
-const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters }) => {
+const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, selectedCategory }) => {
   const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -61,6 +62,9 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters }) => {
       if (filters.isOmnimech !== undefined) params.append('isOmnimech', filters.isOmnimech.toString());
       if (filters.config) params.append('config', filters.config);
       if (filters.role) params.append('role', filters.role);
+      
+      // Add category filter (API expects unit_type parameter)
+      if (selectedCategory) params.append('unit_type', selectedCategory);
 
       const response = await fetch(`/api/units?${params}`);
       if (!response.ok) {
@@ -83,7 +87,7 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters }) => {
 
   useEffect(() => {
     fetchUnits(1);
-  }, [filters, sortBy, sortOrder]);
+  }, [filters, selectedCategory, sortBy, sortOrder]);
 
   const handleSort = (field: string) => {
     if (sortBy === field) {
