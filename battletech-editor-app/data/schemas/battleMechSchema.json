@@ -9,8 +9,22 @@
   "properties": {
     "config": {
       "type": "string",
-      "enum": ["Biped", "Quad"],
-      "description": "Physical configuration of the BattleMech. Bipeds are standard, Quads have four legs."
+      "enum": ["Biped", "Biped Omnimech", "Quad", "Quad Omnimech", "Tripod", "Tripod Omnimech", "LAM"],
+      "description": "Physical configuration of the BattleMech including OmniMech and advanced variants."
+    },
+    "is_omnimech": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is an OmniMech with modular pod-mounted equipment."
+    },
+    "omnimech_base_chassis": {
+      "type": "string",
+      "description": "Base chassis name for OmniMech variants (e.g., 'Dire Wolf' for 'Dire Wolf Prime')."
+    },
+    "omnimech_configuration": {
+      "type": "string",
+      "pattern": "^(Prime|[A-Z]|[0-9]+)$",
+      "description": "OmniMech configuration variant (Prime, A, B, C, etc.)."
     },
     "movement": {
       "type": "object",

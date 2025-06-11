@@ -1,3 +1,12 @@
+// Type definitions for unit classifications
+export type TechBase = 'Inner Sphere' | 'Clan' | 'Mixed (IS Chassis)' | 'Mixed (Clan Chassis)';
+
+export type UnitConfig = 'Biped' | 'Biped Omnimech' | 'Quad' | 'Quad Omnimech' | 'Tripod' | 'Tripod Omnimech' | 'LAM';
+
+export type UnitRole = 'Sniper' | 'Juggernaut' | 'Brawler' | 'Skirmisher' | 'Scout' | 'Missile Boat' | 'Striker' | 'Fire Support' | 'Command' | 'Anti-Aircraft' | 'Assault' | 'Support';
+
+export type EquipmentTechBase = 'IS' | 'Clan';
+
 // Basic Unit structure based on schema fields for list view
 export interface BasicUnit {
   id: string; // or number, depending on API
@@ -5,8 +14,8 @@ export interface BasicUnit {
   model: string;
   mass: number; // Mass in tons
   era: string;
-  tech_base: string;
-  role?: string;
+  tech_base: 'Inner Sphere' | 'Clan' | 'Mixed (IS Chassis)' | 'Mixed (Clan Chassis)';
+  role?: UnitRole;
   // This comes from the `data` field in the DB, so API needs to extract it or pass `data`
   // For simplicity, assuming API might provide a summarized version or specific fields for lists
   // Alternatively, the component would access `unit.data.mass` etc.
@@ -33,13 +42,19 @@ export interface UnitData {
   chassis: string; // Redundant with top-level, but often in MTF
   model: string;   // Redundant
   mul_id?: string;
-  config?: string;
-  tech_base?: string;
+  config?: UnitConfig;
+  tech_base?: TechBase;
   era?: string;
   source?: string;
   rules_level?: number | string;
-  role?: { name?: string }; // Role might be an object in some MTFs
+  role?: UnitRole | { name?: string }; // Role might be an object in some MTFs
   mass?: number;
+  
+  // OmniMech support
+  is_omnimech?: boolean;
+  omnimech_base_chassis?: string;
+  omnimech_configuration?: string; // Prime, A, B, C, etc.
+  
   cockpit?: { type?: string; manufacturer?: string; };
   gyro?: { type?: string; manufacturer?: string; };
   engine?: {
@@ -99,6 +114,8 @@ export interface WeaponOrEquipmentItem {
   item_name: string;
   item_type: string; // 'weapon', 'ammo', 'equipment'
   location: string;
+  tech_base: EquipmentTechBase;
+  is_omnipod?: boolean;
   rear_facing?: boolean;
   turret_mounted?: boolean;
   ammo_per_shot?: number;

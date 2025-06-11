@@ -13,7 +13,8 @@
     },
     "tech_base": {
       "type": "string",
-      "description": "Technological base of the unit (e.g., Inner Sphere, Clan, Mixed). Often part of a more detailed 'type' field in source files."
+      "enum": ["Inner Sphere", "Clan", "Mixed (IS Chassis)", "Mixed (Clan Chassis)"],
+      "description": "Technological base of the unit. Mixed indicates combining both IS and Clan technologies."
     },
     "era": { "type": ["string", "integer"], "description": "The era in which the unit was introduced or is primarily used." },
     "source": { "type": "string", "description": "The sourcebook or origin of the unit's data." },
@@ -107,13 +108,15 @@
           "item_name": { "type": "string", "description": "Name of the weapon or equipment." },
           "item_type": { "type": "string", "enum": ["weapon", "ammo", "equipment", "battle_armor_weapon", "battle_armor_equipment", "protomek_weapon", "protomek_equipment", "infantry_weapon", "ordinance"], "description": "Category of the item." },
           "location": { "type": "string", "description": "Mounting location (e.g., Left Arm, Turret, Nose, Body)." },
+          "tech_base": { "type": "string", "enum": ["IS", "Clan"], "description": "Technology base of this specific equipment item." },
+          "is_omnipod": { "type": "boolean", "default": false, "description": "Whether this equipment is pod-mounted (OmniMech only)." },
           "rear_facing": { "type": "boolean", "default": false },
           "turret_mounted": { "type": "boolean", "default": false },
           "ammo_per_shot": { "type": "integer", "description": "For ammo-consuming weapons, ammo used per shot." },
           "related_ammo": { "type": "string", "description": "For weapons requiring ammo, references the ammo item name or type." },
           "shots": { "type": "integer", "description": "Number of shots for ammunition items." }
         },
-        "required": ["item_name", "item_type", "location"]
+        "required": ["item_name", "item_type", "location", "tech_base"]
       }
     },
     "criticals": {
