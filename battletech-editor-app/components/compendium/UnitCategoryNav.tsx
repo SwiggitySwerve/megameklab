@@ -66,18 +66,6 @@ const UnitCategoryNav: React.FC<UnitCategoryNavProps> = ({ onSelectCategory, sel
       {/* Desktop/Tablet vertical layout */}
       <div className="hidden sm:block">
         <ul className="space-y-1">
-          <li>
-            <button
-              onClick={() => onSelectCategory(null)}
-              className={`hover:underline w-full text-left px-2 py-1 rounded transition-colors text-sm ${
-                !selectedCategory 
-                  ? 'font-bold bg-blue-100 text-blue-800' 
-                  : 'hover:bg-gray-100'
-              }`}
-            >
-              All Units
-            </button>
-          </li>
           {categories.map((category) => (
             <li key={category}>
               <button
@@ -98,16 +86,6 @@ const UnitCategoryNav: React.FC<UnitCategoryNavProps> = ({ onSelectCategory, sel
       {/* Mobile horizontal scrollable layout */}
       <div className="block sm:hidden">
         <div className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
-          <button
-            onClick={() => onSelectCategory(null)}
-            className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-medium border transition-colors ${
-              !selectedCategory
-                ? 'bg-blue-500 text-white border-blue-500'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            All Units
-          </button>
           {categories.map((category) => (
             <button
               key={category}

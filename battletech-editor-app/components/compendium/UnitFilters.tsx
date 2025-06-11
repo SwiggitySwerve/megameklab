@@ -292,7 +292,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
             }}
             className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="">All</option>
+            <option value="">Select Weight Class</option>
             {weightClasses.map(wc => <option key={wc} value={wc}>{wc}</option>)}
           </select>
         </div>
@@ -307,7 +307,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
             }}
             className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="">All</option>
+            <option value="">Select Tech Base</option>
             {TECH_BASES.map(tb => <option key={tb} value={tb}>{tb}</option>)}
           </select>
         </div>
@@ -322,7 +322,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
             }}
             className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="">All</option>
+            <option value="">Select Role</option>
             {UNIT_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
           </select>
         </div>

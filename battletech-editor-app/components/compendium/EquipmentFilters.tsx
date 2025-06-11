@@ -84,7 +84,7 @@ const EquipmentFilters: React.FC<EquipmentFiltersProps> = ({ onFiltersApply }) =
             onChange={(e) => setTechBase(e.target.value)}
             className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
-            <option value="">All</option>
+            <option value="">Select Tech Base</option>
             {techBases.map(tb => <option key={tb} value={tb}>{tb}</option>)}
           </select>
         </div>

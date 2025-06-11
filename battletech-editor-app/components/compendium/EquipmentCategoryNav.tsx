@@ -44,14 +44,6 @@ const EquipmentCategoryNav: React.FC<EquipmentCategoryNavProps> = ({ onSelectCat
     <nav className="navy-section mb-4">
       <h3>Equipment Categories</h3>
       <ul className="space-y-1 max-h-96 overflow-y-auto">
-         <li>
-            <button
-              onClick={() => onSelectCategory(null)} // Allow deselecting
-              className={`hover:underline w-full text-left ${!selectedCategory ? 'font-bold' : ''}`}
-            >
-              All Equipment Types
-            </button>
-          </li>
         {categories.map((category) => (
           <li key={category}>
             <button

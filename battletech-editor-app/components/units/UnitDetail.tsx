@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { FullUnit, ArmorLocation, WeaponOrEquipmentItem, CriticalSlotLocation, FluffText, UnitQuirk } from '../../types';
+import UnitDisplay from '../common/UnitDisplay';
+import { 
+  convertFullUnitToCustomizable, 
+  convertWeaponsToLoadout, 
+  createMockAvailableEquipment 
+} from '../../utils/unitConverter';
 
 interface UnitDetailProps {
   unit: FullUnit | null;
@@ -18,7 +24,7 @@ const DataPair: React.FC<{label: string, value?: string | number | null}> = ({ l
   </div>
 );
 
-type TabName = "Overview" | "Armament" | "Criticals" | "Armor" | "Fluff";
+type TabName = "Overview" | "Armament" | "Criticals" | "Armor" | "Fluff" | "Analysis";
 
 const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   const [activeTab, setActiveTab] = useState<TabName>("Overview");
@@ -206,8 +212,53 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
     </>
   );
 
+  // Convert unit for analysis display
+  const convertedUnit = useMemo(() => {
+    if (!unit) return null;
+    return convertFullUnitToCustomizable(unit);
+  }, [unit]);
+
+  const loadout = useMemo(() => {
+    if (!unit) return [];
+    return convertWeaponsToLoadout(unit);
+  }, [unit]);
+
+  const availableEquipment = useMemo(() => {
+    if (!unit) return [];
+    return createMockAvailableEquipment(unit);
+  }, [unit]);
+
+  const renderAnalysisTab = () => (
+    <>
+      <SectionTitle>Detailed Analysis</SectionTitle>
+      {convertedUnit ? (
+        <UnitDisplay
+          unit={convertedUnit}
+          loadout={loadout}
+          availableEquipment={availableEquipment}
+          options={{
+            showBasicInfo: true,
+            showMovement: true,
+            showArmor: true,
+            showStructure: true,
+            showHeatManagement: true,
+            showEquipmentSummary: true,
+            showCriticalSlotSummary: true,
+            showBuildRecommendations: true,
+            showTechnicalSpecs: true,
+            compact: false,
+            interactive: false
+          }}
+        />
+      ) : (
+        <p className="text-sm text-gray-500">Unable to perform analysis for this unit.</p>
+      )}
+    </>
+  );
+
   const tabs: { name: TabName; label: string }[] = [
     { name: "Overview", label: "Overview & Stats" },
+    { name: "Analysis", label: "Advanced Analysis" },
     { name: "Armament", label: "Armament & Equipment" },
     { name: "Criticals", label: "Criticals" },
     { name: "Armor", label: "Armor Distribution" },
@@ -240,6 +291,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
 
       <div className="tab-content min-h-[200px]"> {/* Added min-height to prevent layout shifts */}
         {activeTab === "Overview" && renderOverviewTab()}
+        {activeTab === "Analysis" && renderAnalysisTab()}
         {activeTab === "Armament" && renderArmamentTab()}
         {activeTab === "Criticals" && renderCriticalsTab()}
         {activeTab === "Armor" && renderArmorTab()}

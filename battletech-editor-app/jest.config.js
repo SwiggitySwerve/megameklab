@@ -12,16 +12,17 @@ const customJestConfig = {
     // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testEnvironment: 'jest-environment-node',
+  testEnvironment: 'jsdom',
   collectCoverageFrom: [
     'pages/api/**/*.{js,ts}',
     'utils/**/*.{js,ts}',
     'services/**/*.{js,ts}',
+    'components/**/*.{js,ts,jsx,tsx}',
     '!**/*.d.ts',
   ],
   testMatch: [
-    '**/__tests__/**/*.(test|spec).(js|ts)',
-    '**/*.(test|spec).(js|ts)',
+    '**/__tests__/**/*.(test|spec).(js|ts|tsx)',
+    '**/*.(test|spec).(js|ts|tsx)',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
