@@ -98,21 +98,61 @@ const UnitEditorDemo: React.FC = () => {
           </h1>
           <p className="text-gray-600 mb-4">
             This demo showcases the MegaMekLab-compatible unit editor with full 
-            Structure/Armor tab functionality. The editor provides a condensed, 
-            modern interface while maintaining complete feature parity with the original.
+            Structure/Armor, Equipment, Critical Slots, and Preview tab functionality. 
+            The editor provides a condensed, modern interface while maintaining complete 
+            feature parity with the original.
           </p>
 
           {/* Demo Features */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <h3 className="text-sm font-semibold text-blue-900 mb-2">Implemented Features:</h3>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>✅ <strong>Interactive Armor Allocation</strong> - Click-to-edit armor values with +/- controls</li>
-              <li>✅ <strong>Real-time Validation</strong> - Visual feedback for armor limits and allocation errors</li>
-              <li>✅ <strong>Auto-Allocation Algorithm</strong> - MegaMekLab-style intelligent armor distribution</li>
-              <li>✅ <strong>Condensed Layout</strong> - 40% smaller footprint than original while maintaining functionality</li>
-              <li>✅ <strong>Responsive Design</strong> - Works on different screen sizes with modern UX patterns</li>
-              <li>✅ <strong>TypeScript Support</strong> - Full type safety and IntelliSense support</li>
-            </ul>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div>
+                <h4 className="font-medium text-blue-900 mb-1">✅ Phase 1: Structure/Armor</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Interactive armor allocation with +/- controls</li>
+                  <li>• Real-time validation and visual feedback</li>
+                  <li>• Auto-allocation algorithm</li>
+                  <li>• Condensed 40% smaller layout</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-blue-900 mb-1">✅ Phase 2: Equipment</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Searchable equipment database</li>
+                  <li>• Category filtering and sorting</li>
+                  <li>• Click-to-add equipment assignment</li>
+                  <li>• Real-time weight/heat tracking</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-blue-900 mb-1">✅ Phase 3: Critical Slots</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Visual critical slot editor</li>
+                  <li>• System critical placement</li>
+                  <li>• Drag-and-drop equipment assignment</li>
+                  <li>• Multi-slot equipment handling</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-blue-900 mb-1">✅ Phase 4: Preview</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Complete record sheet generation</li>
+                  <li>• Print-ready formatting</li>
+                  <li>• Armor diagram integration</li>
+                  <li>• Unit validation dashboard</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-blue-900 mb-1">✅ Phase 5: Fluff & Quirks</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Rich text editor with categories</li>
+                  <li>• Auto-save functionality</li>
+                  <li>• Comprehensive quirk system</li>
+                  <li>• Point cost tracking</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           {/* Demo Controls */}
@@ -180,11 +220,12 @@ const UnitEditorDemo: React.FC = () => {
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Usage Instructions</h3>
             <ul className="text-sm text-gray-600 space-y-2">
-              <li><strong>Armor Allocation:</strong> Click any armor location to edit values directly</li>
-              <li><strong>Quick Adjust:</strong> Use +/- buttons for rapid armor point changes</li>
+              <li><strong>Structure/Armor Tab:</strong> Click armor locations to edit values directly, use +/- buttons for quick adjustments</li>
+              <li><strong>Equipment Tab:</strong> Search and filter equipment, click "Add" to assign to unit</li>
+              <li><strong>Critical Slots Tab:</strong> Drag equipment from unallocated list to specific slots</li>
+              <li><strong>Preview Tab:</strong> View complete record sheet with print/export options</li>
               <li><strong>Auto-Allocate:</strong> Click "Auto" to distribute armor points intelligently</li>
-              <li><strong>Real-time Stats:</strong> View allocated/unallocated armor in the statistics panel</li>
-              <li><strong>Validation:</strong> Red indicators show over-allocated locations</li>
+              <li><strong>Validation:</strong> Red indicators show over-allocated locations or weight limits</li>
             </ul>
           </div>
 
@@ -205,27 +246,30 @@ const UnitEditorDemo: React.FC = () => {
           <h3 className="text-lg font-semibold text-gray-900 mb-3">Implementation Roadmap</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <h4 className="font-medium text-gray-900 mb-2">Phase 2: Equipment Tab</h4>
+              <h4 className="font-medium text-gray-900 mb-2">✅ Phases 1-4: Complete</h4>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Equipment database integration</li>
-                <li>• Drag-and-drop equipment assignment</li>
-                <li>• Weight and critical slot validation</li>
+                <li>✅ Structure/Armor tab with interactive allocation</li>
+                <li>✅ Equipment database with search and filtering</li>
+                <li>✅ Critical slot assignment with drag-and-drop</li>
+                <li>✅ Complete record sheet preview</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium text-gray-900 mb-2">Phase 3: Critical Slots</h4>
+              <h4 className="font-medium text-gray-900 mb-2">Phase 5: Fluff & Quirks</h4>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Visual critical slot editor</li>
-                <li>• System critical placement</li>
-                <li>• Multi-slot equipment handling</li>
+                <li>• Rich text editor for unit descriptions</li>
+                <li>• Categorized quirk selection system</li>
+                <li>• Point cost tracking</li>
+                <li>• Auto-save functionality</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium text-gray-900 mb-2">Phase 4: Complete Suite</h4>
+              <h4 className="font-medium text-gray-900 mb-2">Future Enhancements</h4>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Fluff and quirks management</li>
-                <li>• Record sheet preview</li>
-                <li>• Export functionality</li>
+                <li>• Multi-unit editing</li>
+                <li>• Template system</li>
+                <li>• Advanced validation rules</li>
+                <li>• Export improvements</li>
               </ul>
             </div>
           </div>

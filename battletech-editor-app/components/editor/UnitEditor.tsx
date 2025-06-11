@@ -1,15 +1,20 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { EditableUnit, EditorTab, ValidationError, UnitEditorState } from '../../types/editor';
 import StructureArmorTab from './tabs/StructureArmorTab';
+import EquipmentTab from './tabs/EquipmentTab';
+import CriticalsTab from './tabs/CriticalsTab';
+import FluffTab from './tabs/FluffTab';
+import QuirksTab from './tabs/QuirksTab';
+import PreviewTab from './tabs/PreviewTab';
 
 // Tab definitions
 const EDITOR_TABS = [
   { id: 'structure', label: 'Structure/Armor', component: StructureArmorTab },
-  { id: 'equipment', label: 'Equipment', component: null }, // To be implemented
-  { id: 'criticals', label: 'Assign Criticals', component: null },
-  { id: 'fluff', label: 'Fluff', component: null },
-  { id: 'quirks', label: 'Quirks', component: null },
-  { id: 'preview', label: 'Preview', component: null },
+  { id: 'equipment', label: 'Equipment', component: EquipmentTab },
+  { id: 'criticals', label: 'Assign Criticals', component: CriticalsTab },
+  { id: 'fluff', label: 'Fluff', component: FluffTab },
+  { id: 'quirks', label: 'Quirks', component: QuirksTab },
+  { id: 'preview', label: 'Preview', component: PreviewTab },
 ] as const;
 
 interface UnitEditorProps {
@@ -152,7 +157,7 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
         <nav className="flex space-x-8 px-4" aria-label="Tabs">
           {EDITOR_TABS.map((tab) => {
             const isActive = tab.id === editorState.activeTab;
-            const isDisabled = !tab.component && tab.id !== 'structure';
+            const isDisabled = !tab.component;
             
             return (
               <button

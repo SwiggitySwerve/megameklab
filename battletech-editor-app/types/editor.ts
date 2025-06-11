@@ -100,11 +100,15 @@ export interface FluffContent {
   capabilities?: string;
   deployment?: string;
   history?: string;
+  variants?: string;
+  notable_pilots?: string;
   manufacturer?: string;
   primaryFactory?: string;
   communicationsSystem?: string;
   targetingTracking?: string;
   notes?: string;
+  // Allow dynamic string indexing
+  [key: string]: string | undefined;
 }
 
 // Editor State

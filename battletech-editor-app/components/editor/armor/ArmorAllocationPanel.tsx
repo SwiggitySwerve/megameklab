@@ -16,29 +16,6 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
-  // Get or initialize armor data
-  const armorData = useMemo(() => {
-    const locations = unit.data?.armor?.locations || [];
-    const locationMap = new Map(locations.map(loc => [loc.location, loc]));
-    
-    // Ensure all mech locations have armor data
-    const mechLocations = mechType === 'Quad' 
-      ? [MECH_LOCATIONS.HEAD, MECH_LOCATIONS.LEFT_ARM, MECH_LOCATIONS.RIGHT_ARM, 
-         MECH_LOCATIONS.LEFT_TORSO, MECH_LOCATIONS.CENTER_TORSO, MECH_LOCATIONS.RIGHT_TORSO,
-         MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG]
-      : [MECH_LOCATIONS.HEAD, MECH_LOCATIONS.LEFT_ARM, MECH_LOCATIONS.RIGHT_ARM, 
-         MECH_LOCATIONS.LEFT_TORSO, MECH_LOCATIONS.CENTER_TORSO, MECH_LOCATIONS.RIGHT_TORSO,
-         MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG];
-
-    return mechLocations.map(location => ({
-      location,
-      armor_points: locationMap.get(location)?.armor_points || 0,
-      rear_armor_points: locationMap.get(location)?.rear_armor_points || 0,
-      maxArmor: getMaxArmorForLocation(location, unit.mass || 0),
-      hasRear: hasRearArmor(location),
-    }));
-  }, [unit.data?.armor?.locations, unit.mass, mechType]);
-
   // Helper functions
   const getMaxArmorForLocation = (location: string, mass: number): number => {
     switch (location) {
@@ -63,6 +40,29 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
     return [MECH_LOCATIONS.CENTER_TORSO, MECH_LOCATIONS.LEFT_TORSO, MECH_LOCATIONS.RIGHT_TORSO]
       .includes(location as any);
   };
+
+  // Get or initialize armor data
+  const armorData = useMemo(() => {
+    const locations = unit.data?.armor?.locations || [];
+    const locationMap = new Map(locations.map(loc => [loc.location, loc]));
+    
+    // Ensure all mech locations have armor data
+    const mechLocations = mechType === 'Quad' 
+      ? [MECH_LOCATIONS.HEAD, MECH_LOCATIONS.LEFT_ARM, MECH_LOCATIONS.RIGHT_ARM, 
+         MECH_LOCATIONS.LEFT_TORSO, MECH_LOCATIONS.CENTER_TORSO, MECH_LOCATIONS.RIGHT_TORSO,
+         MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG]
+      : [MECH_LOCATIONS.HEAD, MECH_LOCATIONS.LEFT_ARM, MECH_LOCATIONS.RIGHT_ARM, 
+         MECH_LOCATIONS.LEFT_TORSO, MECH_LOCATIONS.CENTER_TORSO, MECH_LOCATIONS.RIGHT_TORSO,
+         MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG];
+
+    return mechLocations.map(location => ({
+      location,
+      armor_points: locationMap.get(location)?.armor_points || 0,
+      rear_armor_points: locationMap.get(location)?.rear_armor_points || 0,
+      maxArmor: getMaxArmorForLocation(location, unit.mass || 0),
+      hasRear: hasRearArmor(location),
+    }));
+  }, [unit.data?.armor?.locations, unit.mass, mechType]);
 
   // Handle armor point changes
   const handleArmorChange = useCallback((location: string, front: number, rear: number = 0) => {
