@@ -6,32 +6,44 @@
     {
       "item_name": "ER Small Laser",
       "location": "Left Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -215,5 +227,8 @@
       }
     ],
     "total_armor_points": 57
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Ion Sparrow",
+  "omnimech_configuration": "C"
 }

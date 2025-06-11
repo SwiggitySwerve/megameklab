@@ -6,32 +6,44 @@
     {
       "item_name": "Streak SRM 2",
       "location": "Left Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Center Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Center Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Head",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -175,5 +187,8 @@
       }
     ],
     "total_armor_points": 112
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Owens",
+  "omnimech_configuration": "OW-1A"
 }

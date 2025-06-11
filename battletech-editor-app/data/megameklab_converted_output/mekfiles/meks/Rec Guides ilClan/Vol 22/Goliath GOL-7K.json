@@ -7,52 +7,72 @@
     {
       "item_name": "Heavy PPC",
       "location": "Right Torso",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MRM 10",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MRM 10",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Center Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "M-Pod",
       "location": "Front Right Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "M-Pod",
       "location": "Front Left Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "M-Pod",
       "location": "Rear Right Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "M-Pod",
       "location": "Rear Left Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "M-Pod",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3148,

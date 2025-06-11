@@ -6,27 +6,37 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Center Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

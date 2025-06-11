@@ -6,22 +6,30 @@
     {
       "item_name": "3 ISRocketLauncher20",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISArrowIVSystem",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSmallLaser",
       "location": "Left Torso",
-      "item_type": "1Issmalllaser"
+      "item_type": "1Issmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISAntiMissileSystem",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3070,

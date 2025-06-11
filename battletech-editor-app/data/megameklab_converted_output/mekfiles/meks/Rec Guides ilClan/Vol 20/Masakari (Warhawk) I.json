@@ -6,32 +6,44 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Center Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Center Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3015,
@@ -230,5 +242,8 @@
       }
     ],
     "total_armor_points": 259
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Warhawk",
+  "omnimech_configuration": "I"
 }

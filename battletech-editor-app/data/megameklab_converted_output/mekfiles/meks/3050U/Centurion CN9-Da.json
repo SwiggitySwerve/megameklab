@@ -7,22 +7,30 @@
     {
       "item_name": "Autocannon/5",
       "location": "Right Arm",
-      "item_type": "Autocannon5"
+      "item_type": "Autocannon5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 10",
       "location": "Left Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3065,

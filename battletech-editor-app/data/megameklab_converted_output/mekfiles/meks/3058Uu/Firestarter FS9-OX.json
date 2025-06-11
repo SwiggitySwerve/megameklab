@@ -7,22 +7,30 @@
     {
       "item_name": "Streak SRM 2",
       "location": "Left Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large X-Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargeXPulseLaser"
+      "item_type": "LargeXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3059,
@@ -166,5 +174,8 @@
       }
     ],
     "total_armor_points": 136
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Firestarter",
+  "omnimech_configuration": "FS9-OX"
 }

@@ -6,22 +6,30 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/10",
       "location": "Right Arm",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 2890,
@@ -220,5 +228,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Kit Fox",
+  "omnimech_configuration": "B"
 }

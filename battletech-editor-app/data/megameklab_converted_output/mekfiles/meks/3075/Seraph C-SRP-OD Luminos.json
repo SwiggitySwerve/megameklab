@@ -9,47 +9,65 @@
     {
       "item_name": "Heavy PPC",
       "location": "Left Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Left Torso",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Light PPC",
       "location": "Right Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Right Torso",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Head",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Head",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -236,5 +254,8 @@
       }
     ],
     "total_armor_points": 256
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Seraph",
+  "omnimech_configuration": "C"
 }

@@ -6,17 +6,23 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3061,
@@ -202,5 +208,8 @@
       }
     ],
     "total_armor_points": 153
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Black Lanner",
+  "omnimech_configuration": "H"
 }

@@ -6,57 +6,79 @@
     {
       "item_name": "Light Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun Array",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ATM 9",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Center Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

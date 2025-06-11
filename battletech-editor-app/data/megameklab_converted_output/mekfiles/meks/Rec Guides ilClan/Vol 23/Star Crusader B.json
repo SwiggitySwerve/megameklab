@@ -6,27 +6,37 @@
     {
       "item_name": "HAG/20",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "HAG/20",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Head",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3146,
@@ -200,5 +210,8 @@
       }
     ],
     "total_armor_points": 247
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Star Crusader",
+  "omnimech_configuration": "B"
 }

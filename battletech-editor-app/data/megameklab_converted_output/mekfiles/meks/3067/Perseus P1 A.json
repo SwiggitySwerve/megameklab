@@ -7,32 +7,44 @@
     {
       "item_name": "TAG",
       "location": "Right Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Left Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3058,
@@ -212,5 +224,8 @@
       }
     ],
     "total_armor_points": 224
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Perseus",
+  "omnimech_configuration": "P1A"
 }

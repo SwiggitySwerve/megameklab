@@ -10,42 +10,58 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Right Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Left Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3048,

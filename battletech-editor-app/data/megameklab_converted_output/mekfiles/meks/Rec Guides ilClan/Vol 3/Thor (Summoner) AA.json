@@ -7,17 +7,23 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3086,
@@ -214,5 +220,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Summoner",
+  "omnimech_configuration": "AA"
 }

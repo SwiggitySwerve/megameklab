@@ -6,17 +6,23 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light TAG",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3084,

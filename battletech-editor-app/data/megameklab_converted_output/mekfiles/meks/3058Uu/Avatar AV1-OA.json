@@ -4,32 +4,44 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AC/20",
       "location": "Right Arm",
-      "item_type": "Ac20"
+      "item_type": "Ac20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -246,5 +258,8 @@
       }
     ],
     "total_armor_points": 192
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Avatar",
+  "omnimech_configuration": "AV1-OA"
 }

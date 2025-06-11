@@ -7,32 +7,44 @@
     {
       "item_name": "Small Pulse Laser",
       "location": "Left Arm",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3088,

@@ -9,32 +9,44 @@
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Head",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -222,5 +234,8 @@
       }
     ],
     "total_armor_points": 186
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Grigori",
+  "omnimech_configuration": "C"
 }

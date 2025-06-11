@@ -7,37 +7,51 @@
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Right Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Left Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Right Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/10",
       "location": "Left Torso",
-      "item_type": "Autocannon10"
+      "item_type": "Autocannon10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2881,

@@ -8,22 +8,30 @@
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Left Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -203,5 +211,8 @@
       }
     ],
     "total_armor_points": 201
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sojourner",
+  "omnimech_configuration": "C"
 }

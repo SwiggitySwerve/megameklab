@@ -10,72 +10,100 @@
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 20",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 10",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 10",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

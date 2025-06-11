@@ -9,52 +9,72 @@
     {
       "item_name": "Machine Gun",
       "location": "Left Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 20",
       "location": "Left Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Left Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3095,

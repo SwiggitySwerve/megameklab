@@ -6,27 +6,37 @@
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3076,

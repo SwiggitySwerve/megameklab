@@ -6,17 +6,23 @@
     {
       "item_name": "ATM 9",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -167,5 +173,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Ice Ferret",
+  "omnimech_configuration": "E"
 }

@@ -4,37 +4,51 @@
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2962,

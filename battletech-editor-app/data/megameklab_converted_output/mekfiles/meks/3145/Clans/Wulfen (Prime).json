@@ -4,12 +4,16 @@
     {
       "item_name": "Ultra AC/2",
       "location": "Left Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 3",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3137,
@@ -198,5 +202,8 @@
       }
     ],
     "total_armor_points": 104
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Wulfen",
+  "omnimech_configuration": "Prime"
 }

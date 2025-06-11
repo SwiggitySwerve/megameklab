@@ -8,62 +8,86 @@
     {
       "item_name": "LRM 10",
       "location": "Left Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 10",
       "location": "Right Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Left Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Right Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2750,

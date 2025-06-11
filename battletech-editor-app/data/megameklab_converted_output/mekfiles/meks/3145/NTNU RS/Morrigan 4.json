@@ -6,57 +6,79 @@
     {
       "item_name": "TSEMP Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3111,

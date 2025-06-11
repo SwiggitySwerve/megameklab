@@ -6,12 +6,16 @@
     {
       "item_name": "LRM 10",
       "location": "Left Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3076,

@@ -4,32 +4,44 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 7",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 7",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3100,
@@ -211,5 +223,8 @@
       }
     ],
     "total_armor_points": 263
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Templar III",
+  "omnimech_configuration": "TLR2-OA"
 }

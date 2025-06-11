@@ -9,32 +9,44 @@
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 3",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 3",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Center Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Head",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3122,
@@ -254,5 +266,8 @@
       }
     ],
     "total_armor_points": 184
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sarath",
+  "omnimech_configuration": "SRTH-1OA"
 }

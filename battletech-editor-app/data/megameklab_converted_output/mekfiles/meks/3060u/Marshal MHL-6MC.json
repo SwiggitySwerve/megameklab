@@ -7,37 +7,51 @@
     {
       "item_name": "Light PPC",
       "location": "Left Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 9",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Machine Gun Array",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3073,

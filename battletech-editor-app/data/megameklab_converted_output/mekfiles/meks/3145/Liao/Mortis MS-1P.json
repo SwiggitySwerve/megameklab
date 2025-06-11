@@ -6,17 +6,23 @@
     {
       "item_name": "Rocket Launcher 10",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "TSEMP Cannon",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large VSP Laser",
       "location": "Left Arm",
-      "item_type": "LargeVspLaser"
+      "item_type": "LargeVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3122,

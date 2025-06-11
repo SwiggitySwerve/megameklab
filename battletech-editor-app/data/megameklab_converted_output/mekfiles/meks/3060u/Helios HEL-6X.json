@@ -6,27 +6,37 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium VSP",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium VSP",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3072,

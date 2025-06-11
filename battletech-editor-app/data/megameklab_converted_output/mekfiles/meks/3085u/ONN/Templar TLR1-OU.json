@@ -6,37 +6,51 @@
     {
       "item_name": "LRT 10",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRT 10",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRT 6",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3078,
@@ -215,5 +229,8 @@
       }
     ],
     "total_armor_points": 263
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Templar",
+  "omnimech_configuration": "TLR1-OU"
 }

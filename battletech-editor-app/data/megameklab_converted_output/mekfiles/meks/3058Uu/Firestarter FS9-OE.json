@@ -7,27 +7,37 @@
     {
       "item_name": "MRM 20",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Right Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3058,
@@ -171,5 +181,8 @@
       }
     ],
     "total_armor_points": 136
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Firestarter",
+  "omnimech_configuration": "FS9-OE"
 }

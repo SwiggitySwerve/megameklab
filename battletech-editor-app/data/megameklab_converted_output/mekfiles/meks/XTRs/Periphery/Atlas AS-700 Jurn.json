@@ -9,27 +9,37 @@
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Torso",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Left Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "HVAC/10",
       "location": "Right Torso",
-      "item_type": "Hvac10"
+      "item_type": "Hvac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Thunderbolt 15",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3081,

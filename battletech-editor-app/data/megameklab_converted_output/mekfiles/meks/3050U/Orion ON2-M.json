@@ -8,27 +8,37 @@
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Right Arm",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Left Arm",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISGaussRifle",
       "location": "Right Torso",
-      "item_type": "1Isgaussrifle"
+      "item_type": "1Isgaussrifle",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Left Torso",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLRM15",
       "location": "Left Torso",
-      "item_type": "1Islrm15"
+      "item_type": "1Islrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3063,

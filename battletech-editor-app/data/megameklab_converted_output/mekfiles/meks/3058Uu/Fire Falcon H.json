@@ -6,32 +6,44 @@
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Right Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Center Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Center Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3062,
@@ -216,5 +228,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Falcon",
+  "omnimech_configuration": "H"
 }

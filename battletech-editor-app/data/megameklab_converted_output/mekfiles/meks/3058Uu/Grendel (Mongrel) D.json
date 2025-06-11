@@ -6,27 +6,37 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Right Arm",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3053,
@@ -217,5 +227,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mongrel",
+  "omnimech_configuration": "D"
 }

@@ -223,5 +223,8 @@
       }
     ],
     "total_armor_points": 24
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Celerity",
+  "omnimech_configuration": "03"
 }

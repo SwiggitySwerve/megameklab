@@ -6,52 +6,72 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Left Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/20",
       "location": "Right Torso",
-      "item_type": "UltraAc20"
+      "item_type": "UltraAc20",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3049,
@@ -231,5 +251,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Ebon Jaguar",
+  "omnimech_configuration": "A"
 }

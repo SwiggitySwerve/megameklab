@@ -8,42 +8,58 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Torso",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Center Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Head",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2831,

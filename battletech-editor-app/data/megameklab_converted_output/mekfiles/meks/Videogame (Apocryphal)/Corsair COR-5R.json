@@ -4,37 +4,51 @@
     {
       "item_name": "SRM 6",
       "location": "Left Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Left Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/10",
       "location": "Right Torso",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3035,

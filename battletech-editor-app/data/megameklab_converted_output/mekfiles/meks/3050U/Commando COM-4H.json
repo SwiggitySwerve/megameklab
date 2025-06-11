@@ -7,22 +7,30 @@
     {
       "item_name": "2 ISRocketLauncher15",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISMediumLaser",
       "location": "Left Arm",
-      "item_type": "2Ismediumlaser"
+      "item_type": "2Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISRocketLauncher15",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISRocketLauncher15",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3064,

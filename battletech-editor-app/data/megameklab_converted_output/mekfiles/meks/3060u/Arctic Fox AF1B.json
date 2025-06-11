@@ -6,12 +6,16 @@
     {
       "item_name": "LB 10-X AC",
       "location": "Left Arm",
-      "item_type": "Lb10XAc"
+      "item_type": "Lb10XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3059,
@@ -191,5 +195,8 @@
       }
     ],
     "total_armor_points": 96
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Arctic Fox",
+  "omnimech_configuration": "AF1B"
 }

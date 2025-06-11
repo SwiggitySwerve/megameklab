@@ -6,37 +6,51 @@
     {
       "item_name": "SRM 6",
       "location": "Left Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 20-X AC",
       "location": "Right Arm",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Center Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3136,
@@ -216,5 +230,8 @@
       }
     ],
     "total_armor_points": 278
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Kingfisher",
+  "omnimech_configuration": "G"
 }

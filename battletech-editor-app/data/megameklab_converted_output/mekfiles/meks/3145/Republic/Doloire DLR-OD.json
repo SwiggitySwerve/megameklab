@@ -7,52 +7,72 @@
     {
       "item_name": "ER Micro Laser",
       "location": "Left Leg",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Leg",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "TSEMP Cannon",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "TSEMP Cannon",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3121,
@@ -196,5 +216,8 @@
       }
     ],
     "total_armor_points": 232
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Doloire",
+  "omnimech_configuration": "DLR-OD"
 }

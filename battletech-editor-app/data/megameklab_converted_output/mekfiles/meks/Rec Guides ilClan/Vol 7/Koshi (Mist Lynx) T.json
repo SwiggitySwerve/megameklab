@@ -7,22 +7,30 @@
     {
       "item_name": "LRM 10",
       "location": "Left Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -172,5 +180,8 @@
       }
     ],
     "total_armor_points": 67
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mist Lynx",
+  "omnimech_configuration": "T"
 }

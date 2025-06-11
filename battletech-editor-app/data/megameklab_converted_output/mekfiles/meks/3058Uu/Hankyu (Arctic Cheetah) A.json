@@ -6,22 +6,30 @@
     {
       "item_name": "Streak SRM 6",
       "location": "Left Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Left Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Right Arm",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3037,
@@ -208,5 +216,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Arctic Cheetah",
+  "omnimech_configuration": "A"
 }

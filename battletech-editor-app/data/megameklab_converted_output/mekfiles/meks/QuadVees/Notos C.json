@@ -4,42 +4,58 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Center Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Right Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Light TAG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3145,
@@ -230,5 +246,8 @@
       }
     ],
     "total_armor_points": 200
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Notos",
+  "omnimech_configuration": "C"
 }

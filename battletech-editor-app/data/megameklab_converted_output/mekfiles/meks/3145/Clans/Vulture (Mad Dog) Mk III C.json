@@ -7,62 +7,86 @@
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3109,
@@ -207,5 +231,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mad Dog Mk III",
+  "omnimech_configuration": "C"
 }

@@ -7,12 +7,16 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Clan TAG",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3083,

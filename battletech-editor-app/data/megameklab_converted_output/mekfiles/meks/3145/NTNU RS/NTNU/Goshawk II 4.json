@@ -7,17 +7,23 @@
     {
       "item_name": "Plasma Cannon",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak LRM 10",
       "location": "Right Arm",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3130,

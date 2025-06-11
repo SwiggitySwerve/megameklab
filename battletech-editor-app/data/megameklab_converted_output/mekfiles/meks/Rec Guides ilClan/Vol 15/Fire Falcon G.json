@@ -6,12 +6,16 @@
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ProtoMech AC/4",
       "location": "Right Arm",
-      "item_type": "ProtomechAc4"
+      "item_type": "ProtomechAc4",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3113,
@@ -196,5 +200,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Falcon",
+  "omnimech_configuration": "G"
 }

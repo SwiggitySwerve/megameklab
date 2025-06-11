@@ -4,12 +4,16 @@
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Arm",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium VSP Laser",
       "location": "Left Arm",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3150,

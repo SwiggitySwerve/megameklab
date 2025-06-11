@@ -6,37 +6,51 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Center Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3076,
@@ -222,5 +236,8 @@
       }
     ],
     "total_armor_points": 278
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Kingfisher",
+  "omnimech_configuration": "X"
 }

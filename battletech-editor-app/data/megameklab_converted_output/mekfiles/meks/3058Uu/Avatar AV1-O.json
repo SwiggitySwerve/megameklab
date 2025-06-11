@@ -4,47 +4,65 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 10-X AC",
       "location": "Right Arm",
-      "item_type": "Lb10XAc"
+      "item_type": "Lb10XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 10",
       "location": "Left Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 10",
       "location": "Right Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -261,5 +279,8 @@
       }
     ],
     "total_armor_points": 192
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Avatar",
+  "omnimech_configuration": "O"
 }

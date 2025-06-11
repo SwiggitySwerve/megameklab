@@ -6,37 +6,51 @@
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Left Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Head",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3144,
@@ -186,5 +200,8 @@
       }
     ],
     "total_armor_points": 220
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Night Gyr",
+  "omnimech_configuration": "G"
 }

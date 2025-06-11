@@ -6,17 +6,23 @@
     {
       "item_name": "LB 20-X AC",
       "location": "Left Torso",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "PPC",
       "location": "Right Arm",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "PPC",
       "location": "Right Arm",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3063,
@@ -220,5 +226,8 @@
       }
     ],
     "total_armor_points": 264
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sunder",
+  "omnimech_configuration": "SD1-OD"
 }

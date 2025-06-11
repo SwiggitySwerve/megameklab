@@ -8,27 +8,37 @@
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "HAG/30",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak LRM 20",
       "location": "Right Torso",
-      "item_type": "StreakLrm20"
+      "item_type": "StreakLrm20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3110,

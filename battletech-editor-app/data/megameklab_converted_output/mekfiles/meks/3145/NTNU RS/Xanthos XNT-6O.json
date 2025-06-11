@@ -6,47 +6,65 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "PPC",
       "location": "Right Torso",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "PPC",
       "location": "Left Torso",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Center Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Center Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 10",
       "location": "Center Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3094,

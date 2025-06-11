@@ -7,22 +7,30 @@
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Laser",
       "location": "Left Torso",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3119,

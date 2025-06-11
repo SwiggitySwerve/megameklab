@@ -7,32 +7,44 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Torso",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Right Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3139,

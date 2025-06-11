@@ -4,32 +4,44 @@
     {
       "item_name": "LRM 15",
       "location": "Right Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Left Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Left Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Left Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 2865,
@@ -171,5 +183,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sun Spider",
+  "omnimech_configuration": "C"
 }

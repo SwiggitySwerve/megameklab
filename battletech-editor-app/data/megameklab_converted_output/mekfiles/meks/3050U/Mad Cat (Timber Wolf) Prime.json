@@ -7,47 +7,65 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Left Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Center Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 2945,
@@ -246,5 +264,8 @@
       }
     ],
     "total_armor_points": 230
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Timber Wolf",
+  "omnimech_configuration": "Prime"
 }

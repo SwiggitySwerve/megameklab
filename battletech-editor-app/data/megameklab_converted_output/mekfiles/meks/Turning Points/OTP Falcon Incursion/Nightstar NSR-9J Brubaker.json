@@ -9,32 +9,44 @@
     {
       "item_name": "1 CLLargePulseLaser",
       "location": "Left Arm",
-      "item_type": "1Cllargepulselaser"
+      "item_type": "1Cllargepulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLargePulseLaser",
       "location": "Right Torso",
-      "item_type": "1Cllargepulselaser"
+      "item_type": "1Cllargepulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLargePulseLaser",
       "location": "Right Arm",
-      "item_type": "1Cllargepulselaser"
+      "item_type": "1Cllargepulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLGaussRifle",
       "location": "Right Arm",
-      "item_type": "1Clgaussrifle"
+      "item_type": "1Clgaussrifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLGaussRifle",
       "location": "Left Arm",
-      "item_type": "1Clgaussrifle"
+      "item_type": "1Clgaussrifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERSmallLaser",
       "location": "Head",
-      "item_type": "1Clersmalllaser"
+      "item_type": "1Clersmalllaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3057,

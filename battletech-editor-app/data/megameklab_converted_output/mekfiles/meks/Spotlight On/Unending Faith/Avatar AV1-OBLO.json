@@ -4,22 +4,30 @@
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 10-X AC",
       "location": "Right Arm",
-      "item_type": "Lb10XAc"
+      "item_type": "Lb10XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3127,
@@ -236,5 +244,8 @@
       }
     ],
     "total_armor_points": 192
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Avatar",
+  "omnimech_configuration": "AV1-OBLO"
 }

@@ -6,12 +6,16 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3055,
@@ -227,5 +231,8 @@
       }
     ],
     "total_armor_points": 200
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Black Hawk-KU",
+  "omnimech_configuration": "BHKU-OC"
 }

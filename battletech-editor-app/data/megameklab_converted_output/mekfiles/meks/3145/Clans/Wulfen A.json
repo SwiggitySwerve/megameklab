@@ -4,7 +4,9 @@
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3137,
@@ -192,5 +194,8 @@
       }
     ],
     "total_armor_points": 104
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Wulfen",
+  "omnimech_configuration": "A"
 }

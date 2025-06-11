@@ -6,12 +6,16 @@
     {
       "item_name": "SRM 4",
       "location": "Right Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Right Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3078,

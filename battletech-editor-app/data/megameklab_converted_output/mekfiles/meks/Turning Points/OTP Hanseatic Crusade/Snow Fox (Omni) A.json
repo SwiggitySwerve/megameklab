@@ -4,37 +4,51 @@
     {
       "item_name": "LRM 5",
       "location": "Left Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Left Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Left Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Right Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Right Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Head",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3111,
@@ -262,5 +276,8 @@
       }
     ],
     "total_armor_points": 73
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Snow Fox (Omni)",
+  "omnimech_configuration": "A"
 }

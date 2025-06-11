@@ -6,17 +6,23 @@
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3010,
@@ -194,5 +200,8 @@
       }
     ],
     "total_armor_points": 115
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Adder",
+  "omnimech_configuration": "Prime"
 }

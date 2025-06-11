@@ -4,17 +4,23 @@
     {
       "item_name": "Ultra AC/10",
       "location": "Right Arm",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Torso",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Laser AMS",
       "location": "Head",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3138,
@@ -158,5 +164,8 @@
       }
     ],
     "total_armor_points": 231
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Warwolf",
+  "omnimech_configuration": "B"
 }

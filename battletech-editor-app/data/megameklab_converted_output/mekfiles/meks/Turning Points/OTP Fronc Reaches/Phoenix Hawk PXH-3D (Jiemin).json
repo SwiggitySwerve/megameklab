@@ -7,12 +7,16 @@
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large X-Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargeXPulseLaser"
+      "item_type": "LargeXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3065,

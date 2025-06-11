@@ -6,12 +6,16 @@
     {
       "item_name": "LRM 10",
       "location": "Left Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 10",
       "location": "Right Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3057,
@@ -155,5 +159,8 @@
       }
     ],
     "total_armor_points": 120
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Strider",
+  "omnimech_configuration": "SR1-OB"
 }

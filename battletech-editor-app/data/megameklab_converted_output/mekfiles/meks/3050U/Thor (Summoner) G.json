@@ -7,47 +7,65 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Center Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3068,
@@ -245,5 +263,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Summoner",
+  "omnimech_configuration": "G"
 }

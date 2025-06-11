@@ -8,37 +8,51 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Left Torso",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Left Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 5",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Right Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small VSP Laser",
       "location": "Head",
-      "item_type": "SmallVspLaser"
+      "item_type": "SmallVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3085,

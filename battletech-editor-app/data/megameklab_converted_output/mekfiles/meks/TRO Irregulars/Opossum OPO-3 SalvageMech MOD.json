@@ -4,7 +4,9 @@
     {
       "item_name": "Light AC/2",
       "location": "Right Arm",
-      "item_type": "LightAc2"
+      "item_type": "LightAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3145,

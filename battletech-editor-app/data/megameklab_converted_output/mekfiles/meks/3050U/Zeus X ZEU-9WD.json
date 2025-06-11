@@ -7,22 +7,30 @@
     {
       "item_name": "1 ISHeavyPPC",
       "location": "Right Arm",
-      "item_type": "1Isheavyppc"
+      "item_type": "1Isheavyppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLBXAC20",
       "location": "Left Arm",
-      "item_type": "1Islbxac20"
+      "item_type": "1Islbxac20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Right Torso",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Left Torso",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

@@ -4,12 +4,16 @@
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/2",
       "location": "Right Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3148,
@@ -160,5 +164,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Hierofalcon",
+  "omnimech_configuration": "C"
 }

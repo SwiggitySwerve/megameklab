@@ -8,42 +8,58 @@
     {
       "item_name": "Ultra AC/5",
       "location": "Left Arm",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/5",
       "location": "Left Arm",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/5",
       "location": "Right Arm",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/5",
       "location": "Right Arm",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Left Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Right Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Left Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3068,

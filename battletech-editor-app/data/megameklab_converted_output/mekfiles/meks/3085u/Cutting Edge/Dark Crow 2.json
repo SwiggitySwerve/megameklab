@@ -6,22 +6,30 @@
     {
       "item_name": "LB 5-X AC",
       "location": "Left Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Laser",
       "location": "Left Torso",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3084,

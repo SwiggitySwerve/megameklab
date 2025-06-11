@@ -6,22 +6,30 @@
     {
       "item_name": "MRM 10",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MRM 10",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Right Torso",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MRM 10",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3058,
@@ -165,5 +173,8 @@
       }
     ],
     "total_armor_points": 56
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Raptor",
+  "omnimech_configuration": "RTX1-OE"
 }

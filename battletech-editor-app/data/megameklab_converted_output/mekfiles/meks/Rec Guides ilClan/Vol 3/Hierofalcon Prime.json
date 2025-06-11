@@ -4,22 +4,30 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "HAG/20",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG (Clan)",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3148,
@@ -199,5 +207,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Hierofalcon",
+  "omnimech_configuration": "Prime"
 }

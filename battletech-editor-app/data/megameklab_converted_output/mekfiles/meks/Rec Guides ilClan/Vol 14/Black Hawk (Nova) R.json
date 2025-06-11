@@ -7,52 +7,72 @@
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3140,
@@ -243,5 +263,8 @@
       }
     ],
     "total_armor_points": 160
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Nova",
+  "omnimech_configuration": "R"
 }

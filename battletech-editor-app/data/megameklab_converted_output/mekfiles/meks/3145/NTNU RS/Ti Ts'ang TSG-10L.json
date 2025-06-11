@@ -6,52 +6,72 @@
     {
       "item_name": "Medium VSP Laser",
       "location": "Left Arm",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "TAG",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3125,

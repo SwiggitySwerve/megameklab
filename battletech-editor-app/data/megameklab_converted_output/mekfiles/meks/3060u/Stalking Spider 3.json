@@ -6,27 +6,37 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Center Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Center Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3072,

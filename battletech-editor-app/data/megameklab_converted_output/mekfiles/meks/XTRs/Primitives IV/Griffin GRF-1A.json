@@ -7,12 +7,16 @@
     {
       "item_name": "PPCp",
       "location": "Right Arm",
-      "item_type": "Ppcp"
+      "item_type": "Ppcp",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2465,

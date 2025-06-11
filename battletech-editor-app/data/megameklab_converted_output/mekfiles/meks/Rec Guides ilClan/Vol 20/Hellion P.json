@@ -6,82 +6,114 @@
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG (Clan)",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3124,
@@ -230,5 +262,8 @@
       }
     ],
     "total_armor_points": 105
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Hellion",
+  "omnimech_configuration": "P"
 }

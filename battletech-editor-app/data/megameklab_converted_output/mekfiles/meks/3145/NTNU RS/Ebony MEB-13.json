@@ -6,7 +6,9 @@
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3137,

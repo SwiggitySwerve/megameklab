@@ -6,22 +6,30 @@
     {
       "item_name": "LB 20-X AC",
       "location": "Left Torso",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 20-X AC",
       "location": "Right Torso",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rocket Launcher 15",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3143,

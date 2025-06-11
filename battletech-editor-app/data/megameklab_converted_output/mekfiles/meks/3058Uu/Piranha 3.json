@@ -6,62 +6,86 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Torso",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3068,

@@ -9,42 +9,58 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Right Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Head",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3122,
@@ -264,5 +280,8 @@
       }
     ],
     "total_armor_points": 184
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sarath",
+  "omnimech_configuration": "SRTH-1OB"
 }

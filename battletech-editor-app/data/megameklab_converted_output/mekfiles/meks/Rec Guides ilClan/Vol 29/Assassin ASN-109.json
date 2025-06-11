@@ -9,17 +9,23 @@
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Torso",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 5",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3140,

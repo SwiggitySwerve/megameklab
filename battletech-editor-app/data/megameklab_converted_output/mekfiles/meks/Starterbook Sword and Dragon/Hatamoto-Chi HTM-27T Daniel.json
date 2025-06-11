@@ -7,22 +7,30 @@
     {
       "item_name": "1 ISLBXAC10Prototype",
       "location": "Left Arm",
-      "item_type": "1Islbxac10Prototype"
+      "item_type": "1Islbxac10Prototype",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLBXAC10Prototype",
       "location": "Right Arm",
-      "item_type": "1Islbxac10Prototype"
+      "item_type": "1Islbxac10Prototype",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSRM4",
       "location": "Left Torso",
-      "item_type": "1Issrm4"
+      "item_type": "1Issrm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSRM4",
       "location": "Right Torso",
-      "item_type": "1Issrm4"
+      "item_type": "1Issrm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3039,

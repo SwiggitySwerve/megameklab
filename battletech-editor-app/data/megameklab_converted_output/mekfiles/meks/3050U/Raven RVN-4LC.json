@@ -6,37 +6,51 @@
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Right Arm",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISNarcBeacon",
       "location": "Left Arm",
-      "item_type": "1Isnarcbeacon"
+      "item_type": "1Isnarcbeacon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSRM6",
       "location": "Right Torso",
-      "item_type": "1Issrm6"
+      "item_type": "1Issrm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISTAG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISGuardianECM",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISC3SlaveUnit",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Center Torso",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3062,

@@ -7,22 +7,30 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 20",
       "location": "Left Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AMS",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Left Arm",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2619,

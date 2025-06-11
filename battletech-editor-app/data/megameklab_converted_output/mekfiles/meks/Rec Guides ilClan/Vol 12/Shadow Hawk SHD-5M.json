@@ -11,22 +11,30 @@
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/5",
       "location": "Left Torso",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 20",
       "location": "Right Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Head",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3048,

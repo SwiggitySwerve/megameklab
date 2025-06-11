@@ -8,27 +8,37 @@
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Magshot",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Magshot",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3145,

@@ -8,37 +8,51 @@
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/2",
       "location": "Right Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ProtoMech AC/8",
       "location": "Left Torso",
-      "item_type": "ProtomechAc8"
+      "item_type": "ProtomechAc8",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -218,5 +232,8 @@
       }
     ],
     "total_armor_points": 201
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sojourner",
+  "omnimech_configuration": "A"
 }

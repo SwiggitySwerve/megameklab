@@ -7,27 +7,37 @@
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Left Torso",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Left Torso",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Right Torso",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Right Torso",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISHeavyPPC",
       "location": "Right Arm",
-      "item_type": "1Isheavyppc"
+      "item_type": "1Isheavyppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

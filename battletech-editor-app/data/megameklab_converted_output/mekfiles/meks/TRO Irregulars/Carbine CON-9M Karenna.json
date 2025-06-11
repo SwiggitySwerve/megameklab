@@ -4,7 +4,9 @@
     {
       "item_name": "Light AC/5",
       "location": "Right Arm",
-      "item_type": "LightAc5"
+      "item_type": "LightAc5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3131,

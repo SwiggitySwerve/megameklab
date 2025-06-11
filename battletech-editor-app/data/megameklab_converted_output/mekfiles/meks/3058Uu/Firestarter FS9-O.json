@@ -7,32 +7,44 @@
     {
       "item_name": "Large Laser",
       "location": "Left Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Laser",
       "location": "Right Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Flamer",
       "location": "Center Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -176,5 +188,8 @@
       }
     ],
     "total_armor_points": 136
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Firestarter",
+  "omnimech_configuration": "O"
 }

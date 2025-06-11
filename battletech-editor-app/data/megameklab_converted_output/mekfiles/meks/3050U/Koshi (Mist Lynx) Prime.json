@@ -7,22 +7,30 @@
     {
       "item_name": "LRM 10",
       "location": "Left Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 2926,
@@ -172,5 +180,8 @@
       }
     ],
     "total_armor_points": 67
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mist Lynx",
+  "omnimech_configuration": "Prime"
 }

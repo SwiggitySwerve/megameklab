@@ -7,12 +7,16 @@
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Center Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3054,

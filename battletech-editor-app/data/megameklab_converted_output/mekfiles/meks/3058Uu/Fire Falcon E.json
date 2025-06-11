@@ -6,7 +6,9 @@
     {
       "item_name": "ATM 12",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3061,
@@ -191,5 +193,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Falcon",
+  "omnimech_configuration": "E"
 }

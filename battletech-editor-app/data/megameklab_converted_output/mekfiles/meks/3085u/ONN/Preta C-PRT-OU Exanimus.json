@@ -10,17 +10,23 @@
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Arm",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Laser AMS",
       "location": "Left Torso",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Head",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3077,
@@ -166,5 +172,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Preta",
+  "omnimech_configuration": "C"
 }

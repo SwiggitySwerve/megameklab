@@ -6,37 +6,51 @@
     {
       "item_name": "Streak SRM 6",
       "location": "Left Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "HAG/40",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3070,
@@ -185,5 +199,8 @@
       }
     ],
     "total_armor_points": 288
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Turkina",
+  "omnimech_configuration": "E"
 }

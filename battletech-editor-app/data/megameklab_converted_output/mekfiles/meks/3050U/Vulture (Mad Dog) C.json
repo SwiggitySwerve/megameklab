@@ -6,12 +6,16 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 2963,
@@ -162,5 +166,8 @@
       }
     ],
     "total_armor_points": 163
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mad Dog",
+  "omnimech_configuration": "C"
 }

@@ -7,7 +7,9 @@
     {
       "item_name": "ER Large Laser",
       "location": "Center Torso",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2735,

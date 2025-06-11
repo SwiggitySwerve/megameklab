@@ -6,32 +6,44 @@
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Left Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3059,
@@ -182,5 +194,8 @@
       }
     ],
     "total_armor_points": 163
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mad Dog",
+  "omnimech_configuration": "H"
 }

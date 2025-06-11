@@ -7,7 +7,9 @@
     {
       "item_name": "ATM 6",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3055,
@@ -191,5 +193,8 @@
       }
     ],
     "total_armor_points": 38
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Moth",
+  "omnimech_configuration": "E"
 }

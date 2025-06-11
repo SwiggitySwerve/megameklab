@@ -4,7 +4,9 @@
     {
       "item_name": "PPC",
       "location": "Right Torso",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2801,

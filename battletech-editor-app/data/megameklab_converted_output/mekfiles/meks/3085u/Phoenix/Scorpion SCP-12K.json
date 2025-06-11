@@ -8,22 +8,30 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "C3 Master with TAG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Torso",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 9",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

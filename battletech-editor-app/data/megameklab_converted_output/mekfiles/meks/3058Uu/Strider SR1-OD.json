@@ -6,32 +6,44 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Left Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Head",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3057,
@@ -175,5 +187,8 @@
       }
     ],
     "total_armor_points": 120
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Strider",
+  "omnimech_configuration": "SR1-OD"
 }

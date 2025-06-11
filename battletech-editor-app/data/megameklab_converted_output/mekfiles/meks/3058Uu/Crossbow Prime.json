@@ -6,12 +6,16 @@
     {
       "item_name": "LRM 20",
       "location": "Left Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 2870,
@@ -191,5 +195,8 @@
       }
     ],
     "total_armor_points": 192
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Crossbow",
+  "omnimech_configuration": "Prime"
 }

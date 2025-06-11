@@ -7,42 +7,58 @@
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Right Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3061,
@@ -192,5 +208,8 @@
       }
     ],
     "total_armor_points": 67
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mist Lynx",
+  "omnimech_configuration": "P"
 }

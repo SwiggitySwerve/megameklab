@@ -6,27 +6,37 @@
     {
       "item_name": "Large Laser",
       "location": "Right Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Right Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3069,

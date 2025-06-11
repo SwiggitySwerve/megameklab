@@ -7,7 +7,9 @@
     {
       "item_name": "Large Laser",
       "location": "Right Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3039,

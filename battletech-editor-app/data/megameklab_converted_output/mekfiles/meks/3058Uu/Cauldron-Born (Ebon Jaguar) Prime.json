@@ -6,27 +6,37 @@
     {
       "item_name": "LB 5-X AC",
       "location": "Left Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 10",
       "location": "Left Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2",
       "location": "Right Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3049,
@@ -206,5 +216,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Ebon Jaguar",
+  "omnimech_configuration": "Prime"
 }

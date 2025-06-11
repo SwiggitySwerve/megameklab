@@ -7,22 +7,30 @@
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Cannon",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3134,
@@ -213,5 +221,8 @@
       }
     ],
     "total_armor_points": 160
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Nova",
+  "omnimech_configuration": "L"
 }

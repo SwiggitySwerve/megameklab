@@ -9,22 +9,30 @@
     {
       "item_name": "Large Laser",
       "location": "Right Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Laser",
       "location": "Right Torso",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Gauss Rifle",
       "location": "Center Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3062,

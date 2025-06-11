@@ -4,37 +4,51 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MRM 10",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Torso",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

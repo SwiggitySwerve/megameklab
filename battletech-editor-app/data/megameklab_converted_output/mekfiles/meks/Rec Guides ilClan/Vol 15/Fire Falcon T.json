@@ -6,37 +6,51 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4 (I-OS)",
       "location": "Left Torso",
-      "item_type": "Srm4IOs"
+      "item_type": "Srm4IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Torso",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -221,5 +235,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Falcon",
+  "omnimech_configuration": "T"
 }

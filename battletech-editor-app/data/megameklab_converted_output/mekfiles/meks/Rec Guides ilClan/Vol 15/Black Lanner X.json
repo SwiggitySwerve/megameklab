@@ -6,17 +6,23 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/2",
       "location": "Right Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3075,
@@ -202,5 +208,8 @@
       }
     ],
     "total_armor_points": 153
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Black Lanner",
+  "omnimech_configuration": "X"
 }

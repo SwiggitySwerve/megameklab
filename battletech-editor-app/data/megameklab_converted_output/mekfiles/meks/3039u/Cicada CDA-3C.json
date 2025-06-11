@@ -6,17 +6,23 @@
     {
       "item_name": "Machine Gun",
       "location": "Left Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Leg",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "PPC",
       "location": "Right Torso",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2840,

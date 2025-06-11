@@ -4,32 +4,44 @@
     {
       "item_name": "Heavy Flamer",
       "location": "Left Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Flamer",
       "location": "Left Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Flamer",
       "location": "Right Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Flamer",
       "location": "Right Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3133,

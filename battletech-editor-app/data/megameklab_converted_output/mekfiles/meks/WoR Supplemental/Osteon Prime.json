@@ -9,22 +9,30 @@
     {
       "item_name": "iATM 9",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "iATM 9",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "iATM 9",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "iATM 9",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3072,
@@ -175,5 +183,8 @@
       }
     ],
     "total_armor_points": 252
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Osteon",
+  "omnimech_configuration": "Prime"
 }

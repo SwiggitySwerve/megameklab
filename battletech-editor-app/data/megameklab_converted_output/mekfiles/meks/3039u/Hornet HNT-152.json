@@ -7,17 +7,23 @@
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2997,

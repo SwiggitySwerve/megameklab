@@ -6,22 +6,30 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Arm",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3083,
@@ -171,5 +179,8 @@
       }
     ],
     "total_armor_points": 125
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Battle Cobra",
+  "omnimech_configuration": "BTL-C-2OG"
 }

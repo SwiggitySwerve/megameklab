@@ -4,22 +4,30 @@
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3127,

@@ -4,27 +4,37 @@
     {
       "item_name": "PPC",
       "location": "Left Arm",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "PPC",
       "location": "Right Arm",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/10",
       "location": "Left Torso",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/10",
       "location": "Right Torso",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Head",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3004,

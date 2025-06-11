@@ -4,12 +4,16 @@
     {
       "item_name": "Nail/Rivet Gun",
       "location": "Left Arm",
-      "item_type": "NailRivetGun"
+      "item_type": "NailRivetGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Nail/Rivet Gun",
       "location": "Right Arm",
-      "item_type": "NailRivetGun"
+      "item_type": "NailRivetGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3070,

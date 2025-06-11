@@ -6,27 +6,37 @@
     {
       "item_name": "LRM 20",
       "location": "Left Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Narc",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 2930,
@@ -213,5 +223,8 @@
       }
     ],
     "total_armor_points": 182
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Stormcrow",
+  "omnimech_configuration": "D"
 }

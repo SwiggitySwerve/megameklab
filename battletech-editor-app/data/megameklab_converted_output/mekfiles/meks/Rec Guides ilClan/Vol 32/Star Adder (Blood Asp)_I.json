@@ -6,37 +6,51 @@
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Gauss Rifle",
       "location": "Center Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3148,
@@ -188,5 +202,8 @@
       }
     ],
     "total_armor_points": 256
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Blood Asp",
+  "omnimech_configuration": "I"
 }

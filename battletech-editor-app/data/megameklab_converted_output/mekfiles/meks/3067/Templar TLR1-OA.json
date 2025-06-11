@@ -6,17 +6,23 @@
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/10",
       "location": "Right Arm",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3062,
@@ -195,5 +201,8 @@
       }
     ],
     "total_armor_points": 263
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Templar",
+  "omnimech_configuration": "TLR1-OA"
 }

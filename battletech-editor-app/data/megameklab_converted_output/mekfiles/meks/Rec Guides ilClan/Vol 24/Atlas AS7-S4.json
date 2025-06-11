@@ -10,27 +10,37 @@
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3109,

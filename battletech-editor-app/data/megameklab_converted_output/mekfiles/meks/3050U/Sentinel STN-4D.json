@@ -6,12 +6,16 @@
     {
       "item_name": "1 ISRotaryAC5",
       "location": "Left Arm",
-      "item_type": "1Isrotaryac5"
+      "item_type": "1Isrotaryac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3063,

@@ -4,22 +4,30 @@
     {
       "item_name": "Nail Gun",
       "location": "Right Arm",
-      "item_type": "NailGun"
+      "item_type": "NailGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Nail Gun",
       "location": "Right Arm",
-      "item_type": "NailGun"
+      "item_type": "NailGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 7",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 7",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3084,

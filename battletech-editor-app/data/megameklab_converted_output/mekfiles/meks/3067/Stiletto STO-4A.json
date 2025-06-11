@@ -7,17 +7,23 @@
     {
       "item_name": "Streak SRM 2",
       "location": "Left Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2",
       "location": "Right Arm",
-      "item_type": "StreakSrm2"
+      "item_type": "StreakSrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Center Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3061,

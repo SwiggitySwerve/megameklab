@@ -11,52 +11,72 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Left Torso",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Left Torso",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Torso",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 5-X AC",
       "location": "Right Torso",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2846,

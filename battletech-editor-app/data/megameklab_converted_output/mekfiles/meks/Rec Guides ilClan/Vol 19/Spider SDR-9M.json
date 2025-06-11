@@ -8,12 +8,16 @@
     {
       "item_name": "Medium VSP Laser",
       "location": "Left Torso",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium VSP Laser",
       "location": "Right Torso",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3096,

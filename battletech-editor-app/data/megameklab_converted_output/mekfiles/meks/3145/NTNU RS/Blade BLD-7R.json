@@ -6,17 +6,23 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Arm",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Rotary AC/5",
       "location": "Right Arm",
-      "item_type": "RotaryAc5"
+      "item_type": "RotaryAc5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3094,

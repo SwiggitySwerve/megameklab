@@ -6,27 +6,37 @@
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "M-Pod",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "M-Pod",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3144,
@@ -212,5 +222,8 @@
       }
     ],
     "total_armor_points": 125
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Battle Cobra",
+  "omnimech_configuration": "BTL-C-2OJ"
 }

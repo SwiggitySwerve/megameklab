@@ -7,27 +7,37 @@
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 20-X AC",
       "location": "Left Torso",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -250,5 +260,8 @@
       }
     ],
     "total_armor_points": 230
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Doom Courser",
+  "omnimech_configuration": "B"
 }

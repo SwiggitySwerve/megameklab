@@ -6,42 +6,58 @@
     {
       "item_name": "AC/5",
       "location": "Left Arm",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Arm",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AC/5",
       "location": "Right Arm",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3065,
@@ -220,5 +236,8 @@
       }
     ],
     "total_armor_points": 263
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Templar",
+  "omnimech_configuration": "O"
 }

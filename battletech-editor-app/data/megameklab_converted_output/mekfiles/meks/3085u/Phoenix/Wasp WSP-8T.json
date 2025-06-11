@@ -9,12 +9,16 @@
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 3",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3075,

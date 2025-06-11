@@ -6,22 +6,30 @@
     {
       "item_name": "Heavy Large Laser",
       "location": "Left Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3060,
@@ -202,5 +210,8 @@
       }
     ],
     "total_armor_points": 256
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Blood Asp",
+  "omnimech_configuration": "A"
 }

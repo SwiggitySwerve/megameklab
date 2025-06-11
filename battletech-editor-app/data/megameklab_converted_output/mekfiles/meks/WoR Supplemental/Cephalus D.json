@@ -9,22 +9,30 @@
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3072,
@@ -168,5 +176,8 @@
       }
     ],
     "total_armor_points": 84
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Cephalus",
+  "omnimech_configuration": "D"
 }

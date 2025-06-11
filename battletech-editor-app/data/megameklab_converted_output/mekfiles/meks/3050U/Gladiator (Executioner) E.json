@@ -6,37 +6,51 @@
     {
       "item_name": "ATM 9",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 9",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Small Laser",
       "location": "Right Torso",
-      "item_type": "HeavySmallLaser"
+      "item_type": "HeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3060,
@@ -186,5 +200,8 @@
       }
     ],
     "total_armor_points": 259
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Executioner",
+  "omnimech_configuration": "E"
 }

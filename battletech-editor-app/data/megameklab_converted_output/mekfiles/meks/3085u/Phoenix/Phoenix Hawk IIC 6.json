@@ -6,22 +6,30 @@
     {
       "item_name": "Plasma Cannon",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Plasma Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3070,

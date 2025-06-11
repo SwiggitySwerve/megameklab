@@ -7,12 +7,16 @@
     {
       "item_name": "1 ISImprovedC3CPU",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERPPC",
       "location": "Left Torso",
-      "item_type": "1Iserppc"
+      "item_type": "1Iserppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3060,

@@ -9,27 +9,37 @@
     {
       "item_name": "MML 7",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 7",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Laser",
       "location": "Left Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Light PPC",
       "location": "Right Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium VSP Laser",
       "location": "Head",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3071,
@@ -217,5 +227,8 @@
       }
     ],
     "total_armor_points": 186
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Grigori",
+  "omnimech_configuration": "C"
 }

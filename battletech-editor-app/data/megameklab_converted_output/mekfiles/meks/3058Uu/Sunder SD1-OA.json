@@ -6,37 +6,51 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Center Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Center Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 5",
       "location": "Head",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -240,5 +254,8 @@
       }
     ],
     "total_armor_points": 264
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Sunder",
+  "omnimech_configuration": "SD1-OA"
 }

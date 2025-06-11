@@ -7,32 +7,44 @@
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Right Arm",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERSmallLaser",
       "location": "Head",
-      "item_type": "1Isersmalllaser"
+      "item_type": "1Isersmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMML9",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMML9",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3068,

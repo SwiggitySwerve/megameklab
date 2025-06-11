@@ -9,22 +9,30 @@
     {
       "item_name": "Large VSP Laser",
       "location": "Left Arm",
-      "item_type": "LargeVspLaser"
+      "item_type": "LargeVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/20",
       "location": "Right Arm",
-      "item_type": "UltraAc20"
+      "item_type": "UltraAc20",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AMS",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium VSP Laser",
       "location": "Head",
-      "item_type": "MediumVspLaser"
+      "item_type": "MediumVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3071,
@@ -211,5 +219,8 @@
       }
     ],
     "total_armor_points": 256
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Seraph",
+  "omnimech_configuration": "C"
 }

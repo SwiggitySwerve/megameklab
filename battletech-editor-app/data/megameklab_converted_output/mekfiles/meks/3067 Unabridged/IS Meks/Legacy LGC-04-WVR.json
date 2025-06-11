@@ -7,12 +7,16 @@
     {
       "item_name": "Snub-Nose PPC",
       "location": "Left Torso",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Torso",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3072,

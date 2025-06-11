@@ -6,17 +6,23 @@
     {
       "item_name": "Improved Large Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedLargeLaser"
+      "item_type": "ImprovedLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype Ultra Autocannon/10",
       "location": "Right Arm",
-      "item_type": "PrototypeUltraAutocannon10"
+      "item_type": "PrototypeUltraAutocannon10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Center Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2825,

@@ -6,37 +6,51 @@
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Medium Laser",
       "location": "Right Arm",
-      "item_type": "HeavyMediumLaser"
+      "item_type": "HeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/10",
       "location": "Left Torso",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Ultra AC/10",
       "location": "Right Torso",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Head",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3062,
@@ -185,5 +199,8 @@
       }
     ],
     "total_armor_points": 288
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Turkina",
+  "omnimech_configuration": "H"
 }

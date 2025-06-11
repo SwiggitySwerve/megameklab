@@ -6,7 +6,9 @@
     {
       "item_name": "Laser AMS",
       "location": "Left Torso",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3132,

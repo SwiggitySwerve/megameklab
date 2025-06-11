@@ -6,17 +6,23 @@
     {
       "item_name": "Small VSP Laser",
       "location": "Left Arm",
-      "item_type": "SmallVspLaser"
+      "item_type": "SmallVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small VSP Laser",
       "location": "Right Arm",
-      "item_type": "SmallVspLaser"
+      "item_type": "SmallVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small VSP Laser",
       "location": "Left Torso",
-      "item_type": "SmallVspLaser"
+      "item_type": "SmallVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3072,

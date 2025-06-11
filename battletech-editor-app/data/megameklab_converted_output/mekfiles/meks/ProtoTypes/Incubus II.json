@@ -7,17 +7,23 @@
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Laser AMS",
       "location": "Left Torso",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3085,

@@ -6,32 +6,44 @@
     {
       "item_name": "Ultra AC/10",
       "location": "Left Arm",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Light AC/5",
       "location": "Left Arm",
-      "item_type": "LightAc5"
+      "item_type": "LightAc5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/10",
       "location": "Right Arm",
-      "item_type": "UltraAc10"
+      "item_type": "UltraAc10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Light AC/5",
       "location": "Right Arm",
-      "item_type": "LightAc5"
+      "item_type": "LightAc5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3146,

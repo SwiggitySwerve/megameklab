@@ -6,12 +6,16 @@
     {
       "item_name": "TAG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Torso",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3142,

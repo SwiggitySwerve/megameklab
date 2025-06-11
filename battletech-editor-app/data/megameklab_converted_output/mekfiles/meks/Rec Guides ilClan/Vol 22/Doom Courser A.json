@@ -7,17 +7,23 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Left Torso",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 12",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 12",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -240,5 +246,8 @@
       }
     ],
     "total_armor_points": 230
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Doom Courser",
+  "omnimech_configuration": "A"
 }

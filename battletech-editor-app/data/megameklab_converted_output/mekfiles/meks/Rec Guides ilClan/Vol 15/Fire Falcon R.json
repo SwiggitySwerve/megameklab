@@ -6,32 +6,44 @@
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ATM 3",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 3",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -216,5 +228,8 @@
       }
     ],
     "total_armor_points": 76
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Falcon",
+  "omnimech_configuration": "R"
 }

@@ -4,7 +4,9 @@
     {
       "item_name": "Flamer (Vehicle)",
       "location": "Left Arm",
-      "item_type": "FlamerVehicle"
+      "item_type": "FlamerVehicle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2801,

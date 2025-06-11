@@ -6,32 +6,44 @@
     {
       "item_name": "Streak SRM 6",
       "location": "Right Arm",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Small Pulse Laser",
       "location": "Head",
-      "item_type": "ErSmallPulseLaser"
+      "item_type": "ErSmallPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3140,
@@ -222,5 +234,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mongrel",
+  "omnimech_configuration": "J"
 }

@@ -6,17 +6,23 @@
     {
       "item_name": "TSEMP Cannon",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Arm",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LAC/5",
       "location": "Right Arm",
-      "item_type": "Lac5"
+      "item_type": "Lac5",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3128,
@@ -160,5 +166,8 @@
       }
     ],
     "total_armor_points": 169
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Gauntlet",
+  "omnimech_configuration": "GTL-1OC"
 }

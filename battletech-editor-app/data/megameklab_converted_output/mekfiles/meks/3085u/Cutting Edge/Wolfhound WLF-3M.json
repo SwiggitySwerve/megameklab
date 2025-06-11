@@ -7,7 +7,9 @@
     {
       "item_name": "Light Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3077,

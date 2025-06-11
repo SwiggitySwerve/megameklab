@@ -6,32 +6,44 @@
     {
       "item_name": "Heavy Flamer",
       "location": "Left Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Flamer",
       "location": "Left Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Left Arm",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -221,5 +233,8 @@
       }
     ],
     "total_armor_points": 115
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Pouncer",
+  "omnimech_configuration": "F"
 }

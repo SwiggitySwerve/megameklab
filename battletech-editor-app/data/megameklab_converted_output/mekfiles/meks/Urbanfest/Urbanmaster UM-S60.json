@@ -7,12 +7,16 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Binary Laser (Blazer) Cannon",
       "location": "Left Arm",
-      "item_type": "BinaryLaserBlazerCannon"
+      "item_type": "BinaryLaserBlazerCannon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3140,

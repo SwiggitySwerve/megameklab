@@ -4,22 +4,30 @@
     {
       "item_name": "AC/2",
       "location": "Left Torso",
-      "item_type": "Ac2"
+      "item_type": "Ac2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Left Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/2",
       "location": "Right Torso",
-      "item_type": "Ac2"
+      "item_type": "Ac2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Machine Gun",
       "location": "Right Torso",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3015,

@@ -6,22 +6,30 @@
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Right Torso",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Center Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3052,
@@ -165,5 +173,8 @@
       }
     ],
     "total_armor_points": 56
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Raptor",
+  "omnimech_configuration": "RTX1-OB"
 }

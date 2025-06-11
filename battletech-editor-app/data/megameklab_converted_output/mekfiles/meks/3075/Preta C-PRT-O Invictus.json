@@ -10,17 +10,23 @@
     {
       "item_name": "Snub-Nose PPC",
       "location": "Right Arm",
-      "item_type": "SnubNosePpc"
+      "item_type": "SnubNosePpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "AMS",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Light PPC",
       "location": "Head",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -166,5 +172,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Preta",
+  "omnimech_configuration": "C"
 }

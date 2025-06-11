@@ -7,7 +7,9 @@
     {
       "item_name": "1 ISLBXAC10",
       "location": "Left Torso",
-      "item_type": "1Islbxac10"
+      "item_type": "1Islbxac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3052,

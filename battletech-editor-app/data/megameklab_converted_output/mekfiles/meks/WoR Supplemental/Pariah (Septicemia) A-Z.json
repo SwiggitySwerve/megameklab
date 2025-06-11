@@ -8,47 +8,65 @@
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Small Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavySmallLaser"
+      "item_type": "ImprovedHeavySmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "iATM 12",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Light TAG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "iATM 12",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3072,
@@ -228,5 +246,8 @@
       }
     ],
     "total_armor_points": 172
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Pariah (Septicemia)",
+  "omnimech_configuration": "A"
 }

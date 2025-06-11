@@ -4,7 +4,9 @@
     {
       "item_name": "Heavy Flamer",
       "location": "Right Arm",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3132,

@@ -4,7 +4,9 @@
     {
       "item_name": "Thumper",
       "location": "None",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3090,

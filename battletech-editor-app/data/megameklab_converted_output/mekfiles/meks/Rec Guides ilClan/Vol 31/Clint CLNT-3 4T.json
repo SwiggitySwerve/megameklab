@@ -10,17 +10,23 @@
     {
       "item_name": "LB 5-X AC",
       "location": "Right Arm",
-      "item_type": "Lb5XAc"
+      "item_type": "Lb5XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3109,

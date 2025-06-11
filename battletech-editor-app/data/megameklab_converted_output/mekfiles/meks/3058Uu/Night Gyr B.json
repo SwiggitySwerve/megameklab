@@ -6,22 +6,30 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Left Torso",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Right Torso",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3052,
@@ -202,5 +210,8 @@
       }
     ],
     "total_armor_points": 220
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Night Gyr",
+  "omnimech_configuration": "B"
 }

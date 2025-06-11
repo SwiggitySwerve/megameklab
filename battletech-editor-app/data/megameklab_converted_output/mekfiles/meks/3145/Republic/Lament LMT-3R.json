@@ -9,27 +9,37 @@
     {
       "item_name": "Small X-Pulse Laser",
       "location": "Right Torso",
-      "item_type": "SmallXPulseLaser"
+      "item_type": "SmallXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Left Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER PPC",
       "location": "Left Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Small X-Pulse Laser",
       "location": "Head",
-      "item_type": "SmallXPulseLaser"
+      "item_type": "SmallXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3135,

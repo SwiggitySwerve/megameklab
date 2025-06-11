@@ -6,22 +6,30 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3054,
@@ -189,5 +197,8 @@
       }
     ],
     "total_armor_points": 134
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Shadow Cat",
+  "omnimech_configuration": "M"
 }

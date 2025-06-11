@@ -9,22 +9,30 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Gauss Rifle",
       "location": "Right Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Light TAG [Clan]",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3135,
@@ -170,5 +178,8 @@
       }
     ],
     "total_armor_points": 231
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "OmniMarauder",
+  "omnimech_configuration": "MAD-BR-OA"
 }

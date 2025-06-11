@@ -6,22 +6,30 @@
     {
       "item_name": "Large X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "LargeXPulseLaser"
+      "item_type": "LargeXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large X-Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargeXPulseLaser"
+      "item_type": "LargeXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Light Gauss Rifle",
       "location": "Left Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Light Gauss Rifle",
       "location": "Right Torso",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3063,
@@ -200,5 +208,8 @@
       }
     ],
     "total_armor_points": 263
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Templar",
+  "omnimech_configuration": "TLR1-OD"
 }

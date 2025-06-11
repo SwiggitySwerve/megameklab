@@ -6,32 +6,44 @@
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "iNarc",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Laser AMS",
       "location": "Center Torso",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3083,
@@ -181,5 +193,8 @@
       }
     ],
     "total_armor_points": 125
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Battle Cobra",
+  "omnimech_configuration": "BTL-C-2OI"
 }

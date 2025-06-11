@@ -6,7 +6,9 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3081,

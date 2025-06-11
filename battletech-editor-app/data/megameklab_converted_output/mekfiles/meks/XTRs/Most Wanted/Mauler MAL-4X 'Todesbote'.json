@@ -6,22 +6,30 @@
     {
       "item_name": "HVAC/10",
       "location": "Left Arm",
-      "item_type": "Hvac10"
+      "item_type": "Hvac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "HVAC/10",
       "location": "Right Arm",
-      "item_type": "Hvac10"
+      "item_type": "Hvac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 7",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 7",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3070,

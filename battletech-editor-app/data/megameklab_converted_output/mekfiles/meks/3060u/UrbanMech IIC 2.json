@@ -8,12 +8,16 @@
     {
       "item_name": "Flamer",
       "location": "Left Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "HAG/20",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3070,

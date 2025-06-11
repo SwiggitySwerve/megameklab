@@ -7,22 +7,30 @@
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Right Arm",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Left Arm",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISMML5",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISMML5",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3068,

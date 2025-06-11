@@ -6,37 +6,51 @@
     {
       "item_name": "1 CLSmallPulseLaser",
       "location": "Head",
-      "item_type": "1Clsmallpulselaser"
+      "item_type": "1Clsmallpulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMediumPulseLaser",
       "location": "Right Torso",
-      "item_type": "1Clmediumpulselaser"
+      "item_type": "1Clmediumpulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMediumPulseLaser",
       "location": "Left Torso",
-      "item_type": "1Clmediumpulselaser"
+      "item_type": "1Clmediumpulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHAG20",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHAG20",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3079,

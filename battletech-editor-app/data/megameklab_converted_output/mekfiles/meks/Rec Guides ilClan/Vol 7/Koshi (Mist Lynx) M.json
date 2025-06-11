@@ -7,32 +7,44 @@
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Micro Laser",
       "location": "Left Arm",
-      "item_type": "ErMicroLaser"
+      "item_type": "ErMicroLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2",
       "location": "Right Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3140,
@@ -182,5 +194,8 @@
       }
     ],
     "total_armor_points": 67
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mist Lynx",
+  "omnimech_configuration": "M"
 }

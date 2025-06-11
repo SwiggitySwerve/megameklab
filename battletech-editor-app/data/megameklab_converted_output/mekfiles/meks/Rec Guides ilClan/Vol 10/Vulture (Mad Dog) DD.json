@@ -6,37 +6,51 @@
     {
       "item_name": "LB 2-X AC",
       "location": "Left Arm",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Left Arm",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Left Torso",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Right Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3050,
@@ -187,5 +201,8 @@
       }
     ],
     "total_armor_points": 163
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mad Dog",
+  "omnimech_configuration": "DD"
 }

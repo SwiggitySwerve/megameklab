@@ -10,17 +10,23 @@
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Head",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3075,
@@ -166,5 +172,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Preta",
+  "omnimech_configuration": "C"
 }

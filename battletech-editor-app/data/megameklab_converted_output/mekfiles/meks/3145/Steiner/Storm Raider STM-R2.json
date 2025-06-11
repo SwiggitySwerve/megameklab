@@ -4,7 +4,9 @@
     {
       "item_name": "Ultra AC/5",
       "location": "Left Arm",
-      "item_type": "UltraAc5"
+      "item_type": "UltraAc5",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3098,

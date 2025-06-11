@@ -7,12 +7,16 @@
     {
       "item_name": "2 ISPlasmaRifle",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Center Torso",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3069,

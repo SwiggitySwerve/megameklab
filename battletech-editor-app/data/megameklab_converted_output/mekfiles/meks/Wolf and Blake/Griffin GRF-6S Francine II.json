@@ -10,22 +10,30 @@
     {
       "item_name": "1 ISSNPPC",
       "location": "Right Arm",
-      "item_type": "1Issnppc"
+      "item_type": "1Issnppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Left Arm",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLRM15",
       "location": "Right Torso",
-      "item_type": "1Islrm15"
+      "item_type": "1Islrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Center Torso",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

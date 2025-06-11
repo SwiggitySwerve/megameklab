@@ -8,42 +8,58 @@
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "AP Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/8",
       "location": "Right Arm",
-      "item_type": "ProtomechAc8"
+      "item_type": "ProtomechAc8",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/8",
       "location": "Right Arm",
-      "item_type": "ProtomechAc8"
+      "item_type": "ProtomechAc8",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Flamer",
       "location": "Head",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3079,

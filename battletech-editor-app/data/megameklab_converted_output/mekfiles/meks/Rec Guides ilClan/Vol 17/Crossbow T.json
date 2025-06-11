@@ -4,92 +4,128 @@
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm6IOs"
+      "item_type": "Srm6IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Left Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm6IOs"
+      "item_type": "Srm6IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Arm",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -269,5 +305,8 @@
       }
     ],
     "total_armor_points": 192
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Crossbow",
+  "omnimech_configuration": "T"
 }

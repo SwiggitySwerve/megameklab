@@ -6,62 +6,86 @@
     {
       "item_name": "Improved Autocannon/5",
       "location": "Left Arm",
-      "item_type": "ImprovedAutocannon5"
+      "item_type": "ImprovedAutocannon5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/10",
       "location": "Left Arm",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Autocannon/5",
       "location": "Right Arm",
-      "item_type": "ImprovedAutocannon5"
+      "item_type": "ImprovedAutocannon5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/10",
       "location": "Right Arm",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Left Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Left Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3035,

@@ -7,22 +7,30 @@
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "PPC",
       "location": "Right Arm",
-      "item_type": "Ppc"
+      "item_type": "Ppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/5",
       "location": "Right Torso",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3025,

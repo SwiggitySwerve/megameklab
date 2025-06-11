@@ -4,17 +4,23 @@
     {
       "item_name": "TSEMP Cannon",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LAC/5",
       "location": "Right Arm",
-      "item_type": "Lac5"
+      "item_type": "Lac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3130,

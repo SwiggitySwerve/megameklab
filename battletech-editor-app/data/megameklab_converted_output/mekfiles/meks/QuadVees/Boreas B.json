@@ -4,7 +4,9 @@
     {
       "item_name": "Streak LRM 20",
       "location": "Right Torso",
-      "item_type": "StreakLrm20"
+      "item_type": "StreakLrm20",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3132,
@@ -235,5 +237,8 @@
       }
     ],
     "total_armor_points": 184
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Boreas",
+  "omnimech_configuration": "B"
 }

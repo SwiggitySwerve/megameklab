@@ -6,12 +6,16 @@
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 20",
       "location": "Right Arm",
-      "item_type": "Lrm20"
+      "item_type": "Lrm20",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -201,5 +205,8 @@
       }
     ],
     "total_armor_points": 115
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Pouncer",
+  "omnimech_configuration": "I"
 }

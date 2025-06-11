@@ -7,22 +7,30 @@
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Center Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Large VSP Laser",
       "location": "Right Arm",
-      "item_type": "LargeVspLaser"
+      "item_type": "LargeVspLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3125,

@@ -4,27 +4,37 @@
     {
       "item_name": "Rotary AC/2",
       "location": "Left Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 3",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ATM 3",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Flamer",
       "location": "Center Torso",
-      "item_type": "HeavyFlamer"
+      "item_type": "HeavyFlamer",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3127,
@@ -176,5 +186,8 @@
       }
     ],
     "total_armor_points": 211
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Gargoyle",
+  "omnimech_configuration": "F"
 }

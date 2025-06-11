@@ -8,12 +8,16 @@
     {
       "item_name": "Medium Laser",
       "location": "Head",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/5",
       "location": "Right Arm",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2471,

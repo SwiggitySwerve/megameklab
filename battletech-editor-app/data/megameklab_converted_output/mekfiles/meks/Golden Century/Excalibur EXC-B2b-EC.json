@@ -7,27 +7,37 @@
     {
       "item_name": "Prototype ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "PrototypeErMediumLaser"
+      "item_type": "PrototypeErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved LRM 20",
       "location": "Left Torso",
-      "item_type": "ImprovedLrm20"
+      "item_type": "ImprovedLrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Anti-Missile System",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype ER Small Laser",
       "location": "Center Torso",
-      "item_type": "PrototypeErSmallLaser"
+      "item_type": "PrototypeErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2825,

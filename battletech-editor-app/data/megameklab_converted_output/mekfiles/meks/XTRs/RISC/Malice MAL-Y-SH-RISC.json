@@ -6,22 +6,30 @@
     {
       "item_name": "RISC Hyper Laser",
       "location": "Left Arm",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "RISC Hyper Laser",
       "location": "Right Arm",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "RISC Hyper Laser",
       "location": "Left Torso",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "RISC Hyper Laser",
       "location": "Right Torso",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3150,

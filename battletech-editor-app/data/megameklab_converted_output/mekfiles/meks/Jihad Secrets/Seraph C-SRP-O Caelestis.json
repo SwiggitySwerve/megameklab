@@ -9,37 +9,51 @@
     {
       "item_name": "Streak LRM 10",
       "location": "Left Arm",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 10",
       "location": "Right Arm",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 10",
       "location": "Right Torso",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Center Torso",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Head",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3075,
@@ -226,5 +240,8 @@
       }
     ],
     "total_armor_points": 256
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Seraph",
+  "omnimech_configuration": "C"
 }

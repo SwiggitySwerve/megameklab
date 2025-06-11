@@ -6,22 +6,30 @@
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISUltraAC20",
       "location": "Right Arm",
-      "item_type": "1Isultraac20"
+      "item_type": "1Isultraac20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISStreakSRM4",
       "location": "Left Torso",
-      "item_type": "1Isstreaksrm4"
+      "item_type": "1Isstreaksrm4",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3064,

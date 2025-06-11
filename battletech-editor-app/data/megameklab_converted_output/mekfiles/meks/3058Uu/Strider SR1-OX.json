@@ -6,17 +6,23 @@
     {
       "item_name": "MML 3",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "MML 3",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Bombast Laser",
       "location": "Right Torso",
-      "item_type": "BombastLaser"
+      "item_type": "BombastLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3071,
@@ -160,5 +166,8 @@
       }
     ],
     "total_armor_points": 120
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Strider",
+  "omnimech_configuration": "SR1-OX"
 }

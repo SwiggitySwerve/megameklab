@@ -10,12 +10,16 @@
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -202,5 +206,8 @@
       }
     ],
     "total_armor_points": 307
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Archangel",
+  "omnimech_configuration": "C"
 }

@@ -6,32 +6,44 @@
     {
       "item_name": "1 ISERPPC",
       "location": "Right Arm",
-      "item_type": "1Iserppc"
+      "item_type": "1Iserppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Right Arm",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISImprovedNarc",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumPulseLaser",
       "location": "Left Torso",
-      "item_type": "1Ismediumpulselaser"
+      "item_type": "1Ismediumpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISC3SlaveUnit",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISTAG",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3062,

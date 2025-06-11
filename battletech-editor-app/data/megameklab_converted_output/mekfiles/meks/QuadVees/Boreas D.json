@@ -4,12 +4,16 @@
     {
       "item_name": "Heavy Large Laser",
       "location": "Right Torso",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Heavy Large Laser",
       "location": "Left Torso",
-      "item_type": "HeavyLargeLaser"
+      "item_type": "HeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3132,
@@ -240,5 +244,8 @@
       }
     ],
     "total_armor_points": 184
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Boreas",
+  "omnimech_configuration": "D"
 }

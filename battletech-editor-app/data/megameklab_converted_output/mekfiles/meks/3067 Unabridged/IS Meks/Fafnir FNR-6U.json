@@ -6,32 +6,44 @@
     {
       "item_name": "Ultra AC/20",
       "location": "Left Arm",
-      "item_type": "UltraAc20"
+      "item_type": "UltraAc20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/20",
       "location": "Right Arm",
-      "item_type": "UltraAc20"
+      "item_type": "UltraAc20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Left Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Left Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Right Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Light PPC",
       "location": "Right Torso",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3081,

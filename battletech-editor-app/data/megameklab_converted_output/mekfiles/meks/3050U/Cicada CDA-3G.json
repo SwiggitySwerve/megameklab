@@ -6,22 +6,30 @@
     {
       "item_name": "1 ISMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISBeagleActiveProbe",
       "location": "Right Torso",
-      "item_type": "1Isbeagleactiveprobe"
+      "item_type": "1Isbeagleactiveprobe",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERLargeLaser",
       "location": "Left Torso",
-      "item_type": "1Iserlargelaser"
+      "item_type": "1Iserlargelaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3056,

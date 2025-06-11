@@ -7,22 +7,30 @@
     {
       "item_name": "1 ISArrowIVSystem",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISERMediumLaser",
       "location": "Center Torso",
-      "item_type": "2Isermediumlaser"
+      "item_type": "2Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Isermediumlaser"
+      "item_type": "1Isermediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3061,

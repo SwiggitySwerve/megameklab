@@ -6,37 +6,51 @@
     {
       "item_name": "iNarc",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Torso",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Torso",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2 (I-OS)",
       "location": "Right Torso",
-      "item_type": "Srm2IOs"
+      "item_type": "Srm2IOs",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "TAG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3125,

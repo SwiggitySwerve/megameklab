@@ -6,12 +6,16 @@
     {
       "item_name": "LB 20-X AC",
       "location": "Left Torso",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Large Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedHeavyLargeLaser"
+      "item_type": "ImprovedHeavyLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3111,
@@ -161,5 +165,8 @@
       }
     ],
     "total_armor_points": 153
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Shadow Cat III",
+  "omnimech_configuration": "C"
 }

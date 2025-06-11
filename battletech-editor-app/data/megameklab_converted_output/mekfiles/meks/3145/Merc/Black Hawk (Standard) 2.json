@@ -4,22 +4,30 @@
     {
       "item_name": "1 CLATM6",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLATM6",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERLargeLaser",
       "location": "Right Torso",
-      "item_type": "1Clerlargelaser"
+      "item_type": "1Clerlargelaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERLargeLaser",
       "location": "Left Torso",
-      "item_type": "1Clerlargelaser"
+      "item_type": "1Clerlargelaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3092,

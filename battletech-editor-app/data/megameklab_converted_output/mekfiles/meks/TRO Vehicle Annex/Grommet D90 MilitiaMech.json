@@ -4,27 +4,37 @@
     {
       "item_name": "Large Laser",
       "location": "Left Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer (Vehicle)",
       "location": "Left Arm",
-      "item_type": "FlamerVehicle"
+      "item_type": "FlamerVehicle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer (Vehicle)",
       "location": "Left Arm",
-      "item_type": "FlamerVehicle"
+      "item_type": "FlamerVehicle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer (Vehicle)",
       "location": "Left Arm",
-      "item_type": "FlamerVehicle"
+      "item_type": "FlamerVehicle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/5",
       "location": "Right Arm",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3000,

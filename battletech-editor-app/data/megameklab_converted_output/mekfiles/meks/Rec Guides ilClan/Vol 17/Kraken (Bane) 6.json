@@ -7,72 +7,100 @@
     {
       "item_name": "ProtoMech AC/2",
       "location": "Left Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Left Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Left Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Left Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Left Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Right Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Right Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Right Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Right Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ProtoMech AC/2",
       "location": "Right Arm",
-      "item_type": "ProtomechAc2"
+      "item_type": "ProtomechAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3110,

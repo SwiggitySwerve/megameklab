@@ -7,27 +7,37 @@
     {
       "item_name": "1 ISGuardianECM",
       "location": "Center Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISStreakSRM6",
       "location": "Right Torso",
-      "item_type": "1Isstreaksrm6"
+      "item_type": "1Isstreaksrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISStreakSRM6",
       "location": "Left Torso",
-      "item_type": "1Isstreaksrm6"
+      "item_type": "1Isstreaksrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumXPulseLaser",
       "location": "Left Arm",
-      "item_type": "1Ismediumxpulselaser"
+      "item_type": "1Ismediumxpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumXPulseLaser",
       "location": "Right Arm",
-      "item_type": "1Ismediumxpulselaser"
+      "item_type": "1Ismediumxpulselaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3074,

@@ -6,22 +6,30 @@
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Left Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Gauss Rifle",
       "location": "Right Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3132,

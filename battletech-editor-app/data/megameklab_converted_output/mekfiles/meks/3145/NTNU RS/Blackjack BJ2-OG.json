@@ -6,17 +6,23 @@
     {
       "item_name": "Rotary AC/5",
       "location": "Left Arm",
-      "item_type": "RotaryAc5"
+      "item_type": "RotaryAc5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/5",
       "location": "Right Arm",
-      "item_type": "RotaryAc5"
+      "item_type": "RotaryAc5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Center Torso",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3134,
@@ -230,5 +236,8 @@
       }
     ],
     "total_armor_points": 152
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Blackjack",
+  "omnimech_configuration": "BJ2-OG"
 }

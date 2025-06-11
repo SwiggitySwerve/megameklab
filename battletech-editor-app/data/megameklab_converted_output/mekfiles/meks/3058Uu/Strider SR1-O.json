@@ -6,17 +6,23 @@
     {
       "item_name": "SRM 6",
       "location": "Left Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Laser",
       "location": "Head",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3057,
@@ -160,5 +166,8 @@
       }
     ],
     "total_armor_points": 120
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Strider",
+  "omnimech_configuration": "O"
 }

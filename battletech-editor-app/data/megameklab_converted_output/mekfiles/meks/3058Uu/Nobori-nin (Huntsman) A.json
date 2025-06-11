@@ -6,22 +6,30 @@
     {
       "item_name": "Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 10",
       "location": "Left Arm",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Right Arm",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3049,
@@ -216,5 +224,8 @@
       }
     ],
     "total_armor_points": 169
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Huntsman",
+  "omnimech_configuration": "A"
 }

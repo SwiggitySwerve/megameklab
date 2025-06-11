@@ -6,57 +6,79 @@
     {
       "item_name": "Ultra AC/2",
       "location": "Left Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/2",
       "location": "Left Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/2",
       "location": "Left Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/2",
       "location": "Right Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/2",
       "location": "Right Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Ultra AC/2",
       "location": "Right Arm",
-      "item_type": "UltraAc2"
+      "item_type": "UltraAc2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Left Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Laser AMS",
       "location": "Head",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3084,

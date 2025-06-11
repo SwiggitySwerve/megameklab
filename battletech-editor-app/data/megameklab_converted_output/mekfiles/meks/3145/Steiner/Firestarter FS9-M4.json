@@ -7,22 +7,30 @@
     {
       "item_name": "Rotary AC/2",
       "location": "Left Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3109,

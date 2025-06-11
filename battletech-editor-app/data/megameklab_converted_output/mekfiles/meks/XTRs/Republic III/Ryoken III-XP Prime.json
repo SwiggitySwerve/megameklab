@@ -4,32 +4,44 @@
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Left Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Large Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErLargePulseLaser"
+      "item_type": "ErLargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Pulse Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumPulseLaser"
+      "item_type": "ErMediumPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3143,
@@ -182,5 +194,8 @@
       }
     ],
     "total_armor_points": 161
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Skinwalker",
+  "omnimech_configuration": "Prime"
 }

@@ -6,12 +6,16 @@
     {
       "item_name": "ProtoMech AC/4",
       "location": "Left Arm",
-      "item_type": "ProtomechAc4"
+      "item_type": "ProtomechAc4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3090,
@@ -161,5 +165,8 @@
       }
     ],
     "total_armor_points": 115
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Phantom",
+  "omnimech_configuration": "G"
 }

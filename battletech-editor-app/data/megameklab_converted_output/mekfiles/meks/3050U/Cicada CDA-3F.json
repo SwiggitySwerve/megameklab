@@ -6,17 +6,23 @@
     {
       "item_name": "1 ISMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERPPC",
       "location": "Left Torso",
-      "item_type": "1Iserppc"
+      "item_type": "1Iserppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3052,

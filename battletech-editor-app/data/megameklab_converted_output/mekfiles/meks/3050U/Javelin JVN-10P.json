@@ -6,12 +6,16 @@
     {
       "item_name": "1 ISSRM6",
       "location": "Right Torso",
-      "item_type": "1Issrm6"
+      "item_type": "1Issrm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISStreakSRM2",
       "location": "Left Torso",
-      "item_type": "2Isstreaksrm2"
+      "item_type": "2Isstreaksrm2",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3049,

@@ -7,22 +7,30 @@
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Improved Heavy Medium Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedHeavyMediumLaser"
+      "item_type": "ImprovedHeavyMediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4 (I-OS)",
       "location": "Right Torso",
-      "item_type": "StreakSrm4IOs"
+      "item_type": "StreakSrm4IOs",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -206,5 +214,8 @@
       }
     ],
     "total_armor_points": 38
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Fire Moth",
+  "omnimech_configuration": "T"
 }

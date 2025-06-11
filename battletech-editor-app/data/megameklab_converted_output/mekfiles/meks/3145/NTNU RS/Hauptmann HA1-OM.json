@@ -7,27 +7,37 @@
     {
       "item_name": "LRM 15",
       "location": "Left Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Arm",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "C3 Master Boosted with TAG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LRM 15",
       "location": "Right Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Center Torso",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3120,
@@ -207,5 +217,8 @@
       }
     ],
     "total_armor_points": 293
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Hauptmann",
+  "omnimech_configuration": "HA1-OM"
 }

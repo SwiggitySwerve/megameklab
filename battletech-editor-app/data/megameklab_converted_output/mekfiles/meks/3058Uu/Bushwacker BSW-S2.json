@@ -6,27 +6,37 @@
     {
       "item_name": "SRM 4",
       "location": "Left Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 10-X AC",
       "location": "Right Arm",
-      "item_type": "Lb10XAc"
+      "item_type": "Lb10XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AMS",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Laser",
       "location": "Center Torso",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3056,

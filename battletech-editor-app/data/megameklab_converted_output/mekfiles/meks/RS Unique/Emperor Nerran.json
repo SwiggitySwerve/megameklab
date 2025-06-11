@@ -6,22 +6,30 @@
     {
       "item_name": "1 ISLargeLaser",
       "location": "Left Arm",
-      "item_type": "1Islargelaser"
+      "item_type": "1Islargelaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISERPPC",
       "location": "Right Torso",
-      "item_type": "1Iserppc"
+      "item_type": "1Iserppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLBXAC10",
       "location": "Left Arm",
-      "item_type": "1Islbxac10"
+      "item_type": "1Islbxac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLGaussRifle",
       "location": "Right Arm",
-      "item_type": "1Clgaussrifle"
+      "item_type": "1Clgaussrifle",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3064,

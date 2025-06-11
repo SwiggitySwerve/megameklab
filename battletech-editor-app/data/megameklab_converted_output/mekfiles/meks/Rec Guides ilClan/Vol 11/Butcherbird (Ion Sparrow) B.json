@@ -6,12 +6,16 @@
     {
       "item_name": "SRM 6",
       "location": "Left Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 6",
       "location": "Right Arm",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3147,
@@ -195,5 +199,8 @@
       }
     ],
     "total_armor_points": 57
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Ion Sparrow",
+  "omnimech_configuration": "B"
 }

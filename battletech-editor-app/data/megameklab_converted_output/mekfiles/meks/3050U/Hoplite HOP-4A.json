@@ -6,12 +6,16 @@
     {
       "item_name": "1 ISLRM5",
       "location": "Left Torso",
-      "item_type": "1Islrm5"
+      "item_type": "1Islrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISAC10",
       "location": "Right Torso",
-      "item_type": "1Isac10"
+      "item_type": "1Isac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2578,

@@ -7,42 +7,58 @@
     {
       "item_name": "1 ISGaussRifle",
       "location": "Left Torso",
-      "item_type": "1Isgaussrifle"
+      "item_type": "1Isgaussrifle",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISERPPC",
       "location": "Right Torso",
-      "item_type": "2Iserppc"
+      "item_type": "2Iserppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSRM6",
       "location": "Right Arm",
-      "item_type": "1Issrm6"
+      "item_type": "1Issrm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Left Torso (R)",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Right Torso (R)",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "2 ISMediumLaser",
       "location": "Left Arm",
-      "item_type": "2Ismediumlaser"
+      "item_type": "2Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSmallLaser",
       "location": "Center Torso",
-      "item_type": "1Issmalllaser"
+      "item_type": "1Issmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSmallLaser",
       "location": "Head",
-      "item_type": "1Issmalllaser"
+      "item_type": "1Issmalllaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3053,

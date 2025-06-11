@@ -6,32 +6,44 @@
     {
       "item_name": "Improved Large Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedLargeLaser"
+      "item_type": "ImprovedLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Large Laser",
       "location": "Right Torso",
-      "item_type": "ImprovedLargeLaser"
+      "item_type": "ImprovedLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype ER Small Laser",
       "location": "Head",
-      "item_type": "PrototypeErSmallLaser"
+      "item_type": "PrototypeErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "PrototypeErMediumLaser"
+      "item_type": "PrototypeErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "PrototypeErMediumLaser"
+      "item_type": "PrototypeErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Prototype Streak SRM 4",
       "location": "Left Torso",
-      "item_type": "PrototypeStreakSrm4"
+      "item_type": "PrototypeStreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2823,

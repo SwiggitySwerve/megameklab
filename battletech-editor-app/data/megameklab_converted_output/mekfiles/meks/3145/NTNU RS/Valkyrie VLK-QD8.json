@@ -7,12 +7,16 @@
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Extended LRM 10",
       "location": "Left Torso",
-      "item_type": "ExtendedLrm10"
+      "item_type": "ExtendedLrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3102,

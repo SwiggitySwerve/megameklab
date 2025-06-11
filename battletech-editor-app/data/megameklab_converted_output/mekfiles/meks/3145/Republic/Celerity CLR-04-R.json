@@ -6,7 +6,9 @@
     {
       "item_name": "TSEMP One-Shot",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3138,

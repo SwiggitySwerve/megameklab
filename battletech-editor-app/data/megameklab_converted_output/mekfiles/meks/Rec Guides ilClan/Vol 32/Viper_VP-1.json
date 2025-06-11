@@ -9,27 +9,37 @@
     {
       "item_name": "Binary Laser (Blazer) Cannon",
       "location": "Left Arm",
-      "item_type": "BinaryLaserBlazerCannon"
+      "item_type": "BinaryLaserBlazerCannon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Binary Laser (Blazer) Cannon",
       "location": "Right Arm",
-      "item_type": "BinaryLaserBlazerCannon"
+      "item_type": "BinaryLaserBlazerCannon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Left Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Right Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Pulse Laser",
       "location": "Center Torso",
-      "item_type": "MediumPulseLaser"
+      "item_type": "MediumPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2832,

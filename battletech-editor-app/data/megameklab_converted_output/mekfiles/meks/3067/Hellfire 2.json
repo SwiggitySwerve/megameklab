@@ -6,42 +6,58 @@
     {
       "item_name": "1 CLHeavyMediumLaser",
       "location": "Right Arm",
-      "item_type": "1Clheavymediumlaser"
+      "item_type": "1Clheavymediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Right Arm",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHeavyMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Clheavymediumlaser"
+      "item_type": "1Clheavymediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERSmallLaser",
       "location": "Left Arm",
-      "item_type": "1Clersmalllaser"
+      "item_type": "1Clersmalllaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLATM6",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHeavyLargeLaser",
       "location": "Left Torso",
-      "item_type": "1Clheavylargelaser"
+      "item_type": "1Clheavylargelaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLATM6",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

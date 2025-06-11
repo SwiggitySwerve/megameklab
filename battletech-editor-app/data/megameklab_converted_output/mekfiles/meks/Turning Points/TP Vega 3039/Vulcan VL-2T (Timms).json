@@ -6,27 +6,37 @@
     {
       "item_name": "Flamer",
       "location": "Left Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Right Arm",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Laser",
       "location": "Left Torso",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Flamer",
       "location": "Left Torso",
-      "item_type": "Flamer"
+      "item_type": "Flamer",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/2",
       "location": "Right Torso",
-      "item_type": "Ac2"
+      "item_type": "Ac2",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3034,

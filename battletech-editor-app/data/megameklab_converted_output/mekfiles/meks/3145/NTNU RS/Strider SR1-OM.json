@@ -6,12 +6,16 @@
     {
       "item_name": "C3 Master Boosted with TAG",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "C3 Master Boosted with TAG",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3135,
@@ -155,5 +159,8 @@
       }
     ],
     "total_armor_points": 120
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Strider",
+  "omnimech_configuration": "SR1-OM"
 }

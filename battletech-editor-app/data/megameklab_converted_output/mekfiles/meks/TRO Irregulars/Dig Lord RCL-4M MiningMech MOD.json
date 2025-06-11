@@ -4,12 +4,16 @@
     {
       "item_name": "AC/10",
       "location": "Left Torso",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3132,

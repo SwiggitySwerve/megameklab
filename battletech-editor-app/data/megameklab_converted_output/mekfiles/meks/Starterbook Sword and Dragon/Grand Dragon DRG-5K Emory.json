@@ -8,17 +8,23 @@
     {
       "item_name": "ER Large Laser Prototype",
       "location": "Right Arm",
-      "item_type": "ErLargeLaserPrototype"
+      "item_type": "ErLargeLaserPrototype",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 15",
       "location": "Left Torso",
-      "item_type": "Lrm15"
+      "item_type": "Lrm15",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3039,

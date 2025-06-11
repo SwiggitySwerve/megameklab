@@ -11,22 +11,30 @@
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Arm",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Large Re-engineered Laser",
       "location": "Left Torso",
-      "item_type": "LargeReEngineeredLaser"
+      "item_type": "LargeReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 5",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Streak SRM 2 (I-OS)",
       "location": "Head",
-      "item_type": "StreakSrm2IOs"
+      "item_type": "StreakSrm2IOs",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3141,

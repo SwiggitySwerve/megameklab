@@ -7,22 +7,30 @@
     {
       "item_name": "LB 20-X AC",
       "location": "Left Arm",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 20-X AC",
       "location": "Right Arm",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Large Pulse Laser",
       "location": "Right Torso",
-      "item_type": "LargePulseLaser"
+      "item_type": "LargePulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 6",
       "location": "Left Torso",
-      "item_type": "StreakSrm6"
+      "item_type": "StreakSrm6",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3062,
@@ -208,5 +216,8 @@
       }
     ],
     "total_armor_points": 216
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Nova Cat",
+  "omnimech_configuration": "M"
 }

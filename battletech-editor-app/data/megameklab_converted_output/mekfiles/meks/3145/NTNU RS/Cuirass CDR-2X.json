@@ -6,12 +6,16 @@
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Head",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy PPC",
       "location": "Left Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3134,

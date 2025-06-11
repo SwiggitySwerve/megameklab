@@ -8,32 +8,44 @@
     {
       "item_name": "RISC Hyper Laser",
       "location": "Left Arm",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "RISC Hyper Laser",
       "location": "Right Arm",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Left Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 6",
       "location": "Right Torso",
-      "item_type": "Srm6"
+      "item_type": "Srm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3134,

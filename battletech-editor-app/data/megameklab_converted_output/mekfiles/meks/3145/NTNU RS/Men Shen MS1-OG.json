@@ -8,27 +8,37 @@
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium X-Pulse Laser",
       "location": "Left Arm",
-      "item_type": "MediumXPulseLaser"
+      "item_type": "MediumXPulseLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "TSEMP Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Left Torso",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak SRM 4",
       "location": "Right Torso",
-      "item_type": "StreakSrm4"
+      "item_type": "StreakSrm4",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3134,
@@ -172,5 +182,8 @@
       }
     ],
     "total_armor_points": 176
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Men Shen",
+  "omnimech_configuration": "MS1-OG"
 }

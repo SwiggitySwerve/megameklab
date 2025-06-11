@@ -7,7 +7,9 @@
     {
       "item_name": "1 ISLightGaussRifle",
       "location": "Right Torso",
-      "item_type": "1Islightgaussrifle"
+      "item_type": "1Islightgaussrifle",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3056,

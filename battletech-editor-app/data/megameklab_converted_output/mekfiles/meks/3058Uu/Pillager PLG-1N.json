@@ -7,32 +7,44 @@
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Head",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 4",
       "location": "Center Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/20",
       "location": "Right Torso",
-      "item_type": "Autocannon20"
+      "item_type": "Autocannon20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/20",
       "location": "Left Torso",
-      "item_type": "Autocannon20"
+      "item_type": "Autocannon20",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2575,

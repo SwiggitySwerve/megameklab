@@ -6,37 +6,51 @@
     {
       "item_name": "Rotary AC/2",
       "location": "Left Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/2",
       "location": "Right Arm",
-      "item_type": "RotaryAc2"
+      "item_type": "RotaryAc2",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 20",
       "location": "Left Torso",
-      "item_type": "StreakLrm20"
+      "item_type": "StreakLrm20",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 20",
       "location": "Right Torso",
-      "item_type": "StreakLrm20"
+      "item_type": "StreakLrm20",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Right Torso",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "AMS",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3119,
@@ -216,5 +230,8 @@
       }
     ],
     "total_armor_points": 232
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Deimos",
+  "omnimech_configuration": "D"
 }

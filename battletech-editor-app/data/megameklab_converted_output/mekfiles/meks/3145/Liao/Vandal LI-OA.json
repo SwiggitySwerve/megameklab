@@ -6,22 +6,30 @@
     {
       "item_name": "Heavy PPC",
       "location": "Left Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Laser AMS",
       "location": "Right Arm",
-      "item_type": "LaserAms"
+      "item_type": "LaserAms",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "C3 Master Boosted with TAG",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -167,5 +175,8 @@
       }
     ],
     "total_armor_points": 200
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Vandal",
+  "omnimech_configuration": "LI-OA"
 }

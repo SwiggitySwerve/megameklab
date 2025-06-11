@@ -10,7 +10,9 @@
     {
       "item_name": "TAG (Clan)",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3067,

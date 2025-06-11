@@ -10,22 +10,30 @@
     {
       "item_name": "Autocannon/10",
       "location": "Left Arm",
-      "item_type": "Autocannon10"
+      "item_type": "Autocannon10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/10",
       "location": "Right Arm",
-      "item_type": "Autocannon10"
+      "item_type": "Autocannon10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Left Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Medium Laser",
       "location": "Right Torso",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

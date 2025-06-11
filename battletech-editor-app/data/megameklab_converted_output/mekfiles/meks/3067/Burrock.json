@@ -6,22 +6,30 @@
     {
       "item_name": "1 CLUltraAC20",
       "location": "Right Arm",
-      "item_type": "1Clultraac20"
+      "item_type": "1Clultraac20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "2 CLHeavyMediumLaser",
       "location": "Left Arm",
-      "item_type": "2Clheavymediumlaser"
+      "item_type": "2Clheavymediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHeavyMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Clheavymediumlaser"
+      "item_type": "1Clheavymediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "3 CLHeavyMediumLaser",
       "location": "Left Torso",
-      "item_type": "3Clheavymediumlaser"
+      "item_type": "3Clheavymediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3066,

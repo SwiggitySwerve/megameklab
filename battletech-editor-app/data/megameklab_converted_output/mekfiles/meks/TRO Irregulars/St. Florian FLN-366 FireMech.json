@@ -4,42 +4,58 @@
     {
       "item_name": "Fluid Gun",
       "location": "Left Arm",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Left Arm",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Right Arm",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Right Arm",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Left Torso",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Left Torso",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Right Torso",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Fluid Gun",
       "location": "Right Torso",
-      "item_type": "FluidGun"
+      "item_type": "FluidGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3063,

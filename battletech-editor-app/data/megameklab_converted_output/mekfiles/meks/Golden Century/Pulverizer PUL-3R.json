@@ -8,22 +8,30 @@
     {
       "item_name": "Improved Large Laser",
       "location": "Left Arm",
-      "item_type": "ImprovedLargeLaser"
+      "item_type": "ImprovedLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Improved Large Laser",
       "location": "Right Arm",
-      "item_type": "ImprovedLargeLaser"
+      "item_type": "ImprovedLargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 10",
       "location": "Left Torso",
-      "item_type": "Lrm10"
+      "item_type": "Lrm10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Enhanced PPC",
       "location": "Right Torso",
-      "item_type": "EnhancedPpc"
+      "item_type": "EnhancedPpc",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2823,

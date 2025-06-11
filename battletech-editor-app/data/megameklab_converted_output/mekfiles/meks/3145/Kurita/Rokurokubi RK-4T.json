@@ -7,7 +7,9 @@
     {
       "item_name": "LAC/5",
       "location": "Left Arm",
-      "item_type": "Lac5"
+      "item_type": "Lac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3135,

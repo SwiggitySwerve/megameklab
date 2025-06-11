@@ -6,22 +6,30 @@
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Left Torso",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Head",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Small Re-engineered Laser",
       "location": "Head",
-      "item_type": "SmallReEngineeredLaser"
+      "item_type": "SmallReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Small Laser",
       "location": "Right Torso",
-      "item_type": "ErSmallLaser"
+      "item_type": "ErSmallLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3136,

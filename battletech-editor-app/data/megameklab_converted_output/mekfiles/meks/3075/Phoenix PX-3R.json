@@ -4,17 +4,23 @@
     {
       "item_name": "Particle Cannon",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2520,

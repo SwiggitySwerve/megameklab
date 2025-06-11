@@ -8,12 +8,16 @@
     {
       "item_name": "Small Laser",
       "location": "Left Arm",
-      "item_type": "SmallLaser"
+      "item_type": "SmallLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/20",
       "location": "Right Arm",
-      "item_type": "Autocannon20"
+      "item_type": "Autocannon20",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2925,

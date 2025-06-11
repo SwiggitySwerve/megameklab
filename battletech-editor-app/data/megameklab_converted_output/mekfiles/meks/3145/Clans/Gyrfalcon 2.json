@@ -7,22 +7,30 @@
     {
       "item_name": "ER Large Laser",
       "location": "Right Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Left Arm",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Large Laser",
       "location": "Left Arm",
-      "item_type": "ErLargeLaser"
+      "item_type": "ErLargeLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "LB 2-X AC",
       "location": "Right Arm",
-      "item_type": "Lb2XAc"
+      "item_type": "Lb2XAc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3112,

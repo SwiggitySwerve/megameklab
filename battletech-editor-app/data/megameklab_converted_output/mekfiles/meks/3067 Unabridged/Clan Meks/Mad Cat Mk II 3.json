@@ -6,47 +6,65 @@
     {
       "item_name": "1 CLLightActiveProbe",
       "location": "Head",
-      "item_type": "1Cllightactiveprobe"
+      "item_type": "1Cllightactiveprobe",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Left Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Clermediumlaser"
+      "item_type": "1Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLRM10",
       "location": "Right Torso",
-      "item_type": "1Cllrm10"
+      "item_type": "1Cllrm10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLRM10",
       "location": "Left Torso",
-      "item_type": "1Cllrm10"
+      "item_type": "1Cllrm10",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHAG30",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLHAG30",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3082,

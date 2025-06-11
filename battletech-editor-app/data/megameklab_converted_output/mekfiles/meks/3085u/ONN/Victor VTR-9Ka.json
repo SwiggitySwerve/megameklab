@@ -6,12 +6,16 @@
     {
       "item_name": "Medium Laser",
       "location": "Left Arm",
-      "item_type": "MediumLaser"
+      "item_type": "MediumLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/20",
       "location": "Right Torso",
-      "item_type": "Autocannon20"
+      "item_type": "Autocannon20",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3076,

@@ -4,17 +4,23 @@
     {
       "item_name": "Plasma Rifle",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Plasma Rifle",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "LB 20-X AC",
       "location": "Right Arm",
-      "item_type": "Lb20XAc"
+      "item_type": "Lb20XAc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3148,
@@ -161,5 +167,8 @@
       }
     ],
     "total_armor_points": 259
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Jade Phoenix",
+  "omnimech_configuration": "E"
 }

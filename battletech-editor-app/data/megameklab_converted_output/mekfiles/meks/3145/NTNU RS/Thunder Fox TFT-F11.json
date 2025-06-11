@@ -6,7 +6,9 @@
     {
       "item_name": "ER PPC",
       "location": "Head",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3119,

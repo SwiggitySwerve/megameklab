@@ -6,12 +6,16 @@
     {
       "item_name": "HAG/30",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "HAG/30",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -163,5 +167,8 @@
       }
     ],
     "total_armor_points": 163
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Mad Dog",
+  "omnimech_configuration": "E"
 }

@@ -6,17 +6,23 @@
     {
       "item_name": "Heavy PPC",
       "location": "Left Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3069,
@@ -232,5 +238,8 @@
       }
     ],
     "total_armor_points": 200
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Black Hawk-KU",
+  "omnimech_configuration": "BHKU-OF"
 }

@@ -7,67 +7,93 @@
     {
       "item_name": "1 CLMG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMG",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLargePulseLaser",
       "location": "Left Arm",
-      "item_type": "1Cllargepulselaser"
+      "item_type": "1Cllargepulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLMediumPulseLaser",
       "location": "Left Arm",
-      "item_type": "1Clmediumpulselaser"
+      "item_type": "1Clmediumpulselaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERPPC",
       "location": "Right Arm",
-      "item_type": "1Clerppc"
+      "item_type": "1Clerppc",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLRM15",
       "location": "Right Torso",
-      "item_type": "1Cllrm15"
+      "item_type": "1Cllrm15",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLRM15",
       "location": "Left Torso",
-      "item_type": "1Cllrm15"
+      "item_type": "1Cllrm15",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLSRM6",
       "location": "Right Torso",
-      "item_type": "1Clsrm6"
+      "item_type": "1Clsrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLSRM6",
       "location": "Left Torso",
-      "item_type": "1Clsrm6"
+      "item_type": "1Clsrm6",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3053,

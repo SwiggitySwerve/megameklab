@@ -6,32 +6,44 @@
     {
       "item_name": "4 ISMachine Gun",
       "location": "Right Arm",
-      "item_type": "MachineGun"
+      "item_type": "MachineGun",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMGA",
       "location": "Right Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISNarcBeacon",
       "location": "Left Arm",
-      "item_type": "1Isnarcbeacon"
+      "item_type": "1Isnarcbeacon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISSRM6",
       "location": "Right Torso",
-      "item_type": "1Issrm6"
+      "item_type": "1Issrm6",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISGuardianECM",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISBeagleActiveProbe",
       "location": "Center Torso",
-      "item_type": "1Isbeagleactiveprobe"
+      "item_type": "1Isbeagleactiveprobe",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3068,

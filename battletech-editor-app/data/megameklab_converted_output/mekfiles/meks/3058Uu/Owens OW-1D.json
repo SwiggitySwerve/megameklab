@@ -6,17 +6,23 @@
     {
       "item_name": "Narc",
       "location": "Left Arm",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Right Arm",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3056,
@@ -160,5 +166,8 @@
       }
     ],
     "total_armor_points": 112
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Owens",
+  "omnimech_configuration": "OW-1D"
 }

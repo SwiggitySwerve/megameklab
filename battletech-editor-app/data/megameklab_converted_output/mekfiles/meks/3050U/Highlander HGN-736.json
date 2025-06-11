@@ -9,32 +9,44 @@
     {
       "item_name": "1 ISGaussRifle",
       "location": "Right Arm",
-      "item_type": "1Isgaussrifle"
+      "item_type": "1Isgaussrifle",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Right Torso",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISStreakSRM4",
       "location": "Left Arm",
-      "item_type": "1Isstreaksrm4"
+      "item_type": "1Isstreaksrm4",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISLRM20",
       "location": "Left Torso",
-      "item_type": "1Islrm20"
+      "item_type": "1Islrm20",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISImprovedC3CPU",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3060,

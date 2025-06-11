@@ -10,17 +10,23 @@
     {
       "item_name": "Light PPC",
       "location": "Right Arm",
-      "item_type": "LightPpc"
+      "item_type": "LightPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small VSP Laser",
       "location": "Head",
-      "item_type": "SmallVspLaser"
+      "item_type": "SmallVspLaser",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "TAG",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3071,
@@ -166,5 +172,8 @@
       }
     ],
     "total_armor_points": 144
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Preta",
+  "omnimech_configuration": "C"
 }

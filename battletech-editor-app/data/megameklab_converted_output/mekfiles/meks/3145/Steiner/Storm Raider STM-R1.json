@@ -4,7 +4,9 @@
     {
       "item_name": "AC/10",
       "location": "Left Arm",
-      "item_type": "Ac10"
+      "item_type": "Ac10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3097,

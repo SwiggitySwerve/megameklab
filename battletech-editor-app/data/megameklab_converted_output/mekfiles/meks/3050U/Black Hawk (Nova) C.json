@@ -7,17 +7,23 @@
     {
       "item_name": "Gauss Rifle",
       "location": "Left Arm",
-      "item_type": "GaussRifle"
+      "item_type": "GaussRifle",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "SRM 4",
       "location": "Left Torso",
-      "item_type": "Srm4"
+      "item_type": "Srm4",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Small Pulse Laser",
       "location": "Right Torso",
-      "item_type": "SmallPulseLaser"
+      "item_type": "SmallPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 2870,
@@ -208,5 +214,8 @@
       }
     ],
     "total_armor_points": 160
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Nova",
+  "omnimech_configuration": "C"
 }

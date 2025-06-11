@@ -8,37 +8,51 @@
     {
       "item_name": "1 CLLRM20",
       "location": "Right Arm",
-      "item_type": "1Cllrm20"
+      "item_type": "1Cllrm20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "3 CLERMediumLaser",
       "location": "Left Arm",
-      "item_type": "3Clermediumlaser"
+      "item_type": "3Clermediumlaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLERLargeLaser",
       "location": "Right Torso",
-      "item_type": "1Clerlargelaser"
+      "item_type": "1Clerlargelaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLLRM20",
       "location": "Left Torso",
-      "item_type": "1Cllrm20"
+      "item_type": "1Cllrm20",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "1 CLECMSuite",
       "location": "Head",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "2 CLAntiPersonnelPod",
       "location": "Left Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "2 CLAntiPersonnelPod",
       "location": "Right Leg",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 2974,

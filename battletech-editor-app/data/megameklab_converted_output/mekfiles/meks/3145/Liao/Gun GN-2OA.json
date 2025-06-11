@@ -6,7 +6,9 @@
     {
       "item_name": "Heavy PPC",
       "location": "Right Arm",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3134,
@@ -152,5 +154,8 @@
       }
     ],
     "total_armor_points": 56
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "GÃ¹n",
+  "omnimech_configuration": "GN-2OA"
 }

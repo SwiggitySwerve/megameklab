@@ -8,22 +8,30 @@
     {
       "item_name": "ER Medium Laser",
       "location": "Right Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "ER Medium Laser",
       "location": "Left Arm",
-      "item_type": "ErMediumLaser"
+      "item_type": "ErMediumLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/10",
       "location": "Left Arm",
-      "item_type": "Autocannon10"
+      "item_type": "Autocannon10",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Autocannon/10",
       "location": "Right Arm",
-      "item_type": "Autocannon10"
+      "item_type": "Autocannon10",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

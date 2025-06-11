@@ -7,7 +7,9 @@
     {
       "item_name": "RISC Hyper Laser",
       "location": "Right Torso",
-      "item_type": "RiscHyperLaser"
+      "item_type": "RiscHyperLaser",
+      "tech_base": "Clan",
+      "is_omnipod": false
     }
   ],
   "era": 3148,

@@ -6,52 +6,72 @@
     {
       "item_name": "Large Laser",
       "location": "Right Arm",
-      "item_type": "LargeLaser"
+      "item_type": "LargeLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Vehicle Flamer",
       "location": "Right Arm",
-      "item_type": "VehicleFlamer"
+      "item_type": "VehicleFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "Vehicle Flamer",
       "location": "Right Arm",
-      "item_type": "VehicleFlamer"
+      "item_type": "VehicleFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": false
     },
     {
       "item_name": "AC/5",
       "location": "Left Arm",
-      "item_type": "Ac5"
+      "item_type": "Ac5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "LRM 5",
       "location": "Right Torso",
-      "item_type": "Lrm5"
+      "item_type": "Lrm5",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "SRM 2",
       "location": "Left Torso",
-      "item_type": "Srm2"
+      "item_type": "Srm2",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 2462,

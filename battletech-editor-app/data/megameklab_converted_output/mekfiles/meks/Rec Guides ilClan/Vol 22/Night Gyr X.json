@@ -6,27 +6,37 @@
     {
       "item_name": "Rotary AC/5",
       "location": "Left Arm",
-      "item_type": "RotaryAc5"
+      "item_type": "RotaryAc5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Rotary AC/5",
       "location": "Right Arm",
-      "item_type": "RotaryAc5"
+      "item_type": "RotaryAc5",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 10",
       "location": "Left Torso",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 10",
       "location": "Right Torso",
-      "item_type": "StreakLrm10"
+      "item_type": "StreakLrm10",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Micro Pulse Laser",
       "location": "Head",
-      "item_type": "MicroPulseLaser"
+      "item_type": "MicroPulseLaser",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3074,
@@ -176,5 +186,8 @@
       }
     ],
     "total_armor_points": 220
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Night Gyr",
+  "omnimech_configuration": "X"
 }

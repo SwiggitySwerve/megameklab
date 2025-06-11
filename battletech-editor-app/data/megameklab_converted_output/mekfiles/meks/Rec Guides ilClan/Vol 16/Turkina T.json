@@ -6,32 +6,44 @@
     {
       "item_name": "ProtoMech AC/8",
       "location": "Left Arm",
-      "item_type": "ProtomechAc8"
+      "item_type": "ProtomechAc8",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ProtoMech AC/8",
       "location": "Left Arm",
-      "item_type": "ProtomechAc8"
+      "item_type": "ProtomechAc8",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER PPC",
       "location": "Right Arm",
-      "item_type": "ErPpc"
+      "item_type": "ErPpc",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 15",
       "location": "Left Torso",
-      "item_type": "StreakLrm15"
+      "item_type": "StreakLrm15",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "Streak LRM 15",
       "location": "Right Torso",
-      "item_type": "StreakLrm15"
+      "item_type": "StreakLrm15",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3142,
@@ -180,5 +192,8 @@
       }
     ],
     "total_armor_points": 288
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Turkina",
+  "omnimech_configuration": "T"
 }

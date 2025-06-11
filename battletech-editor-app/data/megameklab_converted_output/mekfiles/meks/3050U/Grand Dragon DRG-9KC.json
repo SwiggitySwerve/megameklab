@@ -8,27 +8,37 @@
     {
       "item_name": "1 ISSNPPC",
       "location": "Right Arm",
-      "item_type": "1Issnppc"
+      "item_type": "1Issnppc",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Left Arm",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISC3MasterComputer",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMediumLaser",
       "location": "Left Torso (R)",
-      "item_type": "1Ismediumlaser"
+      "item_type": "1Ismediumlaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "1 ISMML5",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3071,

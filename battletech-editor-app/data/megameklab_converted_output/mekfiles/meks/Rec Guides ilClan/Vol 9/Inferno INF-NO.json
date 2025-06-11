@@ -8,27 +8,37 @@
     {
       "item_name": "MML 5",
       "location": "Left Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Left Torso",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "MML 5",
       "location": "Right Torso",
-      "item_type": "Weapon"
+      "item_type": "Weapon",
+      "tech_base": "IS",
+      "is_omnipod": true
     },
     {
       "item_name": "Medium Re-engineered Laser",
       "location": "Right Torso",
-      "item_type": "MediumReEngineeredLaser"
+      "item_type": "MediumReEngineeredLaser",
+      "tech_base": "IS",
+      "is_omnipod": false
     },
     {
       "item_name": "Heavy PPC",
       "location": "Center Torso",
-      "item_type": "HeavyPpc"
+      "item_type": "HeavyPpc",
+      "tech_base": "IS",
+      "is_omnipod": true
     }
   ],
   "era": 3146,
@@ -206,5 +216,8 @@
       }
     ],
     "total_armor_points": 216
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Inferno",
+  "omnimech_configuration": "INF-NO"
 }

@@ -7,12 +7,16 @@
     {
       "item_name": "ER Flamer",
       "location": "Head",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     },
     {
       "item_name": "ER Flamer",
       "location": "Head",
-      "item_type": "ErFlamer"
+      "item_type": "ErFlamer",
+      "tech_base": "Clan",
+      "is_omnipod": true
     }
   ],
   "era": 3138,
@@ -234,5 +238,8 @@
       }
     ],
     "total_armor_points": 24
-  }
+  },
+  "is_omnimech": true,
+  "omnimech_base_chassis": "Celerity",
+  "omnimech_configuration": "03"
 }

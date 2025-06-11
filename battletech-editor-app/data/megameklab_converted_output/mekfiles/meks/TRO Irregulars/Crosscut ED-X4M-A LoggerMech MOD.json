@@ -4,7 +4,9 @@
     {
       "item_name": "AC/2",
       "location": "Left Arm",
-      "item_type": "Ac2"
+      "item_type": "Ac2",
+      "tech_base": "IS",
+      "is_omnipod": false
     }
   ],
   "era": 3131,
