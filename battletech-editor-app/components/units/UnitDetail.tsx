@@ -5,6 +5,7 @@ import {
   convertWeaponsToLoadout, 
   createMockAvailableEquipment 
 } from '../../utils/unitConverter';
+import MechArmorDiagram from '../common/MechArmorDiagram';
 
 // Lazy load the heavy UnitDisplay component
 const UnitDisplay = lazy(() => import('../common/UnitDisplay'));
@@ -565,47 +566,140 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
     );
   };
 
-  const renderArmorTab = () => (
-    <>
-      <SectionTitle>Armor Distribution ({uData.armor?.type || 'N/A'})</SectionTitle>
-      {(!uData.armor || !uData.armor.locations || uData.armor.locations.length === 0) && <p className="text-sm text-gray-500">Armor information not available.</p>}
-      {uData.armor?.locations && uData.armor.locations.length > 0 && (
-        <div className="overflow-x-auto mt-2">
-          <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Armor</th>
-                {uData.armor?.locations.some(loc => loc.rear_armor_points !== undefined && loc.rear_armor_points > 0) && (
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rear Armor</th>
-                )}
-              </tr>
-            </thead>
-            <tbody className="bg-gray-50 divide-y divide-gray-200">
-              {uData.armor?.locations.map((loc: ArmorLocation) => (
-                <tr key={loc.location}>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{loc.location}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{loc.armor_points}</td>
-                  {uData.armor?.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && (
-                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{loc.rear_armor_points !== null && loc.rear_armor_points !== undefined ? loc.rear_armor_points : '-'}</td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-            {uData.armor?.total_armor_points && (
-                <tfoot>
-                    <tr className="bg-gray-50 font-semibold">
-                        <td className="px-4 py-2 text-sm text-gray-700">Total Armor</td>
-                        <td className="px-4 py-2 text-sm text-gray-700">{uData.armor.total_armor_points}</td>
-                        {uData.armor?.locations.some(l => l.rear_armor_points !== undefined && l.rear_armor_points > 0) && <td className="px-4 py-2"></td>}
-                    </tr>
-                </tfoot>
-            )}
-          </table>
+  const renderArmorTab = () => {
+    if (!uData.armor || !uData.armor.locations || uData.armor.locations.length === 0) {
+      return (
+        <>
+          <SectionTitle>Armor Distribution (N/A)</SectionTitle>
+          <p className="text-sm text-gray-500">Armor information not available.</p>
+        </>
+      );
+    }
+
+    // Determine mech type from unit configuration
+    const getMechType = () => {
+      const config = uData.config?.toLowerCase() || '';
+      if (config.includes('quad')) return 'Quad';
+      if (config.includes('lam')) return 'LAM';
+      return 'Biped'; // Default
+    };
+
+    const mechType = getMechType();
+    const hasRearArmor = uData.armor.locations.some(loc => 
+      loc.rear_armor_points !== undefined && loc.rear_armor_points > 0
+    );
+
+    return (
+      <>
+        <SectionTitle>Armor Distribution ({uData.armor.type || 'N/A'})</SectionTitle>
+        
+        {/* MegaMekLab-style Armor Diagram */}
+        <div className="flex justify-center mb-8">
+          <MechArmorDiagram
+            armorData={uData.armor.locations}
+            mechType={mechType}
+            showRearArmor={hasRearArmor}
+            interactive={true}
+            size="large"
+            theme="light"
+            className="mx-auto"
+          />
         </div>
-      )}
-    </>
-  );
+
+        {/* Detailed Armor Table */}
+        <div className="mt-8">
+          <h4 className="text-lg font-semibold text-gray-700 mb-4">Detailed Armor Values</h4>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg shadow-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Front Armor</th>
+                  {hasRearArmor && (
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rear Armor</th>
+                  )}
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {uData.armor.locations.map((loc: ArmorLocation, index) => {
+                  const frontArmor = loc.armor_points || 0;
+                  const rearArmor = loc.rear_armor_points || 0;
+                  const total = frontArmor + rearArmor;
+                  
+                  return (
+                    <tr key={loc.location} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {loc.location}
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 font-mono">
+                        {frontArmor}
+                      </td>
+                      {hasRearArmor && (
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 font-mono">
+                          {rearArmor > 0 ? rearArmor : '-'}
+                        </td>
+                      )}
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-mono font-semibold">
+                        {total}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+              
+              {/* Total Armor Footer */}
+              <tfoot className="bg-gray-100">
+                <tr className="font-semibold">
+                  <td className="px-4 py-3 text-sm text-gray-900">Total Armor Points</td>
+                  <td className="px-4 py-3 text-sm text-gray-900 font-mono">
+                    {uData.armor.locations.reduce((sum, loc) => sum + (loc.armor_points || 0), 0)}
+                  </td>
+                  {hasRearArmor && (
+                    <td className="px-4 py-3 text-sm text-gray-900 font-mono">
+                      {uData.armor.locations.reduce((sum, loc) => sum + (loc.rear_armor_points || 0), 0)}
+                    </td>
+                  )}
+                  <td className="px-4 py-3 text-sm text-gray-900 font-mono font-bold">
+                    {uData.armor.total_armor_points || 
+                     uData.armor.locations.reduce((sum, loc) => 
+                       sum + (loc.armor_points || 0) + (loc.rear_armor_points || 0), 0
+                     )}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        {/* Armor Summary Statistics */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h5 className="font-semibold text-blue-800">Armor Type</h5>
+            <p className="text-blue-700">{uData.armor.type || 'Standard'}</p>
+          </div>
+          
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <h5 className="font-semibold text-green-800">Total Protection</h5>
+            <p className="text-green-700 font-mono text-lg">
+              {uData.armor.total_armor_points || 
+               uData.armor.locations.reduce((sum, loc) => 
+                 sum + (loc.armor_points || 0) + (loc.rear_armor_points || 0), 0
+               )} points
+            </p>
+          </div>
+          
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <h5 className="font-semibold text-purple-800">Coverage</h5>
+            <p className="text-purple-700">
+              {uData.armor.locations.length} locations
+              {hasRearArmor && <span className="block text-sm">Includes rear armor</span>}
+            </p>
+          </div>
+        </div>
+      </>
+    );
+  };
 
   const renderFluffTab = () => (
     <>
