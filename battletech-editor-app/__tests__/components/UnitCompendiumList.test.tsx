@@ -1,9 +1,17 @@
 // battletech-editor-app/__tests__/components/UnitCompendiumList.test.tsx
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import UnitCompendiumList from '../../components/compendium/UnitCompendiumList';
 import { UnitFilterState } from '../../components/compendium/UnitFilters';
+
+// Mock useRouter
+const mockPush = jest.fn();
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
 
 // Mock fetch
 global.fetch = jest.fn();
@@ -229,5 +237,37 @@ describe('UnitCompendiumList', () => {
       expect(secondCall).toContain('unit_type=vehicles');
       expect(secondCall).not.toContain('unit_type=meks');
     });
+  });
+
+  it('navigates to unit detail page when clicking on a unit row', async () => {
+    render(<UnitCompendiumList filters={mockFilters} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Atlas')).toBeInTheDocument();
+    });
+
+    // Click on the Atlas row
+    const atlasRow = screen.getByText('Atlas').closest('tr');
+    expect(atlasRow).toBeInTheDocument();
+    
+    fireEvent.click(atlasRow!);
+    
+    expect(mockPush).toHaveBeenCalledWith('/units/1');
+  });
+
+  it('navigates to correct unit detail page for different units', async () => {
+    render(<UnitCompendiumList filters={mockFilters} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Locust')).toBeInTheDocument();
+    });
+
+    // Click on the Locust row
+    const locustRow = screen.getByText('Locust').closest('tr');
+    expect(locustRow).toBeInTheDocument();
+    
+    fireEvent.click(locustRow!);
+    
+    expect(mockPush).toHaveBeenCalledWith('/units/2');
   });
 });

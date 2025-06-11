@@ -16,8 +16,12 @@ const Layout: React.FC<LayoutProps> = ({
   isSidebarCollapsed,
   secondarySidebar,
 }) => {
-  // Determine margin based on sidebar state for md screens and up
-  const contentAndFooterMargin = isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64';
+  // Determine margin based on sidebar presence and state for md screens and up
+  // Only apply margins when sidebar components are actually provided
+  const hasSidebar = !!sidebarComponent;
+  const contentAndFooterMargin = hasSidebar 
+    ? (isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64')
+    : 'ml-0';
 
   return (
     <>

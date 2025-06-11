@@ -110,6 +110,8 @@ export interface ArmorLocation {
   rear_armor_points?: number;
 }
 
+export type WeaponClass = 'Energy' | 'Ballistic' | 'Missile' | 'Equipment' | 'Physical' | 'Artillery';
+
 export interface WeaponOrEquipmentItem {
   item_name: string;
   item_type: string; // 'weapon', 'ammo', 'equipment'
@@ -127,6 +129,7 @@ export interface WeaponOrEquipmentItem {
   ammo_per_ton?: number | string;
   tons?: number | string;
   crits?: number | string;
+  weapon_class?: WeaponClass; // For categorization and grouping
 }
 
 export interface CriticalSlotLocation {

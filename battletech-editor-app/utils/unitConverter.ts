@@ -2,78 +2,121 @@ import { FullUnit, WeaponOrEquipmentItem } from '../types';
 import { CustomizableUnit, UnitEquipmentItem, EquipmentItem } from '../types/customizer';
 
 /**
+ * Safe value extraction with validation
+ */
+const safeGetValue = (primary: any, fallback: any, defaultValue: any = null) => {
+  if (primary !== undefined && primary !== null && primary !== '') return primary;
+  if (fallback !== undefined && fallback !== null && fallback !== '') return fallback;
+  return defaultValue;
+};
+
+/**
+ * Safe array access with validation
+ */
+const safeGetArray = (value: any): any[] => {
+  return Array.isArray(value) ? value : [];
+};
+
+/**
  * Converts a FullUnit from the compendium to a CustomizableUnit for display analysis
  */
 export function convertFullUnitToCustomizable(fullUnit: FullUnit): CustomizableUnit {
+  if (!fullUnit) {
+    throw new Error('Cannot convert null or undefined unit');
+  }
+
   const uData = fullUnit.data || {};
   
-  return {
-    id: fullUnit.id,
-    chassis: fullUnit.chassis || uData.chassis || '',
-    model: fullUnit.model || uData.model || '',
-    type: 'BattleMech', // Default for now, could be determined from unit data
-    mass: fullUnit.mass || uData.mass || 0,
-    data: {
-      chassis: fullUnit.chassis || uData.chassis || '',
-      model: fullUnit.model || uData.model || '',
-      mass: fullUnit.mass || uData.mass || 0,
-      tech_base: uData.tech_base || fullUnit.tech_base || 'Inner Sphere',
-      era: uData.era || fullUnit.era || '',
-      type: 'BattleMech',
-      config: uData.config || 'Biped',
-      
-      movement: uData.movement ? {
-        walk_mp: uData.movement.walk_mp || 0,
-        run_mp: uData.movement.run_mp || (uData.movement.walk_mp || 0) * 1.5,
-        jump_mp: uData.movement.jump_mp || 0
-      } : undefined,
-      
-      armor: uData.armor ? {
-        type: uData.armor.type || 'Standard',
-        locations: uData.armor.locations?.map(loc => ({
-          location: loc.location,
-          armor_points: loc.armor_points,
-          rear_armor_points: loc.rear_armor_points
-        })) || []
-      } : undefined,
-      
-      engine: uData.engine ? {
-        type: uData.engine.type || 'Fusion',
-        rating: uData.engine.rating || 0
-      } : undefined,
-      
-      structure: uData.structure ? {
-        type: uData.structure.type || 'Standard'
-      } : undefined,
-      
-      heat_sinks: uData.heat_sinks ? {
-        type: uData.heat_sinks.type || 'Single',
-        count: uData.heat_sinks.count || 10
-      } : undefined,
-      
-      weapons_and_equipment: uData.weapons_and_equipment?.map((item, index) => ({
-        item_name: item.item_name,
-        item_type: item.item_type,
-        location: item.location,
-        rear_facing: item.rear_facing || false,
-        turret_mounted: item.turret_mounted || false
-      })) || [],
-      
-      criticals: uData.criticals?.map(crit => ({
-        location: crit.location,
-        slots: crit.slots || []
-      })) || [],
-      
-      // Additional fields that might be useful for analysis
-      role: typeof uData.role === 'object' ? uData.role?.name : uData.role || fullUnit.role,
-      source: uData.source || fullUnit.source || '',
-      mul_id: uData.mul_id || fullUnit.mul_id,
-      quirks: uData.quirks?.map(quirk => 
-        typeof quirk === 'string' ? quirk : quirk.name
-      ) || [],
-      fluff_text: uData.fluff_text
-    }
-  };
+  // Safe extraction of core fields
+  const chassis = safeGetValue(uData.chassis, fullUnit.chassis, 'Unknown Chassis');
+  const model = safeGetValue(uData.model, fullUnit.model, 'Unknown Model');
+  const mass = parseInt(String(safeGetValue(uData.mass, fullUnit.mass, 0))) || 0;
+  const tech_base = safeGetValue(uData.tech_base, fullUnit.tech_base, 'Inner Sphere');
+  const era = safeGetValue(uData.era, fullUnit.era, 'Unknown');
+  
+  // Handle role extraction safely
+  let role = null;
+  if (typeof uData.role === 'object' && uData.role?.name) {
+    role = uData.role.name;
+  } else if (typeof uData.role === 'string') {
+    role = uData.role;
+  } else if (typeof fullUnit.role === 'string') {
+    role = fullUnit.role;
+  }
+
+  try {
+    return {
+      id: fullUnit.id || 'unknown',
+      chassis,
+      model,
+      type: 'BattleMech', // Default for now, could be determined from unit data
+      mass,
+      data: {
+        chassis,
+        model,
+        mass,
+        tech_base,
+        era,
+        type: 'BattleMech',
+        config: safeGetValue(uData.config, null, 'Biped'),
+        
+        movement: uData.movement ? {
+          walk_mp: parseInt(String(uData.movement.walk_mp || 0)) || 0,
+          run_mp: parseInt(String(uData.movement.run_mp || (uData.movement.walk_mp || 0) * 1.5)) || 0,
+          jump_mp: parseInt(String(uData.movement.jump_mp || 0)) || 0
+        } : undefined,
+        
+        armor: uData.armor ? {
+          type: safeGetValue(uData.armor.type, null, 'Standard'),
+          locations: safeGetArray(uData.armor.locations).map(loc => ({
+            location: safeGetValue(loc?.location, null, 'Unknown'),
+            armor_points: parseInt(String(loc?.armor_points || 0)) || 0,
+            rear_armor_points: loc?.rear_armor_points ? parseInt(String(loc.rear_armor_points)) : undefined
+          }))
+        } : undefined,
+        
+        engine: uData.engine ? {
+          type: safeGetValue(uData.engine.type, null, 'Fusion'),
+          rating: parseInt(String(uData.engine.rating || 0)) || 0
+        } : undefined,
+        
+        structure: uData.structure ? {
+          type: safeGetValue(uData.structure.type, null, 'Standard')
+        } : undefined,
+        
+        heat_sinks: uData.heat_sinks ? {
+          type: safeGetValue(uData.heat_sinks.type, null, 'Single'),
+          count: parseInt(String(uData.heat_sinks.count || 10)) || 10
+        } : undefined,
+        
+        weapons_and_equipment: safeGetArray(uData.weapons_and_equipment).map((item, index) => ({
+          item_name: safeGetValue(item?.item_name, null, `Unknown Item ${index + 1}`),
+          item_type: safeGetValue(item?.item_type, null, 'equipment'),
+          location: safeGetValue(item?.location, null, 'Unknown'),
+          rear_facing: Boolean(item?.rear_facing),
+          turret_mounted: Boolean(item?.turret_mounted)
+        })),
+        
+        criticals: safeGetArray(uData.criticals).map(crit => ({
+          location: safeGetValue(crit?.location, null, 'Unknown'),
+          slots: safeGetArray(crit?.slots)
+        })),
+        
+        // Additional fields that might be useful for analysis
+        role,
+        source: safeGetValue(uData.source, fullUnit.source, 'Unknown'),
+        mul_id: safeGetValue(uData.mul_id, fullUnit.mul_id, null),
+        quirks: safeGetArray(uData.quirks).map(quirk => 
+          typeof quirk === 'string' ? quirk : (quirk?.name || 'Unknown Quirk')
+        ),
+        fluff_text: uData.fluff_text || {}
+      }
+    };
+  } catch (error) {
+    console.error('Error in convertFullUnitToCustomizable:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to convert unit ${chassis} ${model}: ${errorMessage}`);
+  }
 }
 
 /**

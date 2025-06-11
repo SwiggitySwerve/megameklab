@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { UnitFilterState } from './UnitFilters';
 
 interface Unit {
@@ -32,6 +33,7 @@ interface UnitCompendiumListProps {
 }
 
 const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, selectedCategory }) => {
+  const router = useRouter();
   const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,6 +102,10 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
 
   const handlePageChange = (page: number) => {
     fetchUnits(page);
+  };
+
+  const handleUnitClick = (unitId: number) => {
+    router.push(`/units/${unitId}`);
   };
 
   const getValidationBadge = (status?: string) => {
@@ -239,7 +245,11 @@ const UnitCompendiumList: React.FC<UnitCompendiumListProps> = ({ filters, select
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {units.map((unit) => (
-                  <tr key={unit.id} className="hover:bg-gray-50">
+                  <tr 
+                    key={unit.id} 
+                    className="hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+                    onClick={() => handleUnitClick(unit.id)}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {unit.chassis}
                     </td>
