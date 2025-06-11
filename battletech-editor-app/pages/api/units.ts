@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3';
 import { Database } from 'sqlite';
 import { openDatabase, safeJsonParse } from '../../services/db';
 import { withErrorHandling } from '../../middleware/errorMiddleware';
-
+import { validateUnit } from '../../utils/unitValidation';
 
 interface Unit {
   id: any;
@@ -16,18 +16,23 @@ interface Unit {
   source: any;
   data: any;
   type: any;
+  is_omnimech?: boolean;
+  omnimech_base_chassis?: string;
+  omnimech_configuration?: string;
+  config?: string;
+  validation_status?: 'valid' | 'warning' | 'error';
+  validation_messages?: string[];
 }
 
 interface Quirk {
   Name: string;
-  [key: string]: any; // for other properties if any
+  [key: string]: any;
 }
 
 interface UnitData {
   Quirks?: Quirk[];
-  [key: string]: any; // for other properties in data
+  [key: string]: any;
 }
-
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -35,16 +40,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     page = 1,
     limit = 10,
     q,
-    techBase, // Fixed parameter name
+    techBase,
     mass_gte,
     mass_lte,
     has_quirk,
     unit_type,
-    weight_class, // Added weight_class
-    startYear, // Added startYear
-    endYear, // Added endYear
+    weight_class,
+    startYear,
+    endYear,
     sortBy,
-    sortOrder = 'ASC'
+    sortOrder = 'ASC',
+    isOmnimech,
+    config
   } = req.query as {
     id?: string | string[];
     page?: string | string[] | number;
@@ -60,30 +67,51 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     endYear?: string | string[];
     sortBy?: string | string[];
     sortOrder?: string | string[];
+    isOmnimech?: string | string[];
+    config?: string | string[];
   };
 
   let db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
-  let mainQueryStringForLog: string = ''; // For logging on error
-  let finalQueryParamsForLog: any[] = []; // For logging on error
+  let mainQueryStringForLog: string = '';
+  let finalQueryParamsForLog: any[] = [];
 
   try {
     db = await openDatabase();
 
-    if (id) {      const result: Unit | undefined = await db.get<Unit>(
-        'SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type FROM units WHERE id = ?',
+    if (id) {
+      const result: Unit | undefined = await db.get<Unit>(
+        'SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type, is_omnimech, omnimech_base_chassis, omnimech_configuration, config FROM units WHERE id = ?',
         [id]
-      );      if (!result) {
+      );
+
+      if (!result) {
         return res.status(404).json({ message: 'Unit not found' });
-      }      // Parse the data field if it's a string
+      }
+
+      // Parse the data field if it's a string
       if (result.data && typeof result.data === 'string') {
         result.data = safeJsonParse(result.data, {});
       }
+
+      // Add validation status
+      try {
+        const validationResult = validateUnit(result.data);
+        result.validation_status = validationResult.valid ? 'valid' : 
+          (validationResult.errors.length > 0 ? 'error' : 'warning');
+        result.validation_messages = [...validationResult.errors, ...validationResult.warnings];
+      } catch (validationError) {
+        console.warn('Validation failed for unit:', result.id, validationError);
+        result.validation_status = 'error';
+        result.validation_messages = ['Validation system error'];
+      }
+
       return res.status(200).json(result);
     } else {
       const mainQueryFrom: string = 'FROM units';
       const whereConditions: string[] = [];
-      const queryParams: any[] = [];      if (q) {
-        // SQLite LIKE is case-insensitive by default for ASCII. For broader Unicode, use LOWER()
+      const queryParams: any[] = [];
+
+      if (q) {
         whereConditions.push(`(LOWER(chassis) LIKE LOWER(?) OR LOWER(model) LIKE LOWER(?))`);
         queryParams.push(`%${typeof q === 'string' ? q : ''}%`, `%${typeof q === 'string' ? q : ''}%`);
       }
@@ -118,35 +146,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           queryParams.push(selectedWeightClass.lte);
         }
       }
+      if (isOmnimech !== undefined) {
+        whereConditions.push(`is_omnimech = ?`);
+        queryParams.push(isOmnimech === 'true' ? 1 : 0);
+      }
+      if (config) {
+        whereConditions.push(`config = ?`);
+        queryParams.push(config);
+      }
       if (startYear) {
-        // Filter units that were available at or before the start year
-        // Assuming units have an 'available_date' or similar field
         whereConditions.push(`available_year >= ?`);
         queryParams.push(parseInt(startYear as string, 10));
       }
       if (endYear) {
-        // Filter units that were available at or before the end year
         whereConditions.push(`available_year <= ?`);
         queryParams.push(parseInt(endYear as string, 10));
       }
 
       // Quirk filter will be applied after fetching initial data if present
       const applyQuirkFilterLater: boolean = !!has_quirk;
-      const queryParamsForCount: any[] = [...queryParams]; // Params for count query before quirk filter
+      const queryParamsForCount: any[] = [...queryParams];
       const whereClauseForCount: string = whereConditions.length > 0 ? ' WHERE ' + whereConditions.join(' AND ') : '';
 
-      // If not applying quirk filter later, use these params for main query too
       const queryParamsForMain: any[] = [...queryParams];
       const whereClauseForMain: string = whereClauseForCount;
 
-      // Count query (potentially without quirk filter if applied later)
+      // Count query
       const countQueryString: string = `SELECT COUNT(*) AS total ${mainQueryFrom}${whereClauseForCount}`;
-      mainQueryStringForLog = countQueryString; // Log this version
+      mainQueryStringForLog = countQueryString;
       finalQueryParamsForLog = queryParamsForCount;
       const totalResult: { total: any } | undefined = await db.get(countQueryString, queryParamsForCount);
-      let totalItems: number = parseInt(totalResult?.total, 10) || 0;      // Main query construction
-      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type ${mainQueryFrom}${whereClauseForMain}`;
-      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'tech_base', 'era', 'unit_type'];
+      let totalItems: number = parseInt(totalResult?.total, 10) || 0;
+
+      // Main query construction
+      let mainQueryString: string = `SELECT id, chassis, model, mass_tons AS mass, tech_base, era, source_book AS source, data, unit_type AS type, is_omnimech, omnimech_base_chassis, omnimech_configuration, config ${mainQueryFrom}${whereClauseForMain}`;
+      const validSortColumns: string[] = ['id', 'chassis', 'model', 'mass_tons', 'tech_base', 'era', 'unit_type', 'is_omnimech', 'config'];
       const effectiveSortBy: string = validSortColumns.includes(sortBy as string) ? sortBy as string : 'id';
       const effectiveSortOrder: string = (sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
       mainQueryString += ` ORDER BY "${effectiveSortBy}" ${effectiveSortOrder}`;
@@ -160,17 +194,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         offsetValue = (pageValue - 1) * limitValue;
         mainQueryString += ` LIMIT ? OFFSET ?`;
         queryParamsForMain.push(limitValue, offsetValue);
-        mainQueryStringForLog = mainQueryString; // Log this version
+        mainQueryStringForLog = mainQueryString;
         finalQueryParamsForLog = queryParamsForMain;
         items = await db.all<Unit[]>(mainQueryString, queryParamsForMain);
       } else {
         mainQueryStringForLog = mainQueryString;
         finalQueryParamsForLog = queryParamsForMain;
         items = await db.all<Unit[]>(mainQueryString, queryParamsForMain);
-      }      items = items.map(row => {
+      }
+
+      // Process results with validation
+      items = items.map(row => {
         if (row.data && typeof row.data === 'string') {
           row.data = safeJsonParse(row.data, {} as UnitData);
         }
+        
+        // Add validation status for each unit
+        try {
+          const validationResult = validateUnit(row.data);
+          row.validation_status = validationResult.valid ? 'valid' : 
+            (validationResult.errors.length > 0 ? 'error' : 'warning');
+          row.validation_messages = [...validationResult.errors, ...validationResult.warnings];
+        } catch (validationError) {
+          row.validation_status = 'error';
+          row.validation_messages = ['Validation system error'];
+        }
+        
         return row;
       });
 

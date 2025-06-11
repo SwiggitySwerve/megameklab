@@ -22,7 +22,11 @@
       "type": ["integer", "string"],
       "description": "The rules complexity level associated with the unit (e.g., 1 for Introductory, 2 for Standard, 3 for Advanced). Often part of a more detailed 'type' field in source files."
     },
-    "role": { "type": "string", "description": "The intended combat role of the unit (e.g., Striker, Missile Boat, Juggernaut)." },
+    "role": { 
+      "type": "string", 
+      "enum": ["Sniper", "Juggernaut", "Brawler", "Skirmisher", "Scout", "Missile Boat", "Striker", "Fire Support", "Command", "Anti-Aircraft", "Assault", "Support"],
+      "description": "The intended combat role of the unit." 
+    },
     "mass": { "type": "number", "description": "Tonnage of the unit." },
     "engine": {
       "type": "object",

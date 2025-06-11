@@ -77,6 +77,38 @@ def populate_equipment(conn):
             item_type = item.get('type', 'Unknown')
             category = item.get('category', 'Unknown')
             tech_base = item.get('tech_base', 'Unknown')
+            
+            # Derive tech_base from naming patterns if not specified
+            if tech_base == 'Unknown' or not tech_base:
+                item_name_lower = (item.get('name', '') or internal_id or '').lower()
+                
+                # Clan tech patterns
+                if (item_name_lower.startswith('cl') or 
+                    item_name_lower.startswith('clan') or
+                    'clan' in item_name_lower or
+                    item_name_lower.startswith('c ') or
+                    'streak' in item_name_lower or
+                    ('er ' in item_name_lower and ('laser' in item_name_lower or 'ppc' in item_name_lower)) or
+                    'ultra' in item_name_lower):
+                    tech_base = 'Clan'
+                
+                # Inner Sphere tech patterns  
+                elif (item_name_lower.startswith('is') or
+                      'inner sphere' in item_name_lower or
+                      'autocannon' in item_name_lower or
+                      'standard' in item_name_lower or
+                      'lrm' in item_name_lower or
+                      'srm' in item_name_lower or
+                      'machine gun' in item_name_lower):
+                    tech_base = 'IS'
+                
+                # Default fallback based on more patterns
+                elif any(clan_indicator in item_name_lower for clan_indicator in [
+                    'gauss', 'pulse', 'lbx', 'artemis', 'narc', 'tag'
+                ]):
+                    tech_base = 'Clan'
+                else:
+                    tech_base = 'IS'  # Default to IS for unknown items
 
             if not internal_id or not name:
                 print(f"Skipping equipment item due to missing internal_id or name: {item.get('name', 'Unnamed')}")
@@ -151,8 +183,8 @@ def populate_units(conn):
 
     sql = """
     INSERT OR REPLACE INTO units
-        (original_file_path, unit_type, chassis, model, mul_id, tech_base, era, mass_tons, role, source_book, data, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (original_file_path, unit_type, chassis, model, mul_id, tech_base, era, mass_tons, role, source_book, is_omnimech, omnimech_base_chassis, omnimech_configuration, config, data, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     """
 
     for dirpath, _, filenames in os.walk(MEKFILES_INPUT_DIR):
@@ -199,8 +231,22 @@ def populate_units(conn):
                             model = ' '.join(model_parts)
                     mul_id = str(unit_json_data.get('mul_id', '')) if unit_json_data.get('mul_id') is not None else None
 
+                    # Handle tech base with proper validation
                     tech_base = unit_json_data.get('techbase', unit_json_data.get('derived_tech_base', 'Unknown'))
                     if not isinstance(tech_base, str): tech_base = str(tech_base)
+                    
+                    # Normalize tech base to match schema constraints
+                    tech_base_mapping = {
+                        'Inner Sphere': 'Inner Sphere',
+                        'Clan': 'Clan',
+                        'Mixed (IS Chassis)': 'Mixed (IS Chassis)',
+                        'Mixed (Clan Chassis)': 'Mixed (Clan Chassis)',
+                        'Mixed': 'Mixed (IS Chassis)',  # Default mixed to IS chassis
+                        'IS': 'Inner Sphere',
+                        'C': 'Clan',
+                        'Unknown': 'Inner Sphere'  # Default unknown to Inner Sphere
+                    }
+                    tech_base = tech_base_mapping.get(tech_base, 'Inner Sphere')
 
                     era_raw = unit_json_data.get('era', unit_json_data.get('derived_era', 'Unknown'))
                     era = str(era_raw)
@@ -217,9 +263,45 @@ def populate_units(conn):
                     source_book = unit_json_data.get('source', unit_json_data.get('source_book'))
                     if not isinstance(source_book, str) and source_book is not None: source_book = str(source_book)
 
+                    # Extract OmniMech information
+                    config = unit_json_data.get('Config', unit_json_data.get('config', ''))
+                    if not isinstance(config, str): config = str(config) if config else ''
+                    
+                    # Determine if this is an OmniMech
+                    is_omnimech = 'Omnimech' in config or 'OmniMech' in config or unit_json_data.get('is_omnimech', False)
+                    
+                    # Extract OmniMech base chassis and configuration
+                    omnimech_base_chassis = None
+                    omnimech_configuration = None
+                    
+                    if is_omnimech:
+                        # Try to extract base chassis (everything before configuration letter/designation)
+                        omnimech_base_chassis = chassis
+                        
+                        # Try to extract configuration from model field or filename
+                        if model and any(variant in model.upper() for variant in ['PRIME', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']):
+                            # Look for standard OmniMech configuration patterns
+                            import re
+                            config_match = re.search(r'\b(Prime|[A-H])\b', model, re.IGNORECASE)
+                            if config_match:
+                                omnimech_configuration = config_match.group(1).title()
+                            elif 'Prime' in model:
+                                omnimech_configuration = 'Prime'
+                        
+                        # If no configuration found in model, check for it in chassis
+                        if not omnimech_configuration and chassis:
+                            import re
+                            config_match = re.search(r'\b(Prime|[A-H])\b', chassis, re.IGNORECASE)
+                            if config_match:
+                                omnimech_configuration = config_match.group(1).title()
+                                # Remove configuration from base chassis name
+                                omnimech_base_chassis = re.sub(r'\s*(Prime|[A-H])\b', '', chassis, flags=re.IGNORECASE).strip()
+
                     units_to_insert.append((
                         original_file_rel_path, unit_type, chassis, model, mul_id,
-                        tech_base, era, mass_tons, role, source_book, json.dumps(unit_json_data)
+                        tech_base, era, mass_tons, role, source_book,
+                        is_omnimech, omnimech_base_chassis, omnimech_configuration, config,
+                        json.dumps(unit_json_data)
                     ))
 
                     if len(units_to_insert) >= BATCH_SIZE:

@@ -45,10 +45,9 @@ const CompendiumPage: React.FC = () => {
               </div>
               <div className="md:w-3/4">
                 <UnitFilters onFiltersApply={handleUnitFiltersApply} />
-                <UnitCompendiumList
-                  filters={currentUnitFilters}
-                  selectedCategory={selectedUnitCategory}
-                />
+            <UnitCompendiumList 
+              filters={currentUnitFilters} 
+            />
               </div>
             </div>
           </section>

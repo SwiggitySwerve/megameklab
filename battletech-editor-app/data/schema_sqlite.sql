@@ -11,11 +11,17 @@ CREATE TABLE IF NOT EXISTS units (
     chassis TEXT,
     model TEXT,
     mul_id TEXT, -- Master Unit List ID, can be string or number
-    tech_base TEXT, -- e.g., 'Inner Sphere', 'Clan', 'Mixed'
+    tech_base TEXT CHECK (tech_base IN ('Inner Sphere', 'Clan', 'Mixed (IS Chassis)', 'Mixed (Clan Chassis)')) NOT NULL, -- Enforced enum for tech base
     era TEXT, -- e.g., 'Succession Wars', 'Clan Invasion', 'Jihad'
     mass_tons INTEGER, -- Stored as integer for direct comparison, actual value might have decimals in source
     role TEXT, -- e.g., 'Striker', 'Missile Boat', 'Scout'
     source_book TEXT, -- Primary sourcebook for the unit variant
+    
+    -- OmniMech support fields
+    is_omnimech BOOLEAN DEFAULT FALSE, -- Whether this unit is an OmniMech
+    omnimech_base_chassis TEXT, -- Base chassis name for OmniMech variants
+    omnimech_configuration TEXT, -- Configuration variant (Prime, A, B, C, etc.)
+    config TEXT, -- Unit configuration (Biped, Quad, etc.)
 
     -- Full unit data conforming to its specific JSON schema
     data TEXT NOT NULL,
@@ -32,6 +38,9 @@ CREATE INDEX IF NOT EXISTS idx_units_tech_base ON units(tech_base);
 CREATE INDEX IF NOT EXISTS idx_units_era ON units(era);
 CREATE INDEX IF NOT EXISTS idx_units_mass_tons ON units(mass_tons);
 CREATE INDEX IF NOT EXISTS idx_units_role ON units(role);
+CREATE INDEX IF NOT EXISTS idx_units_is_omnimech ON units(is_omnimech);
+CREATE INDEX IF NOT EXISTS idx_units_omnimech_base_chassis ON units(omnimech_base_chassis);
+CREATE INDEX IF NOT EXISTS idx_units_config ON units(config);
 CREATE INDEX IF NOT EXISTS idx_units_data ON units(data);
 
 -- =================================================================
@@ -44,7 +53,7 @@ CREATE TABLE IF NOT EXISTS equipment (
     name TEXT NOT NULL, -- Common name, e.g., "Large Laser", "LRM 15 Ammo (24)"
     type TEXT, -- e.g., 'Weapon', 'Ammo', 'Equipment', 'HeatSink' (from equipmentSchema.json)
     category TEXT, -- e.g., 'EnergyWeapon', 'BallisticWeapon', 'Ammunition' (from equipmentSchema.json)
-    tech_base TEXT, -- e.g., 'Inner Sphere', 'Clan', 'Mixed'
+    tech_base TEXT CHECK (tech_base IN ('IS', 'Clan', 'Mixed')) NOT NULL, -- Enforced enum for equipment tech base
 
     -- Full equipment data conforming to equipmentSchema.json
     data TEXT NOT NULL,

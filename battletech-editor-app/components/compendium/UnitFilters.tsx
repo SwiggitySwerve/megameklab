@@ -1,5 +1,6 @@
 // battletech-editor-app/components/compendium/UnitFilters.tsx
 import React, { useState, useEffect, useCallback } from 'react';
+import { TechBase, UnitConfig, UnitRole } from '../../types';
 import { getMetadata } from '../../services/mockApiService';
 
 export interface UnitFilterState {
@@ -9,11 +10,47 @@ export interface UnitFilterState {
   hasQuirk?: string;
   startYear?: string;
   endYear?: string;
+  isOmnimech?: boolean;
+  config?: string;
+  role?: string;
 }
 
 interface UnitFiltersProps {
   onFiltersApply: (filters: UnitFilterState) => void;
 }
+
+// Define constants using our enum types
+const TECH_BASES: TechBase[] = [
+  'Inner Sphere',
+  'Clan', 
+  'Mixed (IS Chassis)',
+  'Mixed (Clan Chassis)'
+];
+
+const UNIT_CONFIGS: UnitConfig[] = [
+  'Biped',
+  'Biped Omnimech',
+  'Quad',
+  'Quad Omnimech', 
+  'Tripod',
+  'Tripod Omnimech',
+  'LAM'
+];
+
+const UNIT_ROLES: UnitRole[] = [
+  'Sniper',
+  'Juggernaut',
+  'Brawler',
+  'Skirmisher',
+  'Scout',
+  'Missile Boat',
+  'Striker',
+  'Fire Support',
+  'Command',
+  'Anti-Aircraft',
+  'Assault',
+  'Support'
+];
 
 const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,9 +59,11 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
   const [hasQuirk, setHasQuirk] = useState('');
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
+  const [isOmnimech, setIsOmnimech] = useState<boolean | undefined>(undefined);
+  const [config, setConfig] = useState('');
+  const [role, setRole] = useState('');
 
   const [weightClasses, setWeightClasses] = useState<string[]>([]);
-  const [techBases, setTechBases] = useState<string[]>([]);
   const [quirks, setQuirks] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -34,14 +73,12 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [wcData, tbData, quirkData] = await Promise.all([
+        const [wcData, quirkData] = await Promise.all([
           getMetadata('/mockdata/mockUnitWeightClasses.json'),
-          getMetadata('/mockdata/mockUnitTechBases.json'),
           getMetadata('/mockdata/mockUnitQuirks.json'),
         ]);
 
         setWeightClasses(wcData);
-        setTechBases(tbData);
         setQuirks(quirkData);
         setError(null);
       } catch (e) {
@@ -106,18 +143,58 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
     const delay = searchTerm.length > 0 && searchTerm.length < 3 ? 0 : 500;
     
     const timeout = setTimeout(() => {
-      onFiltersApply({ searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
-      console.log('Auto-applying filters:', { searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
+      onFiltersApply({ 
+        searchTerm, 
+        weightClass, 
+        techBase, 
+        hasQuirk, 
+        startYear, 
+        endYear,
+        isOmnimech,
+        config,
+        role
+      });
+      console.log('Auto-applying filters:', { 
+        searchTerm, 
+        weightClass, 
+        techBase, 
+        hasQuirk, 
+        startYear, 
+        endYear,
+        isOmnimech,
+        config,
+        role 
+      });
     }, delay);
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [searchTerm, weightClass, techBase, hasQuirk, startYear, endYear]);
+  }, [searchTerm, weightClass, techBase, hasQuirk, startYear, endYear, isOmnimech, config, role]);
 
   const handleApply = () => {
-    onFiltersApply({ searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
-    console.log('Manually applying filters:', { searchTerm, weightClass, techBase, hasQuirk, startYear, endYear });
+    onFiltersApply({ 
+      searchTerm, 
+      weightClass, 
+      techBase, 
+      hasQuirk, 
+      startYear, 
+      endYear,
+      isOmnimech,
+      config,
+      role
+    });
+    console.log('Manually applying filters:', { 
+      searchTerm, 
+      weightClass, 
+      techBase, 
+      hasQuirk, 
+      startYear, 
+      endYear,
+      isOmnimech,
+      config,
+      role 
+    });
   };
 
   const handleClear = () => {
@@ -127,7 +204,20 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
     setHasQuirk('');
     setStartYear('');
     setEndYear('');
-    onFiltersApply({ searchTerm: '', weightClass: '', techBase: '', hasQuirk: '', startYear: '', endYear: '' });
+    setIsOmnimech(undefined);
+    setConfig('');
+    setRole('');
+    onFiltersApply({ 
+      searchTerm: '', 
+      weightClass: '', 
+      techBase: '', 
+      hasQuirk: '', 
+      startYear: '', 
+      endYear: '',
+      isOmnimech: undefined,
+      config: '',
+      role: ''
+    });
     console.log('Cleared Unit Filters');
   };
 
@@ -189,8 +279,8 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
         </div>
       </div>
 
-      {/* Other filters */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {/* Primary filters */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
         <div>
           <label htmlFor="weightClass" className="block text-sm font-medium text-gray-700 mb-1">Weight Class</label>
           <select
@@ -218,7 +308,58 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
             className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">All</option>
-            {techBases.map(tb => <option key={tb} value={tb}>{tb}</option>)}
+            {TECH_BASES.map(tb => <option key={tb} value={tb}>{tb}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+          <select
+            id="role"
+            value={role}
+            onChange={(e) => {
+              console.log('Role changed to:', e.target.value);
+              setRole(e.target.value);
+            }}
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">All</option>
+            {UNIT_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+        </div>
+      </div>
+
+      {/* Advanced filters */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div>
+          <label htmlFor="config" className="block text-sm font-medium text-gray-700 mb-1">Configuration</label>
+          <select
+            id="config"
+            value={config}
+            onChange={(e) => {
+              console.log('Configuration changed to:', e.target.value);
+              setConfig(e.target.value);
+            }}
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">All</option>
+            {UNIT_CONFIGS.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="isOmnimech" className="block text-sm font-medium text-gray-700 mb-1">OmniMech</label>
+          <select
+            id="isOmnimech"
+            value={isOmnimech === undefined ? '' : isOmnimech.toString()}
+            onChange={(e) => {
+              const value = e.target.value === '' ? undefined : e.target.value === 'true';
+              console.log('OmniMech filter changed to:', value);
+              setIsOmnimech(value);
+            }}
+            className="block w-full bg-white border border-gray-300 text-gray-900 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">All</option>
+            <option value="true">OmniMech Only</option>
+            <option value="false">Standard Only</option>
           </select>
         </div>
         <div>
@@ -237,6 +378,7 @@ const UnitFilters: React.FC<UnitFiltersProps> = ({ onFiltersApply }) => {
           </select>
         </div>
       </div>
+
       <div className="mt-4 flex justify-center gap-4">
         <button
           onClick={handleApply}
