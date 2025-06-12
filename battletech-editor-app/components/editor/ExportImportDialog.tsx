@@ -7,7 +7,7 @@ import {
   importFromMTF, 
   downloadUnit,
   readUploadedFile 
-} from '../../utils/unitExportImportSimple';
+} from '../../utils/unitExportImportProper';
 
 interface ExportImportDialogProps {
   isOpen: boolean;
