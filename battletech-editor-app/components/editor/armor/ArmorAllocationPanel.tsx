@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { ArmorAllocationProps, MECH_LOCATIONS } from '../../../types/editor';
+import { ArmorAllocationProps, MECH_LOCATIONS, ArmorType, ARMOR_TYPES } from '../../../types/editor';
 import ArmorLocationControl from './ArmorLocationControl';
 import { 
   autoAllocateArmor, 
@@ -9,6 +9,11 @@ import {
 } from '../../../utils/armorAllocation';
 
 interface ArmorAllocationPanelProps extends ArmorAllocationProps {}
+
+// Helper function to get armor type by ID
+const getArmorType = (id: string): ArmorType => {
+  return ARMOR_TYPES.find(type => type.id === id) || ARMOR_TYPES[0];
+};
 
 const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
   unit,
@@ -21,6 +26,10 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
   mechType = 'Biped',
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  // Get current armor type early so it can be used in callbacks
+  const currentArmorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
+  const currentArmorType = getArmorType(currentArmorTypeId);
 
   // Helper functions
   const getMaxArmorForLocation = (location: string, mass: number): number => {
@@ -110,35 +119,139 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
     onUnitChange(updatedUnit);
   }, [unit, onUnitChange]);
 
-  // Auto-allocate armor using MegaMekLab algorithm
+  // Auto-allocate armor using proportional distribution
   const handleAutoAllocate = useCallback(() => {
-    const allocation = autoAllocateArmor(unit);
+    // Get total armor points available
+    const totalArmorPoints = unit.data?.armor?.total_armor_points || 0;
     
-    // Convert location abbreviations to full names
-    const locationMap: { [key: string]: string } = {
-      'HEAD': MECH_LOCATIONS.HEAD,
-      'CT': MECH_LOCATIONS.CENTER_TORSO,
-      'LT': MECH_LOCATIONS.LEFT_TORSO,
-      'RT': MECH_LOCATIONS.RIGHT_TORSO,
-      'LA': MECH_LOCATIONS.LEFT_ARM,
-      'RA': MECH_LOCATIONS.RIGHT_ARM,
-      'LL': MECH_LOCATIONS.LEFT_LEG,
-      'RL': MECH_LOCATIONS.RIGHT_LEG,
+    // Build new armor locations array
+    const newLocations: any[] = [];
+    
+    // If no armor points available, set all locations to 0
+    if (totalArmorPoints === 0) {
+      armorData.forEach(loc => {
+        newLocations.push({
+          location: loc.location,
+          armor_points: 0,
+          rear_armor_points: 0,
+        });
+      });
+    } else {
+      // Calculate total maximum armor capacity
+      const totalMaxArmor = armorData.reduce((sum, loc) => sum + loc.maxArmor, 0);
+      
+      // Track remaining points to distribute
+      let remainingPoints = totalArmorPoints;
+      const allocations: { [key: string]: { front: number; rear: number } } = {};
+      
+      // First pass: distribute proportionally
+      armorData.forEach(loc => {
+        const proportion = loc.maxArmor / totalMaxArmor;
+        let locationPoints = Math.floor(totalArmorPoints * proportion);
+        
+        // Ensure we don't exceed the location's max
+        locationPoints = Math.min(locationPoints, loc.maxArmor);
+        
+        if (loc.hasRear) {
+          // For torso locations, distribute 75% front, 25% rear
+          const frontPoints = Math.floor(locationPoints * 0.75);
+          const rearPoints = locationPoints - frontPoints;
+          allocations[loc.location] = { front: frontPoints, rear: rearPoints };
+        } else {
+          // For non-torso locations, all armor goes to front
+          allocations[loc.location] = { front: locationPoints, rear: 0 };
+        }
+        
+        remainingPoints -= locationPoints;
+      });
+      
+      // Second pass: distribute any remaining points
+      // Prioritize torsos, then legs, then arms, then head
+      const priorityOrder = [
+        MECH_LOCATIONS.CENTER_TORSO,
+        MECH_LOCATIONS.LEFT_TORSO,
+        MECH_LOCATIONS.RIGHT_TORSO,
+        MECH_LOCATIONS.LEFT_LEG,
+        MECH_LOCATIONS.RIGHT_LEG,
+        MECH_LOCATIONS.LEFT_ARM,
+        MECH_LOCATIONS.RIGHT_ARM,
+        MECH_LOCATIONS.HEAD,
+      ];
+      
+      for (const location of priorityOrder) {
+        if (remainingPoints <= 0) break;
+        
+        const locData = armorData.find(loc => loc.location === location);
+        if (!locData) continue;
+        
+        const allocated = allocations[location];
+        if (!allocated) continue;
+        
+        const currentTotal = allocated.front + allocated.rear;
+        const maxAdditional = locData.maxArmor - currentTotal;
+        
+        if (maxAdditional > 0) {
+          const toAdd = Math.min(remainingPoints, maxAdditional);
+          
+          if (locData.hasRear) {
+            // Add to front armor for torsos
+            allocated.front += toAdd;
+          } else {
+            allocated.front += toAdd;
+          }
+          
+          remainingPoints -= toAdd;
+        }
+      }
+      
+      // Build new locations array from allocations
+      // Ensure ALL locations are included, even if not in allocations
+      armorData.forEach(loc => {
+        const allocated = allocations[loc.location];
+        if (allocated) {
+          newLocations.push({
+            location: loc.location,
+            armor_points: allocated.front,
+            rear_armor_points: allocated.rear,
+          });
+        } else {
+          // Include location with 0 armor if not allocated
+          newLocations.push({
+            location: loc.location,
+            armor_points: 0,
+            rear_armor_points: 0,
+          });
+        }
+      });
+    }
+    
+    // Update unit with all new armor allocations at once
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        armor: {
+          ...unit.data?.armor,
+          locations: newLocations,
+        },
+      },
+      editorMetadata: {
+        ...unit.editorMetadata,
+        isDirty: true,
+        lastModified: new Date(),
+      },
     };
     
-    // Apply allocations
-    Object.entries(allocation).forEach(([locAbbr, values]) => {
-      const location = locationMap[locAbbr];
-      if (location) {
-        handleArmorChange(location, values.front, values.rear || 0);
-      }
-    });
-  }, [unit, handleArmorChange]);
+    onUnitChange(updatedUnit);
+  }, [unit, armorData, onUnitChange]);
 
   // Maximize armor
   const handleMaximizeArmor = useCallback(() => {
     const maxTonnage = maximizeArmor(unit);
-    const maxPoints = Math.floor(maxTonnage * 16); // 16 points per ton
+    const maxPoints = Math.floor(maxTonnage * currentArmorType.pointsPerTon);
+    
+    // Update the input field
+    setArmorTonnageInput(maxTonnage.toFixed(1));
     
     // Update unit with new armor tonnage
     const updatedUnit = {
@@ -157,12 +270,15 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
     
     // Auto-allocate the new maximum armor
     setTimeout(() => handleAutoAllocate(), 100);
-  }, [unit, onUnitChange, handleAutoAllocate]);
+  }, [unit, currentArmorType, onUnitChange, handleAutoAllocate]);
 
   // Use remaining tonnage
   const handleUseRemainingTonnage = useCallback(() => {
     const newTonnage = useRemainingTonnageForArmor(unit);
-    const newPoints = Math.floor(newTonnage * 16); // 16 points per ton
+    const newPoints = Math.floor(newTonnage * currentArmorType.pointsPerTon);
+    
+    // Update the input field
+    setArmorTonnageInput(newTonnage.toFixed(1));
     
     // Update unit with new armor tonnage
     const updatedUnit = {
@@ -179,9 +295,8 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
     
     onUnitChange(updatedUnit);
     
-    // Auto-allocate the new armor
-    setTimeout(() => handleAutoAllocate(), 100);
-  }, [unit, onUnitChange, handleAutoAllocate]);
+    // Don't auto-allocate - just update the tonnage
+  }, [unit, currentArmorType, onUnitChange]);
 
   // Clear all armor
   const handleClearArmor = useCallback(() => {
@@ -201,55 +316,151 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
     });
   }, [handleArmorChange]);
 
+  // Calculate current totals
+  const totalArmorPoints = armorData.reduce((sum, loc) => sum + loc.armor_points + (loc.rear_armor_points || 0), 0);
+  
+  // Track armor tonnage separately
+  const [armorTonnageInput, setArmorTonnageInput] = useState(() => {
+    const intendedArmorPoints = unit.data?.armor?.total_armor_points || 0;
+    return (intendedArmorPoints / currentArmorType.pointsPerTon).toFixed(1);
+  });
+  
+  // Sync armor tonnage input with unit changes
+  React.useEffect(() => {
+    const intendedArmorPoints = unit.data?.armor?.total_armor_points || 0;
+    const tonnage = intendedArmorPoints / currentArmorType.pointsPerTon;
+    setArmorTonnageInput(tonnage.toFixed(1));
+  }, [unit.data?.armor?.total_armor_points, currentArmorType.pointsPerTon]);
+
+  // Handle armor type change
+  const handleArmorTypeChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newArmorType = getArmorType(e.target.value);
+    
+    // Update all locations with new armor type
+    const updatedArmorAllocation = { ...unit.armorAllocation };
+    Object.keys(updatedArmorAllocation).forEach(location => {
+      updatedArmorAllocation[location] = {
+        ...updatedArmorAllocation[location],
+        type: newArmorType
+      };
+    });
+
+    onUnitChange({
+      ...unit,
+      armorAllocation: updatedArmorAllocation
+    });
+  }, [unit, onUnitChange]);
+
+  // Handle armor tonnage change
+  const handleArmorTonnageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Always update the input field to allow free typing
+    setArmorTonnageInput(value);
+    
+    // Parse the value - if empty or invalid, treat as 0
+    const newTonnage = value === '' ? 0 : parseFloat(value) || 0;
+    const newPoints = Math.floor(newTonnage * currentArmorType.pointsPerTon);
+    
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        armor: {
+          ...unit.data?.armor,
+          total_armor_points: newPoints,
+          locations: unit.data?.armor?.locations || [],
+        },
+      },
+    };
+    
+    onUnitChange(updatedUnit);
+  }, [unit, currentArmorType, onUnitChange]);
+
   return (
     <div className="armor-allocation-panel bg-white rounded-lg border border-gray-200 p-4 max-w-sm">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-semibold text-gray-900">Armor Allocation</h3>
+          <h3 className="text-sm font-semibold text-gray-900">Armor</h3>
         </div>
+        
+        {/* Armor Type and Tonnage */}
+        <div className="space-y-2 mb-3">
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-gray-600 w-20">Armor Type:</label>
+            <select
+              value={currentArmorTypeId}
+              onChange={handleArmorTypeChange}
+              disabled={readOnly}
+              className="flex-1 text-xs border border-gray-300 rounded px-2 py-1"
+            >
+              {ARMOR_TYPES.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-gray-600 w-20">Armor Tonnage:</label>
+            <input
+              type="number"
+              value={armorTonnageInput}
+              onChange={handleArmorTonnageChange}
+              disabled={readOnly}
+              step="0.5"
+              className="flex-1 text-xs border border-gray-300 rounded px-2 py-1"
+            />
+          </div>
+          
+          <div className="text-xs text-gray-500 mt-1">
+            Points: {unit.data?.armor?.total_armor_points || 0} ({currentArmorType.pointsPerTon} points/ton)
+          </div>
+        </div>
+
+        {/* Action Buttons */}
         {allowAutoAllocation && (
-          <div className="flex gap-1 flex-wrap">
+          <div className="space-y-2">
+            <div className="flex gap-1">
+              <button
+                onClick={handleMaximizeArmor}
+                disabled={readOnly}
+                className="flex-1 px-2 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                title="Set armor to maximum tonnage"
+              >
+                Maximize Armor
+              </button>
+              <button
+                onClick={handleUseRemainingTonnage}
+                disabled={readOnly}
+                className="flex-1 px-2 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                title="Use all remaining tonnage for armor"
+              >
+                Use Remaining Tonnage
+              </button>
+            </div>
             <button
               onClick={handleAutoAllocate}
               disabled={readOnly}
-              className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-              title="Auto-allocate armor points"
+              className="w-full px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              title="Proportionally distribute armor points to all locations"
             >
-              Auto-Allocate
-            </button>
-            <button
-              onClick={handleMaximizeArmor}
-              disabled={readOnly}
-              className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-              title="Set armor to maximum tonnage"
-            >
-              Maximize
-            </button>
-            <button
-              onClick={handleUseRemainingTonnage}
-              disabled={readOnly}
-              className="px-2 py-1 text-xs bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:opacity-50"
-              title="Use all remaining tonnage for armor"
-            >
-              Use Remaining
-            </button>
-            <button
-              onClick={handleClearArmor}
-              disabled={readOnly}
-              className="px-2 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
-              title="Clear all armor"
-            >
-              Clear
+              Auto-Allocate Armor
             </button>
           </div>
         )}
       </div>
 
-      {/* Mech Silhouette with Armor Controls */}
-      <div className="relative">
-        {/* Simple mech diagram layout */}
-        <div className="armor-diagram space-y-2">
+      {/* Armor Allocation Section */}
+      <div className="mb-3">
+        <h4 className="text-xs font-semibold text-gray-700 mb-2">Armor Allocation</h4>
+
+        {/* Mech Silhouette with Armor Controls */}
+        <div className="relative">
+          {/* Simple mech diagram layout */}
+          <div className="armor-diagram space-y-2">
           {/* Head */}
           <div className="flex justify-center">
             <ArmorLocationControl
@@ -340,6 +551,7 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
             <div></div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Statistics */}

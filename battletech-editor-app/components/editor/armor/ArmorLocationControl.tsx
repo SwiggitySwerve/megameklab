@@ -77,12 +77,12 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const newFront = Math.max(0, Math.min(parseInt(tempFront) || 0, maxArmor));
-    const newRear = Math.max(0, Math.min(parseInt(tempRear) || 0, maxArmor - newFront));
+    const newFront = parseInt(tempFront) || 0;
+    const newRear = parseInt(tempRear) || 0;
     
     onArmorChange(location, newFront, newRear);
     setIsEditing(false);
-  }, [location, tempFront, tempRear, maxArmor, onArmorChange]);
+  }, [location, tempFront, tempRear, onArmorChange]);
 
   const handleCancel = useCallback(() => {
     setTempFront(frontValue.toString());
@@ -137,16 +137,14 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
     const sensitivity = 0.5; // Adjust pixels needed per armor point
     const deltaArmor = Math.round(deltaY * sensitivity);
     
-    const currentValue = dragTarget === 'front' ? frontValue : rearValue;
-    const otherValue = dragTarget === 'front' ? rearValue : frontValue;
-    const newValue = Math.max(0, Math.min(dragStartValue + deltaArmor, maxArmor - otherValue));
+    const newValue = dragStartValue + deltaArmor;
     
     if (dragTarget === 'front') {
       onArmorChange(location, newValue, rearValue);
     } else {
       onArmorChange(location, frontValue, newValue);
     }
-  }, [isDragging, dragTarget, dragStartY, dragStartValue, frontValue, rearValue, maxArmor, location, onArmorChange]);
+  }, [isDragging, dragTarget, dragStartY, dragStartValue, frontValue, rearValue, location, onArmorChange]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -174,13 +172,13 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
     const delta = e.deltaY > 0 ? -1 : 1;
     
     if (isRear) {
-      const newRear = Math.max(0, Math.min(rearValue + delta, maxArmor - frontValue));
+      const newRear = rearValue + delta;
       onArmorChange(location, frontValue, newRear);
     } else {
-      const newFront = Math.max(0, Math.min(frontValue + delta, maxArmor - rearValue));
+      const newFront = frontValue + delta;
       onArmorChange(location, newFront, rearValue);
     }
-  }, [readOnly, frontValue, rearValue, maxArmor, location, onArmorChange]);
+  }, [readOnly, frontValue, rearValue, location, onArmorChange]);
 
   const isOverLimit = frontValue + rearValue > maxArmor;
   const isAtMax = frontValue + rearValue === maxArmor;
@@ -192,10 +190,12 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
   
   // Determine color based on armor percentage
   const getArmorLevelColor = () => {
+    if (frontValue < 0 || rearValue < 0) return 'border-purple-500 bg-purple-50'; // Negative values
     if (isOverLimit) return 'border-red-500 bg-red-50';
-    if (armorPercentage >= 90) return 'border-red-400 bg-red-50';
+    if (armorPercentage >= 90) return 'border-green-400 bg-green-50';
     if (armorPercentage >= 60) return 'border-yellow-400 bg-yellow-50';
-    return 'border-green-400 bg-green-50';
+    if (armorPercentage >= 20) return 'border-orange-400 bg-orange-50';
+    return 'border-red-400 bg-red-50';
   };
 
   return (
@@ -219,7 +219,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
         </div>
 
         {/* Armor Values */}
-        {isEditing ? (
+          {isEditing ? (
           <div className="space-y-1">
             <input
               type="number"
@@ -227,7 +227,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
               onChange={(e) => setTempFront(e.target.value)}
               onBlur={handleSubmit}
               onKeyDown={handleKeyDown}
-              className="w-full text-xs text-center border border-gray-300 rounded px-1 py-0.5"
+              className="w-16 text-sm text-center border border-gray-300 rounded px-1 py-0.5 font-medium mx-auto block"
               min="0"
               max={maxArmor}
               autoFocus
@@ -239,7 +239,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
                 onChange={(e) => setTempRear(e.target.value)}
                 onBlur={handleSubmit}
                 onKeyDown={handleKeyDown}
-                className="w-full text-xs text-center border border-gray-300 rounded px-1 py-0.5"
+                className="w-16 text-xs text-center border border-gray-300 rounded px-1 py-0.5 mx-auto block"
                 min="0"
                 max={maxArmor}
               />
@@ -248,92 +248,38 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
         ) : (
           <div className="space-y-1">
             {/* Front armor */}
-            <div className="flex items-center justify-center space-x-1">
-              {!readOnly && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDecrement(false);
-                  }}
-                  className="w-3 h-3 bg-gray-200 rounded text-xs hover:bg-gray-300 flex items-center justify-center"
-                  disabled={frontValue <= 0}
-                  aria-label="Decrease front armor"
-                >
-                  −
-                </button>
-              )}
-              <span 
-                className={`text-sm font-medium min-w-[20px] text-center ${
-                  isOverLimit ? 'text-red-600' : 'text-gray-900'
-                } ${isDragging && dragTarget === 'front' ? 'text-blue-600' : ''}`}
-                onMouseDown={(e) => handleMouseDown(e, 'front')}
-                onWheel={(e) => handleWheel(e, false)}
-                style={{ 
-                  cursor: readOnly ? 'default' : isDragging ? 'ns-resize' : 'grab',
-                  userSelect: 'none'
-                }}
-                title="Drag up/down or scroll to adjust"
-              >
-                {frontValue}
-              </span>
-              {!readOnly && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleIncrement(false);
-                  }}
-                  className="w-3 h-3 bg-gray-200 rounded text-xs hover:bg-gray-300 flex items-center justify-center"
-                  disabled={frontValue + rearValue >= maxArmor}
-                  aria-label="Increase front armor"
-                >
-                  +
-                </button>
-              )}
+            <div 
+              className={`text-sm font-medium text-center cursor-pointer select-none ${
+                isOverLimit ? 'text-red-600' : 'text-gray-900'
+              } ${isDragging && dragTarget === 'front' ? 'text-blue-600' : ''} ${
+                !readOnly ? 'hover:text-blue-600' : ''
+              }`}
+              onMouseDown={(e) => !readOnly && handleMouseDown(e, 'front')}
+              onWheel={(e) => handleWheel(e, false)}
+              style={{ 
+                cursor: readOnly ? 'default' : 'pointer'
+              }}
+              title={readOnly ? '' : 'Click to edit, drag up/down or scroll to adjust'}
+            >
+              {frontValue}
             </div>
 
             {/* Rear armor */}
             {hasRear && (
-              <div className="flex items-center justify-center space-x-1">
-                {!readOnly && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDecrement(true);
-                    }}
-                    className="w-3 h-3 bg-gray-200 rounded text-xs hover:bg-gray-300 flex items-center justify-center"
-                    disabled={rearValue <= 0}
-                    aria-label="Decrease rear armor"
-                  >
-                    −
-                  </button>
-                )}
-                <span 
-                  className={`text-xs font-medium min-w-[16px] text-center ${
-                    isOverLimit ? 'text-red-600' : 'text-gray-600'
-                  } ${isDragging && dragTarget === 'rear' ? 'text-blue-600' : ''}`}
-                  onMouseDown={(e) => handleMouseDown(e, 'rear')}
-                  onWheel={(e) => handleWheel(e, true)}
-                  style={{ 
-                    cursor: readOnly ? 'default' : isDragging ? 'ns-resize' : 'grab',
-                    userSelect: 'none'
-                  }}
-                  title="Drag up/down or scroll to adjust"
-                >
-                  {rearValue}
-                </span>
-                {!readOnly && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleIncrement(true);
-                    }}
-                    className="w-3 h-3 bg-gray-200 rounded text-xs hover:bg-gray-300 flex items-center justify-center"
-                    disabled={frontValue + rearValue >= maxArmor}
-                    aria-label="Increase rear armor"
-                  >
-                    +
-                  </button>
-                )}
+              <div 
+                className={`text-xs font-medium text-center cursor-pointer select-none ${
+                  isOverLimit ? 'text-red-600' : 'text-gray-600'
+                } ${isDragging && dragTarget === 'rear' ? 'text-blue-600' : ''} ${
+                  !readOnly ? 'hover:text-blue-600' : ''
+                }`}
+                onMouseDown={(e) => !readOnly && handleMouseDown(e, 'rear')}
+                onWheel={(e) => handleWheel(e, true)}
+                style={{ 
+                  cursor: readOnly ? 'default' : 'pointer'
+                }}
+                title={readOnly ? '' : 'Click to edit, drag up/down or scroll to adjust'}
+              >
+                {rearValue}
               </div>
             )}
           </div>

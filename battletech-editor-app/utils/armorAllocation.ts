@@ -60,7 +60,7 @@ export function autoAllocateArmor(unit: EditableUnit): ArmorAllocation {
   // Calculate percentage of max armor we can allocate
   const percent = Math.min(1, totalArmorPoints / maxArmor);
   
-  // Head gets 5x percentage (capped at max)
+  // Head gets 5x percentage (capped at max) - MegaMekLab formula
   const headMax = unit.mass > 100 ? 12 : 9;
   const headArmor = Math.min(Math.floor(percent * headMax * 5), headMax);
   
@@ -91,18 +91,28 @@ export function autoAllocateArmor(unit: EditableUnit): ArmorAllocation {
     const allocatedArmor = Math.min(Math.floor(maxLocationArmor * remainingPercent), remainingPoints);
     
     if (loc.hasRear) {
-      // 75% front, 25% rear for torso locations
-      const rear = Math.floor(allocatedArmor * 0.25);
-      const front = allocatedArmor - rear;
+      // MegaMekLab: 75% front, 25% rear for torso locations
+      let rear = Math.floor(allocatedArmor * 0.25);
+      let front = Math.ceil(allocatedArmor * 0.75);
+      
+      // Make sure rounding doesn't add an extra point
+      if (rear + front > allocatedArmor) {
+        if (front > rear * 3) {
+          front--;
+        } else {
+          rear--;
+        }
+      }
+      
       allocation[loc.id] = { front, rear };
-      remainingPoints -= allocatedArmor;
+      remainingPoints -= (front + rear);
     } else {
-      allocation[loc.id] = { front: allocatedArmor };
-      remainingPoints -= allocatedArmor;
+      allocation[loc.id] = { front: Math.floor(allocatedArmor) };
+      remainingPoints -= Math.floor(allocatedArmor);
     }
   });
   
-  // Allocate any leftover points
+  // Allocate any leftover points using MegaMekLab logic
   if (remainingPoints > 0) {
     return allocateLeftoverPoints(unit, remainingPoints, allocation);
   }
@@ -121,7 +131,7 @@ export function allocateLeftoverPoints(
   while (points >= 1) {
     // If we have 2+ points, allocate to symmetric locations
     if (points >= 2) {
-      // Check torso pairs
+      // MegaMekLab priority: torso pairs first
       if (canAddToLocation(unit, allocation, 'LT') && canAddToLocation(unit, allocation, 'RT')) {
         allocation.LT.front += 1;
         allocation.RT.front += 1;
@@ -129,7 +139,7 @@ export function allocateLeftoverPoints(
         continue;
       }
       
-      // Check leg pairs
+      // Then leg pairs
       if (canAddToLocation(unit, allocation, 'LL') && canAddToLocation(unit, allocation, 'RL')) {
         allocation.LL.front += 1;
         allocation.RL.front += 1;
@@ -137,7 +147,7 @@ export function allocateLeftoverPoints(
         continue;
       }
       
-      // Check arm pairs
+      // Then arm pairs
       if (canAddToLocation(unit, allocation, 'LA') && canAddToLocation(unit, allocation, 'RA')) {
         allocation.LA.front += 1;
         allocation.RA.front += 1;
@@ -147,6 +157,18 @@ export function allocateLeftoverPoints(
     }
     
     // Single point allocation
+    // Special case: if only 1 point left and head & CT are at max, remove 1 from CT
+    if (points === 1 && allocation.HEAD.front === headMax) {
+      const ctMax = getInternalStructure(unit, 'CT') * 2;
+      const ctTotal = allocation.CT.front + (allocation.CT.rear || 0);
+      if (ctTotal === ctMax) {
+        // Remove 1 from CT to allow symmetric locations to get extra
+        allocation.CT.front -= 1;
+        points += 1;
+        continue;
+      }
+    }
+    
     // First try head
     if (allocation.HEAD.front < headMax) {
       allocation.HEAD.front += 1;
@@ -154,15 +176,41 @@ export function allocateLeftoverPoints(
       continue;
     }
     
-    // Then try to balance uneven allocations
-    const unbalanced = findUnbalancedLocation(allocation);
-    if (unbalanced && canAddToLocation(unit, allocation, unbalanced)) {
-      allocation[unbalanced].front += 1;
+    // Then balance uneven allocations in MegaMekLab order
+    const ltTotal = allocation.LT.front + (allocation.LT.rear || 0);
+    const rtTotal = allocation.RT.front + (allocation.RT.rear || 0);
+    const laTotal = allocation.LA.front;
+    const raTotal = allocation.RA.front;
+    const llTotal = allocation.LL.front;
+    const rlTotal = allocation.RL.front;
+    
+    if (ltTotal < rtTotal && canAddToLocation(unit, allocation, 'LT')) {
+      allocation.LT.front += 1;
+      points -= 1;
+      continue;
+    } else if (rtTotal < ltTotal && canAddToLocation(unit, allocation, 'RT')) {
+      allocation.RT.front += 1;
+      points -= 1;
+      continue;
+    } else if (raTotal < laTotal && canAddToLocation(unit, allocation, 'RA')) {
+      allocation.RA.front += 1;
+      points -= 1;
+      continue;
+    } else if (laTotal < raTotal && canAddToLocation(unit, allocation, 'LA')) {
+      allocation.LA.front += 1;
+      points -= 1;
+      continue;
+    } else if (rlTotal < llTotal && canAddToLocation(unit, allocation, 'RL')) {
+      allocation.RL.front += 1;
+      points -= 1;
+      continue;
+    } else if (llTotal < rlTotal && canAddToLocation(unit, allocation, 'LL')) {
+      allocation.LL.front += 1;
       points -= 1;
       continue;
     }
     
-    // Finally, add to CT if possible
+    // If nothing is uneven, add to CT
     if (canAddToLocation(unit, allocation, 'CT')) {
       allocation.CT.front += 1;
       points -= 1;
@@ -278,10 +326,17 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
 
 export function useRemainingTonnageForArmor(unit: EditableUnit): number {
   const remainingTonnage = calculateRemainingTonnage(unit);
-  const currentArmorTonnage = (unit.data?.armor?.total_armor_points || 0) / 16;
-  const newArmorTonnage = Math.min(
-    currentArmorTonnage + remainingTonnage,
-    calculateMaxArmorTonnage(unit)
-  );
-  return Math.floor(newArmorTonnage * 2) / 2; // Round to nearest half-ton
+  const armorType = unit.data?.armor?.type || 'standard';
+  const pointsPerTon = armorType === 'ferro-fibrous' ? 17.6 : 16;
+  const currentArmorTonnage = (unit.data?.armor?.total_armor_points || 0) / pointsPerTon;
+  
+  // Add remaining tonnage to current armor tonnage
+  const newArmorTonnage = currentArmorTonnage + remainingTonnage;
+  
+  // Ensure we don't exceed maximum armor tonnage
+  const maxArmorTonnage = calculateMaxArmorTonnage(unit);
+  const finalTonnage = Math.min(newArmorTonnage, maxArmorTonnage);
+  
+  // Round to nearest half-ton and ensure it's not negative
+  return Math.max(0, Math.floor(finalTonnage * 2) / 2);
 }
