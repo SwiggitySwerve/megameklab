@@ -52,7 +52,7 @@ const ArmorTypeSelector: React.FC<ArmorTypeSelectorProps> = ({
       <div className="flex items-center gap-2">
         <label className="text-xs text-gray-300 w-20">Armor Type:</label>
         <select
-          value={currentType.id}
+          value={currentType?.id || filteredTypes[0]?.id || ''}
           onChange={handleChange}
           disabled={disabled}
           className="flex-1 text-xs bg-gray-700 text-gray-100 border border-gray-600 rounded px-2 py-1 disabled:opacity-50"
@@ -65,7 +65,7 @@ const ArmorTypeSelector: React.FC<ArmorTypeSelectorProps> = ({
         </select>
       </div>
 
-      {showDetails && (
+      {showDetails && currentType && (
         <div className="mt-2 p-2 bg-gray-900 rounded text-xs space-y-1">
           <div className="flex justify-between">
             <span className="text-gray-400">Points per Ton:</span>
