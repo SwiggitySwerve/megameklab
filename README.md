@@ -1,44 +1,47 @@
-# MegaMekLab — Unit Editor for MegaMek
+# MegaMekLab Project
 
-## Table of Contents
+This repository contains both the original MegaMekLab Java application and a new web-based BattleTech unit editor built with Next.js.
 
-1. [About](#about)
-2. [Status](#status)
-3. [Running MegaMek](#running-megameklab)
-    1. [Installing Or Updating Your Java Runtime](#installing-or-updating-your-java-runtime)
-        1. [Adoptium (Windows)](#adoptium-windows)
-        2. [Adoptium (Mac)](#adoptium-mac)
-        3. [Linux](#linux)
-4. [Compiling](#compiling)
-5. [Support](#support)
-6. [Contact & Further Information](#contact--further-information)
-7. [Licensing](#licensing)
+## Project Structure
 
-## About
+- **`/battletech-editor-app`** - Modern web-based BattleTech unit editor (Next.js/React/TypeScript)
+  - Full-featured unit customizer and editor
+  - SQLite database for unit and equipment data
+  - Conversion scripts for MegaMekLab data
+  - See [battletech-editor-app/README.md](battletech-editor-app/README.md) for details
 
-MegaMekLab is a Java program for the creation and modification of units for MegaMek.
+- **`/megameklab`** - Original MegaMekLab Java application
+  - Classic Java-based unit editor
+  - Source data files for conversion
 
-For complete game rules, consult the Classic BattleTech rule books published by Catalyst Game Labs. These books
-include [Total Warfare](https://store.catalystgamelabs.com/collections/battletech/products/battletech-total-warfare-pdf),
-[Tactical Operations: Advanced Rules](https://store.catalystgamelabs.com/collections/battletech/products/battletech-tactical-operations-advanced-rules),
-[Tactical Operations: Advanced Units & Equipment](https://store.catalystgamelabs.com/collections/battletech/products/battletech-tactical-operations-advanced-units-equipement),
-and [Strategic Operations](https://store.catalystgamelabs.com/collections/battletech/products/battletech-strategic-operations).
+## BattleTech Editor App
 
-## Status
+The modern web application provides:
+- Unit browsing and filtering (Compendium)
+- Unit customization and editing
+- Equipment database
+- Import/Export functionality
+- Validation against construction rules
 
-| Type           | MM Status                                                                                                                                                              | MML Status                                                                                                                                                                       | MHQ Status                                                                                                                                                        |
-|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Latest Release | [![Release](https://img.shields.io/github/release/MegaMek/megamek.svg)](https://gitHub.com/MegaMek/megamek/releases/)                                                  | [![Release](https://img.shields.io/github/release/MegaMek/megameklab.svg)](https://gitHub.com/MegaMek/megameklab/releases/)                                                      | [![Release](https://img.shields.io/github/release/MegaMek/mekhq.svg)](https://gitHub.com/MegaMek/mekhq/releases/)                                                 |
-| Javadocs | [![javadoc](https://badgen.net/badge/javadoc/master/red?icon=github)](https://megamek.org/megamek) | [![javadoc](https://badgen.net/badge/javadoc/master/red?icon=github)](https://megamek.org/megameklab) | [![javadoc](https://badgen.net/badge/javadoc/master/red?icon=github)](https://megamek.org/mekhq) |
-| License        | [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)                                                     | [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)                                                               | [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)                                                 |
-| Build (CI)     | [![MM Nightly CI](https://github.com/MegaMek/megamek/workflows/MegaMek%20Nightly%20CI/badge.svg)](https://github.com/MegaMek/megamek/actions/workflows/nightly-ci.yml) | [![MML Nightly CI](https://github.com/MegaMek/megameklab/workflows/MegaMekLab%20Nightly%20CI/badge.svg)](https://github.com/MegaMek/megameklab/actions/workflows/nightly-ci.yml) | [![MHQ Nightly CI](https://github.com/MegaMek/mekhq/workflows/MekHQ%20Nightly%20CI/badge.svg)](https://github.com/MegaMek/mekhq/actions/workflows/nightly-ci.yml) |
-| Issues         | [![GitHub Issues](https://badgen.net/github/open-issues/MegaMek/megamek)](https://gitHub.com/MegaMek/megamek/issues/)                                                  | [![GitHub Issues](https://badgen.net/github/open-issues/MegaMek/megameklab)](https://gitHub.com/MegaMek/megameklab/issues/)                                                      | [![GitHub Issues](https://badgen.net/github/open-issues/MegaMek/mekhq)](https://gitHub.com/MegaMek/mekhq/issues/)                                                 |
-| PRs            | [![GitHub Open Pull Requests](https://badgen.net/github/open-prs/MegaMek/megamek)](https://gitHub.com/MegaMek/megamek/pull/)                                           | [![GitHub Open Pull Requests](https://badgen.net/github/open-prs/MegaMek/megameklab)](https://gitHub.com/MegaMek/megameklab/pull/)                                               | [![GitHub Open Pull Requests](https://badgen.net/github/open-prs/MegaMek/mekhq)](https://gitHub.com/MegaMek/mekhq/pull/)                                          |
-| Code Coverage  | [![MegaMek codecov.io](https://codecov.io/github/MegaMek/megamek/coverage.svg)](https://codecov.io/github/MegaMek/megamek)                                             | [![MegaMekLab codecov.io](https://codecov.io/github/MegaMek/megameklab/coverage.svg)](https://codecov.io/github/MegaMek/megameklab)                                              | [![MekHQ codecov.io](https://codecov.io/github/MegaMek/mekhq/coverage.svg)](https://codecov.io/github/MegaMek/mekhq)                                              |
+### Quick Start
 
-Note that not everything has been implemented across the suite at this time, which will lead to gaps.
+```bash
+cd battletech-editor-app
+npm install
+npm run dev
+```
 
-## RUNNING MEGAMEKLAB
+For production deployment with Docker:
+```bash
+cd battletech-editor-app
+docker-compose up
+```
+
+## Original MegaMekLab
+
+MegaMekLab is a Java program for the creation and modification of units for MegaMek. For information about running the Java version, see the sections below.
+
+### Running the Java Version
 
 Java programs run in their own environment, called a Virtual Machine or VM for short. These Java VMs are available on
 most systems from a variety of sources.
@@ -91,18 +94,20 @@ from [the Extras repository](https://github.com/MegaMek/megamek-extras).
 MegaMekLab uses two file types for units. Files with the extension MTF are meks, and all other unit types are BLK files.
 Both are editable with a quality text editor, but we recommend not hand editing files as it can break the programs.
 
-## Compiling
+## Data Sources
+
+This project includes conversion tools to transform MegaMekLab's MTF and BLK files into a structured database format. The web application uses this converted data to provide a modern interface for unit customization.
+
+## Development
+
+For development setup and contribution guidelines:
+- Web app: See [battletech-editor-app/README.md](battletech-editor-app/README.md)
+- Java app: See compilation instructions below
+
+### Compiling MegaMekLab (Java)
 
 1) Install [Gradle](https://gradle.org/).
-
 2) Follow the [instructions on the wiki](https://github.com/MegaMek/megamek/wiki/Working-With-Gradle) for using Gradle.
-
-### Style Guide
-
-When contributing to this project, please enable the EditorConfig option within your IDE to ensure some basic compliance
-with our [style guide](https://github.com/MegaMek/megamek/wiki/MegaMek-Coding-Style-Guide) which includes some defaults
-for line length, tabs vs. spaces, etc. When all else fails, we follow
-the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 
 ## Support
 
