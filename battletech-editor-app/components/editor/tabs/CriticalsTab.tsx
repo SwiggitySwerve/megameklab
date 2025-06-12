@@ -1,16 +1,28 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { EditorComponentProps, MECH_LOCATIONS } from '../../../types/editor';
+import { EditorComponentProps } from '../../../types/editor';
 import CriticalSlotGrid from '../criticals/CriticalSlotGrid';
+import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
+
+const MECH_LOCATIONS = {
+  HEAD: 'Head',
+  CENTER_TORSO: 'Center Torso',
+  LEFT_TORSO: 'Left Torso',
+  RIGHT_TORSO: 'Right Torso',
+  LEFT_ARM: 'Left Arm',
+  RIGHT_ARM: 'Right Arm',
+  LEFT_LEG: 'Left Leg',
+  RIGHT_LEG: 'Right Leg',
+};
 
 const CriticalsTab: React.FC<EditorComponentProps> = ({
   unit,
   onUnitChange,
   validationErrors = [],
   readOnly = false,
-  compact = true,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>(MECH_LOCATIONS.CENTER_TORSO);
   const [draggedEquipment, setDraggedEquipment] = useState<string | null>(null);
+  const [hoveredSlot, setHoveredSlot] = useState<{location: string, index: number} | null>(null);
 
   // Available locations for mech configuration
   const availableLocations = useMemo(() => {
@@ -81,84 +93,132 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         slots[location][3] = { slotIndex: 3, systemType: 'foot', isFixed: true, isEmpty: false };
       }
 
-      // Add placed equipment
-      (unit.equipmentPlacements || []).forEach(placement => {
-        if (placement.location === location && placement.criticalSlots) {
-          placement.criticalSlots.forEach(slotIndex => {
-            if (slots[location][slotIndex] && slots[location][slotIndex].isEmpty) {
-              slots[location][slotIndex] = {
-                slotIndex,
-                equipment: placement.equipment,
-                systemType: null,
-                isFixed: false,
-                isEmpty: false,
-                placementId: placement.id,
-              };
+      // Add placed equipment from weapons_and_equipment
+      (unit.data?.weapons_and_equipment || []).forEach((item, index) => {
+        if (item.location === location) {
+          const equipment = EQUIPMENT_DATABASE.find(e => e.name === item.item_name);
+          if (equipment) {
+            const slotsNeeded = equipment.crits || 1;
+            // Find consecutive empty slots
+            for (let i = 0; i <= slots[location].length - slotsNeeded; i++) {
+              let canPlace = true;
+              for (let j = 0; j < slotsNeeded; j++) {
+                if (!slots[location][i + j]?.isEmpty) {
+                  canPlace = false;
+                  break;
+                }
+              }
+              if (canPlace) {
+                // Place equipment in slots
+                for (let j = 0; j < slotsNeeded; j++) {
+                  slots[location][i + j] = {
+                    slotIndex: i + j,
+                    equipment: { 
+                      name: item.item_name,
+                      index: index,
+                      slots: slotsNeeded,
+                      currentSlot: j + 1
+                    },
+                    systemType: null,
+                    isFixed: false,
+                    isEmpty: false,
+                    placementId: index.toString(), // Add placement ID for removal
+                  };
+                }
+                break;
+              }
             }
-          });
+          }
         }
       });
     });
 
     return slots;
-  }, [unit.equipmentPlacements, unit.data?.engine?.rating, availableLocations]);
+  }, [unit.data?.weapons_and_equipment, unit.data?.engine?.rating, availableLocations]);
 
   // Handle equipment placement in critical slots
   const handleEquipmentPlacement = useCallback((
-    equipmentId: string, 
+    equipmentIndex: string, 
     targetLocation: string, 
     startSlot: number
   ) => {
-    const equipment = (unit.equipmentPlacements || []).find(p => p.id === equipmentId);
-    if (!equipment) return;
+    const index = parseInt(equipmentIndex);
+    const equipment = unit.data?.weapons_and_equipment?.[index];
+    if (!equipment || equipment.location !== 'Unallocated') return;
 
-    const slotsNeeded = equipment.equipment.space || 1;
+    const equipmentData = EQUIPMENT_DATABASE.find(e => e.name === equipment.item_name);
+    if (!equipmentData) return;
+
+    const slotsNeeded = equipmentData.crits || 1;
     const locationSlots = criticalSlotsByLocation[targetLocation];
     
-    // Check if there's enough space
+    // Check if there's enough consecutive empty slots
     const availableSlots: number[] = [];
     for (let i = startSlot; i < Math.min(startSlot + slotsNeeded, locationSlots.length); i++) {
-      if (locationSlots[i] && locationSlots[i].isEmpty) {
+      if (locationSlots[i] && locationSlots[i].isEmpty && !locationSlots[i].isFixed) {
         availableSlots.push(i);
       } else {
-        // Can't place here
+        // Can't place here - not enough consecutive slots
         return;
       }
     }
 
     if (availableSlots.length < slotsNeeded) return;
 
-    // Update equipment placement
-    const updatedPlacements = (unit.equipmentPlacements || []).map(p => 
-      p.id === equipmentId 
-        ? { ...p, location: targetLocation, criticalSlots: availableSlots }
-        : p
-    );
+    // Update equipment location
+    const updatedEquipment = [...(unit.data?.weapons_and_equipment || [])];
+    updatedEquipment[index] = {
+      ...updatedEquipment[index],
+      location: targetLocation
+    };
 
-    onUnitChange({
+    const updatedUnit = {
       ...unit,
-      equipmentPlacements: updatedPlacements,
-    });
+      data: {
+        ...unit.data,
+        weapons_and_equipment: updatedEquipment,
+      },
+    };
+    
+    onUnitChange(updatedUnit);
   }, [unit, criticalSlotsByLocation, onUnitChange]);
 
   // Handle equipment removal from critical slots
   const handleEquipmentRemoval = useCallback((equipmentId: string) => {
-    const updatedPlacements = (unit.equipmentPlacements || []).map(p => 
-      p.id === equipmentId 
-        ? { ...p, location: 'unallocated', criticalSlots: [] }
-        : p
-    );
+    // The equipmentId is the index as a string
+    const index = parseInt(equipmentId);
+    const updatedEquipment = [...(unit.data?.weapons_and_equipment || [])];
+    
+    if (!isNaN(index) && updatedEquipment[index]) {
+      updatedEquipment[index] = {
+        ...updatedEquipment[index],
+        location: 'Unallocated'
+      };
 
-    onUnitChange({
-      ...unit,
-      equipmentPlacements: updatedPlacements,
-    });
+      const updatedUnit = {
+        ...unit,
+        data: {
+          ...unit.data,
+          weapons_and_equipment: updatedEquipment,
+        },
+      };
+      
+      onUnitChange(updatedUnit);
+    }
   }, [unit, onUnitChange]);
 
   // Get unallocated equipment for assignment
-  const unallocatedEquipment = (unit.equipmentPlacements || []).filter(
-    placement => !placement.location || placement.location === 'unallocated'
-  );
+  const unallocatedEquipment = (unit.data?.weapons_and_equipment || [])
+    .filter(item => item.location === 'Unallocated')
+    .map((item, index) => {
+      const equipment = EQUIPMENT_DATABASE.find(e => e.name === item.item_name);
+      return {
+        name: item.item_name,
+        index: index,
+        crits: equipment?.crits || 1,
+        weight: equipment?.weight || 0,
+      };
+    });
 
   return (
     <div className="criticals-tab">
@@ -206,21 +266,21 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
               Unallocated Equipment
             </h3>
             <div className="space-y-2 max-h-64 overflow-y-auto">
-              {unallocatedEquipment.map(placement => (
+              {unallocatedEquipment.map((item, idx) => (
                 <div
-                  key={placement.id}
+                  key={`${item.name}-${idx}`}
                   draggable={!readOnly}
-                  onDragStart={() => setDraggedEquipment(placement.id)}
+                  onDragStart={() => setDraggedEquipment(`${item.index}`)}
                   onDragEnd={() => setDraggedEquipment(null)}
                   className={`p-2 border border-gray-200 rounded bg-gray-50 cursor-move transition-colors ${
-                    draggedEquipment === placement.id ? 'opacity-50' : 'hover:bg-gray-100'
+                    draggedEquipment === `${item.index}` ? 'opacity-50' : 'hover:bg-gray-100'
                   }`}
                 >
                   <div className="text-sm font-medium text-gray-900">
-                    {placement.equipment.name}
+                    {item.name}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {placement.equipment.space} slot{placement.equipment.space !== 1 ? 's' : ''} • {placement.equipment.weight}t
+                    {item.crits} slot{item.crits !== 1 ? 's' : ''} • {item.weight}t
                   </div>
                 </div>
               ))}
@@ -244,7 +304,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
             draggedEquipment={draggedEquipment}
             validationErrors={validationErrors}
             readOnly={readOnly}
-            compact={compact}
+            compact={true}
           />
         </div>
 
@@ -280,16 +340,19 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                 <div>
                   <div className="text-xs font-medium text-gray-700 mb-2">Equipment:</div>
                   <div className="space-y-1">
-                    {(unit.equipmentPlacements || [])
-                      .filter(p => p.location === selectedLocation)
-                      .map(placement => (
-                        <div key={placement.id} className="text-xs bg-gray-50 p-2 rounded">
-                          <div className="font-medium">{placement.equipment.name}</div>
-                          <div className="text-gray-600">
-                            Slots: {placement.criticalSlots?.join(', ') || 'None'}
+                    {(unit.data?.weapons_and_equipment || [])
+                      .filter(item => item.location === selectedLocation)
+                      .map((item, index) => {
+                        const equipment = EQUIPMENT_DATABASE.find(e => e.name === item.item_name);
+                        return (
+                          <div key={`${item.item_name}-${index}`} className="text-xs bg-gray-50 p-2 rounded">
+                            <div className="font-medium">{item.item_name}</div>
+                            <div className="text-gray-600">
+                              {equipment?.crits || 1} slot{equipment?.crits !== 1 ? 's' : ''}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                   </div>
                 </div>
 
@@ -299,12 +362,21 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                     <button
                       onClick={() => {
                         // Clear all non-fixed equipment from this location
-                        const updatedPlacements = (unit.equipmentPlacements || []).map(p => 
-                          p.location === selectedLocation 
-                            ? { ...p, location: 'unallocated', criticalSlots: [] }
-                            : p
+                        const updatedEquipment = (unit.data?.weapons_and_equipment || []).map(item => 
+                          item.location === selectedLocation 
+                            ? { ...item, location: 'Unallocated' }
+                            : item
                         );
-                        onUnitChange({ ...unit, equipmentPlacements: updatedPlacements });
+                        
+                        const updatedUnit = {
+                          ...unit,
+                          data: {
+                            ...unit.data,
+                            weapons_and_equipment: updatedEquipment,
+                          },
+                        };
+                        
+                        onUnitChange(updatedUnit);
                       }}
                       className="w-full px-3 py-2 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
                     >

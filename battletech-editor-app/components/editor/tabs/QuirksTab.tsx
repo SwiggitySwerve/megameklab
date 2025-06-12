@@ -1,151 +1,103 @@
 import React, { useState, useMemo } from 'react';
-import { EditorComponentProps, Quirk } from '../../../types/editor';
+import { EditorComponentProps } from '../../../types/editor';
 
-// Sample quirks data - would normally come from a database
-const SAMPLE_QUIRKS: Quirk[] = [
-  // Positive Quirks
-  {
-    id: 'accurate',
-    name: 'Accurate',
-    category: 'positive',
-    cost: 2,
-    description: 'This unit receives a -1 modifier to all weapon attack rolls.',
-    restrictions: ['BattleMech', 'Vehicle'],
-  },
-  {
-    id: 'battlefists',
-    name: 'Battle Fists',
-    category: 'positive', 
-    cost: 1,
-    description: 'Physical attacks with this unit\'s fists cause +1 damage.',
-    restrictions: ['BattleMech'],
-    incompatibleWith: ['no_arms'],
-  },
-  {
-    id: 'command_mech',
-    name: 'Command \'Mech',
-    category: 'positive',
-    cost: 2,
-    description: 'Friendly units within 6 hexes gain +1 to initiative rolls.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'difficult_eject',
-    name: 'Difficult to Pilot',
-    category: 'positive',
-    cost: 1,
-    description: 'Pilots receive +1 bonus to ejection rolls.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'enhanced_sensors',
-    name: 'Enhanced Sensors',
-    category: 'positive',
-    cost: 3,
-    description: 'Extended sensor range and improved target acquisition.',
-    restrictions: ['BattleMech', 'Vehicle'],
-  },
-  {
-    id: 'improved_life_support',
-    name: 'Improved Life Support',
-    category: 'positive',
-    cost: 1,
-    description: 'Pilot can survive longer in hostile environments.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'rugged',
-    name: 'Rugged',
-    category: 'positive',
-    cost: 2,
-    description: 'Receives +1 modifier to critical hit resistance rolls.',
-    restrictions: ['BattleMech', 'Vehicle'],
-  },
-
-  // Negative Quirks
-  {
-    id: 'ammunition_feed_problem',
-    name: 'Ammunition Feed Problem',
-    category: 'negative',
-    cost: -2,
-    description: 'Ballistic weapons have increased chance of jamming.',
-    restrictions: ['BattleMech', 'Vehicle'],
-  },
-  {
-    id: 'cramped_cockpit',
-    name: 'Cramped Cockpit',
-    category: 'negative',
-    cost: -1,
-    description: 'Pilot suffers +1 penalty to all piloting rolls.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'exposed_actuators',
-    name: 'Exposed Actuators',
-    category: 'negative',
-    cost: -1,
-    description: 'Actuators are more vulnerable to critical hits.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'hard_pilot',
-    name: 'Hard to Pilot',
-    category: 'negative',
-    cost: -1,
-    description: 'All piloting skill rolls receive +1 difficulty modifier.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'no_ejection_system',
-    name: 'No Ejection System',
-    category: 'negative',
-    cost: -2,
-    description: 'Pilot cannot eject from this unit.',
-    restrictions: ['BattleMech'],
-    incompatibleWith: ['difficult_eject'],
-  },
-  {
-    id: 'poor_cooling_jacket',
-    name: 'Poor Cooling Jacket',
-    category: 'negative',
-    cost: -1,
-    description: 'Heat dissipation is reduced by 1 point per turn.',
-    restrictions: ['BattleMech'],
-  },
-  {
-    id: 'weak_head_armor',
-    name: 'Weak Head Armor',
-    category: 'negative',
-    cost: -1,
-    description: 'Head location has reduced armor protection.',
-    restrictions: ['BattleMech'],
-  },
-
-  // Equipment Quirks
-  {
-    id: 'improved_cooling_jacket',
-    name: 'Improved Cooling Jacket',
-    category: 'equipment',
-    cost: 1,
-    description: 'Heat dissipation is increased by 1 point per turn.',
-    restrictions: ['BattleMech'],
-    incompatibleWith: ['poor_cooling_jacket'],
-  },
-  {
-    id: 'reinforced_legs',
-    name: 'Reinforced Legs',
-    category: 'equipment',
-    cost: 1,
-    description: 'Leg locations receive +2 internal structure.',
-    restrictions: ['BattleMech'],
-  },
+// Quirk definitions
+const POSITIVE_QUIRKS = [
+  'Animalistic Appearance',
+  'Anti-Aircraft Targeting',
+  'Battle Computer',
+  'Battle Fists (LA)',
+  'Battle Fists (RA)',
+  'Combat Computer',
+  'Command Mek',
+  'Compact Mek',
+  'Cowl',
+  'Directional Torso Mount',
+  'Distracting',
+  'Easy to Maintain',
+  'Easy to Pilot',
+  'Extended Torso Twist',
+  'Fast Reload',
+  'Fine Manipulators',
+  'Good Reputation (1)',
+  'Good Reputation (2)',
+  'Hyper-Extending Actuators',
+  'Improved Communications',
+  'Improved Life Support',
+  'Improved Sensors',
+  'Improved Targeting (Long)',
+  'Improved Targeting (Medium)',
+  'Improved Targeting (Short)',
+  'Multi-Trac',
+  'Narrow/Low Profile',
+  'Nimble Jumper',
+  'Overhead Arms',
+  'Protected Actuators',
+  'Reinforced Legs',
+  'Rugged (1 Point)',
+  'Rugged (2 Point)',
+  'Searchlight',
+  'Stable',
+  'Ubiquitous (Clans)',
+  'Ubiquitous (Inner Sphere)',
+  'Variable Range Targeting (long)',
+  'Variable Range Targeting (short)',
+  'Vestigial Hands (Left)',
+  'Vestigial Hands (Right)',
 ];
 
-const QUIRK_CATEGORIES = [
-  { id: 'all', label: 'All Quirks', icon: '🔧' },
-  { id: 'positive', label: 'Positive Quirks', icon: '✅' },
-  { id: 'negative', label: 'Negative Quirks', icon: '❌' },
-  { id: 'equipment', label: 'Equipment Quirks', icon: '⚙️' },
+const NEGATIVE_QUIRKS = [
+  'Bad Reputation (Clan)',
+  'Bad Reputation (Inner Sphere)',
+  'Cramped Cockpit',
+  'Difficult Ejection',
+  'Difficult to Maintain',
+  'EM Interference (Whole Unit)',
+  'Exposed Actuators',
+  'Flawed Cooling System',
+  'Hard to Pilot',
+  'Illegal Design',
+  'Low-Mounted Arms',
+  'No Ejection System',
+  'No Torso Twist (Legacy)',
+  'No/Minimal Arms',
+  'Non-Standard Parts',
+  'Obsolete',
+  'Poor Life Support',
+  'Poor Performance',
+  'Poor Sealing',
+  'Poor Targeting (Long)',
+  'Poor Targeting (Medium)',
+  'Poor Targeting (Short)',
+  'Poor Workmanship',
+  'Prototype',
+  'Ramshackle',
+  'Sensor Ghosts',
+  'Susceptible to Centurion Weapon System',
+  'Unbalanced',
+  'Weak Head Armor (1)',
+  'Weak Head Armor (2)',
+  'Weak Head Armor (3)',
+  'Weak Head Armor (4)',
+  'Weak Head Armor (5)',
+  'Weak Legs',
+];
+
+const WEAPON_QUIRKS = [
+  { id: 'accurate_weapon', name: 'Accurate Weapon' },
+  { id: 'ammo_feed_problems', name: 'Ammo Feed Problems' },
+  { id: 'directional_torso_weapon', name: 'Directional Torso Mounted Weapon' },
+  { id: 'exposed_weapon_linkage', name: 'Exposed Weapon Linkage' },
+  { id: 'fast_reload', name: 'Fast Reload' },
+  { id: 'improved_cooling_jacket', name: 'Improved Cooling Jacket' },
+  { id: 'inaccurate_weapon', name: 'Inaccurate Weapon' },
+  { id: 'jettison_capable', name: 'Jettison-Capable Weapon' },
+  { id: 'misrepaired_weapon', name: 'Misrepaired Weapon' },
+  { id: 'misreplaced_weapon', name: 'Misreplaced Weapon' },
+  { id: 'modular_weapon', name: 'Modular Weapon' },
+  { id: 'non_functional', name: 'Non-Functional' },
+  { id: 'poor_cooling_jacket', name: 'Poor Cooling Jacket' },
+  { id: 'stabilized_weapon', name: 'Stabilized Weapon' },
 ];
 
 const QuirksTab: React.FC<EditorComponentProps> = ({
@@ -153,361 +105,294 @@ const QuirksTab: React.FC<EditorComponentProps> = ({
   onUnitChange,
   validationErrors = [],
   readOnly = false,
-  compact = true,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchPositive, setSearchPositive] = useState('');
+  const [searchNegative, setSearchNegative] = useState('');
+  const [selectedWeapon, setSelectedWeapon] = useState<string>('');
+  const [selectedWeaponQuirk, setSelectedWeaponQuirk] = useState<string>('');
 
-  // Filter quirks based on category and search
-  const filteredQuirks = useMemo(() => {
-    let quirks = SAMPLE_QUIRKS;
+  // Get current quirks from unit
+  const positiveQuirks = unit.data?.quirks?.positive || [];
+  const negativeQuirks = unit.data?.quirks?.negative || [];
+  const weaponQuirks = unit.data?.quirks?.weapons || [];
 
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      quirks = quirks.filter(quirk => quirk.category === selectedCategory);
-    }
-
-    // Filter by search term
-    if (searchTerm) {
-      const search = searchTerm.toLowerCase();
-      quirks = quirks.filter(quirk => 
-        quirk.name.toLowerCase().includes(search) ||
-        quirk.description.toLowerCase().includes(search)
-      );
-    }
-
-    return quirks;
-  }, [selectedCategory, searchTerm]);
-
-  // Calculate total quirk cost
-  const totalQuirkCost = useMemo(() => {
-    return (unit.selectedQuirks || []).reduce((sum, quirk) => sum + quirk.cost, 0);
-  }, [unit.selectedQuirks]);
-
-  // Check if quirk is selected
-  const isQuirkSelected = (quirkId: string): boolean => {
-    return (unit.selectedQuirks || []).some(quirk => quirk.id === quirkId);
-  };
-
-  // Check if quirk is compatible
-  const isQuirkCompatible = (quirk: Quirk): boolean => {
-    const selectedQuirks = unit.selectedQuirks || [];
-    
-    // Check incompatible quirks
-    if (quirk.incompatibleWith) {
-      const hasIncompatible = selectedQuirks.some(selected => 
-        quirk.incompatibleWith!.includes(selected.id)
-      );
-      if (hasIncompatible) return false;
-    }
-
-    // Check if any selected quirks are incompatible with this one
-    const conflictsWithSelected = selectedQuirks.some(selected => 
-      selected.incompatibleWith?.includes(quirk.id)
+  // Filter quirks based on search
+  const filteredPositiveQuirks = useMemo(() => {
+    if (!searchPositive) return POSITIVE_QUIRKS;
+    const searchLower = searchPositive.toLowerCase();
+    return POSITIVE_QUIRKS.filter(quirk => 
+      quirk.toLowerCase().includes(searchLower)
     );
+  }, [searchPositive]);
+
+  const filteredNegativeQuirks = useMemo(() => {
+    if (!searchNegative) return NEGATIVE_QUIRKS;
+    const searchLower = searchNegative.toLowerCase();
+    return NEGATIVE_QUIRKS.filter(quirk => 
+      quirk.toLowerCase().includes(searchLower)
+    );
+  }, [searchNegative]);
+
+  // Get available weapons for weapon quirks
+  const availableWeapons = useMemo(() => {
+    return (unit.data?.weapons_and_equipment || [])
+      .filter(item => item.item_type === 'weapon')
+      .map(item => ({
+        id: item.item_name,
+        name: item.item_name,
+        location: item.location || 'Unallocated'
+      }));
+  }, [unit.data?.weapons_and_equipment]);
+
+  // Handle quirk toggle
+  const handleQuirkToggle = (quirk: string, isPositive: boolean) => {
+    const currentQuirks = isPositive ? positiveQuirks : negativeQuirks;
+    const hasQuirk = currentQuirks.includes(quirk);
     
-    return !conflictsWithSelected;
-  };
+    const updatedQuirks = hasQuirk
+      ? currentQuirks.filter(q => q !== quirk)
+      : [...currentQuirks, quirk];
 
-  // Handle quirk selection
-  const handleQuirkToggle = (quirk: Quirk) => {
-    if (readOnly) return;
-
-    const selectedQuirks = unit.selectedQuirks || [];
-    const isSelected = isQuirkSelected(quirk.id);
-
-    let updatedQuirks: Quirk[];
-    if (isSelected) {
-      // Remove quirk
-      updatedQuirks = selectedQuirks.filter(q => q.id !== quirk.id);
-    } else {
-      // Add quirk if compatible
-      if (isQuirkCompatible(quirk)) {
-        updatedQuirks = [...selectedQuirks, quirk];
-      } else {
-        return; // Can't add incompatible quirk
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        quirks: {
+          ...unit.data?.quirks,
+          [isPositive ? 'positive' : 'negative']: updatedQuirks,
+          weapons: weaponQuirks
+        }
       }
-    }
-
-    onUnitChange({
-      ...unit,
-      selectedQuirks: updatedQuirks,
-    });
+    };
+    
+    onUnitChange(updatedUnit);
   };
 
-  // Clear all quirks
-  const handleClearAllQuirks = () => {
-    if (readOnly) return;
-    onUnitChange({
+  // Handle weapon quirk addition
+  const handleAddWeaponQuirk = () => {
+    if (!selectedWeapon || !selectedWeaponQuirk) return;
+
+    const newWeaponQuirk = {
+      weaponId: selectedWeapon,
+      quirk: selectedWeaponQuirk
+    };
+
+    const updatedUnit = {
       ...unit,
-      selectedQuirks: [],
-    });
+      data: {
+        ...unit.data,
+        quirks: {
+          ...unit.data?.quirks,
+          positive: positiveQuirks,
+          negative: negativeQuirks,
+          weapons: [...weaponQuirks, newWeaponQuirk]
+        }
+      }
+    };
+    
+    onUnitChange(updatedUnit);
+    setSelectedWeapon('');
+    setSelectedWeaponQuirk('');
+  };
+
+  // Handle weapon quirk removal
+  const handleRemoveWeaponQuirk = (index: number) => {
+    const updatedWeaponQuirks = weaponQuirks.filter((_, i) => i !== index);
+    
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        quirks: {
+          ...unit.data?.quirks,
+          positive: positiveQuirks,
+          negative: negativeQuirks,
+          weapons: updatedWeaponQuirks
+        }
+      }
+    };
+    
+    onUnitChange(updatedUnit);
   };
 
   return (
-    <div className="quirks-tab">
-      <div className="grid grid-cols-4 gap-4 max-w-7xl">
-        {/* Left Column - Categories and Search */}
-        <div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 border-b border-gray-200 pb-2">
-              Quirk Categories
-            </h3>
-            
+    <div className="quirks-tab bg-slate-900 text-slate-100 min-h-screen p-4">
+      <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+        {/* Positive Quirks */}
+        <div className="bg-slate-800 border border-slate-600 rounded">
+          <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
+            <h3 className="text-sm font-medium">Positive Quirks</h3>
+          </div>
+          <div className="p-3">
             {/* Search */}
-            <div className="mb-4">
+            <div className="mb-3">
               <input
                 type="text"
-                placeholder="Search quirks..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={searchPositive}
+                onChange={(e) => setSearchPositive(e.target.value)}
+                placeholder="Search positive quirks..."
+                className="w-full px-2 py-1 text-sm bg-slate-700 border border-slate-600 rounded focus:ring-1 focus:ring-blue-500"
               />
             </div>
-
-            {/* Category Filter */}
-            <div className="space-y-1">
-              {QUIRK_CATEGORIES.map(category => {
-                const isSelected = selectedCategory === category.id;
-                const count = category.id === 'all' 
-                  ? SAMPLE_QUIRKS.length 
-                  : SAMPLE_QUIRKS.filter(q => q.category === category.id).length;
-
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                      isSelected
-                        ? 'bg-blue-100 text-blue-900 border border-blue-300'
-                        : 'hover:bg-gray-100 border border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center">
-                        <span className="mr-2">{category.icon}</span>
-                        <span className="font-medium">{category.label}</span>
-                      </span>
-                      <span className="text-xs text-gray-500">{count}</span>
-                    </div>
-                  </button>
-                );
-              })}
+            
+            {/* Quirk list */}
+            <div className="space-y-1 max-h-96 overflow-y-auto">
+              {filteredPositiveQuirks.map(quirk => (
+                <label key={quirk} className="flex items-center space-x-2 hover:bg-slate-700 px-2 py-1 rounded cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={positiveQuirks.includes(quirk)}
+                    onChange={() => handleQuirkToggle(quirk, true)}
+                    disabled={readOnly}
+                    className="rounded border-slate-500 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-sm">{quirk}</span>
+                </label>
+              ))}
+            </div>
+            
+            {/* Selected count */}
+            <div className="mt-3 pt-3 border-t border-slate-600 text-xs text-slate-400">
+              Selected: {positiveQuirks.length} quirks
             </div>
           </div>
+        </div>
 
-          {/* Selected Quirks Summary */}
-          <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 border-b border-gray-200 pb-2">
-              Selected Quirks
-            </h3>
+        {/* Negative Quirks */}
+        <div className="bg-slate-800 border border-slate-600 rounded">
+          <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
+            <h3 className="text-sm font-medium">Negative Quirks</h3>
+          </div>
+          <div className="p-3">
+            {/* Search */}
+            <div className="mb-3">
+              <input
+                type="text"
+                value={searchNegative}
+                onChange={(e) => setSearchNegative(e.target.value)}
+                placeholder="Search negative quirks..."
+                className="w-full px-2 py-1 text-sm bg-slate-700 border border-slate-600 rounded focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
             
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Total Cost:</span>
-                <span className={`font-semibold ${
-                  totalQuirkCost > 0 ? 'text-green-600' : 
-                  totalQuirkCost < 0 ? 'text-red-600' : 'text-gray-900'
-                }`}>
-                  {totalQuirkCost > 0 ? '+' : ''}{totalQuirkCost} points
-                </span>
-              </div>
-              
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Count:</span>
-                <span className="text-gray-900">{(unit.selectedQuirks || []).length}</span>
-              </div>
+            {/* Quirk list */}
+            <div className="space-y-1 max-h-96 overflow-y-auto">
+              {filteredNegativeQuirks.map(quirk => (
+                <label key={quirk} className="flex items-center space-x-2 hover:bg-slate-700 px-2 py-1 rounded cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={negativeQuirks.includes(quirk)}
+                    onChange={() => handleQuirkToggle(quirk, false)}
+                    disabled={readOnly}
+                    className="rounded border-slate-500 text-red-600 focus:ring-red-500"
+                  />
+                  <span className="text-sm">{quirk}</span>
+                </label>
+              ))}
+            </div>
+            
+            {/* Selected count */}
+            <div className="mt-3 pt-3 border-t border-slate-600 text-xs text-slate-400">
+              Selected: {negativeQuirks.length} quirks
+            </div>
+          </div>
+        </div>
+      </div>
 
-              {(unit.selectedQuirks || []).length > 0 && (
-                <div className="space-y-1">
-                  {(unit.selectedQuirks || []).map(quirk => (
-                    <div key={quirk.id} className="text-xs bg-gray-50 p-2 rounded">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">{quirk.name}</span>
-                        <span className={`${
-                          quirk.cost > 0 ? 'text-green-600' : 
-                          quirk.cost < 0 ? 'text-red-600' : 'text-gray-500'
-                        }`}>
-                          {quirk.cost > 0 ? '+' : ''}{quirk.cost}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {!readOnly && (unit.selectedQuirks || []).length > 0 && (
-                <button
-                  onClick={handleClearAllQuirks}
-                  className="w-full mt-3 px-3 py-2 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+      {/* Weapon-Specific Quirks */}
+      <div className="mt-4 max-w-6xl mx-auto">
+        <div className="bg-slate-800 border border-slate-600 rounded">
+          <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
+            <h3 className="text-sm font-medium">Weapon-Specific Quirks</h3>
+          </div>
+          <div className="p-3">
+            {/* Add weapon quirk */}
+            <div className="flex items-end space-x-3 mb-4">
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-slate-400 mb-1">Weapon</label>
+                <select
+                  value={selectedWeapon}
+                  onChange={(e) => setSelectedWeapon(e.target.value)}
+                  className="w-full px-2 py-1 text-sm bg-slate-700 border border-slate-600 rounded focus:ring-1 focus:ring-blue-500"
+                  disabled={readOnly || availableWeapons.length === 0}
                 >
-                  Clear All Quirks
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Center Column - Available Quirks */}
-        <div className="col-span-2">
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Available Quirks
-              </h3>
-              <div className="text-sm text-gray-500">
-                {filteredQuirks.length} quirk{filteredQuirks.length !== 1 ? 's' : ''}
+                  <option value="">Select a weapon...</option>
+                  {availableWeapons.map(weapon => (
+                    <option key={weapon.id} value={weapon.id}>
+                      {weapon.name} ({weapon.location})
+                    </option>
+                  ))}
+                </select>
               </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-slate-400 mb-1">Quirk</label>
+                <select
+                  value={selectedWeaponQuirk}
+                  onChange={(e) => setSelectedWeaponQuirk(e.target.value)}
+                  className="w-full px-2 py-1 text-sm bg-slate-700 border border-slate-600 rounded focus:ring-1 focus:ring-blue-500"
+                  disabled={readOnly || !selectedWeapon}
+                >
+                  <option value="">Select a quirk...</option>
+                  {WEAPON_QUIRKS.map(quirk => (
+                    <option key={quirk.id} value={quirk.id}>
+                      {quirk.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button
+                onClick={handleAddWeaponQuirk}
+                disabled={readOnly || !selectedWeapon || !selectedWeaponQuirk}
+                className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-slate-600 disabled:opacity-50"
+              >
+                Add
+              </button>
             </div>
 
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {filteredQuirks.map(quirk => {
-                const isSelected = isQuirkSelected(quirk.id);
-                const isCompatible = isQuirkCompatible(quirk);
-                const canSelect = !isSelected && isCompatible;
-
-                return (
-                  <div
-                    key={quirk.id}
-                    className={`border rounded-lg p-3 transition-colors ${
-                      isSelected 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : !isCompatible
-                        ? 'border-red-300 bg-red-50 opacity-60'
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <h4 className="font-medium text-gray-900">{quirk.name}</h4>
-                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            quirk.category === 'positive' ? 'bg-green-100 text-green-800' :
-                            quirk.category === 'negative' ? 'bg-red-100 text-red-800' :
-                            'bg-blue-100 text-blue-800'
-                          }`}>
-                            {quirk.category}
-                          </span>
-                          <span className={`text-sm font-semibold ${
-                            quirk.cost > 0 ? 'text-green-600' : 
-                            quirk.cost < 0 ? 'text-red-600' : 'text-gray-500'
-                          }`}>
-                            {quirk.cost > 0 ? '+' : ''}{quirk.cost}
-                          </span>
-                        </div>
-                        
-                        <p className="text-sm text-gray-600 mb-2">
-                          {quirk.description}
-                        </p>
-
-                        {quirk.restrictions && quirk.restrictions.length > 0 && (
-                          <div className="text-xs text-gray-500">
-                            <span className="font-medium">Restrictions:</span> {quirk.restrictions.join(', ')}
-                          </div>
-                        )}
-
-                        {quirk.incompatibleWith && quirk.incompatibleWith.length > 0 && (
-                          <div className="text-xs text-red-600 mt-1">
-                            <span className="font-medium">Incompatible with:</span> {quirk.incompatibleWith.join(', ')}
-                          </div>
-                        )}
-
-                        {!isCompatible && !isSelected && (
-                          <div className="text-xs text-red-600 mt-1 font-medium">
-                            ⚠️ Incompatible with selected quirks
-                          </div>
-                        )}
+            {/* Weapon quirks list */}
+            {weaponQuirks.length === 0 ? (
+              <div className="text-center text-slate-500 py-4 text-sm">
+                No weapon-specific quirks assigned
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {weaponQuirks.map((wq, index) => {
+                  const weaponName = availableWeapons.find(w => w.id === wq.weaponId)?.name || wq.weaponId;
+                  const quirkName = WEAPON_QUIRKS.find(q => q.id === wq.quirk)?.name || wq.quirk;
+                  
+                  return (
+                    <div key={index} className="flex items-center justify-between bg-slate-700 px-3 py-2 rounded">
+                      <div className="text-sm">
+                        <span className="font-medium">{weaponName}</span>
+                        <span className="text-slate-400 mx-2">•</span>
+                        <span className="text-slate-300">{quirkName}</span>
                       </div>
-
-                      {!readOnly && (
-                        <button
-                          onClick={() => handleQuirkToggle(quirk)}
-                          disabled={!canSelect && !isSelected}
-                          className={`ml-3 px-3 py-1 text-xs rounded transition-colors ${
-                            isSelected
-                              ? 'bg-red-600 text-white hover:bg-red-700'
-                              : canSelect
-                              ? 'bg-blue-600 text-white hover:bg-blue-700'
-                              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                          }`}
-                        >
-                          {isSelected ? 'Remove' : 'Add'}
-                        </button>
-                      )}
+                      <button
+                        onClick={() => handleRemoveWeaponQuirk(index)}
+                        disabled={readOnly}
+                        className="text-red-400 hover:text-red-300 text-sm"
+                      >
+                        Remove
+                      </button>
                     </div>
-                  </div>
-                );
-              })}
-
-              {filteredQuirks.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  <div className="text-lg mb-2">🔍</div>
-                  <p>No quirks found matching your criteria.</p>
-                </div>
-              )}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Right Column - Rules and Help */}
-        <div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3 border-b border-gray-200 pb-2">
-              Quirk Rules
-            </h3>
-            
-            <div className="space-y-3 text-xs text-gray-600">
-              <div>
-                <div className="font-medium text-gray-700 mb-1">Positive Quirks:</div>
-                <p>Beneficial traits that cost points to add. Improve unit performance in various ways.</p>
-              </div>
-              
-              <div>
-                <div className="font-medium text-gray-700 mb-1">Negative Quirks:</div>
-                <p>Detrimental traits that provide points when taken. Can offset positive quirk costs.</p>
-              </div>
-              
-              <div>
-                <div className="font-medium text-gray-700 mb-1">Equipment Quirks:</div>
-                <p>Special modifications or equipment enhancements that affect unit capabilities.</p>
-              </div>
-
-              <div>
-                <div className="font-medium text-gray-700 mb-1">Incompatibility:</div>
-                <p>Some quirks cannot be taken together. Incompatible quirks are highlighted in red.</p>
-              </div>
-
-              <div>
-                <div className="font-medium text-gray-700 mb-1">Point Balance:</div>
-                <p>Total quirk cost is typically limited by scenario rules or campaign guidelines.</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Stats */}
-          <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-3">
-            <div className="text-xs text-gray-600">
-              <div className="font-medium mb-2">Quick Stats:</div>
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span>Available Quirks:</span>
-                  <span>{SAMPLE_QUIRKS.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Positive:</span>
-                  <span className="text-green-600">{SAMPLE_QUIRKS.filter(q => q.category === 'positive').length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Negative:</span>
-                  <span className="text-red-600">{SAMPLE_QUIRKS.filter(q => q.category === 'negative').length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Equipment:</span>
-                  <span className="text-blue-600">{SAMPLE_QUIRKS.filter(q => q.category === 'equipment').length}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Instructions */}
+      <div className="mt-4 max-w-6xl mx-auto bg-blue-900 bg-opacity-20 border border-blue-700 rounded p-3">
+        <div className="text-xs text-blue-300">
+          <div className="font-medium mb-1">Quirk Rules:</div>
+          <ul className="space-y-1 list-disc list-inside">
+            <li>Positive quirks provide beneficial effects like improved targeting or reduced maintenance</li>
+            <li>Negative quirks impose penalties such as poor performance or exposed components</li>
+            <li>Weapon quirks apply to specific weapons and can affect accuracy, heat, or reliability</li>
+            <li>Some quirks may have Battle Value (BV) modifiers</li>
+          </ul>
         </div>
       </div>
     </div>

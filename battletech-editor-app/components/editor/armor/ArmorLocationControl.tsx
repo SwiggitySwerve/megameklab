@@ -32,6 +32,10 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [tempFront, setTempFront] = useState(armorData?.armor_points?.toString() || '0');
   const [tempRear, setTempRear] = useState(armorData?.rear_armor_points?.toString() || '0');
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartY, setDragStartY] = useState(0);
+  const [dragStartValue, setDragStartValue] = useState(0);
+  const [dragTarget, setDragTarget] = useState<'front' | 'rear' | null>(null);
 
   const frontValue = armorData?.armor_points || 0;
   const rearValue = armorData?.rear_armor_points || 0;
@@ -110,16 +114,96 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
     }
   }, [location, frontValue, rearValue, readOnly, onArmorChange]);
 
+  // Drag handlers
+  const handleMouseDown = useCallback((e: React.MouseEvent, target: 'front' | 'rear') => {
+    if (readOnly) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsDragging(true);
+    setDragStartY(e.clientY);
+    setDragTarget(target);
+    setDragStartValue(target === 'front' ? frontValue : rearValue);
+    
+    // Add global mouse move and up handlers
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  }, [readOnly, frontValue, rearValue]);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || !dragTarget) return;
+    
+    const deltaY = dragStartY - e.clientY;
+    const sensitivity = 0.5; // Adjust pixels needed per armor point
+    const deltaArmor = Math.round(deltaY * sensitivity);
+    
+    const currentValue = dragTarget === 'front' ? frontValue : rearValue;
+    const otherValue = dragTarget === 'front' ? rearValue : frontValue;
+    const newValue = Math.max(0, Math.min(dragStartValue + deltaArmor, maxArmor - otherValue));
+    
+    if (dragTarget === 'front') {
+      onArmorChange(location, newValue, rearValue);
+    } else {
+      onArmorChange(location, frontValue, newValue);
+    }
+  }, [isDragging, dragTarget, dragStartY, dragStartValue, frontValue, rearValue, maxArmor, location, onArmorChange]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+    setDragTarget(null);
+    
+    // Remove global handlers
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }, [handleMouseMove]);
+
+  // Cleanup on unmount
+  React.useEffect(() => {
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp]);
+
+  // Mouse wheel handler
+  const handleWheel = useCallback((e: React.WheelEvent, isRear: boolean = false) => {
+    if (readOnly) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const delta = e.deltaY > 0 ? -1 : 1;
+    
+    if (isRear) {
+      const newRear = Math.max(0, Math.min(rearValue + delta, maxArmor - frontValue));
+      onArmorChange(location, frontValue, newRear);
+    } else {
+      const newFront = Math.max(0, Math.min(frontValue + delta, maxArmor - rearValue));
+      onArmorChange(location, newFront, rearValue);
+    }
+  }, [readOnly, frontValue, rearValue, maxArmor, location, onArmorChange]);
+
   const isOverLimit = frontValue + rearValue > maxArmor;
   const isAtMax = frontValue + rearValue === maxArmor;
+  
+  // Calculate armor percentage for color coding
+  const armorPercentage = maxArmor > 0 
+    ? ((frontValue + rearValue) / maxArmor) * 100 
+    : 0;
+  
+  // Determine color based on armor percentage
+  const getArmorLevelColor = () => {
+    if (isOverLimit) return 'border-red-500 bg-red-50';
+    if (armorPercentage >= 90) return 'border-red-400 bg-red-50';
+    if (armorPercentage >= 60) return 'border-yellow-400 bg-yellow-50';
+    return 'border-green-400 bg-green-50';
+  };
 
   return (
     <div 
       className={`
-        armor-location-control relative border rounded-lg p-2 min-w-[60px] cursor-pointer transition-all
-        ${isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white hover:border-gray-400'}
-        ${isOverLimit ? 'border-red-500 bg-red-50' : ''}
-        ${isAtMax ? 'border-green-500 bg-green-50' : ''}
+        armor-location-control relative border-2 rounded-lg p-2 min-w-[60px] cursor-pointer transition-all duration-200
+        ${isSelected ? 'border-blue-500 bg-blue-50 shadow-md' : getArmorLevelColor()}
+        ${!isSelected && !isOverLimit ? 'hover:shadow-sm' : ''}
         ${readOnly ? 'cursor-default' : ''}
       `}
       onClick={handleClick}
@@ -181,7 +265,14 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
               <span 
                 className={`text-sm font-medium min-w-[20px] text-center ${
                   isOverLimit ? 'text-red-600' : 'text-gray-900'
-                }`}
+                } ${isDragging && dragTarget === 'front' ? 'text-blue-600' : ''}`}
+                onMouseDown={(e) => handleMouseDown(e, 'front')}
+                onWheel={(e) => handleWheel(e, false)}
+                style={{ 
+                  cursor: readOnly ? 'default' : isDragging ? 'ns-resize' : 'grab',
+                  userSelect: 'none'
+                }}
+                title="Drag up/down or scroll to adjust"
               >
                 {frontValue}
               </span>
@@ -219,7 +310,14 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
                 <span 
                   className={`text-xs font-medium min-w-[16px] text-center ${
                     isOverLimit ? 'text-red-600' : 'text-gray-600'
-                  }`}
+                  } ${isDragging && dragTarget === 'rear' ? 'text-blue-600' : ''}`}
+                  onMouseDown={(e) => handleMouseDown(e, 'rear')}
+                  onWheel={(e) => handleWheel(e, true)}
+                  style={{ 
+                    cursor: readOnly ? 'default' : isDragging ? 'ns-resize' : 'grab',
+                    userSelect: 'none'
+                  }}
+                  title="Drag up/down or scroll to adjust"
                 >
                   {rearValue}
                 </span>

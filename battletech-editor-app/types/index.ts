@@ -86,6 +86,8 @@ export interface UnitData {
     thrust_mp?: number;
     safe_thrust_mp?: number;
     dive_mp?: number;
+    jump_type?: string; // 'Jump Jet', 'UMU', 'Mechanical Jump Booster'
+    mech_jump_booster_mp?: number;
   };
   armor?: {
     type?: string;
@@ -95,13 +97,20 @@ export interface UnitData {
   };
   weapons_and_equipment?: WeaponOrEquipmentItem[];
   criticals?: CriticalSlotLocation[];
-  quirks?: UnitQuirk[]; // Quirk format can vary
+  quirks?: UnitQuirks; // Changed to object structure
   manufacturers?: Manufacturer[];
   fluff_text?: FluffText;
   // LAM specific (examples)
   config_LAM?: string; // If 'Config: LAM'
   landing_gear?: any; // Structure depends on how it's stored
   avionics?: any;
+  // UI specific fields
+  icon?: string; // Base64 encoded image data
+  // Additional MegaMekLab fields
+  clan_name?: string;
+  source_era?: string; // Source/Era field
+  manual_bv?: number; // Manual Battle Value override
+  base_type?: string; // Standard or Primitive
 }
 
 export interface ArmorLocation {
@@ -150,6 +159,15 @@ export interface FluffText {
   history?: string;
   // other fluff sections
   [key: string]: string | undefined;
+}
+
+export interface UnitQuirks {
+  positive?: string[];
+  negative?: string[];
+  weapons?: Array<{
+    weaponId: string;
+    quirk: string;
+  }>;
 }
 
 export type UnitQuirk = string | { name: string, description?: string };

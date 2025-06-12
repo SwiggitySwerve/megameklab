@@ -1,240 +1,329 @@
-import { UnitData, TechBase, EquipmentTechBase } from '../types';
+// Unit validation rules for BattleTech mechs
 
 export interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-  warnings: string[];
+  isValid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
 }
 
-export interface ValidationContext {
-  era?: number;
-  allowExperimental?: boolean;
-  allowExtinct?: boolean;
+export interface ValidationError {
+  field: string;
+  message: string;
+  severity: 'error';
 }
 
-/**
- * Validates mixed tech construction rules based on MegaMekLab implementation
- */
-export function validateMixedTech(unit: UnitData): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  if (!unit.tech_base || !unit.tech_base.includes('Mixed')) {
-    return { valid: true, errors, warnings };
-  }
-
-  // Mixed (IS Chassis) validation
-  if (unit.tech_base === 'Mixed (IS Chassis)') {
-    // IS chassis must have IS structure
-    if (unit.structure?.type && unit.structure.type.toLowerCase().includes('clan')) {
-      errors.push('Mixed (IS Chassis) units must use Inner Sphere structure');
-    }
-    
-    // IS chassis typically uses IS engine (with some exceptions)
-    if (unit.engine?.type && unit.engine.type.toLowerCase().includes('clan')) {
-      warnings.push('Mixed (IS Chassis) units typically use Inner Sphere engines');
-    }
-  }
-
-  // Mixed (Clan Chassis) validation  
-  if (unit.tech_base === 'Mixed (Clan Chassis)') {
-    // Clan chassis must have Clan structure
-    if (unit.structure?.type && !unit.structure.type.toLowerCase().includes('clan')) {
-      errors.push('Mixed (Clan Chassis) units must use Clan structure');
-    }
-    
-    // Clan chassis typically uses Clan engine
-    if (unit.engine?.type && !unit.engine.type.toLowerCase().includes('clan')) {
-      warnings.push('Mixed (Clan Chassis) units typically use Clan engines');
-    }
-  }
-
-  // Equipment validation for mixed tech
-  if (unit.weapons_and_equipment) {
-    const hasISEquipment = unit.weapons_and_equipment.some(item => item.tech_base === 'IS');
-    const hasClanEquipment = unit.weapons_and_equipment.some(item => item.tech_base === 'Clan');
-    
-    if (!hasISEquipment && !hasClanEquipment) {
-      warnings.push('Mixed tech unit should have equipment from both IS and Clan tech bases');
-    }
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings
-  };
+export interface ValidationWarning {
+  field: string;
+  message: string;
+  severity: 'warning';
 }
 
-/**
- * Validates era-based technology restrictions
- */
-export function validateEraRestrictions(unit: UnitData, context: ValidationContext = {}): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+// Validate engine rating limits
+export function validateEngineRating(rating: number, engineType: string = 'Fusion'): ValidationError | null {
+  const maxRating = engineType === 'XXL' ? 500 : 400;
   
-  const era = context.era || (unit.era ? parseInt(unit.era.toString()) : null);
+  if (rating > maxRating) {
+    return {
+      field: 'engine',
+      message: `${engineType} engine rating cannot exceed ${maxRating}`,
+      severity: 'error'
+    };
+  }
   
-  if (!era) {
-    return { valid: true, errors, warnings };
+  if (rating < 10) {
+    return {
+      field: 'engine',
+      message: 'Engine rating must be at least 10',
+      severity: 'error'
+    };
   }
-
-  // Mixed tech restrictions by era
-  if (unit.tech_base?.includes('Mixed')) {
-    if (era < 3050) {
-      errors.push('Mixed technology is not available before 3050 (except rare prototypes)');
-    } else if (era < 3067) {
-      warnings.push('Mixed technology was limited between 3050-3067');
-    }
-  }
-
-  // Advanced equipment era restrictions (examples)
-  if (unit.weapons_and_equipment) {
-    unit.weapons_and_equipment.forEach(item => {
-      // Pulse lasers
-      if (item.item_name.toLowerCase().includes('pulse') && era < 3058) {
-        warnings.push(`${item.item_name} may not be available in ${era}`);
-      }
-      
-      // Ultra AC
-      if (item.item_name.toLowerCase().includes('ultra') && era < 3057) {
-        warnings.push(`${item.item_name} may not be available in ${era}`);
-      }
-    });
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings
-  };
-}
-
-/**
- * Validates OmniMech configuration rules
- */
-export function validateOmniMech(unit: UnitData): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  const isOmniConfig = unit.config?.includes('Omnimech') || unit.is_omnimech;
   
-  if (!isOmniConfig) {
-    return { valid: true, errors, warnings };
+  if (rating % 5 !== 0) {
+    return {
+      field: 'engine',
+      message: 'Engine rating must be divisible by 5',
+      severity: 'error'
+    };
   }
-
-  // OmniMech must have base chassis specified
-  if (!unit.omnimech_base_chassis) {
-    warnings.push('OmniMech should specify base chassis');
-  }
-
-  // OmniMech should have configuration variant
-  if (!unit.omnimech_configuration) {
-    warnings.push('OmniMech should specify configuration variant (Prime, A, B, etc.)');
-  }
-
-  // Pod-mounted equipment validation
-  if (unit.weapons_and_equipment) {
-    const hasPodEquipment = unit.weapons_and_equipment.some(item => item.is_omnipod);
-    
-    if (!hasPodEquipment) {
-      warnings.push('OmniMech should have some pod-mounted equipment');
-    }
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings
-  };
-}
-
-/**
- * Validates equipment tech base consistency
- */
-export function validateEquipmentTechBase(unit: UnitData): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  if (!unit.weapons_and_equipment) {
-    return { valid: true, errors, warnings };
-  }
-
-  unit.weapons_and_equipment.forEach((item, index) => {
-    // Equipment must have tech base specified
-    if (!item.tech_base) {
-      errors.push(`Equipment item ${index + 1} (${item.item_name}) missing tech base`);
-      return;
-    }
-
-    // Validate tech base matches expected patterns
-    const itemName = item.item_name.toLowerCase();
-    
-    // Common IS equipment patterns
-    if ((itemName.startsWith('is') || itemName.includes('autocannon') || itemName.includes('standard')) 
-        && item.tech_base === 'Clan') {
-      warnings.push(`${item.item_name} is typically Inner Sphere technology`);
-    }
-    
-    // Common Clan equipment patterns  
-    if ((itemName.startsWith('cl') || itemName.includes('streak') || itemName.includes('er ') || itemName.includes('lrm') || itemName.includes('srm'))
-        && item.tech_base === 'IS') {
-      warnings.push(`${item.item_name} is typically Clan technology`);
-    }
-  });
-
-  return {
-    valid: errors.length === 0,
-    errors,
-    warnings
-  };
-}
-
-/**
- * Comprehensive unit validation combining all rules
- */
-export function validateUnit(unit: UnitData, context: ValidationContext = {}): ValidationResult {
-  const results = [
-    validateMixedTech(unit),
-    validateEraRestrictions(unit, context),
-    validateOmniMech(unit),
-    validateEquipmentTechBase(unit)
-  ];
-
-  const allErrors = results.flatMap(r => r.errors);
-  const allWarnings = results.flatMap(r => r.warnings);
-
-  return {
-    valid: allErrors.length === 0,
-    errors: allErrors,
-    warnings: allWarnings
-  };
-}
-
-/**
- * Utility function to determine if a unit is mixed tech
- */
-export function isMixedTech(unit: UnitData): boolean {
-  return unit.tech_base?.includes('Mixed') || false;
-}
-
-/**
- * Utility function to determine chassis tech base from mixed tech string
- */
-export function getChassisTechBase(unit: UnitData): EquipmentTechBase | null {
-  if (unit.tech_base === 'Mixed (IS Chassis)') return 'IS';
-  if (unit.tech_base === 'Mixed (Clan Chassis)') return 'Clan';
-  if (unit.tech_base === 'Inner Sphere') return 'IS';
-  if (unit.tech_base === 'Clan') return 'Clan';
+  
   return null;
 }
 
-/**
- * Utility function to get era as number
- */
-export function getEraAsNumber(unit: UnitData): number | null {
-  if (!unit.era) return null;
+// Validate armor points for a location
+export function validateArmorPoints(
+  location: string, 
+  armorPoints: number, 
+  maxArmor: number, 
+  isRear: boolean = false
+): ValidationError | null {
+  if (armorPoints > maxArmor) {
+    return {
+      field: `armor_${location}${isRear ? '_rear' : ''}`,
+      message: `${location}${isRear ? ' rear' : ''} armor cannot exceed ${maxArmor} points`,
+      severity: 'error'
+    };
+  }
   
-  const era = parseInt(unit.era.toString());
-  return isNaN(era) ? null : era;
+  if (armorPoints < 0) {
+    return {
+      field: `armor_${location}${isRear ? '_rear' : ''}`,
+      message: `${location}${isRear ? ' rear' : ''} armor cannot be negative`,
+      severity: 'error'
+    };
+  }
+  
+  return null;
+}
+
+// Validate total tonnage
+export function validateTotalTonnage(
+  usedTonnage: number, 
+  maxTonnage: number
+): ValidationError | null {
+  if (usedTonnage > maxTonnage) {
+    return {
+      field: 'tonnage',
+      message: `Total weight (${usedTonnage.toFixed(1)}t) exceeds mech tonnage (${maxTonnage}t)`,
+      severity: 'error'
+    };
+  }
+  
+  return null;
+}
+
+// Validate heat sink count
+export function validateHeatSinks(
+  count: number, 
+  engineType: string = 'Fusion'
+): ValidationError | null {
+  const minHeatSinks = engineType === 'ICE' || engineType === 'Fuel Cell' ? 0 : 10;
+  
+  if (count < minHeatSinks) {
+    return {
+      field: 'heat_sinks',
+      message: `${engineType} engines require at least ${minHeatSinks} heat sinks`,
+      severity: 'error'
+    };
+  }
+  
+  return null;
+}
+
+// Validate critical slots
+export function validateCriticalSlots(
+  usedSlots: number, 
+  totalSlots: number
+): ValidationError | null {
+  if (usedSlots > totalSlots) {
+    return {
+      field: 'critical_slots',
+      message: `Used critical slots (${usedSlots}) exceed available slots (${totalSlots})`,
+      severity: 'error'
+    };
+  }
+  
+  return null;
+}
+
+// Validate tech level compatibility
+export function validateTechLevelCompatibility(
+  components: { type: string; techBase: string }[],
+  unitTechBase: string
+): ValidationError[] {
+  const errors: ValidationError[] = [];
+  
+  // Check if mixing tech bases when unit is not Mixed
+  if (unitTechBase !== 'Mixed') {
+    const incompatibleComponents = components.filter(comp => {
+      // Check if component tech base matches unit tech base
+      if (unitTechBase === 'Inner Sphere' && comp.techBase === 'Clan') {
+        return true;
+      }
+      if (unitTechBase === 'Clan' && comp.techBase === 'Inner Sphere') {
+        return true;
+      }
+      return false;
+    });
+    
+    incompatibleComponents.forEach(comp => {
+      errors.push({
+        field: 'tech_base',
+        message: `${comp.type} (${comp.techBase}) incompatible with ${unitTechBase} unit`,
+        severity: 'error'
+      });
+    });
+  }
+  
+  return errors;
+}
+
+// Check for incompatible component combinations
+export function validateComponentCompatibility(unit: any): ValidationError[] {
+  const errors: ValidationError[] = [];
+  
+  // XXL Engine incompatibilities
+  if (unit.data?.engine?.type === 'XXL') {
+    if (unit.data?.structure?.type === 'Endo Steel' || unit.data?.structure?.type === 'Endo Steel (Clan)') {
+      errors.push({
+        field: 'engine',
+        message: 'XXL engines cannot be used with Endo Steel structure',
+        severity: 'error'
+      });
+    }
+  }
+  
+  // Stealth Armor requirements
+  if (unit.data?.armor?.type === 'Stealth') {
+    if (unit.data?.heat_sinks?.type !== 'Double') {
+      errors.push({
+        field: 'armor',
+        message: 'Stealth armor requires double heat sinks',
+        severity: 'error'
+      });
+    }
+  }
+  
+  // TSM heat requirements
+  if (unit.data?.myomer?.type === 'Triple Strength Myomer') {
+    const heatSinkCount = unit.data?.heat_sinks?.count || 10;
+    if (heatSinkCount > 10) {
+      errors.push({
+        field: 'myomer',
+        message: 'TSM works best with exactly 10 heat sinks for heat buildup',
+        severity: 'error'
+      });
+    }
+  }
+  
+  return errors;
+}
+
+// Validate jump jets
+export function validateJumpJets(
+  jumpMP: number,
+  walkMP: number,
+  jumpType: string = 'Jump Jet'
+): ValidationError | null {
+  if (jumpType === 'Jump Jet' || jumpType === 'UMU') {
+    if (jumpMP > walkMP) {
+      return {
+        field: 'jump_mp',
+        message: 'Jump MP cannot exceed Walk MP for standard jump jets',
+        severity: 'error'
+      };
+    }
+  } else if (jumpType === 'Mechanical Jump Booster') {
+    if (jumpMP > 1) {
+      return {
+        field: 'jump_mp',
+        message: 'Mechanical Jump Booster provides exactly 1 Jump MP',
+        severity: 'error'
+      };
+    }
+  }
+  
+  return null;
+}
+
+// Generate warnings for suboptimal configurations
+export function generateWarnings(unit: any): ValidationWarning[] {
+  const warnings: ValidationWarning[] = [];
+  
+  // Warn about unused tonnage
+  const maxTonnage = unit.mass || 0;
+  const usedTonnage = unit.data?.total_weight || 0;
+  const unusedTonnage = maxTonnage - usedTonnage;
+  
+  if (unusedTonnage > 0.5) {
+    warnings.push({
+      field: 'tonnage',
+      message: `${unusedTonnage.toFixed(1)} tons unused`,
+      severity: 'warning'
+    });
+  }
+  
+  // Warn about low armor
+  const totalArmor = unit.data?.armor?.total_armor_points || 0;
+  const tonnageClass = maxTonnage <= 35 ? 'light' : 
+                      maxTonnage <= 55 ? 'medium' : 
+                      maxTonnage <= 75 ? 'heavy' : 'assault';
+  
+  const minRecommendedArmor = {
+    'light': 60,
+    'medium': 120,
+    'heavy': 200,
+    'assault': 280
+  };
+  
+  if (totalArmor < minRecommendedArmor[tonnageClass]) {
+    warnings.push({
+      field: 'armor',
+      message: `Low armor for ${tonnageClass} mech (recommended: ${minRecommendedArmor[tonnageClass]}+ points)`,
+      severity: 'warning'
+    });
+  }
+  
+  // Warn about head armor
+  const headArmor = unit.data?.armor?.locations?.find((loc: any) => loc.location === 'Head')?.armor_points || 0;
+  if (headArmor < 9) {
+    warnings.push({
+      field: 'armor_head',
+      message: 'Head armor below maximum (9) leaves pilot vulnerable',
+      severity: 'warning'
+    });
+  }
+  
+  return warnings;
+}
+
+// Main validation function
+export function validateUnit(unit: any, weights: any, crits: any): ValidationResult {
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
+  
+  // Engine validation
+  const engineRating = (unit.data?.movement?.walk_mp || 1) * (unit.mass || 20);
+  const engineError = validateEngineRating(engineRating, unit.data?.engine?.type);
+  if (engineError) errors.push(engineError);
+  
+  // Tonnage validation
+  const equipmentWeight = unit.data?.weapons_and_equipment?.reduce((sum: number, item: any) => {
+    return sum + (parseFloat(item.tons) || 0);
+  }, 0) || 0;
+  const totalWeight = weights.total + equipmentWeight;
+  const tonnageError = validateTotalTonnage(totalWeight, unit.mass || 20);
+  if (tonnageError) errors.push(tonnageError);
+  
+  // Heat sink validation
+  const heatSinkError = validateHeatSinks(
+    unit.data?.heat_sinks?.count || 10, 
+    unit.data?.engine?.type || 'Fusion'
+  );
+  if (heatSinkError) errors.push(heatSinkError);
+  
+  // Critical slot validation
+  const critError = validateCriticalSlots(crits.total, 78); // Standard mech has 78 slots
+  if (critError) errors.push(critError);
+  
+  // Jump jet validation
+  const jumpError = validateJumpJets(
+    unit.data?.movement?.jump_mp || 0,
+    unit.data?.movement?.walk_mp || 1,
+    unit.data?.movement?.jump_type || 'Jump Jet'
+  );
+  if (jumpError) errors.push(jumpError);
+  
+  // Component compatibility
+  const compatibilityErrors = validateComponentCompatibility(unit);
+  errors.push(...compatibilityErrors);
+  
+  // Generate warnings
+  const unitWarnings = generateWarnings(unit);
+  warnings.push(...unitWarnings);
+  
+  return {
+    isValid: errors.length === 0,
+    errors,
+    warnings
+  };
 }
