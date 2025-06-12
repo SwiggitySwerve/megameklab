@@ -53,6 +53,51 @@ export interface EditableUnit extends FullUnit {
     originalUnit?: string;
     customNotes?: string;
   };
+  
+  // LAM configuration (for Land-Air Mechs)
+  lamConfiguration?: {
+    currentMode: 'BattleMech' | 'AirMech' | 'Fighter';
+    conversionEquipmentDamaged: boolean;
+    currentFuel: number;
+    maxFuel: number;
+    lastTransformation?: number;
+  };
+  
+  // Pilot data
+  pilot?: {
+    name?: string;
+    pilotingSkill: number;
+    gunnerySkill: number;
+  };
+  
+  // QuadVee configuration
+  quadVeeConfiguration?: {
+    currentMode: 'Mech' | 'Vehicle';
+    conversionEquipmentDamaged: boolean;
+    lastTransformation?: number;
+  };
+  
+  // Current game state (for transformation checks)
+  currentMovementPoints?: number;
+  currentTerrain?: string;
+  
+  // ProtoMech configuration
+  protoMechScale?: number; // 2-9 tons
+  maxCriticalSlots?: number;
+  
+  // Battle Armor mounting
+  mountedBattleArmor?: Array<{
+    id: string;
+    name: string;
+    squad: string;
+    troopers: number;
+    location: string;
+    isOmniMount: boolean;
+  }>;
+  hasOmniMounts?: boolean;
+  
+  // Unallocated equipment (not yet placed in critical slots)
+  unallocatedEquipment?: FullEquipment[];
 }
 
 // Armor Types
