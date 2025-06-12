@@ -1,7 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { FullEquipment } from '../../../types/index';
+import { 
+  isEquipmentAvailable, 
+  getAvailabilityRating, 
+  getEraFromYear,
+  EQUIPMENT_TECH_DATA 
+} from '../../../utils/techProgression';
 
-// Sample equipment data for demonstration
+// Sample equipment data for demonstration with tech progression IDs
 const SAMPLE_EQUIPMENT: FullEquipment[] = [
   // Energy Weapons
   {
@@ -534,6 +540,9 @@ interface EquipmentDatabaseProps {
   onEquipmentAdd: (equipment: FullEquipment) => void;
   readOnly?: boolean;
   compact?: boolean;
+  currentYear?: number;
+  faction?: string;
+  showUnavailable?: boolean;
 }
 
 const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
@@ -546,12 +555,24 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
   onEquipmentAdd,
   readOnly = false,
   compact = true,
+  currentYear = 3025,
+  faction,
+  showUnavailable = false,
 }) => {
   const [sortBy, setSortBy] = useState<'name' | 'weight' | 'damage'>('name');
+  const [showAvailabilityFilter, setShowAvailabilityFilter] = useState(false);
 
   // Filter and sort equipment
   const filteredEquipment = useMemo(() => {
     let filtered = SAMPLE_EQUIPMENT.filter(equipment => {
+      // Tech availability filter
+      if (!showUnavailable) {
+        // Map equipment ID to tech progression ID
+        const techId = equipment.id.replace(/_/g, '_');
+        const isAvailable = isEquipmentAvailable(techId, currentYear, faction);
+        if (!isAvailable) return false;
+      }
+
       // Category filter
       if (selectedCategory !== 'all') {
         const category = equipment.data?.category || equipment.type;
@@ -604,8 +625,18 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
     <div className="equipment-database bg-white rounded-lg border border-gray-200 p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-900">Equipment Database</h3>
+        <h3 className="text-sm font-semibold text-gray-900">
+          Equipment Database ({getEraFromYear(currentYear)} - {currentYear})
+        </h3>
         <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setShowAvailabilityFilter(!showAvailabilityFilter)}
+            className={`px-2 py-1 text-xs rounded ${
+              showAvailabilityFilter ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'
+            } hover:bg-gray-200`}
+          >
+            Tech Filter
+          </button>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'name' | 'weight' | 'damage')}
@@ -617,6 +648,26 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           </select>
         </div>
       </div>
+
+      {/* Tech Availability Filter */}
+      {showAvailabilityFilter && (
+        <div className="mb-3 p-3 bg-gray-50 rounded border border-gray-200">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-gray-700">
+              Show unavailable equipment
+            </label>
+            <input
+              type="checkbox"
+              checked={showUnavailable}
+              onChange={(e) => e.target.checked}
+              className="rounded border-gray-300"
+            />
+          </div>
+          <div className="mt-2 text-xs text-gray-600">
+            Current tech availability based on {faction || 'All Factions'} in {currentYear}
+          </div>
+        </div>
+      )}
 
       {/* Search */}
       <div className="mb-3">
@@ -650,44 +701,67 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
 
       {/* Equipment List */}
       <div className="equipment-list max-h-96 overflow-y-auto space-y-2">
-        {filteredEquipment.map(equipment => (
-          <div
-            key={equipment.id}
-            className={`equipment-item border rounded-lg p-3 transition-all cursor-pointer ${
-              selectedEquipment === equipment.id
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-            }`}
-            onClick={() => onEquipmentSelect(
-              selectedEquipment === equipment.id ? null : equipment.id
-            )}
-          >
-            {/* Equipment Header */}
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="font-medium text-sm text-gray-900">{equipment.name}</h4>
-              {!readOnly && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEquipmentAdd(equipment);
-                  }}
-                  className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-                >
-                  Add
-                </button>
+        {filteredEquipment.map(equipment => {
+          const techId = equipment.id.replace(/_/g, '_');
+          const isAvailable = isEquipmentAvailable(techId, currentYear, faction);
+          const availabilityRating = getAvailabilityRating(techId, currentYear, faction);
+          const techData = EQUIPMENT_TECH_DATA[techId];
+          
+          return (
+            <div
+              key={equipment.id}
+              className={`equipment-item border rounded-lg p-3 transition-all cursor-pointer ${
+                selectedEquipment === equipment.id
+                  ? 'border-blue-500 bg-blue-50'
+                  : !isAvailable
+                  ? 'border-gray-200 bg-gray-100 opacity-60'
+                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+              }`}
+              onClick={() => onEquipmentSelect(
+                selectedEquipment === equipment.id ? null : equipment.id
               )}
-            </div>
+            >
+              {/* Equipment Header */}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-2">
+                  <h4 className={`font-medium text-sm ${!isAvailable ? 'text-gray-500' : 'text-gray-900'}`}>
+                    {equipment.name}
+                  </h4>
+                  {!isAvailable && techData && (
+                    <span className="text-xs text-red-600">
+                      ({techData.extinctionYear ? 'Extinct' : 'Not Yet Available'})
+                    </span>
+                  )}
+                </div>
+                {!readOnly && isAvailable && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEquipmentAdd(equipment);
+                    }}
+                    className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                  >
+                    Add
+                  </button>
+                )}
+              </div>
 
-            {/* Equipment Stats */}
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-              <div className="flex justify-between">
-                <span>Type:</span>
-                <span>{equipment.type}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tech:</span>
-                <span>{equipment.tech_base}</span>
-              </div>
+              {/* Equipment Stats */}
+              <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                <div className="flex justify-between">
+                  <span>Type:</span>
+                  <span>{equipment.type}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Tech:</span>
+                  <span>{equipment.tech_base}</span>
+                </div>
+                {availabilityRating !== 'X-X-X-X' && (
+                  <div className="flex justify-between col-span-2">
+                    <span>Availability:</span>
+                    <span className="font-mono text-xs">{availabilityRating}</span>
+                  </div>
+                )}
               {equipment.damage && (
                 <div className="flex justify-between">
                   <span>Damage:</span>
@@ -716,30 +790,43 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
               </div>
             </div>
 
-            {/* Expanded Details */}
-            {selectedEquipment === equipment.id && (
-              <div className="mt-3 pt-3 border-t border-gray-200">
-                <div className="text-xs text-gray-600 space-y-1">
-                  {equipment.data?.weapon_type && (
-                    <div><strong>Weapon Type:</strong> {equipment.data.weapon_type}</div>
-                  )}
-                  {equipment.data?.range && (
-                    <div>
-                      <strong>Range Brackets:</strong> 
-                      {equipment.data.range.minimum && ` Min: ${equipment.data.range.minimum}`}
-                      {equipment.data.range.short && ` Short: ${equipment.data.range.short}`}
-                      {equipment.data.range.medium && ` Medium: ${equipment.data.range.medium}`}
-                      {equipment.data.range.long && ` Long: ${equipment.data.range.long}`}
-                    </div>
-                  )}
-                  {equipment.data?.specials && (
-                    <div><strong>Special Rules:</strong> {Array.isArray(equipment.data.specials) ? equipment.data.specials.join(', ') : equipment.data.specials}</div>
-                  )}
+              {/* Expanded Details */}
+              {selectedEquipment === equipment.id && (
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="text-xs text-gray-600 space-y-1">
+                    {equipment.data?.weapon_type && (
+                      <div><strong>Weapon Type:</strong> {equipment.data.weapon_type}</div>
+                    )}
+                    {equipment.data?.range && (
+                      <div>
+                        <strong>Range Brackets:</strong> 
+                        {equipment.data.range.minimum && ` Min: ${equipment.data.range.minimum}`}
+                        {equipment.data.range.short && ` Short: ${equipment.data.range.short}`}
+                        {equipment.data.range.medium && ` Medium: ${equipment.data.range.medium}`}
+                        {equipment.data.range.long && ` Long: ${equipment.data.range.long}`}
+                      </div>
+                    )}
+                    {equipment.data?.specials && (
+                      <div><strong>Special Rules:</strong> {Array.isArray(equipment.data.specials) ? equipment.data.specials.join(', ') : equipment.data.specials}</div>
+                    )}
+                    {techData && (
+                      <>
+                        <div><strong>Introduction Year:</strong> {techData.introductionYear}</div>
+                        {techData.extinctionYear && (
+                          <div><strong>Extinction Year:</strong> {techData.extinctionYear}</div>
+                        )}
+                        {techData.reintroductionYear && (
+                          <div><strong>Reintroduction Year:</strong> {techData.reintroductionYear}</div>
+                        )}
+                        <div><strong>Rules Level:</strong> {techData.rulesLevel}</div>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          );
+        })}
 
         {filteredEquipment.length === 0 && (
           <div className="text-center py-8 text-gray-500">

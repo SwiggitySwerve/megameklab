@@ -7,6 +7,8 @@ import {
   calculateGyroWeight,
   calculateCockpitWeight
 } from '../../../utils/componentCalculations';
+import { exportUnit, downloadUnit } from '../../../utils/unitExportImportProper';
+import ExportImportDialog from '../ExportImportDialog';
 
 const PreviewTab: React.FC<EditorComponentProps> = ({
   unit,
@@ -15,7 +17,8 @@ const PreviewTab: React.FC<EditorComponentProps> = ({
   readOnly = false,
 }) => {
   const [selectedFormat, setSelectedFormat] = useState<'standard' | 'compact' | 'tournament'>('standard');
-  const [exportFormat, setExportFormat] = useState<'pdf' | 'html' | 'mtf' | 'mul'>('pdf');
+  const [exportFormat, setExportFormat] = useState<'pdf' | 'html' | 'mtf' | 'json'>('pdf');
+  const [showExportDialog, setShowExportDialog] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
   // Calculate unit stats
@@ -46,10 +49,9 @@ const PreviewTab: React.FC<EditorComponentProps> = ({
         handleHTMLExport();
         break;
       case 'mtf':
-        handleMTFExport();
-        break;
-      case 'mul':
-        handleMULExport();
+      case 'json':
+        // Open export dialog for MTF/JSON export
+        setShowExportDialog(true);
         break;
     }
   };
@@ -88,107 +90,6 @@ const PreviewTab: React.FC<EditorComponentProps> = ({
     URL.revokeObjectURL(url);
   };
 
-  // Export as MTF
-  const handleMTFExport = () => {
-    const mtf = generateMTF(unit);
-    const blob = new Blob([mtf], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${unit.chassis}_${unit.model}.mtf`.replace(/\s+/g, '_');
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
-  // Generate MTF format
-  const generateMTF = (unit: any): string => {
-    const lines: string[] = [];
-    
-    // Header
-    lines.push(`chassis:${unit.chassis}`);
-    lines.push(`model:${unit.model}`);
-    lines.push(`mul id:${unit.mul_id || ''}`);
-    lines.push('');
-    lines.push(`Config:${unit.data?.config || 'Biped'}`);
-    lines.push(`TechBase:${unit.tech_base}`);
-    lines.push(`Era:${unit.era}`);
-    lines.push(`Source:${unit.data?.source || ''}`);
-    lines.push(`Rules Level:${unit.rules_level || '2'}`);
-    lines.push('');
-    lines.push(`role:${unit.role || ''}`);
-    lines.push(`mass:${unit.mass}`);
-    lines.push(`Engine:${unit.data?.engine?.rating || 0} ${unit.data?.engine?.type || 'Fusion'} Engine`);
-    
-    // Structure
-    lines.push('');
-    lines.push(`Structure:${unit.data?.structure?.type || 'Standard'}`);
-    lines.push(`Myomer:${unit.data?.myomer?.type || 'Standard'}`);
-    
-    // Heat Sinks
-    lines.push('');
-    lines.push(`Heat Sinks:${totalHeatSinks} ${heatSinkType}`);
-    lines.push(`Walk MP:${unit.data?.movement?.walk_mp || 0}`);
-    lines.push(`Jump MP:${unit.data?.movement?.jump_mp || 0}`);
-    
-    // Armor
-    lines.push('');
-    lines.push(`Armor:${unit.data?.armor?.type || 'Standard'}(Inner Sphere)`);
-    unit.data?.armor?.locations.forEach((location: any) => {
-      if (location.rear_armor_points !== undefined) {
-        lines.push(`${location.location} Armor:${location.armor_points}/${location.rear_armor_points}`);
-      } else {
-        lines.push(`${location.location} Armor:${location.armor_points}`);
-      }
-    });
-    
-    // Weapons
-    lines.push('');
-    lines.push('Weapons:' + weapons.length);
-    weapons.forEach((weapon: any) => {
-      lines.push(`${weapon.item_name}, ${weapon.location}`);
-    });
-    
-    // Ammo
-    if (ammo.length > 0) {
-      lines.push('');
-      ammo.forEach((item: any) => {
-        lines.push(`${item.item_name}, ${item.location}`);
-      });
-    }
-    
-    // Equipment
-    if (equipment.length > 0) {
-      lines.push('');
-      equipment.forEach((item: any) => {
-        lines.push(`${item.item_name}, ${item.location}`);
-      });
-    }
-    
-    return lines.join('\n');
-  };
-
-  // Export as MUL (simplified)
-  const handleMULExport = () => {
-    const mul = {
-      chassis: unit.chassis,
-      model: unit.model,
-      mul_id: unit.mul_id,
-      mass: unit.mass,
-      tech_base: unit.tech_base,
-      era: unit.era,
-      role: unit.role,
-      config: unit.data,
-    };
-    
-    const json = JSON.stringify(mul, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${unit.chassis}_${unit.model}.json`.replace(/\s+/g, '_');
-    link.click();
-    URL.revokeObjectURL(url);
-  };
 
   // Export as PDF (simplified - would need a library like jsPDF)
   const handlePDFExport = () => {
@@ -225,8 +126,8 @@ const PreviewTab: React.FC<EditorComponentProps> = ({
               >
                 <option value="pdf">PDF (Print)</option>
                 <option value="html">HTML</option>
-                <option value="mtf">MTF File</option>
-                <option value="mul">MUL JSON</option>
+                <option value="mtf">MTF File (MegaMekLab)</option>
+                <option value="json">JSON (Full Data)</option>
               </select>
             </div>
           </div>
@@ -492,6 +393,14 @@ const PreviewTab: React.FC<EditorComponentProps> = ({
           }
         }
       `}</style>
+
+      {/* Export/Import Dialog */}
+      <ExportImportDialog
+        isOpen={showExportDialog}
+        onClose={() => setShowExportDialog(false)}
+        unit={unit}
+        mode="export"
+      />
     </div>
   );
 };

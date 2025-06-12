@@ -201,6 +201,255 @@ export function exportToMTF(unit: EditableUnit): string {
   return lines.join('\n');
 }
 
+// Export to BLK format (for vehicles, battle armor, aerospace, etc.)
+export function exportToBLK(unit: EditableUnit): string {
+  const lines: string[] = [];
+  const data = unit.data;
+  
+  // BLK Header
+  lines.push('<BlockVersion>');
+  lines.push('1');
+  lines.push('</BlockVersion>');
+  lines.push('');
+  
+  // Unit type identifier
+  const unitType = data.config?.toLowerCase() || 'vehicle';
+  if (unitType.includes('vehicle') || unitType.includes('tank')) {
+    lines.push('<UnitType>');
+    lines.push('Tank');
+    lines.push('</UnitType>');
+  } else if (unitType.includes('vtol')) {
+    lines.push('<UnitType>');
+    lines.push('VTOL');
+    lines.push('</UnitType>');
+  } else if (unitType.includes('battlearmor')) {
+    lines.push('<UnitType>');
+    lines.push('BattleArmor');
+    lines.push('</UnitType>');
+  } else if (unitType.includes('aero')) {
+    lines.push('<UnitType>');
+    lines.push('Aero');
+    lines.push('</UnitType>');
+  }
+  lines.push('');
+  
+  // Basic info
+  lines.push(`<name>${unit.chassis} ${unit.model}</name>`);
+  lines.push(`<model>${unit.model}</model>`);
+  lines.push(`<mul id:>${unit.mul_id || '-1'}</mul id:>`);
+  lines.push(`<year>${unit.era || '3025'}</year>`);
+  lines.push(`<type>${unit.tech_base || 'IS'}</type>`);
+  lines.push('');
+  
+  // Physical characteristics
+  lines.push('<tonnage>');
+  lines.push(String(unit.mass || 25));
+  lines.push('</tonnage>');
+  lines.push('');
+  
+  // Movement
+  if (data.movement) {
+    lines.push('<motion_type>');
+    if (unitType.includes('vtol')) {
+      lines.push('VTOL');
+    } else if (unitType.includes('hover')) {
+      lines.push('Hover');
+    } else if (unitType.includes('wheeled')) {
+      lines.push('Wheeled');
+    } else {
+      lines.push('Tracked');
+    }
+    lines.push('</motion_type>');
+    lines.push('<cruiseMP>');
+    lines.push(String(data.movement.walk_mp || 4));
+    lines.push('</cruiseMP>');
+  }
+  lines.push('');
+  
+  // Engine
+  if (data.engine) {
+    lines.push('<engine>');
+    lines.push(`<rating>${data.engine.rating || 100}</rating>`);
+    lines.push(`<type>${data.engine.type || 'Fusion'}</type>`);
+    lines.push('</engine>');
+  }
+  lines.push('');
+  
+  // Armor
+  if (data.armor) {
+    lines.push('<armor>');
+    lines.push(`<type>${data.armor.type || 'Standard'}</type>`);
+    
+    // Armor values by location
+    if (unit.armorAllocation) {
+      Object.entries(unit.armorAllocation).forEach(([location, allocation]) => {
+        const locTag = location.replace(/_/g, '');
+        lines.push(`<${locTag}>${allocation.front || 0}</${locTag}>`);
+        if (allocation.rear !== undefined && allocation.rear > 0) {
+          lines.push(`<${locTag}_rear>${allocation.rear}</${locTag}_rear>`);
+        }
+      });
+    }
+    lines.push('</armor>');
+  }
+  lines.push('');
+  
+  // Structure  
+  if (data.structure) {
+    lines.push('<structure>');
+    lines.push(`<type>${data.structure.type || 'Standard'}</type>`);
+    lines.push('</structure>');
+  }
+  lines.push('');
+  
+  // Equipment
+  if (unit.equipmentPlacements && unit.equipmentPlacements.length > 0) {
+    lines.push('<equipment>');
+    unit.equipmentPlacements.forEach(placement => {
+      const location = placement.location.replace(/ /g, '');
+      const rear = placement.isRear ? ' rear="true"' : '';
+      lines.push(`<${placement.equipment.type} location="${location}"${rear}>`);
+      lines.push(placement.equipment.name);
+      lines.push(`</${placement.equipment.type}>`);
+    });
+    lines.push('</equipment>');
+  }
+  
+  return lines.join('\n');
+}
+
+// Import from BLK format
+export function importFromBLK(blkString: string): EditableUnit {
+  // Simple XML parsing for BLK format
+  const getTagValue = (content: string, tag: string): string => {
+    const regex = new RegExp(`<${tag}>([^<]*)</${tag}>`, 'i');
+    const match = content.match(regex);
+    return match ? match[1].trim() : '';
+  };
+  
+  const getAttributeValue = (content: string, tag: string, attribute: string): string => {
+    const regex = new RegExp(`<${tag}[^>]*${attribute}="([^"]*)"`, 'i');
+    const match = content.match(regex);
+    return match ? match[1] : '';
+  };
+  
+  // Extract basic info
+  const name = getTagValue(blkString, 'name');
+  const [chassis, ...modelParts] = name.split(' ');
+  const model = modelParts.join(' ') || getTagValue(blkString, 'model');
+  
+  const unitData: UnitData = {
+    chassis: chassis,
+    model: model,
+    mass: parseInt(getTagValue(blkString, 'tonnage')) || 25,
+    tech_base: (getTagValue(blkString, 'type') || 'Inner Sphere') as any,
+    era: getTagValue(blkString, 'year') || '3025',
+    source: 'BLK Import',
+    rules_level: 'Standard',
+    config: (getTagValue(blkString, 'UnitType') || 'Vehicle') as any,
+    movement: {
+      walk_mp: parseInt(getTagValue(blkString, 'cruiseMP')) || 4,
+      jump_mp: 0,
+    },
+    engine: {
+      type: getTagValue(blkString.match(/<engine>([\s\S]*?)<\/engine>/)?.[1] || '', 'type') || 'Fusion',
+      rating: parseInt(getTagValue(blkString.match(/<engine>([\s\S]*?)<\/engine>/)?.[1] || '', 'rating')) || 100,
+    },
+    structure: {
+      type: getTagValue(blkString.match(/<structure>([\s\S]*?)<\/structure>/)?.[1] || '', 'type') || 'Standard',
+    },
+    armor: {
+      type: getTagValue(blkString.match(/<armor>([\s\S]*?)<\/armor>/)?.[1] || '', 'type') || 'Standard',
+      locations: [],
+      total_armor_points: 0
+    },
+    heat_sinks: {
+      type: 'Single',
+      count: 10,
+    },
+    weapons_and_equipment: [],
+    criticals: [],
+  };
+  
+  // Create EditableUnit
+  const unit: EditableUnit = {
+    id: '',
+    chassis: chassis,
+    model: model,
+    mul_id: getTagValue(blkString, 'mul id:') || '-1',
+    mass: unitData.mass || 25,
+    tech_base: unitData.tech_base || 'Inner Sphere',
+    era: unitData.era || '3025',
+    source: unitData.source || 'BLK Import',
+    rules_level: unitData.rules_level || 'Standard',
+    role: '',
+    data: unitData,
+    armorAllocation: {},
+    equipmentPlacements: [],
+    criticalSlots: [],
+    fluffData: {},
+    selectedQuirks: [],
+    validationState: { isValid: true, errors: [], warnings: [] },
+    editorMetadata: {
+      lastModified: new Date(),
+      isDirty: false,
+      version: '1.0'
+    }
+  };
+  
+  // Parse armor values
+  const armorMatch = blkString.match(/<armor>([\s\S]*?)<\/armor>/);
+  if (armorMatch) {
+    const armorSection = armorMatch[1];
+    const locations = ['front', 'left', 'right', 'rear', 'turret'];
+    
+    locations.forEach(loc => {
+      const value = parseInt(getTagValue(armorSection, loc)) || 0;
+      if (value > 0) {
+        unit.armorAllocation[loc] = {
+          front: value,
+          maxArmor: value * 2, // Estimate
+          type: {
+            id: 'standard',
+            name: 'Standard',
+            pointsPerTon: 16,
+            criticalSlots: 0,
+            techLevel: 1,
+            isClan: false,
+            isInner: true
+          }
+        };
+      }
+    });
+  }
+  
+  // Parse equipment
+  const equipmentMatch = blkString.match(/<equipment>([\s\S]*?)<\/equipment>/);
+  if (equipmentMatch) {
+    const equipmentSection = equipmentMatch[1];
+    const equipmentRegex = /<(\w+)\s+location="([^"]+)"[^>]*>([^<]+)<\/\1>/g;
+    let match;
+    
+    while ((match = equipmentRegex.exec(equipmentSection)) !== null) {
+      const [, type, location, name] = match;
+      const placement: EquipmentPlacement = {
+        id: Date.now().toString() + Math.random(),
+        equipment: {
+          id: Date.now().toString(),
+          name: name.trim(),
+          type: type,
+        },
+        location: location,
+        criticalSlots: [],
+        isRear: match[0].includes('rear="true"')
+      };
+      unit.equipmentPlacements.push(placement);
+    }
+  }
+  
+  return unit;
+}
+
 // Import from MTF format
 export function importFromMTF(mtfString: string): EditableUnit {
   const lines = mtfString.split('\n').map(line => line.trim());
@@ -428,8 +677,7 @@ export function exportUnit(unit: EditableUnit, format: 'json' | 'mtf' | 'blk' | 
     case 'mtf':
       return exportToMTF(unit);
     case 'blk':
-      // BLK export not implemented yet
-      return exportToJSON(unit);
+      return exportToBLK(unit);
     default:
       return exportToJSON(unit);
   }
@@ -444,8 +692,7 @@ export function importUnit(content: string, filename?: string): EditableUnit {
     } else if (filename.endsWith('.mtf')) {
       return importFromMTF(content);
     } else if (filename.endsWith('.blk')) {
-      // BLK import not implemented yet
-      return importFromJSON(content);
+      return importFromBLK(content);
     }
   }
   
@@ -455,8 +702,7 @@ export function importUnit(content: string, filename?: string): EditableUnit {
   } else if (content.includes('chassis:') && content.includes('model:')) {
     return importFromMTF(content);
   } else if (content.includes('<BlockVersion>')) {
-    // BLK import not implemented yet
-    return importFromJSON(content);
+    return importFromBLK(content);
   }
   
   // Default to JSON

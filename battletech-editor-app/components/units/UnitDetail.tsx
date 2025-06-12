@@ -7,6 +7,7 @@ import {
   createMockAvailableEquipment 
 } from '../../utils/unitConverter';
 import MechArmorDiagram from '../common/MechArmorDiagram';
+import { exportUnit, downloadUnit } from '../../utils/unitExportImportProper';
 
 // Lazy load the heavy UnitDisplay component
 const UnitDisplay = lazy(() => import('../common/UnitDisplay'));
@@ -145,6 +146,7 @@ const groupWeaponsByType = (weapons: WeaponOrEquipmentItem[]) => {
 const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabName>("Overview");
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   // Convert unit for analysis display with error handling - MUST be called before any early returns
   const convertedUnit = useMemo(() => {
@@ -228,6 +230,34 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   const source = safeGetValue(uData.source, unit.source, 'Unknown');
   const mul_id = safeGetValue(uData.mul_id, unit.mul_id, null);
 
+  // Handle export functionality
+  const handleExport = (format: 'json' | 'mtf' | 'auto') => {
+    // Convert FullUnit to EditableUnit format for export
+    const exportUnit = {
+      ...unit,
+      // Add EditableUnit specific fields
+      armorAllocation: {},
+      equipmentPlacements: [],
+      criticalSlots: [],
+      fluffData: uData.fluff_text || {},
+      selectedQuirks: [],
+      validationState: { isValid: true, errors: [], warnings: [] },
+      editorMetadata: {
+        lastModified: new Date(),
+        isDirty: false,
+        version: '1.0'
+      }
+    };
+    
+    try {
+      downloadUnit(exportUnit as any, format);
+      setShowExportMenu(false);
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Failed to export unit. Please try again.');
+    }
+  };
+
 
   const renderOverviewTab = () => (
     <>
@@ -279,14 +309,39 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
           {uData.gyro.manufacturer && <DataPair label="Manufacturer" value={uData.gyro.manufacturer} />}
          </>
       )}
-      {uData.quirks && uData.quirks.length > 0 && (
+      {uData.quirks && (Array.isArray(uData.quirks) ? uData.quirks.length > 0 : ((uData.quirks.positive?.length || 0) > 0 || (uData.quirks.negative?.length || 0) > 0)) && (
         <>
           <SectionTitle>Quirks</SectionTitle>
-          <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-700">
-            {uData.quirks.map((quirk: UnitQuirk, index: number) => (
-              <li key={index}>{typeof quirk === 'string' ? quirk : quirk.name}</li>
-            ))}
-          </ul>
+          {Array.isArray(uData.quirks) ? (
+            <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-700">
+              {uData.quirks.map((quirk: UnitQuirk, index: number) => (
+                <li key={index}>{typeof quirk === 'string' ? quirk : quirk.name}</li>
+              ))}
+            </ul>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {uData.quirks.positive && uData.quirks.positive.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-green-700 mb-1">Positive</h4>
+                  <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-700">
+                    {uData.quirks.positive.map((quirk: string, index: number) => (
+                      <li key={index}>{quirk}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {uData.quirks.negative && uData.quirks.negative.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-red-700 mb-1">Negative</h4>
+                  <ul className="list-disc list-inside pl-4 space-y-1 text-sm text-gray-700">
+                    {uData.quirks.negative.map((quirk: string, index: number) => (
+                      <li key={index}>{quirk}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
         </>
       )}
     </>
@@ -779,7 +834,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
   return (
     <div className="content-card">
       <header className="mb-4">
-        <div className="flex items-center gap-4 mb-2">
+        <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => router.push('/compendium')}
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
@@ -789,6 +844,42 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
             </svg>
             Back to Compendium
           </button>
+          
+          {/* Export Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export Unit
+            </button>
+            
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                <button
+                  onClick={() => handleExport('json')}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  JSON (Full Data)
+                </button>
+                <button
+                  onClick={() => handleExport('mtf')}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  MTF (MegaMekLab)
+                </button>
+                <button
+                  onClick={() => handleExport('auto')}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Auto-detect Format
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <h1 className="text-3xl font-bold text-blue-700">{chassis} {model}</h1>
       </header>
