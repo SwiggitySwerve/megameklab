@@ -66,6 +66,8 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
 
   // Handle armor point changes
   const handleArmorChange = useCallback((location: string, front: number, rear: number = 0) => {
+    console.log(`Armor change: ${location} - Front: ${front}, Rear: ${rear}`);
+    
     const updatedLocations = unit.data?.armor?.locations?.map(loc => 
       loc.location === location 
         ? { ...loc, armor_points: front, rear_armor_points: rear }
@@ -90,8 +92,15 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
           locations: updatedLocations,
         },
       },
+      // Update editor metadata to trigger dirty state
+      editorMetadata: {
+        ...unit.editorMetadata,
+        isDirty: true,
+        lastModified: new Date(),
+      },
     };
 
+    console.log('Updated unit:', updatedUnit);
     onUnitChange(updatedUnit);
   }, [unit, onUnitChange]);
 

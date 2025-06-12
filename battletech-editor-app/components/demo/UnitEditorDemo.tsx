@@ -67,7 +67,7 @@ const createSampleUnit = (): EditableUnit => ({
     warnings: [],
   },
   editorMetadata: {
-    lastModified: new Date(),
+    lastModified: new Date('2024-01-01T00:00:00Z'),
     isDirty: false,
     version: '1.0.0',
   },
@@ -110,10 +110,10 @@ const UnitEditorDemo: React.FC = () => {
               <div>
                 <h4 className="font-medium text-blue-900 mb-1">✅ Phase 1: Structure/Armor</h4>
                 <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• Interactive armor allocation with +/- controls</li>
+                  <li>• Interactive armor allocation</li>
                   <li>• Real-time validation and visual feedback</li>
                   <li>• Auto-allocation algorithm</li>
-                  <li>• Condensed 40% smaller layout</li>
+                  <li>• 2-column layout for better space usage</li>
                 </ul>
               </div>
               <div>
@@ -220,7 +220,7 @@ const UnitEditorDemo: React.FC = () => {
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Usage Instructions</h3>
             <ul className="text-sm text-gray-600 space-y-2">
-              <li><strong>Structure/Armor Tab:</strong> Click armor locations to edit values directly, use +/- buttons for quick adjustments</li>
+              <li><strong>Structure/Armor Tab:</strong> Click armor locations to edit values directly</li>
               <li><strong>Equipment Tab:</strong> Search and filter equipment, click "Add" to assign to unit</li>
               <li><strong>Critical Slots Tab:</strong> Drag equipment from unallocated list to specific slots</li>
               <li><strong>Preview Tab:</strong> View complete record sheet with print/export options</li>

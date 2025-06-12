@@ -99,6 +99,24 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
   // Get active tab component
   const ActiveTabComponent = EDITOR_TABS.find(tab => tab.id === editorState.activeTab)?.component;
 
+  // Calculate unit statistics
+  const calculateCurrentWeight = (): number => {
+    // This would be calculated from all components - for now just return a placeholder
+    const structureWeight = editorState.unit.mass * 0.1; // 10% of tonnage
+    const engineWeight = 10; // Placeholder
+    const armorWeight = (editorState.unit.data?.armor?.total_armor_points || 0) / 16;
+    const equipmentWeight = 5; // Placeholder
+    return Math.round((structureWeight + engineWeight + armorWeight + equipmentWeight) * 10) / 10;
+  };
+
+  const currentWeight = calculateCurrentWeight();
+  const heatGeneration = 13; // Placeholder - would calculate from weapons
+  const heatDissipation = editorState.unit.data?.heat_sinks?.count || 10;
+  const freeCriticalSlots = 24; // Placeholder - would calculate from equipment
+  const totalCriticalSlots = 78; // Standard for battlemech
+  const battleValue = 277; // Placeholder - complex calculation
+  const dryCost = 1444583; // Placeholder - would calculate from components
+
   return (
     <div className={`unit-editor ${className}`}>
       {/* Editor Header */}
@@ -209,15 +227,72 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
         )}
       </div>
 
-      {/* Editor Footer */}
-      <div className="editor-footer bg-white border-t border-gray-200 px-4 py-2">
-        <div className="flex items-center justify-between text-sm text-gray-500">
-          <div className="flex items-center space-x-4">
-            <span>Last modified: {editorState.unit.editorMetadata?.lastModified?.toLocaleTimeString() || 'Never'}</span>
-            {editorState.autoSave && <span className="text-green-600">Auto-save enabled</span>}
+      {/* Editor Status Bar - MegaMekLab style */}
+      <div className="editor-status-bar bg-gray-800 text-white px-4 py-2 text-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-6">
+            {/* Weight Status */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400">Weight:</span>
+              <span className={`font-medium ${
+                currentWeight > (editorState.unit.mass || 0) 
+                  ? 'text-red-400' 
+                  : 'text-green-400'
+              }`}>
+                {currentWeight} / {editorState.unit.mass || 0} tons
+              </span>
+            </div>
+
+            {/* Battle Value */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400">BV:</span>
+              <span className="font-medium">{battleValue}</span>
+            </div>
+
+            {/* Validation Status */}
+            {validationErrors.length > 0 && (
+              <div className="flex items-center space-x-2">
+                <span className="text-red-400 font-medium">Invalid</span>
+              </div>
+            )}
+
+            {/* Dry Cost */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400">Dry Cost:</span>
+              <span className="font-medium">
+                {new Intl.NumberFormat('en-US').format(dryCost)} C-bills
+              </span>
+            </div>
+
+            {/* Free Critical Slots */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400">Free Slots:</span>
+              <span className="font-medium">
+                {freeCriticalSlots} / {totalCriticalSlots}
+              </span>
+            </div>
+
+            {/* Heat Status */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400">Heat:</span>
+              <span className={`font-medium ${
+                heatGeneration > heatDissipation
+                  ? 'text-red-400'
+                  : 'text-green-400'
+              }`}>
+                {heatGeneration} / {heatDissipation}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <span>Version: {editorState.unit.editorMetadata?.version || '1.0.0'}</span>
+
+          {/* Right side info */}
+          <div className="flex items-center space-x-4">
+            {editorState.autoSave && (
+              <span className="text-green-400 text-xs">Auto-save enabled</span>
+            )}
+            <span className="text-xs text-gray-400">
+              v{editorState.unit.editorMetadata?.version || '1.0.0'}
+            </span>
           </div>
         </div>
       </div>
