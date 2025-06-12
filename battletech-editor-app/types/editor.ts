@@ -106,9 +106,11 @@ export interface ArmorType {
   name: string;
   pointsPerTon: number;
   criticalSlots: number;
-  techLevel: number;
+  techLevel: string;
+  techBase?: 'Inner Sphere' | 'Clan' | 'Both';
   isClan: boolean;
   isInner: boolean;
+  description?: string;
 }
 
 // Equipment Placement
@@ -273,36 +275,110 @@ export const ARMOR_TYPES: ArmorType[] = [
     name: 'Standard',
     pointsPerTon: 16,
     criticalSlots: 0,
-    techLevel: 1,
+    techLevel: 'Introductory',
+    techBase: 'Both',
     isClan: false,
     isInner: true,
+    description: 'Standard armor provides basic protection at 16 points per ton.',
   },
   {
     id: 'ferro_fibrous',
     name: 'Ferro-Fibrous',
     pointsPerTon: 17.6,
     criticalSlots: 14,
-    techLevel: 2,
+    techLevel: 'Standard',
+    techBase: 'Inner Sphere',
     isClan: false,
     isInner: true,
+    description: 'Ferro-Fibrous armor provides 10% more protection but requires 14 critical slots.',
   },
   {
     id: 'ferro_fibrous_clan',
     name: 'Ferro-Fibrous (Clan)',
     pointsPerTon: 17.6,
     criticalSlots: 7,
-    techLevel: 2,
+    techLevel: 'Standard',
+    techBase: 'Clan',
     isClan: true,
     isInner: false,
+    description: 'Clan Ferro-Fibrous armor provides 10% more protection but only requires 7 critical slots.',
   },
   {
     id: 'stealth',
     name: 'Stealth',
     pointsPerTon: 16,
     criticalSlots: 12,
-    techLevel: 3,
+    techLevel: 'Advanced',
+    techBase: 'Inner Sphere',
     isClan: false,
     isInner: true,
+    description: 'Stealth armor incorporates ECM capabilities but requires Guardian ECM and 12 critical slots.',
+  },
+  {
+    id: 'light_ferro_fibrous',
+    name: 'Light Ferro-Fibrous',
+    pointsPerTon: 16.8,
+    criticalSlots: 7,
+    techLevel: 'Standard',
+    techBase: 'Inner Sphere',
+    isClan: false,
+    isInner: true,
+    description: 'Light Ferro-Fibrous armor provides 5% more protection with fewer critical slots than standard FF.',
+  },
+  {
+    id: 'heavy_ferro_fibrous',
+    name: 'Heavy Ferro-Fibrous',
+    pointsPerTon: 19.2,
+    criticalSlots: 21,
+    techLevel: 'Advanced',
+    techBase: 'Inner Sphere',
+    isClan: false,
+    isInner: true,
+    description: 'Heavy Ferro-Fibrous armor provides 20% more protection but requires 21 critical slots.',
+  },
+  {
+    id: 'ferro_lamellor',
+    name: 'Ferro-Lamellor',
+    pointsPerTon: 20.48,
+    criticalSlots: 12,
+    techLevel: 'Experimental',
+    techBase: 'Clan',
+    isClan: true,
+    isInner: false,
+    description: 'Ferro-Lamellor armor provides 28% more protection and reduced critical damage.',
+  },
+  {
+    id: 'hardened',
+    name: 'Hardened',
+    pointsPerTon: 8,
+    criticalSlots: 0,
+    techLevel: 'Advanced',
+    techBase: 'Both',
+    isClan: false,
+    isInner: true,
+    description: 'Hardened armor halves damage but provides only 8 points per ton.',
+  },
+  {
+    id: 'reactive',
+    name: 'Reactive',
+    pointsPerTon: 16,
+    criticalSlots: 14,
+    techLevel: 'Advanced',
+    techBase: 'Inner Sphere',
+    isClan: false,
+    isInner: true,
+    description: 'Reactive armor provides enhanced protection against missiles and physical attacks.',
+  },
+  {
+    id: 'reflective',
+    name: 'Reflective',
+    pointsPerTon: 16,
+    criticalSlots: 10,
+    techLevel: 'Advanced',
+    techBase: 'Inner Sphere',
+    isClan: false,
+    isInner: true,
+    description: 'Reflective armor provides enhanced protection against energy weapons.',
   },
 ];
 

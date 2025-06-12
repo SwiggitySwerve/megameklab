@@ -190,19 +190,19 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
   
   // Determine color based on armor percentage
   const getArmorLevelColor = () => {
-    if (frontValue < 0 || rearValue < 0) return 'border-purple-500 bg-purple-50'; // Negative values
-    if (isOverLimit) return 'border-red-500 bg-red-50';
-    if (armorPercentage >= 90) return 'border-green-400 bg-green-50';
-    if (armorPercentage >= 60) return 'border-yellow-400 bg-yellow-50';
-    if (armorPercentage >= 20) return 'border-orange-400 bg-orange-50';
-    return 'border-red-400 bg-red-50';
+    if (frontValue < 0 || rearValue < 0) return 'border-purple-500 bg-purple-900/20'; // Negative values
+    if (isOverLimit) return 'border-red-500 bg-red-900/20';
+    if (armorPercentage >= 90) return 'border-green-500 bg-green-900/20';
+    if (armorPercentage >= 60) return 'border-yellow-500 bg-yellow-900/20';
+    if (armorPercentage >= 20) return 'border-orange-500 bg-orange-900/20';
+    return 'border-red-500 bg-red-900/20';
   };
 
   return (
     <div 
       className={`
         armor-location-control relative border-2 rounded-lg p-2 min-w-[60px] cursor-pointer transition-all duration-200
-        ${isSelected ? 'border-blue-500 bg-blue-50 shadow-md' : getArmorLevelColor()}
+        ${isSelected ? 'border-blue-500 bg-blue-900/30 shadow-md' : getArmorLevelColor()}
         ${!isSelected && !isOverLimit ? 'hover:shadow-sm' : ''}
         ${readOnly ? 'cursor-default' : ''}
       `}
@@ -214,7 +214,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
     >
       {/* Location Label */}
       <div className="text-center">
-        <div className="text-xs font-semibold text-gray-700 mb-1">
+        <div className="text-xs font-semibold text-gray-300 mb-1">
           {getLocationAbbr(location)}
         </div>
 
@@ -227,7 +227,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
               onChange={(e) => setTempFront(e.target.value)}
               onBlur={handleSubmit}
               onKeyDown={handleKeyDown}
-              className="w-16 text-sm text-center border border-gray-300 rounded px-1 py-0.5 font-medium mx-auto block"
+              className="w-16 text-sm text-center bg-gray-700 text-gray-100 border border-gray-600 rounded px-1 py-0.5 font-medium mx-auto block"
               min="0"
               max={maxArmor}
               autoFocus
@@ -239,7 +239,7 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
                 onChange={(e) => setTempRear(e.target.value)}
                 onBlur={handleSubmit}
                 onKeyDown={handleKeyDown}
-                className="w-16 text-xs text-center border border-gray-300 rounded px-1 py-0.5 mx-auto block"
+                className="w-16 text-xs text-center bg-gray-700 text-gray-100 border border-gray-600 rounded px-1 py-0.5 mx-auto block"
                 min="0"
                 max={maxArmor}
               />
@@ -250,9 +250,9 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
             {/* Front armor */}
             <div 
               className={`text-sm font-medium text-center cursor-pointer select-none ${
-                isOverLimit ? 'text-red-600' : 'text-gray-900'
-              } ${isDragging && dragTarget === 'front' ? 'text-blue-600' : ''} ${
-                !readOnly ? 'hover:text-blue-600' : ''
+                isOverLimit ? 'text-red-400' : 'text-gray-100'
+              } ${isDragging && dragTarget === 'front' ? 'text-blue-400' : ''} ${
+                !readOnly ? 'hover:text-blue-400' : ''
               }`}
               onMouseDown={(e) => !readOnly && handleMouseDown(e, 'front')}
               onWheel={(e) => handleWheel(e, false)}
@@ -268,9 +268,9 @@ const ArmorLocationControl: React.FC<ArmorLocationControlProps> = ({
             {hasRear && (
               <div 
                 className={`text-xs font-medium text-center cursor-pointer select-none ${
-                  isOverLimit ? 'text-red-600' : 'text-gray-600'
-                } ${isDragging && dragTarget === 'rear' ? 'text-blue-600' : ''} ${
-                  !readOnly ? 'hover:text-blue-600' : ''
+                  isOverLimit ? 'text-red-400' : 'text-gray-400'
+                } ${isDragging && dragTarget === 'rear' ? 'text-blue-400' : ''} ${
+                  !readOnly ? 'hover:text-blue-400' : ''
                 }`}
                 onMouseDown={(e) => !readOnly && handleMouseDown(e, 'rear')}
                 onWheel={(e) => handleWheel(e, true)}

@@ -425,22 +425,22 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
   }, [handleArmorTonnageBlur]);
 
   return (
-    <div className="armor-allocation-panel bg-white rounded-lg border border-gray-200 p-4 max-w-sm">
+    <div className="armor-allocation-panel bg-gray-800 rounded-lg border border-gray-700 p-4 max-w-sm">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-semibold text-gray-900">Armor</h3>
+          <h3 className="text-sm font-semibold text-gray-100">Armor</h3>
         </div>
         
         {/* Armor Type and Tonnage */}
         <div className="space-y-2 mb-3">
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-600 w-20">Armor Type:</label>
+            <label className="text-xs text-gray-300 w-20">Armor Type:</label>
             <select
               value={currentArmorTypeId}
               onChange={handleArmorTypeChange}
               disabled={readOnly}
-              className="flex-1 text-xs border border-gray-300 rounded px-2 py-1"
+              className="flex-1 text-xs bg-gray-700 text-gray-100 border border-gray-600 rounded px-2 py-1 disabled:opacity-50"
             >
               {ARMOR_TYPES.map((type) => (
                 <option key={type.id} value={type.id}>
@@ -451,7 +451,7 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
           </div>
           
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-600 w-20">Armor Tonnage:</label>
+            <label className="text-xs text-gray-300 w-20">Armor Tonnage:</label>
             <input
               type="number"
               value={armorTonnageInput}
@@ -461,12 +461,12 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
               disabled={readOnly}
               step="0.5"
               min="0"
-              className="flex-1 text-xs border border-gray-300 rounded px-2 py-1"
+              className="flex-1 text-xs bg-gray-700 text-gray-100 border border-gray-600 rounded px-2 py-1 disabled:opacity-50"
               title="Armor tonnage must be in increments of 0.5 tons"
             />
           </div>
           
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-gray-400 mt-1">
             Points: {unit.data?.armor?.total_armor_points || 0} ({currentArmorType.pointsPerTon} points/ton)
           </div>
         </div>
@@ -506,7 +506,7 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
 
       {/* Armor Allocation Section */}
       <div className="mb-3">
-        <h4 className="text-xs font-semibold text-gray-700 mb-2">Armor Allocation</h4>
+        <h4 className="text-xs font-semibold text-gray-300 mb-2">Armor Allocation</h4>
 
         {/* Mech Silhouette with Armor Controls */}
         <div className="relative">
@@ -606,32 +606,32 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
       </div>
 
       {/* Statistics */}
-      <div className="mt-4 pt-3 border-t border-gray-200">
+      <div className="mt-4 pt-3 border-t border-gray-600">
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="flex justify-between">
-            <span className="text-gray-600">Allocated:</span>
-            <span className="font-medium">
+            <span className="text-gray-400">Allocated:</span>
+            <span className="font-medium text-gray-200">
               {armorData.reduce((sum, loc) => sum + loc.armor_points + (loc.rear_armor_points || 0), 0)}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Total:</span>
-            <span className="font-medium">{unit.data?.armor?.total_armor_points || 0}</span>
+            <span className="text-gray-400">Total:</span>
+            <span className="font-medium text-gray-200">{unit.data?.armor?.total_armor_points || 0}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Unallocated:</span>
+            <span className="text-gray-400">Unallocated:</span>
             <span className={`font-medium ${
               (unit.data?.armor?.total_armor_points || 0) - 
               armorData.reduce((sum, loc) => sum + loc.armor_points + (loc.rear_armor_points || 0), 0) !== 0
-                ? 'text-red-600' : 'text-green-600'
+                ? 'text-red-400' : 'text-green-400'
             }`}>
               {(unit.data?.armor?.total_armor_points || 0) - 
                armorData.reduce((sum, loc) => sum + loc.armor_points + (loc.rear_armor_points || 0), 0)}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Max:</span>
-            <span className="font-medium">
+            <span className="text-gray-400">Max:</span>
+            <span className="font-medium text-gray-200">
               {armorData.reduce((sum, loc) => sum + loc.maxArmor, 0)}
             </span>
           </div>
@@ -640,9 +640,9 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
 
       {/* Selected location details */}
       {selectedLocation && (
-        <div className="mt-3 p-2 bg-blue-50 rounded text-xs">
-          <div className="font-medium text-blue-900">{selectedLocation}</div>
-          <div className="text-blue-700 mt-1">
+        <div className="mt-3 p-2 bg-gray-700 rounded text-xs border border-gray-600">
+          <div className="font-medium text-gray-200">{selectedLocation}</div>
+          <div className="text-gray-400 mt-1">
             Max armor: {getMaxArmorForLocation(selectedLocation, unit.mass || 0)}
             {hasRearArmor(selectedLocation) && " (front + rear)"}
           </div>
