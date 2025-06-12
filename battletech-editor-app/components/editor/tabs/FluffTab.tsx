@@ -250,7 +250,42 @@ const FluffTab: React.FC<EditorComponentProps> = ({
         </div>
 
         {/* Right Column - Actions & Statistics */}
-        <div>
+        <div className="space-y-4">
+          {/* Unit Icon */}
+          <div className="bg-white rounded-lg border border-gray-200 p-4">
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 border-b border-gray-200 pb-2">
+              Unit Icon
+            </h3>
+            <div className="text-center space-y-3">
+              <div className="w-24 h-24 mx-auto bg-gray-100 border-2 border-gray-300 rounded-lg flex items-center justify-center">
+                <span className="text-gray-400 text-sm">No Icon</span>
+              </div>
+              <div className="space-y-2">
+                <button 
+                  className="w-full px-3 py-2 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50" 
+                  disabled={readOnly}
+                >
+                  Choose File
+                </button>
+                <button 
+                  className="w-full px-3 py-2 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors disabled:opacity-50" 
+                  disabled={readOnly}
+                >
+                  Import from Cache
+                </button>
+                <button 
+                  className="w-full px-3 py-2 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors disabled:opacity-50" 
+                  disabled={readOnly}
+                >
+                  Remove Icon
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                Recommended: 256x256px PNG
+              </p>
+            </div>
+          </div>
+
           <div className="bg-white rounded-lg border border-gray-200 p-4">
             <h3 className="text-sm font-semibold text-gray-900 mb-3 border-b border-gray-200 pb-2">
               Content Statistics

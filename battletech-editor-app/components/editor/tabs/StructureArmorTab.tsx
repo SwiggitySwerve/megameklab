@@ -16,8 +16,8 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
   ) || 0;
   const armorTonnage = Math.round((totalArmorPoints / 16) * 2) / 2;
 
-  // Spinner component for numeric inputs
-  const SpinnerInput: React.FC<{
+  // Simple numeric input component
+  const NumericInput: React.FC<{
     value: number;
     onChange: (value: number) => void;
     min?: number;
@@ -25,54 +25,18 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
     step?: number;
     disabled?: boolean;
     width?: string;
-    showButtons?: boolean;
-  }> = ({ value, onChange, min = 0, max = 999, step = 1, disabled = false, width = "w-20", showButtons = true }) => {
-    if (!showButtons) {
-      return (
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => onChange(parseInt(e.target.value) || 0)}
-          min={min}
-          max={max}
-          step={step}
-          disabled={disabled || readOnly}
-          className={`${width} text-sm border border-slate-500 bg-slate-700 text-white rounded px-1 py-0.5 text-center focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:bg-slate-600`}
-        />
-      );
-    }
-    
+  }> = ({ value, onChange, min = 0, max = 999, step = 1, disabled = false, width = "w-20" }) => {
     return (
-      <div className="flex items-center">
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => onChange(parseInt(e.target.value) || 0)}
-          min={min}
-          max={max}
-          step={step}
-          disabled={disabled || readOnly}
-          className={`${width} text-sm border border-slate-500 bg-slate-700 text-white rounded px-2 py-1 text-center focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:bg-slate-600`}
-        />
-        <div className="flex flex-col ml-1">
-          <button
-            type="button"
-            onClick={() => onChange(Math.min(value + step, max))}
-            disabled={disabled || readOnly || value >= max}
-            className="w-4 h-3 text-xs border border-slate-600 bg-slate-700 text-slate-200 hover:bg-slate-600 disabled:opacity-50 flex items-center justify-center leading-none"
-          >
-            ▲
-          </button>
-          <button
-            type="button"
-            onClick={() => onChange(Math.max(value - step, min))}
-            disabled={disabled || readOnly || value <= min}
-            className="w-4 h-3 text-xs border border-slate-600 bg-slate-700 text-slate-200 hover:bg-slate-600 disabled:opacity-50 flex items-center justify-center leading-none"
-          >
-            ▼
-          </button>
-        </div>
-      </div>
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(parseInt(e.target.value) || 0)}
+        min={min}
+        max={max}
+        step={step}
+        disabled={disabled || readOnly}
+        className={`${width} text-sm border border-slate-500 bg-slate-700 text-white rounded px-2 py-1 text-center focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:bg-slate-600`}
+      />
     );
   };
 
@@ -277,34 +241,13 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
             </div>
           </div>
 
-          {/* Icon */}
-          <div className="bg-slate-800 border border-slate-600 rounded">
-            <h3 className="bg-slate-700 border-b border-slate-600 px-3 py-2 text-sm font-medium text-slate-100">Icon</h3>
-            <div className="p-3 text-center space-y-2">
-              <div className="w-16 h-16 mx-auto bg-slate-700 border border-slate-600 rounded flex items-center justify-center">
-                <span className="text-slate-400 text-xs">No Icon</span>
-              </div>
-              <div className="space-y-1">
-                <button className="w-full px-2 py-1 text-xs bg-slate-700 border border-slate-600 text-slate-200 rounded hover:bg-slate-600" disabled={readOnly}>
-                  Choose file
-                </button>
-                <button className="w-full px-2 py-1 text-xs bg-slate-700 border border-slate-600 text-slate-200 rounded hover:bg-slate-600" disabled={readOnly}>
-                  Import from cache
-                </button>
-                <button className="w-full px-2 py-1 text-xs bg-slate-700 border border-slate-600 text-slate-200 rounded hover:bg-slate-600" disabled={readOnly}>
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Chassis */}
           <div className="bg-slate-800 border border-slate-600 rounded">
             <h3 className="bg-slate-700 border-b border-slate-600 px-3 py-2 text-sm font-medium text-slate-100">Chassis</h3>
             <div className="p-3 space-y-3">
               <div className="flex items-center space-x-2">
                 <label className="text-xs font-medium text-slate-300">Tonnage:</label>
-                <SpinnerInput
+                <NumericInput
                   value={currentTonnage}
                   onChange={(value) => onUnitChange({ ...unit, mass: value })}
                   min={20}
@@ -385,10 +328,7 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
               </div>
             </div>
           </div>
-        </div>
 
-        {/* RIGHT COLUMN */}
-        <div className="space-y-4">
           {/* Heat Sinks */}
           <div className="bg-slate-800 border border-slate-600 rounded">
             <h3 className="bg-slate-700 border-b border-slate-600 px-3 py-2 text-sm font-medium text-slate-100">Heat Sinks</h3>
@@ -398,6 +338,19 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                   <label className="text-xs font-medium text-slate-300">Type:</label>
                   <select
                     value={unit.data?.heat_sinks?.type || 'Single'}
+                    onChange={(e) => {
+                      const updatedUnit = {
+                        ...unit,
+                        data: {
+                          ...unit.data,
+                          heat_sinks: {
+                            ...unit.data?.heat_sinks,
+                            type: e.target.value
+                          }
+                        }
+                      };
+                      onUnitChange(updatedUnit);
+                    }}
                     className="text-sm border border-slate-600 rounded px-2 py-1 bg-slate-700 text-slate-100"
                     disabled={readOnly}
                   >
@@ -407,9 +360,21 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 </div>
                 <div className="flex items-center space-x-2">
                   <label className="text-xs font-medium text-slate-300">Number:</label>
-                  <SpinnerInput
+                  <NumericInput
                     value={unit.data?.heat_sinks?.count || 10}
-                    onChange={() => {}}
+                    onChange={(value) => {
+                      const updatedUnit = {
+                        ...unit,
+                        data: {
+                          ...unit.data,
+                          heat_sinks: {
+                            ...unit.data?.heat_sinks,
+                            count: value
+                          }
+                        }
+                      };
+                      onUnitChange(updatedUnit);
+                    }}
                     min={10}
                     max={50}
                     width="w-16"
@@ -426,7 +391,7 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-slate-300">Total Dissipation:</span>
-                  <span className="font-medium text-slate-100">10</span>
+                  <span className="font-medium text-slate-100">{unit.data?.heat_sinks?.count || 10}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-2 text-xs">
@@ -450,16 +415,28 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                   <tr>
                     <td className="pr-2 font-medium text-slate-300">Walk MP:</td>
                     <td className="text-center pr-2">
-                      <SpinnerInput
+                      <NumericInput
                         value={unit.data?.movement?.walk_mp || 1}
-                        onChange={() => {}}
+                        onChange={(value) => {
+                          const updatedUnit = {
+                            ...unit,
+                            data: {
+                              ...unit.data,
+                              movement: {
+                                ...unit.data?.movement,
+                                walk_mp: value
+                              }
+                            }
+                          };
+                          onUnitChange(updatedUnit);
+                        }}
                         min={1}
                         max={12}
                         width="w-16"
                       />
                     </td>
                     <td className="text-center">
-                      <span className="inline-block px-2 py-1 bg-slate-700 border border-slate-600 text-slate-100 rounded min-w-[40px]">1</span>
+                      <span className="inline-block px-2 py-1 bg-slate-700 border border-slate-600 text-slate-100 rounded min-w-[40px]">{unit.data?.movement?.walk_mp || 1}</span>
                     </td>
                   </tr>
                   <tr>
@@ -474,16 +451,28 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                   <tr>
                     <td className="pr-2 font-medium text-slate-300">Jump/UMU MP:</td>
                     <td className="text-center pr-2">
-                      <SpinnerInput
+                      <NumericInput
                         value={unit.data?.movement?.jump_mp || 0}
-                        onChange={() => {}}
+                        onChange={(value) => {
+                          const updatedUnit = {
+                            ...unit,
+                            data: {
+                              ...unit.data,
+                              movement: {
+                                ...unit.data?.movement,
+                                jump_mp: value
+                              }
+                            }
+                          };
+                          onUnitChange(updatedUnit);
+                        }}
                         min={0}
                         max={12}
                         width="w-16"
                       />
                     </td>
                     <td className="text-center">
-                      <span className="inline-block px-2 py-1 bg-slate-700 border border-slate-600 text-slate-100 rounded min-w-[40px]">0</span>
+                      <span className="inline-block px-2 py-1 bg-slate-700 border border-slate-600 text-slate-100 rounded min-w-[40px]">{unit.data?.movement?.jump_mp || 0}</span>
                     </td>
                   </tr>
                 </tbody>
@@ -500,7 +489,7 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 </div>
                 <div className="flex items-center space-x-2">
                   <label className="text-xs font-medium text-slate-300">Mech. J. Booster MP:</label>
-                  <SpinnerInput
+                  <NumericInput
                     value={0}
                     onChange={() => {}}
                     min={0}
@@ -511,7 +500,10 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
               </div>
             </div>
           </div>
+        </div>
 
+        {/* RIGHT COLUMN */}
+        <div className="space-y-4">
           {/* Armor */}
           <div className="bg-slate-800 border border-slate-600 rounded">
             <h3 className="bg-slate-700 border-b border-slate-600 px-3 py-2 text-sm font-medium text-slate-100">Armor</h3>
@@ -532,7 +524,7 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 <div className="flex items-end space-x-2">
                   <div className="flex-1">
                     <label className="block text-xs font-medium text-slate-300 mb-1">Armor Tonnage:</label>
-                    <SpinnerInput
+                    <NumericInput
                       value={armorTonnage}
                       onChange={() => {}}
                       min={0}
@@ -563,12 +555,11 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
               <div className="text-center mb-3">
                 <div className="font-medium mb-1 text-slate-100">HD</div>
                 <div className="inline-block">
-                  <SpinnerInput
+                  <NumericInput
                     value={getArmorValue('Head')}
-                    onChange={(value) => updateArmorValue('Head', value)}
+                    onChange={(value: number) => updateArmorValue('Head', value)}
                     max={getMaxArmor('Head')}
                     width="w-12"
-                    showButtons={false}
                   />
                 </div>
                 <div className="text-slate-400 mt-1 text-xs">Max: 9</div>
@@ -579,12 +570,11 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 {/* Left Arm */}
                 <div className="text-center">
                   <div className="font-medium mb-1 text-slate-100">LA</div>
-                  <SpinnerInput
+                  <NumericInput
                     value={getArmorValue('Left Arm')}
-                    onChange={(value) => updateArmorValue('Left Arm', value)}
+                    onChange={(value: number) => updateArmorValue('Left Arm', value)}
                     max={getMaxArmor('Left Arm')}
                     width="w-12"
-                    showButtons={false}
                   />
                   <div className="text-slate-400 mt-1 text-xs">Max: 8</div>
                 </div>
@@ -593,20 +583,18 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 <div className="border border-slate-500 rounded p-1">
                   <div className="text-center">
                     <div className="font-medium mb-1 text-slate-100">LT</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Left Torso')}
-                      onChange={(value) => updateArmorValue('Left Torso', value)}
+                      onChange={(value: number) => updateArmorValue('Left Torso', value)}
                       max={getMaxArmor('Left Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Rear</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Left Torso', true)}
-                      onChange={(value) => updateArmorValue('Left Torso', value, true)}
+                      onChange={(value: number) => updateArmorValue('Left Torso', value, true)}
                       max={getMaxArmor('Left Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Max: 12</div>
                   </div>
@@ -616,20 +604,18 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 <div className="border border-slate-500 rounded p-1">
                   <div className="text-center">
                     <div className="font-medium mb-1 text-slate-100">CT</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Center Torso')}
-                      onChange={(value) => updateArmorValue('Center Torso', value)}
+                      onChange={(value: number) => updateArmorValue('Center Torso', value)}
                       max={getMaxArmor('Center Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Rear</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Center Torso', true)}
-                      onChange={(value) => updateArmorValue('Center Torso', value, true)}
+                      onChange={(value: number) => updateArmorValue('Center Torso', value, true)}
                       max={getMaxArmor('Center Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Max: 16</div>
                   </div>
@@ -639,20 +625,18 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 <div className="border border-slate-500 rounded p-1">
                   <div className="text-center">
                     <div className="font-medium mb-1 text-slate-100">RT</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Right Torso')}
-                      onChange={(value) => updateArmorValue('Right Torso', value)}
+                      onChange={(value: number) => updateArmorValue('Right Torso', value)}
                       max={getMaxArmor('Right Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Rear</div>
-                    <SpinnerInput
+                    <NumericInput
                       value={getArmorValue('Right Torso', true)}
-                      onChange={(value) => updateArmorValue('Right Torso', value, true)}
+                      onChange={(value: number) => updateArmorValue('Right Torso', value, true)}
                       max={getMaxArmor('Right Torso')}
                       width="w-12"
-                      showButtons={false}
                     />
                     <div className="text-slate-400 mt-1 text-xs">Max: 12</div>
                   </div>
@@ -661,12 +645,11 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 {/* Right Arm */}
                 <div className="text-center">
                   <div className="font-medium mb-1 text-slate-100">RA</div>
-                  <SpinnerInput
+                  <NumericInput
                     value={getArmorValue('Right Arm')}
-                    onChange={(value) => updateArmorValue('Right Arm', value)}
+                    onChange={(value: number) => updateArmorValue('Right Arm', value)}
                     max={getMaxArmor('Right Arm')}
                     width="w-12"
-                    showButtons={false}
                   />
                   <div className="text-slate-400 mt-1 text-xs">Max: 8</div>
                 </div>
@@ -677,24 +660,22 @@ const StructureArmorTab: React.FC<EditorComponentProps> = ({
                 {/* Left Leg */}
                 <div className="text-center">
                   <div className="font-medium mb-1 text-slate-100">LL</div>
-                  <SpinnerInput
+                  <NumericInput
                     value={getArmorValue('Left Leg')}
-                    onChange={(value) => updateArmorValue('Left Leg', value)}
+                    onChange={(value: number) => updateArmorValue('Left Leg', value)}
                     max={getMaxArmor('Left Leg')}
                     width="w-12"
-                    showButtons={false}
                   />
                 </div>
                 
                 {/* Right Leg */}
                 <div className="text-center">
                   <div className="font-medium mb-1 text-slate-100">RL</div>
-                  <SpinnerInput
+                  <NumericInput
                     value={getArmorValue('Right Leg')}
-                    onChange={(value) => updateArmorValue('Right Leg', value)}
+                    onChange={(value: number) => updateArmorValue('Right Leg', value)}
                     max={getMaxArmor('Right Leg')}
                     width="w-12"
-                    showButtons={false}
                   />
                 </div>
               </div>

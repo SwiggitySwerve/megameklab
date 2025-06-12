@@ -49,6 +49,9 @@ export interface EditableUnit extends FullUnit {
     lastModified: Date;
     isDirty: boolean;
     version: string;
+    isCustom?: boolean;
+    originalUnit?: string;
+    customNotes?: string;
   };
 }
 

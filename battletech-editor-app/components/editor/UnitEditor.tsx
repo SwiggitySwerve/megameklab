@@ -6,6 +6,12 @@ import CriticalsTab from './tabs/CriticalsTab';
 import FluffTab from './tabs/FluffTab';
 import QuirksTab from './tabs/QuirksTab';
 import PreviewTab from './tabs/PreviewTab';
+import { 
+  calculateHeatGeneration, 
+  calculateEquipmentWeight, 
+  calculateCriticalSlots,
+  calculateEquipmentBV 
+} from '../../utils/equipmentData';
 
 // Tab definitions
 const EDITOR_TABS = [
@@ -101,21 +107,45 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
 
   // Calculate unit statistics
   const calculateCurrentWeight = (): number => {
-    // This would be calculated from all components - for now just return a placeholder
-    const structureWeight = editorState.unit.mass * 0.1; // 10% of tonnage
-    const engineWeight = 10; // Placeholder
+    const structureWeight = editorState.unit.mass * 0.1; // 10% of tonnage for standard structure
+    const engineRating = 300; // TODO: Calculate from movement
+    const engineWeight = engineRating / 10; // Simplified engine weight
     const armorWeight = (editorState.unit.data?.armor?.total_armor_points || 0) / 16;
-    const equipmentWeight = 5; // Placeholder
-    return Math.round((structureWeight + engineWeight + armorWeight + equipmentWeight) * 10) / 10;
+    const equipmentWeight = calculateEquipmentWeight(editorState.unit.data?.weapons_and_equipment || []);
+    const heatSinkWeight = Math.max(0, (editorState.unit.data?.heat_sinks?.count || 10) - 10); // 10 free in engine
+    
+    return Math.round((structureWeight + engineWeight + armorWeight + equipmentWeight + heatSinkWeight) * 10) / 10;
   };
 
   const currentWeight = calculateCurrentWeight();
-  const heatGeneration = 13; // Placeholder - would calculate from weapons
+  const weapons = editorState.unit.data?.weapons_and_equipment?.filter(e => e.item_type === 'weapon') || [];
+  const heatGeneration = calculateHeatGeneration(weapons);
   const heatDissipation = editorState.unit.data?.heat_sinks?.count || 10;
-  const freeCriticalSlots = 24; // Placeholder - would calculate from equipment
+  
+  // Calculate critical slots
+  const structureSlots = 0; // Standard structure uses no slots
+  const engineSlots = 6; // Standard engine in torso
+  const gyroSlots = 4;
+  const cockpitSlots = 5; // Including life support and sensors
+  const actuatorSlots = 8; // 4 per arm for biped
+  const equipmentSlots = calculateCriticalSlots(editorState.unit.data?.weapons_and_equipment || []);
+  const usedCriticalSlots = structureSlots + engineSlots + gyroSlots + cockpitSlots + actuatorSlots + equipmentSlots;
   const totalCriticalSlots = 78; // Standard for battlemech
-  const battleValue = 277; // Placeholder - complex calculation
-  const dryCost = 1444583; // Placeholder - would calculate from components
+  const freeCriticalSlots = totalCriticalSlots - usedCriticalSlots;
+  
+  // Calculate battle value (simplified)
+  const baseBV = editorState.unit.mass * 2;
+  const equipmentBV = calculateEquipmentBV(editorState.unit.data?.weapons_and_equipment || []);
+  const battleValue = Math.round(baseBV + equipmentBV);
+  
+  // Calculate cost (simplified)
+  const baseCost = editorState.unit.mass * 10000;
+  const equipmentCost = equipmentBV * 1000; // Simplified cost calculation
+  const dryCost = Math.round(baseCost + equipmentCost);
+  
+  const isOverweight = currentWeight > (editorState.unit.mass || 0);
+  const isOverheating = heatGeneration > heatDissipation;
+  const hasValidationErrors = validationErrors.length > 0;
 
   return (
     <div className={`unit-editor ${className}`}>
@@ -170,65 +200,8 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
         )}
       </div>
 
-      {/* Tab Navigation */}
-      <div className="editor-tabs border-b border-gray-200 bg-gray-50">
-        <nav className="flex space-x-8 px-4" aria-label="Tabs">
-          {EDITOR_TABS.map((tab) => {
-            const isActive = tab.id === editorState.activeTab;
-            const isDisabled = !tab.component;
-            
-            return (
-              <button
-                key={tab.id}
-                onClick={() => !isDisabled && handleTabChange(tab.id as EditorTab)}
-                disabled={isDisabled}
-                className={`
-                  py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap
-                  ${isActive
-                    ? 'border-blue-500 text-blue-600'
-                    : isDisabled
-                    ? 'border-transparent text-gray-400 cursor-not-allowed'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }
-                `}
-              >
-                {tab.label}
-                {isDisabled && (
-                  <span className="ml-1 text-xs text-gray-400">(Coming Soon)</span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* Tab Content */}
-      <div className="editor-content flex-1 p-4 bg-gray-50 min-h-[600px]">
-        {ActiveTabComponent ? (
-          <ActiveTabComponent
-            unit={editorState.unit}
-            onUnitChange={handleUnitUpdate}
-            validationErrors={validationErrors}
-            readOnly={readOnly}
-            compact={true}
-          />
-        ) : (
-          <div className="flex items-center justify-center h-64 text-gray-500">
-            <div className="text-center">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-              </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">Coming Soon</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                This tab is under development
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
       {/* Editor Status Bar - MegaMekLab style */}
-      <div className="editor-status-bar bg-gray-800 text-white px-4 py-2 text-sm">
+      <div className="editor-status-bar bg-gray-800 text-white px-4 py-2 text-sm border-b border-gray-600">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             {/* Weight Status */}
@@ -295,6 +268,63 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="editor-tabs border-b border-gray-200 bg-gray-50">
+        <nav className="flex space-x-8 px-4" aria-label="Tabs">
+          {EDITOR_TABS.map((tab) => {
+            const isActive = tab.id === editorState.activeTab;
+            const isDisabled = !tab.component;
+            
+            return (
+              <button
+                key={tab.id}
+                onClick={() => !isDisabled && handleTabChange(tab.id as EditorTab)}
+                disabled={isDisabled}
+                className={`
+                  py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap
+                  ${isActive
+                    ? 'border-blue-500 text-blue-600'
+                    : isDisabled
+                    ? 'border-transparent text-gray-400 cursor-not-allowed'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }
+                `}
+              >
+                {tab.label}
+                {isDisabled && (
+                  <span className="ml-1 text-xs text-gray-400">(Coming Soon)</span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      <div className="editor-content flex-1 p-4 bg-gray-50 min-h-[600px]">
+        {ActiveTabComponent ? (
+          <ActiveTabComponent
+            unit={editorState.unit}
+            onUnitChange={handleUnitUpdate}
+            validationErrors={validationErrors}
+            readOnly={readOnly}
+            compact={true}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-64 text-gray-500">
+            <div className="text-center">
+              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+              </svg>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">Coming Soon</h3>
+              <p className="mt-1 text-sm text-gray-500">
+                This tab is under development
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
