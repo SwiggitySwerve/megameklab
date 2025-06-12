@@ -28,7 +28,7 @@ export const ARMOR_TYPES: ArmorType[] = [
   {
     id: 'ferro_fibrous',
     name: 'Ferro-Fibrous',
-    pointsPerTon: 17.92, // 12% more points
+    pointsPerTon: 17.6, // 10% more points per MegaMekLab
     criticalSlots: 14,
     techBase: 'Inner Sphere',
     minTechLevel: 2,
@@ -39,7 +39,7 @@ export const ARMOR_TYPES: ArmorType[] = [
   {
     id: 'ferro_fibrous_clan',
     name: 'Ferro-Fibrous (Clan)',
-    pointsPerTon: 19.2, // 20% more points
+    pointsPerTon: 17.6, // 10% more points per MegaMekLab
     criticalSlots: 7,
     techBase: 'Clan',
     minTechLevel: 2,
@@ -61,7 +61,7 @@ export const ARMOR_TYPES: ArmorType[] = [
   {
     id: 'heavy_ferro_fibrous',
     name: 'Heavy Ferro-Fibrous',
-    pointsPerTon: 20.48, // 28% more points
+    pointsPerTon: 18.88, // 18% more points per MegaMekLab
     criticalSlots: 21,
     techBase: 'Inner Sphere',
     minTechLevel: 3,
@@ -84,7 +84,7 @@ export const ARMOR_TYPES: ArmorType[] = [
   {
     id: 'reactive',
     name: 'Reactive',
-    pointsPerTon: 16,
+    pointsPerTon: 14.4, // 10% less points per MegaMekLab
     criticalSlots: 14,
     techBase: 'Both',
     minTechLevel: 3,
@@ -120,7 +120,7 @@ export const ARMOR_TYPES: ArmorType[] = [
   {
     id: 'ferro_lamellor',
     name: 'Ferro-Lamellor',
-    pointsPerTon: 11.43, // Approximately 35% of standard
+    pointsPerTon: 11.43, // Special calculation
     criticalSlots: 12,
     techBase: 'Both',
     minTechLevel: 3,
