@@ -1,16 +1,199 @@
 .container {
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  padding: 20px;
-  background-color: #1a1a1a;
-  border-radius: 5px;
+  flex-direction: column;
 }
 
-.equipmentColumn {
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #6B7280;
+  font-size: 0.875rem;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Equipment Panel */
+.equipmentPanel {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panelTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.equipmentList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.emptyState {
+  text-align: center;
+  color: #6B7280;
+  padding: 2rem;
+}
+
+.emptyState p {
+  margin: 0.5rem 0;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: #9CA3AF;
+}
+
+/* Critical Slots Panel */
+.criticalSlotsPanel {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.locationsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  overflow-y: auto;
   flex: 1;
 }
 
-.diagramColumn {
-  flex: 3;
+.locationSection {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.locationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.locationName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.clearButton {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  color: #DC2626;
+  background: white;
+  border: 1px solid #FEE2E2;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clearButton:hover {
+  background: #FEE2E2;
+  border-color: #FECACA;
+}
+
+.slotsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Validation Errors */
+.validationErrors {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #FEF2F2;
+  border: 1px solid #FEE2E2;
+  border-radius: 0.375rem;
+}
+
+.validationErrors h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #991B1B;
+}
+
+.validationErrors ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.validationErrors li {
+  font-size: 0.875rem;
+  margin: 0.25rem 0;
+}
+
+.error {
+  color: #DC2626;
+}
+
+.warning {
+  color: #D97706;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1280px) {
+  .mainGrid {
+    grid-template-columns: 350px 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .locationsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .locationSection {
+    padding: 0.75rem;
+  }
+  
+  .locationHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }

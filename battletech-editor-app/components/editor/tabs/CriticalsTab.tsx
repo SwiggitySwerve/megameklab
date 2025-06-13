@@ -1,12 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { EditorComponentProps } from '../../../types/editor';
-import { useCriticals } from '../hooks/useCriticals';
-import MechCriticalsDiagram from '../criticals/MechCriticalsDiagram';
-import EquipmentList from '../equipment/EquipmentList';
-import { Mounted } from '../../../types/criticals';
+import { EditorComponentProps, EditableUnit, MECH_LOCATIONS } from '../../../types/editor';
+import DraggableEquipmentItem from '../equipment/DraggableEquipmentItem';
+import CriticalSlotDropZone from '../criticals/CriticalSlotDropZone';
+import { DraggedEquipment } from '../dnd/types';
+import { FullEquipment } from '../../../types';
 import styles from './CriticalsTab.module.css';
+
+// Mech locations with slot counts
+const mechLocations = [
+  { name: MECH_LOCATIONS.HEAD, slots: 6 },
+  { name: MECH_LOCATIONS.LEFT_ARM, slots: 12 },
+  { name: MECH_LOCATIONS.RIGHT_ARM, slots: 12 },
+  { name: MECH_LOCATIONS.LEFT_TORSO, slots: 12 },
+  { name: MECH_LOCATIONS.CENTER_TORSO, slots: 12 },
+  { name: MECH_LOCATIONS.RIGHT_TORSO, slots: 12 },
+  { name: MECH_LOCATIONS.LEFT_LEG, slots: 6 },
+  { name: MECH_LOCATIONS.RIGHT_LEG, slots: 6 },
+];
+
+// Helper to check if a slot value should be considered empty
+const isEmptySlot = (value: any): boolean => {
+  if (!value) return true;
+  if (typeof value !== 'string') return true;
+  
+  const normalizedValue = value.trim().toLowerCase();
+  return normalizedValue === '' ||
+         normalizedValue === '-empty-' ||
+         normalizedValue === '- empty -' ||
+         normalizedValue === 'empty' ||
+         normalizedValue === '-' ||
+         normalizedValue === '- -' ||
+         normalizedValue === '—' ||
+         normalizedValue === '–' ||
+         normalizedValue === 'null' ||
+         normalizedValue === 'undefined';
+};
 
 const CriticalsTab: React.FC<EditorComponentProps> = ({
   unit,
@@ -14,23 +44,449 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   validationErrors = [],
   readOnly = false,
 }) => {
-  const { addEquipment, removeEquipment } = useCriticals(unit);
-  const equipment: Mounted[] = unit.data.weapons_and_equipment?.map(e => ({
-    name: e.item_name,
-    type: e.item_type,
-    location: 0,
-    criticals: 1,
-  })) || [];
+
+  // Initialize critical slots from unit data
+  const [criticalSlots, setCriticalSlots] = useState<Record<string, string[]>>(() => {
+    const slots: Record<string, string[]> = {};
+    
+    // Initialize from unit data if available
+    if (unit.data?.criticals) {
+      unit.data.criticals.forEach(loc => {
+        // Ensure all slots are properly initialized
+        const locationSlots = loc.slots || [];
+        const mechLocation = mechLocations.find(ml => ml.name === loc.location);
+        const totalSlots = mechLocation?.slots || 12;
+        
+        // Create array with proper initialization
+        slots[loc.location] = Array(totalSlots).fill('-Empty-');
+        
+        // Fill in the actual equipment
+        locationSlots.forEach((item, index) => {
+          // Only set non-empty values, everything else stays as '-Empty-'
+          if (!isEmptySlot(item)) {
+            slots[loc.location][index] = item;
+          }
+        });
+      });
+    } else {
+      // Default initialization
+      mechLocations.forEach(loc => {
+        slots[loc.name] = Array(loc.slots).fill('-Empty-');
+      });
+    }
+    
+    // Ensure all mech locations are initialized
+    mechLocations.forEach(loc => {
+      if (!slots[loc.name]) {
+        slots[loc.name] = Array(loc.slots).fill('-Empty-');
+      }
+    });
+    
+    return slots;
+  });
+
+  // Track used equipment IDs
+  const [usedEquipment, setUsedEquipment] = useState<Set<string>>(new Set());
+
+  // Get unallocated equipment from unit
+  const getUnallocatedEquipment = (): FullEquipment[] => {
+    const allEquipment = unit.data?.weapons_and_equipment || [];
+    const unallocated: FullEquipment[] = [];
+    
+    // Count how many times each equipment appears in critical slots
+    const placedCounts: Record<string, number> = {};
+    Object.values(criticalSlots).forEach(slots => {
+      slots.forEach(slot => {
+        if (slot && slot !== '-Empty-') {
+          // For multi-slot equipment, only count once per contiguous block
+          const prev = slots[slots.indexOf(slot) - 1];
+          if (prev !== slot) {
+            placedCounts[slot] = (placedCounts[slot] || 0) + 1;
+          }
+        }
+      });
+    });
+    
+    // Count equipment in weapons_and_equipment
+    const equipmentCounts: Record<string, number> = {};
+    allEquipment.forEach(eq => {
+      equipmentCounts[eq.item_name] = (equipmentCounts[eq.item_name] || 0) + 1;
+    });
+    
+    // Find equipment that has more instances than placed
+    Object.entries(equipmentCounts).forEach(([itemName, totalCount]) => {
+      const placedCount = placedCounts[itemName] || 0;
+      const unplacedCount = totalCount - placedCount;
+      
+      for (let i = 0; i < unplacedCount; i++) {
+        const equipment = allEquipment.find(eq => eq.item_name === itemName);
+        if (equipment) {
+          // Get equipment stats based on name
+          const stats = getEquipmentStats(equipment.item_name);
+          
+          unallocated.push({
+            id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${i}`,
+            name: equipment.item_name,
+            type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
+            tech_base: equipment.tech_base || unit.tech_base,
+            weight: stats.weight,
+            space: stats.space,
+            damage: stats.damage,
+            heat: stats.heat,
+          });
+        }
+      }
+    });
+    
+    return unallocated;
+  };
+  
+  // Helper function to get equipment stats
+  const getEquipmentStats = (itemName: string): { weight: number; space: number; damage?: string; heat?: number } => {
+    // Common equipment stats (should be from database)
+    const equipmentDatabase: Record<string, { weight: number; space: number; damage?: string; heat?: number }> = {
+      'AC/20': { weight: 14, space: 10, damage: '20', heat: 7 },
+      'LRM 20': { weight: 10, space: 5, damage: '20', heat: 6 },
+      'SRM 6': { weight: 3, space: 2, damage: '12', heat: 4 },
+      'Medium Laser': { weight: 1, space: 1, damage: '5', heat: 3 },
+      'Heat Sink': { weight: 1, space: 1 },
+      'Jump Jet': { weight: 0.5, space: 1 },
+      'CASE': { weight: 0.5, space: 1 },
+    };
+    
+    return equipmentDatabase[itemName] || { weight: 1, space: 1 };
+  };
+
+  const unallocatedEquipment = getUnallocatedEquipment();
+
+  const handleDrop = (item: DraggedEquipment, location: string, slotIndex: number) => {
+    if (readOnly) return;
+    
+    // Check if equipment can fit
+    const remainingSlots = criticalSlots[location].length - slotIndex;
+    if (item.criticalSlots > remainingSlots) {
+      alert(`Not enough slots! ${item.name} requires ${item.criticalSlots} slots, but only ${remainingSlots} available.`);
+      return;
+    }
+
+    // Update critical slots
+    const newSlots = { ...criticalSlots };
+    newSlots[location] = [...newSlots[location]];
+    
+    // Fill slots with equipment name
+    for (let i = 0; i < item.criticalSlots; i++) {
+      newSlots[location][slotIndex + i] = item.name;
+    }
+    
+    setCriticalSlots(newSlots);
+
+    // Mark equipment as used
+    setUsedEquipment(prev => new Set(Array.from(prev).concat(item.equipmentId)));
+    
+    // Update unit data with new critical slots
+    const newCriticals = mechLocations.map(loc => ({
+      location: loc.name,
+      slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+    }));
+
+    const updates: Partial<EditableUnit> = {
+      data: {
+        ...unit.data,
+        criticals: newCriticals,
+      },
+    };
+
+    onUnitChange(updates);
+  };
+
+  // List of system components that cannot be removed (except Hand Actuator)
+  const isSystemComponent = (itemName: string): boolean => {
+    const systemComponents = [
+      'Fusion Engine',
+      'XL Engine',
+      'XXL Engine',
+      'Light Engine',
+      'Compact Engine',
+      'Engine',
+      'Gyro',
+      'Standard Gyro',
+      'XL Gyro',
+      'Compact Gyro',
+      'Heavy-Duty Gyro',
+      'Cockpit',
+      'Small Cockpit',
+      'Command Console',
+      'Life Support',
+      'Sensors',
+      'Shoulder',
+      'Upper Arm Actuator',
+      'Lower Arm Actuator',
+      // 'Hand Actuator', // Hand Actuator CAN be removed
+      'Hip',
+      'Upper Leg Actuator',
+      'Lower Leg Actuator',
+      'Foot Actuator'
+    ];
+    
+    return systemComponents.some(component => 
+      itemName.toLowerCase().includes(component.toLowerCase())
+    );
+  };
+
+  const handleRemove = (location: string, slotIndex: number) => {
+    if (readOnly) return;
+    
+    const equipmentName = criticalSlots[location][slotIndex];
+    if (equipmentName === '-Empty-') return;
+
+    // Check if this is a system component that cannot be removed
+    if (isSystemComponent(equipmentName)) {
+      // Allow removal only if it's a Hand Actuator
+      if (!equipmentName.toLowerCase().includes('hand actuator')) {
+        // Don't remove - visual feedback will be handled by the component
+        return;
+      }
+    }
+
+    // Find all consecutive slots with the same equipment
+    let startIndex = slotIndex;
+    let endIndex = slotIndex;
+    
+    // Find start
+    while (startIndex > 0 && criticalSlots[location][startIndex - 1] === equipmentName) {
+      startIndex--;
+    }
+    
+    // Find end
+    while (endIndex < criticalSlots[location].length - 1 && criticalSlots[location][endIndex + 1] === equipmentName) {
+      endIndex++;
+    }
+
+    // Clear all slots occupied by this equipment
+    const newSlots = { ...criticalSlots };
+    newSlots[location] = [...newSlots[location]];
+    
+    // Clear all slots
+    for (let i = startIndex; i <= endIndex; i++) {
+      newSlots[location][i] = '-Empty-';
+    }
+    
+    setCriticalSlots(newSlots);
+
+    // Remove from used equipment
+    const equipmentId = equipmentName.toLowerCase().replace(/\s+/g, '-');
+    setUsedEquipment(prev => {
+      const newUsed = new Set(prev);
+      newUsed.delete(equipmentId);
+      return newUsed;
+    });
+    
+    // Update unit data with new critical slots
+    const newCriticals = mechLocations.map(loc => ({
+      location: loc.name,
+      slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+    }));
+
+    const updates: Partial<EditableUnit> = {
+      data: {
+        ...unit.data,
+        criticals: newCriticals,
+      },
+    };
+
+    onUnitChange(updates);
+  };
+
+  const canAcceptEquipment = (item: DraggedEquipment, location: string, slotIndex: number): boolean => {
+    // Check if slot is empty
+    if (!isEmptySlot(criticalSlots[location][slotIndex])) {
+      return false;
+    }
+
+    // Check if equipment can fit
+    const remainingSlots = criticalSlots[location].length - slotIndex;
+    
+    // Check all required slots are empty
+    for (let i = 0; i < item.criticalSlots && i < remainingSlots; i++) {
+      if (!isEmptySlot(criticalSlots[location][slotIndex + i])) {
+        return false;
+      }
+    }
+    
+    return item.criticalSlots <= remainingSlots;
+  };
+
+  const clearLocation = (location: string) => {
+    if (readOnly) return;
+    
+    // Clear only non-system components
+    const newSlots = [...criticalSlots[location]];
+    for (let i = 0; i < newSlots.length; i++) {
+      const item = newSlots[i];
+      if (item !== '-Empty-' && !isSystemComponent(item)) {
+        // Clear non-system equipment
+        newSlots[i] = '-Empty-';
+      } else if (item !== '-Empty-' && item.toLowerCase().includes('hand actuator')) {
+        // Hand actuator can be cleared
+        newSlots[i] = '-Empty-';
+      }
+    }
+    
+    setCriticalSlots(prev => ({
+      ...prev,
+      [location]: newSlots,
+    }));
+    
+    // Update used equipment
+    setUsedEquipment(new Set());
+    
+    // Update unit data
+    updateUnitCriticals();
+  };
+
+  // Update unit data when critical slots change
+  const updateUnitCriticals = () => {
+    const newCriticals = mechLocations.map(loc => ({
+      location: loc.name,
+      slots: criticalSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+    }));
+
+    const updates: Partial<EditableUnit> = {
+      data: {
+        ...unit.data,
+        criticals: newCriticals,
+      },
+    };
+
+    onUnitChange(updates);
+  };
+
+  // Sync with unit data changes
+  useEffect(() => {
+    if (unit.data?.criticals) {
+      const newSlots: Record<string, string[]> = {};
+      
+      unit.data.criticals.forEach(loc => {
+        // Ensure all slots are properly initialized
+        const locationSlots = loc.slots || [];
+        const mechLocation = mechLocations.find(ml => ml.name === loc.location);
+        const totalSlots = mechLocation?.slots || 12;
+        
+        // Create array with proper initialization
+        newSlots[loc.location] = Array(totalSlots).fill('-Empty-');
+        
+        // Fill in the actual equipment
+        locationSlots.forEach((item, index) => {
+          // Only set non-empty values, everything else stays as '-Empty-'
+          if (!isEmptySlot(item)) {
+            newSlots[loc.location][index] = item;
+          }
+        });
+      });
+      
+      // Ensure all mech locations are initialized
+      mechLocations.forEach(loc => {
+        if (!newSlots[loc.name]) {
+          newSlots[loc.name] = Array(loc.slots).fill('-Empty-');
+        }
+      });
+      
+      setCriticalSlots(newSlots);
+    }
+  }, [unit.data?.criticals, unit.id]); // Add unit.id to ensure re-init when switching units
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles.container}>
-        <div className={styles.equipmentColumn}>
-          <EquipmentList equipment={equipment} />
+        <div className={styles.header}>
+          <h2 className={styles.title}>Critical Slot Allocation</h2>
+          <p className={styles.subtitle}>
+            Drag equipment from the left panel and drop them into critical slots on the right.
+          </p>
         </div>
-        <div className={styles.diagramColumn}>
-          <MechCriticalsDiagram unit={unit} onDrop={addEquipment} onDoubleClick={removeEquipment} />
+        
+        <div className={styles.mainGrid}>
+          {/* Equipment Panel */}
+          <div className={styles.equipmentPanel}>
+            <h3 className={styles.panelTitle}>Unallocated Equipment</h3>
+            <div className={styles.equipmentList}>
+              {unallocatedEquipment.length > 0 ? (
+                unallocatedEquipment.map(equipment => (
+                  <DraggableEquipmentItem
+                    key={equipment.id}
+                    equipment={equipment}
+                    showDetails={true}
+                    isCompact={false}
+                  />
+                ))
+              ) : (
+                <div className={styles.emptyState}>
+                  <p>No unallocated equipment</p>
+                  <p className={styles.hint}>
+                    Add equipment in the Equipment tab first
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Critical Slots Panel */}
+          <div className={styles.criticalSlotsPanel}>
+            <h3 className={styles.panelTitle}>Critical Slots</h3>
+            <div className={styles.locationsGrid}>
+              {mechLocations.map(location => (
+                <div key={location.name} className={styles.locationSection}>
+                  <div className={styles.locationHeader}>
+                    <h4 className={styles.locationName}>{location.name}</h4>
+                    {!readOnly && (
+                      <button
+                        className={styles.clearButton}
+                        onClick={() => clearLocation(location.name)}
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.slotsList}>
+                    {(criticalSlots[location.name] || []).map((slot, index) => {
+                      const isSystem = !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
+                      return (
+                        <CriticalSlotDropZone
+                          key={`${location.name}-${index}`}
+                          location={location.name}
+                          slotIndex={index}
+                          currentItem={slot}
+                          onDrop={handleDrop}
+                          onRemove={readOnly ? undefined : handleRemove}
+                          canAccept={(item) => canAcceptEquipment(item, location.name, index)}
+                          disabled={readOnly}
+                          isSystemComponent={isSystem}
+                          onSystemClick={() => {
+                            // Optional: Could add additional feedback here if needed
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+        
+        {/* Validation Errors */}
+        {validationErrors.length > 0 && (
+          <div className={styles.validationErrors}>
+            <h4>Validation Issues:</h4>
+            <ul>
+              {validationErrors.map(error => (
+                <li key={error.id} className={error.category === 'error' ? styles.error : styles.warning}>
+                  {error.message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </DndProvider>
   );

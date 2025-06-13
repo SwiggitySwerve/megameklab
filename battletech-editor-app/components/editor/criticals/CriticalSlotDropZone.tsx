@@ -13,7 +13,27 @@ export interface CriticalSlotDropZoneProps {
   canAccept?: (item: DraggedEquipment) => boolean;
   isOmniPodSlot?: boolean;
   disabled?: boolean;
+  isSystemComponent?: boolean;
+  onSystemClick?: () => void;
 }
+
+// Helper to check if a slot value should be considered empty
+const isEmptySlot = (value: any): boolean => {
+  if (!value) return true;
+  if (typeof value !== 'string') return true;
+  
+  const normalizedValue = value.trim().toLowerCase();
+  return normalizedValue === '' ||
+         normalizedValue === '-empty-' ||
+         normalizedValue === '- empty -' ||
+         normalizedValue === 'empty' ||
+         normalizedValue === '-' ||
+         normalizedValue === '- -' ||
+         normalizedValue === '—' ||
+         normalizedValue === '–' ||
+         normalizedValue === 'null' ||
+         normalizedValue === 'undefined';
+};
 
 export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   location,
@@ -25,6 +45,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   canAccept,
   isOmniPodSlot = false,
   disabled = false,
+  isSystemComponent = false,
+  onSystemClick,
 }) => {
   const acceptTypes = [
     DragItemType.EQUIPMENT,
@@ -37,7 +59,7 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     accept: acceptTypes,
     canDrop: (item: DraggedEquipment) => {
       if (disabled) return false;
-      if (currentItem && currentItem !== '-Empty-') return false;
+      if (!isEmptySlot(currentItem)) return false;
       if (canAccept) return canAccept(item);
       return true;
     },
@@ -50,7 +72,7 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }),
   }), [location, slotIndex, currentItem, canAccept, disabled]);
 
-  const isEmpty = !currentItem || currentItem === '-Empty-';
+  const isEmpty = isEmptySlot(currentItem);
   const isHighlighted = isOver && canDrop;
   const isDragRejected = isOver && !canDrop;
 
@@ -62,6 +84,9 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     return currentItem;
   };
 
+  // State for showing system component feedback
+  const [showSystemFeedback, setShowSystemFeedback] = React.useState(false);
+
   // Determine slot styling
   const getSlotClassName = () => {
     let classNames = [styles.slot];
@@ -72,6 +97,7 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     if (isDragRejected) classNames.push(styles.rejected);
     if (isOmniPodSlot) classNames.push(styles.omniPod);
     if (disabled) classNames.push(styles.disabled);
+    if (showSystemFeedback) classNames.push(styles.systemProtected);
     
     return classNames.join(' ');
   };
@@ -79,8 +105,15 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   // Handle click to remove equipment
   const handleClick = () => {
     // Only remove if there's equipment and it's not internal structure
-    if (!isEmpty && onRemove && !disabled) {
-      onRemove(location, slotIndex);
+    if (!isEmpty && !disabled) {
+      if (isSystemComponent && onSystemClick) {
+        // Show visual feedback for protected system component
+        setShowSystemFeedback(true);
+        setTimeout(() => setShowSystemFeedback(false), 1000);
+        onSystemClick();
+      } else if (onRemove) {
+        onRemove(location, slotIndex);
+      }
     }
   };
 

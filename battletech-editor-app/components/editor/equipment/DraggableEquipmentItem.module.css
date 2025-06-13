@@ -1,18 +1,123 @@
-.item {
-  padding: 8px;
-  margin-bottom: 4px;
-  background-color: #444;
-  border: 1px solid #666;
-  border-radius: 3px;
-  color: #eee;
+.container {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
   cursor: move;
-  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
-.item:hover {
-  background-color: #555;
+.container:hover {
+  border-color: #9CA3AF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .dragging {
-  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.compact {
+  padding: 0.5rem;
+}
+
+.dragHandle {
+  color: #9CA3AF;
+  font-size: 0.875rem;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.nameSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.techBase {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+.removeButton {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+}
+
+.removeButton:hover {
+  background: #FEE2E2;
+  color: #EF4444;
+}
+
+.details {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stats {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+.totals {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  font-style: italic;
+}
+
+.location {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #F3F4F6;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.locationLabel {
+  color: #9CA3AF;
+}
+
+.locationName {
+  color: #6B7280;
+  font-weight: 500;
 }
