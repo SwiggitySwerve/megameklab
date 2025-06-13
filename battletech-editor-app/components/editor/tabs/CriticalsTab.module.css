@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+}
+
+.equipmentColumn {
+  flex: 1;
+}
+
+.diagramColumn {
+  flex: 3;
+}

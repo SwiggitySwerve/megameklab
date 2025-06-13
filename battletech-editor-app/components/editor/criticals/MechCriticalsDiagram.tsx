@@ -1,156 +1,66 @@
 import React from 'react';
-
-interface CriticalSlot {
-  slotIndex: number;
-  equipment: any;
-  systemType: string | null;
-  isFixed: boolean;
-  isEmpty: boolean;
-  placementId?: string;
-}
+import { FullUnit } from '../../../types';
+import { CriticalSlotLocation } from '../../../types';
+import { Mounted } from '../../../types/criticals';
+import CriticalsGrid from './CriticalsGrid';
+import styles from './MechCriticalsDiagram.module.css';
 
 interface MechCriticalsDiagramProps {
-  criticalSlotsByLocation: { [location: string]: CriticalSlot[] };
-  onSlotClick?: (location: string, slotIndex: number) => void;
-  onSlotDrop?: (location: string, slotIndex: number, equipmentId: string) => void;
-  draggedEquipment?: string | null;
-  readOnly?: boolean;
+  unit: FullUnit;
+  onDrop: (equipment: Mounted, location: string, index: number) => void;
+  onDoubleClick: (location: string, index: number) => void;
 }
 
-const MechCriticalsDiagram: React.FC<MechCriticalsDiagramProps> = ({
-  criticalSlotsByLocation,
-  onSlotClick,
-  onSlotDrop,
-  draggedEquipment,
-  readOnly = false,
-}) => {
-  // Render a single critical slot
-  const renderSlot = (location: string, slot: CriticalSlot, index: number) => {
-    const isDropTarget = !readOnly && !slot.isFixed && slot.isEmpty && draggedEquipment;
-    
-    return (
-      <div
-        key={index}
-        className={`
-          h-7 px-2 flex items-center text-xs border-b border-slate-600 
-          ${slot.isFixed ? 'bg-slate-700' : 'bg-slate-800'}
-          ${slot.isEmpty && !slot.isFixed ? 'text-slate-500' : 'text-slate-100'}
-          ${isDropTarget ? 'hover:bg-slate-600 cursor-pointer' : ''}
-          ${!readOnly && !slot.isFixed ? 'hover:bg-slate-700' : ''}
-        `}
-        onClick={() => !readOnly && onSlotClick?.(location, index)}
-        onDragOver={(e) => {
-          if (isDropTarget) {
-            e.preventDefault();
-            e.currentTarget.classList.add('bg-slate-600');
-          }
-        }}
-        onDragLeave={(e) => {
-          e.currentTarget.classList.remove('bg-slate-600');
-        }}
-        onDrop={(e) => {
-          e.preventDefault();
-          e.currentTarget.classList.remove('bg-slate-600');
-          if (isDropTarget && draggedEquipment) {
-            onSlotDrop?.(location, index, draggedEquipment);
-          }
-        }}
-      >
-        {slot.systemType ? (
-          <span className="font-medium">
-            {slot.systemType === 'lifesupport' && 'Life Support'}
-            {slot.systemType === 'sensors' && 'Sensors'}
-            {slot.systemType === 'cockpit' && 'Cockpit'}
-            {slot.systemType === 'engine' && 'Engine'}
-            {slot.systemType === 'gyro' && 'Gyro'}
-            {slot.systemType === 'shoulder' && 'Shoulder'}
-            {slot.systemType === 'upper_arm' && 'Upper Arm Actuator'}
-            {slot.systemType === 'lower_arm' && 'Lower Arm Actuator'}
-            {slot.systemType === 'hand' && 'Hand Actuator'}
-            {slot.systemType === 'hip' && 'Hip'}
-            {slot.systemType === 'upper_leg' && 'Upper Leg Actuator'}
-            {slot.systemType === 'lower_leg' && 'Lower Leg Actuator'}
-            {slot.systemType === 'foot' && 'Foot Actuator'}
-          </span>
-        ) : slot.equipment ? (
-          <span>{slot.equipment.name}</span>
-        ) : (
-          <span className="italic">- Empty -</span>
-        )}
-      </div>
-    );
-  };
+const MechCriticalsDiagram: React.FC<MechCriticalsDiagramProps> = ({ unit, onDrop, onDoubleClick }) => {
+  const locations = unit.data.criticals || [];
 
-  // Render a location box
-  const renderLocation = (locationName: string, slots: CriticalSlot[], width: string = 'w-40') => {
-    return (
-      <div className={`${width} bg-slate-800 border border-slate-600 rounded`}>
-        <div className="bg-slate-700 px-2 py-1 text-xs font-medium text-slate-100 border-b border-slate-600">
-          {locationName}
-        </div>
-        <div className="divide-y divide-slate-700">
-          {slots.map((slot, index) => renderSlot(locationName, slot, index))}
-        </div>
-      </div>
-    );
+  const getLocation = (name: string): CriticalSlotLocation | undefined => {
+    return locations.find(loc => loc.location === name);
+  }
+
+  const parseSlots = (locationName: string) => {
+    const location = getLocation(locationName);
+    if (!location) {
+      return [];
+    }
+    return location.slots.map(slot => {
+      if (slot.toLowerCase().includes('roll again')) {
+        return { type: 'SYSTEM' as const, system: slot };
+      }
+      if (slot.startsWith('-Empty-')) {
+        return { type: 'EMPTY' as const };
+      }
+      // This is a simplification. A more robust solution would look up the equipment
+      // details from the unit's equipment list.
+      return { type: 'EQUIPMENT' as const, mount: { name: slot, type: 'Unknown', location: 0, criticals: 1 } };
+    });
   };
 
   return (
-    <div className="mech-criticals-diagram bg-slate-900 p-4 rounded-lg">
-      {/* Controls */}
-      <div className="flex justify-center gap-2 mb-4">
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Auto Fill Unhhittables
-        </button>
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Auto Compact
-        </button>
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Auto Sort
-        </button>
-        <div className="border-l border-slate-600 mx-2" />
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Fill
-        </button>
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Compact
-        </button>
-        <button className="px-3 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600">
-          Sort
-        </button>
-        <div className="border-l border-slate-600 mx-2" />
-        <button className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700">
-          Reset
-        </button>
+    <div className={styles.diagram}>
+      <div className={styles.head}>
+        <CriticalsGrid location="Head" slots={parseSlots('Head')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
       </div>
-
-      {/* Mech Diagram */}
-      <div className="grid grid-cols-3 gap-3 max-w-3xl mx-auto">
-        {/* Row 1: Head */}
-        <div className="col-start-2">
-          {renderLocation('Head', criticalSlotsByLocation['Head'] || [])}
-        </div>
-
-        {/* Row 2: Arms and Torsos */}
-        <div className="contents">
-          {renderLocation('Left Arm', criticalSlotsByLocation['Left Arm'] || [])}
-          
-          <div className="space-y-3">
-            {renderLocation('Left Torso', criticalSlotsByLocation['Left Torso'] || [])}
-            {renderLocation('Center Torso', criticalSlotsByLocation['Center Torso'] || [])}
-            {renderLocation('Right Torso', criticalSlotsByLocation['Right Torso'] || [])}
-          </div>
-          
-          {renderLocation('Right Arm', criticalSlotsByLocation['Right Arm'] || [])}
-        </div>
-
-        {/* Row 3: Legs */}
-        <div className="contents">
-          <div className="col-start-2 grid grid-cols-2 gap-3">
-            {renderLocation('Left Leg', criticalSlotsByLocation['Left Leg'] || [], 'w-full')}
-            {renderLocation('Right Leg', criticalSlotsByLocation['Right Leg'] || [], 'w-full')}
-          </div>
-        </div>
+      <div className={styles['left-torso']}>
+        <CriticalsGrid location="Left Torso" slots={parseSlots('Left Torso')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['center-torso']}>
+        <CriticalsGrid location="Center Torso" slots={parseSlots('Center Torso')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['right-torso']}>
+        <CriticalsGrid location="Right Torso" slots={parseSlots('Right Torso')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['left-arm']}>
+        <CriticalsGrid location="Left Arm" slots={parseSlots('Left Arm')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['right-arm']}>
+        <CriticalsGrid location="Right Arm" slots={parseSlots('Right Arm')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['left-leg']}>
+        <CriticalsGrid location="Left Leg" slots={parseSlots('Left Leg')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
+      </div>
+      <div className={styles['right-leg']}>
+        <CriticalsGrid location="Right Leg" slots={parseSlots('Right Leg')} onDrop={onDrop} onDoubleClick={onDoubleClick} />
       </div>
     </div>
   );
