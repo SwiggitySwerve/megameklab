@@ -6,6 +6,7 @@ import DraggableEquipmentItem from '../equipment/DraggableEquipmentItem';
 import CriticalSlotDropZone from '../criticals/CriticalSlotDropZone';
 import { DraggedEquipment } from '../dnd/types';
 import { FullEquipment } from '../../../types';
+import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
 import styles from './CriticalsTab.module.css';
 
 // Mech locations with slot counts
@@ -114,44 +115,52 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     const placedCounts: Record<string, number> = {};
     Object.values(criticalSlots).forEach(slots => {
       slots.forEach(slot => {
-        if (slot && slot !== '-Empty-') {
+        if (slot && slot !== '-Empty-' && !isEmptySlot(slot)) {
           // For multi-slot equipment, only count once per contiguous block
           const prev = slots[slots.indexOf(slot) - 1];
           if (prev !== slot) {
-            placedCounts[slot] = (placedCounts[slot] || 0) + 1;
+            // Normalize the slot name for comparison
+            const normalizedSlot = normalizeEquipmentName(slot);
+            placedCounts[normalizedSlot] = (placedCounts[normalizedSlot] || 0) + 1;
           }
         }
       });
     });
     
     // Count equipment in weapons_and_equipment
-    const equipmentCounts: Record<string, number> = {};
+    const equipmentCounts: Record<string, { count: number; equipment: any }> = {};
     allEquipment.forEach(eq => {
-      equipmentCounts[eq.item_name] = (equipmentCounts[eq.item_name] || 0) + 1;
+      const normalizedName = normalizeEquipmentName(eq.item_name);
+      if (!equipmentCounts[normalizedName]) {
+        equipmentCounts[normalizedName] = { count: 0, equipment: eq };
+      }
+      equipmentCounts[normalizedName].count += 1;
     });
     
+    // Debug logging
+    console.log('All equipment:', allEquipment);
+    console.log('Equipment counts:', equipmentCounts);
+    console.log('Placed counts:', placedCounts);
+    
     // Find equipment that has more instances than placed
-    Object.entries(equipmentCounts).forEach(([itemName, totalCount]) => {
-      const placedCount = placedCounts[itemName] || 0;
+    Object.entries(equipmentCounts).forEach(([normalizedName, { count: totalCount, equipment }]) => {
+      const placedCount = placedCounts[normalizedName] || 0;
       const unplacedCount = totalCount - placedCount;
       
       for (let i = 0; i < unplacedCount; i++) {
-        const equipment = allEquipment.find(eq => eq.item_name === itemName);
-        if (equipment) {
-          // Get equipment stats based on name
-          const stats = getEquipmentStats(equipment.item_name);
-          
-          unallocated.push({
-            id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${i}`,
-            name: equipment.item_name,
-            type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
-            tech_base: equipment.tech_base || unit.tech_base,
-            weight: stats.weight,
-            space: stats.space,
-            damage: stats.damage,
-            heat: stats.heat,
-          });
-        }
+        // Get equipment stats based on name
+        const stats = getEquipmentStats(equipment.item_name);
+        
+        unallocated.push({
+          id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${i}`,
+          name: equipment.item_name,
+          type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
+          tech_base: equipment.tech_base || unit.tech_base,
+          weight: stats.weight,
+          space: stats.space,
+          damage: stats.damage,
+          heat: stats.heat,
+        });
       }
     });
     
@@ -160,18 +169,20 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   
   // Helper function to get equipment stats
   const getEquipmentStats = (itemName: string): { weight: number; space: number; damage?: string; heat?: number } => {
-    // Common equipment stats (should be from database)
-    const equipmentDatabase: Record<string, { weight: number; space: number; damage?: string; heat?: number }> = {
-      'AC/20': { weight: 14, space: 10, damage: '20', heat: 7 },
-      'LRM 20': { weight: 10, space: 5, damage: '20', heat: 6 },
-      'SRM 6': { weight: 3, space: 2, damage: '12', heat: 4 },
-      'Medium Laser': { weight: 1, space: 1, damage: '5', heat: 3 },
-      'Heat Sink': { weight: 1, space: 1 },
-      'Jump Jet': { weight: 0.5, space: 1 },
-      'CASE': { weight: 0.5, space: 1 },
-    };
+    // Find equipment in the database
+    const equipment = EQUIPMENT_DATABASE.find(e => e.name === itemName);
     
-    return equipmentDatabase[itemName] || { weight: 1, space: 1 };
+    if (equipment) {
+      return {
+        weight: equipment.weight,
+        space: equipment.crits, // 'crits' is the critical slots required
+        damage: typeof equipment.damage === 'number' ? equipment.damage.toString() : equipment.damage,
+        heat: equipment.heat > 0 ? equipment.heat : undefined,
+      };
+    }
+    
+    // Default fallback
+    return { weight: 1, space: 1 };
   };
 
   const unallocatedEquipment = getUnallocatedEquipment();
