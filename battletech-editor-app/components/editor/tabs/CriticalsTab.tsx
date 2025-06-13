@@ -111,6 +111,9 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     const allEquipment = unit.data?.weapons_and_equipment || [];
     const unallocated: FullEquipment[] = [];
     
+    // First filter for equipment that has no location or empty location
+    const unallocatedEquipment = allEquipment.filter(eq => !eq.location || eq.location === '');
+    
     // Count how many times each equipment appears in critical slots
     const placedCounts: Record<string, number> = {};
     Object.values(criticalSlots).forEach(slots => {
@@ -127,20 +130,15 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
       });
     });
     
-    // Count equipment in weapons_and_equipment
+    // Count equipment in unallocated equipment only
     const equipmentCounts: Record<string, { count: number; equipment: any }> = {};
-    allEquipment.forEach(eq => {
+    unallocatedEquipment.forEach(eq => {
       const normalizedName = normalizeEquipmentName(eq.item_name);
       if (!equipmentCounts[normalizedName]) {
         equipmentCounts[normalizedName] = { count: 0, equipment: eq };
       }
       equipmentCounts[normalizedName].count += 1;
     });
-    
-    // Debug logging
-    console.log('All equipment:', allEquipment);
-    console.log('Equipment counts:', equipmentCounts);
-    console.log('Placed counts:', placedCounts);
     
     // Find equipment that has more instances than placed
     Object.entries(equipmentCounts).forEach(([normalizedName, { count: totalCount, equipment }]) => {
@@ -217,10 +215,24 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
       slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
     }));
 
+    // Update the equipment location in weapons_and_equipment
+    const updatedWeaponsAndEquipment = (unit.data?.weapons_and_equipment || []).map(eq => {
+      // Find the first unallocated item of this type
+      if ((!eq.location || eq.location === '') && eq.item_name === item.name) {
+        // Only update the first unallocated instance
+        return {
+          ...eq,
+          location: location
+        };
+      }
+      return eq;
+    });
+
     const updates: Partial<EditableUnit> = {
       data: {
         ...unit.data,
         criticals: newCriticals,
+        weapons_and_equipment: updatedWeaponsAndEquipment,
       },
     };
 
@@ -315,10 +327,24 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
       slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
     }));
 
+    // Clear the location from the equipment in weapons_and_equipment
+    const updatedWeaponsAndEquipment = (unit.data?.weapons_and_equipment || []).map(eq => {
+      // Find equipment that was in this location
+      if (eq.location === location && eq.item_name === equipmentName) {
+        // Clear the location for one instance
+        return {
+          ...eq,
+          location: ''
+        };
+      }
+      return eq;
+    });
+
     const updates: Partial<EditableUnit> = {
       data: {
         ...unit.data,
         criticals: newCriticals,
+        weapons_and_equipment: updatedWeaponsAndEquipment,
       },
     };
 
@@ -347,14 +373,25 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   const clearLocation = (location: string) => {
     if (readOnly) return;
     
+    // Track equipment that was cleared
+    const clearedEquipment: string[] = [];
+    
     // Clear only non-system components
     const newSlots = [...criticalSlots[location]];
     for (let i = 0; i < newSlots.length; i++) {
       const item = newSlots[i];
       if (item !== '-Empty-' && !isSystemComponent(item)) {
+        // Track cleared equipment
+        if (!clearedEquipment.includes(item)) {
+          clearedEquipment.push(item);
+        }
         // Clear non-system equipment
         newSlots[i] = '-Empty-';
       } else if (item !== '-Empty-' && item.toLowerCase().includes('hand actuator')) {
+        // Track cleared equipment
+        if (!clearedEquipment.includes(item)) {
+          clearedEquipment.push(item);
+        }
         // Hand actuator can be cleared
         newSlots[i] = '-Empty-';
       }
@@ -368,8 +405,39 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     // Update used equipment
     setUsedEquipment(new Set());
     
-    // Update unit data
-    updateUnitCriticals();
+    // Clear locations from weapons_and_equipment for cleared items
+    const updatedWeaponsAndEquipment = (unit.data?.weapons_and_equipment || []).map(eq => {
+      // Clear location if this equipment was in the cleared location
+      if (eq.location === location && clearedEquipment.includes(eq.item_name)) {
+        return {
+          ...eq,
+          location: ''
+        };
+      }
+      return eq;
+    });
+    
+    // Update unit data with new critical slots
+    const newCriticals = mechLocations.map(loc => ({
+      location: loc.name,
+      slots: criticalSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+    }));
+    
+    // Apply the cleared slots for this location
+    const criticalIndex = newCriticals.findIndex(c => c.location === location);
+    if (criticalIndex !== -1) {
+      newCriticals[criticalIndex].slots = newSlots;
+    }
+
+    const updates: Partial<EditableUnit> = {
+      data: {
+        ...unit.data,
+        criticals: newCriticals,
+        weapons_and_equipment: updatedWeaponsAndEquipment,
+      },
+    };
+
+    onUnitChange(updates);
   };
 
   // Update unit data when critical slots change

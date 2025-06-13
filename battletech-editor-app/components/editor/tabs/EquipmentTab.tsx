@@ -19,7 +19,7 @@ interface EquipmentFilter {
 interface DragItem {
   type: 'equipment';
   id: string;
-  source: 'database' | 'loadout' | 'unallocated';
+  source: 'database' | 'loadout';
 }
 
 const EquipmentTab: React.FC<EditorComponentProps> = ({
@@ -142,37 +142,6 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     e.dataTransfer.dropEffect = 'move';
   };
 
-  // Handle drop on unallocated area
-  const handleDropOnUnallocated = (e: React.DragEvent) => {
-    e.preventDefault();
-    
-    if (!draggedItem || draggedItem.source === 'unallocated') return;
-    
-    if (draggedItem.source === 'loadout') {
-      // Move from loadout to unallocated
-      const itemIndex = parseInt(draggedItem.id);
-      const updatedEquipment = [...currentLoadout];
-      
-      if (itemIndex >= 0 && itemIndex < updatedEquipment.length) {
-        updatedEquipment[itemIndex] = {
-          ...updatedEquipment[itemIndex],
-          location: 'Unallocated'
-        };
-        
-        const updatedUnit = {
-          ...unit,
-          data: {
-            ...unit.data,
-            weapons_and_equipment: updatedEquipment,
-          },
-        };
-        onUnitChange(updatedUnit);
-      }
-    }
-    
-    setDraggedItem(null);
-  };
-
   // Handle drop on current loadout
   const handleDropOnLoadout = (e: React.DragEvent) => {
     e.preventDefault();
@@ -182,26 +151,6 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     if (draggedItem.source === 'database') {
       // Add from database
       handleAddSingleEquipment(draggedItem.id);
-    } else if (draggedItem.source === 'unallocated') {
-      // Move from unallocated to loadout
-      const itemIndex = parseInt(draggedItem.id);
-      const updatedEquipment = [...currentLoadout];
-      
-      if (itemIndex >= 0 && itemIndex < updatedEquipment.length) {
-        updatedEquipment[itemIndex] = {
-          ...updatedEquipment[itemIndex],
-          location: 'CT' // Default to Center Torso
-        };
-        
-        const updatedUnit = {
-          ...unit,
-          data: {
-            ...unit.data,
-            weapons_and_equipment: updatedEquipment,
-          },
-        };
-        onUnitChange(updatedUnit);
-      }
     }
     
     setDraggedItem(null);
@@ -215,7 +164,7 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     const newEquipment = {
       item_name: item.name,
       item_type: item.isAmmo ? 'ammo' : 'weapon' as string,
-      location: 'Unallocated',
+      location: '', // Empty location for unallocated
       tech_base: item.techBase as 'IS' | 'Clan',
     };
 
@@ -236,13 +185,76 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
   // Handle remove equipment
   const handleRemoveEquipment = (index: number) => {
     const updatedEquipment = [...currentLoadout];
+    const removedItem = updatedEquipment[index];
     updatedEquipment.splice(index, 1);
+    
+    // Also remove from critical slots if present
+    let updatedCriticals = unit.data?.criticals ? [...unit.data.criticals] : [];
+    
+    if (removedItem && updatedCriticals.length > 0) {
+      // Count how many of this item type remain after removal
+      const remainingCount = updatedEquipment.filter(
+        eq => eq.item_name === removedItem.item_name
+      ).length;
+      
+      // Count how many are currently placed in critical slots
+      let placedCount = 0;
+      updatedCriticals.forEach(location => {
+        if (location.slots) {
+          location.slots.forEach(slot => {
+            if (slot === removedItem.item_name) {
+              // Count each unique placement (not each slot for multi-slot items)
+              const slotIndex = location.slots.indexOf(slot);
+              if (slotIndex === 0 || location.slots[slotIndex - 1] !== slot) {
+                placedCount++;
+              }
+            }
+          });
+        }
+      });
+      
+      // If we have more placed than remaining, remove excess from critical slots
+      if (placedCount > remainingCount) {
+        const toRemove = placedCount - remainingCount;
+        let removed = 0;
+        
+        // Remove from critical slots starting from the last location
+        for (let i = updatedCriticals.length - 1; i >= 0 && removed < toRemove; i--) {
+          const location = updatedCriticals[i];
+          if (location.slots) {
+            const newSlots = [...location.slots];
+            
+            // Find and remove equipment instances
+            for (let j = newSlots.length - 1; j >= 0 && removed < toRemove; j--) {
+              if (newSlots[j] === removedItem.item_name) {
+                // Check if this is the start of a multi-slot item
+                if (j === 0 || newSlots[j - 1] !== removedItem.item_name) {
+                  // Remove this item and all its consecutive slots
+                  let k = j;
+                  while (k < newSlots.length && newSlots[k] === removedItem.item_name) {
+                    newSlots[k] = '-Empty-';
+                    k++;
+                  }
+                  removed++;
+                }
+              }
+            }
+            
+            updatedCriticals[i] = {
+              ...location,
+              slots: newSlots
+            };
+          }
+        }
+      }
+    }
     
     const updatedUnit = {
       ...unit,
       data: {
         ...unit.data,
         weapons_and_equipment: updatedEquipment,
+        criticals: updatedCriticals,
       },
     };
     
@@ -265,16 +277,11 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     return sum + (equipment?.heat || 0);
   }, 0);
 
-  // Get unallocated equipment
-  const unallocatedEquipment = currentLoadout.filter(item => item.location === 'Unallocated');
-  const allocatedEquipment = currentLoadout.filter(item => item.location !== 'Unallocated');
-
   return (
     <div className="equipment-tab bg-slate-900 text-slate-100 min-h-screen p-4">
       <div className="grid grid-cols-2 gap-4">
-        {/* Left Column - Current Loadout and Unallocated */}
-        <div className="space-y-4">
-          {/* Current Load out */}
+        {/* Left Column - Current Loadout */}
+        <div>
           <div 
             className="bg-slate-800 border border-slate-600 rounded"
             onDragOver={handleDragOver}
@@ -285,34 +292,18 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
               <div className="space-x-2">
                 <button
                   onClick={() => {
-                    // Only remove allocated equipment
-                    const updatedUnit = {
-                      ...unit,
-                      data: {
-                        ...unit.data,
-                        weapons_and_equipment: unallocatedEquipment,
-                      },
-                    };
-                    onUnitChange(updatedUnit);
-                  }}
-                  className="px-2 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600"
-                  disabled={readOnly || allocatedEquipment.length === 0}
-                >
-                  Remove
-                </button>
-                <button
-                  onClick={() => {
                     const updatedUnit = {
                       ...unit,
                       data: {
                         ...unit.data,
                         weapons_and_equipment: [],
+                        criticals: unit.data?.criticals,
                       },
                     };
                     onUnitChange(updatedUnit);
                   }}
                   className="px-2 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600"
-                  disabled={readOnly}
+                  disabled={readOnly || currentLoadout.length === 0}
                 >
                   Remove All
                 </button>
@@ -330,29 +321,30 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
               </div>
               
               {/* Current equipment list */}
-              {allocatedEquipment.length === 0 ? (
+              {currentLoadout.length === 0 ? (
                 <div className="text-center text-slate-500 py-4 text-sm">
                   No equipment loaded
                 </div>
               ) : (
                 <div className="space-y-1">
-                  {allocatedEquipment.map((item, index) => {
+                  {currentLoadout.map((item, index) => {
                     const equipment = EQUIPMENT_DATABASE.find((e: EquipmentItem) => e.name === item.item_name);
-                    const originalIndex = currentLoadout.findIndex(i => i === item);
+                    const isUnallocated = !item.location || item.location === '';
                     return (
                       <div
-                      key={index}
-                      className={`grid grid-cols-7 gap-1 text-xs hover:bg-slate-700 px-1 py-1 rounded cursor-move ${
-                        draggedItem?.id === originalIndex.toString() ? 'opacity-50' : ''
-                      }`}
-                      draggable={!readOnly}
-                      onDragStart={(e) => handleDragStart(e, {
-                        type: 'equipment',
-                        id: originalIndex.toString(),
-                        source: 'loadout'
-                      })}
-                      onClick={() => handleRemoveEquipment(originalIndex)}
-                    >
+                        key={index}
+                        className={`grid grid-cols-7 gap-1 text-xs hover:bg-slate-700 px-1 py-1 rounded cursor-pointer ${
+                          isUnallocated ? 'text-yellow-500' : ''
+                        } ${draggedItem?.id === index.toString() ? 'opacity-50' : ''}`}
+                        draggable={!readOnly}
+                        onDragStart={(e) => handleDragStart(e, {
+                          type: 'equipment',
+                          id: index.toString(),
+                          source: 'loadout'
+                        })}
+                        onClick={() => handleRemoveEquipment(index)}
+                        title="Click to remove"
+                      >
                         <div className="col-span-2 truncate">{item.item_name}</div>
                         <div className="text-center">{equipment?.weight || 0}</div>
                         <div className="text-center">{equipment?.crits || 0}</div>
@@ -378,53 +370,8 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
               )}
             </div>
           </div>
-
-          {/* Unallocated Equipment */}
-          <div 
-            className="bg-slate-800 border border-slate-600 rounded"
-            onDragOver={handleDragOver}
-            onDrop={handleDropOnUnallocated}
-          >
-            <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
-              <h3 className="text-sm font-medium">Unallocated Equipment</h3>
-            </div>
-            <div className="p-3 min-h-[100px]">
-              {unallocatedEquipment.length === 0 ? (
-                <div className="text-center text-slate-500 py-4 text-sm">
-                  No unallocated equipment
-                </div>
-              ) : (
-                <div className="space-y-1 max-h-40 overflow-y-auto">
-                  {unallocatedEquipment.map((item, index) => {
-                    const equipment = EQUIPMENT_DATABASE.find((e: EquipmentItem) => e.name === item.item_name);
-                    const actualIndex = currentLoadout.findIndex(eq => eq === item);
-                    return (
-                      <div
-                        key={index}
-                        draggable={!readOnly}
-                        onDragStart={(e) => handleDragStart(e, {
-                          type: 'equipment',
-                          id: actualIndex.toString(),
-                          source: 'unallocated'
-                        })}
-                        className={`flex items-center justify-between text-xs hover:bg-slate-700 px-2 py-1 rounded cursor-move ${
-                          draggedItem?.id === actualIndex.toString() && draggedItem?.source === 'unallocated' ? 'opacity-50' : ''
-                        }`}
-                      >
-                        <span className="truncate flex-1">{item.item_name}</span>
-                        <span className="text-slate-400 ml-2">
-                          {equipment?.weight || 0}t / {equipment?.crits || 0} slots
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
         </div>
 
-        
         {/* Right Column - Equipment Database */}
         <div>
           <div className="bg-slate-800 border border-slate-600 rounded">
