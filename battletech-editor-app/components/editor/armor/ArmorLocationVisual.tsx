@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 
 interface ArmorLocationVisualProps {
   location: string;
@@ -14,9 +14,11 @@ interface ArmorLocationVisualProps {
   hasRear: boolean;
   isSelected: boolean;
   isHovered: boolean;
+  isEditing: boolean;
   onClick: () => void;
   onHover: (location: string | null) => void;
   onArmorChange: (front: number, rear: number) => void;
+  onEditClose: () => void;
   readOnly: boolean;
   showLabel: boolean;
   showTooltip: boolean;
@@ -32,9 +34,11 @@ const ArmorLocationVisual: React.FC<ArmorLocationVisualProps> = ({
   hasRear,
   isSelected,
   isHovered,
+  isEditing,
   onClick,
   onHover,
   onArmorChange,
+  onEditClose,
   readOnly,
   showLabel,
   showTooltip,
@@ -43,6 +47,7 @@ const ArmorLocationVisual: React.FC<ArmorLocationVisualProps> = ({
   const [dragStartY, setDragStartY] = useState(0);
   const [dragStartValue, setDragStartValue] = useState(0);
   const [dragTarget, setDragTarget] = useState<'front' | 'rear' | null>(null);
+  const [editValues, setEditValues] = useState({ front: 0, rear: 0 });
 
   // Calculate armor percentage
   const totalArmor = armorData.front + armorData.rear;
@@ -94,46 +99,91 @@ const ArmorLocationVisual: React.FC<ArmorLocationVisualProps> = ({
     onClick();
   }, [onClick]);
 
+  // Sync edit values when editing starts
+  useEffect(() => {
+    if (isEditing) {
+      setEditValues({ front: armorData.front, rear: armorData.rear });
+    }
+  }, [isEditing, armorData]);
+
+  // Handle edit form submission
+  const handleEditSubmit = useCallback(() => {
+    const newFront = Math.max(0, Math.min(armorData.max, editValues.front));
+    const newRear = hasRear ? Math.max(0, Math.min(armorData.max - newFront, editValues.rear)) : 0;
+    onArmorChange(newFront, newRear);
+    onEditClose();
+  }, [editValues, armorData.max, hasRear, onArmorChange, onEditClose]);
+
+  // Handle edit form cancellation
+  const handleEditCancel = useCallback(() => {
+    onEditClose();
+  }, [onEditClose]);
+
+  // Close popup on escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isEditing) {
+        handleEditCancel();
+      } else if (e.key === 'Enter' && isEditing) {
+        handleEditSubmit();
+      }
+    };
+    
+    if (isEditing) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isEditing, handleEditCancel, handleEditSubmit]);
+
+  // Create stable references for drag handlers
+  const dragDataRef = React.useRef({
+    startY: 0,
+    startValue: 0,
+    target: null as 'front' | 'rear' | null,
+  });
+
   // Drag handlers for armor adjustment
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || !dragDataRef.current.target) return;
+    
+    const deltaY = dragDataRef.current.startY - e.clientY;
+    const sensitivity = 0.5;
+    const deltaArmor = Math.round(deltaY * sensitivity);
+    
+    const newValue = Math.max(0, Math.min(armorData.max, dragDataRef.current.startValue + deltaArmor));
+    
+    if (dragDataRef.current.target === 'front') {
+      onArmorChange(newValue, armorData.rear);
+    } else {
+      onArmorChange(armorData.front, newValue);
+    }
+  }, [isDragging, armorData, onArmorChange]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+    dragDataRef.current.target = null;
+    
+    // Remove global event listeners
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }, [handleMouseMove]);
+
   const handleMouseDown = useCallback((e: React.MouseEvent, target: 'front' | 'rear') => {
     if (readOnly) return;
     e.preventDefault();
     e.stopPropagation();
     
     setIsDragging(true);
-    setDragStartY(e.clientY);
-    setDragTarget(target);
-    setDragStartValue(target === 'front' ? armorData.front : armorData.rear);
+    dragDataRef.current = {
+      startY: e.clientY,
+      startValue: target === 'front' ? armorData.front : armorData.rear,
+      target: target,
+    };
     
     // Add global mouse event listeners
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  }, [readOnly, armorData]);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !dragTarget) return;
-    
-    const deltaY = dragStartY - e.clientY;
-    const sensitivity = 0.5;
-    const deltaArmor = Math.round(deltaY * sensitivity);
-    
-    const newValue = Math.max(0, Math.min(armorData.max, dragStartValue + deltaArmor));
-    
-    if (dragTarget === 'front') {
-      onArmorChange(newValue, armorData.rear);
-    } else {
-      onArmorChange(armorData.front, newValue);
-    }
-  }, [isDragging, dragTarget, dragStartY, dragStartValue, armorData, onArmorChange]);
-
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-    setDragTarget(null);
-    
-    // Remove global event listeners
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  }, [handleMouseMove]);
+  }, [readOnly, armorData, handleMouseMove, handleMouseUp]);
 
   // Cleanup on unmount
   React.useEffect(() => {
@@ -249,8 +299,121 @@ const ArmorLocationVisual: React.FC<ArmorLocationVisualProps> = ({
         </text>
       )}
 
+      {/* Edit Popup */}
+      {isEditing && !readOnly && (
+        <g>
+          {/* Background overlay - clicking dismisses and saves */}
+          <rect
+            x={0}
+            y={0}
+            width={10000}
+            height={10000}
+            fill="rgba(0,0,0,0.3)"
+            onClick={handleEditSubmit}
+            style={{ cursor: 'pointer' }}
+          />
+          
+          {/* Popup container */}
+          <rect
+            x={x - 20}
+            y={y + height / 2 - (hasRear ? 60 : 40)}
+            width={width + 40}
+            height={hasRear ? 120 : 80}
+            fill="#1f2937"
+            stroke="#3b82f6"
+            strokeWidth={2}
+            rx={6}
+            ry={6}
+            onClick={(e) => e.stopPropagation()}
+          />
+          
+          {/* Location name header */}
+          <text 
+            x={x + width / 2} 
+            y={y + height / 2 - (hasRear ? 45 : 25)} 
+            textAnchor="middle" 
+            fill="#60a5fa" 
+            fontSize="14"
+            fontWeight="bold"
+          >
+            {location}
+          </text>
+          
+          {/* Front armor input */}
+          <text x={x + width / 2} y={y + height / 2 - (hasRear ? 20 : 5)} textAnchor="middle" fill="#d1d5db" fontSize="11">
+            Front Armor
+          </text>
+          <foreignObject x={x - 10} y={y + height / 2 - (hasRear ? 10 : 0) + 5} width={width + 20} height={30}>
+            <input
+              type="number"
+              value={editValues.front}
+              onChange={(e) => setEditValues({ ...editValues, front: parseInt(e.target.value) || 0 })}
+              min={0}
+              max={armorData.max}
+              style={{
+                width: '100%',
+                background: '#111827',
+                color: 'white',
+                border: '2px solid #374151',
+                borderRadius: '4px',
+                padding: '6px 8px',
+                fontSize: '14px',
+                textAlign: 'center',
+                outline: 'none'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+              onBlur={(e) => e.target.style.borderColor = '#374151'}
+              autoFocus
+            />
+          </foreignObject>
+          
+          {/* Rear armor input */}
+          {hasRear && (
+            <>
+              <text x={x + width / 2} y={y + height / 2 + 30} textAnchor="middle" fill="#d1d5db" fontSize="11">
+                Rear Armor
+              </text>
+              <foreignObject x={x - 10} y={y + height / 2 + 35} width={width + 20} height={30}>
+                <input
+                  type="number"
+                  value={editValues.rear}
+                  onChange={(e) => setEditValues({ ...editValues, rear: parseInt(e.target.value) || 0 })}
+                  min={0}
+                  max={armorData.max - editValues.front}
+                  style={{
+                    width: '100%',
+                    background: '#111827',
+                    color: 'white',
+                    border: '2px solid #374151',
+                    borderRadius: '4px',
+                    padding: '6px 8px',
+                    fontSize: '14px',
+                    textAlign: 'center',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                  onBlur={(e) => e.target.style.borderColor = '#374151'}
+                />
+              </foreignObject>
+            </>
+          )}
+          
+          {/* Help text */}
+          <text 
+            x={x + width / 2} 
+            y={y + height / 2 + (hasRear ? 72 : 42)} 
+            textAnchor="middle" 
+            fill="#6b7280" 
+            fontSize="9"
+            fontStyle="italic"
+          >
+            Click outside or press Enter to save • Esc to cancel
+          </text>
+        </g>
+      )}
+
       {/* Tooltip */}
-      {showTooltip && isHovered && (
+      {showTooltip && isHovered && !isEditing && (
         <g>
           <rect
             x={x + width + 5}

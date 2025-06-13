@@ -4,6 +4,8 @@ import ArmorTypeSelector from '../armor/ArmorTypeSelector';
 import ArmorTonnageControl from '../armor/ArmorTonnageControl';
 import ArmorStatisticsPanel from '../armor/ArmorStatisticsPanel';
 import MechArmorDiagram from '../armor/MechArmorDiagram';
+import ArmorDistributionPresets from '../armor/ArmorDistributionPresets';
+import { maximizeArmor, useRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
 
 interface StructureArmorTabProps {
   unit: EditableUnit;
@@ -59,6 +61,98 @@ const StructureArmorTab: React.FC<StructureArmorTabProps> = ({
     });
   }, [unit.armorAllocation, onUnitChange, readOnly]);
 
+  // Calculate max armor for location
+  const getMaxArmorForLocation = (location: string, mass: number): number => {
+    switch (location) {
+      case 'Head':
+        return mass > 100 ? 12 : 9;
+      case 'Center Torso':
+        return Math.floor(mass * 2 * 0.4);
+      case 'Left Torso':
+      case 'Right Torso':
+        return Math.floor(mass * 2 * 0.3);
+      case 'Left Arm':
+      case 'Right Arm':
+      case 'Left Leg':
+      case 'Right Leg':
+        return Math.floor(mass * 2 * 0.25);
+      default:
+        return Math.floor(mass * 2 * 0.2);
+    }
+  };
+
+  // Handle applying armor distribution from presets
+  const handleApplyDistribution = useCallback((distribution: any) => {
+    if (readOnly) return;
+
+    // Build updated armor allocation with all required properties
+    const locations = ['Head', 'Center Torso', 'Left Torso', 'Right Torso', 'Left Arm', 'Right Arm', 'Left Leg', 'Right Leg'];
+    const updatedArmorAllocation: { [key: string]: any } = {};
+
+    locations.forEach(location => {
+      updatedArmorAllocation[location] = {
+        front: distribution[location].front,
+        rear: distribution[location].rear,
+        maxArmor: getMaxArmorForLocation(location, unit.mass),
+        type: selectedArmorType
+      };
+    });
+
+    onUnitChange({
+      armorAllocation: updatedArmorAllocation
+    });
+  }, [unit.mass, selectedArmorType, onUnitChange, readOnly]);
+
+  // Handle maximize armor
+  const handleMaximizeArmor = useCallback(() => {
+    if (readOnly) return;
+    
+    const maxTonnage = maximizeArmor(unit, selectedArmorType);
+    setArmorTonnage(maxTonnage);
+    
+    // Calculate armor points and auto-allocate
+    const totalPoints = Math.floor(maxTonnage * selectedArmorType.pointsPerTon);
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        armor: {
+          ...unit.data?.armor,
+          total_armor_points: totalPoints,
+          locations: unit.data?.armor?.locations || []
+        }
+      }
+    };
+    
+    const allocation = autoAllocateArmor(updatedUnit);
+    handleApplyDistribution(allocation);
+  }, [unit, selectedArmorType, handleApplyDistribution, readOnly]);
+
+  // Handle use remaining tonnage
+  const handleUseRemainingTonnage = useCallback(() => {
+    if (readOnly) return;
+    
+    const newTonnage = useRemainingTonnageForArmor(unit, selectedArmorType);
+    setArmorTonnage(newTonnage);
+    
+    // Calculate armor points and auto-allocate
+    const totalPoints = Math.floor(newTonnage * selectedArmorType.pointsPerTon);
+    const updatedUnit = {
+      ...unit,
+      data: {
+        ...unit.data,
+        armor: {
+          ...unit.data?.armor,
+          total_armor_points: totalPoints,
+          locations: unit.data?.armor?.locations || []
+        }
+      }
+    };
+    
+    const allocation = autoAllocateArmor(updatedUnit);
+    handleApplyDistribution(allocation);
+  }, [unit, selectedArmorType, handleApplyDistribution, readOnly]);
+
   return (
     <div className="structure-armor-tab space-y-6">
       {/* Controls Section */}
@@ -76,6 +170,34 @@ const StructureArmorTab: React.FC<StructureArmorTabProps> = ({
           maxTonnage={maxTonnage}
           onChange={handleArmorTonnageChange}
           armorType={selectedArmorType}
+          disabled={readOnly}
+        />
+      </div>
+
+      {/* Quick Action Buttons */}
+      <div className="flex flex-wrap gap-3 mt-4">
+        <button
+          onClick={handleMaximizeArmor}
+          disabled={readOnly}
+          className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 text-white rounded-lg transition-colors text-sm font-medium"
+        >
+          Maximize Armor
+        </button>
+        <button
+          onClick={handleUseRemainingTonnage}
+          disabled={readOnly}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white rounded-lg transition-colors text-sm font-medium"
+        >
+          Use Remaining Tonnage
+        </button>
+      </div>
+
+      {/* Armor Distribution Presets Section */}
+      <div className="mt-6">
+        <ArmorDistributionPresets
+          unit={unit}
+          totalArmorPoints={totalArmorPoints}
+          onApplyDistribution={handleApplyDistribution}
           disabled={readOnly}
         />
       </div>

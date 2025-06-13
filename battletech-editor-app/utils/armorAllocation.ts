@@ -285,18 +285,19 @@ function createEmptyAllocation(): ArmorAllocation {
   };
 }
 
-export function maximizeArmor(unit: EditableUnit): number {
-  const maxTonnage = calculateMaxArmorTonnage(unit);
+export function maximizeArmor(unit: EditableUnit, armorType?: any): number {
+  const maxTonnage = calculateMaxArmorTonnage(unit, armorType);
   return maxTonnage;
 }
 
-export function calculateMaxArmorTonnage(unit: EditableUnit): number {
+export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): number {
   // Maximum armor is based on internal structure
   const maxPoints = calculateMaxArmorPoints(unit);
   
-  // Get actual armor type from unit
-  const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
-  const armorType = getArmorType(armorTypeId);
+  // Use provided armor type or default to standard
+  if (!armorType) {
+    armorType = getArmorType('standard');
+  }
   const pointsPerTon = armorType.pointsPerTon;
   
   // Calculate weight and round to nearest half-ton
@@ -387,13 +388,16 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
   return Math.floor(remaining * 2) / 2;
 }
 
-export function useRemainingTonnageForArmor(unit: EditableUnit): number {
+export function useRemainingTonnageForArmor(unit: EditableUnit, armorType?: any): number {
   const remainingTonnage = calculateRemainingTonnage(unit);
+  
+  // Use provided armor type or default to standard
+  if (!armorType) {
+    armorType = getArmorType('standard');
+  }
   
   // Get current armor tonnage
   const currentArmorPoints = unit.data?.armor?.total_armor_points || 0;
-  const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
-  const armorType = getArmorType(armorTypeId);
   const pointsPerTon = armorType.pointsPerTon;
   const currentArmorTonnage = currentArmorPoints / pointsPerTon;
   
@@ -401,7 +405,7 @@ export function useRemainingTonnageForArmor(unit: EditableUnit): number {
   const newArmorTonnage = currentArmorTonnage + remainingTonnage;
   
   // Ensure we don't exceed maximum armor tonnage
-  const maxArmorTonnage = calculateMaxArmorTonnage(unit);
+  const maxArmorTonnage = calculateMaxArmorTonnage(unit, armorType);
   const finalTonnage = Math.min(newArmorTonnage, maxArmorTonnage);
   
   // Round to nearest half-ton (using MegaMekLab formula)

@@ -21,6 +21,7 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  const [editingLocation, setEditingLocation] = useState<string | null>(null);
 
   // Get armor data for a location
   const getLocationArmor = useCallback((location: string) => {
@@ -61,7 +62,16 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
   // Handle location click
   const handleLocationClick = useCallback((location: string) => {
     setSelectedLocation(selectedLocation === location ? null : location);
-  }, [selectedLocation]);
+    // If clicking on a new location while editing another, close the current edit and open the new one
+    if (!readOnly && editingLocation !== location) {
+      setEditingLocation(location);
+    }
+  }, [selectedLocation, editingLocation, readOnly]);
+
+  // Handle edit popup close
+  const handleEditPopupClose = useCallback(() => {
+    setEditingLocation(null);
+  }, []);
 
   return (
     <div className="mech-armor-diagram bg-gray-900 rounded-lg p-6">
@@ -116,9 +126,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={false}
             isSelected={selectedLocation === MECH_LOCATIONS.HEAD}
             isHovered={hoveredLocation === MECH_LOCATIONS.HEAD}
+            isEditing={editingLocation === MECH_LOCATIONS.HEAD}
             onClick={() => handleLocationClick(MECH_LOCATIONS.HEAD)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.HEAD, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -135,9 +147,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={true}
             isSelected={selectedLocation === MECH_LOCATIONS.CENTER_TORSO}
             isHovered={hoveredLocation === MECH_LOCATIONS.CENTER_TORSO}
+            isEditing={editingLocation === MECH_LOCATIONS.CENTER_TORSO}
             onClick={() => handleLocationClick(MECH_LOCATIONS.CENTER_TORSO)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.CENTER_TORSO, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -154,9 +168,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={true}
             isSelected={selectedLocation === MECH_LOCATIONS.LEFT_TORSO}
             isHovered={hoveredLocation === MECH_LOCATIONS.LEFT_TORSO}
+            isEditing={editingLocation === MECH_LOCATIONS.LEFT_TORSO}
             onClick={() => handleLocationClick(MECH_LOCATIONS.LEFT_TORSO)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.LEFT_TORSO, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -173,9 +189,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={true}
             isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_TORSO}
             isHovered={hoveredLocation === MECH_LOCATIONS.RIGHT_TORSO}
+            isEditing={editingLocation === MECH_LOCATIONS.RIGHT_TORSO}
             onClick={() => handleLocationClick(MECH_LOCATIONS.RIGHT_TORSO)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.RIGHT_TORSO, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -192,9 +210,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={false}
             isSelected={selectedLocation === MECH_LOCATIONS.LEFT_ARM}
             isHovered={hoveredLocation === MECH_LOCATIONS.LEFT_ARM}
+            isEditing={editingLocation === MECH_LOCATIONS.LEFT_ARM}
             onClick={() => handleLocationClick(MECH_LOCATIONS.LEFT_ARM)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.LEFT_ARM, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -211,9 +231,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={false}
             isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_ARM}
             isHovered={hoveredLocation === MECH_LOCATIONS.RIGHT_ARM}
+            isEditing={editingLocation === MECH_LOCATIONS.RIGHT_ARM}
             onClick={() => handleLocationClick(MECH_LOCATIONS.RIGHT_ARM)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.RIGHT_ARM, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -230,9 +252,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={false}
             isSelected={selectedLocation === MECH_LOCATIONS.LEFT_LEG}
             isHovered={hoveredLocation === MECH_LOCATIONS.LEFT_LEG}
+            isEditing={editingLocation === MECH_LOCATIONS.LEFT_LEG}
             onClick={() => handleLocationClick(MECH_LOCATIONS.LEFT_LEG)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.LEFT_LEG, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
@@ -249,9 +273,11 @@ const MechArmorDiagram: React.FC<MechArmorDiagramProps> = ({
             hasRear={false}
             isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_LEG}
             isHovered={hoveredLocation === MECH_LOCATIONS.RIGHT_LEG}
+            isEditing={editingLocation === MECH_LOCATIONS.RIGHT_LEG}
             onClick={() => handleLocationClick(MECH_LOCATIONS.RIGHT_LEG)}
             onHover={setHoveredLocation}
             onArmorChange={(front, rear) => onArmorChange(MECH_LOCATIONS.RIGHT_LEG, front, rear)}
+            onEditClose={handleEditPopupClose}
             readOnly={readOnly}
             showLabel={showLabels}
             showTooltip={showTooltips}
