@@ -38,6 +38,23 @@ const isEmptySlot = (value: any): boolean => {
          normalizedValue === 'undefined';
 };
 
+// Helper to normalize equipment names (e.g., all engine types become "Engine")
+const normalizeEquipmentName = (itemName: string): string => {
+  if (!itemName) return itemName;
+  
+  const lowerName = itemName.toLowerCase();
+  
+  // Normalize all engine types to just "Engine"
+  if (lowerName.includes('engine') && 
+      !lowerName.includes('heat sink') && 
+      !lowerName.includes('sink')) {
+    return 'Engine';
+  }
+  
+  // Keep other equipment names as-is (including specific gyro types)
+  return itemName;
+};
+
 const CriticalsTab: React.FC<EditorComponentProps> = ({
   unit,
   onUnitChange,
@@ -64,7 +81,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         locationSlots.forEach((item, index) => {
           // Only set non-empty values, everything else stays as '-Empty-'
           if (!isEmptySlot(item)) {
-            slots[loc.location][index] = item;
+            slots[loc.location][index] = normalizeEquipmentName(item);
           }
         });
       });
@@ -379,7 +396,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         locationSlots.forEach((item, index) => {
           // Only set non-empty values, everything else stays as '-Empty-'
           if (!isEmptySlot(item)) {
-            newSlots[loc.location][index] = item;
+            newSlots[loc.location][index] = normalizeEquipmentName(item);
           }
         });
       });

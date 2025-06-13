@@ -96,7 +96,11 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     <div 
       ref={dragRef}
       className={`${styles.container} ${isCompact ? styles.compact : ''} ${isDragging ? styles.dragging : ''}`}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      style={{ 
+        opacity: isDragging ? 0.5 : 1,
+        cursor: isDragging ? 'grabbing' : 'grab'
+      }}
+      draggable={false} // Prevent native HTML5 drag
     >
       <div className={styles.dragHandle}>⋮⋮</div>
       <div className={styles.content}>
@@ -110,7 +114,11 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
           {onRemove && (
             <button
               className={styles.removeButton}
-              onClick={() => onRemove(equipment.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(equipment.id);
+              }}
+              onMouseDown={(e) => e.stopPropagation()}
               aria-label={`Remove ${equipment.name}`}
             >
               ×
