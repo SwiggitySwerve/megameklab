@@ -146,3 +146,28 @@
 .groupEnd .slotContent {
   visibility: hidden;
 }
+
+/* Draggable styles */
+.draggable {
+  cursor: move !important;
+}
+
+.draggable:hover {
+  background: #E0E7FF;
+  border-color: #6366F1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dragging {
+  opacity: 0.5;
+  cursor: grabbing !important;
+}
+
+/* Enhanced drop target feedback */
+.slot.highlighted {
+  background: #DBEAFE;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  transform: scale(1.02);
+}

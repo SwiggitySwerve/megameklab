@@ -199,7 +199,20 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     const newSlots = { ...criticalSlots };
     newSlots[location] = [...newSlots[location]];
     
-    // Fill slots with equipment name
+    // If this is from a critical slot, clear the source location first
+    if ('isFromCriticalSlot' in item && item.isFromCriticalSlot && 'sourceLocation' in item && 'sourceSlotIndex' in item) {
+      const sourceLocation = (item as any).sourceLocation;
+      const sourceSlotIndex = (item as any).sourceSlotIndex;
+      
+      // Clear source slots
+      for (let i = 0; i < item.criticalSlots; i++) {
+        if (newSlots[sourceLocation] && newSlots[sourceLocation][sourceSlotIndex + i]) {
+          newSlots[sourceLocation][sourceSlotIndex + i] = '-Empty-';
+        }
+      }
+    }
+    
+    // Fill target slots with equipment name
     for (let i = 0; i < item.criticalSlots; i++) {
       newSlots[location][slotIndex + i] = item.name;
     }
@@ -217,13 +230,25 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
 
     // Update the equipment location in weapons_and_equipment
     const updatedWeaponsAndEquipment = (unit.data?.weapons_and_equipment || []).map(eq => {
-      // Find the first unallocated item of this type
-      if ((!eq.location || eq.location === '') && eq.item_name === item.name) {
-        // Only update the first unallocated instance
-        return {
-          ...eq,
-          location: location
-        };
+      if ('isFromCriticalSlot' in item && item.isFromCriticalSlot) {
+        // Moving from one critical slot to another
+        const sourceLocation = (item as any).sourceLocation;
+        if (eq.item_name === item.name && eq.location === sourceLocation) {
+          // Update the location of the moved item
+          return {
+            ...eq,
+            location: location
+          };
+        }
+      } else {
+        // Placing from unallocated equipment
+        if ((!eq.location || eq.location === '') && eq.item_name === item.name) {
+          // Only update the first unallocated instance
+          return {
+            ...eq,
+            location: location
+          };
+        }
       }
       return eq;
     });

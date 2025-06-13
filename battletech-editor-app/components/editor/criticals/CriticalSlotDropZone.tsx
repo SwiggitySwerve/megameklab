@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useDrop } from 'react-dnd';
+import { useDrop, useDrag } from 'react-dnd';
 import { DragItemType, DraggedEquipment } from '../dnd/types';
 import styles from './CriticalSlotDropZone.module.css';
+import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
 
 export interface CriticalSlotDropZoneProps {
   location: string;
@@ -61,6 +62,51 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     DragItemType.SYSTEM,
   ];
 
+  const isEmpty = isEmptySlot(currentItem);
+
+  // Get equipment stats for draggable items
+  const getEquipmentStats = () => {
+    if (isEmpty || !currentItem) return null;
+    
+    const equipment = EQUIPMENT_DATABASE.find(e => e.name === currentItem);
+    if (equipment) {
+      return {
+        criticalSlots: equipment.crits,
+        weight: equipment.weight,
+      };
+    }
+    
+    // Default fallback
+    return { criticalSlots: 1, weight: 1 };
+  };
+
+  // Drag functionality for filled slots
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: DragItemType.EQUIPMENT,
+    item: () => {
+      if (isEmpty || disabled || isSystemComponent) return null;
+      
+      const stats = getEquipmentStats();
+      if (!stats) return null;
+
+      // Don't remove yet - wait for successful drop
+      return {
+        equipmentId: `${currentItem}-${location}-${slotIndex}`,
+        name: currentItem,
+        type: DragItemType.EQUIPMENT,
+        criticalSlots: stats.criticalSlots,
+        weight: stats.weight,
+        sourceLocation: location,
+        sourceSlotIndex: slotIndex,
+        isFromCriticalSlot: true, // Flag to indicate this is from a critical slot
+      } as DraggedEquipment;
+    },
+    canDrag: !isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }), [currentItem, isEmpty, disabled, isSystemComponent, location, slotIndex, isMiddleOfGroup, isEndOfGroup]);
+
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: acceptTypes,
     canDrop: (item: DraggedEquipment) => {
@@ -78,7 +124,6 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }),
   }), [location, slotIndex, currentItem, canAccept, disabled]);
 
-  const isEmpty = isEmptySlot(currentItem);
   const isHighlighted = isOver && canDrop;
   const isDragRejected = isOver && !canDrop;
 
@@ -104,11 +149,17 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     if (isOmniPodSlot) classNames.push(styles.omniPod);
     if (disabled) classNames.push(styles.disabled);
     if (showSystemFeedback) classNames.push(styles.systemProtected);
+    if (isDragging) classNames.push(styles.dragging);
     
     // Multi-slot grouping classes
     if (isStartOfGroup) classNames.push(styles.groupStart);
     if (isMiddleOfGroup) classNames.push(styles.groupMiddle);
     if (isEndOfGroup) classNames.push(styles.groupEnd);
+    
+    // Add draggable class for non-empty, non-system slots
+    if (!isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup) {
+      classNames.push(styles.draggable);
+    }
     
     return classNames.join(' ');
   };
@@ -128,23 +179,27 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }
   };
 
-  // Use ref to attach drop
-  const dropRef = useRef<HTMLDivElement>(null);
+  // Combine drag and drop refs
+  const combinedRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (dropRef.current) {
-      drop(dropRef.current);
+    if (combinedRef.current) {
+      drop(combinedRef.current);
+      // Only attach drag if the slot is draggable
+      if (!isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup) {
+        drag(combinedRef.current);
+      }
     }
-  }, [drop]);
+  }, [drop, drag, isEmpty, disabled, isSystemComponent, isMiddleOfGroup, isEndOfGroup]);
 
   return (
     <div 
-      ref={dropRef}
+      ref={combinedRef}
       className={getSlotClassName()}
       data-location={location}
       data-slot={slotIndex}
       onClick={handleClick}
-      style={{ cursor: !isEmpty && onRemove && !disabled ? 'pointer' : 'default' }}
-      title={!isEmpty && onRemove && !disabled ? 'Click to remove equipment' : undefined}
+      style={{ cursor: !isEmpty && onRemove && !disabled ? 'move' : 'default' }}
+      title={!isEmpty && onRemove && !disabled ? 'Drag to move or click to remove' : undefined}
     >
       <span className={styles.slotNumber}>{slotIndex + 1}</span>
       <span className={styles.slotContent}>{getDisplayText()}</span>
