@@ -466,7 +466,31 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                   </div>
                   <div className={styles.slotsList}>
                     {(criticalSlots[location.name] || []).map((slot, index) => {
+                      const slots = criticalSlots[location.name];
                       const isSystem = !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
+                      
+                      // Determine if this is part of a multi-slot group
+                      // Only apply grouping to non-empty slots
+                      let isStartOfGroup = false;
+                      let isEndOfGroup = false;
+                      let isMiddleOfGroup = false;
+                      
+                      if (!isEmptySlot(slot)) {
+                        const prevSlot = index > 0 ? slots[index - 1] : null;
+                        const nextSlot = index < slots.length - 1 ? slots[index + 1] : null;
+                        
+                        // Check if this equipment spans multiple slots
+                        const hasSameEquipmentBefore = prevSlot === slot;
+                        const hasSameEquipmentAfter = nextSlot === slot;
+                        
+                        // Only apply grouping if this is actually part of a multi-slot item
+                        if (hasSameEquipmentBefore || hasSameEquipmentAfter) {
+                          isStartOfGroup = !hasSameEquipmentBefore && hasSameEquipmentAfter;
+                          isEndOfGroup = hasSameEquipmentBefore && !hasSameEquipmentAfter;
+                          isMiddleOfGroup = hasSameEquipmentBefore && hasSameEquipmentAfter;
+                        }
+                      }
+                      
                       return (
                         <CriticalSlotDropZone
                           key={`${location.name}-${index}`}
@@ -481,6 +505,9 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                           onSystemClick={() => {
                             // Optional: Could add additional feedback here if needed
                           }}
+                          isStartOfGroup={isStartOfGroup}
+                          isMiddleOfGroup={isMiddleOfGroup}
+                          isEndOfGroup={isEndOfGroup}
                         />
                       );
                     })}

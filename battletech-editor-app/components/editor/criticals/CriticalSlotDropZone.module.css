@@ -107,14 +107,42 @@
 }
 
 /* Multi-slot equipment visual continuity */
-.slot[data-continues="true"] {
-  border-bottom: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.groupStart {
+  border-bottom: none !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  margin-bottom: 0 !important;
 }
 
-.slot[data-continued="true"] {
-  border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.groupMiddle {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  margin-top: -1px !important;
+  margin-bottom: 0 !important;
+}
+
+.groupEnd {
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-top: -1px !important;
+}
+
+/* Remove hover effects on middle/end slots of groups */
+.groupMiddle:not(.empty):hover,
+.groupEnd:not(.empty):hover {
+  border-color: inherit !important;
+}
+
+/* Hide slot numbers for middle and end of groups */
+.groupMiddle .slotNumber,
+.groupEnd .slotNumber {
+  visibility: hidden;
+}
+
+/* Hide content for middle and end slots to avoid repetition */
+.groupMiddle .slotContent,
+.groupEnd .slotContent {
+  visibility: hidden;
 }

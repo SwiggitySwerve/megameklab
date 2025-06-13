@@ -15,6 +15,9 @@ export interface CriticalSlotDropZoneProps {
   disabled?: boolean;
   isSystemComponent?: boolean;
   onSystemClick?: () => void;
+  isStartOfGroup?: boolean;
+  isEndOfGroup?: boolean;
+  isMiddleOfGroup?: boolean;
 }
 
 // Helper to check if a slot value should be considered empty
@@ -47,6 +50,9 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   disabled = false,
   isSystemComponent = false,
   onSystemClick,
+  isStartOfGroup = false,
+  isEndOfGroup = false,
+  isMiddleOfGroup = false,
 }) => {
   const acceptTypes = [
     DragItemType.EQUIPMENT,
@@ -98,6 +104,11 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     if (isOmniPodSlot) classNames.push(styles.omniPod);
     if (disabled) classNames.push(styles.disabled);
     if (showSystemFeedback) classNames.push(styles.systemProtected);
+    
+    // Multi-slot grouping classes
+    if (isStartOfGroup) classNames.push(styles.groupStart);
+    if (isMiddleOfGroup) classNames.push(styles.groupMiddle);
+    if (isEndOfGroup) classNames.push(styles.groupEnd);
     
     return classNames.join(' ');
   };
