@@ -614,33 +614,50 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
             </div>
           </div>
           
-          {/* Critical Slots Panel - Horizontal Layout */}
+          {/* Critical Slots Panel - 5 Column Layout */}
           <div className={styles.criticalSlotsPanel}>
-            <div className={styles.mechLayout}>
-              {/* Head Row */}
-              <div className={styles.layoutRow}>
-                {renderLocationSection(mechLocations[0], 'head')}
-              </div>
-              
-              {/* Arms Row */}
-              <div className={`${styles.layoutRow} ${styles.armRow}`}>
-                {renderLocationSection(mechLocations[1], 'arm')}
-                <div style={{ width: '180px' }}></div> {/* Spacer */}
-                {renderLocationSection(mechLocations[2], 'arm')}
-              </div>
-              
-              {/* Torso Row */}
-              <div className={`${styles.layoutRow} ${styles.torsoRow}`}>
-                {renderLocationSection(mechLocations[3], 'torso')}
-                {renderLocationSection(mechLocations[4], 'centerTorso')}
-                {renderLocationSection(mechLocations[5], 'torso')}
-              </div>
-              
-              {/* Legs Row */}
-              <div className={styles.layoutRow}>
-                {renderLocationSection(mechLocations[6], 'leg')}
-                <div style={{ width: '180px' }}></div> {/* Spacer */}
-                {renderLocationSection(mechLocations[7], 'leg')}
+            <div className={styles.mechGrid}>
+              {/* Use a single grid with positioned elements */}
+              <div className={styles.mechLayout}>
+                {/* Head */}
+                <div className={styles.headPosition}>
+                  {renderLocationSection(mechLocations[0], 'head')}
+                </div>
+                
+                {/* Left Arm */}
+                <div className={styles.leftArmPosition}>
+                  {renderLocationSection(mechLocations[1], 'arm')}
+                </div>
+                
+                {/* Left Torso */}
+                <div className={styles.leftTorsoPosition}>
+                  {renderLocationSection(mechLocations[3], 'torso')}
+                </div>
+                
+                {/* Center Torso */}
+                <div className={styles.centerTorsoPosition}>
+                  {renderLocationSection(mechLocations[4], 'centerTorso')}
+                </div>
+                
+                {/* Right Torso */}
+                <div className={styles.rightTorsoPosition}>
+                  {renderLocationSection(mechLocations[5], 'torso')}
+                </div>
+                
+                {/* Right Arm */}
+                <div className={styles.rightArmPosition}>
+                  {renderLocationSection(mechLocations[2], 'arm')}
+                </div>
+                
+                {/* Left Leg */}
+                <div className={styles.leftLegPosition}>
+                  {renderLocationSection(mechLocations[6], 'leg')}
+                </div>
+                
+                {/* Right Leg */}
+                <div className={styles.rightLegPosition}>
+                  {renderLocationSection(mechLocations[7], 'leg')}
+                </div>
               </div>
             </div>
           </div>
