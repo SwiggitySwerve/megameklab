@@ -324,24 +324,7 @@ const CustomizerPage: React.FC = () => {
 
   const activeTab = tabs.find(t => t.id === activeTabId);
 
-  // Update URL when active tab changes
-  useEffect(() => {
-    const tabIndex = tabs.findIndex(t => t.id === activeTabId);
-    if (tabIndex >= 0) {
-      router.push(`/customizer?tab=${tabIndex}`, undefined, { shallow: true });
-    }
-  }, [activeTabId, tabs, router]);
-
-  // Read tab from URL on mount
-  useEffect(() => {
-    const tabParam = router.query.tab;
-    if (tabParam && typeof tabParam === 'string') {
-      const tabIndex = parseInt(tabParam, 10);
-      if (!isNaN(tabIndex) && tabIndex >= 0 && tabIndex < tabs.length) {
-        setActiveTabId(tabs[tabIndex].id);
-      }
-    }
-  }, [router.query.tab, tabs]);
+  // No URL management for unit tabs - the 'tab' parameter is used by editor tabs
 
   return (
     <>

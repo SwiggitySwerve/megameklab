@@ -45,11 +45,11 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
   
   // Initialize active tab from URL or default
   const getInitialTab = (): EditorTab => {
-    const editorTab = router.query.editorTab;
-    if (editorTab && typeof editorTab === 'string') {
-      const validTab = EDITOR_TABS.find(t => t.id === editorTab);
+    const tab = router.query.tab;
+    if (tab && typeof tab === 'string') {
+      const validTab = EDITOR_TABS.find(t => t.id === tab);
       if (validTab) {
-        return editorTab as EditorTab;
+        return tab as EditorTab;
       }
     }
     return 'structure';
@@ -72,27 +72,25 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
     }));
     
     // Update URL with the new tab
-    const currentQuery = { ...router.query };
-    currentQuery.editorTab = tabId;
     router.push({
       pathname: router.pathname,
-      query: currentQuery,
+      query: { tab: tabId },
     }, undefined, { shallow: true });
   }, [router]);
   
   // Listen for URL changes
   useEffect(() => {
-    const editorTab = router.query.editorTab;
-    if (editorTab && typeof editorTab === 'string') {
-      const validTab = EDITOR_TABS.find(t => t.id === editorTab);
-      if (validTab && editorState.activeTab !== editorTab) {
+    const tab = router.query.tab;
+    if (tab && typeof tab === 'string') {
+      const validTab = EDITOR_TABS.find(t => t.id === tab);
+      if (validTab && editorState.activeTab !== tab) {
         setEditorState(prev => ({
           ...prev,
-          activeTab: editorTab as EditorTab,
+          activeTab: tab as EditorTab,
         }));
       }
     }
-  }, [router.query.editorTab, editorState.activeTab]);
+  }, [router.query.tab, editorState.activeTab]);
 
   // Handle unit updates
   const handleUnitUpdate = useCallback((updates: Partial<EditableUnit>) => {
