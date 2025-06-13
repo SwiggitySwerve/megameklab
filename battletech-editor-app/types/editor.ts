@@ -157,8 +157,67 @@ export interface FluffContent {
   communicationsSystem?: string;
   targetingTracking?: string;
   notes?: string;
-  // Allow dynamic string indexing
-  [key: string]: string | undefined;
+  use?: string; // For spacecraft
+  length?: string;
+  width?: string; 
+  height?: string;
+  fluffImage?: string; // Base64 encoded
+  systemComponents?: SystemComponent[];
+}
+
+// New interfaces for implementation
+export interface UnitFluff extends FluffContent {
+  // Extends FluffContent with additional structure
+}
+
+export interface SystemComponent {
+  system: SystemType;
+  manufacturer: string;
+  model: string;
+}
+
+export enum SystemType {
+  ENGINE = 'ENGINE',
+  ARMOR = 'ARMOR',
+  COMMUNICATIONS = 'COMMUNICATIONS',
+  TARGETING = 'TARGETING',
+  JUMPJET = 'JUMPJET',
+  MYOMER = 'MYOMER'
+}
+
+export interface UnitQuirks {
+  general: QuirkSelection[];
+  weapons: WeaponQuirks[];
+}
+
+export interface QuirkSelection {
+  id: string;
+  name: string;
+  category: string;
+  enabled: boolean;
+  disallowedReason?: string;
+}
+
+export interface WeaponQuirks {
+  weaponId: string;
+  weaponName: string;
+  location: string;
+  quirks: QuirkSelection[];
+}
+
+export interface CriticalAllocation {
+  location: string;
+  slot: number;
+  equipmentId: string;
+  equipment?: FullEquipment;
+  isFixed?: boolean;
+}
+
+export interface ArmorAllocation {
+  location: string;
+  front: number;
+  rear?: number;
+  armorType?: string; // For patchwork
 }
 
 // Editor State

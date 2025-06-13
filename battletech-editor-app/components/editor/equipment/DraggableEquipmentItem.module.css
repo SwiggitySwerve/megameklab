@@ -1,0 +1,161 @@
+.container {
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  cursor: grab;
+  display: flex;
+  align-items: stretch;
+}
+
+.container:hover {
+  border-color: #2196f3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container.dragging {
+  cursor: grabbing;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.container.compact {
+  border-radius: 3px;
+}
+
+.dragHandle {
+  padding: 8px 4px;
+  background-color: #f5f5f5;
+  border-right: 1px solid #e0e0e0;
+  color: #999;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.container:hover .dragHandle {
+  background-color: #e8e8e8;
+  color: #666;
+}
+
+.content {
+  flex: 1;
+  padding: 12px;
+}
+
+.container.compact .content {
+  padding: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.nameSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.techBase {
+  font-size: 0.75rem;
+  color: #666;
+  padding: 2px 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+
+.removeButton {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  color: #999;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.removeButton:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.details {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stats {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.totals {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+}
+
+.location {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 4px;
+}
+
+.locationLabel {
+  color: #999;
+}
+
+.locationName {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Drag preview styling */
+.container[data-dragging="true"] {
+  opacity: 0.5;
+}
+
+/* Compact mode adjustments */
+.container.compact .name {
+  font-size: 0.8125rem;
+}
+
+.container.compact .techBase {
+  font-size: 0.7rem;
+  padding: 1px 4px;
+}
+
+.container.compact .removeButton {
+  width: 20px;
+  height: 20px;
+  font-size: 1.25rem;
+}
+
+.container.compact .dragHandle {
+  padding: 6px 3px;
+  font-size: 0.75rem;
+}

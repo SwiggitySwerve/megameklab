@@ -1,0 +1,245 @@
+.container {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.container.compact {
+  padding: 12px;
+}
+
+.gridHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.gridHeader h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  padding: 6px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #1976d2;
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Location columns */
+.locationColumn {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.locationColumn:hover {
+  border-color: #2196f3;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+}
+
+.locationColumn.selected {
+  border-color: #4caf50;
+  background-color: #f1f8e9;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.locationColumn.hovered {
+  border-color: #ff9800;
+  background-color: #fff8e1;
+}
+
+.locationHeader {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.locationHeader:hover {
+  background-color: #eeeeee;
+}
+
+.locationColumn.selected .locationHeader {
+  background-color: #e8f5e8;
+}
+
+.locationName {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.875rem;
+}
+
+.slotCount {
+  color: #666;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.slotsContainer {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .gridHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 12px;
+  }
+  
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .actionButton {
+    width: 100%;
+  }
+}
+
+/* Compact mode adjustments */
+.container.compact .gridHeader {
+  margin-bottom: 12px;
+}
+
+.container.compact .grid {
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.container.compact .locationHeader {
+  padding: 6px 8px;
+}
+
+.container.compact .slotsContainer {
+  padding: 6px;
+}
+
+.container.compact .legend {
+  padding: 8px;
+}
+
+/* Animation for location selection */
+@keyframes selectLocation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.locationColumn.selected {
+  animation: selectLocation 0.3s ease-in-out;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+}
+
+.loading::after {
+  content: "Loading critical slots...";
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.emptyState::after {
+  content: "No critical slots data available";
+}

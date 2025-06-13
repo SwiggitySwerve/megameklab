@@ -1,0 +1,287 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.container.compact {
+  padding: 12px;
+  gap: 12px;
+}
+
+.mechDiagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 400px;
+  position: relative;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* Base armor location styling */
+.armorLocation {
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  min-width: 60px;
+  min-height: 50px;
+}
+
+.armorLocation:hover {
+  border-color: #2196f3;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+  transform: translateY(-1px);
+}
+
+.armorLocation.selected {
+  border-color: #4caf50;
+  background-color: #e8f5e8;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+}
+
+.armorLocation.hovered {
+  border-color: #ff9800;
+  background-color: #fff3e0;
+}
+
+/* Location-specific positioning */
+.head {
+  width: 80px;
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 50% 50% 20% 20%;
+}
+
+.torsoSection {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.leftTorso, .centerTorso, .rightTorso {
+  width: 90px;
+  height: 100px;
+  position: relative;
+}
+
+.centerTorso {
+  width: 100px;
+  border-radius: 8px 8px 4px 4px;
+}
+
+.leftTorso {
+  border-radius: 8px 4px 4px 8px;
+}
+
+.rightTorso {
+  border-radius: 4px 8px 8px 4px;
+}
+
+.armsSection {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 8px;
+}
+
+.leftArm, .rightArm {
+  width: 70px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.legsSection {
+  display: flex;
+  gap: 8px;
+}
+
+.leftLeg, .rightLeg {
+  width: 80px;
+  height: 140px;
+  border-radius: 4px 4px 8px 8px;
+}
+
+/* Location labels */
+.locationLabel {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+/* Armor values */
+.armorValue {
+  min-width: 24px;
+  min-height: 20px;
+  border-radius: 3px;
+  border: 1px solid;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.armorValue.front {
+  background-color: rgba(33, 150, 243, 0.8);
+}
+
+.armorValue.rear {
+  background-color: rgba(156, 39, 176, 0.8);
+}
+
+.armorValues {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Controls panel */
+.controlsPanel {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.controlsPanel h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 1.125rem;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .mechDiagram {
+    min-height: 300px;
+    padding: 12px;
+  }
+  
+  .torsoSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  
+  .leftTorso, .centerTorso, .rightTorso {
+    width: 120px;
+    height: 60px;
+  }
+  
+  .armsSection {
+    max-width: 200px;
+  }
+  
+  .leftArm, .rightArm {
+    width: 50px;
+    height: 80px;
+  }
+  
+  .leftLeg, .rightLeg {
+    width: 60px;
+    height: 100px;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Compact mode adjustments */
+.container.compact .mechDiagram {
+  min-height: 250px;
+  padding: 12px;
+}
+
+.container.compact .armorLocation {
+  min-width: 40px;
+  min-height: 35px;
+  padding: 4px;
+}
+
+.container.compact .locationLabel {
+  font-size: 0.75rem;
+}
+
+.container.compact .armorValue {
+  min-width: 18px;
+  min-height: 16px;
+  font-size: 0.6875rem;
+}
+
+/* Animation for armor value changes */
+@keyframes armorChange {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.armorValue.changing {
+  animation: armorChange 0.3s ease-in-out;
+}
+
+/* Visual indicators for armor condition */
+.armorLocation.criticalArmor {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.armorLocation.lowArmor {
+  border-color: #ff9800;
+  background-color: #fff3e0;
+}
+
+.armorLocation.fullArmor {
+  border-color: #4caf50;
+  background-color: #e8f5e8;
+}

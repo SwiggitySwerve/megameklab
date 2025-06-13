@@ -1,0 +1,300 @@
+.criticalSlot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 36px;
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  background: var(--bg-color, #2a2a2a);
+  color: var(--text-color, #e0e0e0);
+  padding: 4px 8px;
+  margin: 1px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.criticalSlot:hover {
+  background: var(--bg-hover-color, #333);
+  border-color: var(--border-hover-color, #555);
+}
+
+/* Slot States */
+.fixedSlot {
+  background: var(--fixed-bg-color, #1a3a1a);
+  border-color: var(--fixed-border-color, #2a5a2a);
+  color: var(--fixed-text-color, #90ff90);
+  cursor: default;
+}
+
+.emptySlot {
+  background: var(--empty-bg-color, #2a2a2a);
+  border-color: var(--empty-border-color, #444);
+  color: var(--empty-text-color, #888);
+  border-style: dashed;
+}
+
+.equipmentSlot {
+  background: var(--equipment-bg-color, #1a2a3a);
+  border-color: var(--equipment-border-color, #2a4a6a);
+  color: var(--equipment-text-color, #90c0ff);
+}
+
+.selectedSlot {
+  border-color: var(--selected-border-color, #ff6600) !important;
+  border-width: 2px;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+}
+
+/* Drag and Drop States */
+.dropHighlight {
+  background: var(--drop-highlight-bg, #1a3a1a) !important;
+  border-color: var(--drop-highlight-border, #4ade80) !important;
+  border-width: 2px;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.invalidDrop {
+  background: var(--invalid-drop-bg, #3a1a1a) !important;
+  border-color: var(--invalid-drop-border, #ef4444) !important;
+  border-width: 2px;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+/* Multi-slot Equipment */
+.multiSlotStart {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid var(--multi-slot-connector, #666);
+}
+
+.multiSlotContinuation {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top: none;
+  border-bottom: 1px solid var(--multi-slot-connector, #666);
+  margin-top: 0;
+}
+
+.multiSlotContinuation:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom: 1px solid var(--border-color, #333);
+}
+
+/* Slot Content */
+.slotContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 20px;
+}
+
+.slotIndex {
+  font-weight: bold;
+  color: var(--slot-index-color, #666);
+  font-size: 10px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.slotText {
+  flex: 1;
+  text-align: left;
+  padding: 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.slotSpan {
+  font-size: 10px;
+  color: var(--slot-span-color, #888);
+  font-weight: normal;
+}
+
+/* Equipment Info */
+.equipmentInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--equipment-info-color, #aaa);
+}
+
+.equipmentType {
+  background: var(--equipment-type-bg, #333);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.equipmentWeight {
+  background: var(--equipment-weight-bg, #444);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+/* Drop Indicators */
+.dropIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--drop-indicator-bg, rgba(74, 222, 128, 0.9));
+  color: var(--drop-indicator-text, #000);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 10;
+  pointer-events: none;
+  animation: pulse 1s infinite;
+}
+
+.invalidDropIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--invalid-indicator-bg, rgba(239, 68, 68, 0.9));
+  color: var(--invalid-indicator-text, #fff);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Dark Mode Variables */
+:global(.dark) .criticalSlot {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --border-color: #333;
+  --bg-hover-color: #2a2a2a;
+  --border-hover-color: #555;
+  
+  --fixed-bg-color: #0a2a0a;
+  --fixed-border-color: #1a4a1a;
+  --fixed-text-color: #70ff70;
+  
+  --empty-bg-color: #1a1a1a;
+  --empty-border-color: #333;
+  --empty-text-color: #666;
+  
+  --equipment-bg-color: #0a1a2a;
+  --equipment-border-color: #1a3a5a;
+  --equipment-text-color: #70b0ff;
+  
+  --selected-border-color: #ff6600;
+  
+  --drop-highlight-bg: #0a2a0a;
+  --drop-highlight-border: #4ade80;
+  
+  --invalid-drop-bg: #2a0a0a;
+  --invalid-drop-border: #ef4444;
+  
+  --multi-slot-connector: #555;
+  
+  --slot-index-color: #555;
+  --slot-span-color: #777;
+  --equipment-info-color: #999;
+  --equipment-type-bg: #2a2a2a;
+  --equipment-weight-bg: #333;
+  
+  --drop-indicator-bg: rgba(74, 222, 128, 0.9);
+  --drop-indicator-text: #000;
+  --invalid-indicator-bg: rgba(239, 68, 68, 0.9);
+  --invalid-indicator-text: #fff;
+}
+
+/* Light Mode Variables */
+:global(.light) .criticalSlot {
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+  --bg-hover-color: #e9ecef;
+  --border-hover-color: #adb5bd;
+  
+  --fixed-bg-color: #d4edda;
+  --fixed-border-color: #c3e6cb;
+  --fixed-text-color: #155724;
+  
+  --empty-bg-color: #f8f9fa;
+  --empty-border-color: #ced4da;
+  --empty-text-color: #6c757d;
+  
+  --equipment-bg-color: #cce7ff;
+  --equipment-border-color: #99d6ff;
+  --equipment-text-color: #0056b3;
+  
+  --selected-border-color: #fd7e14;
+  
+  --drop-highlight-bg: #d4edda;
+  --drop-highlight-border: #198754;
+  
+  --invalid-drop-bg: #f8d7da;
+  --invalid-drop-border: #dc3545;
+  
+  --multi-slot-connector: #adb5bd;
+  
+  --slot-index-color: #6c757d;
+  --slot-span-color: #6c757d;
+  --equipment-info-color: #495057;
+  --equipment-type-bg: #e9ecef;
+  --equipment-weight-bg: #dee2e6;
+  
+  --drop-indicator-bg: rgba(25, 135, 84, 0.9);
+  --drop-indicator-text: #fff;
+  --invalid-indicator-bg: rgba(220, 53, 69, 0.9);
+  --invalid-indicator-text: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .criticalSlot {
+    min-height: 32px;
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+  
+  .slotIndex {
+    width: 16px;
+    font-size: 9px;
+  }
+  
+  .equipmentInfo {
+    font-size: 9px;
+  }
+  
+  .equipmentType,
+  .equipmentWeight {
+    font-size: 8px;
+    padding: 1px 3px;
+  }
+}

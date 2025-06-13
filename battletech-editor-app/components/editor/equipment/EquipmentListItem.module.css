@@ -1,0 +1,123 @@
+.container {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.container.draggable {
+  cursor: grab;
+}
+
+.container.draggable:hover {
+  border-color: #2196f3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container.draggable:active {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
+.container.compact {
+  padding: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.nameSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.techBase {
+  font-size: 0.75rem;
+  color: #666;
+  padding: 2px 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+
+.removeButton {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  color: #999;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.removeButton:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.details {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stats {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.totals {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+}
+
+.description {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Drag visual feedback */
+.container[draggable="true"]:active {
+  opacity: 0.5;
+}
+
+/* Compact mode adjustments */
+.container.compact .name {
+  font-size: 0.8125rem;
+}
+
+.container.compact .techBase {
+  font-size: 0.7rem;
+  padding: 1px 4px;
+}
+
+.container.compact .removeButton {
+  width: 20px;
+  height: 20px;
+  font-size: 1.25rem;
+}

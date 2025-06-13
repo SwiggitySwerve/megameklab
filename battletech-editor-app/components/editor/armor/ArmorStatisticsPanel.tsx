@@ -1,202 +1,160 @@
-import React, { useMemo } from 'react';
-import { EditableUnit, ArmorType } from '../../../types/editor';
+import React from 'react';
+import { EditableUnit, ArmorType, ARMOR_TYPES } from '../../../types/editor';
+import styles from './ArmorStatisticsPanel.module.css';
 
-interface ArmorStatisticsPanelProps {
+export interface ArmorStatisticsProps {
   unit: EditableUnit;
-  armorType: ArmorType;
-  totalTonnage: number;
-  maxTonnage: number;
+  totalArmorTonnage: number;
+  onArmorTypeChange?: (armorType: ArmorType) => void;
+  readOnly?: boolean;
 }
 
-interface LocationStats {
-  location: string;
-  front: number;
-  rear: number;
-  max: number;
-  percentage: number;
-  efficiency: number;
-}
-
-const ArmorStatisticsPanel: React.FC<ArmorStatisticsPanelProps> = ({
+export const ArmorStatisticsPanel: React.FC<ArmorStatisticsProps> = ({
   unit,
-  armorType,
-  totalTonnage,
-  maxTonnage,
+  totalArmorTonnage,
+  onArmorTypeChange,
+  readOnly = false,
 }) => {
-  // Calculate location statistics
-  const locationStats = useMemo((): LocationStats[] => {
-    const stats: LocationStats[] = [];
-    const locations = [
-      'Head', 'Center Torso', 'Left Torso', 'Right Torso',
-      'Left Arm', 'Right Arm', 'Left Leg', 'Right Leg'
-    ];
-
-    locations.forEach(location => {
-      const armorLocation = unit.data?.armor?.locations?.find(loc => loc.location === location);
-      const front = armorLocation?.armor_points || 0;
-      const rear = armorLocation?.rear_armor_points || 0;
-      const max = getMaxArmorForLocation(location, unit.mass || 0);
-      const total = front + rear;
-      const percentage = max > 0 ? (total / max) * 100 : 0;
-      const efficiency = total > 0 ? total / (total * 0.0625) : 0; // Points per ton efficiency
-
-      stats.push({
-        location,
-        front,
-        rear,
-        max,
-        percentage,
-        efficiency,
+  // Get current armor type
+  const currentArmorType = unit.armorAllocation?.HEAD?.type || ARMOR_TYPES[0];
+  
+  // Calculate armor statistics
+  const calculateArmorStats = () => {
+    let totalAllocated = 0;
+    let totalMax = 0;
+    
+    if (unit.armorAllocation) {
+      Object.entries(unit.armorAllocation).forEach(([location, armor]) => {
+        totalAllocated += armor.front + (armor.rear || 0);
+        totalMax += armor.maxArmor;
       });
-    });
-
-    return stats;
-  }, [unit]);
-
-  // Calculate overall statistics
-  const overallStats = useMemo(() => {
-    const totalPoints = locationStats.reduce((sum, loc) => sum + loc.front + loc.rear, 0);
-    const maxPossiblePoints = locationStats.reduce((sum, loc) => sum + loc.max, 0);
-    const coveragePercentage = maxPossiblePoints > 0 ? (totalPoints / maxPossiblePoints) * 100 : 0;
-    const pointsPerTon = totalTonnage > 0 ? totalPoints / totalTonnage : 0;
-    const efficiency = armorType?.pointsPerTon ? (pointsPerTon / armorType.pointsPerTon * 100) : 0;
-
-    // Front/rear ratio for torso locations
-    const torsoLocations = locationStats.filter(loc => 
-      ['Center Torso', 'Left Torso', 'Right Torso'].includes(loc.location)
-    );
-    const totalFront = torsoLocations.reduce((sum, loc) => sum + loc.front, 0);
-    const totalRear = torsoLocations.reduce((sum, loc) => sum + loc.rear, 0);
-    const frontRearRatio = totalRear > 0 ? totalFront / totalRear : totalFront;
-
-    return {
-      totalPoints,
-      maxPossiblePoints,
-      coveragePercentage,
-      pointsPerTon,
-      efficiency,
-      frontRearRatio,
-      remainingTonnage: maxTonnage - totalTonnage,
-      remainingPoints: Math.floor((maxTonnage - totalTonnage) * (armorType?.pointsPerTon || 0)),
-    };
-  }, [locationStats, totalTonnage, maxTonnage, armorType.pointsPerTon]);
-
-  // Identify vulnerable locations
-  const vulnerableLocations = useMemo(() => {
-    return locationStats.filter(loc => loc.percentage < 50);
-  }, [locationStats]);
-
-  // Get max armor for location based on mech tonnage
-  function getMaxArmorForLocation(location: string, mass: number): number {
-    switch (location) {
-      case 'Head':
-        return mass > 100 ? 12 : 9;
-      case 'Center Torso':
-        return Math.floor(mass * 2 * 0.4);
-      case 'Left Torso':
-      case 'Right Torso':
-        return Math.floor(mass * 2 * 0.3);
-      case 'Left Arm':
-      case 'Right Arm':
-      case 'Left Leg':
-      case 'Right Leg':
-        return Math.floor(mass * 2 * 0.25);
-      default:
-        return Math.floor(mass * 2 * 0.2);
     }
-  }
-
+    
+    const pointsPerTon = currentArmorType.pointsPerTon;
+    const totalPoints = Math.floor(totalArmorTonnage * pointsPerTon);
+    const unallocated = totalPoints - totalAllocated;
+    const wasted = unallocated > 0 ? unallocated % pointsPerTon : 0;
+    
+    return {
+      totalAllocated,
+      totalMax,
+      totalPoints,
+      unallocated,
+      wasted,
+      efficiency: totalMax > 0 ? (totalAllocated / totalMax) * 100 : 0
+    };
+  };
+  
+  const stats = calculateArmorStats();
+  
+  const handleArmorTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (!readOnly && onArmorTypeChange) {
+      const selectedType = ARMOR_TYPES.find(type => type.id === e.target.value);
+      if (selectedType) {
+        onArmorTypeChange(selectedType);
+      }
+    }
+  };
+  
   return (
-    <div className="armor-statistics-panel bg-gray-800 rounded-lg p-4 border border-gray-700">
-      <h3 className="text-sm font-semibold text-gray-100 mb-4">Armor Statistics</h3>
-
-      {/* Overall Statistics */}
-      <div className="mb-6">
-        <h4 className="text-xs font-medium text-gray-300 mb-2">Overall</h4>
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="bg-gray-900 rounded p-2">
-            <div className="text-gray-400">Total Armor Points</div>
-            <div className="text-lg font-bold text-gray-100">
-              {overallStats.totalPoints} / {overallStats.maxPossiblePoints}
-            </div>
-            <div className="text-gray-500">{(overallStats.coveragePercentage || 0).toFixed(1)}% coverage</div>
+    <div className={styles.container}>
+      <h3 className={styles.title}>Armor Statistics</h3>
+      
+      {/* Armor Type Selection */}
+      <div className={styles.section}>
+        <label className={styles.label}>
+          Armor Type:
+          <select 
+            className={styles.select}
+            value={currentArmorType.id}
+            onChange={handleArmorTypeChange}
+            disabled={readOnly}
+          >
+            {ARMOR_TYPES.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.name} ({type.pointsPerTon} pts/ton)
+              </option>
+            ))}
+          </select>
+        </label>
+        {currentArmorType.criticalSlots > 0 && (
+          <div className={styles.info}>
+            Requires {currentArmorType.criticalSlots} critical slots
           </div>
-          
-          <div className="bg-gray-900 rounded p-2">
-            <div className="text-gray-400">Weight Efficiency</div>
-            <div className="text-lg font-bold text-gray-100">
-              {(overallStats.pointsPerTon || 0).toFixed(1)} pts/ton
-            </div>
-            <div className="text-gray-500">{(overallStats.efficiency || 0).toFixed(1)}% efficient</div>
-          </div>
-
-          <div className="bg-gray-900 rounded p-2">
-            <div className="text-gray-400">Armor Tonnage</div>
-            <div className="text-lg font-bold text-gray-100">
-              {(totalTonnage || 0).toFixed(1)} / {(maxTonnage || 0).toFixed(1)} tons
-            </div>
-            <div className="text-gray-500">{(overallStats.remainingTonnage || 0).toFixed(1)} tons remaining</div>
-          </div>
-
-          <div className="bg-gray-900 rounded p-2">
-            <div className="text-gray-400">Front/Rear Ratio</div>
-            <div className="text-lg font-bold text-gray-100">
-              {(overallStats.frontRearRatio || 0).toFixed(1)}:1
-            </div>
-            <div className="text-gray-500">Torso locations only</div>
-          </div>
+        )}
+      </div>
+      
+      {/* Armor Tonnage */}
+      <div className={styles.section}>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Armor Tonnage:</span>
+          <span className={styles.statValue}>{totalArmorTonnage} tons</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Points per Ton:</span>
+          <span className={styles.statValue}>{currentArmorType.pointsPerTon}</span>
         </div>
       </div>
-
-      {/* Per-Location Breakdown */}
-      <div className="mb-4">
-        <h4 className="text-xs font-medium text-gray-300 mb-2">Location Breakdown</h4>
-        <div className="space-y-1">
-          {locationStats.map((loc) => (
-            <div key={loc.location} className="flex items-center gap-2 text-xs">
-              <div className="w-20 text-gray-400">{loc.location}</div>
-              <div className="flex-1">
-                <div className="relative h-4 bg-gray-700 rounded overflow-hidden">
-                  <div
-                    className={`absolute top-0 left-0 h-full transition-all duration-300 ${
-                      loc.percentage >= 90 ? 'bg-green-500' :
-                      loc.percentage >= 60 ? 'bg-yellow-500' :
-                      loc.percentage >= 20 ? 'bg-orange-500' :
-                      'bg-red-500'
-                    }`}
-                    style={{ width: `${loc.percentage}%` }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-100">
-                    {loc.front}{loc.rear > 0 ? `/${loc.rear}` : ''} ({loc.percentage.toFixed(0)}%)
-                  </div>
-                </div>
-              </div>
-              <div className="text-gray-400 w-16 text-right">
-                Max: {loc.max}
-              </div>
-            </div>
-          ))}
+      
+      {/* Allocation Statistics */}
+      <div className={styles.section}>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Total Points:</span>
+          <span className={styles.statValue}>{stats.totalPoints}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Allocated:</span>
+          <span className={styles.statValue}>{stats.totalAllocated}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Unallocated:</span>
+          <span className={`${styles.statValue} ${stats.unallocated > 0 ? styles.warning : ''}`}>
+            {stats.unallocated}
+          </span>
+        </div>
+        {stats.wasted > 0 && (
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Wasted:</span>
+            <span className={`${styles.statValue} ${styles.error}`}>
+              {stats.wasted}
+            </span>
+          </div>
+        )}
+      </div>
+      
+      {/* Progress Bar */}
+      <div className={styles.progressSection}>
+        <div className={styles.progressLabel}>
+          <span>Allocation Progress</span>
+          <span>{stats.efficiency.toFixed(1)}%</span>
+        </div>
+        <div className={styles.progressBar}>
+          <div 
+            className={styles.progressFill}
+            style={{ width: `${Math.min(stats.efficiency, 100)}%` }}
+          />
         </div>
       </div>
-
-      {/* Vulnerable Locations Warning */}
-      {vulnerableLocations.length > 0 && (
-        <div className="bg-red-900/20 border border-red-700 rounded p-3">
-          <h4 className="text-xs font-medium text-red-400 mb-1">Vulnerable Locations</h4>
-          <div className="text-xs text-red-300">
-            {vulnerableLocations.map(loc => loc.location).join(', ')} have less than 50% armor coverage
-          </div>
+      
+      {/* Max Armor Info */}
+      <div className={styles.section}>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Maximum Possible:</span>
+          <span className={styles.statValue}>{stats.totalMax} points</span>
         </div>
-      )}
-
-      {/* Remaining Points */}
-      {overallStats.remainingPoints > 0 && (
-        <div className="mt-3 bg-blue-900/20 border border-blue-700 rounded p-3">
-          <div className="text-xs text-blue-300">
-            You can allocate {overallStats.remainingPoints} more armor points with remaining tonnage
-          </div>
+        <div className={styles.info}>
+          {stats.totalAllocated < stats.totalMax && (
+            <span>
+              You can allocate {stats.totalMax - stats.totalAllocated} more points to reach maximum protection.
+            </span>
+          )}
+          {stats.totalAllocated === stats.totalMax && (
+            <span className={styles.success}>
+              Maximum armor allocated!
+            </span>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

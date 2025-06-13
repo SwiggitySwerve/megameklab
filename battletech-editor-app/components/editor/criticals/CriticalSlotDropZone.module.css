@@ -1,0 +1,115 @@
+.slot {
+  min-height: 24px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: default;
+}
+
+.slot.empty {
+  color: #999;
+  font-style: italic;
+  background-color: #fafafa;
+}
+
+.slot.invalid {
+  background-color: #fff3e0;
+  border-color: #ff9800;
+}
+
+.slot.highlighted {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.slot.rejected {
+  background-color: #ffebee;
+  border-color: #f44336;
+  cursor: not-allowed;
+}
+
+.slot.omniPod {
+  background: linear-gradient(to right, #f5f5f5 0%, #fff 10%);
+}
+
+.slot.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+.slotNumber {
+  font-size: 0.75rem;
+  color: #666;
+  min-width: 20px;
+  text-align: right;
+}
+
+.slotContent {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.omniPodIndicator {
+  font-size: 0.75rem;
+  color: #666;
+  margin-left: auto;
+}
+
+/* Hover effects */
+.slot:not(.disabled):not(.empty):hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}
+
+.slot.empty:not(.disabled):hover {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+/* Multi-slot equipment styling */
+.slot[data-multi-slot="start"] {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.slot[data-multi-slot="middle"] {
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.slot[data-multi-slot="end"] {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Visual feedback for drag operations */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(33, 150, 243, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+  }
+}
+
+.slot.highlighted {
+  animation: pulse 1.5s infinite;
+}
