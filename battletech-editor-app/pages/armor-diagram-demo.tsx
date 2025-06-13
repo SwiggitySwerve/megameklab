@@ -7,6 +7,9 @@ import StructureArmorTab from '../components/editor/tabs/StructureArmorTab';
 const createMockUnit = (tonnage: number): EditableUnit => ({
   id: 'demo-mech',
   model: 'Demo Mech',
+  chassis: 'Demo Chassis',
+  era: 'Star League',
+  tech_base: 'Inner Sphere',
   mass: tonnage,
   data: {
     name: 'Demo Mech',
@@ -45,7 +48,7 @@ const createMockUnit = (tonnage: number): EditableUnit => ({
       right_arm: { shoulder: true, upper: true, lower: true, hand: true }
     },
     locations: []
-  },
+  } as any,
   armorAllocation: {
     'Head': { front: 9, rear: 0, maxArmor: 9, type: ARMOR_TYPES[0] },
     'Center Torso': { front: 25, rear: 10, maxArmor: tonnage, type: ARMOR_TYPES[0] },
@@ -200,57 +203,57 @@ const ArmorDiagramDemo: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Feature List */}
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
-            <h3 className="text-sm font-semibold text-gray-100 mb-3">Available Features</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
-              <div>
-                <h4 className="font-medium text-gray-100 mb-2">Phase 1-2 Features:</h4>
-                <ul className="space-y-1 list-disc list-inside">
-                  <li>10+ armor types with tech restrictions</li>
-                  <li>0.5 ton increment controls</li>
-                  <li>Interactive SVG mech diagram</li>
-                  <li>Drag-to-adjust armor values</li>
-                  <li>Color-coded coverage visualization</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-100 mb-2">Phase 3-5 Features:</h4>
-                <ul className="space-y-1 list-disc list-inside">
-                  <li>Real-time validation</li>
-                  <li>Comprehensive statistics</li>
-                  <li>6 distribution presets</li>
-                  <li>Patchwork armor support</li>
-                  <li>Undo/redo with history</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Instructions */}
-          <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-4 mb-6">
-            <h3 className="text-sm font-semibold text-blue-300 mb-2">How to Use:</h3>
-            <ol className="list-decimal list-inside text-sm text-blue-200 space-y-1">
-              <li>Select a mech tonnage above to create a test unit</li>
-              <li>Choose an armor type from the dropdown</li>
-              <li>Set armor tonnage with the increment controls</li>
-              <li>Drag on the mech diagram to adjust armor values</li>
-              <li>Try the distribution presets for quick setup</li>
-              <li>Enable patchwork armor for per-location types</li>
-              <li>Use Ctrl+Z/Y for undo/redo</li>
-            </ol>
-          </div>
         </div>
 
         {/* Main Armor Diagram Component */}
-        <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+        <div className="bg-gray-900 rounded-lg p-6 border border-gray-700 mb-8">
           <StructureArmorTab
             unit={demoUnit}
             onUnitChange={handleUnitChange}
             validationErrors={mockValidationErrors}
             readOnly={false}
           />
+        </div>
+
+        {/* Feature List */}
+        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+          <h3 className="text-sm font-semibold text-gray-100 mb-3">Available Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
+            <div>
+              <h4 className="font-medium text-gray-100 mb-2">Phase 1-2 Features:</h4>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>10+ armor types with tech restrictions</li>
+                <li>0.5 ton increment controls</li>
+                <li>Interactive SVG mech diagram</li>
+                <li>Drag-to-adjust armor values</li>
+                <li>Color-coded coverage visualization</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-100 mb-2">Phase 3-5 Features:</h4>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>Real-time validation</li>
+                <li>Comprehensive statistics</li>
+                <li>6 distribution presets</li>
+                <li>Patchwork armor support</li>
+                <li>Undo/redo with history</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-4 mb-6">
+          <h3 className="text-sm font-semibold text-blue-300 mb-2">How to Use:</h3>
+          <ol className="list-decimal list-inside text-sm text-blue-200 space-y-1">
+            <li>Select a mech tonnage above to create a test unit</li>
+            <li>Choose an armor type from the dropdown</li>
+            <li>Set armor tonnage with the increment controls</li>
+            <li>Drag on the mech diagram to adjust armor values</li>
+            <li>Try the distribution presets for quick setup</li>
+            <li>Enable patchwork armor for per-location types</li>
+            <li>Use Ctrl+Z/Y for undo/redo</li>
+          </ol>
         </div>
 
         {/* Debug Info (Development Only) */}

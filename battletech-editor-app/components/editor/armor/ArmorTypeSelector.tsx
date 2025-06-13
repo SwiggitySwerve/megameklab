@@ -72,7 +72,7 @@ const ArmorTypeSelector: React.FC<ArmorTypeSelectorProps> = ({
             <span className="text-gray-200 font-medium">{currentType.pointsPerTon}</span>
           </div>
           
-          {currentType.criticalSlots && currentType.criticalSlots > 0 && (
+          {typeof currentType.criticalSlots === 'number' && (
             <div className="flex justify-between">
               <span className="text-gray-400">Critical Slots:</span>
               <span className="text-gray-200 font-medium">{currentType.criticalSlots}</span>
