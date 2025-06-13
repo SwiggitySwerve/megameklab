@@ -107,23 +107,25 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
         <div className={styles.header}>
           <div className={styles.nameSection}>
             <span className={styles.name}>{displayName}</span>
+          </div>
+          <div className={styles.headerRight}>
             {equipment.tech_base && (
               <span className={styles.techBase}>{equipment.tech_base}</span>
             )}
+            {onRemove && (
+              <button
+                className={styles.removeButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove(equipment.id);
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                aria-label={`Remove ${equipment.name}`}
+              >
+                ×
+              </button>
+            )}
           </div>
-          {onRemove && (
-            <button
-              className={styles.removeButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemove(equipment.id);
-              }}
-              onMouseDown={(e) => e.stopPropagation()}
-              aria-label={`Remove ${equipment.name}`}
-            >
-              ×
-            </button>
-          )}
         </div>
         
         {showDetails && !isCompact && (

@@ -60,9 +60,16 @@
 
 .nameSection {
   display: flex;
-  flex-direction: column;
-  gap: 0;
+  align-items: center;
   min-width: 0;
+  flex: 1;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .name {
@@ -77,8 +84,9 @@
 }
 
 .techBase {
-  font-size: 0.5rem;
-  color: #9ca3af;
+  font-size: 0.625rem;
+  color: #60a5fa;
+  font-weight: 600;
   line-height: 1.2;
 }
 

@@ -590,30 +590,6 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         </div>
         
         <div className={styles.mainGrid}>
-          {/* Equipment Panel */}
-          <div className={styles.equipmentPanel}>
-            <h3 className={styles.panelTitle}>Unallocated Equipment</h3>
-            <div className={styles.equipmentList}>
-              {unallocatedEquipment.length > 0 ? (
-                unallocatedEquipment.map(equipment => (
-                  <DraggableEquipmentItem
-                    key={equipment.id}
-                    equipment={equipment}
-                    showDetails={true}
-                    isCompact={true}
-                  />
-                ))
-              ) : (
-                <div className={styles.emptyState}>
-                  <p>No unallocated equipment</p>
-                  <p className={styles.hint}>
-                    Add equipment in the Equipment tab
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          
           {/* Critical Slots Panel - 5 Column Layout */}
           <div className={styles.criticalSlotsPanel}>
             <div className={styles.mechGrid}>
@@ -660,6 +636,30 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        
+        {/* Fixed Equipment Panel on Right */}
+        <div className={styles.equipmentPanel}>
+          <h3 className={styles.panelTitle}>Unallocated Equipment</h3>
+          <div className={styles.equipmentList}>
+            {unallocatedEquipment.length > 0 ? (
+              unallocatedEquipment.map(equipment => (
+                <DraggableEquipmentItem
+                  key={equipment.id}
+                  equipment={equipment}
+                  showDetails={true}
+                  isCompact={false}
+                />
+              ))
+            ) : (
+              <div className={styles.emptyState}>
+                <p>No unallocated equipment</p>
+                <p className={styles.hint}>
+                  Add equipment in the Equipment tab
+                </p>
+              </div>
+            )}
           </div>
         </div>
         
