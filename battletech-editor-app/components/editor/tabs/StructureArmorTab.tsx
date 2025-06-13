@@ -24,7 +24,7 @@ const StructureArmorTab: React.FC<StructureArmorTabProps> = ({
   const [selectedArmorType, setSelectedArmorType] = useState<ArmorType>(
     ARMOR_TYPES.find(type => type.id === 'standard') || ARMOR_TYPES[0]
   );
-  const [armorTonnage, setArmorTonnage] = useState<number>(0);
+  const [armorTonnage, setArmorTonnage] = useState<number>(19); // Default for typical 100-ton mech
 
   // Calculate total armor points available
   const totalArmorPoints = Math.floor(armorTonnage * selectedArmorType.pointsPerTon);
@@ -218,9 +218,9 @@ const StructureArmorTab: React.FC<StructureArmorTabProps> = ({
       <div className="mt-8">
         <ArmorStatisticsPanel
           unit={unit}
-          armorType={selectedArmorType}
-          totalTonnage={armorTonnage}
-          maxTonnage={maxTonnage}
+          totalArmorTonnage={armorTonnage}
+          onArmorTypeChange={handleArmorTypeChange}
+          readOnly={readOnly}
         />
       </div>
 

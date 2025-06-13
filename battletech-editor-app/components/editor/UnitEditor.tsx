@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { EditableUnit, EditorTab, ValidationError, UnitEditorState } from '../../types/editor';
-import StructureArmorTab from './tabs/StructureArmorTab';
+import ArmorTab from './tabs/ArmorTab';
+import StructureTab from './tabs/StructureTab';
 import EquipmentTab from './tabs/EquipmentTab';
 import CriticalsTab from './tabs/CriticalsTab';
 import FluffTab from './tabs/FluffTab';
@@ -15,9 +17,10 @@ import {
 
 // Tab definitions
 const EDITOR_TABS = [
-  { id: 'structure', label: 'Structure/Armor', component: StructureArmorTab },
+  { id: 'structure', label: 'Structure', component: StructureTab },
+  { id: 'armor', label: 'Armor', component: ArmorTab },
   { id: 'equipment', label: 'Equipment', component: EquipmentTab },
-  { id: 'criticals', label: 'Assign Criticals', component: CriticalsTab },
+  { id: 'criticals', label: 'Criticals', component: CriticalsTab },
   { id: 'fluff', label: 'Fluff', component: FluffTab },
   { id: 'quirks', label: 'Quirks', component: QuirksTab },
   { id: 'preview', label: 'Preview', component: PreviewTab },
@@ -38,9 +41,23 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
   readOnly = false,
   className = '',
 }) => {
+  const router = useRouter();
+  
+  // Initialize active tab from URL or default
+  const getInitialTab = (): EditorTab => {
+    const editorTab = router.query.editorTab;
+    if (editorTab && typeof editorTab === 'string') {
+      const validTab = EDITOR_TABS.find(t => t.id === editorTab);
+      if (validTab) {
+        return editorTab as EditorTab;
+      }
+    }
+    return 'structure';
+  };
+
   const [editorState, setEditorState] = useState<UnitEditorState>({
     unit,
-    activeTab: 'structure',
+    activeTab: getInitialTab(),
     validationErrors: [],
     isDirty: false,
     autoSave: true,
@@ -53,7 +70,29 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
       ...prev,
       activeTab: tabId,
     }));
-  }, []);
+    
+    // Update URL with the new tab
+    const currentQuery = { ...router.query };
+    currentQuery.editorTab = tabId;
+    router.push({
+      pathname: router.pathname,
+      query: currentQuery,
+    }, undefined, { shallow: true });
+  }, [router]);
+  
+  // Listen for URL changes
+  useEffect(() => {
+    const editorTab = router.query.editorTab;
+    if (editorTab && typeof editorTab === 'string') {
+      const validTab = EDITOR_TABS.find(t => t.id === editorTab);
+      if (validTab && editorState.activeTab !== editorTab) {
+        setEditorState(prev => ({
+          ...prev,
+          activeTab: editorTab as EditorTab,
+        }));
+      }
+    }
+  }, [router.query.editorTab, editorState.activeTab]);
 
   // Handle unit updates
   const handleUnitUpdate = useCallback((updates: Partial<EditableUnit>) => {
