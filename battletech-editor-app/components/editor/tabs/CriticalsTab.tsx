@@ -516,13 +516,76 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     }
   }, [unit.data?.criticals, unit.id]); // Add unit.id to ensure re-init when switching units
 
+  // Helper function to render a location section
+  const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
+    const slots = criticalSlots[location.name] || [];
+    const isSystem = (slot: string, index: number) => 
+      !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
+    
+    return (
+      <div key={location.name} className={`${styles.locationSection} ${styles[locationClass]}`}>
+        <div className={styles.locationHeader}>
+          <h4 className={styles.locationName}>{location.name}</h4>
+          {!readOnly && (
+            <button
+              className={styles.clearButton}
+              onClick={() => clearLocation(location.name)}
+            >
+              Clear
+            </button>
+          )}
+        </div>
+        <div className={styles.slotsList}>
+          {slots.map((slot, index) => {
+            // Determine if this is part of a multi-slot group
+            let isStartOfGroup = false;
+            let isEndOfGroup = false;
+            let isMiddleOfGroup = false;
+            
+            if (!isEmptySlot(slot)) {
+              const prevSlot = index > 0 ? slots[index - 1] : null;
+              const nextSlot = index < slots.length - 1 ? slots[index + 1] : null;
+              
+              const hasSameEquipmentBefore = prevSlot === slot;
+              const hasSameEquipmentAfter = nextSlot === slot;
+              
+              if (hasSameEquipmentBefore || hasSameEquipmentAfter) {
+                isStartOfGroup = !hasSameEquipmentBefore && hasSameEquipmentAfter;
+                isEndOfGroup = hasSameEquipmentBefore && !hasSameEquipmentAfter;
+                isMiddleOfGroup = hasSameEquipmentBefore && hasSameEquipmentAfter;
+              }
+            }
+            
+            return (
+              <CriticalSlotDropZone
+                key={`${location.name}-${index}`}
+                location={location.name}
+                slotIndex={index}
+                currentItem={slot}
+                onDrop={handleDrop}
+                onRemove={readOnly ? undefined : handleRemove}
+                canAccept={(item) => canAcceptEquipment(item, location.name, index)}
+                disabled={readOnly}
+                isSystemComponent={isSystem(slot, index)}
+                onSystemClick={() => {}}
+                isStartOfGroup={isStartOfGroup}
+                isMiddleOfGroup={isMiddleOfGroup}
+                isEndOfGroup={isEndOfGroup}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Critical Slot Allocation</h2>
           <p className={styles.subtitle}>
-            Drag equipment from the left panel and drop them into critical slots on the right.
+            Drag equipment from the equipment panel to allocate to critical slots
           </p>
         </div>
         
@@ -537,87 +600,48 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                     key={equipment.id}
                     equipment={equipment}
                     showDetails={true}
-                    isCompact={false}
+                    isCompact={true}
                   />
                 ))
               ) : (
                 <div className={styles.emptyState}>
                   <p>No unallocated equipment</p>
                   <p className={styles.hint}>
-                    Add equipment in the Equipment tab first
+                    Add equipment in the Equipment tab
                   </p>
                 </div>
               )}
             </div>
           </div>
           
-          {/* Critical Slots Panel */}
+          {/* Critical Slots Panel - Horizontal Layout */}
           <div className={styles.criticalSlotsPanel}>
-            <h3 className={styles.panelTitle}>Critical Slots</h3>
-            <div className={styles.locationsGrid}>
-              {mechLocations.map(location => (
-                <div key={location.name} className={styles.locationSection}>
-                  <div className={styles.locationHeader}>
-                    <h4 className={styles.locationName}>{location.name}</h4>
-                    {!readOnly && (
-                      <button
-                        className={styles.clearButton}
-                        onClick={() => clearLocation(location.name)}
-                      >
-                        Clear
-                      </button>
-                    )}
-                  </div>
-                  <div className={styles.slotsList}>
-                    {(criticalSlots[location.name] || []).map((slot, index) => {
-                      const slots = criticalSlots[location.name];
-                      const isSystem = !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
-                      
-                      // Determine if this is part of a multi-slot group
-                      // Only apply grouping to non-empty slots
-                      let isStartOfGroup = false;
-                      let isEndOfGroup = false;
-                      let isMiddleOfGroup = false;
-                      
-                      if (!isEmptySlot(slot)) {
-                        const prevSlot = index > 0 ? slots[index - 1] : null;
-                        const nextSlot = index < slots.length - 1 ? slots[index + 1] : null;
-                        
-                        // Check if this equipment spans multiple slots
-                        const hasSameEquipmentBefore = prevSlot === slot;
-                        const hasSameEquipmentAfter = nextSlot === slot;
-                        
-                        // Only apply grouping if this is actually part of a multi-slot item
-                        if (hasSameEquipmentBefore || hasSameEquipmentAfter) {
-                          isStartOfGroup = !hasSameEquipmentBefore && hasSameEquipmentAfter;
-                          isEndOfGroup = hasSameEquipmentBefore && !hasSameEquipmentAfter;
-                          isMiddleOfGroup = hasSameEquipmentBefore && hasSameEquipmentAfter;
-                        }
-                      }
-                      
-                      return (
-                        <CriticalSlotDropZone
-                          key={`${location.name}-${index}`}
-                          location={location.name}
-                          slotIndex={index}
-                          currentItem={slot}
-                          onDrop={handleDrop}
-                          onRemove={readOnly ? undefined : handleRemove}
-                          canAccept={(item) => canAcceptEquipment(item, location.name, index)}
-                          disabled={readOnly}
-                          isSystemComponent={isSystem}
-                          onSystemClick={() => {
-                            // Optional: Could add additional feedback here if needed
-                          }}
-                          isStartOfGroup={isStartOfGroup}
-                          isMiddleOfGroup={isMiddleOfGroup}
-                          isEndOfGroup={isEndOfGroup}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+            <div className={styles.mechLayout}>
+              {/* Head Row */}
+              <div className={styles.layoutRow}>
+                {renderLocationSection(mechLocations[0], 'head')}
+              </div>
+              
+              {/* Arms Row */}
+              <div className={`${styles.layoutRow} ${styles.armRow}`}>
+                {renderLocationSection(mechLocations[1], 'arm')}
+                <div style={{ width: '180px' }}></div> {/* Spacer */}
+                {renderLocationSection(mechLocations[2], 'arm')}
+              </div>
+              
+              {/* Torso Row */}
+              <div className={`${styles.layoutRow} ${styles.torsoRow}`}>
+                {renderLocationSection(mechLocations[3], 'torso')}
+                {renderLocationSection(mechLocations[4], 'centerTorso')}
+                {renderLocationSection(mechLocations[5], 'torso')}
+              </div>
+              
+              {/* Legs Row */}
+              <div className={styles.layoutRow}>
+                {renderLocationSection(mechLocations[6], 'leg')}
+                <div style={{ width: '180px' }}></div> {/* Spacer */}
+                {renderLocationSection(mechLocations[7], 'leg')}
+              </div>
             </div>
           </div>
         </div>

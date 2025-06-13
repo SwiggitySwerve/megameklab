@@ -1,47 +1,57 @@
 .slot {
-  background: white;
-  border: 1px solid #E5E7EB;
-  border-radius: 0.25rem;
-  padding: 0.375rem 0.5rem;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 0.125rem;
+  padding: 0.125rem 0.25rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-height: 2rem;
-  transition: all 0.2s;
+  gap: 0.25rem;
+  min-height: 1.5rem;
+  transition: all 0.15s;
   user-select: none;
   position: relative;
+  color: #e5e7eb;
+  font-size: 0.75rem;
 }
 
 .slot:hover {
-  border-color: #9CA3AF;
+  border-color: #6b7280;
+  background: #2d3748;
 }
 
 .empty {
-  background: #F9FAFB;
-  color: #9CA3AF;
+  background: #111827;
+  color: #6b7280;
   font-style: italic;
+  border-color: #1f2937;
+}
+
+.empty:hover {
+  background: #1f2937;
+  border-color: #374151;
 }
 
 .invalid {
-  background: #FEF2F2;
-  border-color: #FECACA;
-  color: #DC2626;
+  background: #7f1d1d;
+  border-color: #991b1b;
+  color: #fca5a5;
 }
 
 .highlighted {
-  background: #EFF6FF;
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  background: #1e3a8a;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  transform: scale(1.02);
 }
 
 .rejected {
-  background: #FEF2F2;
-  border-color: #EF4444;
+  background: #991b1b;
+  border-color: #dc2626;
   cursor: not-allowed;
 }
 
 .omniPod {
-  padding-right: 2rem;
+  padding-right: 1.5rem;
 }
 
 .disabled {
@@ -50,39 +60,40 @@
 }
 
 .slotNumber {
-  font-size: 0.75rem;
-  color: #9CA3AF;
+  font-size: 0.625rem;
+  color: #9ca3af;
   font-weight: 500;
-  min-width: 1.25rem;
+  min-width: 1rem;
+  flex-shrink: 0;
 }
 
 .slotContent {
   flex: 1;
-  font-size: 0.875rem;
-  color: #374151;
+  font-size: 0.75rem;
+  color: #e5e7eb;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .empty .slotContent {
-  color: #9CA3AF;
+  color: #6b7280;
 }
 
 .omniPodIndicator {
   position: absolute;
-  right: 0.5rem;
+  right: 0.25rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.75rem;
-  color: #10B981;
+  font-size: 0.625rem;
+  color: #10b981;
   font-weight: bold;
 }
 
 /* Hover effects for filled slots */
 .slot:not(.empty):not(.disabled):hover {
-  background: #FEF3C7;
-  border-color: #F59E0B;
+  background: #374151;
+  border-color: #6b7280;
   cursor: pointer;
 }
 
@@ -93,15 +104,15 @@
 
 @keyframes systemProtectedPulse {
   0% {
-    border-color: #DC2626;
+    border-color: #dc2626;
     box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5);
   }
   50% {
-    border-color: #DC2626;
-    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.3);
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
   }
   100% {
-    border-color: #DC2626;
+    border-color: #dc2626;
     box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
   }
 }
@@ -153,10 +164,10 @@
 }
 
 .draggable:hover {
-  background: #E0E7FF;
-  border-color: #6366F1;
+  background: #4b5563;
+  border-color: #6b7280;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dragging {
@@ -166,8 +177,7 @@
 
 /* Enhanced drop target feedback */
 .slot.highlighted {
-  background: #DBEAFE;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-  transform: scale(1.02);
+  background: #1e3a8a;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
