@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import UnitEditor from '../../components/editor/UnitEditor';
+import UnitEditorWrapper from '../../components/editor/UnitEditorWrapper';
 import SaveUnitDialog from '../../components/editor/SaveUnitDialog';
 import { FullUnit, UnitData } from '../../types';
 import { EditableUnit, ValidationResult, ARMOR_TYPES } from '../../types/editor';
@@ -45,7 +45,7 @@ const CustomizerPage: React.FC = () => {
         mass: 100,
         cockpit: { type: "Standard" },
         gyro: { type: "Standard" },
-        engine: { type: "Fusion", rating: 300 },
+        engine: { type: "Standard", rating: 300 },
         structure: { type: "Standard" },
         heat_sinks: { type: "Single", count: 20 },
         movement: {
@@ -68,7 +68,7 @@ const CustomizerPage: React.FC = () => {
           ]
         },
         weapons_and_equipment: [
-          { item_name: "AC/10", item_type: "weapon", location: "", tech_base: "IS" },
+          { item_name: "AC/10", item_type: "weapon", location: "Right Torso", tech_base: "IS" },
           { item_name: "LRM 20", item_type: "weapon", location: "Left Torso", tech_base: "IS" },
           { item_name: "SRM 6", item_type: "weapon", location: "Center Torso", tech_base: "IS" },
           { item_name: "Medium Laser", item_type: "weapon", location: "Left Arm", tech_base: "IS" },
@@ -76,9 +76,9 @@ const CustomizerPage: React.FC = () => {
         ],
         criticals: [
           { location: "Head", slots: ["Life Support", "Sensors", "Cockpit", "- Empty -", "Sensors", "Life Support"] },
-          { location: "Center Torso", slots: ["Fusion Engine", "Fusion Engine", "Fusion Engine", "Gyro", "Gyro", "Gyro", "Gyro", "Fusion Engine", "Fusion Engine", "Fusion Engine", "SRM 6", "- Empty -"] },
-          { location: "Left Torso", slots: ["Fusion Engine", "Fusion Engine", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Right Torso", slots: ["Fusion Engine", "Fusion Engine", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
+          { location: "Center Torso", slots: ["Engine", "Engine", "Engine", "Gyro", "Gyro", "Gyro", "Gyro", "Engine", "Engine", "Engine", "SRM 6", "SRM 6"] },
+          { location: "Left Torso", slots: ["LRM 20", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
+          { location: "Right Torso", slots: ["AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Left Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Right Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Left Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] },
@@ -147,7 +147,7 @@ const CustomizerPage: React.FC = () => {
         mass: 25,
         cockpit: { type: "Standard" },
         gyro: { type: "Standard" },
-        engine: { type: "Fusion", rating: 100 },
+        engine: { type: "Standard", rating: 100 },
         structure: { type: "Standard" },
         heat_sinks: { type: "Single", count: 10 },
         movement: {
@@ -374,7 +374,7 @@ const CustomizerPage: React.FC = () => {
 
         {/* Editor Content */}
         {activeTab && (
-          <UnitEditor
+          <UnitEditorWrapper
             unit={activeTab.unit}
             onUnitChange={handleUnitChange}
             onSave={handleSaveUnit}

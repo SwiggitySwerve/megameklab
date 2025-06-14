@@ -77,12 +77,15 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
 
   // Update unit when prop changes
   useEffect(() => {
-    const initializedUnit = initializeUnit(unit);
-    setEditorState(prev => ({
-      ...prev,
-      unit: initializedUnit,
-    }));
-  }, [unit.id, initializeUnit]); // Only re-initialize when unit ID changes
+    // Only update if it's a different unit or if current unit lacks system components
+    if (unit.id !== editorState.unit.id || !editorState.unit.systemComponents) {
+      const initializedUnit = initializeUnit(unit);
+      setEditorState(prev => ({
+        ...prev,
+        unit: initializedUnit,
+      }));
+    }
+  }, [unit.id]); // Only check when unit ID changes
 
   // Handle tab changes
   const handleTabChange = useCallback((tabId: EditorTab) => {

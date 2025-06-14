@@ -116,8 +116,25 @@ export function syncEngineChange(
   // Convert to legacy criticals format for compatibility
   const criticals = convertToLegacyCriticals(criticalAllocations);
   
-  // Check for displaced equipment
-  const displacedEquipment = findDisplacedEquipment(unit, criticals);
+  // Check for displaced equipment and update weapons_and_equipment
+  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
+  
+  // Update weapons and equipment to unallocate displaced items
+  let updatedEquipment = unit.data?.weapons_and_equipment || [];
+  if (displacedEquipmentNames.length > 0) {
+    updatedEquipment = updatedEquipment.map(eq => {
+      // Check if this equipment was displaced
+      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
+        // Check if the equipment is still in its location in the new criticals
+        const locationCriticals = criticals.find(c => c.location === eq.location);
+        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
+          // Equipment was displaced, unallocate it
+          return { ...eq, location: '' };
+        }
+      }
+      return eq;
+    });
+  }
   
   return {
     systemComponents: updatedComponents,
@@ -129,6 +146,7 @@ export function syncEngineChange(
         rating: engineRating,
       },
       criticals,
+      weapons_and_equipment: updatedEquipment,
     },
   };
 }
@@ -156,6 +174,26 @@ export function syncGyroChange(
   
   const criticals = convertToLegacyCriticals(criticalAllocations);
   
+  // Check for displaced equipment and update weapons_and_equipment
+  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
+  
+  // Update weapons and equipment to unallocate displaced items
+  let updatedEquipment = unit.data?.weapons_and_equipment || [];
+  if (displacedEquipmentNames.length > 0) {
+    updatedEquipment = updatedEquipment.map(eq => {
+      // Check if this equipment was displaced
+      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
+        // Check if the equipment is still in its location in the new criticals
+        const locationCriticals = criticals.find(c => c.location === eq.location);
+        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
+          // Equipment was displaced, unallocate it
+          return { ...eq, location: '' };
+        }
+      }
+      return eq;
+    });
+  }
+  
   return {
     systemComponents: updatedComponents,
     criticalAllocations,
@@ -165,6 +203,7 @@ export function syncGyroChange(
         type: newGyroType,
       },
       criticals,
+      weapons_and_equipment: updatedEquipment,
     },
   };
 }
