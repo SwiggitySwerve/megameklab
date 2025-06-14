@@ -277,11 +277,26 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     return sum + (equipment?.heat || 0);
   }, 0);
 
+  // Function to abbreviate location names
+  const abbreviateLocation = (location: string): string => {
+    const abbreviations: Record<string, string> = {
+      'Left Torso': 'LT',
+      'Right Torso': 'RT',
+      'Center Torso': 'CT',
+      'Left Arm': 'LA',
+      'Right Arm': 'RA',
+      'Left Leg': 'LL',
+      'Right Leg': 'RL',
+      'Head': 'H',
+    };
+    return abbreviations[location] || location || '-';
+  };
+
   return (
     <div className="equipment-tab bg-slate-900 text-slate-100 min-h-screen p-4">
-      <div className="grid grid-cols-2 gap-4">
-        {/* Left Column - Current Loadout */}
-        <div>
+      <div className="grid grid-cols-3 gap-4">
+        {/* Left Column - Current Loadout (1/3 width) */}
+        <div className="col-span-1">
           <div 
             className="bg-slate-800 border border-slate-600 rounded"
             onDragOver={handleDragOver}
@@ -357,7 +372,7 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                         <div className="text-center">{equipment?.weight || 0}</div>
                         <div className="text-center">{equipment?.crits || 0}</div>
                         <div className="text-center">{equipment?.heat || 0}</div>
-                        <div className="text-center">{item.location || '-'}</div>
+                        <div className="text-center" title={item.location || 'Unallocated'}>{abbreviateLocation(item.location)}</div>
                         <div className="text-center">{equipment?.crits || 0}</div>
                       </div>
                     );
@@ -380,8 +395,8 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
           </div>
         </div>
 
-        {/* Right Column - Equipment Database */}
-        <div>
+        {/* Right Column - Equipment Database (2/3 width) */}
+        <div className="col-span-2">
           <div className="bg-slate-800 border border-slate-600 rounded">
             <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
               <div className="flex items-center justify-between">
@@ -391,12 +406,6 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                     Note: Ctrl-Click a filter to add it to the selected filters.
                   </span>
                 </h3>
-                <button
-                  onClick={() => window.open('/equipment-help', '_blank')}
-                  className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Got it!
-                </button>
               </div>
             </div>
 
