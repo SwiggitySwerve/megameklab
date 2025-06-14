@@ -287,9 +287,9 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
             onDragOver={handleDragOver}
             onDrop={handleDropOnLoadout}
           >
-            <div className="bg-slate-700 border-b border-slate-600 px-3 py-2 flex justify-between items-center">
-              <h3 className="text-sm font-medium">Current Load out</h3>
-              <div className="space-x-2">
+            <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm font-medium">Current Loadout</h3>
                 <button
                   onClick={() => {
                     const updatedUnit = {
@@ -302,12 +302,17 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                     };
                     onUnitChange(updatedUnit);
                   }}
-                  className="px-2 py-1 text-xs bg-slate-700 text-slate-100 rounded hover:bg-slate-600"
+                  className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors font-medium"
                   disabled={readOnly || currentLoadout.length === 0}
                 >
-                  Remove All
+                  Remove All Equipment
                 </button>
               </div>
+              {currentLoadout.length > 0 && (
+                <p className="text-xs text-slate-400 mt-1">
+                  <span className="text-yellow-500">💡 Tip:</span> Click any equipment item to remove it
+                </p>
+              )}
             </div>
             <div className="p-3">
               {/* Headers */}
@@ -333,7 +338,7 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                     return (
                       <div
                         key={index}
-                        className={`grid grid-cols-7 gap-1 text-xs hover:bg-slate-700 px-1 py-1 rounded cursor-pointer ${
+                        className={`grid grid-cols-7 gap-1 text-xs hover:bg-red-900 hover:bg-opacity-30 px-1 py-1 rounded cursor-pointer transition-colors group ${
                           isUnallocated ? 'text-yellow-500' : ''
                         } ${draggedItem?.id === index.toString() ? 'opacity-50' : ''}`}
                         draggable={!readOnly}
@@ -343,9 +348,12 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                           source: 'loadout'
                         })}
                         onClick={() => handleRemoveEquipment(index)}
-                        title="Click to remove"
+                        title="Click to remove this equipment"
                       >
-                        <div className="col-span-2 truncate">{item.item_name}</div>
+                        <div className="col-span-2 truncate flex items-center">
+                          <span className="group-hover:text-red-400 transition-colors">{item.item_name}</span>
+                          <span className="ml-1 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs">✕</span>
+                        </div>
                         <div className="text-center">{equipment?.weight || 0}</div>
                         <div className="text-center">{equipment?.crits || 0}</div>
                         <div className="text-center">{equipment?.heat || 0}</div>
