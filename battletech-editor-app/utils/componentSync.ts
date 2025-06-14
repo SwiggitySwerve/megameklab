@@ -15,6 +15,8 @@ import {
   calculateIntegratedHeatSinks,
   calculateExternalHeatSinks,
 } from '../types/systemComponents';
+import { STRUCTURE_SLOT_REQUIREMENTS } from './structureCalculations';
+import { ARMOR_SLOT_REQUIREMENTS } from './armorCalculations';
 import {
   initializeCriticalSlots,
   generateHeatSinkItems,
@@ -259,15 +261,6 @@ export function syncStructureChange(
   );
   
   // Add new structure items if needed
-  const STRUCTURE_SLOT_REQUIREMENTS: Record<StructureType, number> = {
-    'Standard': 0,
-    'Endo Steel': 14,
-    'Endo Steel (Clan)': 7,
-    'Composite': 0,
-    'Reinforced': 0,
-    'Industrial': 0,
-  };
-  
   const slotsRequired = STRUCTURE_SLOT_REQUIREMENTS[newStructureType] || 0;
   for (let i = 0; i < slotsRequired; i++) {
     updatedEquipment.push({
@@ -346,18 +339,6 @@ export function syncArmorChange(
   );
   
   // Add new armor items if needed
-  const ARMOR_SLOT_REQUIREMENTS: Record<ArmorType, { slots: number }> = {
-    'Standard': { slots: 0 },
-    'Ferro-Fibrous': { slots: 14 },
-    'Ferro-Fibrous (Clan)': { slots: 7 },
-    'Light Ferro-Fibrous': { slots: 7 },
-    'Heavy Ferro-Fibrous': { slots: 21 },
-    'Stealth': { slots: 12 },
-    'Reactive': { slots: 14 },
-    'Reflective': { slots: 10 },
-    'Hardened': { slots: 0 },
-  };
-  
   const armorReq = ARMOR_SLOT_REQUIREMENTS[newArmorType];
   const slotsRequired = armorReq?.slots || 0;
   

@@ -145,53 +145,12 @@ export const ARM_ACTUATOR_RULES = {
   },
 };
 
-// Component slot requirements
-export const ENGINE_SLOT_REQUIREMENTS: Record<EngineType, { centerTorso: number; leftTorso: number; rightTorso: number }> = {
-  'Standard': { centerTorso: 6, leftTorso: 0, rightTorso: 0 },
-  'XL': { centerTorso: 6, leftTorso: 3, rightTorso: 3 },
-  'Light': { centerTorso: 6, leftTorso: 2, rightTorso: 2 },
-  'XXL': { centerTorso: 6, leftTorso: 6, rightTorso: 6 },
-  'Compact': { centerTorso: 3, leftTorso: 0, rightTorso: 0 },
-  'ICE': { centerTorso: 6, leftTorso: 0, rightTorso: 0 },
-  'Fuel Cell': { centerTorso: 6, leftTorso: 0, rightTorso: 0 },
-};
-
-export const GYRO_SLOT_REQUIREMENTS: Record<GyroType, number> = {
-  'Standard': 4,
-  'Compact': 2,
-  'Heavy-Duty': 4,
-  'XL': 6,
-};
-
-export const COCKPIT_SLOT_REQUIREMENTS: Record<CockpitType, { head: number; centerTorso: number }> = {
-  'Standard': { head: 1, centerTorso: 0 },
-  'Small': { head: 1, centerTorso: 0 },
-  'Command Console': { head: 2, centerTorso: 0 },
-  'Torso-Mounted': { head: 0, centerTorso: 1 },
-  'Interface': { head: 1, centerTorso: 0 },
-  'Primitive': { head: 5, centerTorso: 0 },
-};
-
-export const STRUCTURE_SLOT_REQUIREMENTS: Record<StructureType, number> = {
-  'Standard': 0,
-  'Endo Steel': 14,
-  'Endo Steel (Clan)': 7,
-  'Composite': 0,
-  'Reinforced': 0,
-  'Industrial': 0,
-};
-
-export const ARMOR_SLOT_REQUIREMENTS: Record<ArmorType, { slots: number; clanSlots?: number }> = {
-  'Standard': { slots: 0 },
-  'Ferro-Fibrous': { slots: 14, clanSlots: 7 },
-  'Ferro-Fibrous (Clan)': { slots: 7 },
-  'Light Ferro-Fibrous': { slots: 7 },
-  'Heavy Ferro-Fibrous': { slots: 21 },
-  'Stealth': { slots: 12 },
-  'Reactive': { slots: 14 },
-  'Reflective': { slots: 10 },
-  'Hardened': { slots: 0 },
-};
+// Re-export slot requirements from centralized utilities for backward compatibility
+export { ENGINE_SLOT_REQUIREMENTS } from '../utils/engineCalculations';
+export { GYRO_SLOT_REQUIREMENTS } from '../utils/gyroCalculations';
+export { COCKPIT_SLOT_REQUIREMENTS } from '../utils/cockpitCalculations';
+export { STRUCTURE_SLOT_REQUIREMENTS } from '../utils/structureCalculations';
+export { ARMOR_SLOT_REQUIREMENTS } from '../utils/armorCalculations';
 
 // Heat sink calculations
 export function calculateIntegratedHeatSinks(engineRating: number): number {
@@ -208,69 +167,19 @@ export function calculateExternalHeatSinks(total: number, engineRating: number):
   return Math.max(0, total - integrated);
 }
 
-// Weight calculations for components
+// Re-export weight calculation functions from centralized utilities for backward compatibility
+export { calculateStructureWeight } from '../utils/structureCalculations';
+export { calculateArmorWeight } from '../utils/armorCalculations';
+export { calculateGyroWeight } from '../utils/gyroCalculations';
+
+// Note: Engine weight calculation has different parameters in the utility
+// So we need a wrapper for backward compatibility
 export function calculateEngineWeight(rating: number, type: EngineType): number {
-  // Base engine weight formula
-  const baseWeight = (rating * 5) / 1000;
-  
-  const multipliers: Record<EngineType, number> = {
-    'Standard': 1.0,
-    'XL': 0.5,
-    'Light': 0.75,
-    'XXL': 0.33,
-    'Compact': 1.5,
-    'ICE': 2.0,
-    'Fuel Cell': 1.5,
-  };
-  
-  return Math.ceil(baseWeight * multipliers[type] * 2) / 2; // Round to nearest 0.5 ton
-}
-
-export function calculateGyroWeight(engineRating: number, type: GyroType): number {
-  // Gyro weight is based on engine rating
-  const baseWeight = Math.ceil(engineRating / 100);
-  
-  const multipliers: Record<GyroType, number> = {
-    'Standard': 1.0,
-    'Compact': 1.5,
-    'Heavy-Duty': 2.0,
-    'XL': 0.5,
-  };
-  
-  return baseWeight * multipliers[type];
-}
-
-export function calculateStructureWeight(mechTonnage: number, type: StructureType): number {
-  // Structure weight is 10% of mech tonnage for standard
-  const baseWeight = mechTonnage * 0.1;
-  
-  const multipliers: Record<StructureType, number> = {
-    'Standard': 1.0,
-    'Endo Steel': 0.5,
-    'Endo Steel (Clan)': 0.5,
-    'Composite': 0.5,
-    'Reinforced': 2.0,
-    'Industrial': 1.5,
-  };
-  
-  return Math.ceil(baseWeight * multipliers[type] * 2) / 2; // Round to nearest 0.5 ton
-}
-
-export function calculateArmorWeight(armorPoints: number, type: ArmorType): number {
-  // 16 points per ton for standard armor
-  const pointsPerTon: Record<ArmorType, number> = {
-    'Standard': 16,
-    'Ferro-Fibrous': 17.92,      // 12% more points
-    'Ferro-Fibrous (Clan)': 19.2, // 20% more points
-    'Light Ferro-Fibrous': 18.56, // 16% more points
-    'Heavy Ferro-Fibrous': 19.2,  // 20% more points
-    'Stealth': 16,
-    'Reactive': 14.4,             // 10% less points
-    'Reflective': 14.4,           // 10% less points
-    'Hardened': 8,                // 50% less points
-  };
-  
-  return Math.ceil((armorPoints / pointsPerTon[type]) * 2) / 2; // Round to nearest 0.5 ton
+  // Import the function from engineCalculations
+  const { calculateEngineWeight: calcEngineWeight } = require('../utils/engineCalculations');
+  // The utility expects (rating, mechTonnage, type) but this legacy function doesn't have mechTonnage
+  // We'll use a default of 100 tons for backward compatibility
+  return calcEngineWeight(rating, 100, type);
 }
 
 // Helper to check if a component is fixed
