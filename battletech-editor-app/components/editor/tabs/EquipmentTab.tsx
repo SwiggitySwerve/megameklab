@@ -48,8 +48,13 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
   // Get unit year for filtering
   const unitYear = parseInt(unit.era || '3025');
 
-  // Current loadout
-  const currentLoadout = unit.data?.weapons_and_equipment || [];
+  // Current loadout - all equipment including heat sinks for tracking
+  const allLoadout = unit.data?.weapons_and_equipment || [];
+  
+  // Display loadout - filter out heat sinks from display
+  const currentLoadout = allLoadout.filter(item => 
+    !item.item_name.toLowerCase().includes('heat sink')
+  );
 
   // Sort equipment
   const sortEquipment = useCallback((items: EquipmentItem[]) => {
@@ -261,18 +266,18 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
     onUnitChange(updatedUnit);
   };
 
-  // Calculate totals
-  const totalWeight = currentLoadout.reduce((sum, item) => {
+  // Calculate totals - use all equipment including heat sinks
+  const totalWeight = allLoadout.reduce((sum, item) => {
     const equipment = EQUIPMENT_DATABASE.find((e: EquipmentItem) => e.name === item.item_name);
     return sum + (equipment?.weight || 0);
   }, 0);
 
-  const totalCrits = currentLoadout.reduce((sum, item) => {
+  const totalCrits = allLoadout.reduce((sum, item) => {
     const equipment = EQUIPMENT_DATABASE.find((e: EquipmentItem) => e.name === item.item_name);
     return sum + (equipment?.crits || 0);
   }, 0);
 
-  const totalHeat = currentLoadout.reduce((sum, item) => {
+  const totalHeat = allLoadout.reduce((sum, item) => {
     const equipment = EQUIPMENT_DATABASE.find((e: EquipmentItem) => e.name === item.item_name);
     return sum + (equipment?.heat || 0);
   }, 0);
@@ -307,11 +312,15 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
                 <h3 className="text-sm font-medium">Current Loadout</h3>
                 <button
                   onClick={() => {
+                    // Remove all equipment except heat sinks
+                    const heatSinks = allLoadout.filter(item => 
+                      item.item_name.toLowerCase().includes('heat sink')
+                    );
                     const updatedUnit = {
                       ...unit,
                       data: {
                         ...unit.data,
-                        weapons_and_equipment: [],
+                        weapons_and_equipment: heatSinks,
                         criticals: unit.data?.criticals,
                       },
                     };
@@ -412,7 +421,7 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
             {/* Category filters - More compact */}
             <div className="px-3 py-1 border-b border-slate-600 flex items-center space-x-0.5 overflow-x-auto">
               <span className="text-xs font-medium text-slate-400 flex-shrink-0 mr-1">Show:</span>
-              {['Energy', 'Ballistic', 'Missile', 'Artillery', 'Physical', 'Ammo', 'Other', 'Show All'].map(category => (
+              {['Energy', 'Ballistic', 'Missile', 'Artillery', 'Physical', 'Equipment', 'Ammo', 'Other', 'Show All'].map(category => (
                 <button
                   key={category}
                   onClick={() => handleCategoryClick(category)}

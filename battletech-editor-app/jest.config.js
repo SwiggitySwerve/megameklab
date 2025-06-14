@@ -11,6 +11,8 @@ const customJestConfig = {
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
     '^@/(.*)$': '<rootDir>/$1',
+    // Handle CSS imports (with CSS modules)
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
   testEnvironment: 'jsdom',
   collectCoverageFrom: [
@@ -27,6 +29,10 @@ const customJestConfig = {
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
+  ],
+  // Transform ES modules that Jest can't handle
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-dnd|dnd-core|@react-dnd)/)',
   ],
 }
 

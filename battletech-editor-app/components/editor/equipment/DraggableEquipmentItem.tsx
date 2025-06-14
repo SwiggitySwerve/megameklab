@@ -81,6 +81,16 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     return stats.join(' • ');
   };
 
+  // Get abbreviated tech base
+  const getTechBaseAbbr = (techBase?: string): string => {
+    if (!techBase) return '';
+    const lowerTech = techBase.toLowerCase();
+    if (lowerTech === 'clan' || lowerTech === 'c') return 'C';
+    if (lowerTech === 'inner sphere' || lowerTech === 'is') return 'IS';
+    return techBase; // fallback to original if not recognized
+  };
+  
+  const techAbbr = getTechBaseAbbr(equipment.tech_base);
   const displayName = quantity > 1 ? `${equipment.name} x${quantity}` : equipment.name;
   const totalWeight = equipment.weight ? equipment.weight * quantity : 0;
   const slots = equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0);
@@ -111,8 +121,8 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
             <span className={styles.name}>{displayName}</span>
           </div>
           <div className={styles.headerRight}>
-            {equipment.tech_base && (
-              <span className={styles.techBase}>{equipment.tech_base}</span>
+            {techAbbr && (
+              <span className={styles.techBase}>{techAbbr}</span>
             )}
             {onRemove && (
               <button

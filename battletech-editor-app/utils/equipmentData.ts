@@ -1,3 +1,12 @@
+// Import realistic equipment database
+import { 
+  FULL_EQUIPMENT_DATABASE as NEW_EQUIPMENT_DB,
+  getEquipmentByName,
+  getJumpJetWeight,
+  getHatchetSpecs,
+  getSwordSpecs
+} from './equipmentDatabase';
+
 // Equipment data that can be shared across components
 export interface EquipmentItem {
   id: string;
@@ -11,18 +20,50 @@ export interface EquipmentItem {
   bv: number;
   weight: number;
   crits: number;
-  reference: string;
+  reference?: string;
   year: number;
   techBase: string;
   category: string;
-  isPrototype: boolean;
-  isOneShot: boolean;
-  isTorpedo: boolean;
+  isPrototype?: boolean;
+  isOneShot?: boolean;
+  isTorpedo?: boolean;
   isAmmo: boolean;
   weaponType?: string;
+  techLevel?: string;
 }
 
-export const EQUIPMENT_DATABASE: EquipmentItem[] = [
+// Convert new equipment format to legacy format for compatibility
+const convertToLegacyFormat = (items: typeof NEW_EQUIPMENT_DB): EquipmentItem[] => {
+  return items.map(item => ({
+    id: item.id,
+    name: item.name,
+    damage: item.damage || 0,
+    heat: item.heat || 0,
+    minRange: item.minRange || 0,
+    range: item.range || '-',
+    shots: item.shots || '-',
+    base: item.techBase,
+    bv: item.bv || 0,
+    weight: item.weight,
+    crits: item.crits,
+    reference: 'TM',
+    year: item.year,
+    techBase: item.techBase,
+    category: item.category,
+    isPrototype: false,
+    isOneShot: false,
+    isTorpedo: false,
+    isAmmo: item.category === 'Ammo',
+    weaponType: item.category,
+    techLevel: item.techLevel,
+  }));
+};
+
+// Use the new realistic equipment database
+export const EQUIPMENT_DATABASE: EquipmentItem[] = convertToLegacyFormat(NEW_EQUIPMENT_DB);
+
+// Keep legacy database as fallback
+export const LEGACY_EQUIPMENT_DATABASE: EquipmentItem[] = [
   // Ballistic Weapons (Inner Sphere)
   { id: '1', name: 'AC/2', damage: 2, heat: 1, minRange: 4, range: '8/16/24', shots: '-', base: 'All', bv: 37, weight: 6, crits: 1, reference: '208, TM', year: 2300, techBase: 'IS', category: 'Ballistic', isPrototype: false, isOneShot: false, isTorpedo: false, isAmmo: false },
   { id: '2', name: 'AC/5', damage: 5, heat: 1, minRange: 3, range: '6/12/18', shots: '-', base: 'All', bv: 70, weight: 8, crits: 4, reference: '208, TM', year: 2300, techBase: 'IS', category: 'Ballistic', isPrototype: false, isOneShot: false, isTorpedo: false, isAmmo: false },

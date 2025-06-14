@@ -14,6 +14,7 @@ import {
   calculateCriticalSlots,
   calculateEquipmentBV 
 } from '../../utils/equipmentData';
+import { migrateUnitToSystemComponents } from '../../utils/componentValidation';
 
 // Tab definitions
 const EDITOR_TABS = [
@@ -55,14 +56,33 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
     return 'structure';
   };
 
+  // Ensure unit has proper system components and critical allocations
+  const initializeUnit = useCallback((inputUnit: EditableUnit): EditableUnit => {
+    // If unit doesn't have system components or critical allocations, migrate it
+    if (!inputUnit.systemComponents || !inputUnit.criticalAllocations) {
+      console.log('Migrating unit to system components format');
+      return migrateUnitToSystemComponents(inputUnit);
+    }
+    return inputUnit;
+  }, []);
+
   const [editorState, setEditorState] = useState<UnitEditorState>({
-    unit,
+    unit: initializeUnit(unit),
     activeTab: getInitialTab(),
     validationErrors: [],
     isDirty: false,
     autoSave: true,
     isLoading: false,
   });
+
+  // Update unit when prop changes
+  useEffect(() => {
+    const initializedUnit = initializeUnit(unit);
+    setEditorState(prev => ({
+      ...prev,
+      unit: initializedUnit,
+    }));
+  }, [unit.id, initializeUnit]); // Only re-initialize when unit ID changes
 
   // Handle tab changes
   const handleTabChange = useCallback((tabId: EditorTab) => {
@@ -94,9 +114,13 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
 
   // Handle unit updates
   const handleUnitUpdate = useCallback((updates: Partial<EditableUnit>) => {
-    const updatedUnit = {
+    // Merge updates with existing unit
+    const mergedUnit = {
       ...editorState.unit,
       ...updates,
+      // Preserve system components and critical allocations if not in updates
+      systemComponents: updates.systemComponents || editorState.unit.systemComponents,
+      criticalAllocations: updates.criticalAllocations || editorState.unit.criticalAllocations,
       editorMetadata: {
         ...editorState.unit.editorMetadata,
         lastModified: new Date(),
@@ -104,13 +128,21 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
       },
     };
 
+    // Deep merge data if both exist
+    if (updates.data && editorState.unit.data) {
+      mergedUnit.data = {
+        ...editorState.unit.data,
+        ...updates.data,
+      };
+    }
+
     setEditorState(prev => ({
       ...prev,
-      unit: updatedUnit,
+      unit: mergedUnit,
       isDirty: true,
     }));
 
-    onUnitChange(updatedUnit);
+    onUnitChange(mergedUnit);
   }, [editorState.unit, onUnitChange]);
 
   // Validate unit
@@ -144,14 +176,72 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
 
   // Calculate unit statistics
   const calculateCurrentWeight = (): number => {
-    const structureWeight = editorState.unit.mass * 0.1; // 10% of tonnage for standard structure
-    const engineRating = 300; // TODO: Calculate from movement
-    const engineWeight = engineRating / 10; // Simplified engine weight
-    const armorWeight = (editorState.unit.data?.armor?.total_armor_points || 0) / 16;
-    const equipmentWeight = calculateEquipmentWeight(editorState.unit.data?.weapons_and_equipment || []);
-    const heatSinkWeight = Math.max(0, (editorState.unit.data?.heat_sinks?.count || 10) - 10); // 10 free in engine
+    let weight = 0;
     
-    return Math.round((structureWeight + engineWeight + armorWeight + equipmentWeight + heatSinkWeight) * 10) / 10;
+    // Use system components if available for accurate calculations
+    if (editorState.unit.systemComponents) {
+      const components = editorState.unit.systemComponents;
+      
+      // Structure weight
+      if (components.structure) {
+        const structureMultiplier = components.structure.type === 'Standard' ? 0.1 : 0.05;
+        weight += editorState.unit.mass * structureMultiplier;
+      } else {
+        weight += editorState.unit.mass * 0.1; // Default to standard
+      }
+      
+      // Engine weight (using actual engine rating if available)
+      if (components.engine) {
+        const rating = components.engine.rating;
+        let engineMultiplier = 1;
+        switch (components.engine.type) {
+          case 'XL': engineMultiplier = 0.5; break;
+          case 'Light': engineMultiplier = 0.75; break;
+          case 'XXL': engineMultiplier = 0.33; break;
+          case 'Compact': engineMultiplier = 1.5; break;
+        }
+        weight += (rating / 5) * engineMultiplier;
+      } else {
+        // Fallback calculation
+        const engineRating = editorState.unit.data?.engine?.rating || 300;
+        weight += engineRating / 10;
+      }
+      
+      // Gyro weight
+      if (components.gyro && components.engine) {
+        const gyroMultiplier = components.gyro.type === 'Standard' ? 1 : 
+                              components.gyro.type === 'Compact' ? 0.5 :
+                              components.gyro.type === 'Heavy-Duty' ? 2 : 1.5;
+        weight += Math.ceil(components.engine.rating / 100) * gyroMultiplier;
+      } else {
+        weight += 3; // Default 3 tons
+      }
+      
+      // Cockpit weight
+      weight += components.cockpit?.type === 'Small' ? 2 : 3;
+      
+      // External heat sinks
+      if (components.heatSinks) {
+        weight += components.heatSinks.externalRequired * 
+                 (components.heatSinks.type === 'Double' ? 1 : 1);
+      }
+    } else {
+      // Fallback to simple calculation
+      const structureWeight = editorState.unit.mass * 0.1;
+      const engineRating = editorState.unit.data?.engine?.rating || 300;
+      const engineWeight = engineRating / 10;
+      weight += structureWeight + engineWeight + 3; // +3 for gyro
+    }
+    
+    // Armor weight
+    const armorWeight = (editorState.unit.data?.armor?.total_armor_points || 0) / 16;
+    weight += armorWeight;
+    
+    // Equipment weight
+    const equipmentWeight = calculateEquipmentWeight(editorState.unit.data?.weapons_and_equipment || []);
+    weight += equipmentWeight;
+    
+    return Math.round(weight * 10) / 10;
   };
 
   const currentWeight = calculateCurrentWeight();
@@ -196,6 +286,11 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
             </h2>
             <div className="text-sm text-gray-500">
               {editorState.unit.mass}t {editorState.unit.tech_base}
+              {editorState.unit.systemComponents?.engine && (
+                <span className="ml-2 text-xs">
+                  ({editorState.unit.systemComponents.engine.type} {editorState.unit.systemComponents.engine.rating})
+                </span>
+              )}
             </div>
           </div>
           

@@ -1,4 +1,5 @@
 import { FullUnit, ArmorLocation, FullEquipment } from './index';
+import { SystemComponents, CriticalAllocationMap } from './systemComponents';
 
 // Core Editor Types
 export type EditorTab = 'structure' | 'equipment' | 'criticals' | 'fluff' | 'quirks' | 'preview';
@@ -19,6 +20,12 @@ export interface ValidationResult {
 
 // Editable Unit Interface
 export interface EditableUnit extends FullUnit {
+  // System components (engine, gyro, cockpit, etc.)
+  systemComponents?: SystemComponents;
+  
+  // Critical allocations (unified source of truth)
+  criticalAllocations?: CriticalAllocationMap;
+  
   // Armor allocation per location
   armorAllocation: {
     [location: string]: {

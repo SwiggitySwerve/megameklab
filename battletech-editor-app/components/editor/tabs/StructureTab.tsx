@@ -1,6 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { EditableUnit } from '../../../types/editor';
 import BasicInfoPanel from '../structure/BasicInfoPanel';
+import { 
+  syncEngineChange, 
+  syncGyroChange, 
+  syncStructureChange, 
+  syncHeatSinkChange,
+  initializeSystemComponents 
+} from '../../../utils/componentSync';
+import { EngineType, GyroType, StructureType, HeatSinkType } from '../../../types/systemComponents';
 
 interface StructureTabProps {
   unit: EditableUnit;
@@ -41,51 +49,37 @@ const StructureTab: React.FC<StructureTabProps> = ({
   const handleEngineChange = useCallback((engineType: string, rating: number) => {
     if (readOnly) return;
     
-    const updates: Partial<EditableUnit> = {
-      data: {
-        ...unit.data,
-        engine: {
-          type: engineType,
-          rating: rating
-        }
-      }
-    };
-    
+    // Use the sync function to update engine and critical slots
+    const updates = syncEngineChange(unit, engineType as EngineType, rating);
     onUnitChange(updates);
-  }, [unit.data, onUnitChange, readOnly]);
+  }, [unit, onUnitChange, readOnly]);
 
   // Handle structure changes
   const handleStructureChange = useCallback((structureType: string) => {
     if (readOnly) return;
     
-    const updates: Partial<EditableUnit> = {
-      data: {
-        ...unit.data,
-        structure: {
-          type: structureType
-        }
-      }
-    };
-    
+    // Use the sync function to update structure and critical slots
+    const updates = syncStructureChange(unit, structureType as StructureType);
     onUnitChange(updates);
-  }, [unit.data, onUnitChange, readOnly]);
+  }, [unit, onUnitChange, readOnly]);
+  
+  // Handle gyro changes
+  const handleGyroChange = useCallback((gyroType: string) => {
+    if (readOnly) return;
+    
+    // Use the sync function to update gyro and critical slots
+    const updates = syncGyroChange(unit, gyroType as GyroType);
+    onUnitChange(updates);
+  }, [unit, onUnitChange, readOnly]);
 
   // Handle heat sink changes
   const handleHeatSinksChange = useCallback((heatSinkType: string, count: number) => {
     if (readOnly) return;
     
-    const updates: Partial<EditableUnit> = {
-      data: {
-        ...unit.data,
-        heat_sinks: {
-          type: heatSinkType,
-          count: count
-        }
-      }
-    };
-    
+    // Use the sync function to update heat sinks and generate equipment
+    const updates = syncHeatSinkChange(unit, heatSinkType as HeatSinkType, count);
     onUnitChange(updates);
-  }, [unit.data, onUnitChange, readOnly]);
+  }, [unit, onUnitChange, readOnly]);
 
   // Handle movement changes
   const handleMovementChange = useCallback((walkMP: number, jumpMP: number) => {
@@ -139,15 +133,18 @@ const StructureTab: React.FC<StructureTabProps> = ({
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Engine Type</label>
             <select
-              value={unit.data?.engine?.type || 'Fusion'}
+              value={unit.data?.engine?.type || 'Standard'}
               onChange={(e) => handleEngineChange(e.target.value, unit.data?.engine?.rating || 300)}
               disabled={readOnly}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100"
             >
-              <option value="Fusion">Fusion</option>
+              <option value="Standard">Standard</option>
               <option value="XL">XL Engine</option>
               <option value="Light">Light Engine</option>
+              <option value="XXL">XXL Engine</option>
               <option value="Compact">Compact Engine</option>
+              <option value="ICE">ICE</option>
+              <option value="Fuel Cell">Fuel Cell</option>
             </select>
           </div>
           <div>
@@ -155,7 +152,7 @@ const StructureTab: React.FC<StructureTabProps> = ({
             <input
               type="number"
               value={unit.data?.engine?.rating || 300}
-              onChange={(e) => handleEngineChange(unit.data?.engine?.type || 'Fusion', parseInt(e.target.value) || 300)}
+              onChange={(e) => handleEngineChange(unit.data?.engine?.type || 'Standard', parseInt(e.target.value) || 300)}
               disabled={readOnly}
               className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100"
               min={100}
@@ -163,6 +160,44 @@ const StructureTab: React.FC<StructureTabProps> = ({
               step={5}
             />
           </div>
+        </div>
+        
+        {/* Engine Details */}
+        {unit.systemComponents?.engine && (
+          <div className="mt-4 p-3 bg-slate-700 rounded-md text-sm">
+            <p className="text-slate-300">
+              <span className="font-medium">Critical Slots:</span>{' '}
+              {unit.systemComponents.engine.type === 'Standard' && '6 CT'}
+              {unit.systemComponents.engine.type === 'XL' && '6 CT + 3 LT + 3 RT'}
+              {unit.systemComponents.engine.type === 'Light' && '6 CT + 2 LT + 2 RT'}
+              {unit.systemComponents.engine.type === 'XXL' && '6 CT + 6 LT + 6 RT'}
+              {unit.systemComponents.engine.type === 'Compact' && '3 CT'}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Gyro Configuration */}
+      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H21m-1.5 0H21m-1.5 0H21" />
+          </svg>
+          Gyro Configuration
+        </h3>
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">Gyro Type</label>
+          <select
+            value={unit.data?.gyro?.type || 'Standard'}
+            onChange={(e) => handleGyroChange(e.target.value)}
+            disabled={readOnly}
+            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100"
+          >
+            <option value="Standard">Standard Gyro</option>
+            <option value="Compact">Compact Gyro</option>
+            <option value="Heavy-Duty">Heavy-Duty Gyro</option>
+            <option value="XL">XL Gyro</option>
+          </select>
         </div>
       </div>
 

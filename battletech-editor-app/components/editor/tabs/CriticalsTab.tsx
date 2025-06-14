@@ -7,6 +7,7 @@ import CriticalSlotDropZone from '../criticals/CriticalSlotDropZone';
 import { DraggedEquipment } from '../dnd/types';
 import { FullEquipment } from '../../../types';
 import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
+import { CriticalSlot as NewCriticalSlot } from '../../../types/systemComponents';
 import styles from './CriticalsTab.module.css';
 
 // Mech locations with slot counts
@@ -65,12 +66,21 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   // Track hover state for multi-slot highlighting
   const [hoveredSlots, setHoveredSlots] = useState<{location: string, startIndex: number, count: number} | null>(null);
 
-  // Initialize critical slots from unit data
+  // Initialize critical slots from unit data - support both new and legacy formats
   const [criticalSlots, setCriticalSlots] = useState<Record<string, string[]>>(() => {
     const slots: Record<string, string[]> = {};
     
-    // Initialize from unit data if available
-    if (unit.data?.criticals) {
+    // Prefer new criticalAllocations if available
+    if (unit.criticalAllocations) {
+      Object.entries(unit.criticalAllocations).forEach(([location, locationSlots]) => {
+        slots[location] = locationSlots.map(slot => {
+          if (!slot || !slot.content) return '-Empty-';
+          // Normalize equipment names for display
+          return normalizeEquipmentName(slot.content);
+        });
+      });
+    } else if (unit.data?.criticals) {
+      // Fall back to legacy format
       unit.data.criticals.forEach(loc => {
         // Ensure all slots are properly initialized
         const locationSlots = loc.slots || [];
@@ -104,6 +114,14 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     
     return slots;
   });
+  
+  // Get the actual critical slot data for advanced features
+  const getCriticalSlotData = (location: string, index: number): NewCriticalSlot | null => {
+    if (unit.criticalAllocations && unit.criticalAllocations[location]) {
+      return unit.criticalAllocations[location][index] || null;
+    }
+    return null;
+  };
 
   // Track used equipment IDs
   const [usedEquipment, setUsedEquipment] = useState<Set<string>>(new Set());
@@ -456,9 +474,19 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
 
   // Sync with unit data changes
   useEffect(() => {
-    if (unit.data?.criticals) {
-      const newSlots: Record<string, string[]> = {};
-      
+    const newSlots: Record<string, string[]> = {};
+    
+    // Prefer new criticalAllocations if available
+    if (unit.criticalAllocations) {
+      Object.entries(unit.criticalAllocations).forEach(([location, locationSlots]) => {
+        newSlots[location] = locationSlots.map(slot => {
+          if (!slot || !slot.content) return '-Empty-';
+          // Normalize equipment names for display
+          return normalizeEquipmentName(slot.content);
+        });
+      });
+    } else if (unit.data?.criticals) {
+      // Fall back to legacy format
       unit.data.criticals.forEach(loc => {
         // Ensure all slots are properly initialized
         const locationSlots = loc.slots || [];
@@ -476,17 +504,17 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
           }
         });
       });
-      
-      // Ensure all mech locations are initialized
-      mechLocations.forEach(loc => {
-        if (!newSlots[loc.name]) {
-          newSlots[loc.name] = Array(loc.slots).fill('-Empty-');
-        }
-      });
-      
-      setCriticalSlots(newSlots);
     }
-  }, [unit.data?.criticals, unit.id]); // Add unit.id to ensure re-init when switching units
+    
+    // Ensure all mech locations are initialized
+    mechLocations.forEach(loc => {
+      if (!newSlots[loc.name]) {
+        newSlots[loc.name] = Array(loc.slots).fill('-Empty-');
+      }
+    });
+    
+    setCriticalSlots(newSlots);
+  }, [unit.criticalAllocations, unit.data?.criticals, unit.id]); // Add unit.id to ensure re-init when switching units
 
   // Track current hover timeout to prevent flickering
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -525,8 +553,15 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   // Helper function to render a location section
   const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
     const slots = criticalSlots[location.name] || [];
-    const isSystem = (slot: string, index: number) => 
-      !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
+    const isSystem = (slot: string, index: number) => {
+      // Check new critical slot data if available
+      const slotData = getCriticalSlotData(location.name, index);
+      if (slotData) {
+        return slotData.isFixed && slotData.contentType === 'system';
+      }
+      // Fall back to legacy check
+      return !isEmptySlot(slot) && isSystemComponent(slot) && !slot.toLowerCase().includes('hand actuator');
+    };
     
     return (
       <div key={location.name} className={`${styles.locationSection} ${styles[locationClass]}`}>
