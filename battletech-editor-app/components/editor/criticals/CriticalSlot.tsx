@@ -49,13 +49,12 @@ const CriticalSlot: React.FC<CriticalSlotProps> = ({
     }
     return className;
   };
-
   const renderContent = () => {
     if (slot.type === 'EQUIPMENT' && slot.mount) {
       return slot.mount.name;
     }
     if (slot.type === 'SYSTEM') {
-      return slot.system;
+      return slot.system || '-Empty-'; // Add fallback for missing system name
     }
     return '-Empty-';
   };

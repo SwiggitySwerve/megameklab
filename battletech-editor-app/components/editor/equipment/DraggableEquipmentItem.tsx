@@ -24,15 +24,21 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
 }) => {
   const getDragItemType = (): DragItemType => {
     const type = equipment.type?.toLowerCase() || '';
+    const name = equipment.name.toLowerCase();
+    
+    // First check by name for heat sinks
+    if (name.includes('heat sink')) return DragItemType.EQUIPMENT;
+    
+    // Then check by type
     if (type.includes('weapon')) return DragItemType.WEAPON;
     if (type.includes('ammo')) return DragItemType.AMMO;
     if (type.includes('system')) return DragItemType.SYSTEM;
     return DragItemType.EQUIPMENT;
   };
-
-  // Special components and heat sinks are always 1 slot
+  // Special components are always 1 slot, but heat sinks can vary
   let critSlots = equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0);
-  if (isSpecialComponent(equipment.name) || equipment.name.includes('Heat Sink')) {
+  // Special components get 1 slot override, BUT heat sinks should keep their actual slot count
+  if (isSpecialComponent(equipment.name) && !equipment.name.includes('Heat Sink')) {
     critSlots = 1;
   }
   
@@ -56,9 +62,7 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
   // Use native drag preview for better performance
   useEffect(() => {
     preview(null, { captureDraggingState: true });
-  }, [preview]);
-
-  const getEquipmentStats = () => {
+  }, [preview]);  const getEquipmentStats = () => {
     const stats = [];
     
     // Weight
@@ -66,11 +70,9 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
       stats.push(`${equipment.weight}t`);
     }
     
-    // Critical slots
-    if (equipment.space) {
-      stats.push(`${equipment.space} crits`);
-    } else if (equipment.data?.slots) {
-      stats.push(`${equipment.data.slots} crits`);
+    // Critical slots - use critSlots which respects special component logic
+    if (critSlots > 0) {
+      stats.push(`${critSlots} crits`);
     }
     
     // Damage for weapons

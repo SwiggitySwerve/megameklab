@@ -148,7 +148,7 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
             </div>
             
             {/* Critical Slots */}
-            {systemComponents?.engine && (
+            {systemComponents?.engine && ENGINE_SLOT_REQUIREMENTS[systemComponents.engine.type] && (
               <div className="text-xs bg-slate-700/50 rounded p-2">
                 <span className="text-slate-400">Slots:</span>
                 <span className="ml-1 text-slate-100">

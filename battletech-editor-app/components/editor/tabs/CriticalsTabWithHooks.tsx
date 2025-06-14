@@ -1,6 +1,6 @@
 /**
  * Criticals Tab Component with Hooks
- * Uses the unified data model for state management
+ * Uses the enhanced critical slot data model for state management
  */
 
 import React, { useEffect, useMemo } from 'react';
@@ -12,6 +12,7 @@ import {
   useEquipment,
   useSystemComponents
 } from '../../../hooks/useUnitData';
+import { useCriticalSlotManager } from '../../../hooks/useCriticalSlotManager';
 import { MECH_LOCATIONS } from '../../../types/editor';
 import DraggableEquipmentItem from '../equipment/DraggableEquipmentItem';
 import CriticalSlotDropZone from '../criticals/CriticalSlotDropZone';
@@ -19,6 +20,7 @@ import { DraggedEquipment } from '../dnd/types';
 import { FullEquipment } from '../../../types';
 import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
 import { isFixedComponent, isConditionallyRemovable, isSpecialComponent } from '../../../types/systemComponents';
+import { EnhancedEquipmentPanel } from '../equipment/EnhancedEquipmentPanel';
 import styles from './CriticalsTab.module.css';
 
 interface CriticalsTabWithHooksProps {
@@ -58,38 +60,48 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
   const criticalAllocations = useCriticalAllocations();
   const equipment = useEquipment();
   const systemComponents = useSystemComponents();
+  const slotManager = useCriticalSlotManager();
+  
   const [contextMenu, setContextMenu] = React.useState<{
     x: number;
     y: number;
     location: string;
     slotIndex: number;
-    itemName: string;
+    itemName: string | null;
+  } | null>(null);
+  
+  // State for tracking multi-slot hover
+  const [hoveredSlots, setHoveredSlots] = React.useState<{
+    location: string;
+    startIndex: number;
+    endIndex: number;
   } | null>(null);
   
   // Convert critical allocations to display format
   const criticalSlots = useMemo(() => {
-    const slots: Record<string, string[]> = {};
+    const slots: Record<string, (string | null)[]> = {};
     
     if (criticalAllocations) {
       Object.entries(criticalAllocations).forEach(([location, locationSlots]) => {
         slots[location] = locationSlots.map(slot => {
-          if (!slot || !slot.content || slot.content === null || slot.content === undefined || slot.content === '') {
-            return '-Empty-';
+          // Handle different slot formats
+          if (!slot || !slot.content || slot.content === '-Empty-') {
+            return null; // Keep null in the data model
           }
           return normalizeEquipmentName(slot.content);
         });
       });
     }
     
-    // Ensure all locations are initialized with proper empty strings
+    // Ensure all locations are initialized
     mechLocations.forEach(loc => {
       if (!slots[loc.name]) {
-        slots[loc.name] = Array(loc.slots).fill('-Empty-');
+        slots[loc.name] = Array(loc.slots).fill(null);
       } else {
-        // Ensure any undefined/null slots are replaced with '-Empty-'
-        slots[loc.name] = slots[loc.name].map(slot => 
-          (!slot || slot === null || slot === undefined || slot === '') ? '-Empty-' : slot
-        );
+        // Ensure the array has the correct length
+        while (slots[loc.name].length < loc.slots) {
+          slots[loc.name].push(null);
+        }
       }
     });
     
@@ -110,7 +122,8 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
         let space = stats?.crits || (typeof eq.crits === 'number' ? eq.crits : 1) || 1;
         
         // Special components have 0 weight (calculated elsewhere) and 1 slot each
-        if (isSpecialComponent(eq.item_name)) {
+        // BUT heat sinks should keep their actual slot count
+        if (isSpecialComponent(eq.item_name) && !eq.item_name.includes('Heat Sink')) {
           weight = 0;
           space = 1;
         }
@@ -143,36 +156,28 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
       return;
     }
     
-    // Update critical slots
-    const newSlots = [...criticalSlots[location]];
-    
-    // If moving from another location, clear source
-    if ('isFromCriticalSlot' in item && item.isFromCriticalSlot) {
-      const sourceLocation = (item as any).sourceLocation;
-      const sourceSlotIndex = (item as any).sourceSlotIndex;
-      
-      // Clear source slots
-      const sourceSlots = [...criticalSlots[sourceLocation]];
-      for (let i = 0; i < item.criticalSlots; i++) {
-        sourceSlots[sourceSlotIndex + i] = '-Empty-';
-      }
-      updateCriticalSlots(sourceLocation, sourceSlots);
-    }
+    // Don't process the drop - let the drag end handler in CriticalSlotDropZone handle the source removal
+    // This prevents duplication issues
     
     // Fill target slots
+    const newSlots = [...criticalSlots[location]];
     for (let i = 0; i < item.criticalSlots; i++) {
       newSlots[slotIndex + i] = item.name;
     }
     
-    updateCriticalSlots(location, newSlots);
+    // Convert nulls to '-Empty-' for the update function
+    const slotsForUpdate = newSlots.map(slot => slot === null ? '-Empty-' : slot);
+    updateCriticalSlots(location, slotsForUpdate);
     
-    // Update equipment location
-    const equipmentIndex = equipment.findIndex(eq => 
-      eq.item_name === item.name && (!eq.location || eq.location === '')
-    );
-    
-    if (equipmentIndex !== -1) {
-      updateEquipmentLocation(equipmentIndex, location);
+    // Update equipment location only if it's from unallocated
+    if (!('isFromCriticalSlot' in item) || !item.isFromCriticalSlot) {
+      const equipmentIndex = equipment.findIndex(eq => 
+        eq.item_name === item.name && (!eq.location || eq.location === '')
+      );
+      
+      if (equipmentIndex !== -1) {
+        updateEquipmentLocation(equipmentIndex, location);
+      }
     }
   };
   
@@ -181,7 +186,7 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     if (readOnly) return;
     
     const equipmentName = criticalSlots[location][slotIndex];
-    if (equipmentName === '-Empty-') return;
+    if (equipmentName === null) return;
     
     // Check if fixed component
     if (isFixedComponent(equipmentName)) {
@@ -194,8 +199,8 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
       return;
     }
     
-    // Special components and heat sinks are always single-slot items
-    const isSingleSlot = isSpecialComponent(equipmentName) || equipmentName.includes('Heat Sink');
+    // Special components are single-slot items, but NOT heat sinks (which can be 1-3 slots)
+    const isSingleSlot = isSpecialComponent(equipmentName) && !equipmentName.includes('Heat Sink');
     
     let startIndex = slotIndex;
     let endIndex = slotIndex;
@@ -215,10 +220,12 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     // Clear slots
     const newSlots = [...criticalSlots[location]];
     for (let i = startIndex; i <= endIndex; i++) {
-      newSlots[i] = '-Empty-';
+      newSlots[i] = null;
     }
     
-    updateCriticalSlots(location, newSlots);
+    // Convert nulls to '-Empty-' for the update function
+    const slotsForUpdate = newSlots.map(slot => slot === null ? '-Empty-' : slot);
+    updateCriticalSlots(location, slotsForUpdate);
     
     // For single-slot items, only clear this specific instance
     if (isSingleSlot) {
@@ -242,15 +249,23 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     }
   };
   
+  // Helper function for empty slot detection
+  const isSlotEmpty = (slot: string | null | undefined): boolean => {
+    return slot === null || slot === undefined || slot === '-Empty-';
+  };
+  
   // Check if can accept equipment
   const canAcceptEquipment = (item: DraggedEquipment, location: string, slotIndex: number): boolean => {
-    if (criticalSlots[location][slotIndex] !== '-Empty-') return false;
+    const slot = criticalSlots[location]?.[slotIndex];
+    
+    if (!isSlotEmpty(slot)) return false;
     
     const remainingSlots = criticalSlots[location].length - slotIndex;
     
     // Check all required slots are empty
     for (let i = 0; i < item.criticalSlots && i < remainingSlots; i++) {
-      if (criticalSlots[location][slotIndex + i] !== '-Empty-') {
+      const checkSlot = criticalSlots[location][slotIndex + i];
+      if (!isSlotEmpty(checkSlot)) {
         return false;
       }
     }
@@ -268,16 +283,18 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     // Clear non-fixed equipment
     for (let i = 0; i < newSlots.length; i++) {
       const item = newSlots[i];
-      if (item !== '-Empty-' && !isFixedComponent(item)) {
+      if (item !== null && !isFixedComponent(item)) {
         // Can remove Hand Actuator or any non-system equipment
         if (!clearedEquipment.includes(item)) {
           clearedEquipment.push(item);
         }
-        newSlots[i] = '-Empty-';
+        newSlots[i] = null;
       }
     }
     
-    updateCriticalSlots(location, newSlots);
+    // Convert nulls to '-Empty-' for the update function
+    const slotsForUpdate = newSlots.map(slot => slot === null ? '-Empty-' : slot);
+    updateCriticalSlots(location, slotsForUpdate);
     
     // Clear equipment locations
     equipment.forEach((eq, index) => {
@@ -288,10 +305,10 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
   };
   
   // Handle context menu
-  const handleContextMenu = (e: React.MouseEvent, location: string, slotIndex: number, itemName: string) => {
+  const handleContextMenu = (e: React.MouseEvent, location: string, slotIndex: number, itemName: string | null) => {
     e.preventDefault();
     
-    if (isConditionallyRemovable(itemName)) {
+    if (itemName && isConditionallyRemovable(itemName)) {
       setContextMenu({
         x: e.clientX,
         y: e.clientY,
@@ -325,8 +342,8 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
   }, [contextMenu]);
   
   // Get slot style class
-  const getSlotStyleClass = (itemName: string) => {
-    if (itemName === '-Empty-') return '';
+  const getSlotStyleClass = (itemName: string | null) => {
+    if (!itemName) return '';
     
     if (isFixedComponent(itemName)) {
       return styles.fixedComponent;
@@ -356,7 +373,7 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
       totalSlots += location.slots;
       const locationSlots = criticalSlots[location.name] || [];
       locationSlots.forEach(slot => {
-        if (slot !== '-Empty-' && slot !== '' && slot) {
+        if (slot !== null) {
           usedSlots++;
         }
       });
@@ -369,6 +386,22 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     };
   }, [criticalSlots]);
   
+  // Handle hover change for multi-slot highlighting
+  const handleHoverChange = (isHovering: boolean, item: DraggedEquipment | null, location: string, slotIndex: number) => {
+    if (isHovering && item && item.criticalSlots > 0) {
+      // Calculate the range of slots that would be occupied
+      const endIndex = Math.min(slotIndex + item.criticalSlots - 1, criticalSlots[location].length - 1);
+      setHoveredSlots({
+        location,
+        startIndex: slotIndex,
+        endIndex,
+      });
+    } else if (!isHovering) {
+      // Clear hover state
+      setHoveredSlots(null);
+    }
+  };
+
   // Render location section
   const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
     const slots = criticalSlots[location.name] || [];
@@ -388,28 +421,11 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
         </div>
         <div className={styles.slotsList}>
           {slots.map((slot, index) => {
-            // Multi-slot grouping logic - but NOT for special components or empty slots
-            let isStartOfGroup = false;
-            let isEndOfGroup = false;
-            let isMiddleOfGroup = false;
-            
-            // Empty slots, special components, and heat sinks should never be grouped
-            const isEmpty = slot === '-Empty-' || slot === '' || !slot;
-            const isSpecial = isSpecialComponent(slot);
-            
-            if (!isEmpty && !isSpecial && !slot.includes('Heat Sink')) {
-              const prevSlot = index > 0 ? slots[index - 1] : null;
-              const nextSlot = index < slots.length - 1 ? slots[index + 1] : null;
-              
-              const hasSameEquipmentBefore = prevSlot === slot;
-              const hasSameEquipmentAfter = nextSlot === slot;
-              
-              if (hasSameEquipmentBefore || hasSameEquipmentAfter) {
-                isStartOfGroup = !hasSameEquipmentBefore && hasSameEquipmentAfter;
-                isEndOfGroup = hasSameEquipmentBefore && !hasSameEquipmentAfter;
-                isMiddleOfGroup = hasSameEquipmentBefore && hasSameEquipmentAfter;
-              }
-            }
+            // Check if this slot is part of the hovered range
+            const isInHoveredRange = hoveredSlots && 
+              hoveredSlots.location === location.name &&
+              index >= hoveredSlots.startIndex &&
+              index <= hoveredSlots.endIndex;
             
             return (
               <div
@@ -420,18 +436,15 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
                 <CriticalSlotDropZone
                   location={location.name}
                   slotIndex={index}
-                  currentItem={slot}
+                  currentItem={slot || undefined}
                   onDrop={handleDrop}
                   onRemove={readOnly ? undefined : handleRemove}
                   canAccept={(item) => canAcceptEquipment(item, location.name, index)}
-                  disabled={readOnly || (isFixedComponent(slot) || isConditionallyRemovable(slot))}
-                  isSystemComponent={isFixedComponent(slot) || isConditionallyRemovable(slot)}
+                  disabled={readOnly || (slot !== null && slot !== undefined && (isFixedComponent(slot) || isConditionallyRemovable(slot)))}
+                  isSystemComponent={slot !== null && slot !== undefined && (isFixedComponent(slot) || isConditionallyRemovable(slot))}
                   onSystemClick={() => {}}
-                  isStartOfGroup={isStartOfGroup}
-                  isMiddleOfGroup={isMiddleOfGroup}
-                  isEndOfGroup={isEndOfGroup}
-                  isHoveredMultiSlot={false}
-                  onHoverChange={() => {}}
+                  isHoveredMultiSlot={isInHoveredRange || false}
+                  onHoverChange={(isHovering, item) => handleHoverChange(isHovering, item, location.name, index)}
                 />
               </div>
             );
@@ -554,7 +567,7 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
                   </p>
                 </>
               )}
-              {contextMenu.itemName === '-Empty-' && 
+              {contextMenu.itemName === null && 
                (contextMenu.location === 'Left Arm' || contextMenu.location === 'Right Arm') && (
                 <>
                   <button onClick={() => {

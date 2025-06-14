@@ -250,6 +250,33 @@ export function migrateUnitToSystemComponents(
     });
   }
   
+  // Also check if unit already has criticalAllocations with "-Empty-" strings
+  if (unit.criticalAllocations) {
+    Object.entries(unit.criticalAllocations).forEach(([location, slots]) => {
+      const locationSlots = criticalAllocations[location];
+      if (!locationSlots) return;
+      
+      (slots as any[]).forEach((slot, index) => {
+        if (locationSlots[index]) {
+          // Convert "-Empty-" to null during migration
+          if (slot.content === '-Empty-' || slot.content === '') {
+            locationSlots[index].content = null;
+            locationSlots[index].contentType = 'empty';
+          } else if (slot.content && locationSlots[index].contentType === 'empty') {
+            // Preserve non-empty content
+            locationSlots[index] = {
+              ...locationSlots[index],
+              content: slot.content,
+              contentType: slot.contentType || 'equipment',
+              isFixed: slot.isFixed || false,
+              isManuallyPlaced: slot.isManuallyPlaced !== undefined ? slot.isManuallyPlaced : true
+            };
+          }
+        }
+      });
+    });
+  }
+  
   // Generate external heat sink items if needed
   let weapons_and_equipment = unit.data?.weapons_and_equipment || [];
   if (systemComponents.heatSinks.externalRequired > 0) {

@@ -518,16 +518,28 @@ export function UnitDataProvider({
 }: UnitDataProviderProps) {
   // Initialize with migrated unit if needed
   const initializeState = (): UnitState => {
-    if (!initialUnit.systemComponents || !initialUnit.criticalAllocations) {
-      const migratedUnit = migrateUnitToSystemComponents(initialUnit);
-      return {
-        unit: migratedUnit,
-        isDirty: false,
-        isValidating: false,
-      };
+    let unit = initialUnit;
+    
+    // Always migrate if needed
+    if (!unit.systemComponents || !unit.criticalAllocations) {
+      unit = migrateUnitToSystemComponents(unit);
     }
+    
+    // Clean up "-Empty-" strings in criticalAllocations even if already migrated
+    if (unit.criticalAllocations) {
+      const cleanedAllocations = { ...unit.criticalAllocations };
+      Object.entries(cleanedAllocations).forEach(([location, slots]) => {
+        cleanedAllocations[location] = (slots as any[]).map(slot => ({
+          ...slot,
+          content: (slot.content === '-Empty-' || slot.content === '') ? null : slot.content,
+          contentType: (slot.content === '-Empty-' || slot.content === '' || !slot.content) ? 'empty' : slot.contentType
+        }));
+      });
+      unit = { ...unit, criticalAllocations: cleanedAllocations };
+    }
+    
     return {
-      unit: initialUnit,
+      unit,
       isDirty: false,
       isValidating: false,
     };

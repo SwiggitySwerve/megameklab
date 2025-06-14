@@ -648,7 +648,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           </select>
         </div>
       </div>
-
       {/* Tech Availability Filter */}
       {showAvailabilityFilter && (
         <div className="mb-3 p-3 bg-gray-50 rounded border border-gray-200">
@@ -668,7 +667,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           </div>
         </div>
       )}
-
       {/* Search */}
       <div className="mb-3">
         <input
@@ -679,7 +677,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           className="w-full text-sm border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
-
       {/* Category Filters */}
       <div className="mb-4">
         <div className="flex flex-wrap gap-1">
@@ -698,7 +695,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           ))}
         </div>
       </div>
-
       {/* Equipment List */}
       <div className="equipment-list max-h-96 overflow-y-auto space-y-2">
         {filteredEquipment.map(equipment => {
@@ -834,7 +830,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
           </div>
         )}
       </div>
-
       {/* Footer */}
       <div className="mt-4 pt-3 border-t border-gray-200">
         <div className="text-xs text-gray-500">

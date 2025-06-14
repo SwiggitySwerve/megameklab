@@ -47,7 +47,6 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
         <h1 className="text-3xl font-bold text-green-700">{name}</h1>
         {type && <p className="text-md text-gray-500">Type: {type}</p>}
       </header>
-
       <SectionTitle>Basic Information</SectionTitle>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
         <DataPair label="Tech Base" value={tech_base} />
@@ -58,9 +57,8 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
            return <DataPair key={key} label={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} value={value as string | number} />;
         })}
       </div>
-
       {(Object.keys(eqData).length > 0 || eqData.rules_level) && ( // Check if there's any data to show in specs
-        <SectionTitle>Specifications</SectionTitle>
+        (<SectionTitle>Specifications</SectionTitle>)
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
         {/* Display root-level fields not shown in Basic Info, if they exist */}
@@ -100,7 +98,6 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
             />
         )}
       </div>
-
       {/* Fallback for other data fields not explicitly handled */}
       {Object.entries(eqData).filter(([key]) => !handledSpecKeys.includes(key.toLowerCase()) && eqData[key as keyof EquipmentData] !== null && eqData[key as keyof EquipmentData] !== undefined).length > 0 && (
         <>
@@ -126,16 +123,16 @@ const EquipmentDetail: React.FC<EquipmentDetailProps> = ({ equipment, isLoading,
           </div>
         </>
       )}
-       {/* Raw JSON for debugging, can be removed or made collapsible
-       {process.env.NODE_ENV === 'development' && equipment.data && Object.keys(equipment.data).length > 0 && (
-        <>
-          <SectionTitle className="mt-8">Raw JSON Data (Debug)</SectionTitle>
-          <div className="bg-gray-900 text-white p-4 rounded text-xs overflow-x-auto">
-              <pre>{JSON.stringify(equipment.data, null, 2)}</pre>
-          </div>
-        </>
-       )}
-      */}
+      {/* Raw JSON for debugging, can be removed or made collapsible
+      {process.env.NODE_ENV === 'development' && equipment.data && Object.keys(equipment.data).length > 0 && (
+       <>
+         <SectionTitle className="mt-8">Raw JSON Data (Debug)</SectionTitle>
+         <div className="bg-gray-900 text-white p-4 rounded text-xs overflow-x-auto">
+             <pre>{JSON.stringify(equipment.data, null, 2)}</pre>
+         </div>
+       </>
+      )}
+     */}
     </div>
   );
 };

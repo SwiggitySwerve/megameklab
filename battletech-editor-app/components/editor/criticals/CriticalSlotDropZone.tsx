@@ -16,29 +16,17 @@ export interface CriticalSlotDropZoneProps {
   disabled?: boolean;
   isSystemComponent?: boolean;
   onSystemClick?: () => void;
-  isStartOfGroup?: boolean;
-  isEndOfGroup?: boolean;
-  isMiddleOfGroup?: boolean;
   isHoveredMultiSlot?: boolean;
   onHoverChange?: (isHovering: boolean, item: DraggedEquipment | null) => void;
 }
 
 // Helper to check if a slot value should be considered empty
 const isEmptySlot = (value: any): boolean => {
-  if (!value) return true;
-  if (typeof value !== 'string') return true;
-  
-  const normalizedValue = value.trim().toLowerCase();
-  return normalizedValue === '' ||
-         normalizedValue === '-empty-' ||
-         normalizedValue === '- empty -' ||
-         normalizedValue === 'empty' ||
-         normalizedValue === '-' ||
-         normalizedValue === '- -' ||
-         normalizedValue === '—' ||
-         normalizedValue === '–' ||
-         normalizedValue === 'null' ||
-         normalizedValue === 'undefined';
+  // In our data model, undefined, null, empty string, or '-Empty-' means empty
+  return value === undefined || 
+         value === null || 
+         value === '' || 
+         value === '-Empty-';
 };
 
 export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
@@ -53,9 +41,6 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   disabled = false,
   isSystemComponent = false,
   onSystemClick,
-  isStartOfGroup = false,
-  isEndOfGroup = false,
-  isMiddleOfGroup = false,
   isHoveredMultiSlot = false,
   onHoverChange,
 }) => {
@@ -83,13 +68,15 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     DragItemType.SYSTEM,
   ];
 
+  // Ensure consistent empty detection
   const isEmpty = isEmptySlot(currentItem);
 
   // Get equipment stats for draggable items
-  const getEquipmentStats = () => {
-    if (isEmpty || !currentItem) return null;
+  const getEquipmentStats = (itemName: string, loc: string, slotIdx: number) => {
+    if (!itemName || isEmptySlot(itemName)) return null;
     
-    const equipment = EQUIPMENT_DATABASE.find(e => e.name === currentItem);
+    // First try to find in equipment database
+    const equipment = EQUIPMENT_DATABASE.find(e => e.name === itemName);
     if (equipment) {
       return {
         criticalSlots: equipment.crits,
@@ -97,47 +84,96 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       };
     }
     
-    // Default fallback
-    return { criticalSlots: 1, weight: 1 };
+    // If not found, count how many consecutive slots have this equipment
+    // This is important for equipment that might not be in the database
+    // or when the name doesn't match exactly
+    let critSlots = 1;
+    
+    // We need to access parent component's slot data to count properly
+    // For now, use a reasonable default based on equipment type
+    if (itemName.includes('Double Heat Sink')) {
+      critSlots = itemName.includes('Clan') ? 2 : 3;
+    } else if (itemName.includes('Heat Sink')) {
+      critSlots = 1;
+    }
+    
+    return { criticalSlots: critSlots, weight: 1 };
   };
 
-  // Drag functionality for filled slots
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: DragItemType.EQUIPMENT,
-    item: () => {
-      if (isEmpty || disabled || isSystemComponent) return null;
-      
-      const stats = getEquipmentStats();
-      if (!stats) return null;
-
-      // Don't remove yet - wait for successful drop
+  // Ensure we have valid content before enabling drag
+  const hasValidContent = !isEmptySlot(currentItem) && !disabled && !isSystemComponent;
+  
+  // Drag functionality for filled slots - only create if we have content
+  const [{ isDragging }, drag] = useDrag(() => {
+    // Don't even create the drag handler if the slot is empty
+    if (isEmptySlot(currentItem) || disabled || isSystemComponent) {
       return {
-        equipmentId: `${currentItem}-${location}-${slotIndex}`,
-        name: currentItem,
         type: DragItemType.EQUIPMENT,
-        criticalSlots: stats.criticalSlots,
-        weight: stats.weight,
-        sourceLocation: location,
-        sourceSlotIndex: slotIndex,
-        isFromCriticalSlot: true, // Flag to indicate this is from a critical slot
-      } as DraggedEquipment;
-    },
-    canDrag: !isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }), [currentItem, isEmpty, disabled, isSystemComponent, location, slotIndex, isMiddleOfGroup, isEndOfGroup]);
+        item: null,
+        canDrag: false,
+        collect: (monitor) => ({
+          isDragging: false,
+        }),
+      };
+    }
+
+    return {
+      type: DragItemType.EQUIPMENT,
+      item: () => {
+        // Double-check empty state when creating drag item
+        if (isEmptySlot(currentItem) || disabled || isSystemComponent) return null;
+        
+        if (!currentItem) return null;
+        
+        const stats = getEquipmentStats(currentItem, location, slotIndex);
+        if (!stats) return null;
+
+        // Don't remove yet - wait for successful drop
+        return {
+          equipmentId: `${currentItem}-${location}-${slotIndex}`,
+          name: currentItem,
+          type: DragItemType.EQUIPMENT,
+          criticalSlots: stats.criticalSlots,
+          weight: stats.weight,
+          sourceLocation: location,
+          sourceSlotIndex: slotIndex,
+          isFromCriticalSlot: true, // Flag to indicate this is from a critical slot
+        } as DraggedEquipment;
+      },
+      canDrag: () => {
+        // Always re-evaluate drag capability
+        return !isEmptySlot(currentItem) && !disabled && !isSystemComponent;
+      },
+      end: (item, monitor) => {
+        // If the item was dropped successfully, remove it from source
+        if (monitor.didDrop() && onRemove) {
+          // Only remove if it was dropped in a different location or slot
+          const dropResult = monitor.getDropResult() as any;
+          if (dropResult && (dropResult.location !== location || dropResult.slotIndex !== slotIndex)) {
+            onRemove(location, slotIndex);
+          }
+        }
+      },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    };
+  }, [currentItem, disabled, isSystemComponent, location, slotIndex, onRemove]);
 
   const [{ isOver, canDrop, draggedItem }, drop] = useDrop(() => ({
     accept: acceptTypes,
     canDrop: (item: DraggedEquipment) => {
       if (disabled) return false;
-      if (!isEmptySlot(currentItem)) return false;
+      // Check if slot is empty using the same helper function
+      const slotIsEmpty = isEmptySlot(currentItem);
+      if (!slotIsEmpty) return false;
       if (canAccept) return canAccept(item);
       return true;
     },
     drop: (item: DraggedEquipment) => {
       onDrop(item, location, slotIndex);
+      // Return drop result so drag end handler can check where item was dropped
+      return { location, slotIndex };
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -148,20 +184,17 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
 
   // Handle hover state changes
   useEffect(() => {
-    if (onHoverChange && isOver) {
-      if (canDrop && draggedItem) {
+    if (onHoverChange) {
+      if (isOver && draggedItem) {
+        // Always call onHoverChange when hovering with an item, regardless of canDrop
+        // This ensures multi-slot highlighting works even when hovering over occupied slots
         onHoverChange(true, draggedItem);
+      } else if (!isOver) {
+        // Clear hover when not over
+        onHoverChange(false, null);
       }
     }
-  }, [isOver, canDrop, draggedItem, onHoverChange]);
-  
-  // Only clear hover when leaving the drop zone entirely
-  useEffect(() => {
-    if (!isOver && onHoverChange) {
-      // Clear hover when not over
-      onHoverChange(false, null);
-    }
-  }, [isOver, onHoverChange]);
+  }, [isOver, draggedItem, onHoverChange]);
 
   const isHighlighted = isOver && canDrop;
   const isDragRejected = isOver && !canDrop;
@@ -191,13 +224,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     if (isDragging) classNames.push(styles.dragging);
     if (isHoveredMultiSlot) classNames.push(styles.hoveredMultiSlot);
     
-    // Multi-slot grouping classes
-    if (isStartOfGroup) classNames.push(styles.groupStart);
-    if (isMiddleOfGroup) classNames.push(styles.groupMiddle);
-    if (isEndOfGroup) classNames.push(styles.groupEnd);
-    
     // Add draggable class for non-empty, non-system slots
-    if (!isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup) {
+    if (hasValidContent) {
       classNames.push(styles.draggable);
     }
     
@@ -206,8 +234,11 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
 
   // Handle double-click to remove equipment
   const handleDoubleClick = () => {
+    // Re-evaluate empty state at click time
+    const isCurrentlyEmpty = isEmptySlot(currentItem);
+    
     // Only remove if there's equipment and it's not internal structure
-    if (!isEmpty && !disabled) {
+    if (!isCurrentlyEmpty && !disabled) {
       if (isSystemComponent && onSystemClick) {
         // Show visual feedback for protected system component
         setShowSystemFeedback(true);
@@ -224,14 +255,17 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   useEffect(() => {
     if (combinedRef.current) {
       drop(combinedRef.current);
-      // Only attach drag if the slot is draggable
-      if (!isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup) {
+      // Only attach drag if the slot has valid content
+      if (hasValidContent) {
         drag(combinedRef.current);
+      } else {
+        // Important: detach drag if the slot is empty or disabled
+        drag(null);
       }
       // Also set the slot ref
       slotRef.current = combinedRef.current;
     }
-  }, [drop, drag, isEmpty, disabled, isSystemComponent, isMiddleOfGroup, isEndOfGroup]);
+  }, [drop, drag, hasValidContent]);
 
   return (
     <div 
@@ -241,9 +275,9 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       data-slot={slotIndex}
       onDoubleClick={handleDoubleClick}
       style={{ 
-        cursor: !isEmpty && onRemove && !disabled ? 'move' : 'default'
+        cursor: (hasValidContent && onRemove) ? 'move' : 'default'
       }}
-      title={!isEmpty && onRemove && !disabled ? 'Drag to move or double-click to remove' : undefined}
+      title={(hasValidContent && onRemove) ? 'Drag to move or double-click to remove' : undefined}
     >
       <span className={styles.slotNumber}>{slotIndex + 1}</span>
       <span className={styles.slotContent}>{getDisplayText()}</span>

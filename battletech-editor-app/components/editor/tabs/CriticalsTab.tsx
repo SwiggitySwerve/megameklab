@@ -615,9 +615,6 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                 disabled={readOnly}
                 isSystemComponent={isSystem(slot, index)}
                 onSystemClick={() => {}}
-                isStartOfGroup={isStartOfGroup}
-                isMiddleOfGroup={isMiddleOfGroup}
-                isEndOfGroup={isEndOfGroup}
                 isHoveredMultiSlot={isHoveredMultiSlot}
                 onHoverChange={(isHovering, item) => handleSlotHover(location.name, index, isHovering, item)}
               />

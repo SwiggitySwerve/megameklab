@@ -29,11 +29,13 @@ const customJestConfig = {
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
-  ],
-  // Transform ES modules that Jest can't handle
+  ],  // Transform ES modules that Jest can't handle
   transformIgnorePatterns: [
-    'node_modules/(?!(react-dnd|dnd-core|@react-dnd)/)',
+    'node_modules/(?!(react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend)/)',
   ],
+  transform: {
+    '^.+\\.(ts|tsx|js|jsx)$': ['babel-jest', { presets: ['next/babel'] }]
+  },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

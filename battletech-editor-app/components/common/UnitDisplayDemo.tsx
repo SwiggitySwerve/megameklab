@@ -62,7 +62,6 @@ const UnitDisplayDemo: React.FC<UnitDisplayDemoProps> = ({
           ))}
         </div>
       </div>
-
       {/* Demo: Full Display */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Full Unit Display</h3>
@@ -75,7 +74,6 @@ const UnitDisplayDemo: React.FC<UnitDisplayDemoProps> = ({
           className="border-2 border-blue-200"
         />
       </div>
-
       {/* Demo: Compact Display */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Compact Unit Display</h3>
@@ -87,7 +85,6 @@ const UnitDisplayDemo: React.FC<UnitDisplayDemoProps> = ({
           className="border-2 border-green-200"
         />
       </div>
-
       {/* Demo: Basic Info Only */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Basic Info Only</h3>

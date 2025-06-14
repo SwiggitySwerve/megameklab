@@ -127,7 +127,11 @@
   }
 }
 
-/* Multi-slot equipment visual continuity */
+/* Multi-slot equipment visual continuity - DISABLED for individual slots */
+/* These styles are kept here for reference but are no longer used
+   since each slot is now an individual drop zone */
+
+/*
 .groupStart {
   border-bottom: none !important;
   border-bottom-left-radius: 0 !important;
@@ -150,23 +154,21 @@
   margin-top: -1px !important;
 }
 
-/* Remove hover effects on middle/end slots of groups */
 .groupMiddle:not(.empty):hover,
 .groupEnd:not(.empty):hover {
   border-color: inherit !important;
 }
 
-/* Hide slot numbers for middle and end of groups - but only for non-empty slots */
 .groupMiddle:not(.empty) .slotNumber,
 .groupEnd:not(.empty) .slotNumber {
   visibility: hidden;
 }
 
-/* Hide content for middle and end slots to avoid repetition - but only for non-empty slots */
 .groupMiddle:not(.empty) .slotContent,
 .groupEnd:not(.empty) .slotContent {
   visibility: hidden;
 }
+*/
 
 /* Draggable styles */
 .draggable {

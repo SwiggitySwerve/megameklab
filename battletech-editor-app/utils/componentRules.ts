@@ -217,13 +217,20 @@ function placeCockpitComponents(criticalSlots: CriticalAllocationMap, cockpitTyp
 
 // Place engine in appropriate locations
 function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineType): void {
-  const requirements = ENGINE_SLOT_REQUIREMENTS[engineType];
+  // Ensure engineType is valid and exists in requirements
+  const validEngineType = Object.keys(ENGINE_SLOT_REQUIREMENTS).includes(engineType) ? 
+    engineType : 'Standard';
   
-  // If requirements not found, use standard engine as default
+  const requirements = ENGINE_SLOT_REQUIREMENTS[validEngineType];
+  
+  // If requirements still not found (which shouldn't happen after the above check), use Standard as fallback
   if (!requirements) {
-    console.warn(`Engine type ${engineType} not found in requirements, using Standard`);
+    console.warn(`Engine type ${engineType} not found in requirements, using Standard fallback`);
     const standardReqs = ENGINE_SLOT_REQUIREMENTS['Standard'];
-    if (!standardReqs) return;
+    if (!standardReqs) {
+      console.error('Standard engine requirements not found, cannot place engine');
+      return;
+    }
     
     // Place standard engine in center torso
     const ctSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO];
