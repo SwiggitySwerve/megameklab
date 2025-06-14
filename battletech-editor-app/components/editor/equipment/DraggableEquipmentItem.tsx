@@ -53,10 +53,18 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
 
   const [{ isDragging }, drag, preview] = useDrag(() => ({
     type: dragItem.type,
-    item: dragItem,
+    item: () => {
+      console.log('Drag begin:', dragItem);
+      return dragItem;
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      console.log('Drag end:', item);
+      console.log('Did drop:', monitor.didDrop());
+      console.log('Drop result:', monitor.getDropResult());
+    },
   }), [equipment.id, currentLocation, critSlots]);
 
   // Use native drag preview for better performance
@@ -107,6 +115,7 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
   const dragRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (dragRef.current) {
+      console.log('Attaching drag to element:', dragRef.current);
       drag(dragRef.current);
     }
   }, [drag]);
@@ -119,7 +128,7 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
         opacity: isDragging ? 0.5 : 1,
         cursor: isDragging ? 'grabbing' : 'grab'
       }}
-      draggable={false} // Prevent native HTML5 drag
+      draggable={false} // Prevent native HTML5 drag to avoid conflicts with react-dnd
     >
       <div className={styles.dragHandle}>⋮⋮</div>
       <div className={styles.content}>

@@ -67,14 +67,16 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   const [hoveredSlots, setHoveredSlots] = useState<{location: string, startIndex: number, count: number} | null>(null);
 
   // Initialize critical slots from unit data - support both new and legacy formats
-  const [criticalSlots, setCriticalSlots] = useState<Record<string, string[]>>(() => {
-    const slots: Record<string, string[]> = {};
+  const [criticalSlots, setCriticalSlots] = useState<Record<string, (string | null)[]>>(() => {
+    const slots: Record<string, (string | null)[]> = {};
+    
+    console.log('[CRITICALS TAB] Initializing critical slots from unit data');
     
     // Prefer new criticalAllocations if available
     if (unit.criticalAllocations) {
       Object.entries(unit.criticalAllocations).forEach(([location, locationSlots]) => {
         slots[location] = locationSlots.map(slot => {
-          if (!slot || !slot.content) return '-Empty-';
+          if (!slot || !slot.content || slot.content === '-Empty-') return null;
           // Normalize equipment names for display
           return normalizeEquipmentName(slot.content);
         });
@@ -88,27 +90,30 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         const totalSlots = mechLocation?.slots || 12;
         
         // Create array with proper initialization
-        slots[loc.location] = Array(totalSlots).fill('-Empty-');
+        slots[loc.location] = Array(totalSlots).fill(null);
         
         // Fill in the actual equipment
         locationSlots.forEach((item, index) => {
-          // Only set non-empty values, everything else stays as '-Empty-'
+          // Only set non-empty values, everything else stays as null
           if (!isEmptySlot(item)) {
             slots[loc.location][index] = normalizeEquipmentName(item);
           }
         });
+        
+        // Log what we initialized
+        console.log(`[CRITICALS TAB] Initialized ${loc.location}:`, slots[loc.location]);
       });
     } else {
       // Default initialization
       mechLocations.forEach(loc => {
-        slots[loc.name] = Array(loc.slots).fill('-Empty-');
+        slots[loc.name] = Array(loc.slots).fill(null);
       });
     }
     
     // Ensure all mech locations are initialized
     mechLocations.forEach(loc => {
       if (!slots[loc.name]) {
-        slots[loc.name] = Array(loc.slots).fill('-Empty-');
+        slots[loc.name] = Array(loc.slots).fill(null);
       }
     });
     
@@ -140,7 +145,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     unallocatedEquipment.forEach((equipment, index) => {
       const stats = getEquipmentStats(equipment.item_name);
       
-      unallocated.push({
+      const fullEquipment: FullEquipment = {
         id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${index}`,
         name: equipment.item_name,
         type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
@@ -149,9 +154,13 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         space: stats.space,
         damage: stats.damage,
         heat: stats.heat,
-      });
+      };
+      
+      console.log('Creating FullEquipment:', fullEquipment);
+      unallocated.push(fullEquipment);
     });
     
+    console.log('Final unallocated equipment:', unallocated);
     return unallocated;
   };
   
@@ -197,7 +206,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
       // Clear source slots
       for (let i = 0; i < item.criticalSlots; i++) {
         if (newSlots[sourceLocation] && newSlots[sourceLocation][sourceSlotIndex + i]) {
-          newSlots[sourceLocation][sourceSlotIndex + i] = '-Empty-';
+          newSlots[sourceLocation][sourceSlotIndex + i] = null;
         }
       }
     }
@@ -215,7 +224,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     // Update unit data with new critical slots
     const newCriticals = mechLocations.map(loc => ({
       location: loc.name,
-      slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+      slots: (newSlots[loc.name] || Array(loc.slots).fill(null)).map(slot => slot || '-Empty-'),
     }));
 
     // Update the equipment location in weapons_and_equipment
@@ -292,7 +301,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     if (readOnly) return;
     
     const equipmentName = criticalSlots[location][slotIndex];
-    if (equipmentName === '-Empty-') return;
+    if (!equipmentName) return;
 
     // Check if this is a system component that cannot be removed
     if (isSystemComponent(equipmentName)) {
@@ -323,7 +332,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     
     // Clear all slots
     for (let i = startIndex; i <= endIndex; i++) {
-      newSlots[location][i] = '-Empty-';
+      newSlots[location][i] = null;
     }
     
     setCriticalSlots(newSlots);
@@ -339,7 +348,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     // Update unit data with new critical slots
     const newCriticals = mechLocations.map(loc => ({
       location: loc.name,
-      slots: newSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+      slots: (newSlots[loc.name] || Array(loc.slots).fill(null)).map(slot => slot || '-Empty-'),
     }));
 
     // Clear the location from the equipment in weapons_and_equipment
@@ -367,8 +376,10 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   };
 
   const canAcceptEquipment = (item: DraggedEquipment, location: string, slotIndex: number): boolean => {
-    // Check if slot is empty
-    if (!isEmptySlot(criticalSlots[location][slotIndex])) {
+    // Check if slot is empty using the isEmptySlot helper
+    const slot = criticalSlots[location][slotIndex];
+    
+    if (!isEmptySlot(slot)) {
       return false;
     }
 
@@ -377,7 +388,8 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     
     // Check all required slots are empty
     for (let i = 0; i < item.criticalSlots && i < remainingSlots; i++) {
-      if (!isEmptySlot(criticalSlots[location][slotIndex + i])) {
+      const checkSlot = criticalSlots[location][slotIndex + i];
+      if (!isEmptySlot(checkSlot)) {
         return false;
       }
     }
@@ -395,20 +407,20 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     const newSlots = [...criticalSlots[location]];
     for (let i = 0; i < newSlots.length; i++) {
       const item = newSlots[i];
-      if (item !== '-Empty-' && !isSystemComponent(item)) {
+      if (item && !isSystemComponent(item)) {
         // Track cleared equipment
         if (!clearedEquipment.includes(item)) {
           clearedEquipment.push(item);
         }
         // Clear non-system equipment
-        newSlots[i] = '-Empty-';
-      } else if (item !== '-Empty-' && item.toLowerCase().includes('hand actuator')) {
+        newSlots[i] = null;
+      } else if (item && item.toLowerCase().includes('hand actuator')) {
         // Track cleared equipment
         if (!clearedEquipment.includes(item)) {
           clearedEquipment.push(item);
         }
         // Hand actuator can be cleared
-        newSlots[i] = '-Empty-';
+        newSlots[i] = null;
       }
     }
     
@@ -435,13 +447,13 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     // Update unit data with new critical slots
     const newCriticals = mechLocations.map(loc => ({
       location: loc.name,
-      slots: criticalSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+      slots: (criticalSlots[loc.name] || Array(loc.slots).fill(null)).map(slot => slot || '-Empty-'),
     }));
     
     // Apply the cleared slots for this location
     const criticalIndex = newCriticals.findIndex(c => c.location === location);
     if (criticalIndex !== -1) {
-      newCriticals[criticalIndex].slots = newSlots;
+      newCriticals[criticalIndex].slots = newSlots.map(slot => slot || '-Empty-');
     }
 
     const updates: Partial<EditableUnit> = {
@@ -459,7 +471,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   const updateUnitCriticals = () => {
     const newCriticals = mechLocations.map(loc => ({
       location: loc.name,
-      slots: criticalSlots[loc.name] || Array(loc.slots).fill('-Empty-'),
+      slots: (criticalSlots[loc.name] || Array(loc.slots).fill(null)).map(slot => slot || '-Empty-'),
     }));
 
     const updates: Partial<EditableUnit> = {
@@ -474,13 +486,13 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
 
   // Sync with unit data changes
   useEffect(() => {
-    const newSlots: Record<string, string[]> = {};
+    const newSlots: Record<string, (string | null)[]> = {};
     
     // Prefer new criticalAllocations if available
     if (unit.criticalAllocations) {
       Object.entries(unit.criticalAllocations).forEach(([location, locationSlots]) => {
         newSlots[location] = locationSlots.map(slot => {
-          if (!slot || !slot.content) return '-Empty-';
+          if (!slot || !slot.content || slot.content === '-Empty-') return null;
           // Normalize equipment names for display
           return normalizeEquipmentName(slot.content);
         });
@@ -494,11 +506,11 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
         const totalSlots = mechLocation?.slots || 12;
         
         // Create array with proper initialization
-        newSlots[loc.location] = Array(totalSlots).fill('-Empty-');
+        newSlots[loc.location] = Array(totalSlots).fill(null);
         
         // Fill in the actual equipment
         locationSlots.forEach((item, index) => {
-          // Only set non-empty values, everything else stays as '-Empty-'
+          // Only set non-empty values, everything else stays as null
           if (!isEmptySlot(item)) {
             newSlots[loc.location][index] = normalizeEquipmentName(item);
           }
@@ -509,7 +521,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     // Ensure all mech locations are initialized
     mechLocations.forEach(loc => {
       if (!newSlots[loc.name]) {
-        newSlots[loc.name] = Array(loc.slots).fill('-Empty-');
+        newSlots[loc.name] = Array(loc.slots).fill(null);
       }
     });
     
@@ -553,7 +565,8 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   // Helper function to render a location section
   const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
     const slots = criticalSlots[location.name] || [];
-    const isSystem = (slot: string, index: number) => {
+    const isSystem = (slot: string | null, index: number) => {
+      if (!slot) return false;
       // Check new critical slot data if available
       const slotData = getCriticalSlotData(location.name, index);
       if (slotData) {
@@ -608,7 +621,7 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                 key={`${location.name}-${index}`}
                 location={location.name}
                 slotIndex={index}
-                currentItem={slot}
+                currentItem={slot === null ? undefined : slot}
                 onDrop={handleDrop}
                 onRemove={readOnly ? undefined : handleRemove}
                 canAccept={(item) => canAcceptEquipment(item, location.name, index)}

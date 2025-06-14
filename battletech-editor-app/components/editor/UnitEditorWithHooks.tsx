@@ -195,22 +195,28 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     if (criticalAllocations) {
       Object.values(criticalAllocations).forEach(locationSlots => {
         locationSlots.forEach(slot => {
-          if (slot && slot.content && slot.content !== '') {
+          if (slot && slot.content && slot.content !== '' && slot.content !== '-Empty-') {
             assigned++;
           }
         });
       });
     }
     
-    // Get all equipment items using the unified interface
-    const allEquipment = EquipmentCalculator.getAllEquipmentItems(
-      equipment || [],
-      systemComponents,
-      unit
-    );
+    // Calculate required slots - only for fixed components and allocated equipment
+    let required = 0;
     
-    // Calculate total required slots
-    const required = EquipmentCalculator.calculateTotalSlots(allEquipment);
+    // 1. Get fixed system components (always required)
+    const fixedComponents = EquipmentCalculator.getFixedSystemComponents(systemComponents);
+    required += EquipmentCalculator.calculateTotalSlots(fixedComponents);
+    
+    // 2. Get only allocated equipment (has a location)
+    const allocatedEquipment = (equipment || []).filter(eq => eq.location && eq.location !== '');
+    const allocatedItems = EquipmentCalculator.getRegularEquipmentItems(allocatedEquipment);
+    required += EquipmentCalculator.calculateTotalSlots(allocatedItems);
+    
+    // 3. Get structure and armor items that are allocated
+    const allocatedStructureArmor = EquipmentCalculator.getStructureAndArmorItems(allocatedEquipment);
+    required += EquipmentCalculator.calculateTotalSlots(allocatedStructureArmor);
     
     return {
       total,

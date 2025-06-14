@@ -436,7 +436,7 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
                 <CriticalSlotDropZone
                   location={location.name}
                   slotIndex={index}
-                  currentItem={slot || undefined}
+                  currentItem={slot === null ? undefined : slot}
                   onDrop={handleDrop}
                   onRemove={readOnly ? undefined : handleRemove}
                   canAccept={(item) => canAcceptEquipment(item, location.name, index)}
