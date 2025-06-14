@@ -414,7 +414,7 @@ export function importFromBLK(blkString: string): EditableUnit {
             name: 'Standard',
             pointsPerTon: 16,
             criticalSlots: 0,
-            techLevel: 1,
+            techLevel: 'Introductory',
             isClan: false,
             isInner: true
           }
@@ -612,7 +612,7 @@ export function importFromMTF(mtfString: string): EditableUnit {
           name: 'Standard',
           pointsPerTon: 16,
           criticalSlots: 0,
-          techLevel: 1,
+          techLevel: 'Introductory',
           isClan: false,
           isInner: true
         }

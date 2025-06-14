@@ -147,12 +147,10 @@ const CompleteEditorDemo: NextPage = () => {
       if (Array.isArray(allocation)) {
         allocation.forEach(alloc => {
           allocationObject[alloc.location] = {
-            front: alloc.front,
-            rear: alloc.rear,
-            maxArmor: alloc.maxArmor || 50,
-            type: alloc.type || { id: 'standard', name: 'Standard', pointsPerTon: 16, criticalSlots: 0, techLevel: 'Introductory', isClan: false, isInner: true }
-          };
-        });
+              front: alloc.front,
+              rear: alloc.rear
+            };
+          });
       } else {
         Object.assign(allocationObject, allocation);
       }
@@ -168,13 +166,26 @@ const CompleteEditorDemo: NextPage = () => {
       // Extract equipment from placements for auto-allocation
       const equipment = unit.equipmentPlacements?.map(p => p.equipment) || [];
       
+      // Create LocationCriticalSlots array for each location
+      const locations = ['head', 'center_torso', 'left_torso', 'right_torso', 
+                        'left_arm', 'right_arm', 'left_leg', 'right_leg'] as const;
+      
+      const locationSlots = locations.map(location => ({
+        location: location as any, // Cast to any to bypass MechLocation type requirement
+        totalSlots: 12, // Standard mech has 12 slots per location
+        availableSlots: 12,
+        fixedSlots: 0,
+        assignments: []
+      }));
+      
       const criticals = autoAllocateEquipment(
         equipment,
-        unit.criticalSlots || [],
+        locationSlots,
         {
           fillUnhittables: true,
           prioritizeSymmetry: true,
-          balanceWeight: true
+          balanceWeight: true,
+          spreadEquipment: true
         }
       );
       

@@ -84,7 +84,7 @@ export function exportToMTF(unit: EditableUnit): string {
   lines.push(`TechBase:${unit.tech_base || 'Inner Sphere'}`);
   lines.push(`Era:${unit.era || '3145'}`);
   lines.push(`Source:${unit.data?.source_era || 'TRO: 3145'}`);
-  lines.push(`Rules Level:${mapRulesLevel(unit.rules_level || 'Standard')}`);
+  lines.push(`Rules Level:${mapRulesLevel(String(unit.rules_level || 'Standard'))}`);
   lines.push('');
   
   // Physical

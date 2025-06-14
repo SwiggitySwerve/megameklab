@@ -95,10 +95,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Add validation status
       try {
-        const validationResult = validateUnit(result.data);
-        result.validation_status = validationResult.valid ? 'valid' : 
+        // Create placeholder weights and crits objects for validation
+        const weights = { total: 0 };
+        const crits = { total: 0 };
+        const validationResult = validateUnit(result, weights, crits);
+        result.validation_status = validationResult.isValid ? 'valid' : 
           (validationResult.errors.length > 0 ? 'error' : 'warning');
-        result.validation_messages = [...validationResult.errors, ...validationResult.warnings];
+        result.validation_messages = [
+          ...validationResult.errors.map(e => e.message),
+          ...validationResult.warnings.map(w => w.message)
+        ];
       } catch (validationError) {
         console.warn('Validation failed for unit:', result.id, validationError);
         result.validation_status = 'error';
@@ -224,10 +230,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         // Add validation status for each unit
         try {
-          const validationResult = validateUnit(row.data);
-          row.validation_status = validationResult.valid ? 'valid' : 
+          // Create placeholder weights and crits objects for validation
+          const weights = { total: 0 };
+          const crits = { total: 0 };
+          const validationResult = validateUnit(row, weights, crits);
+          row.validation_status = validationResult.isValid ? 'valid' : 
             (validationResult.errors.length > 0 ? 'error' : 'warning');
-          row.validation_messages = [...validationResult.errors, ...validationResult.warnings];
+          row.validation_messages = [
+            ...validationResult.errors.map(e => e.message),
+            ...validationResult.warnings.map(w => w.message)
+          ];
         } catch (validationError) {
           row.validation_status = 'error';
           row.validation_messages = ['Validation system error'];

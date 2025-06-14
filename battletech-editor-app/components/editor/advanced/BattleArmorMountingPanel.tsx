@@ -29,15 +29,19 @@ const BattleArmorMountingPanel: React.FC<BattleArmorMountingPanelProps> = ({
   const getMountingLocations = useCallback(() => {
     const baseLocations = ['Center Torso', 'Left Torso', 'Right Torso'];
     
-    if (unit.type === 'Quad') {
+    // Check if unit has quad or tripod configuration based on critical locations
+    const hasFrontLegs = unit.data?.criticals?.some(crit => 
+      crit.location.includes('Front Left Leg') || crit.location.includes('Front Right Leg')
+    );
+    
+    if (hasFrontLegs) {
+      // Quad mech
       return [...baseLocations, 'Front Left Leg', 'Front Right Leg', 'Rear Left Leg', 'Rear Right Leg'];
-    } else if (unit.type === 'Tripod') {
-      return [...baseLocations, 'Front Leg', 'Left Leg', 'Right Leg'];
     } else {
-      // Biped
+      // Default to Biped (most common)
       return [...baseLocations, 'Left Arm', 'Right Arm', 'Left Leg', 'Right Leg'];
     }
-  }, [unit.type]);
+  }, [unit.data?.criticals]);
 
   // Maximum BA that can be mounted per location
   const getMaxTroopersPerLocation = (location: string): number => {

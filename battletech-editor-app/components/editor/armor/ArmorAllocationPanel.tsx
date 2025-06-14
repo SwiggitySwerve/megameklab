@@ -514,91 +514,144 @@ const ArmorAllocationPanel: React.FC<ArmorAllocationPanelProps> = ({
           <div className="armor-diagram space-y-2">
           {/* Head */}
           <div className="flex justify-center">
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.HEAD}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.HEAD)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              isSelected={selectedLocation === MECH_LOCATIONS.HEAD}
-              onSelect={setSelectedLocation}
-            />
+            {(() => {
+              const headData = armorData.find(a => a.location === MECH_LOCATIONS.HEAD);
+              return headData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.HEAD}
+                  maxArmor={headData.maxArmor}
+                  currentFront={headData.armor_points}
+                  currentRear={headData.rear_armor_points}
+                  hasRear={headData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : null;
+            })()}
           </div>
 
           {/* Arms and Torso */}
           <div className="grid grid-cols-5 gap-1 items-center">
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.LEFT_ARM}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.LEFT_ARM)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              isSelected={selectedLocation === MECH_LOCATIONS.LEFT_ARM}
-              onSelect={setSelectedLocation}
-            />
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.LEFT_TORSO}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.LEFT_TORSO)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              showRearArmor={showRearArmor}
-              isSelected={selectedLocation === MECH_LOCATIONS.LEFT_TORSO}
-              onSelect={setSelectedLocation}
-            />
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.CENTER_TORSO}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.CENTER_TORSO)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              showRearArmor={showRearArmor}
-              isSelected={selectedLocation === MECH_LOCATIONS.CENTER_TORSO}
-              onSelect={setSelectedLocation}
-            />
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.RIGHT_TORSO}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_TORSO)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              showRearArmor={showRearArmor}
-              isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_TORSO}
-              onSelect={setSelectedLocation}
-            />
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.RIGHT_ARM}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_ARM)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_ARM}
-              onSelect={setSelectedLocation}
-            />
+            {(() => {
+              const leftArmData = armorData.find(a => a.location === MECH_LOCATIONS.LEFT_ARM);
+              return leftArmData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.LEFT_ARM}
+                  maxArmor={leftArmData.maxArmor}
+                  currentFront={leftArmData.armor_points}
+                  currentRear={leftArmData.rear_armor_points}
+                  hasRear={leftArmData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
+            {(() => {
+              const leftTorsoData = armorData.find(a => a.location === MECH_LOCATIONS.LEFT_TORSO);
+              return leftTorsoData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.LEFT_TORSO}
+                  maxArmor={leftTorsoData.maxArmor}
+                  currentFront={leftTorsoData.armor_points}
+                  currentRear={leftTorsoData.rear_armor_points}
+                  hasRear={leftTorsoData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
+            {(() => {
+              const centerTorsoData = armorData.find(a => a.location === MECH_LOCATIONS.CENTER_TORSO);
+              return centerTorsoData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.CENTER_TORSO}
+                  maxArmor={centerTorsoData.maxArmor}
+                  currentFront={centerTorsoData.armor_points}
+                  currentRear={centerTorsoData.rear_armor_points}
+                  hasRear={centerTorsoData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
+            {(() => {
+              const rightTorsoData = armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_TORSO);
+              return rightTorsoData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.RIGHT_TORSO}
+                  maxArmor={rightTorsoData.maxArmor}
+                  currentFront={rightTorsoData.armor_points}
+                  currentRear={rightTorsoData.rear_armor_points}
+                  hasRear={rightTorsoData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
+            {(() => {
+              const rightArmData = armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_ARM);
+              return rightArmData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.RIGHT_ARM}
+                  maxArmor={rightArmData.maxArmor}
+                  currentFront={rightArmData.armor_points}
+                  currentRear={rightArmData.rear_armor_points}
+                  hasRear={rightArmData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
           </div>
 
           {/* Legs */}
           <div className="grid grid-cols-5 gap-1">
             <div></div>
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.LEFT_LEG}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.LEFT_LEG)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              isSelected={selectedLocation === MECH_LOCATIONS.LEFT_LEG}
-              onSelect={setSelectedLocation}
-            />
+            {(() => {
+              const leftLegData = armorData.find(a => a.location === MECH_LOCATIONS.LEFT_LEG);
+              return leftLegData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.LEFT_LEG}
+                  maxArmor={leftLegData.maxArmor}
+                  currentFront={leftLegData.armor_points}
+                  currentRear={leftLegData.rear_armor_points}
+                  hasRear={leftLegData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
             <div></div>
-            <ArmorLocationControl
-              location={MECH_LOCATIONS.RIGHT_LEG}
-              armorData={armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_LEG)}
-              onArmorChange={handleArmorChange}
-              readOnly={readOnly}
-              compact={compact}
-              isSelected={selectedLocation === MECH_LOCATIONS.RIGHT_LEG}
-              onSelect={setSelectedLocation}
-            />
+            {(() => {
+              const rightLegData = armorData.find(a => a.location === MECH_LOCATIONS.RIGHT_LEG);
+              return rightLegData ? (
+                <ArmorLocationControl
+                  location={MECH_LOCATIONS.RIGHT_LEG}
+                  maxArmor={rightLegData.maxArmor}
+                  currentFront={rightLegData.armor_points}
+                  currentRear={rightLegData.rear_armor_points}
+                  hasRear={rightLegData.hasRear}
+                  armorType={currentArmorType}
+                  onChange={handleArmorChange}
+                  disabled={readOnly}
+                  compact={compact}
+                />
+              ) : <div></div>;
+            })()}
             <div></div>
           </div>
         </div>

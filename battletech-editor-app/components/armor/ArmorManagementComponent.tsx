@@ -230,9 +230,9 @@ const ArmorManagementComponent: React.FC<ArmorManagementComponentProps> = ({
       {showStatistics && (
         <ArmorStatisticsPanel
           unit={unit as EditableUnit}
-          armorType={selectedArmorType}
-          totalTonnage={armorTonnage}
-          maxTonnage={maxTonnage}
+          totalArmorTonnage={armorTonnage}
+          onArmorTypeChange={handleArmorTypeChange}
+          readOnly={readOnly}
         />
       )}
 

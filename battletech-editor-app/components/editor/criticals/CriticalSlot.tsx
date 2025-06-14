@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../dnd/types';
+import { DragItemType } from '../dnd/types';
 import { CriticalSlot as CriticalSlotType, Mounted } from '../../../types/criticals';
 import styles from './CriticalSlot.module.css';
 
@@ -21,7 +21,7 @@ const CriticalSlot: React.FC<CriticalSlotProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.EQUIPMENT,
+    accept: DragItemType.EQUIPMENT,
     drop: (item: { equipment: Mounted }) => onDrop(item.equipment, location, index),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

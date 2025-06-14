@@ -53,9 +53,90 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     return Math.ceil(totalPoints / selectedArmorType.pointsPerTon) || 19;
   });
   
+  // Calculate max armor for location
+  const getMaxArmorForLocation = (location: string, mass: number): number => {
+    switch (location.toLowerCase().replace(/_/g, ' ')) {
+      case 'head':
+        return 9;
+      case 'center torso':
+        return Math.floor(mass * 2 * 0.4);
+      case 'left torso':
+      case 'right torso':
+        return Math.floor(mass * 2 * 0.3);
+      case 'left arm':
+      case 'right arm':
+      case 'left leg':
+      case 'right leg':
+        return Math.floor(mass * 2 * 0.25);
+      default:
+        return Math.floor(mass * 2 * 0.2);
+    }
+  };
+  
+  // Calculate maximum possible armor points based on location limits
+  const calculateMaxPossibleArmorPoints = useCallback(() => {
+    const locations = [
+      { name: 'head', hasRear: false },
+      { name: 'center torso', hasRear: true },
+      { name: 'left torso', hasRear: true },
+      { name: 'right torso', hasRear: true },
+      { name: 'left arm', hasRear: false },
+      { name: 'right arm', hasRear: false },
+      { name: 'left leg', hasRear: false },
+      { name: 'right leg', hasRear: false }
+    ];
+    
+    let totalMax = 0;
+    locations.forEach(loc => {
+      const max = getMaxArmorForLocation(loc.name, unit.mass);
+      totalMax += max;
+      // Add rear armor capacity for torsos (typically can have as much rear as front)
+      if (loc.hasRear) {
+        totalMax += max;
+      }
+    });
+    
+    return totalMax;
+  }, [unit.mass]);
+  
   // Calculate total armor points available
   const totalArmorPoints = Math.floor(armorTonnage * selectedArmorType.pointsPerTon);
-  const maxTonnage = unit.mass * 0.5; // Max 50% of mech tonnage
+  
+  // Calculate max tonnage based on armor type (can't exceed physical limits)
+  const maxTonnage = useMemo(() => {
+    const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
+    const maxTonnageByType = Math.ceil(maxPossibleArmorPoints / selectedArmorType.pointsPerTon);
+    
+    // Different practical limits based on armor type
+    let practicalLimit = unit.mass;
+    
+    // Hardened armor has much lower efficiency, so it needs more tonnage
+    if (selectedArmorType.id === 'hardened') {
+      // Hardened armor (8 pts/ton) can theoretically use up to 77% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.77);
+    } else if (selectedArmorType.id === 'standard' || 
+               selectedArmorType.id === 'stealth' || 
+               selectedArmorType.id === 'reactive' || 
+               selectedArmorType.id === 'reflective') {
+      // Standard efficiency armors (16 pts/ton) typically max out around 39% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.39);
+    } else if (selectedArmorType.id === 'light_ferro_fibrous') {
+      // Light FF (16.8 pts/ton) maxes around 37% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.37);
+    } else if (selectedArmorType.id === 'ferro_fibrous' || selectedArmorType.id === 'ferro_fibrous_clan') {
+      // Ferro-Fibrous (17.6 pts/ton) maxes around 35% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.35);
+    } else if (selectedArmorType.id === 'heavy_ferro_fibrous') {
+      // Heavy FF (19.2 pts/ton) maxes around 32% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.32);
+    } else if (selectedArmorType.id === 'ferro_lamellor') {
+      // Ferro-Lamellor (20.48 pts/ton) maxes around 30% of mech tonnage
+      practicalLimit = Math.floor(unit.mass * 0.30);
+    }
+    
+    // Return the minimum of calculated max and practical limit
+    return Math.min(maxTonnageByType, practicalLimit);
+  }, [calculateMaxPossibleArmorPoints, selectedArmorType, unit.mass]);
   
   // Calculate current weight to determine remaining tonnage
   const calculateCurrentWeight = (): number => {
@@ -104,7 +185,38 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     if (readOnly) return;
     setSelectedArmorType(armorType);
     updateArmor(armorType.id);
-  }, [readOnly, updateArmor]);
+    
+    // Calculate new max tonnage for the selected armor type
+    const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
+    const maxTonnageByType = Math.ceil(maxPossibleArmorPoints / armorType.pointsPerTon);
+    
+    // Calculate practical limit based on armor type
+    let practicalLimit = unit.mass;
+    
+    if (armorType.id === 'hardened') {
+      practicalLimit = Math.floor(unit.mass * 0.77);
+    } else if (armorType.id === 'standard' || 
+               armorType.id === 'stealth' || 
+               armorType.id === 'reactive' || 
+               armorType.id === 'reflective') {
+      practicalLimit = Math.floor(unit.mass * 0.39);
+    } else if (armorType.id === 'light_ferro_fibrous') {
+      practicalLimit = Math.floor(unit.mass * 0.37);
+    } else if (armorType.id === 'ferro_fibrous' || armorType.id === 'ferro_fibrous_clan') {
+      practicalLimit = Math.floor(unit.mass * 0.35);
+    } else if (armorType.id === 'heavy_ferro_fibrous') {
+      practicalLimit = Math.floor(unit.mass * 0.32);
+    } else if (armorType.id === 'ferro_lamellor') {
+      practicalLimit = Math.floor(unit.mass * 0.30);
+    }
+    
+    const newMaxTonnage = Math.min(maxTonnageByType, practicalLimit);
+    
+    // If current tonnage exceeds new maximum, adjust it down
+    if (armorTonnage > newMaxTonnage) {
+      setArmorTonnage(newMaxTonnage);
+    }
+  }, [readOnly, updateArmor, armorTonnage, calculateMaxPossibleArmorPoints, unit.mass]);
   
   // Handle armor tonnage change
   const handleArmorTonnageChange = useCallback((tonnage: number) => {
@@ -131,26 +243,6 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     const mappedLocation = locationMap[location] || location;
     updateArmorAllocation(mappedLocation, front, rear || undefined);
   }, [readOnly, updateArmorAllocation]);
-  
-  // Calculate max armor for location
-  const getMaxArmorForLocation = (location: string, mass: number): number => {
-    switch (location.toLowerCase().replace(/_/g, ' ')) {
-      case 'head':
-        return 9;
-      case 'center torso':
-        return Math.floor(mass * 2 * 0.4);
-      case 'left torso':
-      case 'right torso':
-        return Math.floor(mass * 2 * 0.3);
-      case 'left arm':
-      case 'right arm':
-      case 'left leg':
-      case 'right leg':
-        return Math.floor(mass * 2 * 0.25);
-      default:
-        return Math.floor(mass * 2 * 0.2);
-    }
-  };
   
   // Handle applying armor distribution from presets
   const handleApplyDistribution = useCallback((distribution: any) => {
@@ -192,38 +284,6 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
       console.error('Maximize armor failed:', error);
     }
   }, [unit, selectedArmorType, handleApplyDistribution, readOnly]);
-  
-  // Handle use remaining tonnage
-  const handleUseRemainingTonnage = useCallback(() => {
-    if (readOnly) return;
-    
-    try {
-      const currentWeight = calculateCurrentWeight() - armorTonnage; // Subtract current armor
-      const remainingTonnage = unit.mass - currentWeight;
-      const newTonnage = Math.min(remainingTonnage, maxTonnage);
-      
-      setArmorTonnage(newTonnage);
-      
-      // Calculate armor points and auto-allocate
-      const totalPoints = Math.floor(newTonnage * selectedArmorType.pointsPerTon);
-      const updatedUnit = {
-        ...unit,
-        data: {
-          ...unit.data,
-          armor: {
-            ...unit.data?.armor,
-            total_armor_points: totalPoints,
-            locations: unit.data?.armor?.locations || []
-          }
-        }
-      };
-      
-      const allocation = autoAllocateArmor(updatedUnit);
-      handleApplyDistribution(allocation);
-    } catch (error) {
-      console.error('Use remaining tonnage failed:', error);
-    }
-  }, [unit, selectedArmorType, armorTonnage, maxTonnage, handleApplyDistribution, readOnly]);
   
   // Auto-allocate armor evenly
   const handleAutoAllocate = useCallback(() => {
@@ -316,34 +376,23 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
           
           {/* Quick Actions */}
           <div className="flex flex-col justify-center space-y-2">
-            <div className="flex gap-2">
+            <div className="text-xs text-slate-400 mb-1">Quick Actions</div>
+            <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={handleMaximizeArmor}
                 disabled={readOnly}
-                className="flex-1 px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 text-white rounded text-xs font-medium"
+                className="px-3 py-1.5 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 text-white rounded text-xs font-medium transition-colors"
+                title="Maximize armor tonnage"
               >
-                Max
-              </button>
-              <button
-                onClick={handleUseRemainingTonnage}
-                disabled={readOnly}
-                className="flex-1 px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white rounded text-xs font-medium"
-              >
-                Fill
-              </button>
-              <button
-                onClick={handleAutoAllocate}
-                disabled={readOnly}
-                className="flex-1 px-2 py-1 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 text-white rounded text-xs font-medium"
-              >
-                Auto
+                ⬆ Max Armor
               </button>
               <button
                 onClick={() => setShowPresets(!showPresets)}
                 disabled={readOnly}
-                className="flex-1 px-2 py-1 bg-slate-600 hover:bg-slate-700 disabled:bg-gray-700 text-white rounded text-xs font-medium"
+                className={`px-3 py-1.5 ${showPresets ? 'bg-slate-500' : 'bg-slate-600'} hover:bg-slate-700 disabled:bg-gray-700 text-white rounded text-xs font-medium transition-colors`}
+                title="Show preset distributions"
               >
-                Presets
+                📋 Presets {showPresets ? '▲' : '▼'}
               </button>
             </div>
           </div>
@@ -411,33 +460,87 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
         
         {/* Armor Statistics */}
         <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-          <h3 className="text-sm font-semibold text-slate-100 mb-2">Location Details</h3>
-          <div className="space-y-2 text-sm">
+          {/* Auto-Allocate Button */}
+          <div className="mb-4">
+            <button
+              onClick={handleAutoAllocate}
+              disabled={readOnly}
+              className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 text-white rounded text-sm font-medium transition-colors flex items-center justify-center gap-2"
+              title="Auto-distribute armor across all locations"
+            >
+              <span>⚡</span>
+              <span>Auto-Allocate Armor Points</span>
+              <span className="text-xs opacity-75">({totalArmorPoints} pts available)</span>
+            </button>
+          </div>
+          
+          <h3 className="text-sm font-semibold text-slate-100 mb-3">Location Details</h3>
+          
+          {/* Table Header */}
+          <div className="grid grid-cols-5 gap-2 text-xs font-medium text-slate-400 pb-2 border-b border-slate-600">
+            <div className="col-span-2">Location</div>
+            <div className="text-center">Front</div>
+            <div className="text-center">Rear</div>
+            <div className="text-center">Total / Max</div>
+          </div>
+          
+          {/* Location Rows */}
+          <div className="space-y-1 mt-2">
             {['Head', 'Center Torso', 'Left Torso', 'Right Torso', 'Left Arm', 'Right Arm', 'Left Leg', 'Right Leg'].map(location => {
-              const key = location.toLowerCase().replace(/ /g, '_');
               const armor = armorAllocation[location] || { front: 0, rear: 0 };
               const max = getMaxArmorForLocation(location, unit.mass);
               const hasRear = location.includes('Torso');
+              const total = armor.front + (armor.rear || 0);
+              const percentage = (total / max) * 100;
               
               return (
-                <div key={location} className="flex items-center justify-between py-1 border-b border-slate-700">
-                  <span className="text-slate-300">{location}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-slate-400 text-xs">
-                      {armor.front}{hasRear && `/${armor.rear}`} / {max}
-                    </span>
-                    <div className="w-24 bg-slate-700 rounded-full h-2">
+                <div key={location} className="grid grid-cols-5 gap-2 items-center py-1.5 hover:bg-slate-700/30 rounded transition-colors">
+                  <div className="col-span-2 text-slate-300 text-sm font-medium">
+                    {location}
+                  </div>
+                  <div className="text-center">
+                    <span className="text-slate-100 font-medium">{armor.front}</span>
+                  </div>
+                  <div className="text-center">
+                    {hasRear ? (
+                      <span className="text-slate-100 font-medium">{armor.rear || 0}</span>
+                    ) : (
+                      <span className="text-slate-500">-</span>
+                    )}
+                  </div>
+                  <div className="text-center flex items-center justify-center gap-2">
+                    <span className="text-slate-400 text-xs">{total}/{max}</span>
+                    <div className="w-12 bg-slate-700 rounded-full h-1.5 overflow-hidden">
                       <div
-                        className="bg-blue-500 h-2 rounded-full"
-                        style={{
-                          width: `${Math.min(100, ((armor.front + (armor.rear || 0)) / max) * 100)}%`
-                        }}
+                        className={`h-full transition-all ${
+                          percentage >= 80 ? 'bg-green-500' :
+                          percentage >= 50 ? 'bg-blue-500' :
+                          percentage >= 25 ? 'bg-yellow-500' :
+                          'bg-red-500'
+                        }`}
+                        style={{ width: `${Math.min(100, percentage)}%` }}
                       />
                     </div>
                   </div>
                 </div>
               );
             })}
+          </div>
+          
+          {/* Summary Stats */}
+          <div className="mt-3 pt-3 border-t border-slate-600 grid grid-cols-2 gap-2 text-xs">
+            <div className="bg-slate-700/30 rounded px-2 py-1">
+              <span className="text-slate-400">Total Front:</span>
+              <span className="ml-2 text-slate-100 font-medium">
+                {Object.values(armorAllocation).reduce((sum, loc) => sum + (loc.front || 0), 0)}
+              </span>
+            </div>
+            <div className="bg-slate-700/30 rounded px-2 py-1">
+              <span className="text-slate-400">Total Rear:</span>
+              <span className="ml-2 text-slate-100 font-medium">
+                {Object.values(armorAllocation).reduce((sum, loc) => sum + (loc.rear || 0), 0)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
