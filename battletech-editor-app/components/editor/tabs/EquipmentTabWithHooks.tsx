@@ -86,7 +86,26 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
       .filter(item => {
         // Filter out heat sinks - they're managed by the Structure tab
         const itemName = item.item_name?.toLowerCase() || '';
-        return !itemName.includes('heat sink') && !itemName.includes('heat-sink');
+        if (itemName.includes('heat sink') || itemName.includes('heat-sink')) {
+          return false;
+        }
+        
+        // Filter out special structure and armor components
+        const isSpecialComponent = SPECIAL_COMPONENT_NAMES.some(
+          specialName => item.item_name?.includes(specialName)
+        );
+        if (isSpecialComponent) {
+          return false;
+        }
+        
+        // Also check for additional structure/armor types
+        if (item.item_name?.includes('Composite') || 
+            item.item_name?.includes('Reinforced') ||
+            item.item_name?.includes('Industrial')) {
+          return false;
+        }
+        
+        return true;
       })
       .map((item, index) => {
       // Try to find the equipment in the database for complete info
