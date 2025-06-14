@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { FullEquipment } from '../../../types';
-import { DragItemType, DraggedEquipment } from '../dnd/types';
+import { DragItemType } from '../dnd/types';
+import { DraggedEquipmentV2 } from '../dnd/typesV2';
 import { isSpecialComponent } from '../../../types/systemComponents';
 import styles from './DraggableEquipmentItem.module.css';
 
@@ -42,17 +43,21 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     critSlots = 1;
   }
   
-  const dragItem: DraggedEquipment = {
+  const dragItem: DraggedEquipmentV2 = {
     type: getDragItemType(),
     equipmentId: equipment.id,
     name: equipment.name,
     weight: equipment.weight || 0,
     criticalSlots: critSlots,
     location: currentLocation,
+    category: equipment.type as any,
+    techBase: equipment.tech_base,
+    damage: equipment.damage,
+    heat: equipment.heat,
   };
 
   const [{ isDragging }, drag, preview] = useDrag(() => ({
-    type: dragItem.type,
+    type: 'equipment', // Always use 'equipment' type to match drop zone
     item: () => {
       console.log('Drag begin:', dragItem);
       return dragItem;

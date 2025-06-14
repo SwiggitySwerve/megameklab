@@ -2,9 +2,9 @@ import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import CriticalSlotDropZone from '../components/editor/criticals/CriticalSlotDropZone';
-import CriticalSlotDropZoneV2 from '../components/editor/criticals/CriticalSlotDropZoneV2';
 import { EditableUnit } from '../types/editor';
 import { SystemComponents } from '../types/systemComponents';
+import { SlotType } from '../types/criticalSlots';
 import { CriticalSlotManagerV2 } from '../utils/criticalSlotManagerV2';
 import { useCriticalSlotManagerV2 } from '../hooks/useCriticalSlotManagerV2';
 import styles from '../styles/demo.module.css';
@@ -66,17 +66,27 @@ const TestCriticalSlotsV2Page: React.FC = () => {
                 <div key={location.location} style={{ marginBottom: '1rem' }}>
                   <h4 style={{ color: '#60a5fa', marginBottom: '0.5rem' }}>{location.location}</h4>
                   <div style={{ display: 'grid', gap: '0.25rem' }}>
-                    {location.slots.map((slot, index) => (
-                      <CriticalSlotDropZone
-                        key={index}
-                        location={location.location}
-                        slotIndex={index}
-                        currentItem={slot || undefined}
-                        onDrop={() => {}}
-                        canAccept={() => false}
-                        disabled={true}
-                      />
-                    ))}
+                    {location.slots.map((slot, index) => {
+                      // Convert string slot to object format
+                      const slotObj = {
+                        slotIndex: index,
+                        location: location.location,
+                        equipment: null,
+                        isPartOfMultiSlot: false,
+                        slotType: SlotType.NORMAL
+                      };
+                      return (
+                        <CriticalSlotDropZone
+                          key={index}
+                          location={location.location}
+                          slotIndex={index}
+                          slot={slotObj}
+                          onDrop={() => {}}
+                          canAccept={() => false}
+                          disabled={true}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -92,7 +102,7 @@ const TestCriticalSlotsV2Page: React.FC = () => {
                   <h4 style={{ color: '#60a5fa', marginBottom: '0.5rem' }}>{location}</h4>
                   <div style={{ display: 'grid', gap: '0.25rem' }}>
                     {slots.map((slot, index) => (
-                      <CriticalSlotDropZoneV2
+                      <CriticalSlotDropZone
                         key={index}
                         location={location}
                         slotIndex={index}

@@ -1,15 +1,16 @@
 // battletech-editor-app/components/customizer/CriticalsPanel.tsx
 import React from 'react';
-import { CriticalLocation, EquipmentToRemoveDetails } from '../../types/customizer'; // Added EquipmentToRemoveDetails
+import { CriticalLocation, EquipmentToRemoveDetails } from '../../types/customizer';
+import { CriticalSlotItem } from '../../types';
 
 interface CriticalsPanelProps {
   customizedCriticals: CriticalLocation[];
   unitType?: string;
   unitConfig?: string;
-  onSelectSlot: (location: string, slotIndex: number, slotContent: string) => void;
+  onSelectSlot: (location: string, slotIndex: number, slot: CriticalSlotItem) => void;
   targetLocation?: string | null;
   targetSlotIndex?: number | null;
-  equipmentToRemoveDetails?: EquipmentToRemoveDetails | null; // New prop
+  equipmentToRemoveDetails?: EquipmentToRemoveDetails | null;
 }
 
 const CriticalsPanel: React.FC<CriticalsPanelProps> = ({
@@ -61,7 +62,16 @@ const CriticalsPanel: React.FC<CriticalsPanelProps> = ({
             <h3 className="font-bold text-sm mb-1 text-center text-gray-700">{loc.location}</h3>
             <ul className="space-y-1">
               {loc.slots.map((slotItem, index) => {
-                const isEmpty = slotItem === null || slotItem === undefined || slotItem.trim() === "" || slotItem.toLowerCase().includes("-empty-");
+                // Handle both string and object formats during transition
+                const slot: CriticalSlotItem = typeof slotItem === 'object' && slotItem ? slotItem : {
+                  index,
+                  name: typeof slotItem === 'string' ? slotItem : '-Empty-',
+                  type: 'empty',
+                  isFixed: false,
+                  isManuallyPlaced: false
+                };
+                
+                const isEmpty = slot.type === 'empty' || slot.name === '-Empty-' || slot.name === '- Empty -';
                 const isTargetedForAdd = loc.location === targetLocation && index === targetSlotIndex;
 
                 let isSelectedForRemoval = false;
@@ -80,10 +90,10 @@ const CriticalsPanel: React.FC<CriticalsPanelProps> = ({
                       isEmpty ? 'bg-gray-200 text-gray-500 hover:bg-gray-300 hover:ring-2 hover:ring-green-400' :
                       'bg-blue-100 text-blue-700 hover:bg-blue-200 font-medium'
                     }`}
-                    title={`${loc.location} - Slot ${index + 1}: ${slotItem}`}
-                    onClick={() => onSelectSlot(loc.location, index, slotItem)}
+                    title={`${loc.location} - Slot ${index + 1}: ${slot.name}`}
+                    onClick={() => onSelectSlot(loc.location, index, slot)}
                   >
-                    {`${index + 1}: ${slotItem || '-Empty-'}`}
+                    {`${index + 1}: ${slot.name || '-Empty-'}`}
                   </li>
                 );
               })}
