@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import UnitEditorWrapper from '../../components/editor/UnitEditorWrapper';
 import SaveUnitDialog from '../../components/editor/SaveUnitDialog';
-import { FullUnit, UnitData } from '../../types';
+import { FullUnit, UnitData, CriticalSlotItem } from '../../types';
 import { EditableUnit, ValidationResult, ARMOR_TYPES } from '../../types/editor';
+import { getSlotContentType } from '../../types/systemComponents';
 
 interface TabData {
   id: string;
@@ -75,14 +76,124 @@ const CustomizerPage: React.FC = () => {
           { item_name: "Medium Laser", item_type: "weapon", location: "Right Arm", tech_base: "IS" }
         ],
         criticals: [
-          { location: "Head", slots: ["Life Support", "Sensors", "Cockpit", "- Empty -", "Sensors", "Life Support"] },
-          { location: "Center Torso", slots: ["Engine", "Engine", "Engine", "Gyro", "Gyro", "Gyro", "Gyro", "Engine", "Engine", "Engine", "SRM 6", "SRM 6"] },
-          { location: "Left Torso", slots: ["LRM 20", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Right Torso", slots: ["AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "AC/10", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Left Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Right Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Left Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] },
-          { location: "Right Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] }
+          { 
+            location: "Head", 
+            slots: [
+              { index: 0, name: "Life Support", type: "system" as const, isFixed: true },
+              { index: 1, name: "Sensors", type: "system" as const, isFixed: true },
+              { index: 2, name: "Cockpit", type: "system" as const, isFixed: true },
+              { index: 3, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 4, name: "Sensors", type: "system" as const, isFixed: true },
+              { index: 5, name: "Life Support", type: "system" as const, isFixed: true }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Center Torso", 
+            slots: [
+              { index: 0, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 1, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 2, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 3, name: "Gyro", type: "system" as const, isFixed: true },
+              { index: 4, name: "Gyro", type: "system" as const, isFixed: true },
+              { index: 5, name: "Gyro", type: "system" as const, isFixed: true },
+              { index: 6, name: "Gyro", type: "system" as const, isFixed: true },
+              { index: 7, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 8, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 9, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 10, name: "SRM 6", type: "equipment" as const, isFixed: false },
+              { index: 11, name: "SRM 6", type: "equipment" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Torso", 
+            slots: [
+              { index: 0, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 1, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 2, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 3, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 4, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 6, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 11, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Torso", 
+            slots: [
+              { index: 0, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 1, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 2, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 3, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 4, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 5, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 6, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 11, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Arm", 
+            slots: [
+              { index: 0, name: "Shoulder", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Arm Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Arm Actuator", type: "system" as const, isFixed: false },
+              { index: 3, name: "Hand Actuator", type: "system" as const, isFixed: false },
+              { index: 4, name: "Medium Laser", type: "equipment" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 6, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 11, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Arm", 
+            slots: [
+              { index: 0, name: "Shoulder", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Arm Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Arm Actuator", type: "system" as const, isFixed: false },
+              { index: 3, name: "Hand Actuator", type: "system" as const, isFixed: false },
+              { index: 4, name: "Medium Laser", type: "equipment" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 6, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 11, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Leg", 
+            slots: [
+              { index: 0, name: "Hip", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 3, name: "Foot Actuator", type: "system" as const, isFixed: true },
+              { index: 4, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Leg", 
+            slots: [
+              { index: 0, name: "Hip", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 3, name: "Foot Actuator", type: "system" as const, isFixed: true },
+              { index: 4, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          }
         ]
       },
       
@@ -171,14 +282,96 @@ const CustomizerPage: React.FC = () => {
         },
         weapons_and_equipment: [],
         criticals: [
-          { location: "Head", slots: ["Life Support", "Sensors", "Cockpit", "- Empty -", "Sensors", "Life Support"] },
-          { location: "Center Torso", slots: Array(12).fill("- Empty -") },
-          { location: "Left Torso", slots: Array(12).fill("- Empty -") },
-          { location: "Right Torso", slots: Array(12).fill("- Empty -") },
-          { location: "Left Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", ...Array(8).fill("- Empty -")] },
-          { location: "Right Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", ...Array(8).fill("- Empty -")] },
-          { location: "Left Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] },
-          { location: "Right Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] }
+          { 
+            location: "Head", 
+            slots: [
+              { index: 0, name: "Life Support", type: "system" as const, isFixed: true },
+              { index: 1, name: "Sensors", type: "system" as const, isFixed: true },
+              { index: 2, name: "Cockpit", type: "system" as const, isFixed: true },
+              { index: 3, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 4, name: "Sensors", type: "system" as const, isFixed: true },
+              { index: 5, name: "Life Support", type: "system" as const, isFixed: true }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Center Torso", 
+            slots: Array(12).fill(null).map((_, i) => ({ 
+              index: i, 
+              name: "-Empty-", 
+              type: "empty" as const, 
+              isFixed: false 
+            })) as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Torso", 
+            slots: Array(12).fill(null).map((_, i) => ({ 
+              index: i, 
+              name: "-Empty-", 
+              type: "empty" as const, 
+              isFixed: false 
+            })) as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Torso", 
+            slots: Array(12).fill(null).map((_, i) => ({ 
+              index: i, 
+              name: "-Empty-", 
+              type: "empty" as const, 
+              isFixed: false 
+            })) as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Arm", 
+            slots: [
+              { index: 0, name: "Shoulder", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Arm Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Arm Actuator", type: "system" as const, isFixed: false },
+              { index: 3, name: "Hand Actuator", type: "system" as const, isFixed: false },
+              ...Array(8).fill(null).map((_, i) => ({ 
+                index: i + 4, 
+                name: "-Empty-", 
+                type: "empty" as const, 
+                isFixed: false 
+              }))
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Arm", 
+            slots: [
+              { index: 0, name: "Shoulder", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Arm Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Arm Actuator", type: "system" as const, isFixed: false },
+              { index: 3, name: "Hand Actuator", type: "system" as const, isFixed: false },
+              ...Array(8).fill(null).map((_, i) => ({ 
+                index: i + 4, 
+                name: "-Empty-", 
+                type: "empty" as const, 
+                isFixed: false 
+              }))
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Left Leg", 
+            slots: [
+              { index: 0, name: "Hip", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 3, name: "Foot Actuator", type: "system" as const, isFixed: true },
+              { index: 4, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          },
+          { 
+            location: "Right Leg", 
+            slots: [
+              { index: 0, name: "Hip", type: "system" as const, isFixed: true },
+              { index: 1, name: "Upper Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 2, name: "Lower Leg Actuator", type: "system" as const, isFixed: true },
+              { index: 3, name: "Foot Actuator", type: "system" as const, isFixed: true },
+              { index: 4, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false }
+            ] as CriticalSlotItem[]
+          }
         ]
       },
       armorAllocation: {

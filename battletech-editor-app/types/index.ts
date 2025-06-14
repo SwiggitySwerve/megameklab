@@ -141,9 +141,21 @@ export interface WeaponOrEquipmentItem {
   weapon_class?: WeaponClass; // For categorization and grouping
 }
 
+// Object-based critical slot definition
+export interface CriticalSlotItem {
+  index: number;
+  name: string; // Equipment name or system component name
+  type: 'empty' | 'system' | 'equipment' | 'heat-sink' | 'endo-steel' | 'ferro-fibrous';
+  isFixed: boolean;
+  isConditionallyRemovable?: boolean; // Can be removed via context menu
+  isManuallyPlaced?: boolean;  // User placed vs auto-allocated
+  equipmentId?: string; // Reference to equipment item
+  linkedSlots?: number[]; // For multi-slot items
+}
+
 export interface CriticalSlotLocation {
   location: string;
-  slots: string[]; // Array of equipment names or '-Empty-'
+  slots: CriticalSlotItem[]; // Array of critical slot objects, NEVER strings
 }
 
 export interface Manufacturer {

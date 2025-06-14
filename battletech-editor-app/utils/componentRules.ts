@@ -48,8 +48,8 @@ export function initializeCriticalSlots(
   Object.entries(LOCATION_SLOT_COUNTS).forEach(([location, slotCount]) => {
     criticalSlots[location] = Array(slotCount).fill(null).map((_, index) => ({
       index,
-      content: null,
-      contentType: 'empty',
+      name: '-Empty-',
+      type: 'empty',
       isFixed: false,
       isManuallyPlaced: false,
     } as CriticalSlot));
@@ -93,15 +93,15 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
       // Shoulder and Upper Arm are always present and fixed
       slots[0] = { 
         index: 0, 
-        content: 'Shoulder', 
-        contentType: 'system', 
+        name: 'Shoulder', 
+        type: 'system', 
         isFixed: true, 
         isManuallyPlaced: false 
       };
       slots[1] = { 
         index: 1, 
-        content: 'Upper Arm Actuator', 
-        contentType: 'system', 
+        name: 'Upper Arm Actuator', 
+        type: 'system', 
         isFixed: true, 
         isManuallyPlaced: false 
       };
@@ -110,8 +110,8 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
       if (actuators?.hasLowerArm) {
         slots[2] = { 
           index: 2, 
-          content: 'Lower Arm Actuator', 
-          contentType: 'system', 
+          name: 'Lower Arm Actuator', 
+          type: 'system', 
           isFixed: false,
           isConditionallyRemovable: true,
           isManuallyPlaced: false,
@@ -128,8 +128,8 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
       if (actuators?.hasHand && actuators?.hasLowerArm) {
         slots[3] = { 
           index: 3, 
-          content: 'Hand Actuator', 
-          contentType: 'system', 
+          name: 'Hand Actuator', 
+          type: 'system', 
           isFixed: false,
           isConditionallyRemovable: true,
           isManuallyPlaced: false,
@@ -143,7 +143,7 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
       }
       
       // Add context menu for empty slots where actuators can be added
-      if (!actuators?.hasLowerArm && slots[2].content === null) {
+      if (!actuators?.hasLowerArm && slots[2].name === '-Empty-') {
         slots[2].contextMenuOptions = [{
           label: 'Add Lower Arm',
           action: 'add',
@@ -152,7 +152,7 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
         }];
       }
       
-      if (!actuators?.hasHand && actuators?.hasLowerArm && slots[3].content === null) {
+      if (!actuators?.hasHand && actuators?.hasLowerArm && slots[3].name === '-Empty-') {
         slots[3].contextMenuOptions = [{
           label: 'Add Hand',
           action: 'add',
@@ -167,10 +167,10 @@ function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: 
   [MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG].forEach(location => {
     const slots = criticalSlots[location];
     if (slots) {
-      slots[0] = { index: 0, content: 'Hip', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[1] = { index: 1, content: 'Upper Leg Actuator', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[2] = { index: 2, content: 'Lower Leg Actuator', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[3] = { index: 3, content: 'Foot Actuator', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+      slots[0] = { index: 0, name: 'Hip', type: 'system', isFixed: true, isManuallyPlaced: false };
+      slots[1] = { index: 1, name: 'Upper Leg Actuator', type: 'system', isFixed: true, isManuallyPlaced: false };
+      slots[2] = { index: 2, name: 'Lower Leg Actuator', type: 'system', isFixed: true, isManuallyPlaced: false };
+      slots[3] = { index: 3, name: 'Foot Actuator', type: 'system', isFixed: true, isManuallyPlaced: false };
     }
   });
 }
@@ -184,33 +184,33 @@ function placeCockpitComponents(criticalSlots: CriticalAllocationMap, cockpitTyp
   
   // Standard head components
   if (cockpitType !== 'Torso-Mounted') {
-    headSlots[0] = { index: 0, content: 'Life Support', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[1] = { index: 1, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[2] = { index: 2, content: 'Standard Cockpit', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[3] = { index: 3, content: null, contentType: 'empty', isFixed: false, isManuallyPlaced: false };
-    headSlots[4] = { index: 4, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[5] = { index: 5, content: 'Life Support', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[0] = { index: 0, name: 'Life Support', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[1] = { index: 1, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[2] = { index: 2, name: 'Standard Cockpit', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[3] = { index: 3, name: '-Empty-', type: 'empty', isFixed: false, isManuallyPlaced: false };
+    headSlots[4] = { index: 4, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[5] = { index: 5, name: 'Life Support', type: 'system', isFixed: true, isManuallyPlaced: false };
     
     // Command Console takes extra slot
     if (cockpitType === 'Command Console') {
-      headSlots[4] = { index: 4, content: 'Command Console', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+      headSlots[4] = { index: 4, name: 'Command Console', type: 'system', isFixed: true, isManuallyPlaced: false };
     }
     
     // Primitive cockpit takes 5 slots
     if (cockpitType === 'Primitive') {
-      headSlots[4] = { index: 4, content: 'Primitive Cockpit', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+      headSlots[4] = { index: 4, name: 'Primitive Cockpit', type: 'system', isFixed: true, isManuallyPlaced: false };
     }
   } else {
     // Torso-mounted cockpit
-    headSlots[0] = { index: 0, content: 'Life Support', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[1] = { index: 1, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[2] = { index: 2, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[3] = { index: 3, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[4] = { index: 4, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[0] = { index: 0, name: 'Life Support', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[1] = { index: 1, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[2] = { index: 2, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[3] = { index: 3, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[4] = { index: 4, name: 'Sensors', type: 'system', isFixed: true, isManuallyPlaced: false };
     
     // Place cockpit in CT slot 11 (last slot)
     if (ctSlots) {
-      ctSlots[11] = { index: 11, content: 'Torso-Mounted Cockpit', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+      ctSlots[11] = { index: 11, name: 'Torso-Mounted Cockpit', type: 'system', isFixed: true, isManuallyPlaced: false };
     }
   }
 }
@@ -238,8 +238,8 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
       for (let i = 0; i < 6; i++) {
         ctSlots[i] = { 
           index: i, 
-          content: 'Engine', 
-          contentType: 'system', 
+          name: 'Engine', 
+          type: 'system', 
           isFixed: true,
           isManuallyPlaced: false 
         };
@@ -254,8 +254,8 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
     for (let i = 0; i < requirements.centerTorso && i < ctSlots.length; i++) {
       ctSlots[i] = { 
         index: i, 
-        content: 'Engine', 
-        contentType: 'system', 
+        name: 'Engine', 
+        type: 'system', 
         isFixed: true,
         isManuallyPlaced: false 
       };
@@ -269,8 +269,8 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
       for (let i = 0; i < requirements.leftTorso && i < ltSlots.length; i++) {
         ltSlots[i] = { 
           index: i, 
-          content: 'Engine', 
-          contentType: 'system', 
+          name: 'Engine', 
+          type: 'system', 
           isFixed: true,
           isManuallyPlaced: false 
         };
@@ -284,8 +284,8 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
       for (let i = 0; i < requirements.rightTorso && i < rtSlots.length; i++) {
         rtSlots[i] = { 
           index: i, 
-          content: 'Engine', 
-          contentType: 'system', 
+          name: 'Engine', 
+          type: 'system', 
           isFixed: true,
           isManuallyPlaced: false 
         };
@@ -304,7 +304,7 @@ function placeGyro(criticalSlots: CriticalAllocationMap, gyroType: GyroType): vo
   // Find first available slot after engine
   let startSlot = 0;
   for (let i = 0; i < ctSlots.length; i++) {
-    if (ctSlots[i].content !== 'Engine') {
+    if (ctSlots[i].name !== 'Engine') {
       startSlot = i;
       break;
     }
@@ -314,8 +314,8 @@ function placeGyro(criticalSlots: CriticalAllocationMap, gyroType: GyroType): vo
   for (let i = 0; i < slots && startSlot + i < ctSlots.length; i++) {
     ctSlots[startSlot + i] = { 
       index: startSlot + i, 
-      content: 'Gyro', 
-      contentType: 'system', 
+      name: 'Gyro', 
+      type: 'system', 
       isFixed: true, 
       isManuallyPlaced: false,
       linkedSlots: Array.from({ length: slots }, (_, j) => startSlot + j)
@@ -338,11 +338,11 @@ function placeStructure(criticalSlots: CriticalAllocationMap, structureType: Str
     
     let placed = 0;
     for (let i = 0; i < locationSlots.length && placed < count; i++) {
-      if (locationSlots[i].contentType === 'empty') {
+      if (locationSlots[i].type === 'empty') {
         locationSlots[i] = {
           index: i,
-          content: structureType,
-          contentType: 'endo-steel',
+          name: structureType,
+          type: 'endo-steel',
           isFixed: false,  // Make movable
           isManuallyPlaced: false,
         };
@@ -367,11 +367,11 @@ function placeArmor(criticalSlots: CriticalAllocationMap, armorType: ArmorType, 
     
     let placed = 0;
     for (let i = 0; i < locationSlots.length && placed < count; i++) {
-      if (locationSlots[i].contentType === 'empty') {
+      if (locationSlots[i].type === 'empty') {
         locationSlots[i] = {
           index: i,
-          content: armorType,
-          contentType: 'ferro-fibrous',
+          name: armorType,
+          type: 'ferro-fibrous',
           isFixed: false,  // Make movable
           isManuallyPlaced: false,
         };
@@ -500,13 +500,13 @@ export function validateComponentPlacement(
   
   // Validate engine placement
   const engineReq = ENGINE_SLOT_REQUIREMENTS[systemComponents.engine.type];
-  const ctEngineSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO]?.filter(s => s.content === 'Engine').length || 0;
+  const ctEngineSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO]?.filter(s => s.name === 'Engine').length || 0;
   if (ctEngineSlots !== engineReq.centerTorso) {
     errors.push(`Engine requires ${engineReq.centerTorso} CT slots but has ${ctEngineSlots}`);
   }
   
   // Validate gyro placement
-  const gyroSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO]?.filter(s => s.content === 'Gyro').length || 0;
+  const gyroSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO]?.filter(s => s.name === 'Gyro').length || 0;
   const requiredGyroSlots = GYRO_SLOT_REQUIREMENTS[systemComponents.gyro.type];
   if (gyroSlots !== requiredGyroSlots) {
     errors.push(`Gyro requires ${requiredGyroSlots} slots but has ${gyroSlots}`);
@@ -568,8 +568,8 @@ export function removeActuator(
     if (slots[2]) {
       slots[2] = {
         index: 2,
-        content: null,
-        contentType: 'empty',
+        name: '-Empty-',
+        type: 'empty',
         isFixed: false,
         isManuallyPlaced: false,
         contextMenuOptions: [{
@@ -583,8 +583,8 @@ export function removeActuator(
     if (slots[3]) {
       slots[3] = {
         index: 3,
-        content: null,
-        contentType: 'empty',
+        name: '-Empty-',
+        type: 'empty',
         isFixed: false,
         isManuallyPlaced: false,
       };
@@ -597,8 +597,8 @@ export function removeActuator(
     if (slots[3]) {
       slots[3] = {
         index: 3,
-        content: null,
-        contentType: 'empty',
+        name: '-Empty-',
+        type: 'empty',
         isFixed: false,
         isManuallyPlaced: false,
         contextMenuOptions: [{
@@ -635,8 +635,8 @@ export function addActuator(
     if (slots[2]) {
       slots[2] = {
         index: 2,
-        content: 'Lower Arm Actuator',
-        contentType: 'system',
+        name: 'Lower Arm Actuator',
+        type: 'system',
         isFixed: false,
         isConditionallyRemovable: true,
         isManuallyPlaced: false,
@@ -650,7 +650,7 @@ export function addActuator(
     }
     
     // Update slot 3 to allow hand addition
-    if (slots[3] && slots[3].content === null) {
+    if (slots[3] && slots[3].name === '-Empty-') {
       slots[3].contextMenuOptions = [{
         label: 'Add Hand',
         action: 'add',
@@ -666,8 +666,8 @@ export function addActuator(
     if (slots[3]) {
       slots[3] = {
         index: 3,
-        content: 'Hand Actuator',
-        contentType: 'system',
+        name: 'Hand Actuator',
+        type: 'system',
         isFixed: false,
         isConditionallyRemovable: true,
         isManuallyPlaced: false,

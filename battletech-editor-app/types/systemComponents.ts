@@ -70,8 +70,8 @@ export interface ContextMenuOption {
 
 export interface CriticalSlot {
   index: number;
-  content: string | null;
-  contentType: SlotContentType;
+  name: string;               // Equipment name or system component name (NOT NULL - use "-Empty-" for empty)
+  type: SlotContentType;      // Renamed from contentType for consistency
   isFixed: boolean;           // Cannot be manually removed
   isConditionallyRemovable?: boolean; // Can be removed via context menu
   isManuallyPlaced: boolean;  // User placed vs auto-allocated
@@ -201,20 +201,20 @@ export function isSpecialComponent(componentName: string): boolean {
 }
 
 // Helper to determine slot content type
-export function getSlotContentType(content: string): SlotContentType {
-  if (!content || content === '-Empty-') return 'empty';
+export function getSlotContentType(name: string): SlotContentType {
+  if (!name || name === '-Empty-') return 'empty';
   
-  if (content.includes('Heat Sink')) return 'heat-sink';
+  if (name.includes('Heat Sink')) return 'heat-sink';
   
-  if (isSpecialComponent(content)) {
-    if (content.includes('Endo Steel')) return 'endo-steel';
-    if (content.includes('Ferro') || content.includes('Stealth') || 
-        content.includes('Reactive') || content.includes('Reflective')) {
+  if (isSpecialComponent(name)) {
+    if (name.includes('Endo Steel')) return 'endo-steel';
+    if (name.includes('Ferro') || name.includes('Stealth') || 
+        name.includes('Reactive') || name.includes('Reflective')) {
       return 'ferro-fibrous';
     }
   }
   
-  if (isFixedComponent(content) || isConditionallyRemovable(content)) {
+  if (isFixedComponent(name) || isConditionallyRemovable(name)) {
     return 'system';
   }
   

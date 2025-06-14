@@ -188,7 +188,7 @@ export function validateCriticalAllocations(
       } else {
         // Check if equipment is actually in the slots
         const foundInSlots = locationSlots.some(slot => 
-          slot.content === eq.item_name
+          slot.name === eq.item_name
         );
         
         if (!foundInSlots) {
@@ -234,17 +234,30 @@ export function migrateUnitToSystemComponents(
       
       // Copy over non-system equipment
       location.slots.forEach((slotContent, index) => {
-        if (slotContent && 
+        if (typeof slotContent === 'string' && 
+            slotContent && 
             slotContent !== '-Empty-' && 
+            slotContent !== '- Empty -' && 
             locationSlots[index] && 
-            locationSlots[index].contentType === 'empty') {
+            locationSlots[index].type === 'empty') {
           // This is equipment that should be preserved
           locationSlots[index] = {
             ...locationSlots[index],
-            content: slotContent,
-            contentType: 'equipment',
+            name: slotContent,
+            type: 'equipment',
             isManuallyPlaced: true,
           };
+        } else if (typeof slotContent === 'object' && slotContent) {
+          // Handle object-based slots
+          if (locationSlots[index]) {
+            locationSlots[index] = {
+              ...locationSlots[index],
+              name: slotContent.name || '-Empty-',
+              type: slotContent.type || 'equipment',
+              isFixed: slotContent.isFixed || false,
+              isManuallyPlaced: slotContent.isManuallyPlaced !== undefined ? slotContent.isManuallyPlaced : true
+            };
+          }
         }
       });
     });
@@ -258,16 +271,20 @@ export function migrateUnitToSystemComponents(
       
       (slots as any[]).forEach((slot, index) => {
         if (locationSlots[index]) {
-          // Convert "-Empty-" to null during migration
-          if (slot.content === '-Empty-' || slot.content === '') {
-            locationSlots[index].content = null;
-            locationSlots[index].contentType = 'empty';
-          } else if (slot.content && locationSlots[index].contentType === 'empty') {
+          // Handle both old and new formats
+          const slotName = slot.name || slot.content || '-Empty-';
+          const slotType = slot.type || slot.contentType || 'empty';
+          
+          // Convert empty indicators to standard format
+          if (slotName === '-Empty-' || slotName === '- Empty -' || slotName === '' || slotName === null) {
+            locationSlots[index].name = '-Empty-';
+            locationSlots[index].type = 'empty';
+          } else if (slotName && locationSlots[index].type === 'empty') {
             // Preserve non-empty content
             locationSlots[index] = {
               ...locationSlots[index],
-              content: slot.content,
-              contentType: slot.contentType || 'equipment',
+              name: slotName,
+              type: slotType === 'empty' ? 'equipment' : slotType,
               isFixed: slot.isFixed || false,
               isManuallyPlaced: slot.isManuallyPlaced !== undefined ? slot.isManuallyPlaced : true
             };

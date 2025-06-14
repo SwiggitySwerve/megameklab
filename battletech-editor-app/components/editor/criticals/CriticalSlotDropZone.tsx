@@ -153,28 +153,32 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   const [{ isOver, canDrop, draggedItem }, drop] = useDrop({
     accept: acceptTypes,
     canDrop: (item: DraggedEquipment) => {
-      // Only log for Left Torso to reduce spam
-      if (location === 'Left Torso' && slotIndex < 6) {
-        console.log(`[DROP ZONE ${location}:${slotIndex}] canDrop check:`, {
+      // Debug logging for all locations when there's an issue
+      const slotIsEmpty = isEmptySlot(currentItem);
+      const canAcceptResult = canAccept ? canAccept(item) : true;
+      const result = !disabled && slotIsEmpty && canAcceptResult;
+      
+      // Log when a drop is being rejected
+      if (!result && isOver) {
+        console.log(`[DROP ZONE ${location}:${slotIndex}] Drop rejected:`, {
           item: item?.name,
           disabled,
           currentItem,
           currentItemType: typeof currentItem,
           currentItemValue: currentItem === null ? 'null' : currentItem === undefined ? 'undefined' : `"${currentItem}"`,
-          isEmpty: isEmptySlot(currentItem),
-          canAcceptResult: canAccept ? canAccept(item) : 'no canAccept function'
+          isEmpty: slotIsEmpty,
+          canAcceptResult,
+          finalResult: result
         });
       }
       
       if (disabled) return false;
       // Check if slot is empty using the same helper function
-      const slotIsEmpty = isEmptySlot(currentItem);
       if (!slotIsEmpty) {
         return false;
       }
       if (canAccept) {
-        const result = canAccept(item);
-        return result;
+        return canAcceptResult;
       }
       return true;
     },
@@ -198,10 +202,16 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   useEffect(() => {
     if (onHoverChange) {
       if (isOver && draggedItem) {
-        console.log(`[DROP ZONE ${location}:${slotIndex}] Hover state change - isOver: true, item:`, draggedItem.name);
-        // Always call onHoverChange when hovering with an item, regardless of canDrop
-        // This ensures multi-slot highlighting works even when hovering over occupied slots
-        onHoverChange(true, draggedItem);
+        // Only apply hover state to slots that can accept the drop
+        // This prevents hover state from interfering with drop validation
+        if (canDrop) {
+          console.log(`[DROP ZONE ${location}:${slotIndex}] Hover state change - isOver: true, canDrop: true, item:`, draggedItem.name);
+          onHoverChange(true, draggedItem);
+        } else {
+          // If hovering over an invalid drop target, clear any hover state
+          console.log(`[DROP ZONE ${location}:${slotIndex}] Hover over invalid target - clearing hover state`);
+          onHoverChange(false, null);
+        }
       } else if (!isOver) {
         // Clear hover when not over
         onHoverChange(false, null);
@@ -209,8 +219,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }
     // Note: onHoverChange is intentionally not in the dependency array to prevent infinite loops
     // when the parent component passes an inline function. The effect should only run when
-    // isOver or draggedItem changes.
-  }, [isOver, draggedItem, location, slotIndex]);
+    // isOver, draggedItem, or canDrop changes.
+  }, [isOver, draggedItem, canDrop, location, slotIndex]);
 
   const isHighlighted = isOver && canDrop;
   const isDragRejected = isOver && !canDrop;

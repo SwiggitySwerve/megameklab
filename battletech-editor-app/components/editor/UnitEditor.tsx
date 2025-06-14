@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { EditableUnit, EditorTab, ValidationError, UnitEditorState } from '../../types/editor';
-import ArmorTab from './tabs/ArmorTab';
-import StructureTab from './tabs/StructureTab';
-import EquipmentTab from './tabs/EquipmentTab';
-import CriticalsTab from './tabs/CriticalsTab';
-import FluffTab from './tabs/FluffTab';
+import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
+import StructureTabWithHooks from './tabs/StructureTabWithHooks';
+import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
+import CriticalsTabWithHooks from './tabs/CriticalsTabWithHooks';
+import FluffTabWithHooks from './tabs/FluffTabWithHooks';
 import QuirksTab from './tabs/QuirksTab';
 import PreviewTab from './tabs/PreviewTab';
 import { 
@@ -18,11 +18,11 @@ import { migrateUnitToSystemComponents } from '../../utils/componentValidation';
 
 // Tab definitions
 const EDITOR_TABS = [
-  { id: 'structure', label: 'Structure', component: StructureTab },
-  { id: 'armor', label: 'Armor', component: ArmorTab },
-  { id: 'equipment', label: 'Equipment', component: EquipmentTab },
-  { id: 'criticals', label: 'Criticals', component: CriticalsTab },
-  { id: 'fluff', label: 'Fluff', component: FluffTab },
+  { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
+  { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
+  { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
+  { id: 'criticals', label: 'Criticals', component: CriticalsTabWithHooks },
+  { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },
   { id: 'quirks', label: 'Quirks', component: QuirksTab },
   { id: 'preview', label: 'Preview', component: PreviewTab },
 ] as const;
