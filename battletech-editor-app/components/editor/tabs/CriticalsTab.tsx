@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { EditorComponentProps, EditableUnit, MECH_LOCATIONS } from '../../../types/editor';
@@ -62,6 +62,8 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
   validationErrors = [],
   readOnly = false,
 }) => {
+  // Track hover state for multi-slot highlighting
+  const [hoveredSlots, setHoveredSlots] = useState<{location: string, startIndex: number, count: number} | null>(null);
 
   // Initialize critical slots from unit data
   const [criticalSlots, setCriticalSlots] = useState<Record<string, string[]>>(() => {
@@ -516,6 +518,40 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     }
   }, [unit.data?.criticals, unit.id]); // Add unit.id to ensure re-init when switching units
 
+  // Track current hover timeout to prevent flickering
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Handle hover events for multi-slot highlighting
+  const handleSlotHover = (location: string, slotIndex: number, isHovering: boolean, item: DraggedEquipment | null) => {
+    // Clear any pending timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    
+    if (isHovering && item) {
+      setHoveredSlots({
+        location,
+        startIndex: slotIndex,
+        count: item.criticalSlots || 1
+      });
+    } else if (!isHovering) {
+      // Add a small delay before clearing to prevent flickering when moving between slots
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredSlots(null);
+      }, 100);
+    }
+  };
+  
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Helper function to render a location section
   const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
     const slots = criticalSlots[location.name] || [];
@@ -556,6 +592,12 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
               }
             }
             
+            // Check if this slot is part of the hovered multi-slot range
+            const isHoveredMultiSlot = !!(hoveredSlots && 
+              hoveredSlots.location === location.name && 
+              index >= hoveredSlots.startIndex && 
+              index < (hoveredSlots.startIndex + hoveredSlots.count));
+            
             return (
               <CriticalSlotDropZone
                 key={`${location.name}-${index}`}
@@ -571,6 +613,8 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
                 isStartOfGroup={isStartOfGroup}
                 isMiddleOfGroup={isMiddleOfGroup}
                 isEndOfGroup={isEndOfGroup}
+                isHoveredMultiSlot={isHoveredMultiSlot}
+                onHoverChange={(isHovering, item) => handleSlotHover(location.name, index, isHovering, item)}
               />
             );
           })}
@@ -587,6 +631,11 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
           <p className={styles.subtitle}>
             Drag equipment from the equipment panel to allocate to critical slots
           </p>
+          {hoveredSlots && (
+            <div style={{fontSize: '10px', color: '#60a5fa'}}>
+              Hovering: {hoveredSlots.location} slots {hoveredSlots.startIndex} to {hoveredSlots.startIndex + hoveredSlots.count - 1}
+            </div>
+          )}
         </div>
         
         <div className={styles.mainGrid}>

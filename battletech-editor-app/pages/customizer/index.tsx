@@ -68,7 +68,7 @@ const CustomizerPage: React.FC = () => {
           ]
         },
         weapons_and_equipment: [
-          { item_name: "AC/20", item_type: "weapon", location: "Right Torso", tech_base: "IS" },
+          { item_name: "AC/10", item_type: "weapon", location: "", tech_base: "IS" },
           { item_name: "LRM 20", item_type: "weapon", location: "Left Torso", tech_base: "IS" },
           { item_name: "SRM 6", item_type: "weapon", location: "Center Torso", tech_base: "IS" },
           { item_name: "Medium Laser", item_type: "weapon", location: "Left Arm", tech_base: "IS" },
@@ -78,7 +78,7 @@ const CustomizerPage: React.FC = () => {
           { location: "Head", slots: ["Life Support", "Sensors", "Cockpit", "- Empty -", "Sensors", "Life Support"] },
           { location: "Center Torso", slots: ["Fusion Engine", "Fusion Engine", "Fusion Engine", "Gyro", "Gyro", "Gyro", "Gyro", "Fusion Engine", "Fusion Engine", "Fusion Engine", "SRM 6", "- Empty -"] },
           { location: "Left Torso", slots: ["Fusion Engine", "Fusion Engine", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "LRM 20", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
-          { location: "Right Torso", slots: ["Fusion Engine", "Fusion Engine", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20", "AC/20"] },
+          { location: "Right Torso", slots: ["Fusion Engine", "Fusion Engine", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Left Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Right Arm", slots: ["Shoulder", "Upper Arm Actuator", "Lower Arm Actuator", "Hand Actuator", "Medium Laser", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -", "- Empty -"] },
           { location: "Left Leg", slots: ["Hip", "Upper Leg Actuator", "Lower Leg Actuator", "Foot Actuator", "- Empty -", "- Empty -"] },

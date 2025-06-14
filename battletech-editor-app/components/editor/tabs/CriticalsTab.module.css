@@ -97,82 +97,66 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  margin-right: 270px; /* Make room for fixed equipment panel on right */
 }
 
-/* Mech Layout Grid - Positioned Layout */
+/* Mech Layout Grid - 5 Column Grid */
 .mechGrid {
-  overflow-x: auto;
-  overflow-y: visible;
   padding: 1rem;
-  min-width: 1000px;
+  width: 100%;
 }
 
 /* Mech Layout Container */
 .mechLayout {
-  position: relative;
-  width: 920px;
-  height: 700px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Position Classes */
+/* Grid positioning classes */
 .headPosition {
-  position: absolute;
-  top: 0;
-  left: 370px; /* Center position */
-  width: 180px;
-  z-index: 10; /* Ensure head is above other elements */
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .leftArmPosition {
-  position: absolute;
-  top: 120px; /* Moved down 60px total */
-  left: 0;
-  width: 180px;
+  grid-column: 1;
+  grid-row: 2;
 }
 
 .leftTorsoPosition {
-  position: absolute;
-  top: 95px; /* Moved down 60px total */
-  left: 185px;
-  width: 180px;
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: -35px; /* Raise torsos */
 }
 
 .centerTorsoPosition {
-  position: absolute;
-  top: 250px; /* Positioned well below head with clear separation */
-  left: 370px;
-  width: 180px;
-  z-index: 5; /* Below head in stacking order */
+  grid-column: 3;
+  grid-row: 2;
+  margin-top: 60px; /* Lower to avoid head overlap */
 }
 
 .rightTorsoPosition {
-  position: absolute;
-  top: 95px; /* Moved down 60px total */
-  left: 555px;
-  width: 180px;
+  grid-column: 4;
+  grid-row: 2;
+  margin-top: -35px; /* Raise torsos */
 }
 
 .rightArmPosition {
-  position: absolute;
-  top: 120px; /* Moved down 60px total */
-  right: 0;
-  width: 180px;
+  grid-column: 5;
+  grid-row: 2;
 }
 
 .leftLegPosition {
-  position: absolute;
-  bottom: 0;
-  left: 185px;
-  width: 180px;
+  grid-column: 2;
+  grid-row: 3;
 }
 
 .rightLegPosition {
-  position: absolute;
-  bottom: 0;
-  right: 185px;
-  width: 180px;
+  grid-column: 4;
+  grid-row: 3;
 }
 
 /* Location Sections */

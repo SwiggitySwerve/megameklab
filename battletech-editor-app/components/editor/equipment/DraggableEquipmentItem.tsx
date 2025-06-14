@@ -29,12 +29,14 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     return DragItemType.EQUIPMENT;
   };
 
+  const critSlots = equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0);
+  
   const dragItem: DraggedEquipment = {
     type: getDragItemType(),
     equipmentId: equipment.id,
     name: equipment.name,
     weight: equipment.weight || 0,
-    criticalSlots: equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0),
+    criticalSlots: critSlots,
     location: currentLocation,
   };
 
@@ -44,7 +46,7 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }), [equipment.id, currentLocation]);
+  }), [equipment.id, currentLocation, critSlots]);
 
   // Use native drag preview for better performance
   useEffect(() => {

@@ -19,6 +19,8 @@ export interface CriticalSlotDropZoneProps {
   isStartOfGroup?: boolean;
   isEndOfGroup?: boolean;
   isMiddleOfGroup?: boolean;
+  isHoveredMultiSlot?: boolean;
+  onHoverChange?: (isHovering: boolean, item: DraggedEquipment | null) => void;
 }
 
 // Helper to check if a slot value should be considered empty
@@ -54,7 +56,26 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   isStartOfGroup = false,
   isEndOfGroup = false,
   isMiddleOfGroup = false,
+  isHoveredMultiSlot = false,
+  onHoverChange,
 }) => {
+  // Force visual update when hover state changes
+  const slotRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (slotRef.current) {
+      if (isHoveredMultiSlot) {
+        slotRef.current.style.backgroundColor = '#2563eb';
+        slotRef.current.style.borderColor = '#60a5fa';
+        slotRef.current.style.boxShadow = 'inset 0 0 0 2px rgba(96, 165, 250, 0.5)';
+      } else {
+        // Remove inline styles when not hovered
+        slotRef.current.style.backgroundColor = '';
+        slotRef.current.style.borderColor = '';
+        slotRef.current.style.boxShadow = '';
+      }
+    }
+  }, [isHoveredMultiSlot, location, slotIndex]);
   const acceptTypes = [
     DragItemType.EQUIPMENT,
     DragItemType.WEAPON,
@@ -107,7 +128,7 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }),
   }), [currentItem, isEmpty, disabled, isSystemComponent, location, slotIndex, isMiddleOfGroup, isEndOfGroup]);
 
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop, draggedItem }, drop] = useDrop(() => ({
     accept: acceptTypes,
     canDrop: (item: DraggedEquipment) => {
       if (disabled) return false;
@@ -121,8 +142,26 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
+      draggedItem: monitor.getItem() as DraggedEquipment | null,
     }),
   }), [location, slotIndex, currentItem, canAccept, disabled]);
+
+  // Handle hover state changes
+  useEffect(() => {
+    if (onHoverChange && isOver) {
+      if (canDrop && draggedItem) {
+        onHoverChange(true, draggedItem);
+      }
+    }
+  }, [isOver, canDrop, draggedItem, onHoverChange]);
+  
+  // Only clear hover when leaving the drop zone entirely
+  useEffect(() => {
+    if (!isOver && onHoverChange) {
+      // Clear hover when not over
+      onHoverChange(false, null);
+    }
+  }, [isOver, onHoverChange]);
 
   const isHighlighted = isOver && canDrop;
   const isDragRejected = isOver && !canDrop;
@@ -150,6 +189,7 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     if (disabled) classNames.push(styles.disabled);
     if (showSystemFeedback) classNames.push(styles.systemProtected);
     if (isDragging) classNames.push(styles.dragging);
+    if (isHoveredMultiSlot) classNames.push(styles.hoveredMultiSlot);
     
     // Multi-slot grouping classes
     if (isStartOfGroup) classNames.push(styles.groupStart);
@@ -188,6 +228,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       if (!isEmpty && !disabled && !isSystemComponent && !isMiddleOfGroup && !isEndOfGroup) {
         drag(combinedRef.current);
       }
+      // Also set the slot ref
+      slotRef.current = combinedRef.current;
     }
   }, [drop, drag, isEmpty, disabled, isSystemComponent, isMiddleOfGroup, isEndOfGroup]);
 
@@ -198,7 +240,9 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       data-location={location}
       data-slot={slotIndex}
       onClick={handleClick}
-      style={{ cursor: !isEmpty && onRemove && !disabled ? 'move' : 'default' }}
+      style={{ 
+        cursor: !isEmpty && onRemove && !disabled ? 'move' : 'default'
+      }}
       title={!isEmpty && onRemove && !disabled ? 'Drag to move or click to remove' : undefined}
     >
       <span className={styles.slotNumber}>{slotIndex + 1}</span>

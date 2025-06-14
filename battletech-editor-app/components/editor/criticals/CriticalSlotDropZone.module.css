@@ -181,3 +181,27 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
+
+/* Multi-slot hover highlighting - must come after .highlighted */
+.slot.hoveredMultiSlot {
+  background: #2563eb !important;
+  border-color: #60a5fa !important;
+  box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.5) !important;
+  opacity: 1 !important;
+}
+
+/* Make empty slots more visible when part of multi-slot hover */
+.slot.empty.hoveredMultiSlot {
+  background: #1e40af !important;
+  border-color: #3b82f6 !important;
+  box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+  opacity: 1 !important;
+}
+
+/* The directly hovered slot should be brighter */
+.slot.highlighted.hoveredMultiSlot {
+  background: #3b82f6 !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.6) !important;
+  transform: scale(1.02);
+}
