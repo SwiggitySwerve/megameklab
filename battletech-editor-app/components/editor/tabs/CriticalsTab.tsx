@@ -115,53 +115,23 @@ const CriticalsTab: React.FC<EditorComponentProps> = ({
     
     // First filter for equipment that has no location or empty location
     const unallocatedEquipment = allEquipment.filter(eq => !eq.location || eq.location === '');
+    console.log('All equipment:', allEquipment);
+    console.log('Unallocated equipment:', unallocatedEquipment);
     
-    // Count how many times each equipment appears in critical slots
-    const placedCounts: Record<string, number> = {};
-    Object.values(criticalSlots).forEach(slots => {
-      slots.forEach(slot => {
-        if (slot && slot !== '-Empty-' && !isEmptySlot(slot)) {
-          // For multi-slot equipment, only count once per contiguous block
-          const prev = slots[slots.indexOf(slot) - 1];
-          if (prev !== slot) {
-            // Normalize the slot name for comparison
-            const normalizedSlot = normalizeEquipmentName(slot);
-            placedCounts[normalizedSlot] = (placedCounts[normalizedSlot] || 0) + 1;
-          }
-        }
-      });
-    });
-    
-    // Count equipment in unallocated equipment only
-    const equipmentCounts: Record<string, { count: number; equipment: any }> = {};
-    unallocatedEquipment.forEach(eq => {
-      const normalizedName = normalizeEquipmentName(eq.item_name);
-      if (!equipmentCounts[normalizedName]) {
-        equipmentCounts[normalizedName] = { count: 0, equipment: eq };
-      }
-      equipmentCounts[normalizedName].count += 1;
-    });
-    
-    // Find equipment that has more instances than placed
-    Object.entries(equipmentCounts).forEach(([normalizedName, { count: totalCount, equipment }]) => {
-      const placedCount = placedCounts[normalizedName] || 0;
-      const unplacedCount = totalCount - placedCount;
+    // Simply show all unallocated equipment
+    unallocatedEquipment.forEach((equipment, index) => {
+      const stats = getEquipmentStats(equipment.item_name);
       
-      for (let i = 0; i < unplacedCount; i++) {
-        // Get equipment stats based on name
-        const stats = getEquipmentStats(equipment.item_name);
-        
-        unallocated.push({
-          id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${i}`,
-          name: equipment.item_name,
-          type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
-          tech_base: equipment.tech_base || unit.tech_base,
-          weight: stats.weight,
-          space: stats.space,
-          damage: stats.damage,
-          heat: stats.heat,
-        });
-      }
+      unallocated.push({
+        id: `${equipment.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${index}`,
+        name: equipment.item_name,
+        type: equipment.item_type === 'weapon' ? 'Weapon' : 'Equipment',
+        tech_base: equipment.tech_base || unit.tech_base,
+        weight: stats.weight,
+        space: stats.space,
+        damage: stats.damage,
+        heat: stats.heat,
+      });
     });
     
     return unallocated;
