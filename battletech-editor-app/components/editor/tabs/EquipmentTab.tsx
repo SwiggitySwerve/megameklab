@@ -51,10 +51,38 @@ const EquipmentTab: React.FC<EditorComponentProps> = ({
   // Current loadout - all equipment including heat sinks for tracking
   const allLoadout = unit.data?.weapons_and_equipment || [];
   
-  // Display loadout - filter out heat sinks from display
-  const currentLoadout = allLoadout.filter(item => 
-    !item.item_name.toLowerCase().includes('heat sink')
-  );
+  // Special components that take slots but aren't equipment
+  const SPECIAL_COMPONENT_NAMES = [
+    'Endo Steel',
+    'Endo Steel (Clan)',
+    'Ferro-Fibrous',
+    'Ferro-Fibrous (Clan)',
+    'Light Ferro-Fibrous',
+    'Heavy Ferro-Fibrous',
+    'Stealth',
+    'Reactive',
+    'Reflective',
+    'Composite',
+    'Reinforced',
+    'Industrial',
+  ];
+  
+  // Display loadout - filter out heat sinks and special components from display
+  const currentLoadout = allLoadout.filter(item => {
+    const itemNameLower = item.item_name.toLowerCase();
+    
+    // Filter out heat sinks
+    if (itemNameLower.includes('heat sink')) {
+      return false;
+    }
+    
+    // Filter out special structure and armor components
+    const isSpecialComponent = SPECIAL_COMPONENT_NAMES.some(
+      specialName => item.item_name.includes(specialName)
+    );
+    
+    return !isSpecialComponent;
+  });
 
   // Sort equipment
   const sortEquipment = useCallback((items: EquipmentItem[]) => {
