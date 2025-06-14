@@ -18,6 +18,7 @@ import CriticalSlotDropZone from '../criticals/CriticalSlotDropZone';
 import { DraggedEquipment } from '../dnd/types';
 import { FullEquipment } from '../../../types';
 import { EQUIPMENT_DATABASE } from '../../../utils/equipmentData';
+import { isFixedComponent, isConditionallyRemovable, isSpecialComponent } from '../../../types/systemComponents';
 import styles from './CriticalsTab.module.css';
 
 interface CriticalsTabWithHooksProps {
@@ -53,10 +54,17 @@ const normalizeEquipmentName = (itemName: string): string => {
 };
 
 export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTabWithHooksProps) {
-  const { state, updateCriticalSlots, updateEquipmentLocation } = useUnitData();
+  const { state, updateCriticalSlots, updateEquipmentLocation, updateActuator } = useUnitData();
   const criticalAllocations = useCriticalAllocations();
   const equipment = useEquipment();
   const systemComponents = useSystemComponents();
+  const [contextMenu, setContextMenu] = React.useState<{
+    x: number;
+    y: number;
+    location: string;
+    slotIndex: number;
+    itemName: string;
+  } | null>(null);
   
   // Convert critical allocations to display format
   const criticalSlots = useMemo(() => {
@@ -65,16 +73,23 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     if (criticalAllocations) {
       Object.entries(criticalAllocations).forEach(([location, locationSlots]) => {
         slots[location] = locationSlots.map(slot => {
-          if (!slot || !slot.content) return '-Empty-';
+          if (!slot || !slot.content || slot.content === null || slot.content === undefined || slot.content === '') {
+            return '-Empty-';
+          }
           return normalizeEquipmentName(slot.content);
         });
       });
     }
     
-    // Ensure all locations are initialized
+    // Ensure all locations are initialized with proper empty strings
     mechLocations.forEach(loc => {
       if (!slots[loc.name]) {
         slots[loc.name] = Array(loc.slots).fill('-Empty-');
+      } else {
+        // Ensure any undefined/null slots are replaced with '-Empty-'
+        slots[loc.name] = slots[loc.name].map(slot => 
+          (!slot || slot === null || slot === undefined || slot === '') ? '-Empty-' : slot
+        );
       }
     });
     
@@ -90,13 +105,23 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
       .forEach((eq, index) => {
         const stats = EQUIPMENT_DATABASE.find(e => e.name === eq.item_name);
         
+        // Special handling for structure and armor components
+        let weight = stats?.weight || (typeof eq.tons === 'number' ? eq.tons : 0) || 1;
+        let space = stats?.crits || (typeof eq.crits === 'number' ? eq.crits : 1) || 1;
+        
+        // Special components have 0 weight (calculated elsewhere) and 1 slot each
+        if (isSpecialComponent(eq.item_name)) {
+          weight = 0;
+          space = 1;
+        }
+        
         unallocated.push({
           id: `${eq.item_name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${index}`,
           name: eq.item_name,
           type: eq.item_type === 'weapon' ? 'Weapon' : 'Equipment',
           tech_base: eq.tech_base || state.unit.tech_base,
-          weight: stats?.weight || 1,
-          space: stats?.crits || 1,
+          weight: weight,
+          space: space,
           damage: stats && 'damage' in stats ? 
             (typeof stats.damage === 'number' ? stats.damage.toString() : stats.damage) : 
             undefined,
@@ -158,22 +183,33 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     const equipmentName = criticalSlots[location][slotIndex];
     if (equipmentName === '-Empty-') return;
     
-    // Check if system component
-    const systemComponents = ['Engine', 'Gyro', 'Life Support', 'Sensors', 'Cockpit'];
-    if (systemComponents.some(comp => equipmentName.includes(comp))) {
-      return; // Cannot remove system components
+    // Check if fixed component
+    if (isFixedComponent(equipmentName)) {
+      return; // Cannot remove fixed components
     }
     
-    // Find all slots with this equipment
+    // Check if conditionally removable (actuators)
+    if (isConditionallyRemovable(equipmentName)) {
+      // Handle through context menu
+      return;
+    }
+    
+    // Special components and heat sinks are always single-slot items
+    const isSingleSlot = isSpecialComponent(equipmentName) || equipmentName.includes('Heat Sink');
+    
     let startIndex = slotIndex;
     let endIndex = slotIndex;
     
-    while (startIndex > 0 && criticalSlots[location][startIndex - 1] === equipmentName) {
-      startIndex--;
-    }
-    
-    while (endIndex < criticalSlots[location].length - 1 && criticalSlots[location][endIndex + 1] === equipmentName) {
-      endIndex++;
+    // Only group non-special components
+    if (!isSingleSlot) {
+      // Find all slots with this equipment
+      while (startIndex > 0 && criticalSlots[location][startIndex - 1] === equipmentName) {
+        startIndex--;
+      }
+      
+      while (endIndex < criticalSlots[location].length - 1 && criticalSlots[location][endIndex + 1] === equipmentName) {
+        endIndex++;
+      }
     }
     
     // Clear slots
@@ -184,13 +220,25 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     
     updateCriticalSlots(location, newSlots);
     
-    // Clear equipment location
-    const equipmentIndex = equipment.findIndex(eq => 
-      eq.item_name === equipmentName && eq.location === location
-    );
-    
-    if (equipmentIndex !== -1) {
-      updateEquipmentLocation(equipmentIndex, '');
+    // For single-slot items, only clear this specific instance
+    if (isSingleSlot) {
+      // Find the first matching equipment at this location that hasn't been cleared yet
+      const equipmentIndex = equipment.findIndex(eq => 
+        eq.item_name === equipmentName && eq.location === location
+      );
+      
+      if (equipmentIndex !== -1) {
+        updateEquipmentLocation(equipmentIndex, '');
+      }
+    } else {
+      // For multi-slot items, clear the equipment location
+      const equipmentIndex = equipment.findIndex(eq => 
+        eq.item_name === equipmentName && eq.location === location
+      );
+      
+      if (equipmentIndex !== -1) {
+        updateEquipmentLocation(equipmentIndex, '');
+      }
     }
   };
   
@@ -217,20 +265,15 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     const newSlots = [...criticalSlots[location]];
     const clearedEquipment: string[] = [];
     
-    // Clear non-system equipment
+    // Clear non-fixed equipment
     for (let i = 0; i < newSlots.length; i++) {
       const item = newSlots[i];
-      if (item !== '-Empty-') {
-        const systemComponents = ['Engine', 'Gyro', 'Life Support', 'Sensors', 'Cockpit', 
-                                'Shoulder', 'Upper Arm Actuator', 'Lower Arm Actuator', 
-                                'Hip', 'Upper Leg Actuator', 'Lower Leg Actuator', 'Foot Actuator'];
-        
-        if (!systemComponents.some(comp => item.includes(comp)) || item.includes('Hand Actuator')) {
-          if (!clearedEquipment.includes(item)) {
-            clearedEquipment.push(item);
-          }
-          newSlots[i] = '-Empty-';
+      if (item !== '-Empty-' && !isFixedComponent(item)) {
+        // Can remove Hand Actuator or any non-system equipment
+        if (!clearedEquipment.includes(item)) {
+          clearedEquipment.push(item);
         }
+        newSlots[i] = '-Empty-';
       }
     }
     
@@ -242,6 +285,66 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
         updateEquipmentLocation(index, '');
       }
     });
+  };
+  
+  // Handle context menu
+  const handleContextMenu = (e: React.MouseEvent, location: string, slotIndex: number, itemName: string) => {
+    e.preventDefault();
+    
+    if (isConditionallyRemovable(itemName)) {
+      setContextMenu({
+        x: e.clientX,
+        y: e.clientY,
+        location,
+        slotIndex,
+        itemName
+      });
+    }
+  };
+  
+  // Handle actuator action
+  const handleActuatorAction = (action: 'add' | 'remove') => {
+    if (!contextMenu) return;
+    
+    const { location, itemName } = contextMenu;
+    
+    if (itemName === 'Lower Arm Actuator' || itemName === 'Hand Actuator') {
+      updateActuator(location, itemName as any, action);
+    }
+    
+    setContextMenu(null);
+  };
+  
+  // Close context menu on click outside
+  React.useEffect(() => {
+    const handleClick = () => setContextMenu(null);
+    if (contextMenu) {
+      document.addEventListener('click', handleClick);
+      return () => document.removeEventListener('click', handleClick);
+    }
+  }, [contextMenu]);
+  
+  // Get slot style class
+  const getSlotStyleClass = (itemName: string) => {
+    if (itemName === '-Empty-') return '';
+    
+    if (isFixedComponent(itemName)) {
+      return styles.fixedComponent;
+    }
+    
+    if (isConditionallyRemovable(itemName)) {
+      return styles.removableComponent;
+    }
+    
+    if (isSpecialComponent(itemName)) {
+      return styles.specialComponent;
+    }
+    
+    if (itemName.includes('Heat Sink')) {
+      return styles.heatSinkComponent;
+    }
+    
+    return styles.equipmentComponent;
   };
   
   // Render location section
@@ -263,12 +366,16 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
         </div>
         <div className={styles.slotsList}>
           {slots.map((slot, index) => {
-            // Multi-slot grouping logic
+            // Multi-slot grouping logic - but NOT for special components or empty slots
             let isStartOfGroup = false;
             let isEndOfGroup = false;
             let isMiddleOfGroup = false;
             
-            if (slot !== '-Empty-') {
+            // Empty slots, special components, and heat sinks should never be grouped
+            const isEmpty = slot === '-Empty-' || slot === '' || !slot;
+            const isSpecial = isSpecialComponent(slot);
+            
+            if (!isEmpty && !isSpecial && !slot.includes('Heat Sink')) {
               const prevSlot = index > 0 ? slots[index - 1] : null;
               const nextSlot = index < slots.length - 1 ? slots[index + 1] : null;
               
@@ -283,23 +390,28 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
             }
             
             return (
-              <CriticalSlotDropZone
+              <div
                 key={`${location.name}-${index}`}
-                location={location.name}
-                slotIndex={index}
-                currentItem={slot}
-                onDrop={handleDrop}
-                onRemove={readOnly ? undefined : handleRemove}
-                canAccept={(item) => canAcceptEquipment(item, location.name, index)}
-                disabled={readOnly}
-                isSystemComponent={false} // Simplified for now
-                onSystemClick={() => {}}
-                isStartOfGroup={isStartOfGroup}
-                isMiddleOfGroup={isMiddleOfGroup}
-                isEndOfGroup={isEndOfGroup}
-                isHoveredMultiSlot={false}
-                onHoverChange={() => {}}
-              />
+                onContextMenu={(e: React.MouseEvent) => handleContextMenu(e, location.name, index, slot)}
+                className={getSlotStyleClass(slot)}
+              >
+                <CriticalSlotDropZone
+                  location={location.name}
+                  slotIndex={index}
+                  currentItem={slot}
+                  onDrop={handleDrop}
+                  onRemove={readOnly ? undefined : handleRemove}
+                  canAccept={(item) => canAcceptEquipment(item, location.name, index)}
+                  disabled={readOnly || (isFixedComponent(slot) || isConditionallyRemovable(slot))}
+                  isSystemComponent={isFixedComponent(slot) || isConditionallyRemovable(slot)}
+                  onSystemClick={() => {}}
+                  isStartOfGroup={isStartOfGroup}
+                  isMiddleOfGroup={isMiddleOfGroup}
+                  isEndOfGroup={isEndOfGroup}
+                  isHoveredMultiSlot={false}
+                  onHoverChange={() => {}}
+                />
+              </div>
             );
           })}
         </div>
@@ -389,6 +501,57 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
             )}
           </div>
         </div>
+        
+        {/* Context Menu */}
+        {contextMenu && (
+          <div
+            className={styles.contextMenu}
+            style={{
+              position: 'fixed',
+              left: contextMenu.x,
+              top: contextMenu.y,
+              zIndex: 1000
+            }}
+          >
+            <div className={styles.contextMenuContent}>
+              <h4>{contextMenu.itemName}</h4>
+              {contextMenu.itemName === 'Hand Actuator' && (
+                <>
+                  <button onClick={() => handleActuatorAction('remove')}>
+                    Remove Hand Actuator
+                  </button>
+                </>
+              )}
+              {contextMenu.itemName === 'Lower Arm Actuator' && (
+                <>
+                  <button onClick={() => handleActuatorAction('remove')}>
+                    Remove Lower Arm Actuator
+                  </button>
+                  <p className={styles.warning}>
+                    This will also remove the Hand Actuator
+                  </p>
+                </>
+              )}
+              {contextMenu.itemName === '-Empty-' && 
+               (contextMenu.location === 'Left Arm' || contextMenu.location === 'Right Arm') && (
+                <>
+                  <button onClick={() => {
+                    updateActuator(contextMenu.location, 'Lower Arm Actuator', 'add');
+                    setContextMenu(null);
+                  }}>
+                    Add Lower Arm Actuator
+                  </button>
+                  <button onClick={() => {
+                    updateActuator(contextMenu.location, 'Hand Actuator', 'add');
+                    setContextMenu(null);
+                  }}>
+                    Add Hand Actuator
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </DndProvider>
   );

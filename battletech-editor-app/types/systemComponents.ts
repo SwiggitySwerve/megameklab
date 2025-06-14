@@ -40,6 +40,12 @@ export interface HeatSinkComponent {
   externalRequired: number;   // total - engineIntegrated
 }
 
+// Track actuator states for arms
+export interface ActuatorState {
+  hasLowerArm: boolean;
+  hasHand: boolean;
+}
+
 export interface SystemComponents {
   engine: EngineComponent;
   gyro: GyroComponent;
@@ -47,19 +53,31 @@ export interface SystemComponents {
   structure: StructureComponent;
   armor: ArmorComponent;
   heatSinks: HeatSinkComponent;
+  leftArmActuators?: ActuatorState;
+  rightArmActuators?: ActuatorState;
 }
 
 // Critical slot allocation types
 export type SlotContentType = 'system' | 'equipment' | 'heat-sink' | 'endo-steel' | 'ferro-fibrous' | 'empty';
+
+// Context menu options for critical slots
+export interface ContextMenuOption {
+  label: string;
+  action: 'add' | 'remove';
+  component: string;
+  isEnabled: () => boolean;
+}
 
 export interface CriticalSlot {
   index: number;
   content: string | null;
   contentType: SlotContentType;
   isFixed: boolean;           // Cannot be manually removed
+  isConditionallyRemovable?: boolean; // Can be removed via context menu
   isManuallyPlaced: boolean;  // User placed vs auto-allocated
   linkedSlots?: number[];     // For multi-slot items (e.g., AC/20 uses 10 slots)
   equipmentId?: string;       // Reference to equipment item
+  contextMenuOptions?: ContextMenuOption[]; // Right-click options
 }
 
 export interface LocationCriticalSlots {
@@ -68,6 +86,64 @@ export interface LocationCriticalSlots {
 }
 
 export type CriticalAllocationMap = Record<string, CriticalSlot[]>;
+
+// Fixed system components that cannot be removed
+export const FIXED_SYSTEM_COMPONENTS = [
+  // Head components
+  'Life Support',
+  'Sensors',
+  'Cockpit',
+  'Command Console',
+  'Primitive Cockpit',
+  'Torso-Mounted Cockpit',
+  
+  // Arm components (except hand/lower arm)
+  'Shoulder',
+  'Upper Arm Actuator',
+  
+  // Leg components  
+  'Hip',
+  'Upper Leg Actuator',
+  'Lower Leg Actuator',
+  'Foot Actuator',
+  
+  // Torso components
+  'Engine',
+  'Gyro',
+];
+
+// Conditionally removable components
+export const CONDITIONALLY_REMOVABLE_COMPONENTS = [
+  'Lower Arm Actuator',
+  'Hand Actuator',
+];
+
+// Special components that take slots but aren't equipment
+export const SPECIAL_COMPONENTS = [
+  'Endo Steel',
+  'Endo Steel (Clan)',
+  'Ferro-Fibrous',
+  'Ferro-Fibrous (Clan)',
+  'Light Ferro-Fibrous',
+  'Heavy Ferro-Fibrous',
+  'Stealth',
+  'Reactive',
+  'Reflective',
+];
+
+// Actuator dependency rules
+export const ARM_ACTUATOR_RULES = {
+  'Lower Arm Actuator': {
+    canRemove: true,
+    removesAlso: ['Hand Actuator'],
+    slot: 2,
+  },
+  'Hand Actuator': {
+    canRemove: true,
+    requires: ['Lower Arm Actuator'],
+    slot: 3,
+  },
+};
 
 // Component slot requirements
 export const ENGINE_SLOT_REQUIREMENTS: Record<EngineType, { centerTorso: number; leftTorso: number; rightTorso: number }> = {
@@ -195,4 +271,43 @@ export function calculateArmorWeight(armorPoints: number, type: ArmorType): numb
   };
   
   return Math.ceil((armorPoints / pointsPerTon[type]) * 2) / 2; // Round to nearest 0.5 ton
+}
+
+// Helper to check if a component is fixed
+export function isFixedComponent(componentName: string): boolean {
+  if (!componentName) return false;
+  return FIXED_SYSTEM_COMPONENTS.some(comp => componentName.includes(comp));
+}
+
+// Helper to check if a component is conditionally removable
+export function isConditionallyRemovable(componentName: string): boolean {
+  if (!componentName) return false;
+  return CONDITIONALLY_REMOVABLE_COMPONENTS.some(comp => componentName.includes(comp));
+}
+
+// Helper to check if a component is a special component
+export function isSpecialComponent(componentName: string): boolean {
+  if (!componentName) return false;
+  return SPECIAL_COMPONENTS.some(comp => componentName.includes(comp));
+}
+
+// Helper to determine slot content type
+export function getSlotContentType(content: string): SlotContentType {
+  if (!content || content === '-Empty-') return 'empty';
+  
+  if (content.includes('Heat Sink')) return 'heat-sink';
+  
+  if (isSpecialComponent(content)) {
+    if (content.includes('Endo Steel')) return 'endo-steel';
+    if (content.includes('Ferro') || content.includes('Stealth') || 
+        content.includes('Reactive') || content.includes('Reflective')) {
+      return 'ferro-fibrous';
+    }
+  }
+  
+  if (isFixedComponent(content) || isConditionallyRemovable(content)) {
+    return 'system';
+  }
+  
+  return 'equipment';
 }

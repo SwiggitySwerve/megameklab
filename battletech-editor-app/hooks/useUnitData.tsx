@@ -10,9 +10,11 @@ import { migrateUnitToSystemComponents, validateUnit } from '../utils/componentV
 import { 
   syncEngineChange, 
   syncGyroChange, 
-  syncStructureChange, 
+  syncStructureChange,
+  syncArmorChange,
   syncHeatSinkChange 
 } from '../utils/componentSync';
+import { removeActuator, addActuator } from '../utils/componentRules';
 
 // Action types
 export enum UnitActionType {
@@ -26,6 +28,7 @@ export enum UnitActionType {
   UPDATE_EQUIPMENT = 'UPDATE_EQUIPMENT',
   UPDATE_CRITICAL_SLOTS = 'UPDATE_CRITICAL_SLOTS',
   UPDATE_ARMOR_ALLOCATION = 'UPDATE_ARMOR_ALLOCATION',
+  UPDATE_ACTUATOR = 'UPDATE_ACTUATOR',
   VALIDATE_UNIT = 'VALIDATE_UNIT',
   MIGRATE_UNIT = 'MIGRATE_UNIT',
 }
@@ -109,6 +112,15 @@ interface ValidateUnitAction {
   type: UnitActionType.VALIDATE_UNIT;
 }
 
+interface UpdateActuatorAction {
+  type: UnitActionType.UPDATE_ACTUATOR;
+  payload: {
+    location: string;
+    actuatorType: 'Lower Arm Actuator' | 'Hand Actuator';
+    action: 'add' | 'remove';
+  };
+}
+
 interface MigrateUnitAction {
   type: UnitActionType.MIGRATE_UNIT;
 }
@@ -124,6 +136,7 @@ type UnitAction =
   | UpdateEquipmentAction
   | UpdateCriticalSlotsAction
   | UpdateArmorAllocationAction
+  | UpdateActuatorAction
   | ValidateUnitAction
   | MigrateUnitAction;
 
@@ -224,21 +237,13 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     }
 
     case UnitActionType.UPDATE_ARMOR: {
-      // Update armor type in the data structure
-      const updatedData = {
-        ...state.unit.data,
-        armor: {
-          ...state.unit.data?.armor,
-          type: action.payload.type,
-          locations: state.unit.data?.armor?.locations || [],
-        },
-      };
+      const updates = syncArmorChange(state.unit, action.payload.type as any);
       
       return {
         ...state,
         unit: {
           ...state.unit,
-          data: updatedData,
+          ...updates,
           editorMetadata: {
             ...state.unit.editorMetadata,
             lastModified: new Date(),
@@ -389,6 +394,51 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
       };
     }
 
+    case UnitActionType.UPDATE_ACTUATOR: {
+      const { location, actuatorType, action: actuatorAction } = action.payload;
+      const criticalAllocations = { ...state.unit.criticalAllocations };
+      const systemComponents = state.unit.systemComponents || {
+        engine: { type: 'Standard', rating: 300 },
+        gyro: { type: 'Standard' },
+        cockpit: { type: 'Standard' },
+        structure: { type: 'Standard' },
+        armor: { type: 'Standard' },
+        heatSinks: { type: 'Single', total: 10, engineIntegrated: 10, externalRequired: 0 },
+      };
+      
+      if (actuatorAction === 'remove') {
+        removeActuator(criticalAllocations, systemComponents as SystemComponents, location, actuatorType);
+      } else {
+        addActuator(criticalAllocations, systemComponents as SystemComponents, location, actuatorType);
+      }
+      
+      // Convert to legacy criticals format
+      const criticals = Object.entries(criticalAllocations).map(([loc, slots]) => ({
+        location: loc,
+        slots: slots.map(slot => slot.content || '-Empty-'),
+      }));
+      
+      return {
+        ...state,
+        unit: {
+          ...state.unit,
+          systemComponents,
+          criticalAllocations,
+          data: {
+            ...state.unit.data,
+            criticals,
+          },
+          editorMetadata: {
+            ...state.unit.editorMetadata,
+            lastModified: new Date(),
+            isDirty: true,
+          },
+        },
+        isDirty: true,
+        lastAction: action.type,
+      };
+    }
+
     case UnitActionType.VALIDATE_UNIT: {
       const validation = validateUnit(state.unit);
       
@@ -447,6 +497,7 @@ interface UnitDataContextValue {
   updateEquipmentLocation: (index: number, location: string) => void;
   updateCriticalSlots: (location: string, slots: string[]) => void;
   updateArmorAllocation: (location: string, front?: number, rear?: number) => void;
+  updateActuator: (location: string, actuatorType: 'Lower Arm Actuator' | 'Hand Actuator', action: 'add' | 'remove') => void;
   validateUnit: () => void;
   migrateUnit: () => void;
 }
@@ -565,6 +616,13 @@ export function UnitDataProvider({
       dispatch({ 
         type: UnitActionType.UPDATE_ARMOR_ALLOCATION, 
         payload: { location, front, rear } 
+      });
+    }, []),
+    
+    updateActuator: useCallback((location: string, actuatorType: 'Lower Arm Actuator' | 'Hand Actuator', action: 'add' | 'remove') => {
+      dispatch({
+        type: UnitActionType.UPDATE_ACTUATOR,
+        payload: { location, actuatorType, action }
       });
     }, []),
     

@@ -60,11 +60,21 @@
 }
 
 .slotNumber {
-  font-size: 0.625rem;
-  color: #9ca3af;
-  font-weight: 500;
-  min-width: 1rem;
+  font-size: 0.75rem;
+  color: #d1d5db;
+  font-weight: 600;
+  min-width: 1.25rem;
   flex-shrink: 0;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Make slot numbers more visible for empty slots */
+.empty .slotNumber {
+  color: #d1d5db;
+  font-weight: 600;
+  font-size: 0.75rem;
 }
 
 .slotContent {
@@ -146,15 +156,15 @@
   border-color: inherit !important;
 }
 
-/* Hide slot numbers for middle and end of groups */
-.groupMiddle .slotNumber,
-.groupEnd .slotNumber {
+/* Hide slot numbers for middle and end of groups - but only for non-empty slots */
+.groupMiddle:not(.empty) .slotNumber,
+.groupEnd:not(.empty) .slotNumber {
   visibility: hidden;
 }
 
-/* Hide content for middle and end slots to avoid repetition */
-.groupMiddle .slotContent,
-.groupEnd .slotContent {
+/* Hide content for middle and end slots to avoid repetition - but only for non-empty slots */
+.groupMiddle:not(.empty) .slotContent,
+.groupEnd:not(.empty) .slotContent {
   visibility: hidden;
 }
 

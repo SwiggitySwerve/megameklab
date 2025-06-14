@@ -19,6 +19,9 @@ import {
   ARMOR_SLOT_REQUIREMENTS,
   calculateIntegratedHeatSinks,
   calculateExternalHeatSinks,
+  isFixedComponent,
+  isConditionallyRemovable,
+  getSlotContentType,
 } from '../types/systemComponents';
 import { MECH_LOCATIONS } from '../types/editor';
 
@@ -52,8 +55,16 @@ export function initializeCriticalSlots(
     } as CriticalSlot));
   });
   
+  // Initialize actuator states if not present
+  if (!systemComponents.leftArmActuators) {
+    systemComponents.leftArmActuators = { hasLowerArm: true, hasHand: true };
+  }
+  if (!systemComponents.rightArmActuators) {
+    systemComponents.rightArmActuators = { hasLowerArm: true, hasHand: true };
+  }
+  
   // Place actuators
-  placeActuators(criticalSlots);
+  placeActuators(criticalSlots, systemComponents);
   
   // Place cockpit components
   placeCockpitComponents(criticalSlots, systemComponents.cockpit.type);
@@ -64,34 +75,95 @@ export function initializeCriticalSlots(
   // Place gyro
   placeGyro(criticalSlots, systemComponents.gyro.type);
   
-  // Place structure (if applicable)
-  if (STRUCTURE_SLOT_REQUIREMENTS[systemComponents.structure.type] > 0) {
-    placeStructure(criticalSlots, systemComponents.structure.type, mechTonnage);
-  }
-  
-  // Place armor (if applicable)
-  const armorSlots = ARMOR_SLOT_REQUIREMENTS[systemComponents.armor.type];
-  if (armorSlots.slots > 0) {
-    placeArmor(criticalSlots, systemComponents.armor.type, mechTonnage);
-  }
+  // Don't automatically place structure or armor - they should be equipment items
+  // that the user can manually allocate
   
   return criticalSlots;
 }
 
-// Place standard actuators
-function placeActuators(criticalSlots: CriticalAllocationMap): void {
+// Place standard actuators with proper fixed/removable flags
+function placeActuators(criticalSlots: CriticalAllocationMap, systemComponents: SystemComponents): void {
   // Arms
-  [MECH_LOCATIONS.LEFT_ARM, MECH_LOCATIONS.RIGHT_ARM].forEach(location => {
+  [
+    { location: MECH_LOCATIONS.LEFT_ARM, actuators: systemComponents.leftArmActuators },
+    { location: MECH_LOCATIONS.RIGHT_ARM, actuators: systemComponents.rightArmActuators }
+  ].forEach(({ location, actuators }) => {
     const slots = criticalSlots[location];
     if (slots) {
-      slots[0] = { index: 0, content: 'Shoulder', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[1] = { index: 1, content: 'Upper Arm Actuator', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[2] = { index: 2, content: 'Lower Arm Actuator', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-      slots[3] = { index: 3, content: 'Hand Actuator', contentType: 'system', isFixed: false, isManuallyPlaced: false }; // Can be removed
+      // Shoulder and Upper Arm are always present and fixed
+      slots[0] = { 
+        index: 0, 
+        content: 'Shoulder', 
+        contentType: 'system', 
+        isFixed: true, 
+        isManuallyPlaced: false 
+      };
+      slots[1] = { 
+        index: 1, 
+        content: 'Upper Arm Actuator', 
+        contentType: 'system', 
+        isFixed: true, 
+        isManuallyPlaced: false 
+      };
+      
+      // Lower Arm Actuator (conditionally removable)
+      if (actuators?.hasLowerArm) {
+        slots[2] = { 
+          index: 2, 
+          content: 'Lower Arm Actuator', 
+          contentType: 'system', 
+          isFixed: false,
+          isConditionallyRemovable: true,
+          isManuallyPlaced: false,
+          contextMenuOptions: [{
+            label: 'Remove Lower Arm',
+            action: 'remove',
+            component: 'Lower Arm Actuator',
+            isEnabled: () => true
+          }]
+        };
+      }
+      
+      // Hand Actuator (conditionally removable, requires lower arm)
+      if (actuators?.hasHand && actuators?.hasLowerArm) {
+        slots[3] = { 
+          index: 3, 
+          content: 'Hand Actuator', 
+          contentType: 'system', 
+          isFixed: false,
+          isConditionallyRemovable: true,
+          isManuallyPlaced: false,
+          contextMenuOptions: [{
+            label: 'Remove Hand',
+            action: 'remove',
+            component: 'Hand Actuator',
+            isEnabled: () => true
+          }]
+        };
+      }
+      
+      // Add context menu for empty slots where actuators can be added
+      if (!actuators?.hasLowerArm && slots[2].content === null) {
+        slots[2].contextMenuOptions = [{
+          label: 'Add Lower Arm',
+          action: 'add',
+          component: 'Lower Arm Actuator',
+          isEnabled: () => true
+        }];
+      }
+      
+      if (!actuators?.hasHand && actuators?.hasLowerArm && slots[3].content === null) {
+        slots[3].contextMenuOptions = [{
+          label: 'Add Hand',
+          action: 'add',
+          component: 'Hand Actuator',
+          isEnabled: () => actuators.hasLowerArm
+        }];
+      }
     }
   });
   
-  // Legs
+  // Legs - all actuators are fixed
   [MECH_LOCATIONS.LEFT_LEG, MECH_LOCATIONS.RIGHT_LEG].forEach(location => {
     const slots = criticalSlots[location];
     if (slots) {
@@ -114,8 +186,10 @@ function placeCockpitComponents(criticalSlots: CriticalAllocationMap, cockpitTyp
   if (cockpitType !== 'Torso-Mounted') {
     headSlots[0] = { index: 0, content: 'Life Support', contentType: 'system', isFixed: true, isManuallyPlaced: false };
     headSlots[1] = { index: 1, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[2] = { index: 2, content: 'Cockpit', contentType: 'system', isFixed: true, isManuallyPlaced: false };
-    headSlots[3] = { index: 3, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[2] = { index: 2, content: 'Standard Cockpit', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[3] = { index: 3, content: null, contentType: 'empty', isFixed: false, isManuallyPlaced: false };
+    headSlots[4] = { index: 4, content: 'Sensors', contentType: 'system', isFixed: true, isManuallyPlaced: false };
+    headSlots[5] = { index: 5, content: 'Life Support', contentType: 'system', isFixed: true, isManuallyPlaced: false };
     
     // Command Console takes extra slot
     if (cockpitType === 'Command Console') {
@@ -262,7 +336,7 @@ function placeStructure(criticalSlots: CriticalAllocationMap, structureType: Str
           index: i,
           content: structureType,
           contentType: 'endo-steel',
-          isFixed: true,
+          isFixed: false,  // Make movable
           isManuallyPlaced: false,
         };
         placed++;
@@ -291,7 +365,7 @@ function placeArmor(criticalSlots: CriticalAllocationMap, armorType: ArmorType, 
           index: i,
           content: armorType,
           contentType: 'ferro-fibrous',
-          isFixed: true,
+          isFixed: false,  // Make movable
           isManuallyPlaced: false,
         };
         placed++;
@@ -384,6 +458,29 @@ function getArmorDistribution(armorType: ArmorType, mechTonnage: number): Record
     };
   }
   
+  // Reactive/Reflective armor distribution (14/10 slots)
+  if (armorType === 'Reactive' && totalSlots === 14) {
+    return {
+      [MECH_LOCATIONS.LEFT_ARM]: 2,
+      [MECH_LOCATIONS.RIGHT_ARM]: 2,
+      [MECH_LOCATIONS.LEFT_TORSO]: 3,
+      [MECH_LOCATIONS.RIGHT_TORSO]: 3,
+      [MECH_LOCATIONS.LEFT_LEG]: 2,
+      [MECH_LOCATIONS.RIGHT_LEG]: 2,
+    };
+  }
+  
+  if (armorType === 'Reflective' && totalSlots === 10) {
+    return {
+      [MECH_LOCATIONS.LEFT_ARM]: 2,
+      [MECH_LOCATIONS.RIGHT_ARM]: 2,
+      [MECH_LOCATIONS.LEFT_TORSO]: 2,
+      [MECH_LOCATIONS.RIGHT_TORSO]: 2,
+      [MECH_LOCATIONS.LEFT_LEG]: 1,
+      [MECH_LOCATIONS.RIGHT_LEG]: 1,
+    };
+  }
+  
   return {};
 }
 
@@ -429,12 +526,151 @@ export function generateHeatSinkItems(
   
   for (let i = 0; i < external; i++) {
     items.push({
-      name: heatSinkType === 'Double' ? 'Double Heat Sink' : 'Heat Sink',
+      name: heatSinkType === 'Double' ? 'Double Heat Sink' : 
+            heatSinkType === 'Double (Clan)' ? 'Double Heat Sink (Clan)' : 'Heat Sink',
       type: 'heat-sink',
-      slots: heatSinkType === 'Double' ? 3 : 1,
+      slots: heatSinkType === 'Double' ? 3 : heatSinkType === 'Double (Clan)' ? 2 : 1,
       weight: 1,
     });
   }
   
   return items;
+}
+
+// Handle actuator removal
+export function removeActuator(
+  criticalSlots: CriticalAllocationMap,
+  systemComponents: SystemComponents,
+  location: string,
+  actuatorType: 'Lower Arm Actuator' | 'Hand Actuator'
+): void {
+  const isLeftArm = location === MECH_LOCATIONS.LEFT_ARM;
+  const actuators = isLeftArm ? systemComponents.leftArmActuators : systemComponents.rightArmActuators;
+  
+  if (!actuators) return;
+  
+  const slots = criticalSlots[location];
+  if (!slots) return;
+  
+  if (actuatorType === 'Lower Arm Actuator') {
+    // Remove both lower arm and hand
+    actuators.hasLowerArm = false;
+    actuators.hasHand = false;
+    
+    // Clear slots 2 and 3
+    if (slots[2]) {
+      slots[2] = {
+        index: 2,
+        content: null,
+        contentType: 'empty',
+        isFixed: false,
+        isManuallyPlaced: false,
+        contextMenuOptions: [{
+          label: 'Add Lower Arm',
+          action: 'add',
+          component: 'Lower Arm Actuator',
+          isEnabled: () => true
+        }]
+      };
+    }
+    if (slots[3]) {
+      slots[3] = {
+        index: 3,
+        content: null,
+        contentType: 'empty',
+        isFixed: false,
+        isManuallyPlaced: false,
+      };
+    }
+  } else if (actuatorType === 'Hand Actuator') {
+    // Remove only hand
+    actuators.hasHand = false;
+    
+    // Clear slot 3
+    if (slots[3]) {
+      slots[3] = {
+        index: 3,
+        content: null,
+        contentType: 'empty',
+        isFixed: false,
+        isManuallyPlaced: false,
+        contextMenuOptions: [{
+          label: 'Add Hand',
+          action: 'add',
+          component: 'Hand Actuator',
+          isEnabled: () => actuators.hasLowerArm
+        }]
+      };
+    }
+  }
+}
+
+// Handle actuator addition
+export function addActuator(
+  criticalSlots: CriticalAllocationMap,
+  systemComponents: SystemComponents,
+  location: string,
+  actuatorType: 'Lower Arm Actuator' | 'Hand Actuator'
+): void {
+  const isLeftArm = location === MECH_LOCATIONS.LEFT_ARM;
+  const actuators = isLeftArm ? systemComponents.leftArmActuators : systemComponents.rightArmActuators;
+  
+  if (!actuators) return;
+  
+  const slots = criticalSlots[location];
+  if (!slots) return;
+  
+  if (actuatorType === 'Lower Arm Actuator') {
+    // Add lower arm
+    actuators.hasLowerArm = true;
+    
+    // Place in slot 2
+    if (slots[2]) {
+      slots[2] = {
+        index: 2,
+        content: 'Lower Arm Actuator',
+        contentType: 'system',
+        isFixed: false,
+        isConditionallyRemovable: true,
+        isManuallyPlaced: false,
+        contextMenuOptions: [{
+          label: 'Remove Lower Arm',
+          action: 'remove',
+          component: 'Lower Arm Actuator',
+          isEnabled: () => true
+        }]
+      };
+    }
+    
+    // Update slot 3 to allow hand addition
+    if (slots[3] && slots[3].content === null) {
+      slots[3].contextMenuOptions = [{
+        label: 'Add Hand',
+        action: 'add',
+        component: 'Hand Actuator',
+        isEnabled: () => true
+      }];
+    }
+  } else if (actuatorType === 'Hand Actuator' && actuators.hasLowerArm) {
+    // Add hand (only if lower arm exists)
+    actuators.hasHand = true;
+    
+    // Place in slot 3
+    if (slots[3]) {
+      slots[3] = {
+        index: 3,
+        content: 'Hand Actuator',
+        contentType: 'system',
+        isFixed: false,
+        isConditionallyRemovable: true,
+        isManuallyPlaced: false,
+        contextMenuOptions: [{
+          label: 'Remove Hand',
+          action: 'remove',
+          component: 'Hand Actuator',
+          isEnabled: () => true
+        }]
+      };
+    }
+  }
 }

@@ -31,10 +31,24 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   
   const unit = state.unit;
   
-  // State management
-  const [selectedArmorType, setSelectedArmorType] = useState<ArmorType>(
-    ARMOR_TYPES.find(type => type.id === unit.data?.armor?.type || 'standard') || ARMOR_TYPES[0]
-  );
+  // Get armor type from system components
+  const selectedArmorType = useMemo(() => {
+    const armorTypeId = systemComponents?.armor?.type || 'Standard';
+    // Convert system component type to armor type ID
+    const typeMap: { [key: string]: string } = {
+      'Standard': 'standard',
+      'Ferro-Fibrous': 'ferro_fibrous',
+      'Ferro-Fibrous (Clan)': 'ferro_fibrous_clan',
+      'Light Ferro-Fibrous': 'light_ferro_fibrous',
+      'Heavy Ferro-Fibrous': 'heavy_ferro_fibrous',
+      'Stealth': 'stealth',
+      'Reactive': 'reactive',
+      'Reflective': 'reflective',
+      'Hardened': 'hardened',
+    };
+    const mappedId = typeMap[armorTypeId] || 'standard';
+    return ARMOR_TYPES.find(type => type.id === mappedId) || ARMOR_TYPES[0];
+  }, [systemComponents?.armor?.type]);
   
   const [showPresets, setShowPresets] = useState(false);
   
@@ -183,8 +197,22 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   // Handle armor type change
   const handleArmorTypeChange = useCallback((armorType: ArmorType) => {
     if (readOnly) return;
-    setSelectedArmorType(armorType);
-    updateArmor(armorType.id);
+    
+    // Convert armor type ID to system component type name
+    const typeMap: { [key: string]: string } = {
+      'standard': 'Standard',
+      'ferro_fibrous': 'Ferro-Fibrous',
+      'ferro_fibrous_clan': 'Ferro-Fibrous (Clan)',
+      'light_ferro_fibrous': 'Light Ferro-Fibrous',
+      'heavy_ferro_fibrous': 'Heavy Ferro-Fibrous',
+      'stealth': 'Stealth',
+      'reactive': 'Reactive',
+      'reflective': 'Reflective',
+      'hardened': 'Hardened',
+    };
+    
+    const systemComponentType = typeMap[armorType.id] || 'Standard';
+    updateArmor(systemComponentType);
     
     // Calculate new max tonnage for the selected armor type
     const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();

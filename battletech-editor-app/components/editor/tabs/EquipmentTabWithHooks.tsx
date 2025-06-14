@@ -13,11 +13,26 @@ interface EquipmentTabWithHooksProps {
 }
 
 // Equipment that should be filtered out (managed by other tabs)
-const FILTERED_EQUIPMENT_IDS = [
+const FILTERED_EQUIPMENT_IDS: string[] = [
+  // Heat sinks are managed by the Structure tab
   'heat-sink',
   'double-heat-sink',
-  'clan-double-heat-sink',
-  // Add more system component IDs as needed
+  'double-heat-sink-clan',
+  'compact-heat-sink',
+  'laser-heat-sink',
+];
+
+// Special components that take slots but aren't equipment
+const SPECIAL_COMPONENT_NAMES = [
+  'Endo Steel',
+  'Endo Steel (Clan)',
+  'Ferro-Fibrous',
+  'Ferro-Fibrous (Clan)',
+  'Light Ferro-Fibrous',
+  'Heavy Ferro-Fibrous',
+  'Stealth',
+  'Reactive',
+  'Reflective',
 ];
 
 // Categories to show in the equipment tab
@@ -67,7 +82,13 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
   
   // Get currently mounted equipment and convert to expected format
   const mountedEquipment = useMemo(() => {
-    return mountedEquipmentData.map((item, index) => {
+    return mountedEquipmentData
+      .filter(item => {
+        // Filter out heat sinks - they're managed by the Structure tab
+        const itemName = item.item_name?.toLowerCase() || '';
+        return !itemName.includes('heat sink') && !itemName.includes('heat-sink');
+      })
+      .map((item, index) => {
       // Try to find the equipment in the database for complete info
       // Try exact match first, then case-insensitive, then partial match
       let dbEquipment = FULL_EQUIPMENT_DATABASE.find(
@@ -299,11 +320,18 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
   const handleRemoveEquipment = useCallback((placementId: string) => {
     if (readOnly) return;
     // Extract the index from the placement ID
-    const index = parseInt(placementId.replace('equipment-', ''));
-    if (!isNaN(index)) {
-      removeEquipment(index);
+    const displayIndex = parseInt(placementId.replace('equipment-', ''));
+    if (!isNaN(displayIndex)) {
+      // Find the actual index in the unfiltered equipment array
+      const itemToRemove = mountedEquipment[displayIndex];
+      const actualIndex = mountedEquipmentData.findIndex(
+        item => item.item_name === itemToRemove.equipment.name
+      );
+      if (actualIndex !== -1) {
+        removeEquipment(actualIndex);
+      }
     }
-  }, [readOnly, removeEquipment]);
+  }, [readOnly, removeEquipment, mountedEquipment, mountedEquipmentData]);
   
   // Calculate totals
   const totalWeight = equipmentWeight;

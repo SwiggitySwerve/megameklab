@@ -231,6 +231,55 @@ export function syncStructureChange(
   
   const criticals = convertToLegacyCriticals(criticalAllocations);
   
+  // Check for displaced equipment and update weapons_and_equipment
+  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
+  
+  // Update weapons and equipment to unallocate displaced items
+  let updatedEquipment = unit.data?.weapons_and_equipment || [];
+  if (displacedEquipmentNames.length > 0) {
+    updatedEquipment = updatedEquipment.map(eq => {
+      // Check if this equipment was displaced
+      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
+        // Check if the equipment is still in its location in the new criticals
+        const locationCriticals = criticals.find(c => c.location === eq.location);
+        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
+          // Equipment was displaced, unallocate it
+          return { ...eq, location: '' };
+        }
+      }
+      return eq;
+    });
+  }
+  
+  // Remove old structure items
+  updatedEquipment = updatedEquipment.filter(eq => 
+    !eq.item_name.includes('Endo Steel') && 
+    !eq.item_name.includes('Composite') &&
+    !eq.item_name.includes('Reinforced')
+  );
+  
+  // Add new structure items if needed
+  const STRUCTURE_SLOT_REQUIREMENTS: Record<StructureType, number> = {
+    'Standard': 0,
+    'Endo Steel': 14,
+    'Endo Steel (Clan)': 7,
+    'Composite': 0,
+    'Reinforced': 0,
+    'Industrial': 0,
+  };
+  
+  const slotsRequired = STRUCTURE_SLOT_REQUIREMENTS[newStructureType] || 0;
+  for (let i = 0; i < slotsRequired; i++) {
+    updatedEquipment.push({
+      item_name: newStructureType,
+      item_type: 'equipment' as const,
+      location: '', // Unallocated
+      tech_base: unit.tech_base as 'IS' | 'Clan',
+      tons: 0, // Structure weight is calculated separately
+      crits: 1,
+    });
+  }
+  
   return {
     systemComponents: updatedComponents,
     criticalAllocations,
@@ -240,6 +289,101 @@ export function syncStructureChange(
         type: newStructureType,
       },
       criticals,
+      weapons_and_equipment: updatedEquipment,
+    },
+  };
+}
+
+/**
+ * Sync critical slots when armor changes
+ */
+export function syncArmorChange(
+  unit: EditableUnit,
+  newArmorType: ArmorType
+): Partial<EditableUnit> {
+  const systemComponents = unit.systemComponents || initializeSystemComponents(unit);
+  
+  const updatedComponents: SystemComponents = {
+    ...systemComponents,
+    armor: {
+      type: newArmorType,
+    },
+  };
+  
+  const criticalAllocations = initializeCriticalSlots(
+    updatedComponents,
+    unit.mass
+  );
+  
+  const criticals = convertToLegacyCriticals(criticalAllocations);
+  
+  // Check for displaced equipment and update weapons_and_equipment
+  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
+  
+  // Update weapons and equipment to unallocate displaced items
+  let updatedEquipment = unit.data?.weapons_and_equipment || [];
+  if (displacedEquipmentNames.length > 0) {
+    updatedEquipment = updatedEquipment.map(eq => {
+      // Check if this equipment was displaced
+      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
+        // Check if the equipment is still in its location in the new criticals
+        const locationCriticals = criticals.find(c => c.location === eq.location);
+        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
+          // Equipment was displaced, unallocate it
+          return { ...eq, location: '' };
+        }
+      }
+      return eq;
+    });
+  }
+  
+  // Remove old armor items
+  updatedEquipment = updatedEquipment.filter(eq => 
+    !eq.item_name.includes('Ferro-Fibrous') && 
+    !eq.item_name.includes('Stealth') &&
+    !eq.item_name.includes('Reactive') &&
+    !eq.item_name.includes('Reflective')
+  );
+  
+  // Add new armor items if needed
+  const ARMOR_SLOT_REQUIREMENTS: Record<ArmorType, { slots: number }> = {
+    'Standard': { slots: 0 },
+    'Ferro-Fibrous': { slots: 14 },
+    'Ferro-Fibrous (Clan)': { slots: 7 },
+    'Light Ferro-Fibrous': { slots: 7 },
+    'Heavy Ferro-Fibrous': { slots: 21 },
+    'Stealth': { slots: 12 },
+    'Reactive': { slots: 14 },
+    'Reflective': { slots: 10 },
+    'Hardened': { slots: 0 },
+  };
+  
+  const armorReq = ARMOR_SLOT_REQUIREMENTS[newArmorType];
+  const slotsRequired = armorReq?.slots || 0;
+  
+  for (let i = 0; i < slotsRequired; i++) {
+    updatedEquipment.push({
+      item_name: newArmorType,
+      item_type: 'equipment' as const,
+      location: '', // Unallocated
+      tech_base: unit.tech_base as 'IS' | 'Clan',
+      tons: 0, // Armor weight is calculated separately
+      crits: 1,
+    });
+  }
+  
+  return {
+    systemComponents: updatedComponents,
+    criticalAllocations,
+    data: {
+      ...unit.data,
+      armor: {
+        ...unit.data?.armor,
+        type: newArmorType,
+        locations: unit.data?.armor?.locations || [],
+      },
+      criticals,
+      weapons_and_equipment: updatedEquipment,
     },
   };
 }

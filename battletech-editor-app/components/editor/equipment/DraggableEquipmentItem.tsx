@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { FullEquipment } from '../../../types';
 import { DragItemType, DraggedEquipment } from '../dnd/types';
+import { isSpecialComponent } from '../../../types/systemComponents';
 import styles from './DraggableEquipmentItem.module.css';
 
 export interface DraggableEquipmentItemProps {
@@ -29,7 +30,11 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     return DragItemType.EQUIPMENT;
   };
 
-  const critSlots = equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0);
+  // Special components and heat sinks are always 1 slot
+  let critSlots = equipment.space || (typeof equipment.data?.slots === 'number' ? equipment.data.slots : Number(equipment.data?.slots) || 0);
+  if (isSpecialComponent(equipment.name) || equipment.name.includes('Heat Sink')) {
+    critSlots = 1;
+  }
   
   const dragItem: DraggedEquipment = {
     type: getDragItemType(),

@@ -168,8 +168,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
 
   // Get display text
   const getDisplayText = () => {
-    if (isEmpty) {
-      return slotIndex === 0 ? `${location} - Empty -` : '- Empty -';
+    if (isEmpty || !currentItem || currentItem === '') {
+      return '- Empty -';
     }
     return currentItem;
   };
@@ -204,8 +204,8 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     return classNames.join(' ');
   };
 
-  // Handle click to remove equipment
-  const handleClick = () => {
+  // Handle double-click to remove equipment
+  const handleDoubleClick = () => {
     // Only remove if there's equipment and it's not internal structure
     if (!isEmpty && !disabled) {
       if (isSystemComponent && onSystemClick) {
@@ -239,11 +239,11 @@ export const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       className={getSlotClassName()}
       data-location={location}
       data-slot={slotIndex}
-      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       style={{ 
         cursor: !isEmpty && onRemove && !disabled ? 'move' : 'default'
       }}
-      title={!isEmpty && onRemove && !disabled ? 'Drag to move or click to remove' : undefined}
+      title={!isEmpty && onRemove && !disabled ? 'Drag to move or double-click to remove' : undefined}
     >
       <span className={styles.slotNumber}>{slotIndex + 1}</span>
       <span className={styles.slotContent}>{getDisplayText()}</span>
