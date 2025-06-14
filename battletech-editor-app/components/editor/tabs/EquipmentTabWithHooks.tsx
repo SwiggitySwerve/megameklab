@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { useUnitData, useSystemComponents } from '../../../hooks/useUnitData';
+import { useUnitData, useSystemComponents, useEquipment } from '../../../hooks/useUnitData';
 import { EquipmentItem, FULL_EQUIPMENT_DATABASE, getJumpJetWeight, getHatchetSpecs, getSwordSpecs } from '../../../utils/equipmentDatabase';
 import { FullEquipment } from '../../../types';
 
@@ -46,6 +46,7 @@ interface EquipmentFilter {
 export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTabWithHooksProps) {
   const { state, addEquipment, removeEquipment } = useUnitData();
   const systemComponents = useSystemComponents();
+  const mountedEquipmentData = useEquipment();
   
   const unit = state.unit;
   
@@ -64,8 +65,92 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   
-  // Get currently mounted equipment
-  const mountedEquipment = unit.equipmentPlacements || [];
+  // Get currently mounted equipment and convert to expected format
+  const mountedEquipment = useMemo(() => {
+    return mountedEquipmentData.map((item, index) => {
+      // Try to find the equipment in the database for complete info
+      // Try exact match first, then case-insensitive, then partial match
+      let dbEquipment = FULL_EQUIPMENT_DATABASE.find(
+        dbItem => dbItem.name === item.item_name
+      );
+      
+      if (!dbEquipment) {
+        // Try case-insensitive match
+        dbEquipment = FULL_EQUIPMENT_DATABASE.find(
+          dbItem => dbItem.name.toLowerCase() === item.item_name?.toLowerCase()
+        );
+      }
+      
+      if (!dbEquipment && item.item_name) {
+        // Try to match common patterns (e.g., "Medium Laser" vs "Medium Laser (IS)")
+        const simplifiedName = item.item_name
+          .replace(/\s*\(.*?\)\s*$/, '') // Remove parenthetical suffixes
+          .trim();
+        dbEquipment = FULL_EQUIPMENT_DATABASE.find(
+          dbItem => dbItem.name.startsWith(simplifiedName)
+        );
+      }
+      
+      // Log if we can't find equipment in database
+      if (!dbEquipment && item.item_name) {
+        console.warn(`Equipment not found in database: "${item.item_name}"`);
+      }
+      
+      // Parse tonnage - try database first, then item data
+      let weight = 0;
+      if (dbEquipment) {
+        weight = dbEquipment.weight || 0;
+      } else if (item.tons !== undefined && item.tons !== null) {
+        weight = typeof item.tons === 'number' ? item.tons : parseFloat(String(item.tons)) || 0;
+      }
+      
+      // Parse critical slots - try database first, then item data
+      let crits = 1;
+      if (dbEquipment) {
+        crits = dbEquipment.crits || 1;
+      } else if (item.crits !== undefined && item.crits !== null) {
+        crits = typeof item.crits === 'number' ? item.crits : parseInt(String(item.crits)) || 1;
+      }
+      
+      // Parse heat - try database first, then item data
+      let heat = 0;
+      if (dbEquipment) {
+        heat = dbEquipment.heat || 0;
+      } else if (item.heat !== undefined && item.heat !== null) {
+        heat = typeof item.heat === 'number' ? item.heat : parseFloat(String(item.heat)) || 0;
+      }
+      
+      // Get damage from database if available
+      let damage = item.damage;
+      if (dbEquipment && dbEquipment.damage) {
+        damage = dbEquipment.damage;
+      }
+      
+      // Debug logging
+      console.log(`Equipment "${item.item_name}": weight=${weight}, crits=${crits}, heat=${heat}`, {
+        fromDB: !!dbEquipment,
+        itemData: item,
+        dbData: dbEquipment
+      });
+      
+      return {
+        id: `equipment-${index}`,
+        equipment: {
+          id: dbEquipment?.id || item.item_name?.toLowerCase().replace(/\s+/g, '-') || `equipment-${index}`,
+          name: item.item_name || 'Unknown Equipment',
+          type: item.item_type || 'equipment',
+          weight: weight,
+          space: crits,
+          damage: damage,
+          heat: heat,
+          tech_base: item.tech_base || 'Inner Sphere' as any,
+          introduction_year: dbEquipment?.year || 3025,
+        },
+        location: item.location || '',
+        criticalSlots: [],
+      };
+    });
+  }, [mountedEquipmentData]);
   
   // Calculate current equipment weight
   const calculateEquipmentWeight = useCallback((): number => {
@@ -167,41 +252,57 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
   const handleAddEquipment = useCallback((equipmentItem: EquipmentItem) => {
     if (readOnly) return;
     
-    // Create FullEquipment object from EquipmentItem
-    const fullEquipment: FullEquipment = {
-      id: equipmentItem.id,
-      name: equipmentItem.name,
-      type: equipmentItem.category.toLowerCase() as any,
-      weight: equipmentItem.weight,
-      space: equipmentItem.crits,
-      damage: equipmentItem.damage,
-      heat: equipmentItem.heat,
-      tech_base: equipmentItem.techBase as any,
-      introduction_year: equipmentItem.year,
-    };
-    
-    // Handle special cases for variable weight items
-    if (equipmentItem.id === 'jump-jet') {
-      fullEquipment.weight = getJumpJetWeight(unit.mass);
-    } else if (equipmentItem.id === 'hatchet') {
-      const specs = getHatchetSpecs(unit.mass);
-      fullEquipment.weight = specs.weight;
-      fullEquipment.space = specs.crits;
-      fullEquipment.damage = specs.damage;
-    } else if (equipmentItem.id === 'sword') {
-      const specs = getSwordSpecs(unit.mass);
-      fullEquipment.weight = specs.weight;
-      fullEquipment.space = specs.crits;
-      fullEquipment.damage = specs.damage;
+    // Determine item type based on category
+    let itemType = 'equipment';
+    if (['Energy', 'Ballistic', 'Missile', 'Artillery', 'Physical'].includes(equipmentItem.category)) {
+      itemType = 'weapon';
+    } else if (equipmentItem.category === 'Ammo') {
+      itemType = 'ammo';
     }
     
-    addEquipment(fullEquipment);
+    // Get actual weight/crits for variable items
+    let actualWeight = equipmentItem.weight;
+    let actualCrits = equipmentItem.crits;
+    let actualDamage = equipmentItem.damage;
+    
+    if (equipmentItem.id === 'jump-jet') {
+      actualWeight = getJumpJetWeight(unit.mass);
+    } else if (equipmentItem.id === 'hatchet') {
+      const specs = getHatchetSpecs(unit.mass);
+      actualWeight = specs.weight;
+      actualCrits = specs.crits;
+      actualDamage = specs.damage;
+    } else if (equipmentItem.id === 'sword') {
+      const specs = getSwordSpecs(unit.mass);
+      actualWeight = specs.weight;
+      actualCrits = specs.crits;
+      actualDamage = specs.damage;
+    }
+    
+    // Create WeaponOrEquipmentItem in the format the data model expects
+    const weaponOrEquipmentItem = {
+      item_name: equipmentItem.name,
+      item_type: itemType,
+      location: '', // Will be assigned when placed
+      tech_base: equipmentItem.techBase === 'Clan' ? 'Clan' : 'IS' as any,
+      tons: actualWeight,
+      crits: actualCrits,
+      damage: actualDamage,
+      heat: equipmentItem.heat,
+      weapon_class: equipmentItem.category as any,
+    };
+    
+    addEquipment(weaponOrEquipmentItem);
   }, [readOnly, unit.mass, addEquipment]);
   
   // Handle removing equipment
   const handleRemoveEquipment = useCallback((placementId: string) => {
     if (readOnly) return;
-    removeEquipment(placementId as any);
+    // Extract the index from the placement ID
+    const index = parseInt(placementId.replace('equipment-', ''));
+    if (!isNaN(index)) {
+      removeEquipment(index);
+    }
   }, [readOnly, removeEquipment]);
   
   // Calculate totals
@@ -261,12 +362,12 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
             <div className="bg-slate-700 border-b border-slate-600 px-3 py-2">
               <div className="flex justify-between items-center">
                 <h3 className="text-sm font-medium">Current Loadout</h3>
-                <button
+                  <button
                   onClick={() => {
-                    // Remove all equipment
-                    mountedEquipment.forEach(placement => {
-                      removeEquipment(placement.id as any);
-                    });
+                    // Remove all equipment in reverse order to avoid index issues
+                    for (let i = mountedEquipment.length - 1; i >= 0; i--) {
+                      removeEquipment(i);
+                    }
                   }}
                   className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors font-medium"
                   disabled={readOnly || mountedEquipment.length === 0}
@@ -282,13 +383,12 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
             </div>
             <div className="p-3">
               {/* Headers */}
-              <div className="grid grid-cols-7 gap-1 text-xs font-medium text-slate-400 border-b border-slate-600 pb-2 mb-2">
+              <div className="grid grid-cols-6 gap-1 text-xs font-medium text-slate-400 border-b border-slate-600 pb-2 mb-2">
                 <div className="col-span-2">Name</div>
                 <div className="text-center">Tons</div>
                 <div className="text-center">Crits</div>
                 <div className="text-center">Heat</div>
                 <div className="text-center">Loc</div>
-                <div className="text-center">Size</div>
               </div>
               
               {/* Current equipment list */}
@@ -321,7 +421,7 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
                     return (
                       <div
                         key={placement.id}
-                        className={`grid grid-cols-7 gap-1 text-xs hover:bg-red-900 hover:bg-opacity-30 px-1 py-1 rounded cursor-pointer transition-colors group ${
+                        className={`grid grid-cols-6 gap-1 text-xs hover:bg-red-900 hover:bg-opacity-30 px-1 py-1 rounded cursor-pointer transition-colors group ${
                           isUnallocated ? 'text-yellow-500' : ''
                         }`}
                         onClick={() => handleRemoveEquipment(placement.id)}
@@ -335,19 +435,17 @@ export default function EquipmentTabWithHooks({ readOnly = false }: EquipmentTab
                         <div className="text-center">{displayCrits}</div>
                         <div className="text-center">{equipment.heat || 0}</div>
                         <div className="text-center" title={placement.location || 'Unallocated'}>{abbreviateLocation(placement.location)}</div>
-                        <div className="text-center">{displayCrits}</div>
                       </div>
                     );
                   })}
                   
                   {/* Totals */}
                   <div className="border-t border-slate-600 pt-2 mt-2">
-                    <div className="grid grid-cols-7 gap-1 text-xs font-medium">
+                    <div className="grid grid-cols-6 gap-1 text-xs font-medium">
                       <div className="col-span-2">Total:</div>
                       <div className="text-center">{totalWeight.toFixed(1)}</div>
                       <div className="text-center">{totalCrits}</div>
                       <div className="text-center">{totalHeat}</div>
-                      <div className="text-center">-</div>
                       <div className="text-center">-</div>
                     </div>
                   </div>
