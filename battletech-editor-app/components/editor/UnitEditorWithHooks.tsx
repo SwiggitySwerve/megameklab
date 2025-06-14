@@ -6,7 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { EditableUnit } from '../../types/editor';
-import { UnitDataProvider, useUnitData, useSystemComponents } from '../../hooks/useUnitData';
+import { UnitDataProvider, useUnitData, useSystemComponents, useCriticalAllocations, useEquipment } from '../../hooks/useUnitData';
+import { STRUCTURE_SLOT_REQUIREMENTS, ARMOR_SLOT_REQUIREMENTS, isSpecialComponent } from '../../types/systemComponents';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
@@ -24,6 +25,8 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   const router = useRouter();
   const { state } = useUnitData();
   const systemComponents = useSystemComponents();
+  const criticalAllocations = useCriticalAllocations();
+  const equipment = useEquipment();
   
   // Valid tab IDs
   const validTabs = ['structure', 'armor', 'equipment', 'criticals', 'fluff'];
@@ -83,8 +86,132 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     return { generated, dissipated };
   };
   
+  // Calculate critical slot usage
+  const calculateCriticalSlots = (): { total: number; required: number; assigned: number } => {
+    let total = 78; // Standard battlemech has 78 critical slots
+    let assigned = 0;
+    let required = 0;
+    
+    // Count assigned slots
+    if (criticalAllocations) {
+      Object.values(criticalAllocations).forEach(locationSlots => {
+        locationSlots.forEach(slot => {
+          if (slot && slot.content && slot.content !== '') {
+            assigned++;
+          }
+        });
+      });
+    }
+    
+    // Count total required slots from all sources
+    
+    // 1. Count equipment slots (excluding special components which are counted separately)
+    if (equipment) {
+      equipment.forEach(eq => {
+        // Skip special components like Endo Steel and Ferro-Fibrous as they're counted via systemComponents
+        if (!isSpecialComponent(eq.item_name) && !eq.item_name.includes('Heat Sink')) {
+          const crits = typeof eq.crits === 'string' ? parseInt(eq.crits) : (eq.crits || 0);
+          if (crits > 0) {
+            required += crits;
+          }
+        }
+      });
+    }
+    
+    // 2. Count engine slots
+    if (systemComponents?.engine) {
+      const engineType = systemComponents.engine.type;
+      if (engineType === 'XL') {
+        required += 12; // 6 CT + 3 LT + 3 RT
+      } else if (engineType === 'Light') {
+        required += 10; // 6 CT + 2 LT + 2 RT
+      } else if (engineType === 'XXL') {
+        required += 12; // 6 CT + 3 LT + 3 RT
+      } else if (engineType === 'Compact') {
+        required += 3; // 3 CT
+      } else {
+        required += 6; // Standard engine: 6 CT
+      }
+    }
+    
+    // 3. Count gyro slots
+    if (systemComponents?.gyro) {
+      const gyroType = systemComponents.gyro.type;
+      if (gyroType === 'XL') {
+        required += 6;
+      } else if (gyroType === 'Compact') {
+        required += 2;
+      } else {
+        required += 4; // Standard, Heavy-Duty
+      }
+    }
+    
+    // 4. Count actuator slots (fixed components)
+    // Each location has certain fixed actuators
+    required += 2; // Head: Life Support (2 slots)
+    required += 3; // Head: Sensors (3 slots)  
+    required += 1; // Head: Cockpit (1 slot)
+    required += 8; // Arms: 2 shoulders + 2 upper arms (4 slots each arm)
+    required += 8; // Legs: 2 hips + 2 upper legs + 2 lower legs + 2 feet
+    
+    // Add lower arm and hand actuators if present
+    if (systemComponents?.leftArmActuators) {
+      if (systemComponents.leftArmActuators.hasLowerArm) required += 1;
+      if (systemComponents.leftArmActuators.hasHand) required += 1;
+    }
+    if (systemComponents?.rightArmActuators) {
+      if (systemComponents.rightArmActuators.hasLowerArm) required += 1;
+      if (systemComponents.rightArmActuators.hasHand) required += 1;
+    }
+    
+    // 5. Count structure special component slots
+    if (systemComponents?.structure) {
+      const structureType = systemComponents.structure.type;
+      const structureSlots = STRUCTURE_SLOT_REQUIREMENTS[structureType] || 0;
+      required += structureSlots;
+    }
+    
+    // 6. Count armor special component slots
+    if (systemComponents?.armor) {
+      const armorType = systemComponents.armor.type;
+      const armorReq = ARMOR_SLOT_REQUIREMENTS[armorType];
+      if (armorReq) {
+        // For Ferro-Fibrous, check if it's clan version
+        if (armorType === 'Ferro-Fibrous' && unit.tech_base === 'Clan' && armorReq.clanSlots) {
+          required += armorReq.clanSlots;
+        } else {
+          required += armorReq.slots;
+        }
+      }
+    }
+    
+    // 7. Count heat sink slots
+    if (systemComponents?.heatSinks) {
+      const heatSinkType = systemComponents.heatSinks.type;
+      const externalHeatSinks = systemComponents.heatSinks.externalRequired || 0;
+      
+      if (externalHeatSinks > 0) {
+        if (heatSinkType === 'Double' || heatSinkType === 'Double (Clan)') {
+          // Double heat sinks take 3 slots each (IS) or 2 slots each (Clan)
+          const slotsPerHS = (heatSinkType === 'Double (Clan)' || unit.tech_base === 'Clan') ? 2 : 3;
+          required += externalHeatSinks * slotsPerHS;
+        } else {
+          // Single and Compact heat sinks take 1 slot each
+          required += externalHeatSinks;
+        }
+      }
+    }
+    
+    return {
+      total,
+      required,
+      assigned
+    };
+  };
+  
   const currentWeight = calculateCurrentWeight();
   const heatBalance = calculateHeatBalance();
+  const criticalSlots = calculateCriticalSlots();
   
   // Tab configuration
   const tabs = [
@@ -139,6 +266,16 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
               <span className="text-slate-400">Movement:</span>
               <span className="font-medium text-slate-200">
                 {unit.data?.movement?.walk_mp || 0}/{unit.data?.movement?.jump_mp || 0}
+              </span>
+            </div>
+            
+            {/* Critical Slots */}
+            <div className="flex items-center gap-2">
+              <span className="text-slate-400">Crits:</span>
+              <span className={`font-medium ${
+                criticalSlots.required > criticalSlots.total ? 'text-red-400' : 'text-slate-200'
+              }`}>
+                {criticalSlots.required} / {criticalSlots.total}
               </span>
             </div>
             

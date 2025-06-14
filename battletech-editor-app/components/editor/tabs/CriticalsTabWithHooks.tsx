@@ -347,6 +347,28 @@ export default function CriticalsTabWithHooks({ readOnly = false }: CriticalsTab
     return styles.equipmentComponent;
   };
   
+  // Calculate total and available slots
+  const slotStatistics = useMemo(() => {
+    let totalSlots = 0;
+    let usedSlots = 0;
+    
+    mechLocations.forEach(location => {
+      totalSlots += location.slots;
+      const locationSlots = criticalSlots[location.name] || [];
+      locationSlots.forEach(slot => {
+        if (slot !== '-Empty-' && slot !== '' && slot) {
+          usedSlots++;
+        }
+      });
+    });
+    
+    return {
+      total: totalSlots,
+      used: usedSlots,
+      available: totalSlots - usedSlots
+    };
+  }, [criticalSlots]);
+  
   // Render location section
   const renderLocationSection = (location: typeof mechLocations[0], locationClass: string) => {
     const slots = criticalSlots[location.name] || [];
