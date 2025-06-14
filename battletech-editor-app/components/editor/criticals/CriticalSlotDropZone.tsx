@@ -21,6 +21,7 @@ interface CriticalSlotDropZoneProps {
   isHoveredMultiSlot?: boolean;
   onHoverChange?: (isHovering: boolean, equipment: EquipmentObject | null) => void;
   isPartOfDropPreview?: boolean;
+  criticalSlots?: CriticalSlotObject[]; // Add this to check consecutive slots
 }
 
 const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
@@ -35,6 +36,7 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   isHoveredMultiSlot = false,
   onHoverChange,
   isPartOfDropPreview = false,
+  criticalSlots = [],
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   
@@ -88,6 +90,23 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       
       // Check if slot is empty
       if (hasEquipment) return false;
+      
+      // Check if we have enough consecutive empty slots for multi-slot equipment
+      const requiredSlots = item.criticalSlots;
+      if (requiredSlots > 1) {
+        // Check if we have enough slots remaining
+        if (slotIndex + requiredSlots > criticalSlots.length) {
+          return false;
+        }
+        
+        // Check if all required slots are empty
+        for (let i = 0; i < requiredSlots; i++) {
+          const checkSlot = criticalSlots[slotIndex + i];
+          if (!checkSlot || checkSlot.equipment !== null) {
+            return false;
+          }
+        }
+      }
       
       // Convert DraggedEquipment to EquipmentObject if needed
       const equipmentObj: EquipmentObject = {
@@ -170,7 +189,7 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
 
   // Handle click to remove
   const handleClick = () => {
-    if (!disabled && hasEquipment && !isSystemComponent && onRemove) {
+    if (!disabled && hasEquipment && equipment && equipment.isRemovable && onRemove) {
       onRemove(location, slotIndex);
     }
   };
