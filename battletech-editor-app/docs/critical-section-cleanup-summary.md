@@ -2,7 +2,7 @@
 
 ## Cleanup Completed (2025-06-15)
 
-### Files Removed
+### Files Removed - Phase 1
 
 #### Unused Critical Components (10 files)
 1. ✅ `components/editor/criticals/CriticalSlot.tsx`
@@ -16,7 +16,7 @@
 9. ✅ `components/editor/criticals/MechCriticalsDiagram.tsx`
 10. ✅ `components/editor/criticals/MechCriticalsDiagram.module.css`
 
-#### Test Pages (18 files)
+#### Test Pages (19 files)
 1. ✅ `pages/test-critical-slots.tsx`
 2. ✅ `pages/test-critical-slots-v2.tsx`
 3. ✅ `pages/test-criticals-hover.tsx`
@@ -44,6 +44,40 @@
 
 #### Old DnD Types (1 file)
 1. ✅ `components/editor/dnd/types.ts`
+
+### Files Removed - Phase 2
+
+#### Outdated Demo Pages (1 file)
+1. ✅ `pages/complete-editor-demo.tsx` - Referenced non-existent components
+
+#### Old Critical Slot Management (4 files)
+1. ✅ `hooks/useCriticalSlotManager.tsx`
+2. ✅ `hooks/useCriticalSlotManagerV2.tsx`
+3. ✅ `utils/criticalSlotManager.ts`
+4. ✅ `utils/criticalSlotManagerV2.ts`
+
+#### Old Type Definitions (2 files)
+1. ✅ `types/criticals.ts` - Old critical types using Mounted interface
+2. ✅ `types/enhancedCriticals.ts` - Old enhanced critical types
+
+#### Old Equipment Components (2 files)
+1. ✅ `components/editor/equipment/EquipmentList.tsx` - Used old Mounted type
+2. ✅ `components/editor/equipment/EnhancedEquipmentPanel.tsx` - Used enhancedCriticals
+
+#### Old Export/Import Files (3 files)
+1. ✅ `utils/unitExportImport.ts.old`
+2. ✅ `utils/unitExportImportFixed.ts.old`
+3. ✅ `utils/unitExportImportSimple.ts.old`
+
+#### Orphaned Style Files (2 files)
+1. ✅ `styles/dnd-demo.module.css` - For removed dnd-demo page
+2. ✅ `components/editor/equipment/EquipmentList.module.css` - For removed EquipmentList
+
+#### Test Files for Removed Components (2 files)
+1. ✅ `__tests__/components/CriticalSlot.test.tsx`
+2. ✅ `__tests__/components/EquipmentList.test.tsx`
+
+## Total Files Removed: 47 files
 
 ### Files Updated
 
@@ -73,17 +107,17 @@
 
 #### Demo Pages (kept for reference)
 - `pages/criticals-demo.tsx` - Demo page
-- `pages/complete-editor-demo.tsx` - Complete editor demo
-
-## Total Files Removed: 32 files
+- Note: `pages/complete-editor-demo.tsx` was removed as it referenced non-existent components
 
 ## Benefits
-1. **Reduced Code Complexity**: Removed ~32 unused files
+1. **Reduced Code Complexity**: Removed ~47 unused files
 2. **Cleaner Imports**: All components now use the unified typesV2 system
 3. **Better Maintainability**: Only production-ready components remain
 4. **Consistent Architecture**: Single source of truth for critical slot components
+5. **No More Build Errors**: Removed files that referenced non-existent components
 
-## Next Steps
-1. Update test files to remove references to deleted components
-2. Consider creating unit tests for the remaining components
-3. Document the final critical slot system architecture
+## Remaining Clean Architecture
+- Single critical slot component: `CriticalSlotDropZone`
+- Unified type system: `typesV2`
+- One production tab: `CriticalsTabIntegrated`
+- Color-coded equipment for visual clarity

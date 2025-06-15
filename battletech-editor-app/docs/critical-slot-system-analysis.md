@@ -1,64 +1,195 @@
 # Critical Slot System Analysis
 
-## Issue Summary
-The critical slot system drag and drop functionality was reported as not working correctly, specifically with showing valid/invalid hover states for empty slots.
+## Overview
 
-## Investigation Results
+The critical slot system is designed to allow drag-and-drop placement of equipment into mech critical slots. The system uses object-based data structures and React DnD for drag-and-drop functionality.
 
-### 1. Critical Slot Logic is Working Correctly
-- The CriticalsTabIntegrated component properly handles engine and gyro changes
-- Engine slot allocation works correctly:
-  - Standard Engine: 6 slots in Center Torso only
-  - XL Engine: 6 slots in CT + 3 slots in each side torso
-  - Light Engine: 6 slots in CT + 2 slots in each side torso
-  - XXL Engine: 6 slots in CT + 6 slots in each side torso
+## Core Components
 
-### 2. Smart Displacement is Functioning
-- When engine type changes, equipment in conflicting slots is properly displaced
-- Multi-slot equipment is fully removed if any slot conflicts
-- The `smartUpdateSlots` function correctly identifies and displaces equipment
+### 1. CriticalSlotDropZone.tsx
+The individual slot component that handles both dragging and dropping.
 
-### 3. Drag and Drop System Analysis
-The drag and drop system in CriticalSlotDropZone component:
-- Properly shows hover states for valid/invalid drops
-- Uses CSS classes to indicate slot validity:
-  - `dropZoneHover`: Basic hover state
-  - `dropZoneValid`: Valid drop target (green border)
-  - `dropZoneInvalid`: Invalid drop target (red border)
-  - `multiSlotHighlight`: Part of multi-slot equipment preview
+**Key Features:**
+- **Drag Source**: Occupied slots can be dragged to move equipment
+- **Drop Target**: Empty slots accept equipment drops
+- **Multi-slot Support**: Equipment requiring multiple slots shows visual continuity
+- **Color Coding**: Uses `getEquipmentColorClasses()` for visual distinction
+- **Hover States**: Shows valid/invalid drop states
 
-### 4. Actual Issue Found
-The real issue discovered is not with the critical slot system itself, but with the UI controls:
-- **Problem**: The select dropdown in StructureTabWithHooks doesn't trigger onChange events
-- **Impact**: Users can't change engine types using the dropdown
-- **Workaround**: Direct API calls to `updateEngine` work correctly
+**Drop Validation Logic:**
+```typescript
+canDrop: (item: DraggedEquipmentV2) => {
+  if (disabled) return false;
+  
+  // Allow dropping back to same slot
+  if (item.isFromCriticalSlot && 
+      item.sourceLocation === location && 
+      item.sourceSlotIndex === slotIndex) {
+    return true;
+  }
+  
+  // Check if slot is empty
+  if (hasEquipment) return false;
+  
+  // Check multi-slot requirements
+  const requiredSlots = item.criticalSlots;
+  if (requiredSlots > 1) {
+    // Validate consecutive empty slots
+  }
+  
+  return canAccept(equipmentObj);
+}
+```
 
-## Current State of Critical Slot System
+### 2. CriticalsTabIntegrated.tsx
+The main tab component that manages the overall critical slot state.
 
-### Working Features:
-1. ✅ Drag and drop equipment to slots
-2. ✅ Visual feedback for valid/invalid drops
-3. ✅ Multi-slot equipment preview on hover
-4. ✅ Equipment displacement when system components change
-5. ✅ Proper engine slot allocation for all engine types
-6. ✅ Fixed vs removable equipment distinction
-7. ✅ Actuator removal/addition logic
+**Key Responsibilities:**
+- Converts between parent data model (string-based) and object-based slots
+- Manages equipment allocations and tracks multi-slot placements
+- Handles system component changes (engine, gyro type changes)
+- Syncs state changes back to parent data model
 
-### Known Issues:
-1. ❌ Select dropdowns in StructureTabWithHooks not triggering onChange
-2. ❌ This prevents users from changing engine types through the UI
+**Current Issues:**
+- `canAccept()` always returns true - no real validation
+- Complex state synchronization between object model and parent string model
+- Batch update system to prevent circular updates
 
-## Recommended Fix
-The select dropdown issue needs to be investigated. The onChange handler is properly defined but the event isn't firing when options are selected. This could be due to:
-1. Event propagation issues
-2. React synthetic event handling
-3. CSS/styling interfering with the select element
+### 3. DraggableEquipmentItem.tsx
+The draggable equipment component for unallocated items.
 
-## Test Results
-- Test page with buttons instead of select: ✅ Works correctly
-- Engine type changes via API: ✅ Updates critical slots properly
-- Visual hover states: ✅ Display correctly for valid/invalid drops
-- Multi-slot equipment handling: ✅ Proper displacement when conflicts occur
+**Features:**
+- Uses `DraggedEquipmentV2` type for drag data
+- Color coding based on equipment type
+- Shows equipment stats (weight, slots, damage, heat)
 
-## Conclusion
-The critical slot system is functioning correctly. The drag and drop hover states work as intended. The only issue is the select dropdown UI control not triggering engine type changes.
+## State Management Flow
+
+### 1. Initialization
+1. Component reads `criticalAllocationsFromParent` (string-based)
+2. Converts to object-based `CriticalSlotObject` format
+3. Tracks multi-slot equipment with `multiSlotGroupId`
+4. Maintains `equipmentAllocations` to track which equipment is placed where
+
+### 2. Drop Handling
+1. User drags equipment over slot
+2. `canDrop` validates if placement is valid
+3. `hover` handler triggers visual feedback
+4. `drop` handler places equipment and updates state
+5. `batchUpdateToParent()` syncs changes back
+
+### 3. Visual States
+
+#### Empty Slot States:
+- **Normal**: Dashed border, semi-transparent
+- **Hover (Valid)**: Green background (#16a34a), green border, scale effect
+- **Hover (Invalid)**: Red background (#dc2626), red border, cursor not-allowed
+- **Multi-slot Preview**: Blue background (#2563eb) for all affected slots
+
+#### Occupied Slot States:
+- **Normal**: Solid border, color based on equipment type
+- **System Component**: Cannot be dragged, darker on hover
+- **Draggable**: Shows grab cursor, lifts on hover
+- **Dragging**: 50% opacity, grabbing cursor
+
+## Identified Issues
+
+### 1. Validation Logic Too Permissive
+The `canAccept()` function always returns true:
+```typescript
+const canAccept = (equipment: EquipmentObject) => {
+  // Basic validation - in real app would check more constraints
+  return true;
+};
+```
+
+This should validate:
+- Location restrictions (e.g., weapons in arms/torsos only)
+- Weight limits
+- Tech level compatibility
+- Special equipment requirements
+
+### 2. Hover State Management
+The hover state system is complex with multiple overlapping concerns:
+- Individual slot hover
+- Multi-slot preview
+- Drag-over validation
+- Color coding
+
+The `handleHoverChange` and `getMultiSlotPreview` logic may not be properly coordinating.
+
+### 3. Multi-slot Equipment Handling
+Multi-slot equipment uses:
+- `multiSlotGroupId` to link slots
+- `multiSlotIndex` to track position
+- `isPartOfMultiSlot` flag
+
+But the visual feedback for multi-slot drops may not be clear enough.
+
+## Expected Behavior
+
+### For Empty Slots:
+1. **No Hover**: Show slot number, dashed border, semi-transparent
+2. **Valid Hover**: Green highlight, show equipment preview
+3. **Invalid Hover**: Red highlight, not-allowed cursor
+4. **Multi-slot**: Highlight all required consecutive slots
+
+### For Occupied Slots:
+1. **Fixed Equipment**: No drag handle, darker on hover
+2. **Removable Equipment**: Drag handle visible, lift on hover
+3. **Multi-slot**: Visual continuity with connected borders
+
+### Drag & Drop Flow:
+1. **Drag Start**: Source item becomes semi-transparent
+2. **Drag Over Empty**: Show green/red based on validation
+3. **Drag Over Occupied**: Always show red (invalid)
+4. **Drop**: Place equipment, update allocations, sync to parent
+
+## Recommendations
+
+### 1. Implement Proper Validation
+```typescript
+const canAccept = (equipment: EquipmentObject, location: string): boolean => {
+  // Check location restrictions
+  if (equipment.category === EquipmentCategory.WEAPON) {
+    if (location === MECH_LOCATIONS.HEAD || 
+        location === MECH_LOCATIONS.LEFT_LEG ||
+        location === MECH_LOCATIONS.RIGHT_LEG) {
+      return false; // No weapons in head or legs
+    }
+  }
+  
+  // Check weight limits
+  // Check tech compatibility
+  // etc.
+  
+  return true;
+};
+```
+
+### 2. Simplify Hover State
+- Use a single source of truth for hover state
+- Ensure CSS classes properly override each other
+- Add clearer visual feedback for multi-slot preview
+
+### 3. Improve Error Messages
+Instead of generic alerts, show contextual error messages:
+- "Weapons cannot be placed in legs"
+- "Not enough consecutive slots available"
+- "This location is full"
+
+### 4. Add Visual Indicators
+- Show slot requirements on equipment items
+- Add location capacity indicators
+- Show drop preview more clearly
+
+## CSS Class Hierarchy
+
+The CSS classes should be applied in this order for proper precedence:
+1. Base: `.slot`
+2. State: `.empty` or `.occupied`
+3. Type: `.system` (for fixed components)
+4. Interaction: `.validDrop`, `.invalidDrop`, `.hovered`
+5. Multi-slot: `.multiSlot`, `.multiSlotStart`, etc.
+
+Using `!important` should be avoided where possible by ensuring proper specificity.
