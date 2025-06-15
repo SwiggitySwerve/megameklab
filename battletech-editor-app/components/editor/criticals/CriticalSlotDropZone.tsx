@@ -7,6 +7,7 @@ import React, { useRef, useEffect } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { CriticalSlotObject, EquipmentObject, EquipmentType, EquipmentCategory } from '../../../types/criticalSlots';
 import { DraggedEquipmentV2 } from '../dnd/typesV2';
+import { getEquipmentColorClasses } from '../../../utils/equipmentColors';
 import styles from './CriticalSlotDropZone.module.css';
 
 interface CriticalSlotDropZoneProps {
@@ -201,12 +202,24 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     }
   }, [isOver, onHoverChange]);
 
+  // Get equipment color classes
+  const getEquipmentColors = () => {
+    if (!hasEquipment || !equipment) {
+      return getEquipmentColorClasses('-Empty-');
+    }
+    return getEquipmentColorClasses(equipment.name);
+  };
+
   // Determine slot styling
   const getSlotClassName = () => {
     const classes = [styles.slot];
+    const colorClasses = getEquipmentColors();
     
     if (hasEquipment) {
       classes.push(styles.occupied);
+      // Apply color classes
+      classes.push(colorClasses.bg, colorClasses.border, colorClasses.text);
+      
       if (isSystemComponent) {
         classes.push(styles.system);
       }
@@ -225,6 +238,8 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       }
     } else {
       classes.push(styles.empty);
+      // Apply empty slot colors
+      classes.push(colorClasses.bg, colorClasses.border, colorClasses.text);
     }
     
     if (isHoveredMultiSlot || isPartOfDropPreview) {

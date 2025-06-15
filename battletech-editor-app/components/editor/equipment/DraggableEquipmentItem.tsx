@@ -4,6 +4,7 @@ import { FullEquipment } from '../../../types';
 import { DragItemType } from '../dnd/types';
 import { DraggedEquipmentV2 } from '../dnd/typesV2';
 import { isSpecialComponent } from '../../../types/systemComponents';
+import { getEquipmentColorClasses } from '../../../utils/equipmentColors';
 import styles from './DraggableEquipmentItem.module.css';
 
 export interface DraggableEquipmentItemProps {
@@ -125,10 +126,13 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
     }
   }, [drag]);
 
+  // Get color classes for the equipment
+  const colorClasses = getEquipmentColorClasses(equipment.name);
+
   return (
     <div 
       ref={dragRef}
-      className={`${styles.container} ${isCompact ? styles.compact : ''} ${isDragging ? styles.dragging : ''}`}
+      className={`${styles.container} ${colorClasses.bg} ${colorClasses.border} ${colorClasses.text} ${isCompact ? styles.compact : ''} ${isDragging ? styles.dragging : ''}`}
       style={{ 
         opacity: isDragging ? 0.5 : 1,
         cursor: isDragging ? 'grabbing' : 'grab'

@@ -1,6 +1,5 @@
 .slot {
-  background: #1f2937;
-  border: 1px solid #374151;
+  border-style: solid;
   border-radius: 0.125rem;
   padding: 0.125rem 0.25rem;
   display: flex;
@@ -10,7 +9,6 @@
   transition: all 0.15s;
   user-select: none;
   position: relative;
-  color: #e5e7eb;
   font-size: 0.75rem;
 }
 
@@ -20,15 +18,11 @@
 }
 
 .empty {
-  background: #111827;
-  color: #6b7280;
-  border: 1px dashed #374151;
+  border-style: dashed !important;
   opacity: 0.7;
 }
 
 .empty:hover {
-  background: #1f2937;
-  border-color: #4b5563;
   opacity: 0.9;
 }
 
@@ -213,29 +207,22 @@
 
 /* Occupied slot styles */
 .slot.occupied {
-  background: #2563eb;
-  border-color: #3b82f6;
-  color: #ffffff;
   cursor: move;
 }
 
 .slot.occupied:hover {
-  background: #1d4ed8;
-  border-color: #2563eb;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
 }
 
 /* System component slot (non-removable) */
 .slot.system {
-  background: #6366f1;
-  border-color: #7c3aed;
   cursor: default;
 }
 
 .slot.system:hover {
-  background: #5b21b6;
-  border-color: #6d28d9;
+  filter: brightness(0.9);
 }
 
 /* Multi-slot equipment styles */
