@@ -1,6 +1,6 @@
 /**
- * Enhanced Drag and Drop types for V2 Critical Slot System
- * Extends the basic types with object-based equipment data
+ * Drag and Drop types for Critical Slot System
+ * Object-based equipment data
  */
 
 import { EquipmentCategory } from '../../../types/criticalSlots';
@@ -12,7 +12,7 @@ export enum DragItemType {
   SYSTEM = 'system'
 }
 
-export interface DraggedEquipmentV2 {
+export interface DraggedEquipment {
   type: DragItemType;
   equipmentId: string;
   name: string;

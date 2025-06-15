@@ -6,7 +6,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { CriticalSlotObject, EquipmentObject, EquipmentType, EquipmentCategory } from '../../../types/criticalSlots';
-import { DraggedEquipmentV2 } from '../dnd/typesV2';
+import { DraggedEquipment } from '../dnd/types';
 import { getEquipmentColorClasses } from '../../../utils/equipmentColors';
 import styles from './CriticalSlotDropZone.module.css';
 
@@ -51,8 +51,15 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
   // Drag source for occupied slots
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'equipment',
-    item: (): DraggedEquipmentV2 | null => {
+    item: (): DraggedEquipment | null => {
       if (!hasEquipment || !equipment || isSystemComponent) return null;
+      
+      // For multi-slot equipment, find the actual start index
+      let actualStartIndex = slotIndex;
+      if (isMultiSlot && multiSlotPosition !== undefined && multiSlotPosition > 0) {
+        // This is not the first slot of the equipment, calculate the actual start
+        actualStartIndex = slotIndex - multiSlotPosition;
+      }
       
       return {
         type: 'equipment' as any,
@@ -66,42 +73,72 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
         heat: equipment.heat,
         isFromCriticalSlot: true,
         sourceLocation: location,
-        sourceSlotIndex: slotIndex
+        sourceSlotIndex: actualStartIndex
       };
     },
     canDrag: () => hasEquipment && !isSystemComponent && !disabled,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }), [hasEquipment, equipment, isSystemComponent, disabled, location, slotIndex]);
+  }), [hasEquipment, equipment, isSystemComponent, disabled, location, slotIndex, multiSlotPosition]);
   
   // Drop target setup
   const [{ isOver, canDrop, draggedItem }, drop] = useDrop({
     accept: 'equipment',
-    canDrop: (item: DraggedEquipmentV2) => {
-      // Always return false if disabled
+    canDrop: (item: DraggedEquipment) => {
+      // Don't allow drops on disabled slots
       if (disabled) return false;
       
-      // Check if this is the source slot of the current drag
+      // Allow dropping back to the same slot (canceling the drag)
       if (item.isFromCriticalSlot && 
           item.sourceLocation === location && 
           item.sourceSlotIndex === slotIndex) {
-        return true; // Allow dropping back to the same slot
+        return true;
       }
       
-      // Check if slot is empty
-      if (hasEquipment) return false;
-      
-      // Check if we have enough consecutive empty slots for multi-slot equipment
-      const requiredSlots = item.criticalSlots;
-      if (requiredSlots > 1) {
-        // Check if we have enough slots remaining
-        if (slotIndex + requiredSlots > criticalSlots.length) {
-          return false;
+      // For equipment being moved from critical slots, check if target overlaps with source
+      if (item.isFromCriticalSlot && item.sourceLocation === location) {
+        const sourceStart = item.sourceSlotIndex || 0;
+        const sourceEnd = sourceStart + item.criticalSlots - 1;
+        const targetEnd = slotIndex + item.criticalSlots - 1;
+        
+        // Check if there's enough room for the equipment
+        if (targetEnd >= criticalSlots.length) {
+          return false; // Not enough slots
         }
         
-        // Check if all required slots are empty
-        for (let i = 0; i < requiredSlots; i++) {
+        // Allow if target range overlaps with source range (partial overlap)
+        const overlaps = (slotIndex <= sourceEnd && targetEnd >= sourceStart);
+        if (overlaps) {
+          // Check if all non-overlapping slots are empty
+          for (let i = 0; i < item.criticalSlots; i++) {
+            const checkIndex = slotIndex + i;
+            // Skip slots that are part of the source equipment
+            if (checkIndex >= sourceStart && checkIndex <= sourceEnd) {
+              continue;
+            }
+            // Check if the slot exists and is empty
+            if (checkIndex >= criticalSlots.length || 
+                (criticalSlots[checkIndex]?.equipment !== null)) {
+              return false;
+            }
+          }
+          return true;
+        }
+      }
+      
+      // For new equipment or non-overlapping moves
+      // Check if we have enough slots
+      if (slotIndex + item.criticalSlots > criticalSlots.length) {
+        return false; // Not enough slots
+      }
+      
+      // Check if target slot is empty
+      if (hasEquipment) return false;
+      
+      // Check if all required slots are empty for multi-slot equipment
+      if (item.criticalSlots > 1) {
+        for (let i = 0; i < item.criticalSlots; i++) {
           const checkSlot = criticalSlots[slotIndex + i];
           if (!checkSlot || checkSlot.equipment !== null) {
             return false;
@@ -109,23 +146,12 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
         }
       }
       
-      // Convert DraggedEquipment to EquipmentObject if needed
-      const equipmentObj: EquipmentObject = {
-        id: item.equipmentId,
-        name: item.name,
-        type: item.type as any,
-        category: item.category as any,
-        requiredSlots: item.criticalSlots,
-        weight: item.weight || 0,
-        isFixed: false,
-        isRemovable: true,
-        techBase: (item.techBase || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
-      };
-      
-      return canAccept(equipmentObj);
+      return true;
     },
-    hover: (item: DraggedEquipmentV2, monitor) => {
-      if (!onHoverChange || !monitor.isOver({ shallow: true })) return;
+    hover: (item: DraggedEquipment, monitor) => {
+      const isHovering = monitor.isOver({ shallow: true });
+      
+      if (!onHoverChange || !isHovering) return;
       
       const equipmentObj: EquipmentObject = {
         id: item.equipmentId,
@@ -142,7 +168,7 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       // Always call hover change when hovering, regardless of canDrop
       onHoverChange(true, equipmentObj);
     },
-    drop: (item: DraggedEquipmentV2) => {
+    drop: (item: DraggedEquipment) => {
       const equipmentObj: EquipmentObject = {
         id: item.equipmentId,
         name: item.name,
@@ -156,6 +182,51 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
         damage: item.damage,
         heat: item.heat
       };
+      
+      // Validate the drop can actually happen
+      // Check if canAccept allows this drop
+      if (!canAccept(equipmentObj)) {
+        console.warn(`Cannot place ${item.name} in ${location} - location restrictions`);
+        return;
+      }
+      
+      // Check multi-slot requirements
+      if (item.criticalSlots > 1) {
+        // Check if we have enough slots remaining
+        if (slotIndex + item.criticalSlots > criticalSlots.length) {
+          console.warn(`Not enough slots for ${item.name} - needs ${item.criticalSlots} slots`);
+          return;
+        }
+        
+        // For moves from critical slots, check for overlaps
+        if (item.isFromCriticalSlot && item.sourceLocation === location) {
+          const sourceStart = item.sourceSlotIndex || 0;
+          const sourceEnd = sourceStart + item.criticalSlots - 1;
+          
+          // Check if all required slots are empty (excluding overlapping source slots)
+          for (let i = 0; i < item.criticalSlots; i++) {
+            const checkIndex = slotIndex + i;
+            // Skip slots that are part of the source equipment
+            if (checkIndex >= sourceStart && checkIndex <= sourceEnd) {
+              continue;
+            }
+            const checkSlot = criticalSlots[checkIndex];
+            if (!checkSlot || checkSlot.equipment !== null) {
+              console.warn(`Not enough consecutive empty slots for ${item.name}`);
+              return;
+            }
+          }
+        } else {
+          // For new equipment, all slots must be empty
+          for (let i = 0; i < item.criticalSlots; i++) {
+            const checkSlot = criticalSlots[slotIndex + i];
+            if (!checkSlot || checkSlot.equipment !== null) {
+              console.warn(`Not enough consecutive empty slots for ${item.name}`);
+              return;
+            }
+          }
+        }
+      }
       
       // If it's from another critical slot, call move instead
       if ('isFromCriticalSlot' in item && item.isFromCriticalSlot && 
@@ -173,7 +244,7 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     collect: (monitor) => ({
       isOver: monitor.isOver({ shallow: true }),
       canDrop: monitor.canDrop(),
-      draggedItem: monitor.getItem() as DraggedEquipmentV2 | null,
+      draggedItem: monitor.getItem() as DraggedEquipment | null,
     }),
   });
 

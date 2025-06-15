@@ -82,14 +82,21 @@
 ### Files Updated
 
 1. **`components/editor/equipment/DraggableEquipmentItem.tsx`**
-   - Updated to import from `dnd/typesV2` instead of `dnd/types`
+   - Updated to import from `dnd/types` instead of `dnd/typesV2`
+   - Now uses `DraggedEquipment` interface
 
-2. **`components/editor/dnd/typesV2.ts`**
-   - Added `DragItemType` enum export (was previously importing from old types)
+2. **`components/editor/dnd/types.ts`** (renamed from typesV2.ts)
+   - Renamed from `typesV2.ts` to `types.ts`
+   - Renamed `DraggedEquipmentV2` to `DraggedEquipment`
+   - Contains all DragItemType enums and interfaces
 
 3. **`components/editor/criticals/MechCriticalsAllocationGrid.tsx`**
-   - Updated to use `DraggedEquipmentV2` type
-   - Fixed import for CriticalSlotDropZone
+   - Updated to use `DraggedEquipment` type (was DraggedEquipmentV2)
+   - Updated imports to use `dnd/types`
+
+4. **`components/editor/criticals/CriticalSlotDropZone.tsx`**
+   - Updated to use `DraggedEquipment` type
+   - Updated imports to use `dnd/types`
 
 ### Files Kept
 
@@ -100,7 +107,7 @@
 - `components/editor/criticals/MechCriticalsAllocationGrid.module.css` - Styles
 
 #### DnD Types
-- `components/editor/dnd/typesV2.ts` - New types being used
+- `components/editor/dnd/types.ts` - Unified drag and drop types
 
 #### Main Tab
 - `components/editor/tabs/CriticalsTabIntegrated.tsx` - Main criticals tab
@@ -111,13 +118,14 @@
 
 ## Benefits
 1. **Reduced Code Complexity**: Removed ~47 unused files
-2. **Cleaner Imports**: All components now use the unified typesV2 system
+2. **Cleaner Imports**: All components now use the unified types system
 3. **Better Maintainability**: Only production-ready components remain
 4. **Consistent Architecture**: Single source of truth for critical slot components
 5. **No More Build Errors**: Removed files that referenced non-existent components
+6. **Simplified Naming**: Removed V2 suffix from all types and interfaces
 
 ## Remaining Clean Architecture
 - Single critical slot component: `CriticalSlotDropZone`
-- Unified type system: `typesV2`
+- Unified type system: `types.ts` (no more V2 suffix)
 - One production tab: `CriticalsTabIntegrated`
 - Color-coded equipment for visual clarity
