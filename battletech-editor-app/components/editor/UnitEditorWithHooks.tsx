@@ -17,7 +17,7 @@ import { HEAT_DISSIPATION_RATES } from '../../utils/heatSinkCalculations';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
-import CriticalsTabWithHooks from './tabs/CriticalsTabWithHooks';
+import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
 
 interface UnitEditorWithHooksProps {
@@ -195,7 +195,7 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     if (criticalAllocations) {
       Object.values(criticalAllocations).forEach(locationSlots => {
         locationSlots.forEach(slot => {
-          if (slot && slot.content && slot.content !== '' && slot.content !== '-Empty-') {
+          if (slot && slot.name && slot.name !== '' && slot.name !== '-Empty-') {
             assigned++;
           }
         });
@@ -234,7 +234,7 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
     { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
     { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
-    { id: 'criticals', label: 'Criticals', component: CriticalsTabWithHooks },
+    { id: 'criticals', label: 'Criticals', component: CriticalsTabIntegrated },
     { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },
   ];
   
