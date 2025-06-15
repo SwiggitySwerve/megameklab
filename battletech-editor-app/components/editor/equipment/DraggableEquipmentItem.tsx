@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { FullEquipment } from '../../../types';
-import { DragItemType } from '../dnd/types';
-import { DraggedEquipmentV2 } from '../dnd/typesV2';
+import { DraggedEquipmentV2, DragItemType } from '../dnd/typesV2';
 import { isSpecialComponent } from '../../../types/systemComponents';
 import { getEquipmentColorClasses } from '../../../utils/equipmentColors';
 import styles from './DraggableEquipmentItem.module.css';

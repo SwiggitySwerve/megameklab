@@ -3,8 +3,14 @@
  * Extends the basic types with object-based equipment data
  */
 
-import { DragItemType } from './types';
 import { EquipmentCategory } from '../../../types/criticalSlots';
+
+export enum DragItemType {
+  EQUIPMENT = 'equipment',
+  WEAPON = 'weapon',
+  AMMO = 'ammo',
+  SYSTEM = 'system'
+}
 
 export interface DraggedEquipmentV2 {
   type: DragItemType;

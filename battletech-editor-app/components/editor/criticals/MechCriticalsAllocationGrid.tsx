@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { EditableUnit, MECH_LOCATIONS } from '../../../types/editor';
-import { CriticalSlotDropZone } from './CriticalSlotDropZone';
-import { DraggedEquipment } from '../dnd/types';
+import CriticalSlotDropZone from './CriticalSlotDropZone';
+import { DraggedEquipmentV2 } from '../dnd/typesV2';
 import styles from './MechCriticalsAllocationGrid.module.css';
 
 export interface MechCriticalsAllocationGridProps {
   unit: EditableUnit;
-  onEquipmentPlace: (equipment: DraggedEquipment, location: string, slotIndex: number) => void;
+  onEquipmentPlace: (equipment: DraggedEquipmentV2, location: string, slotIndex: number) => void;
   onEquipmentRemove?: (location: string, slotIndex: number) => void;
   selectedLocation?: string;
   onLocationSelect?: (location: string) => void;
@@ -79,13 +79,13 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
     return slots;
   };
 
-  const handleEquipmentDrop = (item: DraggedEquipment, location: string, slotIndex: number) => {
+  const handleEquipmentDrop = (item: DraggedEquipmentV2, location: string, slotIndex: number) => {
     if (!readOnly) {
       onEquipmentPlace(item, location, slotIndex);
     }
   };
 
-  const canAcceptEquipment = (item: DraggedEquipment, location: string, slotIndex: number): boolean => {
+  const canAcceptEquipment = (item: DraggedEquipmentV2, location: string, slotIndex: number): boolean => {
     if (readOnly) return false;
     
     const slots = getLocationSlots(location);
@@ -143,7 +143,7 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
                 slotIndex={index}
                 currentItem={slot}
                 onDrop={handleEquipmentDrop}
-                canAccept={(item) => canAcceptEquipment(item, location, index)}
+                canAccept={(item: DraggedEquipmentV2) => canAcceptEquipment(item, location, index)}
                 isOmniPodSlot={isOmniPodSlot}
                 disabled={readOnly || isInternalStructure}
               />
