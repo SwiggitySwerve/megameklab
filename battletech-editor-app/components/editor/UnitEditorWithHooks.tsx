@@ -19,6 +19,7 @@ import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
 import CriticalsTab from './tabs/CriticalsTab';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
+import CustomDropdown from '../common/CustomDropdown';
 
 interface UnitEditorWithHooksProps {
   unit: EditableUnit;
@@ -29,7 +30,7 @@ interface UnitEditorWithHooksProps {
 // Inner component that uses the hook
 function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   const router = useRouter();
-  const { state } = useUnitData();
+  const { state, updateEngine, updateGyro } = useUnitData();
   const systemComponents = useSystemComponents();
   const criticalAllocations = useCriticalAllocations();
   const equipment = useEquipment();
@@ -229,6 +230,22 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   const heatBalance = calculateHeatBalance();
   const criticalSlots = calculateCriticalSlots();
   
+  // Component options
+  const engineTypes = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  const gyroTypes = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+  
+  // Handle engine type change
+  const handleEngineTypeChange = (newType: string) => {
+    if (systemComponents?.engine) {
+      updateEngine(newType, systemComponents.engine.rating);
+    }
+  };
+  
+  // Handle gyro type change
+  const handleGyroTypeChange = (newType: string) => {
+    updateGyro(newType);
+  };
+  
   // Tab configuration
   const tabs = [
     { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
@@ -244,6 +261,7 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     <div className="min-h-screen bg-slate-900">
       {/* Unit Information Banner */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3">
+        {/* First Row - Unit Name and Stats */}
         <div className="flex items-center justify-between">
           {/* Unit Name and Type */}
           <div className="flex items-center gap-4">
@@ -309,6 +327,35 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
               <span className="font-medium text-slate-200">
                 {unit.era}
               </span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Second Row - Engine and Gyro Dropdowns */}
+        <div className="flex items-center gap-4 mt-2">
+          {/* Engine Type */}
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-slate-400">Engine:</label>
+            <div className="w-32">
+              <CustomDropdown
+                value={systemComponents?.engine?.type || 'Standard'}
+                options={engineTypes}
+                onChange={handleEngineTypeChange}
+                disabled={readOnly}
+              />
+            </div>
+          </div>
+          
+          {/* Gyro Type */}
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-slate-400">Gyro:</label>
+            <div className="w-32">
+              <CustomDropdown
+                value={systemComponents?.gyro?.type || 'Standard'}
+                options={gyroTypes}
+                onChange={handleGyroTypeChange}
+                disabled={readOnly}
+              />
             </div>
           </div>
         </div>

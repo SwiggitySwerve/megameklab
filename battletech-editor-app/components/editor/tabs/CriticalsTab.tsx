@@ -126,7 +126,7 @@ export default function CriticalsTab({ readOnly = false }: CriticalsTabProps) {
   // Calculate internal structure
   const internalStructure = useMemo(() => calculateCompleteInternalStructure(unit), [unit]);
   
-  // Watch for system component changes and sync critical slots
+  // Watch for system component changes - just update refs, don't modify unit
   useEffect(() => {
     if (!systemComponents) return;
     
@@ -134,86 +134,18 @@ export default function CriticalsTab({ readOnly = false }: CriticalsTabProps) {
     const gyroChanged = prevGyroType.current !== systemComponents?.gyro?.type;
     
     if (engineChanged || gyroChanged) {
-      console.log('System component changed, syncing critical slots');
+      console.log('System component changed:', {
+        engine: systemComponents.engine?.type,
+        prevEngine: prevEngineType.current,
+        gyro: systemComponents?.gyro?.type,
+        prevGyro: prevGyroType.current
+      });
       
-      // Update refs
+      // Just update refs - the reducer has already handled the critical slot updates
       prevEngineType.current = systemComponents.engine?.type;
       prevGyroType.current = systemComponents?.gyro?.type;
-      
-      // The reducer has already updated criticalAllocations via syncGyroChange
-      // We need to convert that to our simple criticalSlots format
-      if (unit.data?.criticals) {
-        const newCriticalSlots: any = {};
-        
-        // Convert from legacy criticals format to our simple format
-        unit.data.criticals.forEach((locData: any) => {
-          const location = locData.location;
-          const internalSlotsCount = internalStructure[location]?.length || 0;
-          const totalSlots = mechLocations.find(l => l.name === location)?.slots || 12;
-          
-          // Check if internal structure takes all available slots
-          if (internalSlotsCount >= totalSlots) {
-            console.warn(`Location ${location} has no room for equipment - internal structure uses all ${totalSlots} slots`);
-            newCriticalSlots[location] = [];
-            return;
-          }
-          
-          // Extract just the equipment slots (skip internal structure)
-          const equipmentSlots: (string | null)[] = [];
-          
-          locData.slots.forEach((slot: any, index: number) => {
-            // Skip internal structure slots
-            if (index >= internalSlotsCount && index < totalSlots) {
-              const slotName = typeof slot === 'string' ? slot : slot?.name || '-Empty-';
-              equipmentSlots.push(slotName === '-Empty-' ? null : slotName);
-            }
-          });
-          
-          newCriticalSlots[location] = equipmentSlots;
-        });
-        
-        console.log('Synced critical slots:', newCriticalSlots);
-        
-        // Update the unit with synced critical slots
-        const updatedUnit = {
-          ...unit,
-          criticalSlots: newCriticalSlots
-        };
-        
-        setUnit(updatedUnit);
-        
-        // Check for displaced equipment and update locations
-        const displacedEquipment: string[] = [];
-        Object.entries(newCriticalSlots).forEach(([location, slots]: [string, any]) => {
-          const oldSlots = (unit.criticalSlots as any)?.[location] || [];
-          
-          // Check what equipment was removed
-          oldSlots.forEach((oldItem: string | null) => {
-            if (oldItem && !slots.includes(oldItem)) {
-              displacedEquipment.push(oldItem);
-            }
-          });
-        });
-        
-        // Clear locations for displaced equipment
-        if (displacedEquipment.length > 0) {
-          console.log('Displaced equipment:', displacedEquipment);
-          
-          setTimeout(() => {
-            const currentEquipment = state.unit.data?.weapons_and_equipment || [];
-            displacedEquipment.forEach(itemName => {
-              const equipmentIndex = currentEquipment.findIndex((eq: any) => 
-                eq.item_name === itemName && eq.location !== ''
-              );
-              if (equipmentIndex !== -1) {
-                updateEquipmentLocation(equipmentIndex, '');
-              }
-            });
-          }, 0);
-        }
-      }
     }
-  }, [systemComponents?.engine?.type, systemComponents?.gyro?.type]); // Remove unit.data?.criticals to prevent infinite loop
+  }, [systemComponents?.engine?.type, systemComponents?.gyro?.type]);
   
   // Convert string array to CriticalSlotObject for display
   const convertToSlotObject = (

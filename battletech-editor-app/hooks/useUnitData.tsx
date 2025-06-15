@@ -185,12 +185,26 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
       // Extract what we need from updates
       const { systemComponents, criticalAllocations, data } = updates;
       
+      // Convert criticalAllocations to simplified criticalSlots format
+      let criticalSlots: any = {};
+      if (criticalAllocations) {
+        Object.entries(criticalAllocations).forEach(([location, slots]) => {
+          // Filter out system slots and map to equipment slots only
+          const equipmentSlots = slots
+            .filter((slot: any) => slot.type !== 'system' || !slot.isFixed)
+            .map((slot: any) => slot.name === '-Empty-' ? null : slot.name);
+          
+          criticalSlots[location] = equipmentSlots;
+        });
+      }
+      
       return {
         ...state,
         unit: {
           ...state.unit,
           systemComponents: systemComponents || state.unit.systemComponents,
           criticalAllocations: criticalAllocations || state.unit.criticalAllocations,
+          criticalSlots,
           data: {
             ...state.unit.data,
             engine: data?.engine || state.unit.data?.engine,
@@ -214,12 +228,26 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
       // Extract what we need from updates
       const { systemComponents, criticalAllocations, data } = updates;
       
+      // Convert criticalAllocations to simplified criticalSlots format
+      let criticalSlots: any = {};
+      if (criticalAllocations) {
+        Object.entries(criticalAllocations).forEach(([location, slots]) => {
+          // Filter out system slots and map to equipment slots only
+          const equipmentSlots = slots
+            .filter((slot: any) => slot.type !== 'system' || !slot.isFixed)
+            .map((slot: any) => slot.name === '-Empty-' ? null : slot.name);
+          
+          criticalSlots[location] = equipmentSlots;
+        });
+      }
+      
       return {
         ...state,
         unit: {
           ...state.unit,
           systemComponents: systemComponents || state.unit.systemComponents,
           criticalAllocations: criticalAllocations || state.unit.criticalAllocations,
+          criticalSlots,
           data: {
             ...state.unit.data,
             gyro: data?.gyro || state.unit.data?.gyro,
@@ -622,9 +650,14 @@ export function UnitDataProvider({
     if (state.isDirty && onUnitChange && 
         state.lastAction !== UnitActionType.SET_UNIT && 
         state.lastAction !== UnitActionType.MIGRATE_UNIT) {
-      onUnitChange(state.unit);
+      // Use a timeout to prevent synchronous state updates
+      const timer = setTimeout(() => {
+        onUnitChange(state.unit);
+      }, 0);
+      
+      return () => clearTimeout(timer);
     }
-  }, [state.unit, state.isDirty, state.lastAction, onUnitChange]);
+  }, [state.isDirty, state.lastAction]); // Remove state.unit and onUnitChange from deps
 
   // Auto-validate on changes
   useEffect(() => {
