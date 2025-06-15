@@ -334,6 +334,11 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
 
   // Render equipment content
   const renderContent = () => {
+    // Debug logging for system components
+    if (location === 'Center Torso' && slotIndex < 3) {
+      console.log(`Slot ${slotIndex}: hasEquipment=${hasEquipment}, equipment=`, equipment);
+    }
+    
     if (!hasEquipment || !equipment) {
       // Empty slot - just show the slot number
       return (

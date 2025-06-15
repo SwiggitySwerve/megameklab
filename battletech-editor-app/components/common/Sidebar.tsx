@@ -168,6 +168,45 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           ))}
         </div>
         
+        {/* Test Section */}
+        <div className="pt-4 border-t border-gray-700">
+          {!isCollapsed && (
+            <div className="px-2 pb-2 text-xs font-semibold text-gray-400 uppercase tracking-wide">
+              Critical Slot Test
+            </div>
+          )}
+          <NavItem
+            href="/test-critical-slots"
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-2.496a4.5 4.5 0 00-6.364-6.364l-3.711 3.71-1.847 5.903 5.903-1.847 3.711-3.711a4.5 4.5 0 006.364 6.364l-5.878 5.878m5.878-5.878L21 17.25" />
+              </svg>
+            }
+            label="Critical Slots Test"
+            isCollapsed={isCollapsed}
+          />
+          <NavItem
+            href="/test-slot-rendering"
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v6.75a2.25 2.25 0 01-1.244 2.013l-5.25 2.625a2.25 2.25 0 01-2.012 0l-5.25-2.625A2.25 2.25 0 016 14.25V7.5m15 0l-2.25 1.313M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m-9-5.25l2.25-1.313M3 7.5l9 5.25M3 7.5v6.75a2.25 2.25 0 001.244 2.013l5.25 2.625a2.25 2.25 0 002.012 0l5.25-2.625A2.25 2.25 0 0018 14.25V7.5" />
+              </svg>
+            }
+            label="Slot Rendering"
+            isCollapsed={isCollapsed}
+          />
+          <NavItem
+            href="/test-engine-display"
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+            }
+            label="Engine Display"
+            isCollapsed={isCollapsed}
+          />
+        </div>
+        
       </nav>
       {!isCollapsed && (
         <div className="p-4 border-t border-gray-700 text-xs text-gray-400">

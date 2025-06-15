@@ -17,7 +17,7 @@ import { HEAT_DISSIPATION_RATES } from '../../utils/heatSinkCalculations';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
-import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
+import CriticalsTab from './tabs/CriticalsTab';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
 
 interface UnitEditorWithHooksProps {
@@ -234,7 +234,7 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
     { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
     { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
-    { id: 'criticals', label: 'Criticals', component: CriticalsTabIntegrated },
+    { id: 'criticals', label: 'Criticals', component: CriticalsTab },
     { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },
   ];
   

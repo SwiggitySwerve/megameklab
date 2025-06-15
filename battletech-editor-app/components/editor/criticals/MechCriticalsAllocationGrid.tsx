@@ -4,6 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { EditableUnit, MECH_LOCATIONS } from '../../../types/editor';
 import CriticalSlotDropZone from './CriticalSlotDropZone';
 import { DraggedEquipment } from '../dnd/types';
+import { calculateCompleteInternalStructure } from '../../../utils/criticalSlotCalculations';
 import styles from './MechCriticalsAllocationGrid.module.css';
 
 export interface MechCriticalsAllocationGridProps {
@@ -29,18 +30,6 @@ const CRITICAL_SLOT_COUNTS = {
   [MECH_LOCATIONS.RIGHT_LEG]: 6,
 };
 
-// Standard internal structure slots that are always occupied
-const INTERNAL_STRUCTURE_SLOTS = {
-  [MECH_LOCATIONS.HEAD]: ['Life Support', 'Sensors', 'Cockpit', 'Life Support'],
-  [MECH_LOCATIONS.LEFT_TORSO]: [],
-  [MECH_LOCATIONS.CENTER_TORSO]: ['Engine', 'Engine', 'Engine', 'Gyro', 'Gyro', 'Gyro', 'Gyro'],
-  [MECH_LOCATIONS.RIGHT_TORSO]: [],
-  [MECH_LOCATIONS.LEFT_ARM]: ['Shoulder', 'Upper Arm', 'Lower Arm', 'Hand'],
-  [MECH_LOCATIONS.RIGHT_ARM]: ['Shoulder', 'Upper Arm', 'Lower Arm', 'Hand'],
-  [MECH_LOCATIONS.LEFT_LEG]: ['Hip', 'Upper Leg', 'Lower Leg', 'Foot'],
-  [MECH_LOCATIONS.RIGHT_LEG]: ['Hip', 'Upper Leg', 'Lower Leg', 'Foot'],
-};
-
 export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridProps> = ({
   unit,
   onEquipmentPlace,
@@ -52,11 +41,15 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
   compactView = false,
 }) => {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  
+  // Calculate internal structure dynamically based on unit configuration
+  const internalStructure = calculateCompleteInternalStructure(unit);
 
   const getLocationSlots = (location: string): string[] => {
     const slotCount = (CRITICAL_SLOT_COUNTS as any)[location] || 12;
     const currentSlots = (unit.criticalSlots as any)?.[location] || [];
-    const internalSlots = (INTERNAL_STRUCTURE_SLOTS as any)[location] || [];
+    const internalSlots = internalStructure[location] || [];
+    
     
     // Merge internal structure with current equipment
     const slots = Array(slotCount).fill('- Empty -');
@@ -69,12 +62,16 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
     });
     
     // Then fill with current equipment
-    currentSlots.forEach((item: any, index: number) => {
-      const slotIndex = index + internalSlots.length;
-      if (slotIndex < slotCount && item && item !== '- Empty -') {
-        slots[slotIndex] = item;
-      }
-    });
+    // Only add equipment if there are slots available after internal structure
+    if (internalSlots.length < slotCount) {
+      currentSlots.forEach((item: any, index: number) => {
+        const slotIndex = index + internalSlots.length;
+        if (slotIndex < slotCount && item && item !== '- Empty -') {
+          slots[slotIndex] = item;
+        }
+      });
+    }
+    
     
     return slots;
   };
@@ -89,7 +86,7 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
     if (readOnly) return false;
     
     const slots = getLocationSlots(location);
-    const internalSlots = (INTERNAL_STRUCTURE_SLOTS as any)[location] || [];
+    const internalSlots = internalStructure[location] || [];
     
     // Can't place in internal structure slots
     if (slotIndex < internalSlots.length) return false;
@@ -110,7 +107,7 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
 
   const renderLocationColumn = (location: string) => {
     const slots = getLocationSlots(location);
-    const internalSlots = (INTERNAL_STRUCTURE_SLOTS as any)[location] || [];
+    const internalSlots = internalStructure[location] || [];
     const isSelected = selectedLocation === location;
     const isHovered = hoveredLocation === location;
 
@@ -136,15 +133,103 @@ export const MechCriticalsAllocationGrid: React.FC<MechCriticalsAllocationGridPr
             const isInternalStructure = index < internalSlots.length;
             const isOmniPodSlot = (unit as any).omnipod?.includes(`${location}-${index}`) || false;
             
+            // Debug logging for Center Torso Engine slots
+            if (location === MECH_LOCATIONS.CENTER_TORSO && index < 3) {
+              console.log(`Creating slot object for ${location} slot ${index}:`, {
+                slot,
+                isInternalStructure,
+                internalSlotsLength: internalSlots.length
+              });
+            }
+            
+            // Convert string slot to CriticalSlotObject format
+            const slotObject: any = {
+              slotIndex: index,
+              location: location,
+              equipment: null,
+              isLocked: isInternalStructure,
+              isEmpty: slot === '- Empty -',
+              displayName: slot,
+              isPartOfMultiSlot: false,
+              slotType: 'normal'
+            };
+            
+            // If it's a system component, create a proper equipment object
+            if (isInternalStructure && slot !== '- Empty -') {
+              slotObject.equipment = {
+                equipmentId: `system-${location}-${index}`,
+                equipmentData: {
+                  id: `system-${location}-${index}`,
+                  name: slot,
+                  type: 'System' as any,
+                  category: 'System' as any,
+                  requiredSlots: 1,
+                  weight: 0,
+                  isFixed: true,
+                  isRemovable: false,
+                  techBase: 'Both' as any
+                },
+                allocatedSlots: 1,
+                startSlotIndex: index,
+                endSlotIndex: index
+              };
+              
+              if (location === MECH_LOCATIONS.CENTER_TORSO && index < 3) {
+                console.log(`Created equipment object for slot ${index}:`, slotObject.equipment);
+              }
+            } else if (!isInternalStructure && slot !== '- Empty -' && slot) {
+              // Regular equipment
+              slotObject.equipment = {
+                equipmentId: `eq-${location}-${index}`,
+                equipmentData: {
+                  id: `eq-${location}-${index}`,
+                  name: slot,
+                  type: 'EQUIPMENT' as any,
+                  category: 'Equipment' as any,
+                  requiredSlots: 1,
+                  weight: 0,
+                  isFixed: false,
+                  isRemovable: true,
+                  techBase: 'Inner Sphere' as any
+                },
+                allocatedSlots: 1,
+                startSlotIndex: index,
+                endSlotIndex: index
+              };
+            }
+            
             return (
               <CriticalSlotDropZone
                 key={`${location}-${index}`}
                 location={location}
                 slotIndex={index}
-                currentItem={slot}
-                onDrop={handleEquipmentDrop}
-                canAccept={(item: DraggedEquipment) => canAcceptEquipment(item, location, index)}
-                isOmniPodSlot={isOmniPodSlot}
+                slot={slotObject}
+                onDrop={(equipment: any, loc: string, idx: number) => {
+                  // Convert EquipmentObject to DraggedEquipment format
+                  const draggedItem: DraggedEquipment = {
+                    type: 'equipment' as any,
+                    equipmentId: equipment.id,
+                    name: equipment.name,
+                    weight: equipment.weight || 0,
+                    criticalSlots: equipment.requiredSlots || 1,
+                    category: equipment.category,
+                    techBase: equipment.techBase
+                  };
+                  handleEquipmentDrop(draggedItem, loc, idx);
+                }}
+                canAccept={(equipment: any) => {
+                  // Convert EquipmentObject to DraggedEquipment format
+                  const draggedItem: DraggedEquipment = {
+                    type: 'equipment' as any,
+                    equipmentId: equipment.id,
+                    name: equipment.name,
+                    weight: equipment.weight || 0,
+                    criticalSlots: equipment.requiredSlots || 1,
+                    category: equipment.category,
+                    techBase: equipment.techBase
+                  };
+                  return canAcceptEquipment(draggedItem, location, slotObject.slotIndex);
+                }}
                 disabled={readOnly || isInternalStructure}
               />
             );
