@@ -5,7 +5,7 @@
 
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { EditableUnit } from '../types/editor';
-import { SystemComponents, CriticalAllocationMap } from '../types/systemComponents';
+import { SystemComponents, CriticalAllocationMap, CriticalSlot } from '../types/systemComponents';
 import { migrateUnitToSystemComponents, validateUnit } from '../utils/componentValidation';
 import { 
   syncEngineChange, 
@@ -182,11 +182,21 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
         action.payload.rating
       );
       
+      // Extract what we need from updates
+      const { systemComponents, criticalAllocations, data } = updates;
+      
       return {
         ...state,
         unit: {
           ...state.unit,
-          ...updates,
+          systemComponents: systemComponents || state.unit.systemComponents,
+          criticalAllocations: criticalAllocations || state.unit.criticalAllocations,
+          data: {
+            ...state.unit.data,
+            engine: data?.engine || state.unit.data?.engine,
+            weapons_and_equipment: data?.weapons_and_equipment || state.unit.data?.weapons_and_equipment,
+            criticals: data?.criticals || state.unit.data?.criticals,
+          },
           editorMetadata: {
             ...state.unit.editorMetadata,
             lastModified: new Date(),
@@ -201,11 +211,21 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     case UnitActionType.UPDATE_GYRO: {
       const updates = syncGyroChange(state.unit, action.payload.type as any);
       
+      // Extract what we need from updates
+      const { systemComponents, criticalAllocations, data } = updates;
+      
       return {
         ...state,
         unit: {
           ...state.unit,
-          ...updates,
+          systemComponents: systemComponents || state.unit.systemComponents,
+          criticalAllocations: criticalAllocations || state.unit.criticalAllocations,
+          data: {
+            ...state.unit.data,
+            gyro: data?.gyro || state.unit.data?.gyro,
+            weapons_and_equipment: data?.weapons_and_equipment || state.unit.data?.weapons_and_equipment,
+            criticals: data?.criticals || state.unit.data?.criticals,
+          },
           editorMetadata: {
             ...state.unit.editorMetadata,
             lastModified: new Date(),
@@ -220,17 +240,33 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     case UnitActionType.UPDATE_STRUCTURE: {
       const updates = syncStructureChange(state.unit, action.payload.type as any);
       
+      // Extract what we need from updates
+      const { systemComponents, data } = updates;
+      
+      // Build new state preserving critical allocations
+      const newUnit = {
+        ...state.unit,
+        systemComponents: systemComponents || state.unit.systemComponents,
+        // IMPORTANT: Always preserve existing criticalAllocations
+        criticalAllocations: state.unit.criticalAllocations,
+        data: {
+          ...state.unit.data,
+          // Update structure type and equipment list
+          structure: data?.structure || state.unit.data?.structure,
+          weapons_and_equipment: data?.weapons_and_equipment || state.unit.data?.weapons_and_equipment,
+          // IMPORTANT: Preserve existing criticals
+          criticals: state.unit.data?.criticals,
+        },
+        editorMetadata: {
+          ...state.unit.editorMetadata,
+          lastModified: new Date(),
+          isDirty: true,
+        },
+      };
+      
       return {
         ...state,
-        unit: {
-          ...state.unit,
-          ...updates,
-          editorMetadata: {
-            ...state.unit.editorMetadata,
-            lastModified: new Date(),
-            isDirty: true,
-          },
-        },
+        unit: newUnit,
         isDirty: true,
         lastAction: action.type,
       };
@@ -239,11 +275,22 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     case UnitActionType.UPDATE_ARMOR: {
       const updates = syncArmorChange(state.unit, action.payload.type as any);
       
+      // Don't overwrite criticalAllocations or criticals
+      const { criticalAllocations, data, ...otherUpdates } = updates;
+      
       return {
         ...state,
         unit: {
           ...state.unit,
-          ...updates,
+          ...otherUpdates,
+          data: {
+            ...state.unit.data,
+            ...data,
+            // Preserve existing criticals
+            criticals: state.unit.data?.criticals || data?.criticals,
+          },
+          // Preserve existing criticalAllocations
+          criticalAllocations: state.unit.criticalAllocations,
           editorMetadata: {
             ...state.unit.editorMetadata,
             lastModified: new Date(),
@@ -328,7 +375,15 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     case UnitActionType.UPDATE_CRITICAL_SLOTS: {
       const criticals = state.unit.data?.criticals?.map(loc => 
         loc.location === action.payload.location
-          ? { ...loc, slots: action.payload.slots }
+          ? { 
+              ...loc, 
+              slots: action.payload.slots.map(slot => ({
+                index: 0,
+                name: slot,
+                type: slot === '-Empty-' ? 'empty' as const : 'equipment' as const,
+                isFixed: false
+              }))
+            }
           : loc
       ) || [];
       
@@ -337,10 +392,10 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
       if (criticalAllocations && criticalAllocations[action.payload.location]) {
         criticalAllocations = {
           ...criticalAllocations,
-          [action.payload.location]: action.payload.slots.map((content, index) => ({
+          [action.payload.location]: action.payload.slots.map((content, index): CriticalSlot => ({
             index,
-            content: content === '-Empty-' ? null : content,
-            contentType: content === '-Empty-' ? 'empty' : 'equipment',
+            name: content,
+            type: content === '-Empty-' ? 'empty' : 'equipment',
             isFixed: false,
             isManuallyPlaced: true,
           })),
@@ -415,7 +470,12 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
       // Convert to legacy criticals format
       const criticals = Object.entries(criticalAllocations).map(([loc, slots]) => ({
         location: loc,
-        slots: slots.map(slot => slot.content || '-Empty-'),
+        slots: slots.map(slot => ({
+          index: slot.index,
+          name: slot.name || '-Empty-',
+          type: slot.type || 'empty' as const,
+          isFixed: slot.isFixed || false
+        })),
       }));
       
       return {
@@ -442,6 +502,8 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
     case UnitActionType.VALIDATE_UNIT: {
       const validation = validateUnit(state.unit);
       
+      // IMPORTANT: validateUnit should NOT modify the unit
+      // Only update validation state, preserve everything else
       return {
         ...state,
         unit: {
@@ -450,6 +512,12 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
             isValid: validation.valid,
             errors: validation.errors.filter(e => e.category === 'error'),
             warnings: validation.errors.filter(e => e.category === 'warning'),
+          },
+          // Ensure critical allocations are preserved
+          criticalAllocations: state.unit.criticalAllocations,
+          data: {
+            ...state.unit.data,
+            criticals: state.unit.data?.criticals,
           },
         },
         isValidating: false,
@@ -529,10 +597,12 @@ export function UnitDataProvider({
     if (unit.criticalAllocations) {
       const cleanedAllocations = { ...unit.criticalAllocations };
       Object.entries(cleanedAllocations).forEach(([location, slots]) => {
-        cleanedAllocations[location] = (slots as any[]).map(slot => ({
-          ...slot,
-          content: (slot.content === '-Empty-' || slot.content === '') ? null : slot.content,
-          contentType: (slot.content === '-Empty-' || slot.content === '' || !slot.content) ? 'empty' : slot.contentType
+        cleanedAllocations[location] = (slots as any[]).map((slot, index) => ({
+          index: slot.index || index,
+          name: (slot.name === '-Empty-' || slot.name === '' || !slot.name) ? '-Empty-' : slot.name,
+          type: (slot.name === '-Empty-' || slot.name === '' || !slot.name) ? 'empty' : (slot.type || 'equipment'),
+          isFixed: slot.isFixed || false,
+          isManuallyPlaced: slot.isManuallyPlaced || false,
         }));
       });
       unit = { ...unit, criticalAllocations: cleanedAllocations };

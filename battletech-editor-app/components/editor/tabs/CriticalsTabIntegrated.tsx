@@ -169,7 +169,7 @@ export default function CriticalsTabIntegrated({ readOnly = false }: CriticalsTa
   
   // Initialize slots from critical allocations (ONLY ONCE)
   useEffect(() => {
-    if (!hasInitialized.current && criticalAllocationsFromParent) {
+    if (!hasInitialized.current && criticalAllocationsFromParent && Object.keys(criticalAllocationsFromParent).length > 0) {
       const newSlots: CriticalAllocationMap = {};
       const allocations: EquipmentAllocation[] = [];
       
@@ -337,8 +337,439 @@ export default function CriticalsTabIntegrated({ readOnly = false }: CriticalsTa
     }
   }, []); // Empty dependencies - only run once
   
-  // Don't sync external changes - let the component manage its own state
-  // The only time we need to sync is during batch updates
+  // Track component types to detect changes
+  const structureTypeRef = useRef(state.unit.data.structure?.type);
+  const armorTypeRef = useRef(state.unit.data.armor?.type);
+  const engineTypeRef = useRef(state.unit.systemComponents?.engine?.type);
+  const gyroTypeRef = useRef(state.unit.systemComponents?.gyro?.type);
+  
+  // Watch for system component changes
+  useEffect(() => {
+    if (!hasInitialized.current || isBatchUpdating.current || !criticalAllocationsFromParent) return;
+    
+    // Check if any system component changed
+    const structureChanged = structureTypeRef.current !== state.unit.data.structure?.type;
+    const armorChanged = armorTypeRef.current !== state.unit.data.armor?.type;
+    const engineChanged = engineTypeRef.current !== state.unit.systemComponents?.engine?.type;
+    const gyroChanged = gyroTypeRef.current !== state.unit.systemComponents?.gyro?.type;
+    
+    if (!structureChanged && !armorChanged && !engineChanged && !gyroChanged) return;
+    
+    // Update refs
+    structureTypeRef.current = state.unit.data.structure?.type;
+    armorTypeRef.current = state.unit.data.armor?.type;
+    engineTypeRef.current = state.unit.systemComponents?.engine?.type;
+    gyroTypeRef.current = state.unit.systemComponents?.gyro?.type;
+    
+    // If engine or gyro changed, we need to rebuild the critical slots
+    if (engineChanged || gyroChanged) {
+      const newSlots: CriticalAllocationMap = {};
+      const allocations: EquipmentAllocation[] = [];
+      const displacedEquipmentNames = new Set<string>();
+      
+      // Get the current engine and gyro types
+      const currentEngineType = state.unit.systemComponents?.engine?.type || 'Standard';
+      const currentGyroType = state.unit.systemComponents?.gyro?.type || 'Standard';
+      
+      // Calculate all slots that will be occupied by the new engine/gyro configuration
+      const newEngineSlots = new Set<string>();
+      const newGyroSlots = new Set<string>();
+      
+      // Engine slots - All engines use 6 CT slots (0-5)
+      for (let i = 0; i < 6; i++) {
+        newEngineSlots.add(`${MECH_LOCATIONS.CENTER_TORSO}-${i}`);
+      }
+      
+      // Side torso engine slots for XL/Light/XXL
+      if (currentEngineType === 'XL' || currentEngineType === 'Light' || currentEngineType === 'XXL') {
+        const sideSlots = currentEngineType === 'Light' ? 2 : (currentEngineType === 'XXL' ? 6 : 3);
+        for (let i = 0; i < sideSlots; i++) {
+          newEngineSlots.add(`${MECH_LOCATIONS.LEFT_TORSO}-${i}`);
+          newEngineSlots.add(`${MECH_LOCATIONS.RIGHT_TORSO}-${i}`);
+        }
+      }
+      
+      // Gyro slots - Always in CT after engine
+      const gyroSlots = currentGyroType === 'Compact' ? 2 : (currentGyroType === 'XL' ? 6 : 4);
+      for (let i = 0; i < gyroSlots; i++) {
+        newGyroSlots.add(`${MECH_LOCATIONS.CENTER_TORSO}-${6 + i}`);
+      }
+      
+      // Initialize all locations with empty slots
+      mechLocations.forEach(loc => {
+        newSlots[loc.name] = Array(loc.slots).fill(null).map((_, index) => ({
+          slotIndex: index,
+          location: loc.name,
+          equipment: null,
+          isPartOfMultiSlot: false,
+          slotType: SlotType.NORMAL
+        }));
+      });
+      
+      // Process equipment from parent allocations, checking for conflicts
+      Object.entries(criticalAllocationsFromParent).forEach(([location, locationSlots]) => {
+        const processedMultiSlots = new Set<string>();
+        
+        locationSlots.forEach((slot, index) => {
+          if (!slot || !slot.name || slot.name === '-Empty-' || slot.type === 'empty') return;
+          
+          const normalizedName = normalizeEquipmentName(slot.name);
+          
+          // Skip engine and gyro - they'll be placed new
+          if (normalizedName === 'Engine' || normalizedName === 'Gyro') return;
+          
+          const slotKey = `${location}-${index}`;
+          
+          // Check if this slot conflicts with new engine/gyro placement
+          if (newEngineSlots.has(slotKey) || newGyroSlots.has(slotKey)) {
+            // This equipment needs to be displaced
+            displacedEquipmentNames.add(normalizedName);
+            
+            // For multi-slot items, mark all slots of this item for removal
+            if (slot.linkedSlots && slot.linkedSlots.length > 0) {
+              const groupId = `${normalizedName}-${location}`;
+              processedMultiSlots.add(groupId);
+            }
+            return;
+          }
+          
+          // Check if this is part of a multi-slot item that's being displaced
+          if (slot.linkedSlots) {
+            const groupId = `${normalizedName}-${location}`;
+            if (processedMultiSlots.has(groupId)) {
+              return; // Skip this slot - part of displaced multi-slot item
+            }
+            
+            // Check if ANY slot of this multi-slot item conflicts
+            let hasConflict = false;
+            for (const linkedIndex of slot.linkedSlots) {
+              const linkedKey = `${location}-${linkedIndex}`;
+              if (newEngineSlots.has(linkedKey) || newGyroSlots.has(linkedKey)) {
+                hasConflict = true;
+                break;
+              }
+            }
+            
+            if (hasConflict) {
+              displacedEquipmentNames.add(normalizedName);
+              processedMultiSlots.add(groupId);
+              return;
+            }
+          }
+          
+          // No conflict - preserve this equipment
+          const equipmentType = getEquipmentType(normalizedName, 'equipment');
+          const category = getEquipmentCategory(equipmentType);
+          
+          const equipmentItem = equipment.find(eq => eq.item_name === normalizedName && eq.location === location);
+          const stats = EQUIPMENT_DATABASE.find(e => e.name === normalizedName);
+          
+          const equipmentData: EquipmentObject = {
+            id: `${normalizedName}-${location}-${index}`,
+            name: normalizedName,
+            type: equipmentType,
+            category,
+            requiredSlots: stats?.crits || 1,
+            weight: typeof stats?.weight === 'number' ? stats.weight : 
+                   typeof equipmentItem?.tons === 'number' ? equipmentItem.tons : 0,
+            isFixed: slot.isFixed || (isFixedComponent(normalizedName) && !isConditionallyRemovable(normalizedName)),
+            isRemovable: !slot.isFixed || isConditionallyRemovable(normalizedName),
+            techBase: (equipmentItem?.tech_base || state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+          };
+          
+          newSlots[location][index] = {
+            slotIndex: index,
+            location,
+            equipment: {
+              equipmentId: equipmentData.id,
+              equipmentData,
+              allocatedSlots: equipmentData.requiredSlots,
+              startSlotIndex: index,
+              endSlotIndex: index
+            },
+            isPartOfMultiSlot: false,
+            slotType: SlotType.NORMAL
+          };
+        });
+      });
+      
+      // Now place engine slots correctly based on current engine type
+      // All engines use 6 CT slots (0-5)
+      if (newSlots[MECH_LOCATIONS.CENTER_TORSO]) {
+        for (let i = 0; i < 6; i++) {
+          const engineData: EquipmentObject = {
+            id: `Engine-CT-${i}`,
+            name: 'Engine',
+            type: EquipmentType.ENGINE,
+            category: EquipmentCategory.SYSTEM,
+            requiredSlots: 6,
+            weight: 0,
+            isFixed: true,
+            isRemovable: false,
+            techBase: (state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+          };
+          
+          newSlots[MECH_LOCATIONS.CENTER_TORSO][i] = {
+            slotIndex: i,
+            location: MECH_LOCATIONS.CENTER_TORSO,
+            equipment: {
+              equipmentId: engineData.id,
+              equipmentData: engineData,
+              allocatedSlots: 6,
+              startSlotIndex: 0,
+              endSlotIndex: 5
+            },
+            isPartOfMultiSlot: true,
+            slotType: SlotType.NORMAL
+          };
+        }
+      }
+      
+      // Add side torso engine slots for XL/Light/XXL engines
+      if (currentEngineType === 'XL' || currentEngineType === 'Light' || currentEngineType === 'XXL') {
+        const sideSlots = currentEngineType === 'Light' ? 2 : 3;
+        
+        // Left Torso
+        if (newSlots[MECH_LOCATIONS.LEFT_TORSO]) {
+          for (let i = 0; i < sideSlots; i++) {
+            const engineData: EquipmentObject = {
+              id: `Engine-LT-${i}`,
+              name: 'Engine',
+              type: EquipmentType.ENGINE,
+              category: EquipmentCategory.SYSTEM,
+              requiredSlots: sideSlots,
+              weight: 0,
+              isFixed: true,
+              isRemovable: false,
+              techBase: (state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+            };
+            
+            newSlots[MECH_LOCATIONS.LEFT_TORSO][i] = {
+              slotIndex: i,
+              location: MECH_LOCATIONS.LEFT_TORSO,
+              equipment: {
+                equipmentId: engineData.id,
+                equipmentData: engineData,
+                allocatedSlots: sideSlots,
+                startSlotIndex: 0,
+                endSlotIndex: sideSlots - 1
+              },
+              isPartOfMultiSlot: true,
+              slotType: SlotType.NORMAL
+            };
+          }
+        }
+        
+        // Right Torso
+        if (newSlots[MECH_LOCATIONS.RIGHT_TORSO]) {
+          for (let i = 0; i < sideSlots; i++) {
+            const engineData: EquipmentObject = {
+              id: `Engine-RT-${i}`,
+              name: 'Engine',
+              type: EquipmentType.ENGINE,
+              category: EquipmentCategory.SYSTEM,
+              requiredSlots: sideSlots,
+              weight: 0,
+              isFixed: true,
+              isRemovable: false,
+              techBase: (state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+            };
+            
+            newSlots[MECH_LOCATIONS.RIGHT_TORSO][i] = {
+              slotIndex: i,
+              location: MECH_LOCATIONS.RIGHT_TORSO,
+              equipment: {
+                equipmentId: engineData.id,
+                equipmentData: engineData,
+                allocatedSlots: sideSlots,
+                startSlotIndex: 0,
+                endSlotIndex: sideSlots - 1
+              },
+              isPartOfMultiSlot: true,
+              slotType: SlotType.NORMAL
+            };
+          }
+        }
+      }
+      
+      // Place gyro slots (always in CT after engine)
+      const gyroSlotCount = currentGyroType === 'Compact' ? 2 : (currentGyroType === 'XL' ? 6 : 4);
+      if (newSlots[MECH_LOCATIONS.CENTER_TORSO]) {
+        for (let i = 0; i < gyroSlotCount; i++) {
+          const slotIndex = 6 + i; // Start after engine
+          if (slotIndex < 12) { // Make sure we don't exceed slot count
+            const gyroData: EquipmentObject = {
+              id: `Gyro-CT-${slotIndex}`,
+              name: 'Gyro',
+              type: EquipmentType.GYRO,
+              category: EquipmentCategory.SYSTEM,
+              requiredSlots: gyroSlotCount,
+              weight: 0,
+              isFixed: true,
+              isRemovable: false,
+              techBase: (state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+            };
+            
+            newSlots[MECH_LOCATIONS.CENTER_TORSO][slotIndex] = {
+              slotIndex: slotIndex,
+              location: MECH_LOCATIONS.CENTER_TORSO,
+              equipment: {
+                equipmentId: gyroData.id,
+                equipmentData: gyroData,
+                allocatedSlots: gyroSlotCount,
+                startSlotIndex: 6,
+                endSlotIndex: 6 + gyroSlotCount - 1
+              },
+              isPartOfMultiSlot: true,
+              slotType: SlotType.NORMAL
+            };
+          }
+        }
+      }
+      
+      // Post-process for multi-slot items
+      const processedItems = new Set<string>();
+      
+      Object.entries(newSlots).forEach(([location, locationSlots]) => {
+        let i = 0;
+        while (i < locationSlots.length) {
+          const slot = locationSlots[i];
+          
+          if (slot.equipment && !processedItems.has(`${location}-${i}`)) {
+            const equipmentName = slot.equipment.equipmentData.name;
+            const requiredSlots = slot.equipment.equipmentData.requiredSlots;
+            
+            let consecutiveCount = 1;
+            for (let j = i + 1; j < locationSlots.length && j < i + requiredSlots; j++) {
+              if (locationSlots[j].equipment?.equipmentData.name === equipmentName) {
+                consecutiveCount++;
+              } else {
+                break;
+              }
+            }
+            
+            if (consecutiveCount > 1 || requiredSlots > 1) {
+              const groupId = `${equipmentName}-${location}-${i}-${Date.now()}`;
+              const slotIndices: number[] = [];
+              
+              for (let j = 0; j < consecutiveCount; j++) {
+                const idx = i + j;
+                locationSlots[idx].isPartOfMultiSlot = true;
+                locationSlots[idx].multiSlotGroupId = groupId;
+                locationSlots[idx].multiSlotIndex = j;
+                if (locationSlots[idx].equipment) {
+                  locationSlots[idx].equipment!.startSlotIndex = i;
+                  locationSlots[idx].equipment!.endSlotIndex = i + consecutiveCount - 1;
+                }
+                slotIndices.push(idx);
+                processedItems.add(`${location}-${idx}`);
+              }
+              
+              const eqIndex = equipment.findIndex(eq => 
+                eq.item_name === equipmentName && eq.location === location
+              );
+              
+              if (eqIndex !== -1 && !allocations.some(a => a.equipmentIndex === eqIndex)) {
+                allocations.push({
+                  equipmentIndex: eqIndex,
+                  equipmentName,
+                  location,
+                  slotIndices
+                });
+              }
+              
+              i += consecutiveCount;
+            } else {
+              processedItems.add(`${location}-${i}`);
+              
+              const eqIndex = equipment.findIndex(eq => 
+                eq.item_name === equipmentName && eq.location === location
+              );
+              
+              if (eqIndex !== -1 && !allocations.some(a => a.equipmentIndex === eqIndex)) {
+                allocations.push({
+                  equipmentIndex: eqIndex,
+                  equipmentName,
+                  location,
+                  slotIndices: [i]
+                });
+              }
+              
+              i++;
+            }
+          } else {
+            i++;
+          }
+        }
+      });
+      
+      setCriticalSlots(newSlots);
+      setEquipmentAllocations(allocations);
+      return;
+    }
+    
+    // Find special components in parent data
+    const specialComponentsToAdd: Array<{location: string, index: number, name: string}> = [];
+    
+    Object.entries(criticalAllocationsFromParent).forEach(([location, parentSlots]) => {
+      parentSlots.forEach((parentSlot, index) => {
+        if (!parentSlot || !parentSlot.name || parentSlot.name === '-Empty-') return;
+        
+        if (isSpecialComponent(parentSlot.name)) {
+          specialComponentsToAdd.push({ location, index, name: parentSlot.name });
+        }
+      });
+    });
+    
+    // Add special components without clearing existing equipment
+    if (specialComponentsToAdd.length > 0) {
+      setCriticalSlots(prev => {
+        const updatedSlots = { ...prev };
+        
+        specialComponentsToAdd.forEach(({ location, index, name }) => {
+          const currentSlot = updatedSlots[location]?.[index];
+          if (!currentSlot) return;
+          
+          // Only add special component if slot is empty or has a different special component
+          if (!currentSlot.equipment || isSpecialComponent(currentSlot.equipment.equipmentData.name)) {
+            const normalizedName = normalizeEquipmentName(name);
+            const equipmentType = getEquipmentType(normalizedName, 'equipment');
+            const category = getEquipmentCategory(equipmentType);
+            
+            const equipmentData: EquipmentObject = {
+              id: `${normalizedName}-${location}-${index}`,
+              name: normalizedName,
+              type: equipmentType,
+              category,
+              requiredSlots: 1,
+              weight: 0,
+              isFixed: false,
+              isRemovable: true,
+              techBase: (state.unit.tech_base || 'Inner Sphere') as 'Inner Sphere' | 'Clan' | 'Both'
+            };
+            
+            updatedSlots[location][index] = {
+              ...currentSlot,
+              equipment: {
+                equipmentId: equipmentData.id,
+                equipmentData,
+                allocatedSlots: 1,
+                startSlotIndex: index,
+                endSlotIndex: index
+              },
+              isPartOfMultiSlot: false,
+              slotType: SlotType.NORMAL
+            };
+          }
+        });
+        
+        return updatedSlots;
+      });
+      
+      // Batch update after adding special components
+      setTimeout(() => batchUpdateToParent(), 100);
+    }
+  }, [criticalAllocationsFromParent, state.unit.data.structure?.type, state.unit.data.armor?.type]);
   
   // Get unallocated equipment
   const unallocatedEquipment = useMemo(() => {

@@ -12,11 +12,12 @@ import {
 import { 
   ENGINE_SLOT_REQUIREMENTS,
   GYRO_SLOT_REQUIREMENTS,
-  STRUCTURE_SLOT_REQUIREMENTS,
-  calculateEngineWeight,
-  calculateGyroWeight,
-  calculateStructureWeight
+  STRUCTURE_SLOT_REQUIREMENTS
 } from '../../../types/systemComponents';
+import { calculateEngineWeight } from '../../../utils/engineCalculations';
+import { calculateGyroWeight } from '../../../utils/gyroCalculations';
+import { calculateStructureWeight } from '../../../utils/structureCalculations';
+import CustomDropdown from '../../common/CustomDropdown';
 import styles from './StructureTab.module.css';
 
 interface StructureTabWithHooksProps {
@@ -32,7 +33,7 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
   
   // Calculate weights
   const engineWeight = systemComponents?.engine 
-    ? calculateEngineWeight(systemComponents.engine.rating, systemComponents.engine.type)
+    ? calculateEngineWeight(systemComponents.engine.rating, unit.mass, systemComponents.engine.type)
     : 0;
     
   const gyroWeight = systemComponents?.engine && systemComponents?.gyro
@@ -106,16 +107,12 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="text-xs text-slate-300">Engine Type</label>
-                <select
+                <CustomDropdown
                   value={systemComponents?.engine?.type || 'Standard'}
-                  onChange={(e) => handleEngineChange('type', e.target.value)}
+                  options={engineTypes}
+                  onChange={(value) => handleEngineChange('type', value)}
                   disabled={readOnly}
-                  className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100"
-                >
-                  {engineTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
+                />
               </div>
               <div>
                 <label className="text-xs text-slate-300">Rating</label>
@@ -170,16 +167,12 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
             {/* Structure Type */}
             <div>
               <label className="text-xs text-slate-300">Internal Structure</label>
-              <select
+              <CustomDropdown
                 value={systemComponents?.structure?.type || 'Standard'}
-                onChange={(e) => updateStructure(e.target.value)}
+                options={structureTypes}
+                onChange={(value) => updateStructure(value)}
                 disabled={readOnly}
-                className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100"
-              >
-                {structureTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
+              />
               <div className="mt-1 text-xs text-slate-400">
                 Weight: {structureWeight} tons
                 {systemComponents?.structure && STRUCTURE_SLOT_REQUIREMENTS[systemComponents.structure.type] > 0 && 
@@ -190,16 +183,12 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
             {/* Gyro Type */}
             <div>
               <label className="text-xs text-slate-300">Gyro Type</label>
-              <select
+              <CustomDropdown
                 value={systemComponents?.gyro?.type || 'Standard'}
-                onChange={(e) => updateGyro(e.target.value)}
+                options={gyroTypes}
+                onChange={(value) => updateGyro(value)}
                 disabled={readOnly}
-                className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100"
-              >
-                {gyroTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
+              />
               <div className="mt-1 text-xs text-slate-400">
                 Weight: {gyroWeight} tons
                 {systemComponents?.gyro && ` | Slots: ${GYRO_SLOT_REQUIREMENTS[systemComponents.gyro.type]} CT`}
@@ -216,16 +205,12 @@ export default function StructureTabWithHooks({ readOnly = false }: StructureTab
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
           <div>
             <label className="text-xs text-slate-300">Heat Sink Type</label>
-            <select
+            <CustomDropdown
               value={systemComponents?.heatSinks?.type || 'Single'}
-              onChange={(e) => handleHeatSinkChange('type', e.target.value)}
+              options={heatSinkTypes}
+              onChange={(value) => handleHeatSinkChange('type', value)}
               disabled={readOnly}
-              className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100"
-            >
-              {heatSinkTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
+            />
           </div>
           
           <div>

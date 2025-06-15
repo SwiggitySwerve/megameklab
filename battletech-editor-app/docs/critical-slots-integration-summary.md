@@ -13,6 +13,7 @@ Successfully integrated the improved critical slot drag & drop UI system into th
   - Converts between object-based critical slot format and existing string-based format
   - Batch updates to prevent circular state updates
   - Proper multi-slot equipment tracking
+  - Handles structure/armor type changes without clearing existing equipment
 
 ### 2. CriticalSlotDropZone (Enhanced)
 - **Improvements**:
@@ -20,6 +21,7 @@ Successfully integrated the improved critical slot drag & drop UI system into th
   - Multi-slot hover preview shows green only when enough consecutive empty slots
   - Proper handling of equipment move operations
   - Click-to-remove for removable equipment
+  - Multi-slot items are removed as a group (all slots cleared together)
 
 ### 3. UnitEditorWithHooks (Updated)
 - **Changes**:
@@ -50,6 +52,12 @@ Successfully integrated the improved critical slot drag & drop UI system into th
 - ✅ Batch updates to parent state
 - ✅ Prevents circular updates with ref flags
 - ✅ One-time initialization from parent data
+- ✅ Preserves equipment when structure/armor types change
+
+### 5. Multi-Slot Equipment
+- ✅ Proper removal of multi-slot items (all slots cleared together)
+- ✅ Group tracking with unique IDs
+- ✅ Visual indicators for multi-slot equipment
 
 ## Data Flow
 
@@ -69,6 +77,21 @@ graph TD
     I -->|syncs to| A
 ```
 
+## Issues Fixed
+
+### 1. **Multi-slot Equipment Removal**
+- Now removes all slots occupied by multi-slot equipment
+- Uses group IDs to track related slots
+
+### 2. **Equipment Preservation**
+- Equipment no longer disappears on state updates
+- Structure/armor type changes preserve existing equipment
+- Only special components are synced from parent
+
+### 3. **Initialization**
+- Proper one-time initialization prevents clearing slots
+- Uses refs to track initialization state
+
 ## Testing
 
 ### Test Pages
@@ -81,6 +104,7 @@ graph TD
 3. **Engine Configuration**: Standard engine (center torso only)
 4. **Equipment Movement**: Drag between locations
 5. **State Persistence**: Equipment doesn't disappear on state updates
+6. **Structure/Armor Changes**: Switching to Endo Steel or Ferro-Fibrous preserves equipment
 
 ## Future Enhancements
 
@@ -89,6 +113,7 @@ graph TD
 3. **Undo/Redo**: Track state changes for undo functionality
 4. **Equipment Grouping**: Visual grouping of related equipment
 5. **Keyboard Shortcuts**: Delete key to remove equipment
+6. **Optimistic Updates**: Update UI immediately before parent sync
 
 ## Migration Notes
 
@@ -99,12 +124,24 @@ To use the new integrated component:
 3. Component automatically syncs with existing data model
 4. All existing equipment and critical slot data preserved
 
-## Known Issues
+## Technical Details
 
-1. **Performance**: Large mechs with many equipment items may have slight lag
-2. **Edge Case**: Moving equipment to its current location shows alerts (can be improved)
-3. **Visual Polish**: Some CSS classes from the old system may need cleanup
+### State Synchronization
+- Component maintains its own state for immediate UI response
+- Batch updates to parent prevent circular updates
+- Special components (Endo Steel, Ferro-Fibrous) are added without clearing existing equipment
+- Uses refs to track structure/armor type changes
+
+### Multi-Slot Handling
+- Equipment with multiple slots tracked with group IDs
+- Removal of any slot removes entire equipment item
+- Visual preview shows all slots that will be occupied
+
+### Performance Optimizations
+- Memoized unallocated equipment list
+- Batch state updates with setTimeout
+- Ref flags prevent unnecessary re-renders
 
 ## Conclusion
 
-The integration successfully combines the improved drag & drop UI with the existing MegaMekLab data model, providing a better user experience while maintaining compatibility with the rest of the application.
+The integration successfully combines the improved drag & drop UI with the existing MegaMekLab data model, providing a better user experience while maintaining compatibility with the rest of the application. The critical slot system now properly handles all edge cases including multi-slot equipment, structure/armor type changes, and state persistence.

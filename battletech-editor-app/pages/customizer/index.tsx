@@ -6,6 +6,7 @@ import SaveUnitDialog from '../../components/editor/SaveUnitDialog';
 import { FullUnit, UnitData, CriticalSlotItem } from '../../types';
 import { EditableUnit, ValidationResult, ARMOR_TYPES } from '../../types/editor';
 import { getSlotContentType } from '../../types/systemComponents';
+import { migrateUnitToSystemComponents } from '../../utils/componentValidation';
 
 interface TabData {
   id: string;
@@ -46,7 +47,7 @@ const CustomizerPage: React.FC = () => {
         mass: 100,
         cockpit: { type: "Standard" },
         gyro: { type: "Standard" },
-        engine: { type: "Standard", rating: 300 },
+        engine: { type: "XL", rating: 300 },
         structure: { type: "Standard" },
         heat_sinks: { type: "Single", count: 20 },
         movement: {
@@ -107,14 +108,14 @@ const CustomizerPage: React.FC = () => {
           { 
             location: "Left Torso", 
             slots: [
-              { index: 0, name: "LRM 20", type: "equipment" as const, isFixed: false },
-              { index: 1, name: "LRM 20", type: "equipment" as const, isFixed: false },
-              { index: 2, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 0, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 1, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 2, name: "Engine", type: "system" as const, isFixed: true },
               { index: 3, name: "LRM 20", type: "equipment" as const, isFixed: false },
               { index: 4, name: "LRM 20", type: "equipment" as const, isFixed: false },
-              { index: 5, name: "-Empty-", type: "empty" as const, isFixed: false },
-              { index: 6, name: "-Empty-", type: "empty" as const, isFixed: false },
-              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 5, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 6, name: "LRM 20", type: "equipment" as const, isFixed: false },
+              { index: 7, name: "LRM 20", type: "equipment" as const, isFixed: false },
               { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
               { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
               { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
@@ -124,16 +125,16 @@ const CustomizerPage: React.FC = () => {
           { 
             location: "Right Torso", 
             slots: [
-              { index: 0, name: "AC/10", type: "equipment" as const, isFixed: false },
-              { index: 1, name: "AC/10", type: "equipment" as const, isFixed: false },
-              { index: 2, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 0, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 1, name: "Engine", type: "system" as const, isFixed: true },
+              { index: 2, name: "Engine", type: "system" as const, isFixed: true },
               { index: 3, name: "AC/10", type: "equipment" as const, isFixed: false },
               { index: 4, name: "AC/10", type: "equipment" as const, isFixed: false },
               { index: 5, name: "AC/10", type: "equipment" as const, isFixed: false },
               { index: 6, name: "AC/10", type: "equipment" as const, isFixed: false },
-              { index: 7, name: "-Empty-", type: "empty" as const, isFixed: false },
-              { index: 8, name: "-Empty-", type: "empty" as const, isFixed: false },
-              { index: 9, name: "-Empty-", type: "empty" as const, isFixed: false },
+              { index: 7, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 8, name: "AC/10", type: "equipment" as const, isFixed: false },
+              { index: 9, name: "AC/10", type: "equipment" as const, isFixed: false },
               { index: 10, name: "-Empty-", type: "empty" as const, isFixed: false },
               { index: 11, name: "-Empty-", type: "empty" as const, isFixed: false }
             ] as CriticalSlotItem[]
@@ -407,7 +408,7 @@ const CustomizerPage: React.FC = () => {
   };
 
   // Initialize with one tab
-  const initialUnit = createEditableUnit();
+  const initialUnit = migrateUnitToSystemComponents(createEditableUnit());
   const [tabs, setTabs] = useState<TabData[]>([
     {
       id: `tab-${Date.now()}`,
@@ -436,7 +437,7 @@ const CustomizerPage: React.FC = () => {
   };
 
   const handleNewTab = () => {
-    const newUnit = createNewMech();
+    const newUnit = migrateUnitToSystemComponents(createNewMech());
     const newTab: TabData = {
       id: `tab-${Date.now()}`,
       unit: newUnit,

@@ -9,6 +9,7 @@ import {
   SystemComponents,
   EngineType,
   GyroType,
+  CockpitType,
   StructureType,
   ArmorType,
   HeatSinkType,
@@ -22,6 +23,13 @@ import {
   generateHeatSinkItems,
   validateComponentPlacement,
 } from './componentRules';
+import {
+  getEngineSlots,
+  getGyroSlots,
+  smartUpdateSlots,
+  updateDisplacedEquipment,
+  SlotRange,
+} from './smartSlotUpdate';
 
 /**
  * Initialize system components from existing unit data
@@ -89,6 +97,12 @@ export function syncEngineChange(
   // Initialize system components if not present
   const systemComponents = unit.systemComponents || initializeSystemComponents(unit);
   
+  // Get current critical allocations (or initialize if not present)
+  let criticalAllocations = unit.criticalAllocations;
+  if (!criticalAllocations) {
+    criticalAllocations = initializeCriticalSlots(systemComponents, unit.mass);
+  }
+  
   // Update engine in system components
   const updatedComponents: SystemComponents = {
     ...systemComponents,
@@ -109,38 +123,63 @@ export function syncEngineChange(
     ),
   };
   
-  // Initialize new critical allocations
-  const criticalAllocations = initializeCriticalSlots(
-    updatedComponents,
-    unit.mass
+  // Get old and new engine slot requirements
+  const oldEngineSlots = getEngineSlots(systemComponents.engine.type);
+  const newEngineSlots = getEngineSlots(newEngineType);
+  
+  // Smart update - only displace equipment in conflicting slots
+  let { updatedAllocations, displacedEquipment } = smartUpdateSlots(
+    criticalAllocations,
+    oldEngineSlots,
+    newEngineSlots,
+    'Engine'
   );
   
-  // Convert to legacy criticals format for compatibility
-  const criticals = convertToLegacyCriticals(criticalAllocations);
-  
-  // Check for displaced equipment and update weapons_and_equipment
-  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
-  
-  // Update weapons and equipment to unallocate displaced items
-  let updatedEquipment = unit.data?.weapons_and_equipment || [];
-  if (displacedEquipmentNames.length > 0) {
-    updatedEquipment = updatedEquipment.map(eq => {
-      // Check if this equipment was displaced
-      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
-        // Check if the equipment is still in its location in the new criticals
-        const locationCriticals = criticals.find(c => c.location === eq.location);
-        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
-          // Equipment was displaced, unallocate it
-          return { ...eq, location: '' };
+  // After engine update, ensure gyro is placed correctly
+  // First, find and clear any existing gyro slots (they might be in the wrong place)
+  const oldGyroSlots: SlotRange[] = [];
+  Object.entries(updatedAllocations).forEach(([location, slots]) => {
+    slots.forEach((slot, index) => {
+      if (slot.name === 'Gyro') {
+        // Track where the gyro currently is
+        if (oldGyroSlots.length === 0 || oldGyroSlots[oldGyroSlots.length - 1].location !== location) {
+          oldGyroSlots.push({
+            location,
+            startIndex: index,
+            endIndex: index
+          });
+        } else {
+          // Extend the range
+          oldGyroSlots[oldGyroSlots.length - 1].endIndex = index;
         }
       }
-      return eq;
     });
-  }
+  });
+  
+  // Now place the gyro in its correct position
+  const newGyroSlots = getGyroSlots(systemComponents.gyro.type);
+  const gyroResult = smartUpdateSlots(
+    updatedAllocations,
+    oldGyroSlots, // Clear old gyro positions
+    newGyroSlots, // Place in new positions
+    'Gyro'
+  );
+  
+  updatedAllocations = gyroResult.updatedAllocations;
+  displacedEquipment = [...displacedEquipment, ...gyroResult.displacedEquipment];
+  
+  // Update equipment locations for displaced items
+  let updatedEquipment = updateDisplacedEquipment(
+    unit.data?.weapons_and_equipment || [],
+    displacedEquipment
+  );
+  
+  // Convert to legacy criticals format
+  const criticals = convertToLegacyCriticals(updatedAllocations);
   
   return {
     systemComponents: updatedComponents,
-    criticalAllocations,
+    criticalAllocations: updatedAllocations,
     data: {
       ...unit.data,
       engine: {
@@ -162,6 +201,12 @@ export function syncGyroChange(
 ): Partial<EditableUnit> {
   const systemComponents = unit.systemComponents || initializeSystemComponents(unit);
   
+  // Get current critical allocations (or initialize if not present)
+  let criticalAllocations = unit.criticalAllocations;
+  if (!criticalAllocations) {
+    criticalAllocations = initializeCriticalSlots(systemComponents, unit.mass);
+  }
+  
   const updatedComponents: SystemComponents = {
     ...systemComponents,
     gyro: {
@@ -169,36 +214,30 @@ export function syncGyroChange(
     },
   };
   
-  const criticalAllocations = initializeCriticalSlots(
-    updatedComponents,
-    unit.mass
+  // Get old and new gyro slot requirements
+  const oldGyroSlots = getGyroSlots(systemComponents.gyro.type);
+  const newGyroSlots = getGyroSlots(newGyroType);
+  
+  // Smart update - only displace equipment in conflicting slots
+  const { updatedAllocations, displacedEquipment } = smartUpdateSlots(
+    criticalAllocations,
+    oldGyroSlots,
+    newGyroSlots,
+    'Gyro'
   );
   
-  const criticals = convertToLegacyCriticals(criticalAllocations);
+  // Update equipment locations for displaced items
+  let updatedEquipment = updateDisplacedEquipment(
+    unit.data?.weapons_and_equipment || [],
+    displacedEquipment
+  );
   
-  // Check for displaced equipment and update weapons_and_equipment
-  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
-  
-  // Update weapons and equipment to unallocate displaced items
-  let updatedEquipment = unit.data?.weapons_and_equipment || [];
-  if (displacedEquipmentNames.length > 0) {
-    updatedEquipment = updatedEquipment.map(eq => {
-      // Check if this equipment was displaced
-      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
-        // Check if the equipment is still in its location in the new criticals
-        const locationCriticals = criticals.find(c => c.location === eq.location);
-        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
-          // Equipment was displaced, unallocate it
-          return { ...eq, location: '' };
-        }
-      }
-      return eq;
-    });
-  }
+  // Convert to legacy criticals format
+  const criticals = convertToLegacyCriticals(updatedAllocations);
   
   return {
     systemComponents: updatedComponents,
-    criticalAllocations,
+    criticalAllocations: updatedAllocations,
     data: {
       ...unit.data,
       gyro: {
@@ -226,32 +265,9 @@ export function syncStructureChange(
     },
   };
   
-  const criticalAllocations = initializeCriticalSlots(
-    updatedComponents,
-    unit.mass
-  );
-  
-  const criticals = convertToLegacyCriticals(criticalAllocations);
-  
-  // Check for displaced equipment and update weapons_and_equipment
-  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
-  
-  // Update weapons and equipment to unallocate displaced items
+  // Don't reinitialize critical slots - preserve existing equipment
+  // Just update the equipment list
   let updatedEquipment = unit.data?.weapons_and_equipment || [];
-  if (displacedEquipmentNames.length > 0) {
-    updatedEquipment = updatedEquipment.map(eq => {
-      // Check if this equipment was displaced
-      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
-        // Check if the equipment is still in its location in the new criticals
-        const locationCriticals = criticals.find(c => c.location === eq.location);
-        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
-          // Equipment was displaced, unallocate it
-          return { ...eq, location: '' };
-        }
-      }
-      return eq;
-    });
-  }
   
   // Remove old structure items
   updatedEquipment = updatedEquipment.filter(eq => 
@@ -275,13 +291,13 @@ export function syncStructureChange(
   
   return {
     systemComponents: updatedComponents,
-    criticalAllocations,
+    // Don't update criticalAllocations - preserve existing
     data: {
       ...unit.data,
       structure: {
         type: newStructureType,
       },
-      criticals,
+      // Don't update criticals - preserve existing equipment placements
       weapons_and_equipment: updatedEquipment,
     },
   };
@@ -303,39 +319,17 @@ export function syncArmorChange(
     },
   };
   
-  const criticalAllocations = initializeCriticalSlots(
-    updatedComponents,
-    unit.mass
-  );
-  
-  const criticals = convertToLegacyCriticals(criticalAllocations);
-  
-  // Check for displaced equipment and update weapons_and_equipment
-  const displacedEquipmentNames = findDisplacedEquipment(unit, criticals);
-  
-  // Update weapons and equipment to unallocate displaced items
+  // Don't reinitialize critical slots - preserve existing equipment
+  // Just update the equipment list
   let updatedEquipment = unit.data?.weapons_and_equipment || [];
-  if (displacedEquipmentNames.length > 0) {
-    updatedEquipment = updatedEquipment.map(eq => {
-      // Check if this equipment was displaced
-      if (displacedEquipmentNames.includes(eq.item_name) && eq.location) {
-        // Check if the equipment is still in its location in the new criticals
-        const locationCriticals = criticals.find(c => c.location === eq.location);
-        if (locationCriticals && !locationCriticals.slots.includes(eq.item_name)) {
-          // Equipment was displaced, unallocate it
-          return { ...eq, location: '' };
-        }
-      }
-      return eq;
-    });
-  }
   
   // Remove old armor items
   updatedEquipment = updatedEquipment.filter(eq => 
     !eq.item_name.includes('Ferro-Fibrous') && 
     !eq.item_name.includes('Stealth') &&
     !eq.item_name.includes('Reactive') &&
-    !eq.item_name.includes('Reflective')
+    !eq.item_name.includes('Reflective') &&
+    !eq.item_name.includes('Hardened')
   );
   
   // Add new armor items if needed
@@ -355,7 +349,7 @@ export function syncArmorChange(
   
   return {
     systemComponents: updatedComponents,
-    criticalAllocations,
+    // Don't update criticalAllocations - preserve existing
     data: {
       ...unit.data,
       armor: {
@@ -363,7 +357,7 @@ export function syncArmorChange(
         type: newArmorType,
         locations: unit.data?.armor?.locations || [],
       },
-      criticals,
+      // Don't update criticals - preserve existing equipment placements
       weapons_and_equipment: updatedEquipment,
     },
   };
@@ -430,7 +424,7 @@ function convertToLegacyCriticals(
 ): CriticalSlotLocation[] {
   return Object.entries(criticalAllocations).map(([location, slots]) => ({
     location,
-    slots: slots.map(slot => slot.content || '-Empty-'),
+    slots: slots.map(slot => slot.name || '-Empty-'),
   }));
 }
 
@@ -449,10 +443,16 @@ function findDisplacedEquipment(
     if (!newLocation) return;
     
     oldLocation.slots.forEach((oldSlot, index) => {
-      if (oldSlot !== '-Empty-' && 
+      const oldSlotName = typeof oldSlot === 'string' ? oldSlot : 
+                         (oldSlot && typeof oldSlot === 'object' && oldSlot.name) ? oldSlot.name : '-Empty-';
+      const newSlot = newLocation.slots[index];
+      const newSlotName = typeof newSlot === 'string' ? newSlot :
+                         (newSlot && typeof newSlot === 'object' && newSlot.name) ? newSlot.name : '-Empty-';
+      
+      if (oldSlotName !== '-Empty-' && 
           !isSystemComponent(oldSlot) &&
-          newLocation.slots[index] !== oldSlot) {
-        displaced.push(oldSlot);
+          newSlotName !== oldSlotName) {
+        displaced.push(oldSlotName);
       }
     });
   });
@@ -463,14 +463,25 @@ function findDisplacedEquipment(
 /**
  * Check if a slot content is a system component
  */
-function isSystemComponent(content: string): boolean {
+function isSystemComponent(content: any): boolean {
+  // Handle both string and object formats
+  let slotName: string;
+  
+  if (typeof content === 'string') {
+    slotName = content;
+  } else if (content && typeof content === 'object' && content.name) {
+    slotName = content.name;
+  } else {
+    return false;
+  }
+  
   const systemComponents = [
     'Engine', 'Gyro', 'Cockpit', 'Life Support', 'Sensors',
     'Shoulder', 'Upper Arm Actuator', 'Lower Arm Actuator', 'Hand Actuator',
     'Hip', 'Upper Leg Actuator', 'Lower Leg Actuator', 'Foot Actuator',
   ];
   
-  return systemComponents.some(comp => content.includes(comp));
+  return systemComponents.some(comp => slotName.includes(comp));
 }
 
 /**

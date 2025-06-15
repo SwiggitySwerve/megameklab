@@ -335,17 +335,18 @@ export function validateUnit(unit: EditableUnit): {
 } {
   const errors: ComponentValidationError[] = [];
   
-  // Ensure unit has been migrated
-  const migratedUnit = migrateUnitToSystemComponents(unit);
+  // IMPORTANT: Don't migrate during validation - just validate what we have
+  // Migration should only happen explicitly, not as a side effect
+  const unitToValidate = unit.systemComponents && unit.criticalAllocations ? unit : migrateUnitToSystemComponents(unit);
   
   // Validate system components
-  errors.push(...validateSystemComponents(migratedUnit));
+  errors.push(...validateSystemComponents(unitToValidate));
   
   // Validate critical allocations
-  errors.push(...validateCriticalAllocations(migratedUnit));
+  errors.push(...validateCriticalAllocations(unitToValidate));
   
   // Validate weight limits
-  const totalWeight = calculateTotalWeight(migratedUnit);
+  const totalWeight = calculateTotalWeight(unitToValidate);
   if (totalWeight > unit.mass) {
     errors.push({
       id: 'overweight',
