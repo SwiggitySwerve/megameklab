@@ -202,6 +202,18 @@ export class CriticalSection {
     const reservedSlots = this.systemSlotReservations.get(componentType)
     if (!reservedSlots) return []
     
+    // Find and collect any equipment that will be displaced by clearing these slots
+    const displacedEquipment = this.findConflictingEquipment(reservedSlots)
+    
+    // Remove the conflicting equipment
+    const actuallyDisplaced: EquipmentAllocation[] = []
+    displacedEquipment.forEach(equipment => {
+      const removed = this.removeEquipmentGroup(equipment.equipmentGroupId)
+      if (removed) {
+        actuallyDisplaced.push(removed)
+      }
+    })
+    
     // Clear the reserved slots
     reservedSlots.forEach(slotIndex => {
       const slot = this.getSlot(slotIndex)
@@ -211,7 +223,7 @@ export class CriticalSection {
     // Remove the reservation tracking
     this.systemSlotReservations.delete(componentType)
     
-    return []
+    return actuallyDisplaced
   }
 
   /**

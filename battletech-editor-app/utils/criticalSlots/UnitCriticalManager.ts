@@ -383,15 +383,76 @@ export class UnitCriticalManager {
     // Handle special component changes
     this.handleSpecialComponentConfigurationChange(oldConfig, validatedConfig)
     
-    // Update configuration
-    this.configuration = validatedConfig
+    // Handle engine/gyro changes properly with equipment displacement
+    if (oldConfig.engineType !== validatedConfig.engineType || 
+        oldConfig.gyroType !== validatedConfig.gyroType) {
+      this.handleSystemComponentChange(oldConfig, validatedConfig)
+    }
     
-    // Re-allocate system components with new configuration
+    // Always update configuration at the end to ensure consistency
+    this.configuration = validatedConfig
+  }
+
+  /**
+   * Handle system component changes with proper equipment displacement
+   */
+  private handleSystemComponentChange(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): void {
+    const allDisplacedEquipment: EquipmentAllocation[] = []
+    
+    // Clear old system reservations and collect displaced equipment
     this.sections.forEach(section => {
-      section.clearSystemReservations('engine')
-      section.clearSystemReservations('gyro')
+      const engineDisplaced = section.clearSystemReservations('engine')
+      const gyroDisplaced = section.clearSystemReservations('gyro')
+      allDisplacedEquipment.push(...engineDisplaced, ...gyroDisplaced)
     })
-    this.allocateSystemComponents()
+    
+    // Get displacement impact to identify conflicting equipment
+    const displacementImpact = SystemComponentRules.getDisplacementImpact(
+      oldConfig.engineType,
+      oldConfig.gyroType,
+      newConfig.engineType,
+      newConfig.gyroType
+    )
+    
+    // Find equipment that conflicts with new system slots
+    displacementImpact.affectedLocations.forEach(location => {
+      const section = this.sections.get(location)
+      if (section) {
+        const conflictSlots = displacementImpact.conflictSlots[location] || []
+        const conflictingEquipment = section.findConflictingEquipment(conflictSlots)
+        
+        conflictingEquipment.forEach(equipment => {
+          const removed = section.removeEquipmentGroup(equipment.equipmentGroupId)
+          if (removed) {
+            allDisplacedEquipment.push(removed)
+          }
+        })
+      }
+    })
+    
+    // Allocate new system components using the new config values
+    this.allocateSystemComponentsWithConfig(newConfig)
+    
+    // Add all displaced equipment to unallocated pool
+    if (allDisplacedEquipment.length > 0) {
+      this.addUnallocatedEquipment(allDisplacedEquipment)
+    }
+  }
+
+  /**
+   * Allocate system components using specific configuration
+   */
+  private allocateSystemComponentsWithConfig(config: UnitConfiguration): void {
+    const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
+      config.engineType,
+      config.gyroType
+    )
+
+    // Allocate engine slots
+    this.allocateEngineSlots(systemAllocation.engine)
+    
+    // Allocate gyro slots
+    this.allocateGyroSlots(systemAllocation.gyro)
   }
 
   /**
