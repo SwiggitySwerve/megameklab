@@ -1,0 +1,368 @@
+/**
+ * Critical Slots V2 Demo - Unified Color System
+ * Centralized color definitions for consistent styling across all components
+ */
+
+/* ==========================================
+   CRITICAL SLOT COLORS
+   ========================================== */
+
+/* System Component Colors */
+.slotEmpty {
+  background-color: rgb(75 85 99);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotEmpty:hover {
+  background-color: rgb(107 114 128);
+}
+
+.slotEngine {
+  background-color: rgb(234 88 12);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotEngine:hover {
+  background-color: rgb(249 115 22);
+}
+
+.slotGyro {
+  background-color: rgb(147 51 234);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotGyro:hover {
+  background-color: rgb(168 85 247);
+}
+
+.slotActuator {
+  background-color: rgb(37 99 235);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotActuator:hover {
+  background-color: rgb(59 130 246);
+}
+
+.slotLifeSupport {
+  background-color: rgb(202 138 4);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotLifeSupport:hover {
+  background-color: rgb(234 179 8);
+}
+
+.slotSensors {
+  background-color: rgb(202 138 4);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotSensors:hover {
+  background-color: rgb(234 179 8);
+}
+
+.slotCockpit {
+  background-color: rgb(202 138 4);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotCockpit:hover {
+  background-color: rgb(234 179 8);
+}
+
+/* Equipment Type Colors in Critical Slots */
+.slotWeapon {
+  background-color: rgb(185 28 28);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotWeapon:hover {
+  background-color: rgb(220 38 38);
+}
+
+.slotAmmo {
+  background-color: rgb(194 65 12);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotAmmo:hover {
+  background-color: rgb(234 88 12);
+}
+
+.slotEquipment {
+  background-color: rgb(29 78 216);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotEquipment:hover {
+  background-color: rgb(37 99 235);
+}
+
+.slotHeatSink {
+  background-color: rgb(14 116 144);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotHeatSink:hover {
+  background-color: rgb(8 145 178);
+}
+
+/* Assignable Slot Highlighting */
+.slotAssignable {
+  background-color: rgb(21 128 61);
+  border-color: rgb(34 197 94);
+  box-shadow: 0 0 0 1px rgb(74 222 128);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.slotAssignable:hover {
+  background-color: rgb(22 163 74);
+}
+
+/* ==========================================
+   EQUIPMENT TYPE COLORS (Tables/Lists)
+   ========================================== */
+
+/* Base Equipment Type Colors */
+.equipmentWeapon {
+  background-color: rgb(185 28 28);
+  border-color: rgb(220 38 38);
+}
+
+.equipmentWeaponSelected {
+  background-color: rgb(239 68 68);
+  border-color: rgb(248 113 113);
+}
+
+.equipmentAmmo {
+  background-color: rgb(194 65 12);
+  border-color: rgb(234 88 12);
+}
+
+.equipmentAmmoSelected {
+  background-color: rgb(249 115 22);
+  border-color: rgb(251 146 60);
+}
+
+.equipmentGeneral {
+  background-color: rgb(29 78 216);
+  border-color: rgb(37 99 235);
+}
+
+.equipmentGeneralSelected {
+  background-color: rgb(59 130 246);
+  border-color: rgb(96 165 250);
+}
+
+.equipmentHeatSink {
+  background-color: rgb(14 116 144);
+  border-color: rgb(8 145 178);
+}
+
+.equipmentHeatSinkSelected {
+  background-color: rgb(6 182 212);
+  border-color: rgb(34 211 238);
+}
+
+/* Equipment Type Dots/Indicators */
+.equipmentDotWeapon {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(185 28 28);
+  border-radius: 0.25rem;
+}
+
+.equipmentDotAmmo {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(194 65 12);
+  border-radius: 0.25rem;
+}
+
+.equipmentDotGeneral {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(29 78 216);
+  border-radius: 0.25rem;
+}
+
+.equipmentDotHeatSink {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(14 116 144);
+  border-radius: 0.25rem;
+}
+
+/* ==========================================
+   EQUIPMENT STATUS COLORS
+   ========================================== */
+
+/* Status Badges */
+.statusAllocated {
+  background-color: rgb(20 83 45);
+  color: rgb(187 247 208);
+  border: 1px solid rgb(34 197 94);
+}
+
+.statusUnallocated {
+  background-color: rgb(127 29 29);
+  color: rgb(254 202 202);
+  border: 1px solid rgb(239 68 68);
+}
+
+.statusAssignable {
+  background-color: rgb(21 128 61);
+  border: 1px solid rgb(34 197 94);
+  color: white;
+  box-shadow: 0 0 0 1px rgb(74 222 128);
+}
+
+/* ==========================================
+   TECH BASE COLORS
+   ========================================== */
+
+.techBaseInnerSphere {
+  color: rgb(96 165 250);
+}
+
+.techBaseClan {
+  color: rgb(74 222 128);
+}
+
+/* ==========================================
+   INTERACTIVE STATE COLORS
+   ========================================== */
+
+/* Selection Indicators */
+.selectedEquipmentStar {
+  background-color: rgb(253 224 71);
+  color: black;
+}
+
+.selectionRing {
+  box-shadow: 0 0 0 2px rgb(96 165 250);
+}
+
+/* Selection Ring for Equipment Tables */
+.equipmentRowSelected {
+  box-shadow: 0 0 0 2px rgb(96 165 250);
+}
+
+/* Yellow Star Badge for Selected Equipment */
+.selectedBadge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgb(253 224 71);
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* ==========================================
+   LEGEND SWATCHES
+   ========================================== */
+
+/* Color swatches for the unified legend */
+.legendSwatchEmpty {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(75 85 99);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchEngine {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(234 88 12);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchGyro {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(147 51 234);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchActuator {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(37 99 235);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchLifeSupport {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(202 138 4);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchAllocatedEquipment {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(34 197 94);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchWeapon {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(185 28 28);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchAmmo {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(194 65 12);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchEquipment {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(29 78 216);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchHeatSink {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(14 116 144);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchSelected {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(253 224 71);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
+
+.legendSwatchSelectionRing {
+  width: 1rem;
+  height: 1rem;
+  background-color: rgb(96 165 250);
+  border-radius: 0.25rem;
+  border: 1px solid rgb(107 114 128);
+}
