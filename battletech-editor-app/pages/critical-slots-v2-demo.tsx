@@ -31,7 +31,7 @@ function DemoWithTestEquipment({
   testEquipmentAdded: boolean
   setTestEquipmentAdded: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-  const { addTestEquipment, resetUnit, getDebugInfo } = useUnit()
+  const { addTestEquipment, addEquipmentToUnit, resetUnit, getDebugInfo } = useUnit()
 
   // Add test equipment on first load
   React.useEffect(() => {
@@ -46,7 +46,8 @@ function DemoWithTestEquipment({
           requiredSlots: 10,
           weight: 14,
           type: 'weapon' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: 7
         },
         {
           id: 'ppc-1',
@@ -54,7 +55,8 @@ function DemoWithTestEquipment({
           requiredSlots: 3,
           weight: 7,
           type: 'weapon' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: 10
         },
         {
           id: 'lrm10-1',
@@ -62,7 +64,8 @@ function DemoWithTestEquipment({
           requiredSlots: 2,
           weight: 5,
           type: 'weapon' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: 4
         },
         {
           id: 'mlaser-1',
@@ -70,7 +73,17 @@ function DemoWithTestEquipment({
           requiredSlots: 1,
           weight: 1,
           type: 'weapon' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: 3
+        },
+        {
+          id: 'mlaser-2',
+          name: 'Medium Laser',
+          requiredSlots: 1,
+          weight: 1,
+          type: 'weapon' as const,
+          techBase: 'Inner Sphere' as const,
+          heat: 3
         },
         {
           id: 'hsink-1',
@@ -78,7 +91,8 @@ function DemoWithTestEquipment({
           requiredSlots: 1,
           weight: 1,
           type: 'heat_sink' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: -1
         },
         {
           id: 'hsink-2',
@@ -86,31 +100,27 @@ function DemoWithTestEquipment({
           requiredSlots: 1,
           weight: 1,
           type: 'heat_sink' as const,
-          techBase: 'Inner Sphere' as const
+          techBase: 'Inner Sphere' as const,
+          heat: -1
         }
       ]
 
       // Add equipment to various locations
       addTestEquipment(testEquipment[0], 'Center Torso') // AC/20 - should get displaced by XL engine
-      addTestEquipment(testEquipment[1], 'Left Torso', 3) // PPC - should get displaced by XL engine  
+      addTestEquipment(testEquipment[1], 'Right Torso', 0) // PPC - in first three slots (0,1,2)
       addTestEquipment(testEquipment[2], 'Right Torso', 6) // LRM 10 - should survive
       addTestEquipment(testEquipment[3], 'Head') // Medium Laser - should survive
-      addTestEquipment(testEquipment[4], 'Left Arm', 4) // Heat Sink - should survive
-      addTestEquipment(testEquipment[5], 'Right Arm', 4) // Heat Sink - should survive
+      addEquipmentToUnit(testEquipment[4]) // Medium Laser #2 - add as unallocated to demonstrate unallocated equipment display
+      addTestEquipment(testEquipment[5], 'Left Arm', 4) // Heat Sink - should survive
+      addTestEquipment(testEquipment[6], 'Right Arm', 4) // Heat Sink - should survive
 
       setTestEquipmentAdded(true)
       console.log('Test equipment added')
     }
-  }, [testEquipmentAdded, addTestEquipment, setTestEquipmentAdded])
+  }, [testEquipmentAdded, addTestEquipment, addEquipmentToUnit, setTestEquipmentAdded])
 
   const handleReset = () => {
-    const defaultConfig: UnitConfiguration = {
-      engineType: 'Standard',
-      gyroType: 'Standard',
-      mass: 75,
-      unitType: 'BattleMech'
-    }
-    resetUnit(defaultConfig)
+    resetUnit()
     setTestEquipmentAdded(false)
   }
 
@@ -138,6 +148,7 @@ function DemoWithTestEquipment({
             <li>• Change to XL Gyro to see how it shifts engine slots and displaces equipment</li>
             <li>• Watch the Unallocated Equipment section to see displaced items</li>
             <li>• Notice how multi-slot equipment (AC/20, PPC) moves as complete units</li>
+            <li>• One Medium Laser starts unallocated to demonstrate the condensed equipment display with heat info</li>
           </ul>
         </div>
 

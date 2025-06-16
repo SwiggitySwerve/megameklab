@@ -19,6 +19,7 @@ export interface EquipmentObject {
   weight: number
   type: 'weapon' | 'ammo' | 'equipment' | 'heat_sink'
   techBase: 'Inner Sphere' | 'Clan' | 'Both'
+  heat?: number // Heat generated (positive) or dissipated (negative for heat sinks)
 }
 
 export interface EquipmentAllocation {

@@ -48,10 +48,12 @@ export function SystemComponentControls() {
   
   // Update configuration
   const updateConfig = useCallback((updates: Partial<UnitConfiguration>) => {
+    console.log('SystemComponentControls.updateConfig called with:', updates)
     const newConfig = { ...config, ...updates }
     
     // Recalculate dependent values and apply to unit
     const validatedConfig = UnitConfigurationBuilder.buildConfiguration(newConfig)
+    console.log('Calling updateConfiguration with:', validatedConfig)
     updateConfiguration(validatedConfig)
   }, [config, updateConfiguration])
   
@@ -101,7 +103,10 @@ export function SystemComponentControls() {
               <label className="text-gray-300 text-xs">Structure:</label>
               <select 
                 value={config.structureType} 
-                onChange={(e) => updateConfig({ structureType: e.target.value as StructureType })}
+                onChange={(e) => {
+                  console.log('Structure change:', e.target.value)
+                  updateConfig({ structureType: e.target.value as StructureType })
+                }}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
                 {getStructureOptions(config.techBase).map(option => (
