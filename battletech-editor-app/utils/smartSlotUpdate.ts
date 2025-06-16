@@ -15,23 +15,46 @@ export interface SlotRange {
 
 /**
  * Get the exact slots occupied by an engine type
+ * @param engineType The type of engine
+ * @param gyroType Optional gyro type to handle XL gyro special case
  */
-export function getEngineSlots(engineType: EngineType): SlotRange[] {
+export function getEngineSlots(engineType: EngineType, gyroType?: GyroType): SlotRange[] {
   const slots: SlotRange[] = [];
   
   // All engines take 6 slots in CT
-  // In Center Torso, engines occupy slots 0-2 and 7-9 (skipping gyro slots 3-6)
-  slots.push({
-    location: MECH_LOCATIONS.CENTER_TORSO,
-    startIndex: 0,
-    endIndex: 2
-  });
+  // Check if we have an XL gyro which requires special engine placement
+  const hasXLGyro = gyroType === 'XL';
+  const canUseSpecialLayout = hasXLGyro && 
+    (engineType === 'XL' || engineType === 'Light' || engineType === 'XXL');
   
-  slots.push({
-    location: MECH_LOCATIONS.CENTER_TORSO,
-    startIndex: 7,
-    endIndex: 9
-  });
+  if (canUseSpecialLayout) {
+    // Special layout for XL/Light/XXL engines with XL gyro
+    // Engine uses slots 0-2 and 9-11 to avoid XL gyro at 3-8
+    slots.push({
+      location: MECH_LOCATIONS.CENTER_TORSO,
+      startIndex: 0,
+      endIndex: 2
+    });
+    
+    slots.push({
+      location: MECH_LOCATIONS.CENTER_TORSO,
+      startIndex: 9,
+      endIndex: 11
+    });
+  } else {
+    // Standard layout: slots 0-2 and 7-9
+    slots.push({
+      location: MECH_LOCATIONS.CENTER_TORSO,
+      startIndex: 0,
+      endIndex: 2
+    });
+    
+    slots.push({
+      location: MECH_LOCATIONS.CENTER_TORSO,
+      startIndex: 7,
+      endIndex: 9
+    });
+  }
   
   // XL, Light, and XXL engines also take side torso slots
   if (engineType === 'XL' || engineType === 'Light' || engineType === 'XXL') {

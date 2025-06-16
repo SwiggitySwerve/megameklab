@@ -168,6 +168,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           ))}
         </div>
         
+        
       </nav>
       {!isCollapsed && (
         <div className="p-4 border-t border-gray-700 text-xs text-gray-400">

@@ -19,6 +19,7 @@ import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
 import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
+import CustomDropdown from '../common/CustomDropdown';
 
 interface UnitEditorWithHooksProps {
   unit: EditableUnit;
@@ -29,7 +30,7 @@ interface UnitEditorWithHooksProps {
 // Inner component that uses the hook
 function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   const router = useRouter();
-  const { state } = useUnitData();
+  const { state, updateEngine, updateGyro } = useUnitData();
   const systemComponents = useSystemComponents();
   const criticalAllocations = useCriticalAllocations();
   const equipment = useEquipment();
@@ -240,22 +241,51 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   
   const ActiveTabComponent = tabs.find(tab => tab.id === activeTab)?.component || StructureTabWithHooks;
   
+  // Engine and Gyro types
+  const engineTypes = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  const gyroTypes = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+  
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Unit Information Banner */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3">
         <div className="flex items-center justify-between">
-          {/* Unit Name and Type */}
-          <div className="flex items-center gap-4">
-            <h2 className="text-xl font-bold text-slate-100">
-              {unit.chassis} {unit.model}
-            </h2>
-            <span className="text-sm text-slate-400">
-              {unit.mass}-ton {unit.tech_base} {unit.data?.config || 'BattleMech'}
-            </span>
+          {/* Left Side: Unit Info and Controls */}
+          <div className="space-y-2">
+            {/* Unit Name and Type */}
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-bold text-slate-100">
+                {unit.chassis} {unit.model}
+              </h2>
+              <span className="text-sm text-slate-400">
+                {unit.mass}-ton {unit.tech_base} {unit.data?.config || 'BattleMech'}
+              </span>
+            </div>
+            
+            {/* Engine and Gyro Dropdowns */}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-400">Engine:</span>
+                <CustomDropdown
+                  value={systemComponents?.engine?.type || 'Standard'}
+                  onChange={(value) => updateEngine(value, systemComponents?.engine?.rating || 300)}
+                  options={engineTypes}
+                  className="w-32"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-400">Gyro:</span>
+                <CustomDropdown
+                  value={systemComponents?.gyro?.type || 'Standard'}
+                  onChange={(value) => updateGyro(value)}
+                  options={gyroTypes}
+                  className="w-32"
+                />
+              </div>
+            </div>
           </div>
           
-          {/* Key Statistics */}
+          {/* Right Side: Key Statistics */}
           <div className="flex items-center gap-6 text-sm">
             {/* Weight */}
             <div className="flex items-center gap-2">
@@ -309,9 +339,9 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
               <span className="font-medium text-slate-200">
                 {unit.era}
               </span>
-            </div>
           </div>
         </div>
+      </div>
       </div>
       
       {/* Tab Navigation */}

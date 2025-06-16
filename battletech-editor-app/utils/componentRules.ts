@@ -69,8 +69,8 @@ export function initializeCriticalSlots(
   // Place cockpit components
   placeCockpitComponents(criticalSlots, systemComponents.cockpit.type);
   
-  // Place engine
-  placeEngine(criticalSlots, systemComponents.engine.type);
+  // Place engine (pass gyro type for XL gyro compatibility check)
+  placeEngine(criticalSlots, systemComponents.engine.type, systemComponents.gyro.type);
   
   // Place gyro
   placeGyro(criticalSlots, systemComponents.gyro.type);
@@ -216,7 +216,7 @@ function placeCockpitComponents(criticalSlots: CriticalAllocationMap, cockpitTyp
 }
 
 // Place engine in appropriate locations
-function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineType): void {
+function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineType, gyroType?: GyroType): void {
   // Ensure engineType is valid and exists in requirements
   const validEngineType = Object.keys(ENGINE_SLOT_REQUIREMENTS).includes(engineType) ? 
     engineType : 'Standard';
@@ -232,10 +232,20 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
       return;
     }
     
-    // Place standard engine in center torso
+    // Place standard engine in center torso (split around gyro)
     const ctSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO];
-    if (ctSlots && ctSlots.length >= 6) {
-      for (let i = 0; i < 6; i++) {
+    if (ctSlots && ctSlots.length >= 12) {
+      // Engine occupies slots 0-2 and 7-9 (6 slots total, split around gyro)
+      for (let i = 0; i < 3; i++) {
+        ctSlots[i] = { 
+          index: i, 
+          name: 'Engine', 
+          type: 'system', 
+          isFixed: true,
+          isManuallyPlaced: false 
+        };
+      }
+      for (let i = 7; i < 10 && i < ctSlots.length; i++) {
         ctSlots[i] = { 
           index: i, 
           name: 'Engine', 
@@ -250,15 +260,51 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
   
   // Place in center torso
   const ctSlots = criticalSlots[MECH_LOCATIONS.CENTER_TORSO];
-  if (ctSlots && requirements.centerTorso) {
-    for (let i = 0; i < requirements.centerTorso && i < ctSlots.length; i++) {
-      ctSlots[i] = { 
-        index: i, 
-        name: 'Engine', 
-        type: 'system', 
-        isFixed: true,
-        isManuallyPlaced: false 
-      };
+  if (ctSlots && requirements.centerTorso === 6) {
+    // Check if we have an XL gyro which takes slots 3-8
+    const hasXLGyro = gyroType === 'XL';
+    
+    if (hasXLGyro && (validEngineType === 'XL' || validEngineType === 'Light' || validEngineType === 'XXL')) {
+      // Special layout for XL/Light/XXL engines with XL gyro
+      // Engine uses slots 0-2 and 9-11 to avoid XL gyro at 3-8
+      for (let i = 0; i < 3; i++) {
+        ctSlots[i] = { 
+          index: i, 
+          name: 'Engine', 
+          type: 'system', 
+          isFixed: true,
+          isManuallyPlaced: false 
+        };
+      }
+      for (let i = 9; i < 12 && i < ctSlots.length; i++) {
+        ctSlots[i] = { 
+          index: i, 
+          name: 'Engine', 
+          type: 'system', 
+          isFixed: true,
+          isManuallyPlaced: false 
+        };
+      }
+    } else {
+      // Standard layout: 0-2 and 7-9
+      for (let i = 0; i < 3; i++) {
+        ctSlots[i] = { 
+          index: i, 
+          name: 'Engine', 
+          type: 'system', 
+          isFixed: true,
+          isManuallyPlaced: false 
+        };
+      }
+      for (let i = 7; i < 10 && i < ctSlots.length; i++) {
+        ctSlots[i] = { 
+          index: i, 
+          name: 'Engine', 
+          type: 'system', 
+          isFixed: true,
+          isManuallyPlaced: false 
+        };
+      }
     }
   }
   
@@ -301,14 +347,8 @@ function placeGyro(criticalSlots: CriticalAllocationMap, gyroType: GyroType): vo
   
   if (!ctSlots) return;
   
-  // Find first available slot after engine
-  let startSlot = 0;
-  for (let i = 0; i < ctSlots.length; i++) {
-    if (ctSlots[i].name !== 'Engine') {
-      startSlot = i;
-      break;
-    }
-  }
+  // Gyro always starts at slot 3 (after engine slots 0-2)
+  const startSlot = 3;
   
   // Place gyro
   for (let i = 0; i < slots && startSlot + i < ctSlots.length; i++) {

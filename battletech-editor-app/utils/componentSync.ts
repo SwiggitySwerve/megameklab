@@ -3,7 +3,7 @@
  * Handles synchronization between system components and critical slots
  */
 
-import { EditableUnit } from '../types/editor';
+import { EditableUnit, MECH_LOCATIONS } from '../types/editor';
 import { CriticalSlotLocation } from '../types/index';
 import {
   SystemComponents,
@@ -123,9 +123,9 @@ export function syncEngineChange(
     ),
   };
   
-  // Get old and new engine slot requirements
-  const oldEngineSlots = getEngineSlots(systemComponents.engine.type);
-  const newEngineSlots = getEngineSlots(newEngineType);
+  // Get old and new engine slot requirements (pass gyro type for XL gyro handling)
+  const oldEngineSlots = getEngineSlots(systemComponents.engine.type, systemComponents.gyro.type);
+  const newEngineSlots = getEngineSlots(newEngineType, systemComponents.gyro.type);
   
   // Smart update - only displace equipment in conflicting slots
   let { updatedAllocations, displacedEquipment } = smartUpdateSlots(
@@ -201,6 +201,19 @@ export function syncGyroChange(
 ): Partial<EditableUnit> {
   const systemComponents = unit.systemComponents || initializeSystemComponents(unit);
   
+  // XL Gyro is incompatible with standard engine layouts
+  // See docs/xl-gyro-incompatibility.md for details
+  if (newGyroType === 'XL') {
+    const engineType = systemComponents.engine.type;
+    // Standard, ICE, Fuel Cell, and Compact engines use the split CT layout (0-2, 7-9)
+    // which conflicts with XL gyro (3-8)
+    if (engineType === 'Standard' || engineType === 'ICE' || engineType === 'Fuel Cell' || engineType === 'Compact') {
+      console.warn('XL Gyro is incompatible with this engine type. XL Gyro requires slots 3-8 which conflicts with engine slots at 7-9.');
+      return {}; // Return unchanged
+    }
+    // XL, Light, and XXL engines are compatible because they use side torso slots
+  }
+  
   // Get current critical allocations (or initialize if not present)
   let criticalAllocations = unit.criticalAllocations;
   if (!criticalAllocations) {
@@ -219,15 +232,57 @@ export function syncGyroChange(
   const newGyroSlots = getGyroSlots(newGyroType);
   
   // Smart update - only displace equipment in conflicting slots
-  const { updatedAllocations, displacedEquipment } = smartUpdateSlots(
+  let { updatedAllocations, displacedEquipment } = smartUpdateSlots(
     criticalAllocations,
     oldGyroSlots,
     newGyroSlots,
     'Gyro'
   );
   
+  // If we're changing to XL gyro with a compatible engine, we need to re-place the engine
+  if (newGyroType === 'XL' && 
+      (systemComponents.engine.type === 'XL' || 
+       systemComponents.engine.type === 'Light' || 
+       systemComponents.engine.type === 'XXL')) {
+    
+    // Find current engine slots
+    const oldEngineSlots: SlotRange[] = [];
+    Object.entries(updatedAllocations).forEach(([location, slots]) => {
+      slots.forEach((slot, index) => {
+        if (slot.name === 'Engine') {
+          // Track where the engine currently is
+          if (oldEngineSlots.length === 0 || oldEngineSlots[oldEngineSlots.length - 1].location !== location ||
+              oldEngineSlots[oldEngineSlots.length - 1].endIndex < index - 1) {
+            oldEngineSlots.push({
+              location,
+              startIndex: index,
+              endIndex: index
+            });
+          } else {
+            // Extend the range
+            oldEngineSlots[oldEngineSlots.length - 1].endIndex = index;
+          }
+        }
+      });
+    });
+    
+    // Get new engine slots with XL gyro layout
+    const newEngineSlots = getEngineSlots(systemComponents.engine.type, newGyroType);
+    
+    // Re-place the engine
+    const engineResult = smartUpdateSlots(
+      updatedAllocations,
+      oldEngineSlots,
+      newEngineSlots,
+      'Engine'
+    );
+    
+    updatedAllocations = engineResult.updatedAllocations;
+    displacedEquipment = [...displacedEquipment, ...engineResult.displacedEquipment];
+  }
+  
   // Update equipment locations for displaced items
-  let updatedEquipment = updateDisplacedEquipment(
+  const updatedEquipment = updateDisplacedEquipment(
     unit.data?.weapons_and_equipment || [],
     displacedEquipment
   );

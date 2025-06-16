@@ -146,6 +146,7 @@ interface UnitState {
   isDirty: boolean;
   isValidating: boolean;
   lastAction?: UnitActionType;
+  lastValidatedUnit?: EditableUnit; // Track what we last validated
 }
 
 // Reducer
@@ -521,7 +522,11 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
           },
         },
         isValidating: false,
+        // Don't change isDirty during validation - validation is a side effect
+        isDirty: state.isDirty,
         lastAction: action.type,
+        // Record what we validated to prevent re-validation loops
+        lastValidatedUnit: state.unit,
       };
     }
 
@@ -628,14 +633,15 @@ export function UnitDataProvider({
 
   // Auto-validate on changes
   useEffect(() => {
-    if (state.isDirty && !state.isValidating) {
+    // Only validate if unit has actually changed since last validation
+    if (state.isDirty && !state.isValidating && state.unit !== state.lastValidatedUnit) {
       const timer = setTimeout(() => {
         dispatch({ type: UnitActionType.VALIDATE_UNIT });
       }, 500); // Debounce validation
       
       return () => clearTimeout(timer);
     }
-  }, [state.isDirty, state.isValidating]);
+  }, [state.isDirty, state.isValidating, state.unit, state.lastValidatedUnit]);
 
   // Convenience methods
   const contextValue: UnitDataContextValue = {
