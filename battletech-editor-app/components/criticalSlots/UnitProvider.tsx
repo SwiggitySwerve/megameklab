@@ -21,6 +21,7 @@ interface UnitContextValue {
   // Action functions
   changeEngine: (engineType: EngineType) => void
   changeGyro: (gyroType: GyroType) => void
+  updateConfiguration: (config: UnitConfiguration) => void
   addTestEquipment: (equipment: any, location: string, startSlot?: number) => boolean
   addEquipmentToUnit: (equipment: any) => void
   removeEquipment: (equipmentGroupId: string) => boolean
@@ -90,6 +91,10 @@ export function UnitProvider({ children, initialConfiguration }: UnitProviderPro
       changeGyro: (gyroType: GyroType) => {
         console.log(`Context: Changing gyro to ${gyroType}`)
         stateManager.handleGyroChange(gyroType)
+      },
+      updateConfiguration: (config: UnitConfiguration) => {
+        console.log(`Context: Updating configuration`, config)
+        stateManager.handleConfigurationUpdate(config)
       },
       addTestEquipment: (equipment: any, location: string, startSlot?: number) => {
         console.log(`Context: Adding equipment ${equipment.name} to ${location}`)

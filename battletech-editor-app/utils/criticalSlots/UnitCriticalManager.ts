@@ -17,11 +17,192 @@ export interface UnitValidationResult {
   }>
 }
 
+// Extended equipment interface for special components
+export interface SpecialEquipmentObject extends EquipmentObject {
+  componentType?: 'structure' | 'armor'
+}
+
 export interface UnitConfiguration {
+  // Core mech properties
+  tonnage: number                    // 20-100 tons in 5-ton increments
+  unitType: 'BattleMech' | 'IndustrialMech'
+  techBase: 'Inner Sphere' | 'Clan'  // Determines available tech options
+  
+  // Movement and engine
+  walkMP: number                     // 1-20+ movement points
+  engineRating: number               // Auto-calculated from tonnage × walkMP, max 400
+  runMP: number                      // Auto-calculated (walkMP × 1.5, rounded down)
+  engineType: EngineType
+  
+  // System components
+  gyroType: GyroType
+  structureType: StructureType
+  armorType: ArmorType
+  
+  // Heat management
+  heatSinkType: HeatSinkType
+  totalHeatSinks: number             // User configurable, minimum 10
+  internalHeatSinks: number          // Auto-calculated from engine rating
+  externalHeatSinks: number          // Auto-calculated (total - internal)
+  
+  // Legacy compatibility
+  mass: number                       // Alias for tonnage
+}
+
+// Import additional types
+export type StructureType = 'Standard' | 'Endo Steel' | 'Endo Steel (Clan)' | 'Composite' | 'Reinforced' | 'Industrial'
+export type ArmorType = 'Standard' | 'Ferro-Fibrous' | 'Ferro-Fibrous (Clan)' | 'Light Ferro-Fibrous' | 'Heavy Ferro-Fibrous' | 'Stealth' | 'Reactive' | 'Reflective' | 'Hardened'
+export type HeatSinkType = 'Single' | 'Double' | 'Double (Clan)' | 'Compact' | 'Laser'
+
+/**
+ * Legacy configuration interface for backwards compatibility
+ */
+export interface LegacyUnitConfiguration {
   engineType: EngineType
   gyroType: GyroType
   mass: number
   unitType: 'BattleMech' | 'IndustrialMech'
+}
+
+/**
+ * Utility functions for unit configuration
+ */
+export class UnitConfigurationBuilder {
+  /**
+   * Create a complete UnitConfiguration from legacy or partial configuration
+   */
+  static buildConfiguration(input: Partial<UnitConfiguration> | LegacyUnitConfiguration): UnitConfiguration {
+    // Handle legacy configuration
+    if ('mass' in input && !('tonnage' in input)) {
+      return this.fromLegacyConfiguration(input as LegacyUnitConfiguration)
+    }
+    
+    // Handle partial configuration
+    const defaults = this.getDefaultConfiguration()
+    const config = { ...defaults, ...input } as UnitConfiguration
+    
+    // Calculate dependent values
+    return this.calculateDependentValues(config)
+  }
+  
+  /**
+   * Convert legacy configuration to new format
+   */
+  private static fromLegacyConfiguration(legacy: LegacyUnitConfiguration): UnitConfiguration {
+    const tonnage = legacy.mass
+    const walkMP = 4 // Default reasonable walk speed
+    
+    return this.calculateDependentValues({
+      tonnage,
+      unitType: legacy.unitType,
+      techBase: 'Inner Sphere',
+      walkMP,
+      engineRating: tonnage * walkMP,
+      runMP: Math.floor(walkMP * 1.5),
+      engineType: legacy.engineType,
+      gyroType: legacy.gyroType,
+      structureType: 'Standard',
+      armorType: 'Standard',
+      heatSinkType: 'Single',
+      totalHeatSinks: 10,
+      internalHeatSinks: 0,
+      externalHeatSinks: 0,
+      mass: tonnage // Legacy compatibility
+    })
+  }
+  
+  /**
+   * Get default configuration
+   */
+  private static getDefaultConfiguration(): UnitConfiguration {
+    return {
+      tonnage: 50,
+      unitType: 'BattleMech',
+      techBase: 'Inner Sphere',
+      walkMP: 4,
+      engineRating: 200,
+      runMP: 6,
+      engineType: 'Standard',
+      gyroType: 'Standard',
+      structureType: 'Standard',
+      armorType: 'Standard',
+      heatSinkType: 'Single',
+      totalHeatSinks: 10,
+      internalHeatSinks: 0,
+      externalHeatSinks: 0,
+      mass: 50
+    }
+  }
+  
+  /**
+   * Calculate dependent values (engine rating, run speed, heat sinks)
+   */
+  private static calculateDependentValues(config: UnitConfiguration): UnitConfiguration {
+    // Calculate engine rating from tonnage and walk MP
+    const calculatedEngineRating = config.tonnage * config.walkMP
+    const engineRating = Math.min(calculatedEngineRating, 400) // Cap at 400
+    
+    // Adjust walk MP if engine rating was capped
+    const actualWalkMP = Math.floor(engineRating / config.tonnage)
+    const runMP = Math.floor(actualWalkMP * 1.5)
+    
+    // Calculate heat sinks
+    const internalHeatSinks = this.calculateInternalHeatSinks(engineRating, config.engineType)
+    const minHeatSinks = Math.max(10, config.totalHeatSinks)
+    const externalHeatSinks = Math.max(0, minHeatSinks - internalHeatSinks)
+    
+    return {
+      ...config,
+      walkMP: actualWalkMP,
+      engineRating,
+      runMP,
+      totalHeatSinks: minHeatSinks,
+      internalHeatSinks,
+      externalHeatSinks,
+      mass: config.tonnage // Keep legacy compatibility
+    }
+  }
+  
+  /**
+   * Calculate internal heat sinks from engine rating
+   */
+  private static calculateInternalHeatSinks(engineRating: number, engineType: EngineType): number {
+    // Non-fusion engines don't provide heat sinks
+    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
+      return 0
+    }
+    
+    // Fusion engines include 10 heat sinks for ratings 250+
+    if (engineRating >= 250) {
+      return 10
+    }
+    
+    // Smaller engines get fewer integrated heat sinks
+    return Math.floor(engineRating / 25)
+  }
+  
+  /**
+   * Validate engine rating constraints
+   */
+  static validateEngineRating(tonnage: number, walkMP: number): { isValid: boolean, maxWalkMP: number, errors: string[] } {
+    const requiredRating = tonnage * walkMP
+    const errors: string[] = []
+    let isValid = true
+    
+    if (requiredRating > 400) {
+      errors.push(`Engine rating ${requiredRating} exceeds maximum of 400`)
+      isValid = false
+    }
+    
+    if (walkMP < 1) {
+      errors.push('Walk MP must be at least 1')
+      isValid = false
+    }
+    
+    const maxWalkMP = Math.floor(400 / tonnage)
+    
+    return { isValid, maxWalkMP, errors }
+  }
 }
 
 // Standard mech location configurations
@@ -115,8 +296,9 @@ export class UnitCriticalManager {
   private unallocatedEquipment: EquipmentAllocation[]
   private configuration: UnitConfiguration
 
-  constructor(configuration: UnitConfiguration) {
-    this.configuration = configuration
+  constructor(configuration: UnitConfiguration | LegacyUnitConfiguration) {
+    // Convert legacy configuration to new format if needed
+    this.configuration = UnitConfigurationBuilder.buildConfiguration(configuration)
     this.sections = new Map()
     this.unallocatedEquipment = []
     
@@ -189,6 +371,133 @@ export class UnitCriticalManager {
         centerTorso.reserveSystemSlots('gyro', gyroAllocation.centerTorso)
       }
     }
+  }
+
+  /**
+   * Update unit configuration and handle special component changes
+   */
+  updateConfiguration(newConfiguration: UnitConfiguration): void {
+    const oldConfig = this.configuration
+    const validatedConfig = UnitConfigurationBuilder.buildConfiguration(newConfiguration)
+    
+    // Handle special component changes
+    this.handleSpecialComponentConfigurationChange(oldConfig, validatedConfig)
+    
+    // Update configuration
+    this.configuration = validatedConfig
+    
+    // Re-allocate system components with new configuration
+    this.sections.forEach(section => {
+      section.clearSystemReservations('engine')
+      section.clearSystemReservations('gyro')
+    })
+    this.allocateSystemComponents()
+  }
+
+  /**
+   * Handle special component changes (Endo Steel, Ferro-Fibrous)
+   */
+  private handleSpecialComponentConfigurationChange(
+    oldConfig: UnitConfiguration, 
+    newConfig: UnitConfiguration
+  ): void {
+    // Handle structure type changes
+    if (oldConfig.structureType !== newConfig.structureType) {
+      this.updateSpecialComponents(
+        oldConfig.structureType,
+        newConfig.structureType,
+        'structure'
+      )
+    }
+    
+    // Handle armor type changes
+    if (oldConfig.armorType !== newConfig.armorType) {
+      this.updateSpecialComponents(
+        oldConfig.armorType,
+        newConfig.armorType,
+        'armor'
+      )
+    }
+  }
+
+  /**
+   * Update special components for structure or armor changes
+   */
+  private updateSpecialComponents(
+    oldType: StructureType | ArmorType,
+    newType: StructureType | ArmorType,
+    componentType: 'structure' | 'armor'
+  ): void {
+    // Remove old special components if they exist
+    if (oldType !== 'Standard') {
+      this.removeSpecialComponents(oldType, componentType)
+    }
+    
+    // Add new special components if needed
+    if (newType !== 'Standard') {
+      this.addSpecialComponents(newType, componentType)
+    }
+  }
+
+  /**
+   * Add special component pieces to unallocated equipment
+   */
+  private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor'): void {
+    const components = this.createSpecialComponentEquipment(type, componentType)
+    
+    components.forEach(component => {
+      const allocation: EquipmentAllocation = {
+        equipmentData: component,
+        equipmentGroupId: `${component.id}_group`,
+        location: '',
+        startSlotIndex: -1,
+        endSlotIndex: -1,
+        occupiedSlots: []
+      }
+      this.unallocatedEquipment.push(allocation)
+    })
+  }
+
+  /**
+   * Remove special component pieces from unallocated equipment and critical slots
+   */
+  private removeSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor'): void {
+    // Remove from unallocated equipment
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => {
+      const specialEq = eq.equipmentData as SpecialEquipmentObject
+      return !(specialEq.name === type && specialEq.componentType === componentType)
+    })
+    
+    // Remove from critical slots across all sections
+    this.sections.forEach(section => {
+      const equipmentToRemove = section.getAllEquipment().filter(eq => {
+        const specialEq = eq.equipmentData as SpecialEquipmentObject
+        return specialEq.name === type && specialEq.componentType === componentType
+      })
+      
+      equipmentToRemove.forEach(eq => {
+        section.removeEquipmentGroup(eq.equipmentGroupId)
+      })
+    })
+  }
+
+  /**
+   * Create special component equipment pieces
+   */
+  private createSpecialComponentEquipment(
+    type: StructureType | ArmorType,
+    componentType: 'structure' | 'armor'
+  ): SpecialEquipmentObject[] {
+    return Array.from({ length: 14 }, (_, index) => ({
+      id: `${type.toLowerCase().replace(/\s+/g, '_')}_piece_${index + 1}`,
+      name: type,
+      type: 'equipment' as const,
+      requiredSlots: 1,
+      weight: 0,
+      techBase: type.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      componentType,
+      isGrouped: false
+    }))
   }
 
   /**

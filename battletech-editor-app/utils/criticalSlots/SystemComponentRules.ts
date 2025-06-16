@@ -3,7 +3,7 @@
  * Handles the complex logic for placing system components in critical slots
  */
 
-export type EngineType = 'Standard' | 'XL' | 'Light' | 'XXL' | 'Compact'
+export type EngineType = 'Standard' | 'XL' | 'Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell'
 export type GyroType = 'Standard' | 'XL' | 'Compact' | 'Heavy-Duty'
 
 export interface SystemAllocation {

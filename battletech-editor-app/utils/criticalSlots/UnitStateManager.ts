@@ -395,6 +395,30 @@ export class UnitStateManager {
   }
 
   /**
+   * Handle complete configuration update
+   */
+  handleConfigurationUpdate(newConfiguration: UnitConfiguration): void {
+    const oldConfig = this.currentUnit.getConfiguration()
+    
+    console.log('Configuration update:', oldConfig, '->', newConfiguration)
+    
+    // Update the unit configuration, which will trigger special component handling
+    this.currentUnit.updateConfiguration(newConfiguration)
+    
+    this.logChange({
+      type: 'unit_updated',
+      timestamp: new Date(),
+      data: {
+        action: 'configuration_update',
+        oldConfig,
+        newConfig: newConfiguration
+      }
+    })
+    
+    this.notifySubscribers()
+  }
+
+  /**
    * Get debugging information
    */
   getDebugInfo() {
