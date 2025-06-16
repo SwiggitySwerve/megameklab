@@ -31,7 +31,7 @@ export class MechConstructor {
   static changeEngine(
     currentUnit: UnitCriticalManager, 
     newEngineType: EngineType,
-    options: ConstructionOptions = { attemptMigration: true, preserveLocationPreference: true }
+    options: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
   ): ConstructionResult {
     const currentConfig = currentUnit.getConfiguration()
     const newConfig: UnitConfiguration = {
@@ -48,7 +48,7 @@ export class MechConstructor {
   static changeGyro(
     currentUnit: UnitCriticalManager,
     newGyroType: GyroType,
-    options: ConstructionOptions = { attemptMigration: true, preserveLocationPreference: true }
+    options: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
   ): ConstructionResult {
     const currentConfig = currentUnit.getConfiguration()
     const newConfig: UnitConfiguration = {
@@ -66,7 +66,7 @@ export class MechConstructor {
     currentUnit: UnitCriticalManager,
     newEngineType: EngineType,
     newGyroType: GyroType,
-    options: ConstructionOptions = { attemptMigration: true, preserveLocationPreference: true }
+    options: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
   ): ConstructionResult {
     const currentConfig = currentUnit.getConfiguration()
     const newConfig: UnitConfiguration = {
@@ -89,31 +89,127 @@ export class MechConstructor {
     // Step 1: Create clean background unit with new system components
     const backgroundUnit = this.createBackgroundUnit(newConfig)
 
-    // Step 2: Identify and extract equipment that needs to migrate
-    const equipmentToMigrate = this.extractMigratableEquipment(currentUnit)
+    // Step 2: Copy over all equipment, then identify conflicts
+    if (options.attemptMigration) {
+      // Migration mode: extract all equipment for re-placement
+      const equipmentToMigrate = this.extractMigratableEquipment(currentUnit, newConfig, true)
+      const migrationResult = this.migrateEquipment(equipmentToMigrate, backgroundUnit, options)
+      backgroundUnit.addUnallocatedEquipment(migrationResult.displaced)
+      
+      const summary = {
+        totalDisplaced: equipmentToMigrate.length,
+        totalMigrated: migrationResult.migrated.length,
+        totalUnallocated: migrationResult.displaced.length
+      }
 
-    // Step 3: Attempt to migrate equipment to background unit
-    const migrationResult = options.attemptMigration 
-      ? this.migrateEquipment(equipmentToMigrate, backgroundUnit, options)
-      : { migrated: [], displaced: equipmentToMigrate }
+      return {
+        newUnit: backgroundUnit,
+        displacedEquipment: equipmentToMigrate,
+        migratedEquipment: migrationResult.migrated,
+        unallocatedEquipment: migrationResult.displaced,
+        summary
+      }
+    } else {
+      // Displacement-only mode: preserve non-conflicting equipment
+      const result = this.handleConflictOnlyDisplacement(currentUnit, backgroundUnit, newConfig)
+      
+      return result
+    }
+  }
 
-    // Step 4: Add any equipment that couldn't migrate to unallocated pool
-    backgroundUnit.addUnallocatedEquipment(migrationResult.displaced)
-
-    // Step 5: Prepare result summary
+  /**
+   * Handle displacement-only mode: preserve non-conflicting equipment
+   */
+  private static handleConflictOnlyDisplacement(
+    currentUnit: UnitCriticalManager,
+    backgroundUnit: UnitCriticalManager,
+    newConfig: UnitConfiguration
+  ): ConstructionResult {
+    const displacedEquipment: EquipmentAllocation[] = []
+    
+    // Copy over all equipment from current unit, handling conflicts
+    currentUnit.getAllSections().forEach(currentSection => {
+      const sectionName = currentSection.getLocation()
+      const backgroundSection = backgroundUnit.getSection(sectionName)
+      
+      if (backgroundSection) {
+        const sectionEquipment = currentSection.getAllEquipment()
+        
+        sectionEquipment.forEach(equipment => {
+          // Check if this equipment conflicts with new system slots
+          const conflictsWithSystem = this.doesEquipmentConflictWithSystem(
+            equipment, currentUnit, newConfig
+          )
+          
+          if (conflictsWithSystem) {
+            // Equipment conflicts - add to displaced list
+            displacedEquipment.push(equipment)
+          } else {
+            // Equipment doesn't conflict - copy to background unit in same position
+            const success = backgroundSection.allocateEquipment(
+              equipment.equipmentData,
+              equipment.startSlotIndex,
+              equipment.equipmentGroupId
+            )
+            
+            if (!success) {
+              // Fallback - if exact placement fails, add to displaced
+              displacedEquipment.push(equipment)
+            }
+          }
+        })
+      }
+    })
+    
+    // Copy over existing unallocated equipment
+    const existingUnallocated = currentUnit.getUnallocatedEquipment()
+    displacedEquipment.push(...existingUnallocated)
+    
+    // Add all displaced equipment to background unit's unallocated pool
+    backgroundUnit.addUnallocatedEquipment(displacedEquipment)
+    
     const summary = {
-      totalDisplaced: equipmentToMigrate.length,
-      totalMigrated: migrationResult.migrated.length,
-      totalUnallocated: migrationResult.displaced.length
+      totalDisplaced: displacedEquipment.length,
+      totalMigrated: 0,
+      totalUnallocated: displacedEquipment.length
     }
 
     return {
       newUnit: backgroundUnit,
-      displacedEquipment: equipmentToMigrate,
-      migratedEquipment: migrationResult.migrated,
-      unallocatedEquipment: migrationResult.displaced,
+      displacedEquipment,
+      migratedEquipment: [],
+      unallocatedEquipment: displacedEquipment,
       summary
     }
+  }
+
+  /**
+   * Check if equipment conflicts with new system component slots
+   */
+  private static doesEquipmentConflictWithSystem(
+    equipment: EquipmentAllocation,
+    currentUnit: UnitCriticalManager,
+    newConfig: UnitConfiguration
+  ): boolean {
+    const currentConfig = currentUnit.getConfiguration()
+    const displacementImpact = SystemComponentRules.getDisplacementImpact(
+      currentConfig.engineType,
+      currentConfig.gyroType,
+      newConfig.engineType,
+      newConfig.gyroType
+    )
+    
+    // Check if equipment's location is affected
+    if (!displacementImpact.affectedLocations.includes(equipment.location)) {
+      return false
+    }
+    
+    // Check if equipment's slots overlap with conflict slots
+    const conflictSlots = displacementImpact.conflictSlots[equipment.location] || []
+    const equipmentSlots = equipment.occupiedSlots
+    
+    // If any of the equipment's slots are in the conflict list, it conflicts
+    return equipmentSlots.some(slot => conflictSlots.includes(slot))
   }
 
   /**
@@ -126,21 +222,61 @@ export class MechConstructor {
   }
 
   /**
-   * Extract all equipment from current unit that can be migrated
+   * Extract equipment from current unit - either all equipment or only conflicting equipment
    */
-  private static extractMigratableEquipment(currentUnit: UnitCriticalManager): EquipmentAllocation[] {
-    const allEquipment: EquipmentAllocation[] = []
+  private static extractMigratableEquipment(
+    currentUnit: UnitCriticalManager, 
+    newConfig: UnitConfiguration, 
+    attemptMigration: boolean
+  ): EquipmentAllocation[] {
+    if (attemptMigration) {
+      // Migration mode: extract all equipment
+      const allEquipment: EquipmentAllocation[] = []
 
-    // Get equipment from all sections
-    currentUnit.getAllSections().forEach(section => {
-      const sectionEquipment = section.getAllEquipment()
-      allEquipment.push(...sectionEquipment)
+      currentUnit.getAllSections().forEach(section => {
+        const sectionEquipment = section.getAllEquipment()
+        allEquipment.push(...sectionEquipment)
+      })
+
+      allEquipment.push(...currentUnit.getUnallocatedEquipment())
+      return allEquipment
+    } else {
+      // Displacement-only mode: extract only conflicting equipment
+      return this.extractConflictingEquipment(currentUnit, newConfig)
+    }
+  }
+
+  /**
+   * Extract only equipment that conflicts with new system component slots
+   */
+  private static extractConflictingEquipment(
+    currentUnit: UnitCriticalManager,
+    newConfig: UnitConfiguration
+  ): EquipmentAllocation[] {
+    const currentConfig = currentUnit.getConfiguration()
+    const displacementImpact = SystemComponentRules.getDisplacementImpact(
+      currentConfig.engineType,
+      currentConfig.gyroType,
+      newConfig.engineType,
+      newConfig.gyroType
+    )
+
+    const conflictingEquipment: EquipmentAllocation[] = []
+
+    // Check each affected location for conflicting equipment
+    displacementImpact.affectedLocations.forEach(location => {
+      const section = currentUnit.getSection(location)
+      if (section) {
+        const conflictSlots = displacementImpact.conflictSlots[location] || []
+        const conflicts = section.findConflictingEquipment(conflictSlots)
+        conflictingEquipment.push(...conflicts)
+      }
     })
 
-    // Include existing unallocated equipment
-    allEquipment.push(...currentUnit.getUnallocatedEquipment())
+    // Always include existing unallocated equipment
+    conflictingEquipment.push(...currentUnit.getUnallocatedEquipment())
 
-    return allEquipment
+    return conflictingEquipment
   }
 
   /**

@@ -129,7 +129,9 @@ export class UnitStateManager {
 
     console.log(`Engine change: ${oldEngineType} → ${newEngineType}`)
 
-    const result = MechConstructor.changeEngine(this.currentUnit, newEngineType, options)
+    // Use displacement-only options unless explicitly overridden
+    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
+    const result = MechConstructor.changeEngine(this.currentUnit, newEngineType, options || defaultOptions)
     
     this.updateUnit(result.newUnit, {
       action: 'engine_change',
@@ -172,7 +174,9 @@ export class UnitStateManager {
 
     console.log(`Gyro change: ${oldGyroType} → ${newGyroType}`)
 
-    const result = MechConstructor.changeGyro(this.currentUnit, newGyroType, options)
+    // Use displacement-only options unless explicitly overridden
+    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
+    const result = MechConstructor.changeGyro(this.currentUnit, newGyroType, options || defaultOptions)
     
     this.updateUnit(result.newUnit, {
       action: 'gyro_change',
@@ -220,7 +224,9 @@ export class UnitStateManager {
 
     console.log(`Combined change: Engine ${oldEngineType} → ${newEngineType}, Gyro ${oldGyroType} → ${newGyroType}`)
 
-    const result = MechConstructor.changeEngineAndGyro(this.currentUnit, newEngineType, newGyroType, options)
+    // Use displacement-only options unless explicitly overridden
+    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
+    const result = MechConstructor.changeEngineAndGyro(this.currentUnit, newEngineType, newGyroType, options || defaultOptions)
     
     this.updateUnit(result.newUnit, {
       action: 'combined_change',
