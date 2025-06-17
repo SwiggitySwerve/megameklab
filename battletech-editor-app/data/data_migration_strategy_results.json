@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "validation_rules_created": 7,
+    "integrity_checks_implemented": 4,
+    "migration_tools_created": 4,
+    "batch_mechanisms": 4,
+    "rollback_procedures": 3
+  },
+  "migration_strategy": {
+    "validationRulesCreated": 7,
+    "dataIntegrityChecks": 4,
+    "migrationToolsCreated": 4,
+    "batchUpdateMechanisms": 4,
+    "rollbackProcedures": 3,
+    "validationResults": {
+      "template_uniqueness": {
+        "total_templates": 637,
+        "unique_names": 637,
+        "has_duplicates": false
+      },
+      "variant_distribution": {
+        "total_variants": 741,
+        "is_variants": 392,
+        "clan_variants": 182,
+        "mixed_variants": 167
+      },
+      "orphaned_variants": 0,
+      "modifier_coverage": {
+        "total_variants": 741,
+        "variants_with_modifiers": 2,
+        "coverage_percentage": "0.3"
+      }
+    },
+    "integrityResults": {}
+  },
+  "migration_report": {
+    "database_statistics": {
+      "total_templates": 637,
+      "total_variants": 741,
+      "total_modifiers": 2,
+      "total_tech_rules": 23
+    },
+    "validation_summary": {
+      "template_uniqueness": {
+        "total_templates": 637,
+        "unique_names": 637,
+        "has_duplicates": false
+      },
+      "variant_distribution": {
+        "total_variants": 741,
+        "is_variants": 392,
+        "clan_variants": 182,
+        "mixed_variants": 167
+      },
+      "orphaned_variants": 0,
+      "modifier_coverage": {
+        "total_variants": 741,
+        "variants_with_modifiers": 2,
+        "coverage_percentage": "0.3"
+      }
+    },
+    "integrity_status": {},
+    "migration_tools_available": 4,
+    "batch_operations_available": 4,
+    "rollback_procedures_available": 3,
+    "recommendations": [
+      "Increase performance modifier coverage for equipment variants"
+    ]
+  },
+  "database_path": "C:\\Users\\wroll\\Projects\\megameklab\\battletech-editor-app\\data\\battletech_enhanced.sqlite",
+  "creation_date": "2025-06-17T04:07:45.048Z"
+}

@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "templatesCreated": 637,
+    "variantsCreated": 741,
+    "criticalSystemsCreated": 4,
+    "missingSystemsCreated": 6
+  },
+  "enhanced_schema_implemented": true,
+  "critical_systems_resolved": true,
+  "variant_report": {
+    "total_variants": 741,
+    "by_tech_base": {
+      "Mixed": 167,
+      "Clan": 182,
+      "IS": 392
+    },
+    "critical_systems": [
+      {
+        "template_name": "Double Heat Sink",
+        "tech_base": "Clan",
+        "variant_name": "Clan Double Heat Sink",
+        "weight_tons": 1,
+        "critical_slots": 2
+      },
+      {
+        "template_name": "Double Heat Sink",
+        "tech_base": "IS",
+        "variant_name": "IS Double Heat Sink",
+        "weight_tons": 1,
+        "critical_slots": 3
+      },
+      {
+        "template_name": "Small Cockpit",
+        "tech_base": "Mixed",
+        "variant_name": "Small Cockpit",
+        "weight_tons": 2,
+        "critical_slots": 1
+      },
+      {
+        "template_name": "XL Engine",
+        "tech_base": "Clan",
+        "variant_name": "Clan XL Engine",
+        "weight_tons": 0,
+        "critical_slots": 4
+      },
+      {
+        "template_name": "XL Engine",
+        "tech_base": "IS",
+        "variant_name": "IS XL Engine",
+        "weight_tons": 0,
+        "critical_slots": 6
+      },
+      {
+        "template_name": "XL Gyro",
+        "tech_base": "Mixed",
+        "variant_name": "XL Gyro",
+        "weight_tons": 0.5,
+        "critical_slots": 2
+      }
+    ]
+  },
+  "database_path": "C:\\Users\\wroll\\Projects\\megameklab\\battletech-editor-app\\data\\battletech_enhanced.sqlite",
+  "creation_date": "2025-06-17T03:54:40.920Z"
+}
