@@ -3,12 +3,14 @@
  * Unified structure for tracking mech system components and their critical slot allocations
  */
 
-export type EngineType = 'Standard' | 'XL' | 'Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell';
+// Enhanced engine types with IS/Clan differentiation
+export type EngineType = 'Standard' | 'XL (IS)' | 'XL (Clan)' | 'Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell';
 export type GyroType = 'Standard' | 'XL' | 'Compact' | 'Heavy-Duty';
 export type CockpitType = 'Standard' | 'Small' | 'Command Console' | 'Torso-Mounted' | 'Interface' | 'Primitive';
 export type StructureType = 'Standard' | 'Endo Steel' | 'Endo Steel (Clan)' | 'Composite' | 'Reinforced' | 'Industrial';
 export type ArmorType = 'Standard' | 'Ferro-Fibrous' | 'Ferro-Fibrous (Clan)' | 'Light Ferro-Fibrous' | 'Heavy Ferro-Fibrous' | 'Stealth' | 'Reactive' | 'Reflective' | 'Hardened';
-export type HeatSinkType = 'Single' | 'Double' | 'Compact' | 'Laser' | 'Double (Clan)';
+// Enhanced heat sink types with IS/Clan differentiation
+export type HeatSinkType = 'Single' | 'Double (IS)' | 'Double (Clan)' | 'Compact' | 'Laser';
 
 export interface EngineComponent {
   type: EngineType;

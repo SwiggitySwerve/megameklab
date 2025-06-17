@@ -5,10 +5,11 @@
 
 import { EngineType } from '../types/systemComponents';
 
-// Engine weight multipliers
+// Engine weight multipliers with IS/Clan XL differentiation
 export const ENGINE_WEIGHT_MULTIPLIERS: Record<EngineType, number> = {
   'Standard': 1.0,
-  'XL': 0.5,
+  'XL (IS)': 0.5,
+  'XL (Clan)': 0.5,
   'Light': 0.75,
   'XXL': 0.33,
   'Compact': 1.5,
@@ -16,10 +17,11 @@ export const ENGINE_WEIGHT_MULTIPLIERS: Record<EngineType, number> = {
   'Fuel Cell': 1.5
 };
 
-// Engine slot requirements
+// Engine slot requirements with IS/Clan XL differentiation
 export const ENGINE_SLOT_REQUIREMENTS: Record<EngineType, { centerTorso: number; leftTorso: number; rightTorso: number }> = {
   'Standard': { centerTorso: 6, leftTorso: 0, rightTorso: 0 },
-  'XL': { centerTorso: 6, leftTorso: 3, rightTorso: 3 },
+  'XL (IS)': { centerTorso: 6, leftTorso: 3, rightTorso: 3 },    // IS XL: 3 slots per side torso
+  'XL (Clan)': { centerTorso: 6, leftTorso: 2, rightTorso: 2 },  // Clan XL: 2 slots per side torso
   'Light': { centerTorso: 6, leftTorso: 2, rightTorso: 2 },
   'XXL': { centerTorso: 6, leftTorso: 6, rightTorso: 6 },
   'Compact': { centerTorso: 3, leftTorso: 0, rightTorso: 0 },
