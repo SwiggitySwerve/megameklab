@@ -31,6 +31,8 @@ export const GAUSS_RIFLE: Equipment = {
   requiresAmmo: false,
   introductionYear: 2592,
   rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '219',
   variants: {
     IS: {
       weight: 15,
@@ -296,6 +298,8 @@ export const AC_20: Equipment = {
   requiresAmmo: true,
   introductionYear: 2165,
   rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '208',
   variants: {
     IS: {
       weight: 14,

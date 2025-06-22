@@ -146,7 +146,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       category_name: item.category,
       base_type: item.baseType,
       description: item.description,
-      special_rules: item.special || []
+      special_rules: item.special || [],
+      source_book: item.sourceBook,
+      page_reference: item.pageReference
     }));
 
     const response: CatalogResponse = {

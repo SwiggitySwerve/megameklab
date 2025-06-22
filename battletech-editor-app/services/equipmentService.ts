@@ -42,30 +42,32 @@ function flattenEquipment(equipment: Equipment[]): EquipmentVariantFlat[] {
   
   equipment.forEach(item => {
     Object.entries(item.variants).forEach(([techBase, variant]) => {
-      flattened.push({
-        id: `${item.id}_${techBase.toLowerCase()}`,
-        name: item.name,
-        category: item.category,
-        techBase: techBase as TechBase,
-        weight: variant.weight,
-        crits: variant.crits,
-        damage: variant.damage,
-        heat: variant.heat,
-        minRange: variant.minRange,
-        rangeShort: variant.rangeShort,
-        rangeMedium: variant.rangeMedium,
-        rangeLong: variant.rangeLong,
-        rangeExtreme: variant.rangeExtreme,
-        ammoPerTon: variant.ammoPerTon,
-        cost: variant.cost,
-        battleValue: variant.battleValue,
-        requiresAmmo: item.requiresAmmo,
-        introductionYear: item.introductionYear,
-        rulesLevel: item.rulesLevel,
-        baseType: item.baseType,
-        description: item.description,
-        special: item.special
-      });
+        flattened.push({
+          id: `${item.id}_${techBase.toLowerCase()}`,
+          name: item.name,
+          category: item.category,
+          techBase: techBase as TechBase,
+          weight: variant.weight,
+          crits: variant.crits,
+          damage: variant.damage,
+          heat: variant.heat,
+          minRange: variant.minRange,
+          rangeShort: variant.rangeShort,
+          rangeMedium: variant.rangeMedium,
+          rangeLong: variant.rangeLong,
+          rangeExtreme: variant.rangeExtreme,
+          ammoPerTon: variant.ammoPerTon,
+          cost: variant.cost,
+          battleValue: variant.battleValue,
+          requiresAmmo: item.requiresAmmo,
+          introductionYear: item.introductionYear,
+          rulesLevel: item.rulesLevel,
+          baseType: item.baseType,
+          description: item.description,
+          special: item.special,
+          sourceBook: item.sourceBook,
+          pageReference: item.pageReference
+        });
     });
   });
   

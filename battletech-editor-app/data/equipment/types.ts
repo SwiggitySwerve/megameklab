@@ -90,6 +90,8 @@ export interface Equipment {
   requiresAmmo: boolean; // Whether this equipment needs ammunition
   introductionYear: number; // Year introduced
   rulesLevel: RulesLevel; // Rules complexity level
+  sourceBook?: string;   // Source book abbreviation (e.g., "TM", "TO")
+  pageReference?: string; // Page number in source book
   variants: {
     IS?: EquipmentVariant;   // Inner Sphere variant
     Clan?: EquipmentVariant; // Clan variant
@@ -140,4 +142,6 @@ export interface EquipmentVariantFlat {
   baseType?: string;
   description?: string;
   special?: string[];
+  sourceBook?: string;
+  pageReference?: string;
 }

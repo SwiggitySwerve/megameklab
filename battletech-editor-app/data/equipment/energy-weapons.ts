@@ -344,6 +344,8 @@ export const PPC: Equipment = {
   requiresAmmo: false,
   introductionYear: 2594,
   rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '273',
   variants: {
     IS: {
       weight: 7,
@@ -516,6 +518,8 @@ export const LARGE_LASER: Equipment = {
   requiresAmmo: false,
   introductionYear: 2316,
   rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '227',
   variants: {
     Clan: {
       weight: 5,
