@@ -309,27 +309,6 @@ export const AC_20: Equipment = {
   }
 };
 
-export const AC_10P: Equipment = {
-  id: 'ac_10p',
-  name: 'AC/10p',
-  category: 'Ballistic Weapons',
-  baseType: 'AC/10p',
-  description: 'Autocannon/10 Prototype variant',
-  requiresAmmo: true,
-  introductionYear: 2456,
-  rulesLevel: 'Standard',
-  variants: {
-    IS: {
-      weight: 12,
-      crits: 7,
-      damage: 10,
-      heat: 3,
-      minRange: 0,
-      cost: 0,
-      battleValue: 0
-    }
-  }
-};
 
 // Light AC variants
 export const LAC_2: Equipment = {
@@ -555,7 +534,6 @@ export const BALLISTIC_WEAPONS: Equipment[] = [
   SILVER_BULLET_GAUSS_RIFLE,
   // Standard ACs
   AC_20,
-  AC_10P,
   // Ultra ACs
   ULTRA_AC_2,
   ULTRA_AC_5,
