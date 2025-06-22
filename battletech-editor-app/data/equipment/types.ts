@@ -90,6 +90,7 @@ export interface Equipment {
   requiresAmmo: boolean; // Whether this equipment needs ammunition
   introductionYear: number; // Year introduced
   rulesLevel: RulesLevel; // Rules complexity level
+  techRating?: string;   // Technology rating (A-F, X)
   sourceBook?: string;   // Source book abbreviation (e.g., "TM", "TO")
   pageReference?: string; // Page number in source book
   variants: {

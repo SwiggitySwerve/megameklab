@@ -9,6 +9,7 @@ export const CLAN_ERPPC: Equipment = {
   requiresAmmo: false,
   introductionYear: 2830,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     Clan: {
       weight: 6,
@@ -20,8 +21,8 @@ export const CLAN_ERPPC: Equipment = {
       rangeMedium: 14,
       rangeLong: 23,
       rangeExtreme: 28,
-      cost: 0,
-      battleValue: 0
+      cost: 300000,
+      battleValue: 412
     }
   }
 };
@@ -35,6 +36,7 @@ export const ER_LARGE_LASER: Equipment = {
   requiresAmmo: false,
   introductionYear: 2620,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     Clan: {
       weight: 4,
@@ -45,8 +47,8 @@ export const ER_LARGE_LASER: Equipment = {
       rangeShort: 8,
       rangeMedium: 15,
       rangeLong: 25,
-      cost: 0,
-      battleValue: 0
+      cost: 200000,
+      battleValue: 163
     },
     IS: {
       weight: 5,
@@ -57,8 +59,8 @@ export const ER_LARGE_LASER: Equipment = {
       rangeShort: 7,
       rangeMedium: 14,
       rangeLong: 19,
-      cost: 0,
-      battleValue: 0
+      cost: 200000,
+      battleValue: 163
     }
   }
 };
@@ -109,6 +111,7 @@ export const ER_MEDIUM_LASER: Equipment = {
   requiresAmmo: false,
   introductionYear: 2824,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     Clan: {
       weight: 1,
@@ -119,8 +122,8 @@ export const ER_MEDIUM_LASER: Equipment = {
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 80000,
+      battleValue: 108
     },
     IS: {
       weight: 1,
@@ -131,8 +134,8 @@ export const ER_MEDIUM_LASER: Equipment = {
       rangeShort: 4,
       rangeMedium: 8,
       rangeLong: 12,
-      cost: 0,
-      battleValue: 0
+      cost: 80000,
+      battleValue: 62
     }
   }
 };
@@ -171,6 +174,7 @@ export const IS_ER_PPC: Equipment = {
   requiresAmmo: false,
   introductionYear: 2760,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
       weight: 7,
@@ -182,8 +186,8 @@ export const IS_ER_PPC: Equipment = {
       rangeMedium: 14,
       rangeLong: 23,
       rangeExtreme: 28,
-      cost: 0,
-      battleValue: 0
+      cost: 300000,
+      battleValue: 229
     }
   }
 };
@@ -433,6 +437,7 @@ export const PPC: Equipment = {
   requiresAmmo: false,
   introductionYear: 2594,
   rulesLevel: 'Standard',
+  techRating: 'D',
   sourceBook: 'TM',
   pageReference: '273',
   variants: {
@@ -445,8 +450,8 @@ export const PPC: Equipment = {
       rangeShort: 6,
       rangeMedium: 12,
       rangeLong: 18,
-      cost: 0,
-      battleValue: 0
+      cost: 200000,
+      battleValue: 176
     }
   }
 };
@@ -664,6 +669,69 @@ export const LARGE_LASER: Equipment = {
   }
 };
 
+// Flamer Weapons
+export const FLAMER: Equipment = {
+  id: 'flamer',
+  name: 'Flamer',
+  category: 'Energy Weapons',
+  baseType: 'Flamer',
+  description: 'Standard Flamer - Heat-based anti-infantry weapon',
+  requiresAmmo: false,
+  introductionYear: 2025,
+  rulesLevel: 'Standard',
+  variants: {
+    Clan: {
+      weight: 0.5,
+      crits: 1,
+      damage: 2,
+      heat: 3,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 7500,
+      battleValue: 6
+    },
+    IS: {
+      weight: 1,
+      crits: 1,
+      damage: 2,
+      heat: 3,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 7500,
+      battleValue: 6
+    }
+  }
+};
+
+export const HEAVY_FLAMER: Equipment = {
+  id: 'heavy_flamer',
+  name: 'Heavy Flamer',
+  category: 'Energy Weapons',
+  baseType: 'Heavy Flamer',
+  description: 'Heavy Flamer - Enhanced heat-based weapon',
+  requiresAmmo: false,
+  introductionYear: 3068,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 1.5,
+      crits: 1,
+      damage: 4,
+      heat: 5,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 11250,
+      battleValue: 11
+    }
+  }
+};
+
 // Defensive Systems
 export const LASER_AMS: Equipment = {
   id: 'laser_ams',
@@ -725,5 +793,7 @@ export const ENERGY_WEAPONS: Equipment[] = [
   SMALL_LASER,
   SMALL_PULSE_LASER,
   LARGE_LASER,
+  FLAMER,
+  HEAVY_FLAMER,
   LASER_AMS
 ];
