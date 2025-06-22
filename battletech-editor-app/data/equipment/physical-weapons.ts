@@ -1,372 +1,433 @@
 import { Equipment } from './types';
 
-// Hatchet
-export const HATCHET: Equipment = {
-  id: 'hatchet',
-  name: 'Hatchet',
-  category: 'Physical Weapons',
-  baseType: 'Hatchet',
-  description: 'Mek-scale hatchet for melee combat',
-  requiresAmmo: false,
-  introductionYear: 3025,
-  rulesLevel: 'Standard',
-  variants: {
-    IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 5000,
-      battleValue: 5
-    },
-    Clan: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 5000,
-      battleValue: 5
-    }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage']
-};
-
-// Sword
 export const SWORD: Equipment = {
   id: 'sword',
   name: 'Sword',
   category: 'Physical Weapons',
   baseType: 'Sword',
-  description: 'Mek-scale sword for melee combat',
+  description: 'Sword - Melee cutting weapon for close combat',
   requiresAmmo: false,
-  introductionYear: 3025,
+  introductionYear: 2439,
   rulesLevel: 'Standard',
+  techRating: 'A',
+  sourceBook: 'TM',
+  pageReference: '231',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
+      weight: 3,
+      crits: 3,
+      damage: 0,
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 10000,
-      battleValue: 7
-    },
-    Clan: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 10000,
-      battleValue: 7
+      cost: 20000,
+      battleValue: 25
     }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage']
+  }
 };
 
-// Mace
 export const MACE: Equipment = {
   id: 'mace',
   name: 'Mace',
   category: 'Physical Weapons',
   baseType: 'Mace',
-  description: 'Mek-scale mace for melee combat',
+  description: 'BattleMech Mace - Heavy blunt melee weapon',
   requiresAmmo: false,
-  introductionYear: 3025,
+  introductionYear: 2439,
   rulesLevel: 'Standard',
+  techRating: 'B',
+  sourceBook: 'TM',
+  pageReference: '231',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 7500,
-      battleValue: 6
-    },
-    Clan: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 7500,
-      battleValue: 6
+      cost: 130000,
+      battleValue: 140
     }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage']
+  }
 };
 
-// Lance
+export const HATCHET: Equipment = {
+  id: 'hatchet',
+  name: 'Hatchet',
+  category: 'Physical Weapons',
+  baseType: 'Hatchet',
+  description: 'BattleMech Hatchet - Axe-like melee weapon',
+  requiresAmmo: false,
+  introductionYear: 2439,
+  rulesLevel: 'Standard',
+  techRating: 'B',
+  sourceBook: 'TM',
+  pageReference: '231',
+  variants: {
+    IS: {
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 100000,
+      battleValue: 95
+    }
+  }
+};
+
 export const LANCE: Equipment = {
   id: 'lance',
   name: 'Lance',
   category: 'Physical Weapons',
   baseType: 'Lance',
-  description: 'Mek-scale lance for charging attacks',
+  description: 'BattleMech Lance - Piercing melee weapon',
   requiresAmmo: false,
-  introductionYear: 3025,
+  introductionYear: 2470,
   rulesLevel: 'Standard',
+  techRating: 'B',
+  sourceBook: 'TM',
+  pageReference: '231',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 7500,
-      battleValue: 6
-    },
-    Clan: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 0,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 7500,
-      battleValue: 6
+      cost: 75000,
+      battleValue: 85
     }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage', 'Charging Bonus']
+  }
 };
 
-// Retractable Blade
+export const CHAIN_WHIP: Equipment = {
+  id: 'chain_whip',
+  name: 'Chain Whip',
+  category: 'Physical Weapons',
+  baseType: 'Chain Whip',
+  description: 'Chain Whip - Flexible melee weapon with extended reach',
+  requiresAmmo: false,
+  introductionYear: 3059,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  variants: {
+    IS: {
+      weight: 3,
+      crits: 3,
+      damage: 0, // Variable damage based on attack type
+      heat: 0,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
+      cost: 120000,
+      battleValue: 30
+    }
+  }
+};
+
+export const FLAIL: Equipment = {
+  id: 'flail',
+  name: 'Flail',
+  category: 'Physical Weapons',
+  baseType: 'Flail',
+  description: 'Flail - Ball and chain melee weapon',
+  requiresAmmo: false,
+  introductionYear: 3059,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  variants: {
+    IS: {
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 110000,
+      battleValue: 65
+    }
+  }
+};
+
 export const RETRACTABLE_BLADE: Equipment = {
   id: 'retractable_blade',
   name: 'Retractable Blade',
   category: 'Physical Weapons',
   baseType: 'Retractable Blade',
-  description: 'Retractable melee weapon that can be hidden',
+  description: 'Retractable Blade - Concealed melee weapon',
   requiresAmmo: false,
-  introductionYear: 3050,
+  introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 1,
-      damage: 0, // Variable based on Mek tonnage
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 20000,
-      battleValue: 8
-    },
-    Clan: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 1,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 0,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 20000,
-      battleValue: 8
+      cost: 90000,
+      battleValue: 55
     }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage', 'Retractable']
+  }
 };
 
-// Vibroblade
 export const VIBROBLADE: Equipment = {
   id: 'vibroblade',
   name: 'Vibroblade',
   category: 'Physical Weapons',
   baseType: 'Vibroblade',
-  description: 'High-frequency vibrating blade weapon',
+  description: 'Vibroblade - High-frequency vibrating blade weapon',
   requiresAmmo: false,
-  introductionYear: 3055,
-  rulesLevel: 'Advanced',
+  introductionYear: 3059,
+  rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 1,
-      damage: 0, // Variable based on Mek tonnage + 1
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
       cost: 150000,
-      battleValue: 15
+      battleValue: 95
     }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Enhanced Damage', 'Vibro Technology']
+  }
 };
 
-// Chainsword
-export const CHAINSWORD: Equipment = {
-  id: 'chainsword',
-  name: 'Chainsword',
+export const TALON: Equipment = {
+  id: 'talon',
+  name: 'Talon',
   category: 'Physical Weapons',
-  baseType: 'Chainsword',
-  description: 'Chainsaw-like melee weapon with motorized cutting edge',
+  baseType: 'Talon',
+  description: 'Talon - Claw-like melee weapon',
   requiresAmmo: false,
-  introductionYear: 3050,
+  introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 0, // Variable based on Mek tonnage
-      crits: 5,
-      damage: 0, // Variable based on Mek tonnage
-      heat: 2,
-      minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 100000,
-      battleValue: 12
-    }
-  },
-  special: ['Melee Weapon', 'Variable Weight', 'Variable Damage', 'Motorized']
-};
-
-// Combine
-export const COMBINE: Equipment = {
-  id: 'combine',
-  name: 'Combine',
-  category: 'Physical Weapons',
-  baseType: 'Combine',
-  description: 'Agricultural harvesting equipment repurposed as a weapon',
-  requiresAmmo: false,
-  introductionYear: 3025,
-  rulesLevel: 'Standard',
-  variants: {
-    IS: {
-      weight: 2.5,
-      crits: 4,
-      damage: 1,
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 75000,
-      battleValue: 7
+      cost: 85000,
+      battleValue: 50
     }
-  },
-  special: ['Industrial Equipment', 'Melee Weapon', 'Fixed Damage']
+  }
 };
 
-// Rock Cutter
-export const ROCK_CUTTER: Equipment = {
-  id: 'rock_cutter',
-  name: 'Rock Cutter',
+export const SPIKES: Equipment = {
+  id: 'spikes',
+  name: 'Spikes',
   category: 'Physical Weapons',
-  baseType: 'Rock Cutter',
-  description: 'Mining equipment that can be used as a weapon',
+  baseType: 'Spikes',
+  description: 'Spikes - Defensive spikes for ramming attacks',
   requiresAmmo: false,
-  introductionYear: 3025,
+  introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '231',
   variants: {
     IS: {
-      weight: 5,
-      crits: 7,
-      damage: 5,
-      heat: 3,
+      weight: 1,
+      crits: 1,
+      damage: 0, // Damage bonus for ramming/charging
+      heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
-      cost: 100000,
-      battleValue: 15
+      cost: 50000,
+      battleValue: 5
     }
-  },
-  special: ['Industrial Equipment', 'Melee Weapon', 'Mining Tool']
+  }
 };
 
-// Claws
+export const PROTOMECH_QUAD_MELEE: Equipment = {
+  id: 'protomech_quad_melee',
+  name: 'ProtoMech Quad Melee Weapon System',
+  category: 'Physical Weapons',
+  baseType: 'ProtoMech Quad Melee Weapon System',
+  description: 'ProtoMech Quad Melee Weapon System - Specialized ProtoMech melee weapon',
+  requiresAmmo: false,
+  introductionYear: 3110,
+  rulesLevel: 'Standard',
+  techRating: 'F',
+  variants: {
+    Clan: {
+      weight: 0, // Variable weight based on ProtoMech tonnage
+      crits: 0, // Variable slots based on ProtoMech tonnage
+      damage: 0, // Variable damage based on ProtoMech tonnage
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 300000,
+      battleValue: 25
+    }
+  }
+};
+
 export const CLAWS: Equipment = {
   id: 'claws',
   name: 'Claws',
   category: 'Physical Weapons',
   baseType: 'Claws',
-  description: 'Retractable claw weapons for close combat',
+  description: 'Claws - Natural-style melee weapons',
   requiresAmmo: false,
-  introductionYear: 3050,
+  introductionYear: 2470,
   rulesLevel: 'Standard',
+  techRating: 'B',
   variants: {
     IS: {
-      weight: 3,
-      crits: 3,
-      damage: 0, // Special damage rules
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
       cost: 200000,
       battleValue: 15
     },
     Clan: {
-      weight: 3,
-      crits: 3,
-      damage: 0, // Special damage rules
+      weight: 0, // Variable weight based on mech tonnage
+      crits: 0, // Variable slots based on mech tonnage
+      damage: 0, // Variable damage based on mech tonnage
       heat: 0,
       minRange: 0,
       rangeShort: 0,
       rangeMedium: 0,
       rangeLong: 0,
-      rangeExtreme: 0,
       cost: 200000,
       battleValue: 15
     }
-  },
-  special: ['Melee Weapon', 'Special Damage Rules', 'Retractable']
+  }
+};
+
+export const CLUB: Equipment = {
+  id: 'club',
+  name: 'Club',
+  category: 'Physical Weapons',
+  baseType: 'Club',
+  description: 'Club - Simple blunt melee weapon',
+  requiresAmmo: false,
+  introductionYear: 2439,
+  rulesLevel: 'Standard',
+  techRating: 'A',
+  variants: {
+    IS: {
+      weight: 0, // Uses found objects or limbs
+      crits: 0,
+      damage: 0, // Variable damage based on improvised weapon
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 1000,
+      battleValue: 5
+    }
+  }
+};
+
+export const CHAINSAW: Equipment = {
+  id: 'chainsaw',
+  name: 'Chainsaw',
+  category: 'Physical Weapons',
+  baseType: 'Chainsaw',
+  description: 'Chainsaw - Industrial cutting tool adapted for combat',
+  requiresAmmo: false,
+  introductionYear: 2300,
+  rulesLevel: 'Standard',
+  techRating: 'B',
+  sourceBook: 'TM',
+  pageReference: '231',
+  variants: {
+    IS: {
+      weight: 5,
+      crits: 5,
+      damage: 0, // Variable damage based on attack
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 100000,
+      battleValue: 7
+    }
+  }
+};
+
+export const COMBINE_HARVESTER: Equipment = {
+  id: 'combine_harvester',
+  name: 'Combine',
+  category: 'Physical Weapons',
+  baseType: 'Combine',
+  description: 'Combine Harvester - Agricultural equipment used as improvised weapon',
+  requiresAmmo: false,
+  introductionYear: 2300,
+  rulesLevel: 'Standard',
+  techRating: 'A',
+  variants: {
+    IS: {
+      weight: 15,
+      crits: 7,
+      damage: 0, // Variable damage based on attack
+      heat: 0,
+      minRange: 0,
+      rangeShort: 0,
+      rangeMedium: 0,
+      rangeLong: 0,
+      cost: 75000,
+      battleValue: 15
+    }
+  }
 };
 
 export const PHYSICAL_WEAPONS: Equipment[] = [
-  HATCHET,
   SWORD,
   MACE,
+  HATCHET,
   LANCE,
+  CHAIN_WHIP,
+  FLAIL,
   RETRACTABLE_BLADE,
   VIBROBLADE,
-  CHAINSWORD,
-  COMBINE,
-  ROCK_CUTTER,
-  CLAWS
+  TALON,
+  SPIKES,
+  PROTOMECH_QUAD_MELEE,
+  CLAWS,
+  CLUB,
+  CHAINSAW,
+  COMBINE_HARVESTER
 ];

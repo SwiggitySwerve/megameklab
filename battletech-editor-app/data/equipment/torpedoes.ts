@@ -1,385 +1,313 @@
 import { Equipment } from './types';
 
-// LRM Torpedo 5
-export const LRM_TORPEDO_5: Equipment = {
-  id: 'lrm_torpedo_5',
-  name: 'LRM Torpedo 5',
+export const TORPEDO: Equipment = {
+  id: 'torpedo',
+  name: 'Torpedo',
   category: 'Torpedoes',
-  baseType: 'LRM Torpedo 5',
-  description: 'Long-range torpedo launcher for underwater combat',
+  baseType: 'Torpedo',
+  description: 'Standard Torpedo - Naval warfare weapon for underwater and space combat',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2300,
   rulesLevel: 'Standard',
+  techRating: 'B',
+  variants: {
+    IS: {
+      weight: 1.5,
+      crits: 1,
+      damage: 6,
+      heat: 0,
+      minRange: 3,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
+      cost: 30000,
+      battleValue: 15
+    }
+  }
+};
+
+export const LONG_RANGE_TORPEDO: Equipment = {
+  id: 'long_range_torpedo',
+  name: 'Long Range Torpedo',
+  category: 'Torpedoes',
+  baseType: 'Long Range Torpedo',
+  description: 'Long Range Torpedo - Extended range naval weapon',
+  requiresAmmo: true,
+  introductionYear: 2350,
+  rulesLevel: 'Standard',
+  techRating: 'C',
+  variants: {
+    IS: {
+      weight: 2,
+      crits: 2,
+      damage: 8,
+      heat: 0,
+      minRange: 6,
+      rangeShort: 12,
+      rangeMedium: 24,
+      rangeLong: 36,
+      cost: 45000,
+      battleValue: 20
+    }
+  }
+};
+
+export const SHORT_RANGE_TORPEDO: Equipment = {
+  id: 'short_range_torpedo',
+  name: 'Short Range Torpedo',
+  category: 'Torpedoes',
+  baseType: 'Short Range Torpedo',
+  description: 'Short Range Torpedo - High-damage close-range naval weapon',
+  requiresAmmo: true,
+  introductionYear: 2300,
+  rulesLevel: 'Standard',
+  techRating: 'B',
+  variants: {
+    IS: {
+      weight: 1,
+      crits: 1,
+      damage: 4,
+      heat: 0,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 20000,
+      battleValue: 8
+    }
+  }
+};
+
+export const K_F_TORPEDO: Equipment = {
+  id: 'k_f_torpedo',
+  name: 'K-F Torpedo',
+  category: 'Torpedoes',
+  baseType: 'K-F Torpedo',
+  description: 'Kearny-Fuchida Torpedo - Advanced space-combat torpedo with jump capability',
+  requiresAmmo: true,
+  introductionYear: 3068,
+  rulesLevel: 'Advanced',
+  techRating: 'F',
+  variants: {
+    IS: {
+      weight: 5,
+      crits: 5,
+      damage: 30,
+      heat: 0,
+      minRange: 12,
+      rangeShort: 24,
+      rangeMedium: 48,
+      rangeLong: 72,
+      cost: 150000,
+      battleValue: 60
+    },
+    Clan: {
+      weight: 4,
+      crits: 4,
+      damage: 30,
+      heat: 0,
+      minRange: 12,
+      rangeShort: 24,
+      rangeMedium: 48,
+      rangeLong: 72,
+      cost: 150000,
+      battleValue: 60
+    }
+  }
+};
+
+export const LRT_5: Equipment = {
+  id: 'lrt_5',
+  name: 'LRT-5',
+  category: 'Torpedoes',
+  baseType: 'LRT-5',
+  description: 'Long Range Torpedo 5 - 5-tube long range torpedo launcher',
+  requiresAmmo: true,
+  introductionYear: 2380,
+  rulesLevel: 'Standard',
+  techRating: 'C',
   variants: {
     IS: {
       weight: 2,
       crits: 1,
-      damage: 1, // Per torpedo
+      damage: 5,
       heat: 2,
       minRange: 6,
       rangeShort: 7,
       rangeMedium: 14,
       rangeLong: 21,
-      rangeExtreme: 28,
       cost: 30000,
-      battleValue: 45
-    },
-    Clan: {
-      weight: 1,
-      crits: 1,
-      damage: 1, // Per torpedo
-      heat: 2,
-      minRange: 6,
-      rangeShort: 7,
-      rangeMedium: 14,
-      rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 30000,
-      battleValue: 45
+      battleValue: 9
     }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Minimum Range']
+  }
 };
 
-// LRM Torpedo 10
-export const LRM_TORPEDO_10: Equipment = {
-  id: 'lrm_torpedo_10',
-  name: 'LRM Torpedo 10',
+export const LRT_10: Equipment = {
+  id: 'lrt_10',
+  name: 'LRT-10',
   category: 'Torpedoes',
-  baseType: 'LRM Torpedo 10',
-  description: 'Long-range torpedo launcher for underwater combat',
+  baseType: 'LRT-10',
+  description: 'Long Range Torpedo 10 - 10-tube long range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2380,
   rulesLevel: 'Standard',
+  techRating: 'C',
   variants: {
     IS: {
       weight: 5,
       crits: 2,
-      damage: 1, // Per torpedo
+      damage: 10,
       heat: 4,
       minRange: 6,
       rangeShort: 7,
       rangeMedium: 14,
       rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 100000,
-      battleValue: 90
-    },
-    Clan: {
-      weight: 2.5,
-      crits: 1,
-      damage: 1, // Per torpedo
-      heat: 4,
-      minRange: 6,
-      rangeShort: 7,
-      rangeMedium: 14,
-      rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 100000,
-      battleValue: 90
+      cost: 60000,
+      battleValue: 18
     }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Minimum Range']
+  }
 };
 
-// LRM Torpedo 15
-export const LRM_TORPEDO_15: Equipment = {
-  id: 'lrm_torpedo_15',
-  name: 'LRM Torpedo 15',
+export const LRT_15: Equipment = {
+  id: 'lrt_15',
+  name: 'LRT-15',
   category: 'Torpedoes',
-  baseType: 'LRM Torpedo 15',
-  description: 'Long-range torpedo launcher for underwater combat',
+  baseType: 'LRT-15',
+  description: 'Long Range Torpedo 15 - 15-tube long range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2380,
   rulesLevel: 'Standard',
+  techRating: 'C',
   variants: {
     IS: {
       weight: 7,
       crits: 3,
-      damage: 1, // Per torpedo
+      damage: 15,
       heat: 5,
       minRange: 6,
       rangeShort: 7,
       rangeMedium: 14,
       rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 175000,
-      battleValue: 136
-    },
-    Clan: {
-      weight: 3.5,
-      crits: 2,
-      damage: 1, // Per torpedo
-      heat: 5,
-      minRange: 6,
-      rangeShort: 7,
-      rangeMedium: 14,
-      rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 175000,
-      battleValue: 136
+      cost: 90000,
+      battleValue: 28
     }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Minimum Range']
+  }
 };
 
-// LRM Torpedo 20
-export const LRM_TORPEDO_20: Equipment = {
-  id: 'lrm_torpedo_20',
-  name: 'LRM Torpedo 20',
+export const LRT_20: Equipment = {
+  id: 'lrt_20',
+  name: 'LRT-20',
   category: 'Torpedoes',
-  baseType: 'LRM Torpedo 20',
-  description: 'Long-range torpedo launcher for underwater combat',
+  baseType: 'LRT-20',
+  description: 'Long Range Torpedo 20 - 20-tube long range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2380,
   rulesLevel: 'Standard',
+  techRating: 'C',
   variants: {
     IS: {
       weight: 10,
       crits: 5,
-      damage: 1, // Per torpedo
+      damage: 20,
       heat: 6,
       minRange: 6,
       rangeShort: 7,
       rangeMedium: 14,
       rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 250000,
-      battleValue: 181
-    },
-    Clan: {
-      weight: 5,
-      crits: 2,
-      damage: 1, // Per torpedo
-      heat: 6,
-      minRange: 6,
-      rangeShort: 7,
-      rangeMedium: 14,
-      rangeLong: 21,
-      rangeExtreme: 28,
-      cost: 250000,
-      battleValue: 181
+      cost: 120000,
+      battleValue: 37
     }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Minimum Range']
+  }
 };
 
-// SRM Torpedo 2
-export const SRM_TORPEDO_2: Equipment = {
-  id: 'srm_torpedo_2',
-  name: 'SRM Torpedo 2',
+export const SRT_2: Equipment = {
+  id: 'srt_2',
+  name: 'SRT-2',
   category: 'Torpedoes',
-  baseType: 'SRM Torpedo 2',
-  description: 'Short-range torpedo launcher for underwater combat',
+  baseType: 'SRT-2',
+  description: 'Short Range Torpedo 2 - 2-tube short range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2350,
   rulesLevel: 'Standard',
+  techRating: 'B',
   variants: {
     IS: {
       weight: 1,
       crits: 1,
-      damage: 2, // Per torpedo
+      damage: 2,
       heat: 2,
       minRange: 0,
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      rangeExtreme: 12,
       cost: 10000,
-      battleValue: 21
-    },
-    Clan: {
-      weight: 0.5,
-      crits: 1,
-      damage: 2, // Per torpedo
-      heat: 2,
-      minRange: 0,
-      rangeShort: 3,
-      rangeMedium: 6,
-      rangeLong: 9,
-      rangeExtreme: 12,
-      cost: 10000,
-      battleValue: 21
+      battleValue: 3
     }
-  },
-  special: ['Torpedo', 'Underwater Only']
+  }
 };
 
-// SRM Torpedo 4
-export const SRM_TORPEDO_4: Equipment = {
-  id: 'srm_torpedo_4',
-  name: 'SRM Torpedo 4',
+export const SRT_4: Equipment = {
+  id: 'srt_4',
+  name: 'SRT-4',
   category: 'Torpedoes',
-  baseType: 'SRM Torpedo 4',
-  description: 'Short-range torpedo launcher for underwater combat',
+  baseType: 'SRT-4',
+  description: 'Short Range Torpedo 4 - 4-tube short range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2350,
   rulesLevel: 'Standard',
+  techRating: 'B',
   variants: {
     IS: {
       weight: 2,
       crits: 1,
-      damage: 2, // Per torpedo
+      damage: 8,
       heat: 3,
       minRange: 0,
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      rangeExtreme: 12,
-      cost: 60000,
-      battleValue: 39
-    },
-    Clan: {
-      weight: 1,
-      crits: 1,
-      damage: 2, // Per torpedo
-      heat: 3,
-      minRange: 0,
-      rangeShort: 3,
-      rangeMedium: 6,
-      rangeLong: 9,
-      rangeExtreme: 12,
-      cost: 60000,
-      battleValue: 39
+      cost: 20000,
+      battleValue: 12
     }
-  },
-  special: ['Torpedo', 'Underwater Only']
+  }
 };
 
-// SRM Torpedo 6
-export const SRM_TORPEDO_6: Equipment = {
-  id: 'srm_torpedo_6',
-  name: 'SRM Torpedo 6',
+export const SRT_6: Equipment = {
+  id: 'srt_6',
+  name: 'SRT-6',
   category: 'Torpedoes',
-  baseType: 'SRM Torpedo 6',
-  description: 'Short-range torpedo launcher for underwater combat',
+  baseType: 'SRT-6',
+  description: 'Short Range Torpedo 6 - 6-tube short range torpedo launcher',
   requiresAmmo: true,
-  introductionYear: 2365,
+  introductionYear: 2350,
   rulesLevel: 'Standard',
+  techRating: 'B',
   variants: {
     IS: {
       weight: 3,
       crits: 2,
-      damage: 2, // Per torpedo
+      damage: 12,
       heat: 4,
       minRange: 0,
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      rangeExtreme: 12,
-      cost: 80000,
-      battleValue: 59
-    },
-    Clan: {
-      weight: 1.5,
-      crits: 1,
-      damage: 2, // Per torpedo
-      heat: 4,
-      minRange: 0,
-      rangeShort: 3,
-      rangeMedium: 6,
-      rangeLong: 9,
-      rangeExtreme: 12,
-      cost: 80000,
-      battleValue: 59
+      cost: 30000,
+      battleValue: 18
     }
-  },
-  special: ['Torpedo', 'Underwater Only']
-};
-
-// Piranha
-export const PIRANHA: Equipment = {
-  id: 'piranha',
-  name: 'Piranha',
-  category: 'Torpedoes',
-  baseType: 'Piranha',
-  description: 'Advanced homing torpedo system',
-  requiresAmmo: true,
-  introductionYear: 3064,
-  rulesLevel: 'Advanced',
-  variants: {
-    IS: {
-      weight: 3,
-      crits: 5,
-      damage: 3,
-      heat: 4,
-      minRange: 6,
-      rangeShort: 12,
-      rangeMedium: 20,
-      rangeLong: 30,
-      rangeExtreme: 40,
-      cost: 150000,
-      battleValue: 90
-    }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Homing', 'Minimum Range']
-};
-
-// Swordfish
-export const SWORDFISH: Equipment = {
-  id: 'swordfish',
-  name: 'Swordfish',
-  category: 'Torpedoes',
-  baseType: 'Swordfish',
-  description: 'Heavy anti-submarine torpedo system',
-  requiresAmmo: true,
-  introductionYear: 3064,
-  rulesLevel: 'Advanced',
-  variants: {
-    IS: {
-      weight: 7,
-      crits: 7,
-      damage: 6,
-      heat: 8,
-      minRange: 6,
-      rangeShort: 15,
-      rangeMedium: 25,
-      rangeLong: 35,
-      rangeExtreme: 45,
-      cost: 300000,
-      battleValue: 150
-    }
-  },
-  special: ['Torpedo', 'Underwater Only', 'Heavy Torpedo', 'Minimum Range']
-};
-
-// White Shark
-export const WHITE_SHARK: Equipment = {
-  id: 'white_shark',
-  name: 'White Shark',
-  category: 'Torpedoes',
-  baseType: 'White Shark',
-  description: 'Capital-scale torpedo for large naval vessels',
-  requiresAmmo: true,
-  introductionYear: 2370,
-  rulesLevel: 'Advanced',
-  variants: {
-    IS: {
-      weight: 15,
-      crits: 15,
-      damage: 15,
-      heat: 12,
-      minRange: 12,
-      rangeShort: 24,
-      rangeMedium: 40,
-      rangeLong: 60,
-      rangeExtreme: 80,
-      cost: 500000,
-      battleValue: 300
-    }
-  },
-  special: ['Capital Torpedo', 'Underwater Only', 'Capital Weapon', 'Minimum Range']
+  }
 };
 
 export const TORPEDOES: Equipment[] = [
-  LRM_TORPEDO_5,
-  LRM_TORPEDO_10,
-  LRM_TORPEDO_15,
-  LRM_TORPEDO_20,
-  SRM_TORPEDO_2,
-  SRM_TORPEDO_4,
-  SRM_TORPEDO_6,
-  PIRANHA,
-  SWORDFISH,
-  WHITE_SHARK
+  TORPEDO,
+  LONG_RANGE_TORPEDO,
+  SHORT_RANGE_TORPEDO,
+  K_F_TORPEDO,
+  LRT_5,
+  LRT_10,
+  LRT_15,
+  LRT_20,
+  SRT_2,
+  SRT_4,
+  SRT_6
 ];

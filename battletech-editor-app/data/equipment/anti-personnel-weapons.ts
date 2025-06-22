@@ -1,97 +1,153 @@
 import { Equipment } from './types';
 
-// Anti-Personnel Pod
+export const ANTI_PERSONNEL_GAUSS_RIFLE: Equipment = {
+  id: 'anti_personnel_gauss_rifle',
+  name: 'Anti-Personnel Gauss Rifle',
+  category: 'Anti-Personnel Weapons',
+  baseType: 'Anti-Personnel Gauss Rifle',
+  description: 'Anti-Personnel Gauss Rifle - Electromagnetic weapon designed for infantry suppression',
+  requiresAmmo: true,
+  introductionYear: 3068,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '230',
+  variants: {
+    IS: {
+      weight: 0.5,
+      crits: 1,
+      damage: 3,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 10000,
+      battleValue: 21
+    }
+  }
+};
+
 export const ANTI_PERSONNEL_POD: Equipment = {
   id: 'anti_personnel_pod',
   name: 'Anti-Personnel Pod',
   category: 'Anti-Personnel Weapons',
   baseType: 'Anti-Personnel Pod',
-  description: 'Defensive system designed to eliminate infantry threats',
+  description: 'Anti-Personnel Pod - Area denial weapon system against infantry',
   requiresAmmo: false,
   introductionYear: 3050,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '230',
   variants: {
     IS: {
       weight: 0.5,
       crits: 1,
-      damage: 0, // Special damage vs. infantry
-      heat: 0,
+      damage: 2,
+      heat: 1,
       minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
       cost: 1500,
-      battleValue: 1
+      battleValue: 2
     },
     Clan: {
       weight: 0.5,
       crits: 1,
-      damage: 0, // Special damage vs. infantry
-      heat: 0,
+      damage: 2,
+      heat: 1,
       minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
       cost: 1500,
-      battleValue: 1
+      battleValue: 2
     }
-  },
-  special: ['Anti-Infantry', 'Area Effect', 'Defensive System']
+  }
 };
 
-// Machine Gun
-export const MACHINE_GUN: Equipment = {
-  id: 'machine_gun',
-  name: 'Machine Gun',
+export const ANTI_BATTLE_ARMOR_POD: Equipment = {
+  id: 'anti_battle_armor_pod',
+  name: 'Anti-Battle Armor Pod',
   category: 'Anti-Personnel Weapons',
-  baseType: 'Machine Gun',
-  description: 'Rapid-fire weapon effective against infantry and light armor',
+  baseType: 'Anti-Battle Armor Pod',
+  description: 'Anti-Battle Armor Pod - Specialized weapon for eliminating battle armor',
+  requiresAmmo: false,
+  introductionYear: 3050,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '230',
+  variants: {
+    IS: {
+      weight: 0.5,
+      crits: 1,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
+      cost: 2000,
+      battleValue: 3
+    },
+    Clan: {
+      weight: 0.5,
+      crits: 1,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
+      cost: 2000,
+      battleValue: 3
+    }
+  }
+};
+
+export const M_POD: Equipment = {
+  id: 'm_pod',
+  name: 'M-Pod',
+  category: 'Anti-Personnel Weapons',
+  baseType: 'M-Pod',
+  description: 'M-Pod - Multi-purpose anti-personnel defensive system',
+  requiresAmmo: false,
+  introductionYear: 3059,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '230',
+  variants: {
+    IS: {
+      weight: 1,
+      crits: 1,
+      damage: 2,
+      heat: 0,
+      minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 1,
+      rangeLong: 1,
+      cost: 6000,
+      battleValue: 5
+    }
+  }
+};
+
+export const VEHICULAR_GRENADE_LAUNCHER: Equipment = {
+  id: 'vehicular_grenade_launcher',
+  name: 'Vehicular Grenade Launcher',
+  category: 'Anti-Personnel Weapons',
+  baseType: 'Vehicular Grenade Launcher',
+  description: 'Vehicular Grenade Launcher - Vehicle-mounted grenade system',
   requiresAmmo: true,
   introductionYear: 2100,
   rulesLevel: 'Standard',
-  variants: {
-    IS: {
-      weight: 0.5,
-      crits: 1,
-      damage: 2,
-      heat: 0,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 5000,
-      battleValue: 5
-    },
-    Clan: {
-      weight: 0.25,
-      crits: 1,
-      damage: 2,
-      heat: 0,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 5000,
-      battleValue: 5
-    }
-  },
-  special: ['Anti-Infantry', 'Rapid Fire', 'Low Damage vs. Armor']
-};
-
-// Light Machine Gun
-export const LIGHT_MACHINE_GUN: Equipment = {
-  id: 'light_machine_gun',
-  name: 'Light Machine Gun',
-  category: 'Anti-Personnel Weapons',
-  baseType: 'Light Machine Gun',
-  description: 'Lightweight rapid-fire weapon for anti-infantry work',
-  requiresAmmo: true,
-  introductionYear: 3064,
-  rulesLevel: 'Standard',
+  techRating: 'B',
+  sourceBook: 'TM',
+  pageReference: '230',
   variants: {
     IS: {
       weight: 0.5,
@@ -99,229 +155,100 @@ export const LIGHT_MACHINE_GUN: Equipment = {
       damage: 1,
       heat: 0,
       minRange: 0,
-      rangeShort: 2,
-      rangeMedium: 4,
-      rangeLong: 6,
-      rangeExtreme: 8,
-      cost: 5000,
-      battleValue: 5
-    },
-    Clan: {
-      weight: 0.25,
-      crits: 1,
-      damage: 1,
-      heat: 0,
-      minRange: 0,
-      rangeShort: 2,
-      rangeMedium: 4,
-      rangeLong: 6,
-      rangeExtreme: 8,
-      cost: 5000,
-      battleValue: 5
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 3500,
+      battleValue: 1
     }
-  },
-  special: ['Anti-Infantry', 'Rapid Fire', 'Extended Range']
+  }
 };
 
-// Heavy Machine Gun
-export const HEAVY_MACHINE_GUN: Equipment = {
-  id: 'heavy_machine_gun',
-  name: 'Heavy Machine Gun',
+export const FLUID_GUN: Equipment = {
+  id: 'fluid_gun',
+  name: 'Fluid Gun',
   category: 'Anti-Personnel Weapons',
-  baseType: 'Heavy Machine Gun',
-  description: 'Heavy-caliber rapid-fire weapon with increased stopping power',
+  baseType: 'Fluid Gun',
+  description: 'Fluid Gun - Chemical sprayer for crowd control and area denial',
   requiresAmmo: true,
-  introductionYear: 3068,
+  introductionYear: 2100,
   rulesLevel: 'Standard',
+  techRating: 'B',
   variants: {
     IS: {
-      weight: 1,
-      crits: 1,
-      damage: 3,
+      weight: 2,
+      crits: 2,
+      damage: 0, // Special damage rules
       heat: 0,
       minRange: 0,
       rangeShort: 1,
       rangeMedium: 2,
       rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 7
-    },
-    Clan: {
-      weight: 0.5,
-      crits: 1,
-      damage: 3,
-      heat: 0,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 7
+      cost: 35000,
+      battleValue: 2
     }
-  },
-  special: ['Anti-Infantry', 'Rapid Fire', 'Enhanced Damage']
+  }
 };
 
-// Flamer
-export const FLAMER: Equipment = {
-  id: 'flamer',
-  name: 'Flamer',
+export const TEAR_GAS: Equipment = {
+  id: 'tear_gas',
+  name: 'Tear Gas',
   category: 'Anti-Personnel Weapons',
-  baseType: 'Flamer',
-  description: 'Incendiary weapon that projects burning fuel',
-  requiresAmmo: false,
-  introductionYear: 2025,
-  rulesLevel: 'Introductory',
-  variants: {
-    IS: {
-      weight: 1,
-      crits: 1,
-      damage: 2,
-      heat: 3,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 6
-    },
-    Clan: {
-      weight: 0.5,
-      crits: 1,
-      damage: 2,
-      heat: 3,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 6
-    }
-  },
-  special: ['Heat Weapon', 'Incendiary', 'Anti-Infantry']
-};
-
-// Vehicle Flamer
-export const VEHICLE_FLAMER: Equipment = {
-  id: 'vehicle_flamer',
-  name: 'Vehicle Flamer',
-  category: 'Anti-Personnel Weapons',
-  baseType: 'Vehicle Flamer',
-  description: 'Vehicle-mounted incendiary weapon system',
+  baseType: 'Tear Gas',
+  description: 'Tear Gas - Non-lethal chemical weapon for crowd control',
   requiresAmmo: true,
-  introductionYear: 2025,
-  rulesLevel: 'Introductory',
+  introductionYear: 2000,
+  rulesLevel: 'Standard',
+  techRating: 'A',
   variants: {
     IS: {
       weight: 0.5,
       crits: 1,
-      damage: 2,
+      damage: 0, // Special rules - causes temporary incapacitation
       heat: 0,
       minRange: 0,
       rangeShort: 1,
       rangeMedium: 2,
       rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 5
-    },
-    Clan: {
-      weight: 0.5,
-      crits: 1,
-      damage: 2,
-      heat: 0,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 7500,
-      battleValue: 5
+      cost: 1000,
+      battleValue: 1
     }
-  },
-  special: ['Incendiary', 'Anti-Infantry', 'Ammo-Fed']
+  }
 };
 
-// Small Vibroblade
-export const SMALL_VIBROBLADE: Equipment = {
-  id: 'small_vibroblade',
-  name: 'Small Vibroblade',
+export const BOLA_POD: Equipment = {
+  id: 'bola_pod',
+  name: 'Bola Pod',
   category: 'Anti-Personnel Weapons',
-  baseType: 'Small Vibroblade',
-  description: 'Battle Armor-scale vibrating blade weapon',
+  baseType: 'Bola Pod',
+  description: 'Bola Pod - Entanglement weapon for immobilizing targets',
   requiresAmmo: false,
-  introductionYear: 3055,
-  rulesLevel: 'Advanced',
+  introductionYear: 3059,
+  rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 0.2,
+      weight: 1,
       crits: 1,
-      damage: 0, // Special BA damage
+      damage: 0, // Special entanglement rules
       heat: 0,
       minRange: 0,
-      rangeShort: 0,
-      rangeMedium: 0,
-      rangeLong: 0,
-      rangeExtreme: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 30000,
-      battleValue: 15
+      battleValue: 1
     }
-  },
-  special: ['Battle Armor Only', 'Melee Weapon', 'Vibro Technology']
-};
-
-// Battle Armor Flamer
-export const BA_FLAMER: Equipment = {
-  id: 'ba_flamer',
-  name: 'Battle Armor Flamer',
-  category: 'Anti-Personnel Weapons',
-  baseType: 'Battle Armor Flamer',
-  description: 'Miniaturized flamer for Battle Armor use',
-  requiresAmmo: false,
-  introductionYear: 3050,
-  rulesLevel: 'Standard',
-  variants: {
-    IS: {
-      weight: 0.3,
-      crits: 1,
-      damage: 1,
-      heat: 2,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 5000,
-      battleValue: 4
-    },
-    Clan: {
-      weight: 0.2,
-      crits: 1,
-      damage: 1,
-      heat: 2,
-      minRange: 0,
-      rangeShort: 1,
-      rangeMedium: 2,
-      rangeLong: 3,
-      rangeExtreme: 4,
-      cost: 5000,
-      battleValue: 4
-    }
-  },
-  special: ['Battle Armor Only', 'Incendiary', 'Anti-Infantry']
+  }
 };
 
 export const ANTI_PERSONNEL_WEAPONS: Equipment[] = [
+  ANTI_PERSONNEL_GAUSS_RIFLE,
   ANTI_PERSONNEL_POD,
-  MACHINE_GUN,
-  LIGHT_MACHINE_GUN,
-  HEAVY_MACHINE_GUN,
-  FLAMER,
-  VEHICLE_FLAMER,
-  SMALL_VIBROBLADE,
-  BA_FLAMER
+  ANTI_BATTLE_ARMOR_POD,
+  M_POD,
+  VEHICULAR_GRENADE_LAUNCHER,
+  FLUID_GUN,
+  TEAR_GAS,
+  BOLA_POD
 ];

@@ -30,6 +30,7 @@ export const BROWSABLE_CATEGORIES: EquipmentCategory[] = [
   'Artillery Weapons',
   'Capital Weapons',
   'Physical Weapons',
+  'One-Shot Weapons',
   'Torpedoes',
   'Ammunition'
 ];
@@ -37,7 +38,6 @@ export const BROWSABLE_CATEGORIES: EquipmentCategory[] = [
 // Categories that are excluded by default (special equipment)
 export const SPECIAL_CATEGORIES: EquipmentCategory[] = [
   'Anti-Personnel Weapons',
-  'One-Shot Weapons',
   'Heat Management',
   'Movement Equipment',
   'Equipment',

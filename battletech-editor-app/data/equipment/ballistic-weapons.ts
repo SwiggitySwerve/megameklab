@@ -5,22 +5,23 @@ export const AP_GAUSS_RIFLE: Equipment = {
   name: 'AP Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'AP Gauss Rifle',
-  description: 'Base template for AP Gauss Rifle equipment variants',
-  requiresAmmo: false,
+  description: 'Anti-Personnel Gauss Rifle - Electromagnetic weapon designed for infantry suppression',
+  requiresAmmo: true,
   introductionYear: 3068,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 15,
-      crits: 7,
-      damage: 15,
+      weight: 0.5,
+      crits: 1,
+      damage: 3,
       heat: 1,
       minRange: 0,
-      rangeShort: 3,
-      rangeMedium: 6,
-      rangeLong: 12,
-      cost: 0,
-      battleValue: 0
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
+      cost: 10000,
+      battleValue: 21
     }
   }
 };
@@ -69,22 +70,23 @@ export const HEAVY_GAUSS_RIFLE: Equipment = {
   name: 'Heavy Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Heavy Gauss Rifle',
-  description: 'Base template for Heavy Gauss Rifle equipment variants',
-  requiresAmmo: false,
+  description: 'Heavy Gauss Rifle - High-damage electromagnetic weapon with minimum range',
+  requiresAmmo: true,
   introductionYear: 3061,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 15,
-      crits: 7,
-      damage: 15,
-      heat: 1,
+      weight: 18,
+      crits: 11,
+      damage: 25,
+      heat: 2,
       minRange: 4,
       rangeShort: 6,
       rangeMedium: 13,
       rangeLong: 20,
-      cost: 0,
-      battleValue: 0
+      cost: 500000,
+      battleValue: 346
     }
   }
 };
@@ -108,8 +110,8 @@ export const HYPER_ASSAULT_GAUSS_RIFLE_40_AMMO_OMNIPOD: Equipment = {
       rangeShort: 4,
       rangeMedium: 8,
       rangeLong: 12,
-      cost: 0,
-      battleValue: 0
+      cost: 400000,
+      battleValue: 320
     }
   }
 };
@@ -119,10 +121,13 @@ export const IMPROVED_GAUSS_RIFLE: Equipment = {
   name: 'Improved Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Improved Gauss Rifle',
-  description: 'Base template for Improved Gauss Rifle equipment variants',
-  requiresAmmo: false,
-  introductionYear: 2825,
+  description: 'Improved Gauss Rifle - Enhanced magnetic accelerator weapon',
+  requiresAmmo: true,
+  introductionYear: 2573,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '207',
   variants: {
     IS: {
       weight: 15,
@@ -133,8 +138,8 @@ export const IMPROVED_GAUSS_RIFLE: Equipment = {
       rangeShort: 7,
       rangeMedium: 15,
       rangeLong: 22,
-      cost: 0,
-      battleValue: 0
+      cost: 350000,
+      battleValue: 332
     }
   }
 };
@@ -144,22 +149,101 @@ export const IMPROVED_HEAVY_GAUSS_RIFLE: Equipment = {
   name: 'Improved Heavy Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Improved Heavy Gauss Rifle',
-  description: 'Base template for Improved Heavy Gauss Rifle equipment variants',
-  requiresAmmo: false,
+  description: 'Improved Heavy Gauss Rifle - Enhanced heavy electromagnetic weapon',
+  requiresAmmo: true,
   introductionYear: 3075,
   rulesLevel: 'Standard',
+  techRating: 'F',
+  sourceBook: 'TM',
+  pageReference: '207',
   variants: {
     IS: {
-      weight: 15,
-      crits: 7,
-      damage: 15,
-      heat: 1,
+      weight: 18,
+      crits: 11,
+      damage: 25,
+      heat: 2,
       minRange: 4,
       rangeShort: 6,
       rangeMedium: 13,
       rangeLong: 20,
-      cost: 0,
-      battleValue: 0
+      cost: 600000,
+      battleValue: 346
+    }
+  }
+};
+
+export const LB_2_X_AC: Equipment = {
+  id: 'lb_2_x_ac',
+  name: 'LB 2-X AC',
+  category: 'Ballistic Weapons',
+  baseType: 'LB 2-X AC',
+  description: 'LB 2-X Autocannon - Ultra-light cluster autocannon',
+  requiresAmmo: true,
+  introductionYear: 3058,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  variants: {
+    IS: {
+      weight: 5,
+      crits: 2,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 9,
+      rangeMedium: 18,
+      rangeLong: 27,
+      cost: 150000,
+      battleValue: 42
+    },
+    Clan: {
+      weight: 4,
+      crits: 2,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 10,
+      rangeMedium: 20,
+      rangeLong: 30,
+      cost: 150000,
+      battleValue: 47
+    }
+  }
+};
+
+export const LB_5_X_AC: Equipment = {
+  id: 'lb_5_x_ac',
+  name: 'LB 5-X AC',
+  category: 'Ballistic Weapons',
+  baseType: 'LB 5-X AC',
+  description: 'LB 5-X Autocannon - Light cluster autocannon',
+  requiresAmmo: true,
+  introductionYear: 3055,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  variants: {
+    IS: {
+      weight: 7,
+      crits: 4,
+      damage: 5,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
+      cost: 250000,
+      battleValue: 83
+    },
+    Clan: {
+      weight: 6,
+      crits: 3,
+      damage: 5,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
+      cost: 250000,
+      battleValue: 92
     }
   }
 };
@@ -169,10 +253,11 @@ export const LB_10_X_AC: Equipment = {
   name: 'LB 10-X AC',
   category: 'Ballistic Weapons',
   baseType: 'LB 10-X AC',
-  description: 'Base template for LB 10-X AC equipment variants',
-  requiresAmmo: false,
-  introductionYear: 2612,
+  description: 'LB 10-X Autocannon - Medium cluster autocannon',
+  requiresAmmo: true,
+  introductionYear: 2595,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
       weight: 11,
@@ -183,8 +268,58 @@ export const LB_10_X_AC: Equipment = {
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 400000,
+      battleValue: 148
+    },
+    Clan: {
+      weight: 10,
+      crits: 5,
+      damage: 10,
+      heat: 2,
+      minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
+      cost: 400000,
+      battleValue: 148
+    }
+  }
+};
+
+export const LB_20_X_AC: Equipment = {
+  id: 'lb_20_x_ac',
+  name: 'LB 20-X AC',
+  category: 'Ballistic Weapons',
+  baseType: 'LB 20-X AC',
+  description: 'LB 20-X Autocannon - Heavy cluster autocannon',
+  requiresAmmo: true,
+  introductionYear: 2590,
+  rulesLevel: 'Standard',
+  techRating: 'E',
+  variants: {
+    IS: {
+      weight: 14,
+      crits: 10,
+      damage: 20,
+      heat: 6,
+      minRange: 0,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
+      cost: 600000,
+      battleValue: 237
+    },
+    Clan: {
+      weight: 12,
+      crits: 9,
+      damage: 20,
+      heat: 6,
+      minRange: 0,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
+      cost: 600000,
+      battleValue: 237
     }
   }
 };
@@ -194,22 +329,35 @@ export const LIGHT_GAUSS_RIFLE: Equipment = {
   name: 'Light Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Light Gauss Rifle',
-  description: 'Base template for Light Gauss Rifle equipment variants',
-  requiresAmmo: false,
+  description: 'Light Gauss Rifle - Lightweight electromagnetic weapon with extended range',
+  requiresAmmo: true,
   introductionYear: 3058,
   rulesLevel: 'Standard',
+  techRating: 'E',
   variants: {
     IS: {
-      weight: 15,
-      crits: 7,
-      damage: 15,
+      weight: 12,
+      crits: 5,
+      damage: 8,
       heat: 1,
       minRange: 0,
       rangeShort: 8,
       rangeMedium: 17,
       rangeLong: 25,
-      cost: 0,
-      battleValue: 0
+      cost: 275000,
+      battleValue: 159
+    },
+    Clan: {
+      weight: 9,
+      crits: 4,
+      damage: 8,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 8,
+      rangeMedium: 17,
+      rangeLong: 25,
+      cost: 275000,
+      battleValue: 159
     }
   }
 };
@@ -219,22 +367,25 @@ export const SILVER_BULLET_GAUSS_RIFLE: Equipment = {
   name: 'Silver Bullet Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Silver Bullet Gauss Rifle',
-  description: 'Base template for Silver Bullet Gauss Rifle equipment variants',
-  requiresAmmo: false,
-  introductionYear: 3075,
+  description: 'Silver Bullet Gauss Rifle - Specialized electromagnetic weapon with enhanced ammunition',
+  requiresAmmo: true,
+  introductionYear: 3071,
   rulesLevel: 'Standard',
+  techRating: 'F',
+  sourceBook: 'TRO 3085',
+  pageReference: '35',
   variants: {
     IS: {
-      weight: 15,
-      crits: 7,
+      weight: 12,
+      crits: 6,
       damage: 15,
       heat: 1,
       minRange: 2,
       rangeShort: 7,
       rangeMedium: 15,
       rangeLong: 22,
-      cost: 0,
-      battleValue: 0
+      cost: 350000,
+      battleValue: 264
     }
   }
 };
@@ -847,7 +998,10 @@ export const BALLISTIC_WEAPONS: Equipment[] = [
   ULTRA_AC_10,
   ULTRA_AC_20,
   // LB-X ACs
+  LB_2_X_AC,
+  LB_5_X_AC,
   LB_10_X_AC,
+  LB_20_X_AC,
   // Light ACs
   LAC_2,
   LAC_5,

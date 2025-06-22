@@ -70,10 +70,13 @@ export const ER_LARGE_PULSE_LASER: Equipment = {
   name: 'ER Large Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'ER Large Pulse Laser',
-  description: 'Extended Range Large Pulse Laser',
+  description: 'Extended Range Large Pulse Laser - High-accuracy long-range energy weapon',
   requiresAmmo: false,
   introductionYear: 3068,
   rulesLevel: 'Standard',
+  techRating: 'F',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     Clan: {
       weight: 6,
@@ -84,8 +87,8 @@ export const ER_LARGE_PULSE_LASER: Equipment = {
       rangeShort: 7,
       rangeMedium: 15,
       rangeLong: 23,
-      cost: 0,
-      battleValue: 0
+      cost: 400000,
+      battleValue: 272
     },
     IS: {
       weight: 7,
@@ -96,8 +99,8 @@ export const ER_LARGE_PULSE_LASER: Equipment = {
       rangeShort: 7,
       rangeMedium: 15,
       rangeLong: 23,
-      cost: 0,
-      battleValue: 0
+      cost: 400000,
+      battleValue: 251
     }
   }
 };
@@ -145,10 +148,13 @@ export const ER_MEDIUM_PULSE_LASER: Equipment = {
   name: 'ER Medium Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'ER Medium Pulse Laser',
-  description: 'Extended Range Medium Pulse Laser',
+  description: 'Extended Range Medium Pulse Laser - Enhanced accuracy with extended range',
   requiresAmmo: false,
   introductionYear: 3063,
   rulesLevel: 'Standard',
+  techRating: 'F',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 2,
@@ -159,8 +165,8 @@ export const ER_MEDIUM_PULSE_LASER: Equipment = {
       rangeShort: 4,
       rangeMedium: 8,
       rangeLong: 12,
-      cost: 0,
-      battleValue: 0
+      cost: 150000,
+      battleValue: 117
     }
   }
 };
@@ -197,10 +203,13 @@ export const ER_SMALL_LASER: Equipment = {
   name: 'ER Small Laser',
   category: 'Energy Weapons',
   baseType: 'ER Small Laser',
-  description: 'Extended Range Small Laser',
+  description: 'Extended Range Small Laser - Enhanced range energy weapon',
   requiresAmmo: false,
   introductionYear: 2825,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     Clan: {
       weight: 0.5,
@@ -211,8 +220,8 @@ export const ER_SMALL_LASER: Equipment = {
       rangeShort: 2,
       rangeMedium: 4,
       rangeLong: 6,
-      cost: 0,
-      battleValue: 0
+      cost: 11250,
+      battleValue: 31
     },
     IS: {
       weight: 0.5,
@@ -223,8 +232,8 @@ export const ER_SMALL_LASER: Equipment = {
       rangeShort: 2,
       rangeMedium: 4,
       rangeLong: 6,
-      cost: 0,
-      battleValue: 0
+      cost: 11250,
+      battleValue: 17
     }
   }
 };
@@ -234,10 +243,13 @@ export const ER_SMALL_PULSE_LASER: Equipment = {
   name: 'ER Small Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'ER Small Pulse Laser',
-  description: 'Extended Range Small Pulse Laser',
+  description: 'Extended Range Small Pulse Laser - Enhanced accuracy with extended range',
   requiresAmmo: false,
   introductionYear: 3068,
   rulesLevel: 'Standard',
+  techRating: 'F',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 1,
@@ -248,8 +260,8 @@ export const ER_SMALL_PULSE_LASER: Equipment = {
       rangeShort: 2,
       rangeMedium: 4,
       rangeLong: 6,
-      cost: 0,
-      battleValue: 0
+      cost: 30000,
+      battleValue: 21
     }
   }
 };
@@ -259,10 +271,13 @@ export const ENHANCED_PPC: Equipment = {
   name: 'Enhanced PPC',
   category: 'Energy Weapons',
   baseType: 'Enhanced PPC',
-  description: 'Enhanced Particle Projection Cannon',
+  description: 'Enhanced Particle Projection Cannon - Improved heat efficiency',
   requiresAmmo: false,
   introductionYear: 2823,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '227',
   variants: {
     IS: {
       weight: 7,
@@ -273,8 +288,8 @@ export const ENHANCED_PPC: Equipment = {
       rangeShort: 6,
       rangeMedium: 12,
       rangeLong: 18,
-      cost: 0,
-      battleValue: 0
+      cost: 300000,
+      battleValue: 229
     }
   }
 };
@@ -284,10 +299,13 @@ export const HEAVY_LARGE_LASER: Equipment = {
   name: 'Heavy Large Laser',
   category: 'Energy Weapons',
   baseType: 'Heavy Large Laser',
-  description: 'Heavy Large Laser',
+  description: 'Heavy Large Laser - Reduced heat long-range energy weapon',
   requiresAmmo: false,
   introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 5,
@@ -298,8 +316,8 @@ export const HEAVY_LARGE_LASER: Equipment = {
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 90000,
+      battleValue: 123
     }
   }
 };
@@ -309,10 +327,13 @@ export const HEAVY_MEDIUM_LASER: Equipment = {
   name: 'Heavy Medium Laser',
   category: 'Energy Weapons',
   baseType: 'Heavy Medium Laser',
-  description: 'Heavy Medium Laser',
+  description: 'Heavy Medium Laser - Reduced heat medium-range energy weapon',
   requiresAmmo: false,
   introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 1,
@@ -323,8 +344,8 @@ export const HEAVY_MEDIUM_LASER: Equipment = {
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      cost: 0,
-      battleValue: 0
+      cost: 20000,
+      battleValue: 46
     }
   }
 };
@@ -334,10 +355,13 @@ export const HEAVY_PPC: Equipment = {
   name: 'Heavy PPC',
   category: 'Energy Weapons',
   baseType: 'Heavy PPC',
-  description: 'Heavy Particle Projection Cannon',
+  description: 'Heavy PPC - Reduced heat particle projection cannon',
   requiresAmmo: false,
   introductionYear: 3067,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '227',
   variants: {
     Clan: {
       weight: 6,
@@ -348,8 +372,8 @@ export const HEAVY_PPC: Equipment = {
       rangeShort: 6,
       rangeMedium: 12,
       rangeLong: 18,
-      cost: 0,
-      battleValue: 0
+      cost: 150000,
+      battleValue: 176
     },
     IS: {
       weight: 7,
@@ -360,8 +384,8 @@ export const HEAVY_PPC: Equipment = {
       rangeShort: 6,
       rangeMedium: 12,
       rangeLong: 18,
-      cost: 0,
-      battleValue: 0
+      cost: 150000,
+      battleValue: 176
     }
   }
 };
@@ -371,10 +395,13 @@ export const HEAVY_SMALL_LASER: Equipment = {
   name: 'Heavy Small Laser',
   category: 'Energy Weapons',
   baseType: 'Heavy Small Laser',
-  description: 'Heavy Small Laser',
+  description: 'Heavy Small Laser - Reduced heat short-range energy weapon',
   requiresAmmo: false,
   introductionYear: 3059,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     Clan: {
       weight: 0.5,
@@ -385,8 +412,8 @@ export const HEAVY_SMALL_LASER: Equipment = {
       rangeShort: 1,
       rangeMedium: 2,
       rangeLong: 3,
-      cost: 0,
-      battleValue: 0
+      cost: 6000,
+      battleValue: 20
     }
   }
 };
@@ -396,34 +423,37 @@ export const LIGHT_PPC: Equipment = {
   name: 'Light PPC',
   category: 'Energy Weapons',
   baseType: 'Light PPC',
-  description: 'Light Particle Projection Cannon',
+  description: 'Light PPC - Lightweight particle projection cannon',
   requiresAmmo: false,
   introductionYear: 3060,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '227',
   variants: {
     Clan: {
-      weight: 6,
+      weight: 3,
       crits: 2,
-      damage: 10,
-      heat: 10,
+      damage: 5,
+      heat: 5,
       minRange: 0,
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 150000,
+      battleValue: 88
     },
     IS: {
-      weight: 7,
-      crits: 3,
-      damage: 10,
-      heat: 10,
+      weight: 3,
+      crits: 2,
+      damage: 5,
+      heat: 5,
       minRange: 0,
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 150000,
+      battleValue: 88
     }
   }
 };
@@ -461,22 +491,25 @@ export const SNUB_NOSE_PPC: Equipment = {
   name: 'Snub-Nose PPC',
   category: 'Energy Weapons',
   baseType: 'Snub-Nose PPC',
-  description: 'Snub-Nose Particle Projection Cannon',
+  description: 'Snub-Nose PPC - No minimum range particle projection cannon',
   requiresAmmo: false,
   introductionYear: 2695,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '227',
   variants: {
     IS: {
-      weight: 7,
-      crits: 3,
+      weight: 6,
+      crits: 2,
       damage: 10,
       heat: 10,
       minRange: 0,
       rangeShort: 9,
       rangeMedium: 15,
       rangeLong: 21,
-      cost: 0,
-      battleValue: 0
+      cost: 300000,
+      battleValue: 237
     }
   }
 };
@@ -486,10 +519,13 @@ export const LARGE_PULSE_LASER: Equipment = {
   name: 'Large Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'Large Pulse Laser',
-  description: 'Large Pulse Laser',
+  description: 'Large Pulse Laser - Enhanced accuracy long-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2660,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 7,
@@ -500,8 +536,8 @@ export const LARGE_PULSE_LASER: Equipment = {
       rangeShort: 6,
       rangeMedium: 14,
       rangeLong: 20,
-      cost: 0,
-      battleValue: 0
+      cost: 175000,
+      battleValue: 119
     }
   }
 };
@@ -511,10 +547,13 @@ export const MEDIUM_LASER: Equipment = {
   name: 'Medium Laser',
   category: 'Energy Weapons',
   baseType: 'Medium Laser',
-  description: 'Medium Laser',
+  description: 'Medium Laser - Standard medium-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2442,
   rulesLevel: 'Standard',
+  techRating: 'C',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     Clan: {
       weight: 1,
@@ -525,8 +564,8 @@ export const MEDIUM_LASER: Equipment = {
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      cost: 0,
-      battleValue: 0
+      cost: 40000,
+      battleValue: 46
     },
     IS: {
       weight: 1,
@@ -537,8 +576,8 @@ export const MEDIUM_LASER: Equipment = {
       rangeShort: 3,
       rangeMedium: 6,
       rangeLong: 9,
-      cost: 0,
-      battleValue: 0
+      cost: 40000,
+      battleValue: 46
     }
   }
 };
@@ -548,10 +587,13 @@ export const MEDIUM_PULSE_LASER: Equipment = {
   name: 'Medium Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'Medium Pulse Laser',
-  description: 'Medium Pulse Laser',
+  description: 'Medium Pulse Laser - Enhanced accuracy medium-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2609,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 2,
@@ -562,8 +604,8 @@ export const MEDIUM_PULSE_LASER: Equipment = {
       rangeShort: 4,
       rangeMedium: 8,
       rangeLong: 12,
-      cost: 0,
-      battleValue: 0
+      cost: 60000,
+      battleValue: 48
     }
   }
 };
@@ -573,10 +615,13 @@ export const SMALL_LASER: Equipment = {
   name: 'Small Laser',
   category: 'Energy Weapons',
   baseType: 'Small Laser',
-  description: 'Small Laser',
+  description: 'Small Laser - Standard short-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2445,
   rulesLevel: 'Standard',
+  techRating: 'C',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     Clan: {
       weight: 0.5,
@@ -587,8 +632,8 @@ export const SMALL_LASER: Equipment = {
       rangeShort: 1,
       rangeMedium: 2,
       rangeLong: 3,
-      cost: 0,
-      battleValue: 0
+      cost: 11250,
+      battleValue: 20
     },
     IS: {
       weight: 0.5,
@@ -599,8 +644,8 @@ export const SMALL_LASER: Equipment = {
       rangeShort: 1,
       rangeMedium: 2,
       rangeLong: 3,
-      cost: 0,
-      battleValue: 0
+      cost: 11250,
+      battleValue: 20
     }
   }
 };
@@ -610,10 +655,13 @@ export const SMALL_PULSE_LASER: Equipment = {
   name: 'Small Pulse Laser',
   category: 'Energy Weapons',
   baseType: 'Small Pulse Laser',
-  description: 'Small Pulse Laser',
+  description: 'Small Pulse Laser - Enhanced accuracy short-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2610,
   rulesLevel: 'Standard',
+  techRating: 'E',
+  sourceBook: 'TM',
+  pageReference: '226',
   variants: {
     IS: {
       weight: 1,
@@ -624,8 +672,8 @@ export const SMALL_PULSE_LASER: Equipment = {
       rangeShort: 2,
       rangeMedium: 4,
       rangeLong: 6,
-      cost: 0,
-      battleValue: 0
+      cost: 16000,
+      battleValue: 24
     }
   }
 };
@@ -635,10 +683,11 @@ export const LARGE_LASER: Equipment = {
   name: 'Large Laser',
   category: 'Energy Weapons',
   baseType: 'Large Laser',
-  description: 'Large Laser',
+  description: 'Large Laser - Standard long-range energy weapon',
   requiresAmmo: false,
   introductionYear: 2316,
   rulesLevel: 'Standard',
+  techRating: 'C',
   sourceBook: 'TM',
   pageReference: '227',
   variants: {
@@ -651,8 +700,8 @@ export const LARGE_LASER: Equipment = {
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 100000,
+      battleValue: 123
     },
     IS: {
       weight: 5,
@@ -663,8 +712,8 @@ export const LARGE_LASER: Equipment = {
       rangeShort: 5,
       rangeMedium: 10,
       rangeLong: 15,
-      cost: 0,
-      battleValue: 0
+      cost: 100000,
+      battleValue: 123
     }
   }
 };
