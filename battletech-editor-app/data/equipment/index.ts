@@ -11,6 +11,7 @@ import { TORPEDOES } from './torpedoes';
 import { EQUIPMENT } from './equipment';
 import { INDUSTRIAL_EQUIPMENT } from './industrial-equipment';
 import { HEAT_MANAGEMENT } from './heat-management';
+import { MOVEMENT_EQUIPMENT } from './movement-equipment';
 import { ELECTRONIC_WARFARE } from './electronic-warfare';
 import { PROTOTYPE_EQUIPMENT } from './prototype-equipment';
 import { AMMUNITION } from './ammunition';
@@ -31,6 +32,7 @@ export const EQUIPMENT_DATABASE = {
   equipment: EQUIPMENT,
   industrialEquipment: INDUSTRIAL_EQUIPMENT,
   heatManagement: HEAT_MANAGEMENT,
+  movementEquipment: MOVEMENT_EQUIPMENT,
   electronicWarfare: ELECTRONIC_WARFARE,
   prototypeEquipment: PROTOTYPE_EQUIPMENT,
   ammunition: AMMUNITION
@@ -50,6 +52,7 @@ export const ALL_EQUIPMENT_VARIANTS = [
   ...EQUIPMENT,
   ...INDUSTRIAL_EQUIPMENT,
   ...HEAT_MANAGEMENT,
+  ...MOVEMENT_EQUIPMENT,
   ...ELECTRONIC_WARFARE,
   ...PROTOTYPE_EQUIPMENT,
   ...AMMUNITION

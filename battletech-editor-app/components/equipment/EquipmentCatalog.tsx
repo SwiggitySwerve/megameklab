@@ -175,13 +175,16 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
         {formatNumber(variant.critical_slots)}
       </td>
       
+      {/* Available */}
+      <td className="px-2 py-1 text-center text-white">
+        {variant.introduction_year || 'N/A'}
+      </td>
+      
       {/* Reference */}
       <td className="px-2 py-1 text-center text-gray-400 text-xs">
         {variant.source_book && variant.page_reference 
           ? `${variant.source_book}, ${variant.page_reference}`
-          : variant.introduction_year 
-            ? `${variant.introduction_year}, TM`
-            : 'N/A'
+          : '-'
         }
       </td>
     </tr>
@@ -410,6 +413,7 @@ export default function EquipmentCatalog() {
                   <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">BV</th>
                   <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Weight</th>
                   <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Crit</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Available</th>
                   <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Reference</th>
                 </tr>
               </thead>

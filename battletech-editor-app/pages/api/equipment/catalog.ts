@@ -95,9 +95,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'Energy Weapons': 'Energy Weapons',
         'Ballistic Weapons': 'Ballistic Weapons', 
         'Missile Weapons': 'Missile Weapons',
+        'Artillery Weapons': 'Artillery Weapons',
+        'Capital Weapons': 'Capital Weapons',
+        'Physical Weapons': 'Physical Weapons',
+        'Anti-Personnel Weapons': 'Anti-Personnel Weapons',
+        'One-Shot Weapons': 'One-Shot Weapons',
+        'Torpedoes': 'Torpedoes',
         'Equipment': 'Equipment',
+        'Industrial Equipment': 'Industrial Equipment',
         'Heat Management': 'Heat Management',
+        'Movement Equipment': 'Movement Equipment',
         'Electronic Warfare': 'Electronic Warfare',
+        'Prototype Equipment': 'Prototype Equipment',
         'Ammunition': 'Ammunition'
       };
       

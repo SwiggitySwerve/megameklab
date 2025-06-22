@@ -17,6 +17,7 @@ export type EquipmentCategory =
   | 'Equipment' 
   | 'Industrial Equipment'
   | 'Heat Management' 
+  | 'Movement Equipment'
   | 'Electronic Warfare'
   | 'Prototype Equipment'
   | 'Ammunition';
@@ -38,6 +39,7 @@ export const SPECIAL_CATEGORIES: EquipmentCategory[] = [
   'Anti-Personnel Weapons',
   'One-Shot Weapons',
   'Heat Management',
+  'Movement Equipment',
   'Equipment',
   'Industrial Equipment', 
   'Electronic Warfare',
@@ -57,6 +59,7 @@ export const ALL_CATEGORIES: EquipmentCategory[] = [
   'Torpedoes',
   'Ammunition',
   'Heat Management',
+  'Movement Equipment',
   'Equipment',
   'Industrial Equipment',
   'Electronic Warfare',
@@ -98,9 +101,18 @@ export interface EquipmentDatabase {
   energyWeapons: Equipment[];
   ballisticWeapons: Equipment[];
   missileWeapons: Equipment[];
+  artilleryWeapons: Equipment[];
+  capitalWeapons: Equipment[];
+  physicalWeapons: Equipment[];
+  antiPersonnelWeapons: Equipment[];
+  oneShotWeapons: Equipment[];
+  torpedoes: Equipment[];
   equipment: Equipment[];
+  industrialEquipment: Equipment[];
   heatManagement: Equipment[];
+  movementEquipment: Equipment[];
   electronicWarfare: Equipment[];
+  prototypeEquipment: Equipment[];
   ammunition: Equipment[];
 }
 
