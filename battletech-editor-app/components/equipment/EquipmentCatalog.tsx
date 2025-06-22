@@ -1,11 +1,9 @@
 /**
- * Equipment Browser - Add equipment from database with proper variant support
- * Dark theme component with searchable equipment database and pagination
+ * Equipment Catalog - Browse equipment database without unit context
+ * Standalone version of Equipment Browser for catalog viewing
  */
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { useUnit } from './UnitProvider'
-import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot'
 
 // API interfaces
 interface EquipmentVariant {
@@ -56,62 +54,11 @@ interface CatalogResponse {
   sortOrder: string;
 }
 
-// Convert API variant to EquipmentObject
-function convertVariantToEquipment(variant: EquipmentVariant): EquipmentObject {
-  // Map category names to equipment types
-  const categoryToType: Record<string, EquipmentObject['type']> = {
-    'Weapons': 'weapon',
-    'Energy Weapons': 'weapon',
-    'Ballistic Weapons': 'weapon',
-    'Missile Weapons': 'weapon',
-    'Ammunition': 'ammo',
-    'Heat Management': 'heat_sink',
-    'Equipment': 'equipment',
-    'Electronic Warfare': 'equipment',
-    'Targeting Systems': 'equipment',
-    'Special Equipment': 'equipment',
-    'Jump Jets': 'equipment',
-    'Cockpit Systems': 'equipment',
-    'Actuators': 'equipment'
-  }
-
-  // Determine type based on category or base type
-  let type: EquipmentObject['type'] = 'equipment'
-  if (variant.category_name && categoryToType[variant.category_name]) {
-    type = categoryToType[variant.category_name]
-  } else if (variant.base_type?.toLowerCase().includes('heat sink')) {
-    type = 'heat_sink'
-  } else if (variant.base_type?.toLowerCase().includes('ammo')) {
-    type = 'ammo'
-  } else if (variant.damage || variant.heat_generated) {
-    type = 'weapon'
-  }
-
-  // Map tech base properly
-  let techBase: EquipmentObject['techBase'] = 'Inner Sphere'
-  if (variant.tech_base === 'Clan') {
-    techBase = 'Clan'
-  }
-  // Note: Mixed tech base no longer exists in data
-
-  return {
-    id: variant.internal_id || `variant-${variant.id}`,
-    name: variant.variant_name,
-    requiredSlots: variant.critical_slots,
-    weight: variant.weight_tons,
-    type,
-    techBase,
-    heat: variant.heat_generated
-  }
-}
-
 interface EquipmentRowProps {
   variant: EquipmentVariant
 }
 
 function EquipmentRow({ variant }: EquipmentRowProps) {
-  const { addEquipmentToUnit } = useUnit()
-  
   const getTypeColor = (categoryName?: string): string => {
     if (!categoryName) return 'bg-gray-600'
     
@@ -137,12 +84,6 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
     return techBase === 'Clan' ? 'text-green-400' : 'text-blue-400'
   }
   
-  const handleAdd = () => {
-    // Convert variant to equipment object and add
-    const equipment = convertVariantToEquipment(variant)
-    addEquipmentToUnit(equipment)
-  }
-  
   // Build range display
   const rangeDisplay = variant.range_short && variant.range_medium && variant.range_long 
     ? `${variant.range_short}/${variant.range_medium}/${variant.range_long}`
@@ -162,6 +103,9 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
                 {variant.heat_generated && `, Heat: ${variant.heat_generated}`}
                 {rangeDisplay && `, Range: ${rangeDisplay}`}
               </span>
+            )}
+            {variant.description && (
+              <span className="text-gray-500 text-xs mt-1">{variant.description}</span>
             )}
           </div>
         </div>
@@ -191,20 +135,15 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
         </span>
       </td>
       
-      {/* Add Button */}
-      <td className="px-3 py-2 text-center">
-        <button
-          onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1 rounded transition-colors"
-        >
-          Add
-        </button>
+      {/* Era */}
+      <td className="px-3 py-2 text-gray-400 text-xs text-center">
+        {variant.introduction_year || 'N/A'}
       </td>
     </tr>
   )
 }
 
-export function EquipmentBrowser() {
+export default function EquipmentCatalog() {
   const [catalog, setCatalog] = useState<CatalogResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -298,8 +237,6 @@ export function EquipmentBrowser() {
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
-      <h2 className="text-white text-lg font-bold mb-4">Equipment Browser</h2>
-      
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {/* Search */}
@@ -419,7 +356,7 @@ export function EquipmentBrowser() {
                   <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Slots</th>
                   <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Weight</th>
                   <th className="px-3 py-2 text-gray-300 text-sm font-medium">Tech Base</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Action</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Era</th>
                 </tr>
               </thead>
               <tbody>
@@ -474,7 +411,7 @@ export function EquipmentBrowser() {
       {/* Instructions */}
       <div className="mt-4 pt-4 border-t border-gray-600">
         <div className="text-gray-400 text-xs">
-          <p className="mb-1">• Click <span className="text-green-400">Add</span> to add equipment to unallocated list</p>
+          <p className="mb-1">• Browse comprehensive BattleTech equipment database</p>
           <p className="mb-1">• Each variant (IS/Clan) is shown as a separate entry with specific stats</p>
           <p className="mb-1">• Use filters and search to find specific equipment</p>
           <p>• <span className="text-blue-400">IS</span> and <span className="text-green-400">Clan</span> tech bases available</p>
