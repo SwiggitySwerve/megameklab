@@ -276,6 +276,102 @@ export const APOLLO_MRM_FCS: Equipment = {
   }
 };
 
+export const PPC_CAPACITOR: Equipment = {
+  id: 'ppc_capacitor',
+  name: 'PPC Capacitor',
+  category: 'Electronic Warfare',
+  baseType: 'PPC Capacitor',
+  description: 'Capacitor system for enhancing PPC damage output',
+  requiresAmmo: false,
+  introductionYear: 3057,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 1,
+      crits: 1,
+      heat: 0,
+      minRange: 0,
+      cost: 150000,
+      battleValue: 0
+    },
+    Clan: {
+      weight: 1,
+      crits: 1,
+      heat: 0,
+      minRange: 0,
+      cost: 150000,
+      battleValue: 0
+    }
+  },
+  special: ['Links to PPC', 'Damage Enhancement', '+5 Damage When Charged']
+};
+
+export const ARTEMIS_V_FCS: Equipment = {
+  id: 'artemis_v_fcs',
+  name: 'Artemis V FCS',
+  category: 'Electronic Warfare',
+  baseType: 'Artemis V FCS',
+  description: 'Advanced Artemis V Fire Control System for missile guidance',
+  requiresAmmo: false,
+  introductionYear: 3071,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 1,
+      crits: 1,
+      heat: 0,
+      minRange: 0,
+      cost: 200000,
+      battleValue: 0
+    }
+  },
+  special: ['Links to Missiles', 'Enhanced Guidance', 'LRM Only']
+};
+
+export const C3_BOOSTED_MASTER: Equipment = {
+  id: 'c3_boosted_master',
+  name: 'C3 Boosted Master',
+  category: 'Electronic Warfare',
+  baseType: 'C3 Boosted Master',
+  description: 'Enhanced C3 Master with improved range and capacity',
+  requiresAmmo: false,
+  introductionYear: 3058,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 6,
+      crits: 6,
+      heat: 0,
+      minRange: 0,
+      cost: 1750000,
+      battleValue: 0
+    }
+  },
+  special: ['C3 Network', 'Enhanced Range', 'Increased Capacity']
+};
+
+export const RISC_LASER_PULSE_MODULE: Equipment = {
+  id: 'risc_laser_pulse_module',
+  name: 'RISC Laser Pulse Module',
+  category: 'Electronic Warfare',
+  baseType: 'RISC Laser Pulse Module',
+  description: 'Radical Ionization Surge Crystal module for laser enhancement',
+  requiresAmmo: false,
+  introductionYear: 3144,
+  rulesLevel: 'Advanced',
+  variants: {
+    IS: {
+      weight: 1,
+      crits: 1,
+      heat: 0,
+      minRange: 0,
+      cost: 300000,
+      battleValue: 0
+    }
+  },
+  special: ['Links to Lasers', 'Pulse Conversion', 'Enhanced Accuracy']
+};
+
 export const ELECTRONIC_WARFARE: Equipment[] = [
   GUARDIAN_ECM,
   ANGEL_ECM,
@@ -288,5 +384,9 @@ export const ELECTRONIC_WARFARE: Equipment[] = [
   C3_MASTER,
   C3_SLAVE,
   ARTEMIS_IV_FCS,
-  APOLLO_MRM_FCS
+  APOLLO_MRM_FCS,
+  PPC_CAPACITOR,
+  ARTEMIS_V_FCS,
+  C3_BOOSTED_MASTER,
+  RISC_LASER_PULSE_MODULE
 ];

@@ -8,9 +8,17 @@ export type EquipmentCategory =
   | 'Energy Weapons' 
   | 'Ballistic Weapons' 
   | 'Missile Weapons' 
+  | 'Artillery Weapons'
+  | 'Capital Weapons'
+  | 'Physical Weapons'
+  | 'Anti-Personnel Weapons'
+  | 'One-Shot Weapons'
+  | 'Torpedoes'
   | 'Equipment' 
+  | 'Industrial Equipment'
   | 'Heat Management' 
   | 'Electronic Warfare'
+  | 'Prototype Equipment'
   | 'Ammunition';
 
 // Categories that appear in equipment browser by default (weapons and ammo)
@@ -18,25 +26,41 @@ export const BROWSABLE_CATEGORIES: EquipmentCategory[] = [
   'Energy Weapons',
   'Ballistic Weapons', 
   'Missile Weapons',
+  'Artillery Weapons',
+  'Capital Weapons',
+  'Physical Weapons',
+  'Torpedoes',
   'Ammunition'
 ];
 
 // Categories that are excluded by default (special equipment)
 export const SPECIAL_CATEGORIES: EquipmentCategory[] = [
+  'Anti-Personnel Weapons',
+  'One-Shot Weapons',
   'Heat Management',
-  'Equipment', 
-  'Electronic Warfare'
+  'Equipment',
+  'Industrial Equipment', 
+  'Electronic Warfare',
+  'Prototype Equipment'
 ];
 
 // All categories for filter dropdown
 export const ALL_CATEGORIES: EquipmentCategory[] = [
   'Energy Weapons',
   'Ballistic Weapons',
-  'Missile Weapons', 
+  'Missile Weapons',
+  'Artillery Weapons',
+  'Capital Weapons',
+  'Physical Weapons',
+  'Anti-Personnel Weapons',
+  'One-Shot Weapons',
+  'Torpedoes',
   'Ammunition',
   'Heat Management',
   'Equipment',
-  'Electronic Warfare'
+  'Industrial Equipment',
+  'Electronic Warfare',
+  'Prototype Equipment'
 ];
 
 export interface EquipmentVariant {

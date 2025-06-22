@@ -59,6 +59,18 @@ interface EquipmentRowProps {
 }
 
 function EquipmentRow({ variant }: EquipmentRowProps) {
+  const getTechBaseDisplay = (techBase: string): string => {
+    if (techBase === 'IS') return 'IS';
+    if (techBase === 'Clan') return 'Clan';
+    return 'All';
+  }
+  
+  const getTechBaseColor = (techBase: string): string => {
+    if (techBase === 'Clan') return 'text-green-400';
+    if (techBase === 'IS') return 'text-blue-400';
+    return 'text-gray-300';
+  }
+  
   const getTypeColor = (categoryName?: string): string => {
     if (!categoryName) return 'bg-gray-600'
     
@@ -80,64 +92,97 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
     return colors[categoryName] || 'bg-gray-600'
   }
   
-  const getTechBaseColor = (techBase: string): string => {
-    return techBase === 'Clan' ? 'text-green-400' : 'text-blue-400'
+  // Build range display like MegaMekLab format
+  const getRangeDisplay = (): string => {
+    if (variant.range_short && variant.range_medium && variant.range_long) {
+      const ranges = [variant.range_short, variant.range_medium, variant.range_long];
+      if (variant.range_extreme && variant.range_extreme > 0) {
+        ranges.push(variant.range_extreme);
+      }
+      return ranges.join('/');
+    }
+    return '-';
   }
   
-  // Build range display
-  const rangeDisplay = variant.range_short && variant.range_medium && variant.range_long 
-    ? `${variant.range_short}/${variant.range_medium}/${variant.range_long}`
-    : ''
+  // Format numbers with proper display
+  const formatNumber = (num?: number | null): string => {
+    if (num === null || num === undefined) return '-';
+    if (num === 0) return '0';
+    return num.toString();
+  }
+  
+  // Format battle value with decimal precision
+  const formatBattleValue = (bv?: number | null): string => {
+    if (bv === null || bv === undefined) return '0.0';
+    if (bv === 0) return '0.0';
+    return Number(bv).toFixed(1);
+  }
   
   return (
-    <tr className="border-b border-gray-600 hover:bg-gray-700 transition-colors">
-      {/* Equipment Name */}
-      <td className="px-3 py-2">
+    <tr className="border-b border-gray-600 hover:bg-gray-700 transition-colors text-sm">
+      {/* Name */}
+      <td className="px-2 py-1 text-left">
         <div className="flex items-center space-x-2">
           <div className={`w-3 h-3 rounded ${getTypeColor(variant.category_name)}`}></div>
-          <div className="flex flex-col">
-            <span className="text-white font-medium text-sm">{variant.variant_name}</span>
-            {variant.damage && (
-              <span className="text-gray-400 text-xs">
-                Damage: {variant.damage}
-                {variant.heat_generated && `, Heat: ${variant.heat_generated}`}
-                {rangeDisplay && `, Range: ${rangeDisplay}`}
-              </span>
-            )}
-            {variant.description && (
-              <span className="text-gray-500 text-xs mt-1">{variant.description}</span>
-            )}
-          </div>
+          <span className="text-white font-medium text-sm">{variant.variant_name}</span>
         </div>
       </td>
       
-      {/* Category */}
-      <td className="px-3 py-2 text-gray-300 text-xs">
-        {variant.category_name || 'Equipment'}
+      {/* Damage */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatNumber(variant.damage)}
       </td>
       
-      {/* Slots */}
-      <td className="px-3 py-2 text-center">
-        <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
-          {variant.critical_slots}
+      {/* Heat */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatNumber(variant.heat_generated)}
+      </td>
+      
+      {/* Min R */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatNumber(variant.minimum_range)}
+      </td>
+      
+      {/* Range */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {getRangeDisplay()}
+      </td>
+      
+      {/* Shots */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {variant.ammo_per_ton ? formatNumber(variant.ammo_per_ton) : '-'}
+      </td>
+      
+      {/* Base (Tech Base) */}
+      <td className="px-2 py-1 text-center">
+        <span className={getTechBaseColor(variant.tech_base)}>
+          {getTechBaseDisplay(variant.tech_base)}
         </span>
+      </td>
+      
+      {/* BV (Battle Value) */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatBattleValue(variant.battle_value)}
       </td>
       
       {/* Weight */}
-      <td className="px-3 py-2 text-gray-300 text-xs text-center">
-        {variant.weight_tons}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatNumber(variant.weight_tons)}
       </td>
       
-      {/* Tech Base */}
-      <td className="px-3 py-2 text-xs">
-        <span className={getTechBaseColor(variant.tech_base)}>
-          {variant.tech_base}
-        </span>
+      {/* Crit (Critical Slots) */}
+      <td className="px-2 py-1 text-center text-gray-300">
+        {formatNumber(variant.critical_slots)}
       </td>
       
-      {/* Era */}
-      <td className="px-3 py-2 text-gray-400 text-xs text-center">
-        {variant.introduction_year || 'N/A'}
+      {/* Reference */}
+      <td className="px-2 py-1 text-center text-gray-400 text-xs">
+        {variant.source_book && variant.page_reference 
+          ? `${variant.source_book}, ${variant.page_reference}`
+          : variant.introduction_year 
+            ? `${variant.introduction_year}, TM`
+            : 'N/A'
+        }
       </td>
     </tr>
   )
@@ -298,6 +343,10 @@ export default function EquipmentCatalog() {
             <option value="weight_tons-DESC">Weight (High-Low)</option>
             <option value="critical_slots-ASC">Slots (Low-High)</option>
             <option value="critical_slots-DESC">Slots (High-Low)</option>
+            <option value="battle_value-ASC">BV (Low-High)</option>
+            <option value="battle_value-DESC">BV (High-Low)</option>
+            <option value="damage-ASC">Damage (Low-High)</option>
+            <option value="damage-DESC">Damage (High-Low)</option>
             <option value="tech_base-ASC">Tech Base</option>
           </select>
         </div>
@@ -351,12 +400,17 @@ export default function EquipmentCatalog() {
             <table className="w-full text-left">
               <thead className="sticky top-0 bg-gray-800">
                 <tr className="border-b border-gray-600">
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Equipment</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Category</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Slots</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Weight</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Tech Base</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Era</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-left">Name ▲</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Damage</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Heat</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Min R</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Range</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Shots</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Base</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">BV</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Weight</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Crit</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center">Reference</th>
                 </tr>
               </thead>
               <tbody>
@@ -408,8 +462,31 @@ export default function EquipmentCatalog() {
         </>
       )}
       
-      {/* Instructions */}
+      {/* Color Legend */}
       <div className="mt-4 pt-4 border-t border-gray-600">
+        <h3 className="text-white text-sm font-medium mb-2">Equipment Type Legend</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded bg-red-700"></div>
+            <span className="text-gray-400 text-xs">Weapons</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded bg-orange-700"></div>
+            <span className="text-gray-400 text-xs">Ammunition</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded bg-cyan-700"></div>
+            <span className="text-gray-400 text-xs">Heat Management</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded bg-blue-700"></div>
+            <span className="text-gray-400 text-xs">Equipment</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Instructions */}
+      <div className="pt-4 border-t border-gray-600">
         <div className="text-gray-400 text-xs">
           <p className="mb-1">• Browse comprehensive BattleTech equipment database</p>
           <p className="mb-1">• Each variant (IS/Clan) is shown as a separate entry with specific stats</p>
