@@ -13,9 +13,13 @@ export const CLAN_ERPPC: Equipment = {
     Clan: {
       weight: 6,
       crits: 2,
-      damage: 10,
-      heat: 10,
+      damage: 15,
+      heat: 15,
       minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 23,
+      rangeExtreme: 28,
       cost: 0,
       battleValue: 0
     }
@@ -38,6 +42,9 @@ export const ER_LARGE_LASER: Equipment = {
       damage: 8,
       heat: 12,
       minRange: 0,
+      rangeShort: 8,
+      rangeMedium: 15,
+      rangeLong: 25,
       cost: 0,
       battleValue: 0
     },
@@ -47,6 +54,9 @@ export const ER_LARGE_LASER: Equipment = {
       damage: 8,
       heat: 12,
       minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 19,
       cost: 0,
       battleValue: 0
     }
@@ -63,12 +73,27 @@ export const ER_LARGE_PULSE_LASER: Equipment = {
   introductionYear: 3068,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 6,
+      crits: 1,
+      damage: 10,
+      heat: 10,
+      minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 23,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 7,
       crits: 2,
       damage: 9,
       heat: 10,
       minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 23,
       cost: 0,
       battleValue: 0
     }
@@ -85,12 +110,27 @@ export const ER_MEDIUM_LASER: Equipment = {
   introductionYear: 2824,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 1,
+      crits: 1,
+      damage: 7,
+      heat: 5,
+      minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 1,
       crits: 1,
       damage: 5,
       heat: 5,
       minRange: 0,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
       cost: 0,
       battleValue: 0
     }
@@ -113,6 +153,9 @@ export const ER_MEDIUM_PULSE_LASER: Equipment = {
       damage: 6,
       heat: 4,
       minRange: 0,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
       cost: 0,
       battleValue: 0
     }
@@ -135,6 +178,10 @@ export const IS_ER_PPC: Equipment = {
       damage: 10,
       heat: 15,
       minRange: 0,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 23,
+      rangeExtreme: 28,
       cost: 0,
       battleValue: 0
     }
@@ -151,12 +198,27 @@ export const ER_SMALL_LASER: Equipment = {
   introductionYear: 2825,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 0.5,
+      crits: 1,
+      damage: 5,
+      heat: 2,
+      minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 4,
+      rangeLong: 6,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 0.5,
       crits: 1,
       damage: 3,
       heat: 2,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 4,
+      rangeLong: 6,
       cost: 0,
       battleValue: 0
     }
@@ -179,6 +241,9 @@ export const ER_SMALL_PULSE_LASER: Equipment = {
       damage: 3,
       heat: 2,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 4,
+      rangeLong: 6,
       cost: 0,
       battleValue: 0
     }
@@ -201,6 +266,9 @@ export const ENHANCED_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
       cost: 0,
       battleValue: 0
     }
@@ -223,6 +291,9 @@ export const HEAVY_LARGE_LASER: Equipment = {
       damage: 8,
       heat: 8,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     }
@@ -245,6 +316,9 @@ export const HEAVY_MEDIUM_LASER: Equipment = {
       damage: 5,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -267,6 +341,9 @@ export const HEAVY_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
       cost: 0,
       battleValue: 0
     },
@@ -276,6 +353,9 @@ export const HEAVY_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
       cost: 0,
       battleValue: 0
     }
@@ -298,6 +378,9 @@ export const HEAVY_SMALL_LASER: Equipment = {
       damage: 3,
       heat: 1,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 0,
       battleValue: 0
     }
@@ -320,6 +403,9 @@ export const LIGHT_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     },
@@ -329,6 +415,9 @@ export const LIGHT_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     }
@@ -352,7 +441,10 @@ export const PPC: Equipment = {
       crits: 3,
       damage: 10,
       heat: 10,
-      minRange: 0,
+      minRange: 3,
+      rangeShort: 6,
+      rangeMedium: 12,
+      rangeLong: 18,
       cost: 0,
       battleValue: 0
     }
@@ -375,6 +467,9 @@ export const SNUB_NOSE_PPC: Equipment = {
       damage: 10,
       heat: 10,
       minRange: 0,
+      rangeShort: 9,
+      rangeMedium: 15,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -397,6 +492,9 @@ export const LARGE_PULSE_LASER: Equipment = {
       damage: 9,
       heat: 10,
       minRange: 0,
+      rangeShort: 6,
+      rangeMedium: 14,
+      rangeLong: 20,
       cost: 0,
       battleValue: 0
     }
@@ -419,6 +517,9 @@ export const MEDIUM_LASER: Equipment = {
       damage: 5,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -428,6 +529,9 @@ export const MEDIUM_LASER: Equipment = {
       damage: 5,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -450,6 +554,9 @@ export const MEDIUM_PULSE_LASER: Equipment = {
       damage: 6,
       heat: 4,
       minRange: 0,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
       cost: 0,
       battleValue: 0
     }
@@ -472,6 +579,9 @@ export const SMALL_LASER: Equipment = {
       damage: 3,
       heat: 1,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 0,
       battleValue: 0
     },
@@ -481,6 +591,9 @@ export const SMALL_LASER: Equipment = {
       damage: 3,
       heat: 1,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 0,
       battleValue: 0
     }
@@ -503,6 +616,9 @@ export const SMALL_PULSE_LASER: Equipment = {
       damage: 3,
       heat: 2,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 4,
+      rangeLong: 6,
       cost: 0,
       battleValue: 0
     }
@@ -527,6 +643,9 @@ export const LARGE_LASER: Equipment = {
       damage: 8,
       heat: 8,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     },
@@ -536,6 +655,9 @@ export const LARGE_LASER: Equipment = {
       damage: 8,
       heat: 8,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     }
@@ -559,6 +681,9 @@ export const LASER_AMS: Equipment = {
       damage: 2,
       heat: 7,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 225000,
       battleValue: 45
     },
@@ -568,6 +693,9 @@ export const LASER_AMS: Equipment = {
       damage: 2,
       heat: 5,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 225000,
       battleValue: 45
     }

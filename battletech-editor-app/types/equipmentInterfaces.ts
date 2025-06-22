@@ -3,6 +3,8 @@
  * Unified interfaces for all equipment types with weight and slot accounting
  */
 
+import { RangeValidatable } from '../utils/weaponRangeValidation';
+
 // Base interface for any equipment that takes up weight and/or slots
 export interface IEquipmentItem {
   name: string;
@@ -10,6 +12,15 @@ export interface IEquipmentItem {
   slots: number;
   location?: string;
   type: EquipmentCategory;
+}
+
+// Extended interface for weapon equipment that requires range validation
+export interface IWeaponEquipment extends IEquipmentItem, RangeValidatable {
+  damage?: number | string;
+  heat?: number;
+  minRange?: number;
+  range?: string;
+  ammunition?: boolean;
 }
 
 export enum EquipmentCategory {

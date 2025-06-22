@@ -1,6 +1,7 @@
 // Advanced validation system for complete BattleTech rule compliance
 import { EditableUnit, ValidationResult, ValidationError } from '../types/editor';
 import { FullEquipment } from '../types/index';
+import { WeaponRangeValidator } from './weaponRangeValidation';
 
 export interface ValidationContext {
   strictMode: boolean;           // Enforce tournament legal rules

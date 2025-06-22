@@ -16,6 +16,9 @@ export const AP_GAUSS_RIFLE: Equipment = {
       damage: 15,
       heat: 1,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 12,
       cost: 0,
       battleValue: 0
     }
@@ -27,21 +30,36 @@ export const GAUSS_RIFLE: Equipment = {
   name: 'Gauss Rifle',
   category: 'Ballistic Weapons',
   baseType: 'Gauss Rifle',
-  description: 'Base template for Gauss Rifle equipment variants',
-  requiresAmmo: false,
+  description: 'Gauss Rifle - Electromagnetic projectile weapon',
+  requiresAmmo: true,
   introductionYear: 2592,
   rulesLevel: 'Standard',
   sourceBook: 'TM',
   pageReference: '219',
   variants: {
+    Clan: {
+      weight: 12,
+      crits: 6,
+      damage: 15,
+      heat: 1,
+      minRange: 2,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 22,
+      cost: 300000,
+      battleValue: 320
+    },
     IS: {
       weight: 15,
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
-      cost: 0,
-      battleValue: 0
+      minRange: 2,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 22,
+      cost: 300000,
+      battleValue: 320
     }
   }
 };
@@ -61,7 +79,10 @@ export const HEAVY_GAUSS_RIFLE: Equipment = {
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
+      minRange: 4,
+      rangeShort: 6,
+      rangeMedium: 13,
+      rangeLong: 20,
       cost: 0,
       battleValue: 0
     }
@@ -83,7 +104,10 @@ export const HYPER_ASSAULT_GAUSS_RIFLE_40_AMMO_OMNIPOD: Equipment = {
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
+      minRange: 2,
+      rangeShort: 4,
+      rangeMedium: 8,
+      rangeLong: 12,
       cost: 0,
       battleValue: 0
     }
@@ -105,7 +129,10 @@ export const IMPROVED_GAUSS_RIFLE: Equipment = {
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
+      minRange: 2,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 22,
       cost: 0,
       battleValue: 0
     }
@@ -127,7 +154,10 @@ export const IMPROVED_HEAVY_GAUSS_RIFLE: Equipment = {
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
+      minRange: 4,
+      rangeShort: 6,
+      rangeMedium: 13,
+      rangeLong: 20,
       cost: 0,
       battleValue: 0
     }
@@ -150,6 +180,9 @@ export const LB_10_X_AC: Equipment = {
       damage: 10,
       heat: 2,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 0,
       battleValue: 0
     }
@@ -172,6 +205,9 @@ export const LIGHT_GAUSS_RIFLE: Equipment = {
       damage: 15,
       heat: 1,
       minRange: 0,
+      rangeShort: 8,
+      rangeMedium: 17,
+      rangeLong: 25,
       cost: 0,
       battleValue: 0
     }
@@ -193,7 +229,10 @@ export const SILVER_BULLET_GAUSS_RIFLE: Equipment = {
       crits: 7,
       damage: 15,
       heat: 1,
-      minRange: 0,
+      minRange: 2,
+      rangeShort: 7,
+      rangeMedium: 15,
+      rangeLong: 22,
       cost: 0,
       battleValue: 0
     }
@@ -205,19 +244,34 @@ export const ULTRA_AC_10: Equipment = {
   name: 'Ultra AC/10',
   category: 'Ballistic Weapons',
   baseType: 'Ultra AC/10',
-  description: 'Base template for Ultra AC/10 equipment variants',
-  requiresAmmo: false,
+  description: 'Ultra Autocannon/10 - Double-firing capable autocannon',
+  requiresAmmo: true,
   introductionYear: 2845,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 10,
+      crits: 5,
+      damage: 10,
+      heat: 4,
+      minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
+      cost: 320000,
+      battleValue: 210
+    },
     IS: {
       weight: 13,
       crits: 7,
       damage: 10,
       heat: 4,
       minRange: 0,
-      cost: 0,
-      battleValue: 0
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
+      cost: 320000,
+      battleValue: 210
     }
   }
 };
@@ -227,19 +281,34 @@ export const ULTRA_AC_2: Equipment = {
   name: 'Ultra AC/2',
   category: 'Ballistic Weapons',
   baseType: 'Ultra AC/2',
-  description: 'Base template for Ultra AC/2 equipment variants',
-  requiresAmmo: false,
+  description: 'Ultra Autocannon/2 - Double-firing capable autocannon',
+  requiresAmmo: true,
   introductionYear: 2827,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 6,
+      crits: 2,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 9,
+      rangeLong: 18,
+      cost: 120000,
+      battleValue: 81
+    },
     IS: {
       weight: 7,
       crits: 2,
       damage: 2,
       heat: 1,
       minRange: 0,
-      cost: 0,
-      battleValue: 0
+      rangeShort: 2,
+      rangeMedium: 9,
+      rangeLong: 18,
+      cost: 120000,
+      battleValue: 81
     }
   }
 };
@@ -249,19 +318,34 @@ export const ULTRA_AC_20: Equipment = {
   name: 'Ultra AC/20',
   category: 'Ballistic Weapons',
   baseType: 'Ultra AC/20',
-  description: 'Base template for Ultra AC/20 equipment variants',
-  requiresAmmo: false,
+  description: 'Ultra Autocannon/20 - Double-firing capable heavy autocannon',
+  requiresAmmo: true,
   introductionYear: 2830,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 12,
+      crits: 8,
+      damage: 20,
+      heat: 8,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 480000,
+      battleValue: 335
+    },
     IS: {
       weight: 15,
       crits: 10,
       damage: 20,
       heat: 8,
       minRange: 0,
-      cost: 0,
-      battleValue: 0
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 480000,
+      battleValue: 335
     }
   }
 };
@@ -271,24 +355,120 @@ export const ULTRA_AC_5: Equipment = {
   name: 'Ultra AC/5',
   category: 'Ballistic Weapons',
   baseType: 'Ultra AC/5',
-  description: 'Base template for Ultra AC/5 equipment variants',
-  requiresAmmo: false,
+  description: 'Ultra Autocannon/5 - Double-firing capable autocannon',
+  requiresAmmo: true,
   introductionYear: 2750,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 7,
+      crits: 4,
+      damage: 5,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 200000,
+      battleValue: 112
+    },
     IS: {
       weight: 9,
       crits: 5,
       damage: 5,
       heat: 1,
       minRange: 0,
-      cost: 0,
-      battleValue: 0
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 200000,
+      battleValue: 112
     }
   }
 };
 
 // Standard AC weapons
+export const AC_2: Equipment = {
+  id: 'ac_2',
+  name: 'AC/2',
+  category: 'Ballistic Weapons',
+  baseType: 'AC/2',
+  description: 'Autocannon/2 - Long-range ballistic weapon',
+  requiresAmmo: true,
+  introductionYear: 2250,
+  rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '207',
+  variants: {
+    IS: {
+      weight: 6,
+      crits: 1,
+      damage: 2,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 9,
+      rangeLong: 18,
+      cost: 75000,
+      battleValue: 37
+    }
+  }
+};
+
+export const AC_5: Equipment = {
+  id: 'ac_5',
+  name: 'AC/5',
+  category: 'Ballistic Weapons',
+  baseType: 'AC/5',
+  description: 'Autocannon/5 - Medium-range ballistic weapon',
+  requiresAmmo: true,
+  introductionYear: 2240,
+  rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '208',
+  variants: {
+    IS: {
+      weight: 8,
+      crits: 4,
+      damage: 5,
+      heat: 1,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 125000,
+      battleValue: 70
+    }
+  }
+};
+
+export const AC_10: Equipment = {
+  id: 'ac_10',
+  name: 'AC/10',
+  category: 'Ballistic Weapons',
+  baseType: 'AC/10',
+  description: 'Autocannon/10 - Medium-range ballistic weapon',
+  requiresAmmo: true,
+  introductionYear: 2180,
+  rulesLevel: 'Standard',
+  sourceBook: 'TM',
+  pageReference: '208',
+  variants: {
+    IS: {
+      weight: 12,
+      crits: 7,
+      damage: 10,
+      heat: 3,
+      minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
+      cost: 200000,
+      battleValue: 123
+    }
+  }
+};
+
 export const AC_20: Equipment = {
   id: 'ac_20',
   name: 'AC/20',
@@ -307,12 +487,14 @@ export const AC_20: Equipment = {
       damage: 20,
       heat: 7,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 300000,
       battleValue: 178
     }
   }
 };
-
 
 // Light AC variants
 export const LAC_2: Equipment = {
@@ -331,6 +513,9 @@ export const LAC_2: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 10,
+      rangeLong: 20,
       cost: 100000,
       battleValue: 30
     }
@@ -353,6 +538,9 @@ export const LAC_5: Equipment = {
       damage: 5,
       heat: 1,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 7,
+      rangeLong: 14,
       cost: 150000,
       battleValue: 62
     }
@@ -375,6 +563,9 @@ export const LIGHT_AC_2: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 10,
+      rangeLong: 20,
       cost: 100000,
       battleValue: 30
     }
@@ -397,6 +588,9 @@ export const LIGHT_AC_5: Equipment = {
       damage: 5,
       heat: 1,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 7,
+      rangeLong: 14,
       cost: 150000,
       battleValue: 62
     }
@@ -420,6 +614,9 @@ export const ROTARY_AC_2: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 9,
+      rangeLong: 18,
       cost: 175000,
       battleValue: 118
     }
@@ -442,6 +639,9 @@ export const ROTARY_AC_5: Equipment = {
       damage: 5,
       heat: 1,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 275000,
       battleValue: 247
     }
@@ -465,6 +665,9 @@ export const HVAC_10: Equipment = {
       damage: 10,
       heat: 3,
       minRange: 0,
+      rangeShort: 5,
+      rangeMedium: 10,
+      rangeLong: 15,
       cost: 230000,
       battleValue: 120
     }
@@ -488,6 +691,9 @@ export const PROTOMECH_AC_2: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 2,
+      rangeMedium: 9,
+      rangeLong: 18,
       cost: 80000,
       battleValue: 30
     }
@@ -511,6 +717,9 @@ export const ANTI_MISSILE_SYSTEM: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 100000,
       battleValue: 32
     },
@@ -520,6 +729,9 @@ export const ANTI_MISSILE_SYSTEM: Equipment = {
       damage: 2,
       heat: 1,
       minRange: 0,
+      rangeShort: 1,
+      rangeMedium: 2,
+      rangeLong: 3,
       cost: 100000,
       battleValue: 32
     }
@@ -537,6 +749,9 @@ export const BALLISTIC_WEAPONS: Equipment[] = [
   LIGHT_GAUSS_RIFLE,
   SILVER_BULLET_GAUSS_RIFLE,
   // Standard ACs
+  AC_2,
+  AC_5,
+  AC_10,
   AC_20,
   // Ultra ACs
   ULTRA_AC_2,

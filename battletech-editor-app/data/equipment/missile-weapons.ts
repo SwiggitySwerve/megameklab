@@ -15,7 +15,10 @@ export const ENHANCED_LRM_10: Equipment = {
       crits: 2,
       damage: 10,
       heat: 4,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -37,7 +40,10 @@ export const ENHANCED_LRM_5: Equipment = {
       crits: 1,
       damage: 5,
       heat: 2,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -59,7 +65,10 @@ export const EXTENDED_LRM_10: Equipment = {
       crits: 2,
       damage: 10,
       heat: 4,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -81,7 +90,10 @@ export const EXTENDED_LRM_15: Equipment = {
       crits: 3,
       damage: 15,
       heat: 5,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -103,7 +115,10 @@ export const EXTENDED_LRM_20: Equipment = {
       crits: 5,
       damage: 20,
       heat: 6,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -125,7 +140,10 @@ export const IMPROVED_LRM_15: Equipment = {
       crits: 3,
       damage: 15,
       heat: 5,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -147,7 +165,10 @@ export const IMPROVED_LRM_20: Equipment = {
       crits: 5,
       damage: 20,
       heat: 6,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -170,6 +191,9 @@ export const IMPROVED_SRM_6: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -186,12 +210,27 @@ export const LRM_10: Equipment = {
   introductionYear: 2473,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 2.5,
+      crits: 1,
+      damage: 10,
+      heat: 4,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 5,
       crits: 2,
       damage: 10,
       heat: 4,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -208,12 +247,27 @@ export const LRM_15: Equipment = {
   introductionYear: 2491,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 3.5,
+      crits: 2,
+      damage: 15,
+      heat: 5,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 7,
       crits: 3,
       damage: 15,
       heat: 5,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -230,12 +284,27 @@ export const LRM_20: Equipment = {
   introductionYear: 2458,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 5,
+      crits: 2,
+      damage: 20,
+      heat: 6,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 10,
       crits: 5,
       damage: 20,
       heat: 6,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -257,7 +326,10 @@ export const LRM_5: Equipment = {
       crits: 1,
       damage: 5,
       heat: 2,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     },
@@ -266,7 +338,10 @@ export const LRM_5: Equipment = {
       crits: 1,
       damage: 5,
       heat: 2,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -289,6 +364,9 @@ export const PROTOTYPE_STREAK_SRM_4: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -311,6 +389,9 @@ export const PROTOTYPE_STREAK_SRM_6: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -333,6 +414,9 @@ export const SRM_2: Equipment = {
       damage: 2,
       heat: 2,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -342,6 +426,9 @@ export const SRM_2: Equipment = {
       damage: 2,
       heat: 2,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -364,6 +451,9 @@ export const SRM_4: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -373,6 +463,9 @@ export const SRM_4: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -395,6 +488,9 @@ export const SRM_6: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -404,6 +500,9 @@ export const SRM_6: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -425,7 +524,10 @@ export const STREAK_LRM_10: Equipment = {
       crits: 2,
       damage: 10,
       heat: 4,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -447,7 +549,10 @@ export const STREAK_LRM_15: Equipment = {
       crits: 3,
       damage: 15,
       heat: 5,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -469,7 +574,10 @@ export const STREAK_LRM_15_AMMO_OMNIPOD: Equipment = {
       crits: 2,
       damage: 15,
       heat: 5,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -491,7 +599,10 @@ export const STREAK_LRM_20: Equipment = {
       crits: 5,
       damage: 20,
       heat: 6,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -508,12 +619,15 @@ export const STREAK_LRM_20_AMMO_OMNIPOD: Equipment = {
   introductionYear: 3132,
   rulesLevel: 'Standard',
   variants: {
-    Clan: {
+    IS: {
       weight: 5,
       crits: 4,
       damage: 20,
       heat: 6,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -535,7 +649,10 @@ export const STREAK_LRM_5: Equipment = {
       crits: 1,
       damage: 5,
       heat: 2,
-      minRange: 0,
+      minRange: 6,
+      rangeShort: 7,
+      rangeMedium: 14,
+      rangeLong: 21,
       cost: 0,
       battleValue: 0
     }
@@ -558,6 +675,9 @@ export const STREAK_SRM_2: Equipment = {
       damage: 2,
       heat: 2,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -567,6 +687,9 @@ export const STREAK_SRM_2: Equipment = {
       damage: 2,
       heat: 2,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -589,6 +712,9 @@ export const STREAK_SRM_4_I_OS: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -598,6 +724,9 @@ export const STREAK_SRM_4_I_OS: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -620,6 +749,9 @@ export const STREAK_SRM_4_AMMO: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -629,6 +761,46 @@ export const STREAK_SRM_4_AMMO: Equipment = {
       damage: 8,
       heat: 3,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 0,
+      battleValue: 0
+    }
+  }
+};
+
+export const STREAK_SRM_4: Equipment = {
+  id: 'streak_srm_4',
+  name: 'Streak SRM 4',
+  category: 'Missile Weapons',
+  baseType: 'Streak SRM 4',
+  description: 'Base template for Streak SRM 4 equipment variants',
+  requiresAmmo: false,
+  introductionYear: 2647,
+  rulesLevel: 'Standard',
+  variants: {
+    Clan: {
+      weight: 1,
+      crits: 1,
+      damage: 8,
+      heat: 3,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 0,
+      battleValue: 0
+    },
+    IS: {
+      weight: 2,
+      crits: 1,
+      damage: 8,
+      heat: 3,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -645,12 +817,27 @@ export const STREAK_SRM_6: Equipment = {
   introductionYear: 2825,
   rulesLevel: 'Standard',
   variants: {
+    Clan: {
+      weight: 1.5,
+      crits: 1,
+      damage: 12,
+      heat: 4,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
+      cost: 0,
+      battleValue: 0
+    },
     IS: {
       weight: 3,
       crits: 2,
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
@@ -673,6 +860,9 @@ export const STREAK_SRM_6_AMMO: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     },
@@ -682,11 +872,116 @@ export const STREAK_SRM_6_AMMO: Equipment = {
       damage: 12,
       heat: 4,
       minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 6,
+      rangeLong: 9,
       cost: 0,
       battleValue: 0
     }
   }
 };
+
+// MRM (Medium Range Missiles)
+export const MRM_10: Equipment = {
+  id: 'mrm_10',
+  name: 'MRM 10',
+  category: 'Missile Weapons',
+  baseType: 'MRM 10',
+  description: 'Medium Range Missile 10',
+  requiresAmmo: true,
+  introductionYear: 3052,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 3,
+      crits: 2,
+      damage: 10,
+      heat: 4,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 8,
+      rangeLong: 15,
+      cost: 50000,
+      battleValue: 56
+    }
+  }
+};
+
+export const MRM_20: Equipment = {
+  id: 'mrm_20',
+  name: 'MRM 20',
+  category: 'Missile Weapons',
+  baseType: 'MRM 20',
+  description: 'Medium Range Missile 20',
+  requiresAmmo: true,
+  introductionYear: 3052,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 7,
+      crits: 3,
+      damage: 20,
+      heat: 6,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 8,
+      rangeLong: 15,
+      cost: 125000,
+      battleValue: 112
+    }
+  }
+};
+
+export const MRM_30: Equipment = {
+  id: 'mrm_30',
+  name: 'MRM 30',
+  category: 'Missile Weapons',
+  baseType: 'MRM 30',
+  description: 'Medium Range Missile 30',
+  requiresAmmo: true,
+  introductionYear: 3052,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 10,
+      crits: 5,
+      damage: 30,
+      heat: 10,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 8,
+      rangeLong: 15,
+      cost: 225000,
+      battleValue: 168
+    }
+  }
+};
+
+export const MRM_40: Equipment = {
+  id: 'mrm_40',
+  name: 'MRM 40',
+  category: 'Missile Weapons',
+  baseType: 'MRM 40',
+  description: 'Medium Range Missile 40',
+  requiresAmmo: true,
+  introductionYear: 3052,
+  rulesLevel: 'Standard',
+  variants: {
+    IS: {
+      weight: 12,
+      crits: 7,
+      damage: 40,
+      heat: 12,
+      minRange: 0,
+      rangeShort: 3,
+      rangeMedium: 8,
+      rangeLong: 15,
+      cost: 350000,
+      battleValue: 224
+    }
+  }
+};
+
 export const MISSILE_WEAPONS: Equipment[] = [
   ENHANCED_LRM_10,
   ENHANCED_LRM_5,
@@ -700,6 +995,10 @@ export const MISSILE_WEAPONS: Equipment[] = [
   LRM_15,
   LRM_20,
   LRM_5,
+  MRM_10,
+  MRM_20,
+  MRM_30,
+  MRM_40,
   PROTOTYPE_STREAK_SRM_4,
   PROTOTYPE_STREAK_SRM_6,
   SRM_2,
@@ -712,6 +1011,7 @@ export const MISSILE_WEAPONS: Equipment[] = [
   STREAK_LRM_20_AMMO_OMNIPOD,
   STREAK_LRM_5,
   STREAK_SRM_2,
+  STREAK_SRM_4,
   STREAK_SRM_4_I_OS,
   STREAK_SRM_4_AMMO,
   STREAK_SRM_6,
