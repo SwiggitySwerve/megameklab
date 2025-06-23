@@ -53,6 +53,9 @@ export interface UnitConfiguration {
   internalHeatSinks: number          // Auto-calculated from engine rating
   externalHeatSinks: number          // Auto-calculated (total - internal)
   
+  // Enhancement systems
+  enhancementType?: 'MASC' | 'Triple Strength Myomer' | null  // Movement enhancement systems
+  
   // Legacy compatibility
   mass: number                       // Alias for tonnage
 }
@@ -143,6 +146,8 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
+      // Enhancement systems
+      enhancementType: null,
       // Jump jet defaults
       jumpMP: 0,
       jumpJetType: 'Standard Jump Jet',
@@ -162,7 +167,12 @@ export class UnitConfigurationBuilder {
     
     // Adjust walk MP if engine rating was capped
     const actualWalkMP = Math.floor(engineRating / config.tonnage)
+    
+    // Calculate standard run MP
     const runMP = Math.floor(actualWalkMP * 1.5)
+    
+    // Note: Enhancement effects (MASC, TSM) are handled at display level
+    // to show bracketed notation for conditional/activated bonuses
     
     // Calculate heat sinks
     const internalHeatSinks = this.calculateInternalHeatSinks(engineRating, config.engineType)

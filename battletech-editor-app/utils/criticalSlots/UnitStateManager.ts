@@ -24,8 +24,24 @@ export class UnitStateManager {
     const defaultConfig: UnitConfiguration = initialConfiguration || {
       engineType: 'Standard',
       gyroType: 'Standard',
+      tonnage: 50,
       mass: 50,
-      unitType: 'BattleMech'
+      unitType: 'BattleMech',
+      techBase: 'Inner Sphere',
+      walkMP: 4,
+      runMP: 6,
+      engineRating: 200,
+      structureType: 'Standard',
+      armorType: 'Standard',
+      heatSinkType: 'Single',
+      totalHeatSinks: 10,
+      internalHeatSinks: 8,
+      externalHeatSinks: 2,
+      enhancementType: null,
+      jumpMP: 0,
+      jumpJetType: 'Standard Jump Jet',
+      jumpJetCounts: {},
+      hasPartialWing: false
     }
 
     this.currentUnit = new UnitCriticalManager(defaultConfig)
