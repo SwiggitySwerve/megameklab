@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { UnitProvider, useUnit } from '../../components/criticalSlots/UnitProvider';
+import { calculateEnhancedMovement, formatEngineMovementInfo } from '../../utils/movementCalculations';
 
 // Placeholder tab components - these will be implemented later
 const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
@@ -53,40 +54,8 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
     ? config.totalHeatSinks * 2 
     : config.totalHeatSinks;
   
-  // Calculate movement with enhancement effects using bracketed notation
-  const calculateMovementWithEnhancements = (baseWalkMP: number, enhancementType?: string | null) => {
-    const baseRunMP = Math.floor(baseWalkMP * 1.5); // Standard calculation
-    
-    if (enhancementType === 'Triple Strength Myomer') {
-      // TSM: +2 Walk MP at 9+ heat, Run MP = (Walk + 2) × 1.5 rounded up
-      const enhancedWalkMP = baseWalkMP + 2;
-      const enhancedRunMP = Math.ceil(enhancedWalkMP * 1.5);
-      return { 
-        walkDisplay: `${baseWalkMP} [${enhancedWalkMP}]`,
-        runDisplay: `${baseRunMP} [${enhancedRunMP}]`,
-        walkMP: baseWalkMP,
-        runMP: baseRunMP
-      };
-    } else if (enhancementType === 'MASC') {
-      // MASC: Run MP = Walk MP × 2 when active
-      const mascRunMP = baseWalkMP * 2;
-      return { 
-        walkDisplay: `${baseWalkMP}`,
-        runDisplay: `${baseRunMP} [${mascRunMP}]`,
-        walkMP: baseWalkMP,
-        runMP: baseRunMP
-      };
-    }
-    
-    return { 
-      walkDisplay: `${baseWalkMP}`,
-      runDisplay: `${baseRunMP}`,
-      walkMP: baseWalkMP,
-      runMP: baseRunMP
-    };
-  };
-  
-  const enhancedMovement = calculateMovementWithEnhancements(config.walkMP, config.enhancementType);
+  // Use shared movement utility for consistent display
+  const enhancedMovement = calculateEnhancedMovement(config);
   const calculatedRunMP = config.runMP; // Use base run MP for data model consistency
   
   // Update configuration helper with auto-calculations
@@ -100,13 +69,14 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
       const enhancementType = updates.enhancementType !== undefined ? updates.enhancementType : config.enhancementType;
       const engineRating = Math.min(tonnage * walkMP, 400);
       
-      // Calculate enhanced movement
-      const enhancedMovement = calculateMovementWithEnhancements(walkMP, enhancementType);
+      // Calculate enhanced movement using shared utility
+      const movementConfig = { walkMP, runMP: Math.floor(walkMP * 1.5), jumpMP: newConfig.jumpMP, enhancementType };
+      const enhancedMovement = calculateEnhancedMovement(movementConfig);
       
       newConfig = {
         ...newConfig,
         engineRating,
-        runMP: enhancedMovement.runMP
+        runMP: enhancedMovement.runValue
       };
     }
     
@@ -293,7 +263,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
             {config.enhancementType === 'Triple Strength Myomer' && (
               <div className="mt-2 text-xs text-slate-400">
                 <div>• Activates at 9+ heat levels</div>
-                <div>• +2 Walk MP, recalculated Run MP</div>
+                <div>• +1 Walk MP, recalculated Run MP</div>
                 <div>• Doubles physical attack damage</div>
                 <div>• Heat: {heatDissipation - config.totalHeatSinks}/9+ for activation</div>
               </div>
@@ -325,7 +295,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
               <div>
                 <label className="text-slate-300 text-xs block mb-1">Run MP</label>
                 <div className="bg-slate-700/50 border border-slate-600 rounded px-2 py-1 text-sm text-slate-100 text-center">
-                  {calculatedRunMP}
+                  {enhancedMovement.runDisplay}
                 </div>
                 <div className="text-xs text-slate-400 text-center mt-1">
                   Auto-calc {config.enhancementType ? `(${config.enhancementType})` : ''}
@@ -599,52 +569,19 @@ function CustomizerV2Content() {
     };
   };
   
-  // Calculate movement with enhancement effects using bracketed notation
-  const calculateMovementWithEnhancements = (baseWalkMP: number, enhancementType?: string | null) => {
-    const baseRunMP = Math.floor(baseWalkMP * 1.5); // Standard calculation
-    
-    if (enhancementType === 'Triple Strength Myomer') {
-      // TSM: +2 Walk MP at 9+ heat, Run MP = (Walk + 2) × 1.5 rounded up
-      const enhancedWalkMP = baseWalkMP + 2;
-      const enhancedRunMP = Math.ceil(enhancedWalkMP * 1.5);
-      return { 
-        walkDisplay: `${baseWalkMP} [${enhancedWalkMP}]`,
-        runDisplay: `${baseRunMP} [${enhancedRunMP}]`,
-        walkMP: baseWalkMP,
-        runMP: baseRunMP
-      };
-    } else if (enhancementType === 'MASC') {
-      // MASC: Run MP = Walk MP × 2 when active
-      const mascRunMP = baseWalkMP * 2;
-      return { 
-        walkDisplay: `${baseWalkMP}`,
-        runDisplay: `${baseRunMP} [${mascRunMP}]`,
-        walkMP: baseWalkMP,
-        runMP: baseRunMP
-      };
-    }
-    
-    return { 
-      walkDisplay: `${baseWalkMP}`,
-      runDisplay: `${baseRunMP}`,
-      walkMP: baseWalkMP,
-      runMP: baseRunMP
-    };
-  };
-
   // Get unit configuration from V2 system
   const unitConfig = unit.getConfiguration();
   const currentWeight = calculateCurrentWeight();
   const heatBalance = calculateHeatBalance();
   const criticalSlots = calculateCriticalSlots();
   
-  // Calculate enhanced movement for header display
-  const enhancedMovement = calculateMovementWithEnhancements(unitConfig.walkMP, unitConfig.enhancementType);
+  // Calculate enhanced movement for header display using shared utility
+  const enhancedMovement = calculateEnhancedMovement(unitConfig);
   
   // Default unit info (will be configurable in future versions)
   const unitInfo = {
-    chassis: 'Atlas', // Default chassis name
-    model: 'AS7-D', // Default model
+    chassis: 'New Mek', // Default chassis name
+    model: '', // No model designation for new mech
     rulesLevel: 'Standard', // Default rules level
     era: '3025' // Default era
   };
@@ -716,7 +653,7 @@ function CustomizerV2Content() {
             <div className="flex items-center gap-2">
               <span className="text-slate-400">Movement:</span>
               <span className="font-medium text-slate-200">
-                {enhancedMovement.walkDisplay}/{enhancedMovement.runDisplay}/{unitConfig.jumpMP || 0}
+                {enhancedMovement.combinedDisplay}
               </span>
             </div>
             
