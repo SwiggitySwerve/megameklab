@@ -6,6 +6,8 @@
 import { CriticalSection, LocationSlotConfiguration, FixedSystemComponent } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
+import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
+import { JumpJetType } from '../jumpJetCalculations'
 
 export interface UnitValidationResult {
   isValid: boolean
@@ -33,6 +35,12 @@ export interface UnitConfiguration {
   engineRating: number               // Auto-calculated from tonnage × walkMP, max 400
   runMP: number                      // Auto-calculated (walkMP × 1.5, rounded down)
   engineType: EngineType
+  
+  // Jump jets
+  jumpMP: number                     // Jump movement points
+  jumpJetType: JumpJetType           // Type of jump jets
+  jumpJetCounts: Partial<Record<JumpJetType, number>>  // Count of each jump jet type
+  hasPartialWing: boolean            // Whether unit has partial wing
   
   // System components
   gyroType: GyroType
@@ -107,6 +115,11 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
+      // Jump jet defaults
+      jumpMP: 0,
+      jumpJetType: 'Standard Jump Jet',
+      jumpJetCounts: {},
+      hasPartialWing: false,
       mass: tonnage // Legacy compatibility
     })
   }
@@ -130,6 +143,11 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
+      // Jump jet defaults
+      jumpMP: 0,
+      jumpJetType: 'Standard Jump Jet',
+      jumpJetCounts: {},
+      hasPartialWing: false,
       mass: 50
     }
   }
@@ -307,6 +325,44 @@ export class UnitCriticalManager {
   }
 
   /**
+   * Get critical slot requirements for armor type
+   */
+  private getArmorCriticalSlots(armorType: ArmorType): number {
+    try {
+      return getArmorSlots(armorType as any, this.configuration.techBase as any) || 0
+    } catch (error) {
+      // Fallback for armor types not in the armor calculations
+      const armorSlotMap: Record<ArmorType, number> = {
+        'Standard': 0,
+        'Ferro-Fibrous': 14,
+        'Ferro-Fibrous (Clan)': 7,
+        'Light Ferro-Fibrous': 7,
+        'Heavy Ferro-Fibrous': 21,
+        'Stealth': 12,
+        'Reactive': 14,
+        'Reflective': 10,
+        'Hardened': 0  // Key fix - Hardened armor takes 0 slots
+      }
+      return armorSlotMap[armorType] || 0
+    }
+  }
+
+  /**
+   * Get critical slot requirements for structure type
+   */
+  private getStructureCriticalSlots(structureType: StructureType): number {
+    const structureSlotMap: Record<StructureType, number> = {
+      'Standard': 0,
+      'Endo Steel': 14,
+      'Endo Steel (Clan)': 7,
+      'Composite': 0,
+      'Reinforced': 0,
+      'Industrial': 0
+    }
+    return structureSlotMap[structureType] || 0
+  }
+
+  /**
    * Initialize all critical sections for the unit
    */
   private initializeSections(): void {
@@ -456,7 +512,7 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Handle special component changes (Endo Steel, Ferro-Fibrous)
+   * Handle special component changes (Endo Steel, Ferro-Fibrous, Jump Jets)
    */
   private handleSpecialComponentConfigurationChange(
     oldConfig: UnitConfiguration, 
@@ -479,6 +535,11 @@ export class UnitCriticalManager {
         'armor'
       )
     }
+    
+    // Handle jump jet changes
+    if (oldConfig.jumpMP !== newConfig.jumpMP || oldConfig.jumpJetType !== newConfig.jumpJetType) {
+      this.updateJumpJetEquipment(oldConfig, newConfig)
+    }
   }
 
   /**
@@ -490,21 +551,29 @@ export class UnitCriticalManager {
     componentType: 'structure' | 'armor'
   ): void {
     // Remove old special components if they exist
-    if (oldType !== 'Standard') {
+    const oldSlots = componentType === 'armor' 
+      ? this.getArmorCriticalSlots(oldType as ArmorType)
+      : this.getStructureCriticalSlots(oldType as StructureType)
+    
+    if (oldSlots > 0) {
       this.removeSpecialComponents(oldType, componentType)
     }
     
     // Add new special components if needed
-    if (newType !== 'Standard') {
-      this.addSpecialComponents(newType, componentType)
+    const newSlots = componentType === 'armor'
+      ? this.getArmorCriticalSlots(newType as ArmorType)
+      : this.getStructureCriticalSlots(newType as StructureType)
+    
+    if (newSlots > 0) {
+      this.addSpecialComponents(newType, componentType, newSlots)
     }
   }
 
   /**
    * Add special component pieces to unallocated equipment
    */
-  private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor'): void {
-    const components = this.createSpecialComponentEquipment(type, componentType)
+  private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor', requiredSlots: number): void {
+    const components = this.createSpecialComponentEquipment(type, componentType, requiredSlots)
     
     components.forEach(component => {
       const allocation: EquipmentAllocation = {
@@ -547,9 +616,10 @@ export class UnitCriticalManager {
    */
   private createSpecialComponentEquipment(
     type: StructureType | ArmorType,
-    componentType: 'structure' | 'armor'
+    componentType: 'structure' | 'armor',
+    requiredSlots: number
   ): SpecialEquipmentObject[] {
-    return Array.from({ length: 14 }, (_, index) => ({
+    return Array.from({ length: requiredSlots }, (_, index) => ({
       id: `${type.toLowerCase().replace(/\s+/g, '_')}_piece_${index + 1}`,
       name: type,
       type: 'equipment' as const,
@@ -559,6 +629,87 @@ export class UnitCriticalManager {
       componentType,
       isGrouped: false
     }))
+  }
+
+  /**
+   * Update jump jet equipment based on configuration changes
+   */
+  private updateJumpJetEquipment(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): void {
+    // Remove existing jump jets
+    this.removeJumpJetEquipment()
+    
+    // Add new jump jets if needed
+    if (newConfig.jumpMP > 0) {
+      this.addJumpJetEquipment(newConfig.jumpJetType, newConfig.jumpMP, newConfig.tonnage, newConfig.techBase)
+    }
+  }
+
+  /**
+   * Remove all jump jet equipment from unallocated and allocated slots
+   */
+  private removeJumpJetEquipment(): void {
+    // Remove from unallocated equipment
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => 
+      !eq.equipmentData.name.includes('Jump') && 
+      !eq.equipmentData.name.includes('UMU') &&
+      !eq.equipmentData.name.includes('Booster') &&
+      !eq.equipmentData.name.includes('Wing')
+    )
+    
+    // Remove from critical slots across all sections
+    this.sections.forEach(section => {
+      const equipmentToRemove = section.getAllEquipment().filter(eq => 
+        eq.equipmentData.name.includes('Jump') || 
+        eq.equipmentData.name.includes('UMU') ||
+        eq.equipmentData.name.includes('Booster') ||
+        eq.equipmentData.name.includes('Wing')
+      )
+      
+      equipmentToRemove.forEach(eq => {
+        section.removeEquipmentGroup(eq.equipmentGroupId)
+      })
+    })
+  }
+
+  /**
+   * Add jump jet equipment to unallocated pool
+   */
+  private addJumpJetEquipment(jumpJetType: JumpJetType, jumpMP: number, tonnage: number, techBase: string): void {
+    // Import jump jet calculations
+    const { calculateJumpJetWeight, calculateJumpJetCriticalSlots, JUMP_JET_VARIANTS } = require('../jumpJetCalculations')
+    
+    const variant = JUMP_JET_VARIANTS[jumpJetType]
+    if (!variant) return
+    
+    const jumpJets: EquipmentObject[] = []
+    
+    // Define location restrictions for jump jets
+    const jumpJetLocations = ['Center Torso', 'Left Torso', 'Right Torso', 'Left Leg', 'Right Leg']
+    
+    for (let i = 0; i < jumpMP; i++) {
+      jumpJets.push({
+        id: `${jumpJetType.toLowerCase().replace(/\s+/g, '_')}_${i + 1}`,
+        name: variant.name,
+        type: 'equipment' as const,
+        requiredSlots: calculateJumpJetCriticalSlots(jumpJetType, tonnage),
+        weight: calculateJumpJetWeight(jumpJetType, tonnage),
+        techBase: variant.techBase === 'Both' ? techBase : variant.techBase,
+        heat: variant.heatGeneration,
+        allowedLocations: jumpJetLocations
+      })
+    }
+    
+    jumpJets.forEach(jumpJet => {
+      const allocation: EquipmentAllocation = {
+        equipmentData: jumpJet,
+        equipmentGroupId: `${jumpJet.id}_group`,
+        location: '',
+        startSlotIndex: -1,
+        endSlotIndex: -1,
+        occupiedSlots: []
+      }
+      this.unallocatedEquipment.push(allocation)
+    })
   }
 
   /**
@@ -722,11 +873,85 @@ export class UnitCriticalManager {
   }
 
   /**
+   * Check if equipment can be placed in specified location
+   */
+  canPlaceEquipmentInLocation(equipment: EquipmentObject, location: string): boolean {
+    // Check static location restrictions
+    if (equipment.allowedLocations) {
+      return equipment.allowedLocations.includes(location)
+    }
+    
+    // Check dynamic location restrictions
+    if (equipment.locationRestrictions) {
+      switch (equipment.locationRestrictions.type) {
+        case 'engine_slots':
+          return this.hasEngineSlots(location)
+        case 'custom':
+          return equipment.locationRestrictions.validator?.(this, location) ?? false
+        case 'static':
+          // Should use allowedLocations instead, but handle gracefully
+          return true
+      }
+    }
+    
+    // Default: allow anywhere (for backwards compatibility)
+    return true
+  }
+
+  /**
+   * Check if a location has engine slots
+   */
+  hasEngineSlots(location: string): boolean {
+    const section = this.getSection(location)
+    if (!section) return false
+    
+    // Check if this location has engine slots based on current engine configuration
+    const engineAllocation = SystemComponentRules.getCompleteSystemAllocation(
+      this.configuration.engineType,
+      this.configuration.gyroType
+    )
+    
+    switch (location) {
+      case 'Center Torso':
+        return engineAllocation.engine.centerTorso.length > 0
+      case 'Left Torso':
+        return engineAllocation.engine.leftTorso.length > 0
+      case 'Right Torso':
+        return engineAllocation.engine.rightTorso.length > 0
+      default:
+        return false
+    }
+  }
+
+  /**
+   * Get validation error message for equipment location restriction
+   */
+  getLocationRestrictionError(equipment: EquipmentObject, location: string): string {
+    if (equipment.allowedLocations) {
+      return `${equipment.name} can only be placed in: ${equipment.allowedLocations.join(', ')}`
+    }
+    
+    if (equipment.locationRestrictions?.type === 'engine_slots') {
+      return `${equipment.name} can only be placed in locations with engine slots (depends on engine type)`
+    }
+    
+    return `${equipment.name} cannot be placed in ${location}`
+  }
+
+  /**
    * Attempt to allocate equipment from unallocated pool
    */
   allocateEquipmentFromPool(equipmentGroupId: string, location: string, startSlot: number): boolean {
     const equipment = this.removeUnallocatedEquipment(equipmentGroupId)
     if (!equipment) return false
+    
+    // Check location restrictions
+    if (!this.canPlaceEquipmentInLocation(equipment.equipmentData, location)) {
+      // Restore to unallocated if location is restricted
+      this.addUnallocatedEquipment([equipment])
+      console.warn(this.getLocationRestrictionError(equipment.equipmentData, location))
+      return false
+    }
     
     const section = this.getSection(location)
     if (!section) {

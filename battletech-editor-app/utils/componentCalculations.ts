@@ -107,14 +107,15 @@ export function calculateHeatSinkWeight(count: number, type: string = 'Single'):
   return extraHeatSinks * weightPerSink;
 }
 
-// Calculate jump jet weight
+// Calculate jump jet weight - legacy function for compatibility
 export function calculateJumpJetWeight(jumpMP: number, tonnage: number, jumpType: string = 'Jump Jet'): number {
   if (jumpMP === 0) return 0;
   
+  // Legacy weight calculation for compatibility
   let weightPerJet: number;
   
-  if (jumpType === 'Jump Jet' || jumpType === 'UMU') {
-    // Standard jump jets weight calculation
+  if (jumpType === 'Jump Jet' || jumpType === 'Standard Jump Jet' || jumpType === 'UMU') {
+    // Standard jump jet weight scaling
     if (tonnage <= 55) {
       weightPerJet = 0.5;
     } else if (tonnage <= 85) {
@@ -122,9 +123,18 @@ export function calculateJumpJetWeight(jumpMP: number, tonnage: number, jumpType
     } else {
       weightPerJet = 2;
     }
-  } else { // Mechanical Jump Booster
+  } else if (jumpType === 'Mechanical Jump Booster') {
     // MJB weighs 10% of mech tonnage per MP
     weightPerJet = tonnage * 0.1;
+  } else {
+    // Default to standard scaling for other types
+    if (tonnage <= 55) {
+      weightPerJet = 0.5;
+    } else if (tonnage <= 85) {
+      weightPerJet = 1;
+    } else {
+      weightPerJet = 2;
+    }
   }
   
   return jumpMP * weightPerJet;

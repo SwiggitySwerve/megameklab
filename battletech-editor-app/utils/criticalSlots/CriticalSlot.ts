@@ -12,6 +12,11 @@ export interface SlotContent {
   systemComponentName?: string
 }
 
+export interface LocationRestrictions {
+  type: 'static' | 'engine_slots' | 'custom'
+  validator?: (unit: any, location: string) => boolean
+}
+
 export interface EquipmentObject {
   id: string
   name: string
@@ -20,6 +25,10 @@ export interface EquipmentObject {
   type: 'weapon' | 'ammo' | 'equipment' | 'heat_sink'
   techBase: 'Inner Sphere' | 'Clan' | 'Both'
   heat?: number // Heat generated (positive) or dissipated (negative for heat sinks)
+  
+  // Location restrictions
+  allowedLocations?: string[] // Static restrictions - simple whitelist
+  locationRestrictions?: LocationRestrictions // Dynamic restrictions - complex validation
 }
 
 export interface EquipmentAllocation {

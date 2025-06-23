@@ -81,6 +81,11 @@ export interface EquipmentVariant {
   battleValue?: number | null; // Battle Value
 }
 
+export interface LocationRestrictions {
+  type: 'static' | 'engine_slots' | 'custom'
+  validator?: (unit: any, location: string) => boolean
+}
+
 export interface Equipment {
   id: string;            // Unique identifier
   name: string;          // Display name
@@ -98,6 +103,10 @@ export interface Equipment {
     Clan?: EquipmentVariant; // Clan variant
   };
   special?: string[];    // Special rules or abilities
+  
+  // Location restrictions
+  allowedLocations?: string[] // Static restrictions - simple whitelist
+  locationRestrictions?: LocationRestrictions // Dynamic restrictions - complex validation
 }
 
 export interface EquipmentDatabase {

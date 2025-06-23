@@ -28,8 +28,13 @@ function CriticalSlotDisplay({ slot, location }: { slot: CriticalSlot, location:
     const section = unit.getSection(targetLocation)
     if (!section) return false
     
+    // First check location restrictions
+    if (!unit.canPlaceEquipmentInLocation(equipment.equipmentData, targetLocation)) {
+      return false // Equipment is not allowed in this location
+    }
+    
     const requiredSlots = equipment.equipmentData.requiredSlots
-    if (requiredSlots === 1) return true // Single slot equipment can go anywhere empty
+    if (requiredSlots === 1) return true // Single slot equipment can go anywhere empty (if location is allowed)
     
     // For multi-slot equipment, check if there are enough consecutive empty slots starting from this slot
     const allSlots = section.getAllSlots()

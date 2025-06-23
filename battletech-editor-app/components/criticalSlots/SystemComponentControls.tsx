@@ -7,13 +7,44 @@ import React, { useState, useCallback } from 'react'
 import { useUnit } from './UnitProvider'
 import { EngineType, GyroType } from '../../utils/criticalSlots/SystemComponentRules'
 import { StructureType, ArmorType, HeatSinkType, UnitConfigurationBuilder, UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
+import { 
+  JumpJetType, 
+  getAvailableJumpJetTypes, 
+  calculateTotalJumpJetWeight, 
+  calculateTotalJumpJetCrits, 
+  validateJumpJetConfiguration,
+  calculateJumpJetHeat,
+  getMaxAllowedJumpMP,
+  calculateJumpJetWeight,
+  calculateJumpJetCriticalSlots,
+  JUMP_JET_VARIANTS
+} from '../../utils/jumpJetCalculations'
 
 export function SystemComponentControls() {
-  const { unit, validation, updateConfiguration } = useUnit()
+  const { unit, validation, updateConfiguration, removeEquipment, addEquipmentToUnit } = useUnit()
   const config = unit.getConfiguration()
   
-  // Local state for UI-only values
-  const [jumpMP, setJumpMP] = useState(0)
+  // Use configuration values directly
+  const jumpMP = config.jumpMP || 0
+  const selectedJumpJetType = config.jumpJetType || 'Standard Jump Jet'
+  
+  // Get available jump jet types for current tech base
+  const availableJumpJetTypes = getAvailableJumpJetTypes(config.techBase, 'Advanced')
+  
+  // Calculate jump jet validation
+  const jumpJetValidation = validateJumpJetConfiguration(
+    { [selectedJumpJetType]: jumpMP },
+    jumpMP,
+    config.walkMP,
+    config.runMP,
+    config.tonnage
+  )
+  
+  // Calculate jump jet stats
+  const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight({ [selectedJumpJetType]: jumpMP }, config.tonnage, false) : 0
+  const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits({ [selectedJumpJetType]: jumpMP }, config.tonnage) : 0
+  const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat({ [selectedJumpJetType]: jumpMP }, jumpMP) : 0
+  const maxAllowedJumpMP = getMaxAllowedJumpMP(selectedJumpJetType, config.walkMP, config.runMP)
   
   // Generate tonnage options (20-100 in 5-ton increments)
   const tonnageOptions = Array.from({ length: 17 }, (_, i) => 20 + (i * 5))
@@ -46,6 +77,7 @@ export function SystemComponentControls() {
       : [...common, 'Double']
   }
   
+
   // Update configuration
   const updateConfig = useCallback((updates: Partial<UnitConfiguration>) => {
     console.log('SystemComponentControls.updateConfig called with:', updates)
@@ -189,9 +221,13 @@ export function SystemComponentControls() {
                 <input
                   type="number"
                   min="0"
-                  max="12"
+                  max={maxAllowedJumpMP}
                   value={jumpMP}
-                  onChange={(e) => setJumpMP(parseInt(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const newValue = parseInt(e.target.value) || 0
+                    const clampedValue = Math.min(Math.max(newValue, 0), maxAllowedJumpMP)
+                    updateConfig({ jumpMP: clampedValue })
+                  }}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500 text-center"
                 />
                 <div className="bg-gray-700 p-1 rounded border border-gray-600 text-white text-center text-xs">
@@ -203,27 +239,30 @@ export function SystemComponentControls() {
               <div className="grid grid-cols-3 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Jump Type:</label>
                 <select 
-                  defaultValue="Jump Jet"
+                  value={selectedJumpJetType}
+                  onChange={(e) => updateConfig({ jumpJetType: e.target.value as JumpJetType })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500 col-span-2"
                 >
-                  <option value="Jump Jet">Jump Jet</option>
-                  <option value="Improved Jump Jet">Improved Jump Jet</option>
-                  <option value="UMU">UMU</option>
-                  <option value="Mechanical Jump Booster">Mechanical Jump Booster</option>
+                  {availableJumpJetTypes.map(type => (
+                    <option key={type} value={type}>
+                      {JUMP_JET_VARIANTS[type].name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              {/* Mech. J. Booster MP */}
-              <div className="grid grid-cols-3 gap-2 items-center">
-                <label className="text-gray-300 text-xs">Mech. J. Booster MP:</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="6"
-                  defaultValue="0"
-                  className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500 text-center"
-                />
-                <div></div>
+              {/* Jump Jet Stats */}
+              <div className="grid grid-cols-3 gap-2 items-center text-xs">
+                <span className="text-gray-400">Weight:</span>
+                <span className="text-center text-white">{jumpJetWeight.toFixed(1)}t</span>
+                <span className="text-gray-400">Crits: {jumpJetCrits}</span>
+              </div>
+
+              {/* Movement Limits */}
+              <div className="grid grid-cols-3 gap-2 items-center text-xs">
+                <span className="text-gray-400">Max Jump MP:</span>
+                <span className="text-center text-white">{maxAllowedJumpMP}</span>
+                <span className="text-gray-400">Heat: {jumpJetHeat}</span>
               </div>
               
               {/* Engine Rating (moved here for context) */}
@@ -349,7 +388,7 @@ export function SystemComponentControls() {
               </div>
               <div className="grid grid-cols-2 gap-1">
                 <span className="text-purple-400">Movement:</span>
-                <span className="text-white">{config.walkMP}/{config.runMP}</span>
+                <span className="text-white">{config.walkMP}/{config.runMP}/{jumpMP}</span>
               </div>
               <div className="grid grid-cols-2 gap-1">
                 <span className="text-cyan-400">Heat Sinks:</span>
@@ -365,7 +404,7 @@ export function SystemComponentControls() {
           </div>
 
           {/* Validation Messages */}
-          {(!validation.isValid || !engineValidation.isValid) && (
+          {(!validation.isValid || !engineValidation.isValid || !jumpJetValidation.isValid) && (
             <div className="bg-red-900 border border-red-600 p-2 rounded">
               <h4 className="text-red-200 text-xs font-medium mb-1">Errors:</h4>
               <ul className="text-red-300 text-xs space-y-1">
@@ -375,16 +414,22 @@ export function SystemComponentControls() {
                 {engineValidation.errors.map((error: string, index: number) => (
                   <li key={`engine-${index}`}>• {error}</li>
                 ))}
+                {jumpJetValidation.errors.map((error: string, index: number) => (
+                  <li key={`jumpjet-${index}`}>• Jump Jets: {error}</li>
+                ))}
               </ul>
             </div>
           )}
 
-          {validation.warnings && validation.warnings.length > 0 && (
+          {(validation.warnings && validation.warnings.length > 0) || jumpJetValidation.warnings.length > 0 && (
             <div className="bg-yellow-900 border border-yellow-600 p-2 rounded">
               <h4 className="text-yellow-200 text-xs font-medium mb-1">Warnings:</h4>
               <ul className="text-yellow-300 text-xs space-y-1">
-                {validation.warnings.map((warning: string, index: number) => (
+                {validation.warnings && validation.warnings.map((warning: string, index: number) => (
                   <li key={index}>• {warning}</li>
+                ))}
+                {jumpJetValidation.warnings.map((warning: string, index: number) => (
+                  <li key={`jumpjet-warn-${index}`}>• Jump Jets: {warning}</li>
                 ))}
               </ul>
             </div>
