@@ -12,7 +12,7 @@ export const STRUCTURE_WEIGHT_MULTIPLIERS: Record<StructureType, number> = {
   'Endo Steel (Clan)': 0.05,
   'Composite': 0.05,
   'Reinforced': 0.20,
-  'Industrial': 0.15
+  'Industrial': 0.20
 };
 
 // Structure critical slot requirements
@@ -68,51 +68,39 @@ export function calculateMaxArmorPoints(mechTonnage: number, type: StructureType
   // Standard calculation: 2 points per ton of internal structure
   const internalStructure = getInternalStructurePoints(mechTonnage);
   
-  // Most structures allow 2x internal structure
-  let multiplier = 2;
-  
-  // Hardened and some other types may have different limits
-  if (type === 'Industrial') {
-    multiplier = 1.5; // Industrial mechs have less armor capacity
-  }
+  // All structure types use standard 2x internal structure for armor capacity
+  const multiplier = 2;
   
   return Math.floor(internalStructure * multiplier);
 }
 
 /**
- * Get internal structure points by location
+ * Get internal structure points by location using official BattleTech table
  */
 export function getInternalStructureByLocation(mechTonnage: number): Record<string, number> {
-  // This is a simplified version - actual values come from a table
-  const structureTable: Record<number, Record<string, number>> = {
-    20: { head: 3, centerTorso: 6, leftTorso: 5, rightTorso: 5, leftArm: 3, rightArm: 3, leftLeg: 4, rightLeg: 4 },
-    25: { head: 3, centerTorso: 8, leftTorso: 6, rightTorso: 6, leftArm: 4, rightArm: 4, leftLeg: 6, rightLeg: 6 },
-    30: { head: 3, centerTorso: 10, leftTorso: 7, rightTorso: 7, leftArm: 5, rightArm: 5, leftLeg: 7, rightLeg: 7 },
-    35: { head: 3, centerTorso: 11, leftTorso: 8, rightTorso: 8, leftArm: 6, rightArm: 6, leftLeg: 8, rightLeg: 8 },
-    40: { head: 3, centerTorso: 12, leftTorso: 10, rightTorso: 10, leftArm: 6, rightArm: 6, leftLeg: 10, rightLeg: 10 },
-    45: { head: 3, centerTorso: 14, leftTorso: 11, rightTorso: 11, leftArm: 7, rightArm: 7, leftLeg: 11, rightLeg: 11 },
-    50: { head: 3, centerTorso: 16, leftTorso: 12, rightTorso: 12, leftArm: 8, rightArm: 8, leftLeg: 12, rightLeg: 12 },
-    55: { head: 3, centerTorso: 18, leftTorso: 13, rightTorso: 13, leftArm: 9, rightArm: 9, leftLeg: 13, rightLeg: 13 },
-    60: { head: 3, centerTorso: 20, leftTorso: 14, rightTorso: 14, leftArm: 10, rightArm: 10, leftLeg: 14, rightLeg: 14 },
-    65: { head: 3, centerTorso: 21, leftTorso: 15, rightTorso: 15, leftArm: 10, rightArm: 10, leftLeg: 15, rightLeg: 15 },
-    70: { head: 3, centerTorso: 22, leftTorso: 15, rightTorso: 15, leftArm: 11, rightArm: 11, leftLeg: 15, rightLeg: 15 },
-    75: { head: 3, centerTorso: 23, leftTorso: 16, rightTorso: 16, leftArm: 12, rightArm: 12, leftLeg: 16, rightLeg: 16 },
-    80: { head: 3, centerTorso: 25, leftTorso: 17, rightTorso: 17, leftArm: 13, rightArm: 13, leftLeg: 17, rightLeg: 17 },
-    85: { head: 3, centerTorso: 27, leftTorso: 18, rightTorso: 18, leftArm: 14, rightArm: 14, leftLeg: 18, rightLeg: 18 },
-    90: { head: 3, centerTorso: 29, leftTorso: 19, rightTorso: 19, leftArm: 15, rightArm: 15, leftLeg: 19, rightLeg: 19 },
-    95: { head: 3, centerTorso: 30, leftTorso: 20, rightTorso: 20, leftArm: 16, rightArm: 16, leftLeg: 20, rightLeg: 20 },
-    100: { head: 3, centerTorso: 31, leftTorso: 21, rightTorso: 21, leftArm: 17, rightArm: 17, leftLeg: 21, rightLeg: 21 }
-  };
+  // Import and use official BattleTech internal structure table
+  const { getInternalStructurePoints: getOfficialStructure } = require('./internalStructureTable');
+  const structure = getOfficialStructure(mechTonnage);
   
-  return structureTable[mechTonnage] || structureTable[100];
+  return {
+    head: structure.HD,
+    centerTorso: structure.CT,
+    leftTorso: structure.LT,
+    rightTorso: structure.RT,
+    leftArm: structure.LA,
+    rightArm: structure.RA,
+    leftLeg: structure.LL,
+    rightLeg: structure.RL
+  };
 }
 
 /**
- * Get total internal structure points for a mech
+ * Get total internal structure points for a mech using official BattleTech table
  */
 export function getInternalStructurePoints(mechTonnage: number): number {
-  const byLocation = getInternalStructureByLocation(mechTonnage);
-  return Object.values(byLocation).reduce((sum, value) => sum + value, 0);
+  // Import and use official BattleTech total calculation
+  const { getTotalInternalStructure } = require('./internalStructureTable');
+  return getTotalInternalStructure(mechTonnage);
 }
 
 /**

@@ -154,8 +154,9 @@ export class UnitAnalyzer {
     const maxArmorPoints = Math.floor(unit.mass * 3.5 + 40); // Simplified max armor calculation
     const armorEfficiency = maxArmorPoints > 0 ? (totalArmorPoints / maxArmorPoints) * 100 : 0;
 
-    // Estimate armor tonnage (simplified)
-    const armorTonnage = Math.ceil(totalArmorPoints / 16); // Standard armor provides 16 points per ton
+    // Calculate armor tonnage using proper BattleTech rounding
+    const armorWeight = totalArmorPoints / 16; // Standard armor provides 16 points per ton
+    const armorTonnage = Math.ceil(armorWeight * 2) / 2; // Round to nearest 0.5 ton
 
     return {
       type: armorData.type || 'Standard',

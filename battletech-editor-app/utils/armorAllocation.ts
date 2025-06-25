@@ -9,32 +9,14 @@ export interface ArmorAllocation {
   };
 }
 
-// Internal structure table based on mech tonnage
-const INTERNAL_STRUCTURE_TABLE: { [tonnage: number]: { [location: string]: number } } = {
-  20: { HEAD: 3, CT: 6, LT: 5, RT: 5, LA: 3, RA: 3, LL: 4, RL: 4 },
-  25: { HEAD: 3, CT: 8, LT: 6, RT: 6, LA: 4, RA: 4, LL: 6, RL: 6 },
-  30: { HEAD: 3, CT: 10, LT: 7, RT: 7, LA: 5, RA: 5, LL: 7, RL: 7 },
-  35: { HEAD: 3, CT: 11, LT: 8, RT: 8, LA: 6, RA: 6, LL: 8, RL: 8 },
-  40: { HEAD: 3, CT: 12, LT: 10, RT: 10, LA: 6, RA: 6, LL: 10, RL: 10 },
-  45: { HEAD: 3, CT: 14, LT: 11, RT: 11, LA: 7, RA: 7, LL: 11, RL: 11 },
-  50: { HEAD: 3, CT: 16, LT: 12, RT: 12, LA: 8, RA: 8, LL: 12, RL: 12 },
-  55: { HEAD: 3, CT: 18, LT: 13, RT: 13, LA: 9, RA: 9, LL: 13, RL: 13 },
-  60: { HEAD: 3, CT: 20, LT: 14, RT: 14, LA: 10, RA: 10, LL: 14, RL: 14 },
-  65: { HEAD: 3, CT: 21, LT: 15, RT: 15, LA: 10, RA: 10, LL: 15, RL: 15 },
-  70: { HEAD: 3, CT: 22, LT: 15, RT: 15, LA: 11, RA: 11, LL: 15, RL: 15 },
-  75: { HEAD: 3, CT: 23, LT: 16, RT: 16, LA: 12, RA: 12, LL: 16, RL: 16 },
-  80: { HEAD: 3, CT: 25, LT: 17, RT: 17, LA: 13, RA: 13, LL: 17, RL: 17 },
-  85: { HEAD: 3, CT: 27, LT: 18, RT: 18, LA: 14, RA: 14, LL: 18, RL: 18 },
-  90: { HEAD: 3, CT: 29, LT: 19, RT: 19, LA: 15, RA: 15, LL: 19, RL: 19 },
-  95: { HEAD: 3, CT: 30, LT: 20, RT: 20, LA: 16, RA: 16, LL: 20, RL: 20 },
-  100: { HEAD: 3, CT: 31, LT: 21, RT: 21, LA: 17, RA: 17, LL: 21, RL: 21 },
-};
+// Use official BattleTech internal structure table
+import { getInternalStructurePoints as getOfficialStructure } from './internalStructureTable';
 
 export function calculateMaxArmorPoints(unit: EditableUnit): number {
   let maxArmor = 0;
   
-  // Head has special armor calculation
-  const headMax = unit.mass > 100 ? 12 : 9; // Superheavy check
+  // Head has fixed armor maximum per BattleTech construction rules
+  const headMax = 9; // Always 9 points maximum
   maxArmor += headMax;
   
   // Other locations get 2x internal structure
@@ -47,26 +29,35 @@ export function calculateMaxArmorPoints(unit: EditableUnit): number {
   return maxArmor;
 }
 
-// Helper function to get internal structure for a location
+// Helper function to get internal structure for a location using official BattleTech table
 function getInternalStructure(unit: EditableUnit, location: string): number {
-  // Find the appropriate tonnage in the table
   const tonnage = unit.mass || 50;
-  let tableEntry: { [location: string]: number } | undefined;
   
-  // Find exact match or closest lower tonnage
-  const tonnages = Object.keys(INTERNAL_STRUCTURE_TABLE).map(Number).sort((a, b) => a - b);
-  for (let i = tonnages.length - 1; i >= 0; i--) {
-    if (tonnages[i] <= tonnage) {
-      tableEntry = INTERNAL_STRUCTURE_TABLE[tonnages[i]];
-      break;
+  try {
+    const structure = getOfficialStructure(tonnage);
+    
+    // Map location names to structure properties
+    const locationMap: Record<string, keyof typeof structure> = {
+      'HEAD': 'HD', 'HD': 'HD',
+      'CT': 'CT',
+      'LT': 'LT',
+      'RT': 'RT', 
+      'LA': 'LA',
+      'RA': 'RA',
+      'LL': 'LL',
+      'RL': 'RL'
+    };
+    
+    const structureKey = locationMap[location.toUpperCase()];
+    if (structureKey) {
+      return structure[structureKey];
     }
+    
+    return 10; // Fallback value
+  } catch (error) {
+    // Fallback for invalid tonnage
+    return 10;
   }
-  
-  if (!tableEntry) {
-    tableEntry = INTERNAL_STRUCTURE_TABLE[20]; // Default to 20-ton values
-  }
-  
-  return tableEntry[location] || 10;
 }
 
 export function autoAllocateArmor(unit: EditableUnit): ArmorAllocation {
@@ -83,7 +74,7 @@ export function autoAllocateArmor(unit: EditableUnit): ArmorAllocation {
   const percent = Math.min(1, totalArmorPoints / maxArmor);
   
   // Head gets 5x percentage (capped at max) - MegaMekLab formula
-  const headMax = unit.mass > 100 ? 12 : 9;
+  const headMax = 9; // Always 9 points maximum per BattleTech construction rules
   const headArmor = Math.min(Math.floor(percent * headMax * 5), headMax);
   
   let remainingPoints = totalArmorPoints - headArmor;
@@ -148,7 +139,7 @@ export function allocateLeftoverPoints(
   currentAllocation: ArmorAllocation
 ): ArmorAllocation {
   const allocation = { ...currentAllocation };
-  const headMax = unit.mass > 100 ? 12 : 9;
+  const headMax = 9; // Always 9 points maximum per BattleTech construction rules
   
   while (points >= 1) {
     // If we have 2+ points, allocate to symmetric locations

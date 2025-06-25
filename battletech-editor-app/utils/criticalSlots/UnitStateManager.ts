@@ -41,7 +41,21 @@ export class UnitStateManager {
       jumpMP: 0,
       jumpJetType: 'Standard Jump Jet',
       jumpJetCounts: {},
-      hasPartialWing: false
+      hasPartialWing: false,
+      // Add safe armor defaults to prevent invalid initial state
+      armorTonnage: 0,
+      totalArmorPoints: 0,
+      maxArmorPoints: 0,
+      armorAllocation: {
+        HD: { front: 0, rear: 0 },
+        CT: { front: 0, rear: 0 },
+        LT: { front: 0, rear: 0 },
+        RT: { front: 0, rear: 0 },
+        LA: { front: 0, rear: 0 },
+        RA: { front: 0, rear: 0 },
+        LL: { front: 0, rear: 0 },
+        RL: { front: 0, rear: 0 }
+      }
     }
 
     this.currentUnit = new UnitCriticalManager(defaultConfig)

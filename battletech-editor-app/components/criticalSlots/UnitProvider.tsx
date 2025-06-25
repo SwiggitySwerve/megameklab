@@ -3,7 +3,7 @@
  * Manages the state manager and provides context to components
  */
 
-import React, { createContext, useContext, useMemo, useReducer, useEffect } from 'react'
+import React, { createContext, useContext, useMemo, useReducer, useEffect, useRef, useCallback, useState } from 'react'
 import { UnitStateManager } from '../../utils/criticalSlots/UnitStateManager'
 import { UnitCriticalManager, UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
 import { EngineType, GyroType } from '../../utils/criticalSlots/SystemComponentRules'
@@ -16,6 +16,8 @@ interface UnitContextValue {
   unallocatedEquipment: EquipmentAllocation[]
   validation: any
   summary: any
+  // Loading state
+  isConfigLoaded: boolean
   // Selection state
   selectedEquipmentId: string | null
   // Action functions
@@ -41,31 +43,119 @@ interface UnitProviderProps {
 }
 
 export function UnitProvider({ children, initialConfiguration }: UnitProviderProps) {
-  // Force update mechanism
-  const [, forceUpdate] = useReducer(x => x + 1, 0)
+  // Force update mechanism with loop protection
+  const [updateCount, forceUpdate] = useReducer(x => x + 1, 0)
   
   // Selection state
   const [selectedEquipmentId, setSelectedEquipmentId] = React.useState<string | null>(null)
   
+  // Loop detection state
+  const loopDetection = useRef({
+    lastUpdateTime: 0,
+    recentUpdates: 0,
+    isThrottled: false
+  })
+  
+  // State for hydration-safe configuration loading
+  const [isClient, setIsClient] = useState(false)
+  const [isConfigLoaded, setIsConfigLoaded] = useState(false)
+  const [persistedConfig, setPersistedConfig] = useState<UnitConfiguration | undefined>(initialConfiguration)
+  
+  // Load persisted configuration from localStorage (client-side only)
+  const loadPersistedConfiguration = (): UnitConfiguration | undefined => {
+    try {
+      const saved = localStorage.getItem('battletech-unit-configuration')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        console.log('Loaded persisted configuration:', parsed)
+        return parsed
+      }
+    } catch (error) {
+      console.warn('Failed to load persisted configuration:', error)
+    }
+    
+    return initialConfiguration
+  }
+  
+  // Save configuration to localStorage
+  const saveConfiguration = (config: UnitConfiguration) => {
+    if (typeof window === 'undefined') return
+    
+    try {
+      localStorage.setItem('battletech-unit-configuration', JSON.stringify(config))
+      console.log('Saved configuration to localStorage:', config)
+    } catch (error) {
+      console.warn('Failed to save configuration:', error)
+    }
+  }
+  
+  // Load from localStorage after hydration to prevent mismatch
+  useEffect(() => {
+    setIsClient(true)
+    const loaded = loadPersistedConfiguration()
+    if (loaded) {
+      setPersistedConfig(loaded)
+    }
+    // Mark config as loaded regardless of whether we found saved data
+    setIsConfigLoaded(true)
+  }, [])
+  
   // Create state manager once, never recreate
   const stateManager = useMemo(() => {
     console.log('Creating new UnitStateManager...')
-    return new UnitStateManager(initialConfiguration)
+    return new UnitStateManager(persistedConfig)
   }, []) // Empty dependency array - only create once
   
-  // Subscribe to state manager changes
+  // Update state manager when persisted config loads
+  useEffect(() => {
+    if (isClient && persistedConfig && persistedConfig !== initialConfiguration) {
+      console.log('Updating state manager with persisted configuration...')
+      stateManager.handleConfigurationUpdate(persistedConfig)
+    }
+  }, [isClient, persistedConfig, stateManager])
+  
+  // Protected force update with loop detection
+  const safeForceUpdate = useCallback(() => {
+    const now = Date.now()
+    const timeSinceLastUpdate = now - loopDetection.current.lastUpdateTime
+    
+    // Reset counter if enough time has passed (1 second)
+    if (timeSinceLastUpdate > 1000) {
+      loopDetection.current.recentUpdates = 0
+      loopDetection.current.isThrottled = false
+    }
+    
+    // Increment update counter
+    loopDetection.current.recentUpdates++
+    loopDetection.current.lastUpdateTime = now
+    
+    // Throttle if too many updates (>10 per second)
+    if (loopDetection.current.recentUpdates > 10) {
+      if (!loopDetection.current.isThrottled) {
+        console.warn(`UnitProvider: Throttling updates due to potential loop (${loopDetection.current.recentUpdates} updates in ${timeSinceLastUpdate}ms)`)
+        loopDetection.current.isThrottled = true
+      }
+      
+      // Only allow updates every 100ms when throttled
+      if (timeSinceLastUpdate < 100) {
+        return
+      }
+    }
+    
+    console.log('State manager notified, forcing re-render...')
+    forceUpdate()
+  }, [])
+  
+  // Subscribe to state manager changes with loop protection
   useEffect(() => {
     console.log('Setting up state manager subscription...')
-    const unsubscribe = stateManager.subscribe(() => {
-      console.log('State manager notified, forcing re-render...')
-      forceUpdate() // Trigger re-render when unit changes
-    })
+    const unsubscribe = stateManager.subscribe(safeForceUpdate)
     
     return () => {
       console.log('Cleaning up state manager subscription...')
       unsubscribe()
     }
-  }, [stateManager])
+  }, [stateManager, safeForceUpdate])
   
   // Compute context value fresh on each render after state changes
   const unit = stateManager.getCurrentUnit()
@@ -81,6 +171,8 @@ export function UnitProvider({ children, initialConfiguration }: UnitProviderPro
       unallocatedEquipment: unit.getUnallocatedEquipment(),
       validation: summary.validation,
       summary: summary.summary,
+      // Loading state
+      isConfigLoaded,
       // Selection state
       selectedEquipmentId,
       // Action functions
@@ -95,6 +187,8 @@ export function UnitProvider({ children, initialConfiguration }: UnitProviderPro
       updateConfiguration: (config: UnitConfiguration) => {
         console.log(`Context: Updating configuration`, config)
         stateManager.handleConfigurationUpdate(config)
+        // Save configuration to localStorage after update
+        saveConfiguration(config)
       },
       addTestEquipment: (equipment: any, location: string, startSlot?: number) => {
         console.log(`Context: Adding equipment ${equipment.name} to ${location}`)
@@ -135,7 +229,7 @@ export function UnitProvider({ children, initialConfiguration }: UnitProviderPro
       },
       getDebugInfo: () => stateManager.getDebugInfo()
     }
-  }, [stateManager, unit, summary, selectedEquipmentId]) // Include selectedEquipmentId in dependencies
+  }, [stateManager, unit, summary, selectedEquipmentId, isConfigLoaded]) // Include all dependencies
   
   return (
     <UnitContext.Provider value={contextValue}>

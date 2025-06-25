@@ -24,6 +24,17 @@ export interface SpecialEquipmentObject extends EquipmentObject {
   componentType?: 'structure' | 'armor'
 }
 
+export interface ArmorAllocation {
+  HD: { front: number; rear: number };
+  CT: { front: number; rear: number };
+  LT: { front: number; rear: number };
+  RT: { front: number; rear: number };
+  LA: { front: number; rear: number };
+  RA: { front: number; rear: number };
+  LL: { front: number; rear: number };
+  RL: { front: number; rear: number };
+}
+
 export interface UnitConfiguration {
   // Core mech properties
   tonnage: number                    // 20-100 tons in 5-ton increments
@@ -46,6 +57,12 @@ export interface UnitConfiguration {
   gyroType: GyroType
   structureType: StructureType
   armorType: ArmorType
+  
+  // Armor allocation and calculations
+  armorAllocation: ArmorAllocation
+  totalArmorPoints: number           // Total allocated armor points
+  armorTonnage: number              // Weight of armor in tons
+  maxArmorPoints: number            // Maximum allowed armor points for this config
   
   // Heat management
   heatSinkType: HeatSinkType
@@ -114,6 +131,20 @@ export class UnitConfigurationBuilder {
       gyroType: legacy.gyroType,
       structureType: 'Standard',
       armorType: 'Standard',
+      // Default armor allocation (minimal)
+      armorAllocation: {
+        HD: { front: 9, rear: 0 },
+        CT: { front: 15, rear: 5 },
+        LT: { front: 12, rear: 4 },
+        RT: { front: 12, rear: 4 },
+        LA: { front: 10, rear: 0 },
+        RA: { front: 10, rear: 0 },
+        LL: { front: 15, rear: 0 },
+        RL: { front: 15, rear: 0 }
+      },
+      totalArmorPoints: 0, // Will be calculated
+      armorTonnage: 0, // Will be calculated
+      maxArmorPoints: 0, // Will be calculated
       heatSinkType: 'Single',
       totalHeatSinks: 10,
       internalHeatSinks: 0,
@@ -142,6 +173,20 @@ export class UnitConfigurationBuilder {
       gyroType: 'Standard',
       structureType: 'Standard',
       armorType: 'Standard',
+      // Default armor allocation (reasonable distribution)
+      armorAllocation: {
+        HD: { front: 9, rear: 0 },
+        CT: { front: 30, rear: 10 },
+        LT: { front: 24, rear: 8 },
+        RT: { front: 24, rear: 8 },
+        LA: { front: 20, rear: 0 },
+        RA: { front: 20, rear: 0 },
+        LL: { front: 30, rear: 0 },
+        RL: { front: 30, rear: 0 }
+      },
+      totalArmorPoints: 0, // Will be calculated
+      armorTonnage: 0, // Will be calculated
+      maxArmorPoints: 0, // Will be calculated
       heatSinkType: 'Single',
       totalHeatSinks: 10,
       internalHeatSinks: 0,
@@ -158,7 +203,7 @@ export class UnitConfigurationBuilder {
   }
   
   /**
-   * Calculate dependent values (engine rating, run speed, heat sinks)
+   * Calculate dependent values (engine rating, run speed, heat sinks, armor)
    */
   private static calculateDependentValues(config: UnitConfiguration): UnitConfiguration {
     // Calculate engine rating from tonnage and walk MP
@@ -179,6 +224,9 @@ export class UnitConfigurationBuilder {
     const minHeatSinks = Math.max(10, config.totalHeatSinks)
     const externalHeatSinks = Math.max(0, minHeatSinks - internalHeatSinks)
     
+    // Calculate armor values
+    const armorValues = this.calculateArmorValues(config)
+    
     return {
       ...config,
       walkMP: actualWalkMP,
@@ -187,6 +235,9 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: minHeatSinks,
       internalHeatSinks,
       externalHeatSinks,
+      totalArmorPoints: armorValues.totalArmorPoints,
+      armorTonnage: armorValues.armorTonnage,
+      maxArmorPoints: armorValues.maxArmorPoints,
       mass: config.tonnage // Keep legacy compatibility
     }
   }
@@ -207,6 +258,39 @@ export class UnitConfigurationBuilder {
     
     // Smaller engines get fewer integrated heat sinks
     return Math.floor(engineRating / 25)
+  }
+  
+  /**
+   * Calculate armor values from configuration
+   */
+  private static calculateArmorValues(config: UnitConfiguration): {
+    totalArmorPoints: number;
+    armorTonnage: number;
+    maxArmorPoints: number;
+  } {
+    // Import armor calculations
+    const { ARMOR_POINTS_PER_TON, calculateArmorWeight } = require('../armorCalculations')
+    
+    // Calculate total armor points from allocation
+    const totalArmorPoints = Object.values(config.armorAllocation).reduce((total, location) => {
+      return total + location.front + location.rear
+    }, 0)
+    
+    // Use the armor tonnage from config if provided, otherwise calculate from points
+    const pointsPerTon = ARMOR_POINTS_PER_TON[config.armorType] || 16
+    const armorTonnage = config.armorTonnage !== undefined 
+      ? config.armorTonnage  // Use provided armor tonnage
+      : Math.ceil((totalArmorPoints / pointsPerTon) * 2) / 2  // Calculate from points and round
+    
+    // Calculate maximum possible armor points (tonnage * 2 * points per ton for max armor)
+    const maxArmorTonnage = config.tonnage * 0.5 // 50% of unit tonnage max
+    const maxArmorPoints = Math.floor(maxArmorTonnage * pointsPerTon)
+    
+    return {
+      totalArmorPoints,
+      armorTonnage,
+      maxArmorPoints
+    }
   }
   
   /**
@@ -444,7 +528,10 @@ export class UnitCriticalManager {
    */
   updateConfiguration(newConfiguration: UnitConfiguration): void {
     const oldConfig = this.configuration
-    const validatedConfig = UnitConfigurationBuilder.buildConfiguration(newConfiguration)
+    let validatedConfig = UnitConfigurationBuilder.buildConfiguration(newConfiguration)
+    
+    // Enforce BattleTech construction rules
+    validatedConfig = this.enforceConstructionRules(validatedConfig)
     
     // Handle special component changes
     this.handleSpecialComponentConfigurationChange(oldConfig, validatedConfig)
@@ -457,6 +544,56 @@ export class UnitCriticalManager {
     
     // Always update configuration at the end to ensure consistency
     this.configuration = validatedConfig
+  }
+
+  /**
+   * Enforce BattleTech construction rules on configuration
+   */
+  private enforceConstructionRules(config: UnitConfiguration): UnitConfiguration {
+    const enforcedConfig = { ...config }
+    
+    // Enforce head armor maximum (9 points)
+    if (enforcedConfig.armorAllocation.HD.front > 9) {
+      enforcedConfig.armorAllocation = {
+        ...enforcedConfig.armorAllocation,
+        HD: { front: 9, rear: 0 }
+      }
+    }
+    
+    // Enforce no rear armor on head, arms, legs
+    const noRearLocations = ['HD', 'LA', 'RA', 'LL', 'RL']
+    noRearLocations.forEach(location => {
+      if (enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation].rear > 0) {
+        enforcedConfig.armorAllocation = {
+          ...enforcedConfig.armorAllocation,
+          [location]: {
+            ...enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation],
+            rear: 0
+          }
+        }
+      }
+    })
+    
+    // Enforce maximum armor points per location
+    Object.keys(enforcedConfig.armorAllocation).forEach(location => {
+      const maxArmor = this.getMaxArmorPointsForLocation(location)
+      const currentArmor = enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation]
+      const totalArmor = currentArmor.front + currentArmor.rear
+      
+      if (totalArmor > maxArmor) {
+        // Reduce proportionally
+        const ratio = maxArmor / totalArmor
+        enforcedConfig.armorAllocation = {
+          ...enforcedConfig.armorAllocation,
+          [location]: {
+            front: Math.floor(currentArmor.front * ratio),
+            rear: Math.floor(currentArmor.rear * ratio)
+          }
+        }
+      }
+    })
+    
+    return enforcedConfig
   }
 
   /**
@@ -986,6 +1123,289 @@ export class UnitCriticalManager {
     return { ...this.configuration }
   }
 
+  // ===== COMPUTED PROPERTIES FOR CONSTRUCTION LIMITS =====
+  // All BattleTech construction rules centralized here
+
+  /**
+   * Get maximum armor tonnage allowed for this unit
+   */
+  getMaxArmorTonnage(): number {
+    // BattleTech rule: Maximum armor tonnage for any unit
+    // Cannot exceed remaining tonnage or physical armor limits
+    const remainingTonnage = this.getRemainingTonnageForArmor()
+    const physicalMaxTonnage = this.getPhysicalMaxArmorTonnage()
+    
+    // Return the smaller of the two limits
+    const maxTonnage = Math.min(remainingTonnage, physicalMaxTonnage)
+    
+    // Round to nearest 0.5 ton
+    return Math.ceil(maxTonnage * 2) / 2
+  }
+
+  /**
+   * Get the physical maximum armor tonnage based on BattleTech construction rules
+   */
+  getPhysicalMaxArmorTonnage(): number {
+    // BattleTech rule: Maximum armor points based on internal structure
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const armorEfficiency = this.getArmorEfficiency()
+    
+    // Convert max armor points to tonnage
+    return maxArmorPoints / armorEfficiency
+  }
+
+  /**
+   * Get maximum armor points allowed for this unit
+   */
+  getMaxArmorPoints(): number {
+    // BattleTech rule: Head max (9) + sum of all other location max armor
+    const tonnage = this.configuration.tonnage
+    
+    // Internal structure points by location
+    const internalStructure = this.getInternalStructurePoints()
+    
+    // Max armor = Head max + (sum of other locations × 2)
+    const headMax = 9
+    const otherLocationsMax = (internalStructure.CT + internalStructure.LT + internalStructure.RT + 
+                              internalStructure.LA + internalStructure.RA + internalStructure.LL + 
+                              internalStructure.RL) * 2
+    
+    return headMax + otherLocationsMax
+  }
+
+  /**
+   * Get internal structure points for each location using official BattleTech table
+   */
+  getInternalStructurePoints(): Record<string, number> {
+    const { getInternalStructurePoints } = require('../internalStructureTable')
+    const structure = getInternalStructurePoints(this.configuration.tonnage)
+    
+    return {
+      HD: structure.HD,
+      CT: structure.CT,
+      LT: structure.LT,
+      RT: structure.RT,
+      LA: structure.LA,
+      RA: structure.RA,
+      LL: structure.LL,
+      RL: structure.RL
+    }
+  }
+
+  /**
+   * Get armor efficiency for current armor type
+   */
+  getArmorEfficiency(): number {
+    const { ARMOR_POINTS_PER_TON } = require('../armorCalculations')
+    return ARMOR_POINTS_PER_TON[this.configuration.armorType] || 16
+  }
+
+  /**
+   * Get maximum armor points for a specific location
+   */
+  getMaxArmorPointsForLocation(location: string): number {
+    const internalStructure = this.getInternalStructurePoints()
+    
+    if (location === 'HD') {
+      return 9 // Head max is always 9
+    }
+    
+    const structurePoints = internalStructure[location] || 0
+    return structurePoints * 2
+  }
+
+  /**
+   * Get maximum walk MP for this tonnage
+   */
+  getMaxWalkMP(): number {
+    return Math.floor(400 / this.configuration.tonnage)
+  }
+
+  /**
+   * Get remaining tonnage available for equipment/armor
+   */
+  getRemainingTonnage(): number {
+    const usedTonnage = this.getUsedTonnage()
+    return Math.max(0, this.configuration.tonnage - usedTonnage)
+  }
+
+  /**
+   * Get total tonnage used by structure, engine, gyro, cockpit, heat sinks
+   */
+  getUsedTonnage(): number {
+    const config = this.configuration
+    
+    // Structure weight (10% of unit tonnage)
+    const structureWeight = config.tonnage * 0.1
+    
+    // Engine weight
+    const engineWeight = this.getEngineWeight()
+    
+    // Gyro weight
+    const gyroWeight = this.getGyroWeight()
+    
+    // Cockpit weight (always 3 tons for standard)
+    const cockpitWeight = 3.0
+    
+    // Heat sink weight (external only, internal are part of engine)
+    const heatSinkWeight = config.externalHeatSinks * this.getHeatSinkTonnage()
+    
+    // Jump jet weight
+    const jumpJetWeight = this.getJumpJetWeight()
+    
+    // Current armor weight
+    const armorWeight = config.armorTonnage
+    
+    return structureWeight + engineWeight + gyroWeight + cockpitWeight + heatSinkWeight + jumpJetWeight + armorWeight
+  }
+
+  /**
+   * Get engine weight based on type and rating
+   */
+  getEngineWeight(): number {
+    const rating = this.configuration.engineRating
+    const type = this.configuration.engineType
+    
+    let multiplier = 1.0 // Standard engine
+    
+    switch (type) {
+      case 'XL':
+        multiplier = 0.5
+        break
+      case 'Light':
+        multiplier = 0.75
+        break
+      case 'XXL':
+        multiplier = 0.33
+        break
+      case 'Compact':
+        multiplier = 1.5
+        break
+      case 'ICE':
+      case 'Fuel Cell':
+        multiplier = 2.0
+        break
+    }
+    
+    return (rating * multiplier) / 25
+  }
+
+  /**
+   * Get gyro weight based on type and engine rating
+   */
+  getGyroWeight(): number {
+    const rating = this.configuration.engineRating
+    const type = this.configuration.gyroType
+    
+    let baseWeight = Math.ceil(rating / 100)
+    
+    switch (type) {
+      case 'XL':
+        return baseWeight * 0.5
+      case 'Compact':
+        return baseWeight * 1.5
+      case 'Heavy-Duty':
+        return baseWeight * 2.0
+      default: // Standard
+        return baseWeight
+    }
+  }
+
+  /**
+   * Get heat sink tonnage per unit
+   */
+  getHeatSinkTonnage(): number {
+    const type = this.configuration.heatSinkType
+    
+    switch (type) {
+      case 'Double':
+      case 'Double (Clan)':
+        return 1.0
+      case 'Compact':
+        return 0.5
+      case 'Laser':
+        return 1.5
+      default: // Single
+        return 1.0
+    }
+  }
+
+  /**
+   * Get total jump jet weight
+   */
+  getJumpJetWeight(): number {
+    const jumpMP = this.configuration.jumpMP || 0
+    if (jumpMP === 0) return 0
+    
+    const tonnage = this.configuration.tonnage
+    
+    // Jump jet weight by tonnage class
+    if (tonnage <= 55) {
+      return jumpMP * 0.5
+    } else if (tonnage <= 85) {
+      return jumpMP * 1.0
+    } else {
+      return jumpMP * 2.0
+    }
+  }
+
+  /**
+   * Get remaining tonnage that could be used for armor
+   */
+  getRemainingTonnageForArmor(): number {
+    // Calculate what tonnage would be without current armor allocation
+    const usedWithoutArmor = this.getUsedTonnage() - this.configuration.armorTonnage
+    const availableForArmor = this.configuration.tonnage - usedWithoutArmor
+    
+    // Return raw available tonnage (no circular dependency)
+    return Math.max(0, availableForArmor)
+  }
+
+  /**
+   * Get armor points remaining for allocation
+   */
+  getRemainingArmorPoints(): number {
+    const totalAllocated = Object.values(this.configuration.armorAllocation).reduce((total, location) => {
+      return total + (location.front || 0) + (location.rear || 0)
+    }, 0)
+    
+    return Math.max(0, this.configuration.totalArmorPoints - totalAllocated)
+  }
+
+  /**
+   * Validate if current configuration exceeds any limits
+   */
+  isOverweight(): boolean {
+    return this.getUsedTonnage() > this.configuration.tonnage
+  }
+
+  /**
+   * Get weight validation status
+   */
+  getWeightValidation(): { isValid: boolean, overweight: number, warnings: string[] } {
+    const usedTonnage = this.getUsedTonnage()
+    const maxTonnage = this.configuration.tonnage
+    const overweight = Math.max(0, usedTonnage - maxTonnage)
+    
+    const warnings: string[] = []
+    
+    if (overweight > 0) {
+      warnings.push(`Unit is ${overweight.toFixed(1)} tons overweight`)
+    }
+    
+    // Check if close to limit
+    const remaining = maxTonnage - usedTonnage
+    if (remaining > 0 && remaining < 1) {
+      warnings.push(`Only ${remaining.toFixed(1)} tons remaining`)
+    }
+    
+    return {
+      isValid: overweight === 0,
+      overweight,
+      warnings
+    }
+  }
+
   /**
    * Get engine type
    */
@@ -1071,10 +1491,16 @@ export class UnitCriticalManager {
     totalEquipment: number
     unallocatedEquipment: number
     systemSlots: number
+    totalWeight: number
+    heatGenerated: number
+    heatDissipated: number
   } {
     let totalSlots = 0
     let occupiedSlots = 0
     let systemSlots = 0
+    
+    // Count mandatory fixed components that are always present
+    const mandatorySlots = this.getMandatoryComponentSlots()
     
     this.sections.forEach(section => {
       totalSlots += section.getTotalSlots()
@@ -1088,6 +1514,14 @@ export class UnitCriticalManager {
       })
     })
     
+    // Add mandatory component slots to occupied count
+    occupiedSlots += mandatorySlots
+    systemSlots += mandatorySlots
+    
+    // Calculate heat values
+    const heatDissipated = this.getHeatDissipation()
+    const heatGenerated = this.getHeatGeneration()
+    
     return {
       totalSections: this.sections.size,
       totalSlots,
@@ -1095,7 +1529,66 @@ export class UnitCriticalManager {
       availableSlots: totalSlots - occupiedSlots,
       totalEquipment: this.getAllocatedEquipmentCount(),
       unallocatedEquipment: this.getUnallocatedEquipmentCount(),
-      systemSlots
+      systemSlots,
+      totalWeight: this.getUsedTonnage(),
+      heatGenerated,
+      heatDissipated
+    }
+  }
+
+  /**
+   * Get mandatory component critical slots that are always present
+   */
+  private getMandatoryComponentSlots(): number {
+    // Fixed components that are always present:
+    // - Cockpit: 1 slot (Head)
+    // - Life Support: 2 slots (Head) 
+    // - Sensors: 2 slots (Head)
+    // - Actuators: 4 slots per arm (shoulder, upper, lower, hand) + 4 slots per leg (hip, upper, lower, foot)
+    
+    const cockpitSlots = 1
+    const lifeSupportSlots = 2
+    const sensorSlots = 2
+    const armActuatorSlots = 4 * 2 // 4 slots per arm × 2 arms
+    const legActuatorSlots = 4 * 2 // 4 slots per leg × 2 legs
+    
+    return cockpitSlots + lifeSupportSlots + sensorSlots + armActuatorSlots + legActuatorSlots
+  }
+
+  /**
+   * Get total heat dissipation capacity
+   */
+  getHeatDissipation(): number {
+    const config = this.configuration
+    const efficiency = this.getHeatSinkEfficiency()
+    return config.totalHeatSinks * efficiency
+  }
+
+  /**
+   * Get current heat generation from all equipment
+   */
+  getHeatGeneration(): number {
+    // Currently no weapons/equipment generating heat in base configuration
+    // This will be calculated from allocated weapons when equipment system is implemented
+    return 0
+  }
+
+  /**
+   * Get heat sink efficiency based on type
+   */
+  private getHeatSinkEfficiency(): number {
+    const type = this.configuration.heatSinkType
+    
+    switch (type) {
+      case 'Double':
+      case 'Double (Clan)':
+        return 2.0
+      case 'Compact':
+        return 1.0 // Compact heat sinks are 1:1 but take 0.5 tons
+      case 'Laser':
+        return 1.0 // Laser heat sinks are 1:1 but immune to critical hits
+      default: // Single
+        return 1.0
     }
   }
 }

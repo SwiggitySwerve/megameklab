@@ -16,20 +16,21 @@ export interface InternalStructurePoints {
   [key: string]: number;
 }
 
-// Standard internal structure for different mech weights
+// Standard internal structure for different mech weights using official BattleTech table
 export const getInternalStructurePoints = (tonnage: number): InternalStructurePoints => {
-  // These values are based on standard BattleTech construction rules
-  const baseIS = Math.floor(tonnage / 10);
+  // Import official BattleTech internal structure table
+  const { getInternalStructurePoints: getOfficialStructure } = require('./internalStructureTable');
+  const structure = getOfficialStructure(tonnage);
   
   return {
-    [MECH_LOCATIONS.HEAD]: 3,
-    [MECH_LOCATIONS.CENTER_TORSO]: baseIS + Math.floor(tonnage / 20),
-    [MECH_LOCATIONS.LEFT_TORSO]: baseIS,
-    [MECH_LOCATIONS.RIGHT_TORSO]: baseIS,
-    [MECH_LOCATIONS.LEFT_ARM]: Math.floor(baseIS * 0.6),
-    [MECH_LOCATIONS.RIGHT_ARM]: Math.floor(baseIS * 0.6),
-    [MECH_LOCATIONS.LEFT_LEG]: baseIS,
-    [MECH_LOCATIONS.RIGHT_LEG]: baseIS
+    [MECH_LOCATIONS.HEAD]: structure.HD,
+    [MECH_LOCATIONS.CENTER_TORSO]: structure.CT,
+    [MECH_LOCATIONS.LEFT_TORSO]: structure.LT,
+    [MECH_LOCATIONS.RIGHT_TORSO]: structure.RT,
+    [MECH_LOCATIONS.LEFT_ARM]: structure.LA,
+    [MECH_LOCATIONS.RIGHT_ARM]: structure.RA,
+    [MECH_LOCATIONS.LEFT_LEG]: structure.LL,
+    [MECH_LOCATIONS.RIGHT_LEG]: structure.RL
   };
 };
 
@@ -37,7 +38,7 @@ export const getMaxArmorPoints = (tonnage: number): InternalStructurePoints => {
   const is = getInternalStructurePoints(tonnage);
   
   return {
-    [MECH_LOCATIONS.HEAD]: Math.min(9, is[MECH_LOCATIONS.HEAD] * 3), // Head limited to 9
+    [MECH_LOCATIONS.HEAD]: 9, // Head always limited to 9
     [MECH_LOCATIONS.CENTER_TORSO]: is[MECH_LOCATIONS.CENTER_TORSO] * 2,
     [MECH_LOCATIONS.LEFT_TORSO]: is[MECH_LOCATIONS.LEFT_TORSO] * 2,
     [MECH_LOCATIONS.RIGHT_TORSO]: is[MECH_LOCATIONS.RIGHT_TORSO] * 2,
