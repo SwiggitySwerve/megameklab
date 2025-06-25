@@ -249,16 +249,21 @@ function calculateTheoreticalMaxArmor(unit) {
 }
 
 /**
- * Enhanced validation of armor allocation results
+ * Enhanced validation of armor allocation results with smart capping
  */
 function validateAllocation(unit, allocation) {
   const availablePoints = unit.getAvailableArmorPoints();
   const theoreticalMaxArmor = calculateTheoreticalMaxArmor(unit);
+  
+  // Apply smart capping like the UI does
+  const cappedAvailablePoints = Math.min(availablePoints, theoreticalMaxArmor);
+  
   let totalAllocated = 0;
   let validationResults = {
     totalAllocated: 0,
     availablePoints,
     theoreticalMaxArmor,
+    cappedAvailablePoints,
     unallocatedPoints: 0,
     locationDetails: {},
     violations: [],
@@ -424,22 +429,32 @@ function runValidationTests() {
         });
       }
       
-      // Determine test result based on test type
+      // Determine test result based on test type and smart capping
       let testPassed;
+      const isSmartCapped = validation.availablePoints > validation.theoreticalMaxArmor;
+      const isCappedTest = testConfig.expectCapped || isSmartCapped;
       
-      if (testConfig.expectCapped) {
-        // Over-allocation tests: Success if no BattleTech rule violations and effective utilization is 100%
+      if (isCappedTest) {
+        // Capped tests (over-allocation or smart-capped): Success if no BattleTech rule violations and effective utilization is 100%
         const effectiveMax = Math.min(validation.availablePoints, validation.theoreticalMaxArmor);
         const effectiveUtilization = (validation.totalAllocated / effectiveMax) * 100;
         const hasRuleViolations = validation.battleTechRuleViolations.length > 0;
         
-        testPassed = !hasRuleViolations && Math.abs(effectiveUtilization - 100) < 0.1;
+        // Use capped available points for unallocated calculation
+        const cappedUnallocated = validation.cappedAvailablePoints - validation.totalAllocated;
+        
+        testPassed = !hasRuleViolations && Math.abs(cappedUnallocated) === 0;
         
         if (testPassed) {
-          console.log(`\n✅ OVER-ALLOCATION TEST PASSED: All locations maxed out, no BattleTech rule violations`);
-          console.log(`   Expected behavior: ${validation.unallocatedPoints} points left unallocated due to location limits`);
+          const testType = testConfig.expectCapped ? 'OVER-ALLOCATION' : 'SMART-CAPPED';
+          console.log(`\n✅ ${testType} TEST PASSED: All locations maxed out, no BattleTech rule violations`);
+          if (isSmartCapped) {
+            console.log(`   Smart capping: ${validation.availablePoints} raw points capped to ${validation.theoreticalMaxArmor} theoretical max`);
+          }
+          console.log(`   Expected behavior: ${validation.unallocatedPoints} raw points left unallocated due to location limits`);
         } else {
-          console.log(`\n❌ OVER-ALLOCATION TEST FAILED: BattleTech rule violations or ineffective allocation`);
+          const testType = testConfig.expectCapped ? 'OVER-ALLOCATION' : 'SMART-CAPPED';
+          console.log(`\n❌ ${testType} TEST FAILED: BattleTech rule violations or ineffective allocation`);
         }
       } else {
         // Standard tests: Success if no violations and full utilization

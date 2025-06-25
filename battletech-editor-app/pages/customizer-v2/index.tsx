@@ -751,67 +751,101 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       }
     });
     
-    // Step 4: NEW - Distribute remainder points using priority allocation
+    // Step 4: NEW - Symmetric remainder distribution with left/right balance
     const remainder = remainingPoints - usedPoints;
     
     if (remainder > 0) {
-      console.log(`Distributing ${remainder} remainder points...`);
+      console.log(`Distributing ${remainder} remainder points with symmetry...`);
       
-      // Create priority queue: locations with highest remaining capacity
-      const locationPriority = remainingLocations
-        .map(location => {
-          const maxArmor = getLocationMaxArmor(location);
-          const currentArmor = distributedPoints[location];
-          const availableCapacity = maxArmor - currentArmor;
-          
-          return {
-            location,
-            availableCapacity,
-            currentArmor,
-            maxArmor,
-            // Priority: torsos > legs > arms (for BattleTech survivability)
-            priority: ['CT', 'LT', 'RT'].includes(location) ? 3 : 
-                     ['LL', 'RL'].includes(location) ? 2 : 1
-          };
-        })
-        .filter(item => item.availableCapacity > 0) // Only locations with room
-        .sort((a, b) => {
-          // Sort by priority first, then by available capacity
-          if (a.priority !== b.priority) {
-            return b.priority - a.priority; // Higher priority first
-          }
-          return b.availableCapacity - a.availableCapacity; // More capacity first
-        });
+      // Get current armor for each location after ratio distribution
+      const getCurrentArmor = (location: string) => {
+        return (newAllocation as any)[location].front + (newAllocation as any)[location].rear;
+      };
       
-      // Distribute remainder points one by one using round-robin through priority queue
+      // Check capacity for each location
+      const getAvailableCapacity = (location: string) => {
+        const maxArmor = getLocationMaxArmor(location);
+        const currentArmor = getCurrentArmor(location);
+        return maxArmor - currentArmor;
+      };
+      
       let remainderToDistribute = remainder;
-      let priorityIndex = 0;
       
-      while (remainderToDistribute > 0 && locationPriority.length > 0) {
-        const targetLocation = locationPriority[priorityIndex];
-        
-        if (targetLocation.availableCapacity > 0) {
-          // Add one point to this location
-          const location = targetLocation.location;
-          const currentAllocation = (newAllocation as any)[location];
-          
-          // Add to front armor (prefer front armor for remainder)
-          currentAllocation.front += 1;
-          targetLocation.availableCapacity -= 1;
+      // Handle odd remainder: give 1 point to Center Torso first
+      if (remainderToDistribute % 2 === 1) {
+        const ctCapacity = getAvailableCapacity('CT');
+        if (ctCapacity > 0) {
+          (newAllocation as any)['CT'].front += 1;
           remainderToDistribute -= 1;
-          
-          console.log(`Added 1 remainder point to ${location} front armor`);
+          console.log(`Added 1 remainder point to CT (odd remainder handling)`);
         }
+      }
+      
+      // Define symmetric pairs in priority order: Torsos > Legs > Arms
+      const symmetricPairs = [
+        ['LT', 'RT'], // Left/Right Torso (highest priority)
+        ['LL', 'RL'], // Left/Right Leg (medium priority)  
+        ['LA', 'RA']  // Left/Right Arm (lowest priority)
+      ];
+      
+      // Distribute remaining even points to symmetric pairs
+      for (const [leftLoc, rightLoc] of symmetricPairs) {
+        if (remainderToDistribute <= 0) break;
         
-        // Remove locations that are full
-        if (targetLocation.availableCapacity <= 0) {
-          locationPriority.splice(priorityIndex, 1);
-          if (priorityIndex >= locationPriority.length) {
-            priorityIndex = 0;
+        // Check if both locations have capacity
+        const leftCapacity = getAvailableCapacity(leftLoc);
+        const rightCapacity = getAvailableCapacity(rightLoc);
+        
+        if (leftCapacity > 0 && rightCapacity > 0 && remainderToDistribute >= 2) {
+          // Add one point to each side
+          (newAllocation as any)[leftLoc].front += 1;
+          (newAllocation as any)[rightLoc].front += 1;
+          remainderToDistribute -= 2;
+          console.log(`Added 1 remainder point each to ${leftLoc} and ${rightLoc} (symmetric pair)`);
+        }
+      }
+      
+      // If there are still points left and we couldn't maintain symmetry, 
+      // fall back to priority-based single point distribution
+      if (remainderToDistribute > 0) {
+        console.log(`Distributing final ${remainderToDistribute} points individually...`);
+        
+        const allLocations = ['CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
+        const locationsByPriority = allLocations
+          .map(location => ({
+            location,
+            capacity: getAvailableCapacity(location),
+            priority: location === 'CT' ? 4 : 
+                     ['LT', 'RT'].includes(location) ? 3 :
+                     ['LL', 'RL'].includes(location) ? 2 : 1
+          }))
+          .filter(item => item.capacity > 0)
+          .sort((a, b) => {
+            if (a.priority !== b.priority) {
+              return b.priority - a.priority;
+            }
+            return b.capacity - a.capacity;
+          });
+        
+        let priorityIndex = 0;
+        while (remainderToDistribute > 0 && locationsByPriority.length > 0) {
+          const target = locationsByPriority[priorityIndex];
+          
+          if (target.capacity > 0) {
+            (newAllocation as any)[target.location].front += 1;
+            target.capacity -= 1;
+            remainderToDistribute -= 1;
+            console.log(`Added 1 final remainder point to ${target.location}`);
           }
-        } else {
-          // Move to next location in round-robin
-          priorityIndex = (priorityIndex + 1) % locationPriority.length;
+          
+          if (target.capacity <= 0) {
+            locationsByPriority.splice(priorityIndex, 1);
+            if (priorityIndex >= locationsByPriority.length) {
+              priorityIndex = 0;
+            }
+          } else {
+            priorityIndex = (priorityIndex + 1) % locationsByPriority.length;
+          }
         }
       }
       
@@ -1246,22 +1280,78 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
                 const max = getLocationMaxArmor(location);
                 const total = armor.front + armor.rear;
                 const hasRear = ['CT', 'LT', 'RT'].includes(location);
+                const efficiency = max > 0 ? (total / max) * 100 : 0;
+                
+                // Color coding based on efficiency
+                const getEfficiencyColor = () => {
+                  if (total > max) return 'border-l-red-500 bg-red-900/20'; // Over-allocation
+                  if (efficiency >= 90) return 'border-l-green-500 bg-green-900/20'; // Excellent (90%+)
+                  if (efficiency >= 70) return 'border-l-blue-500 bg-blue-900/20'; // Good (70-89%)
+                  if (efficiency >= 50) return 'border-l-yellow-500 bg-yellow-900/20'; // Fair (50-69%)
+                  if (efficiency >= 25) return 'border-l-orange-500 bg-orange-900/20'; // Poor (25-49%)
+                  return 'border-l-slate-500 bg-slate-800/20'; // Very low (<25%)
+                };
+                
+                const getTextColor = () => {
+                  if (total > max) return 'text-red-300';
+                  if (efficiency >= 90) return 'text-green-300';
+                  if (efficiency >= 70) return 'text-blue-300';
+                  if (efficiency >= 50) return 'text-yellow-300';
+                  if (efficiency >= 25) return 'text-orange-300';
+                  return 'text-slate-400';
+                };
                 
                 return (
                   <div
                     key={location}
-                    className={`grid grid-cols-4 gap-1 p-1 rounded cursor-pointer transition-colors ${
-                      selectedSection === location ? 'bg-blue-600/20' : 'hover:bg-slate-700/30'
-                    }`}
+                    className={`grid grid-cols-4 gap-1 p-2 rounded border-l-4 cursor-pointer transition-colors ${
+                      getEfficiencyColor()
+                    } ${selectedSection === location ? 'ring-2 ring-blue-500/50' : 'hover:bg-slate-700/30'}`}
                     onClick={() => setSelectedSection(location)}
                   >
                     <div className="text-slate-300 font-medium">{location}</div>
                     <div className="text-slate-100 text-center">{armor.front}</div>
                     <div className="text-slate-100 text-center">{hasRear ? armor.rear : '-'}</div>
-                    <div className="text-slate-400 text-center">{total}/{max}</div>
+                    <div className={`text-center font-medium ${getTextColor()}`}>
+                      {total}/{max}
+                      <span className="text-xs ml-1 opacity-75">
+                        ({efficiency.toFixed(0)}%)
+                      </span>
+                    </div>
                   </div>
                 );
               })}
+            </div>
+            
+            {/* Color Legend */}
+            <div className="mt-3 p-2 bg-slate-700/30 rounded text-xs">
+              <div className="text-slate-300 font-medium mb-2">Efficiency Legend:</div>
+              <div className="grid grid-cols-2 gap-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded"></div>
+                  <span className="text-slate-400">90%+ Excellent</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                  <span className="text-slate-400">70-89% Good</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                  <span className="text-slate-400">50-69% Fair</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                  <span className="text-slate-400">25-49% Poor</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-slate-500 rounded"></div>
+                  <span className="text-slate-400">&lt;25% Very Low</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-red-500 rounded"></div>
+                  <span className="text-slate-400">Over-allocated</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
