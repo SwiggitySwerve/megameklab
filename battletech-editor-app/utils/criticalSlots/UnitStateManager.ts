@@ -43,9 +43,7 @@ export class UnitStateManager {
       jumpJetCounts: {},
       hasPartialWing: false,
       // Add safe armor defaults to prevent invalid initial state
-      armorTonnage: 0,
-      totalArmorPoints: 0,
-      maxArmorPoints: 0,
+      armorTonnage: 5,
       armorAllocation: {
         HD: { front: 0, rear: 0 },
         CT: { front: 0, rear: 0 },

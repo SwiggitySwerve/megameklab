@@ -536,19 +536,46 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   
   const armorTypeOptions = getArmorTypeOptions(config.techBase);
   
-  // ===== ALL VALUES FROM DATA MODEL - NO UI CALCULATIONS =====
-  // Use computed properties from UnitCriticalManager to avoid circular dependencies
+  // ===== OPTION A: SINGLE SOURCE OF TRUTH + COMPUTED PROPERTIES =====
+  // Clean armor points calculation - no data conflicts
   
   const maxArmorTonnage = unit.getMaxArmorTonnage();
   const maxArmorPoints = unit.getMaxArmorPoints();
   const currentArmorTonnage = config.armorTonnage;
-  const totalArmorPoints = config.totalArmorPoints;
   const armorAllocation = config.armorAllocation;
   
-  // Calculate derived values from data model
-  const availableArmor = maxArmorPoints - totalArmorPoints;
-  const remainingArmorPoints = unit.getRemainingArmorPoints();
+  // Use computed properties from data model
+  const availableArmorPoints = unit.getAvailableArmorPoints();    // From tonnage
+  const allocatedArmorPoints = unit.getAllocatedArmorPoints();    // From allocation
+  const unallocatedArmorPoints = unit.getUnallocatedArmorPoints(); // Available - allocated
   const remainingTonnage = unit.getRemainingTonnage();
+  
+  // Calculate theoretical maximum armor points (sum of all location maximums)
+  const theoreticalMaxArmorPoints = React.useMemo(() => {
+    const locations = ['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
+    let totalMax = 0;
+    locations.forEach(location => {
+      totalMax += unit.getMaxArmorPointsForLocation(location);
+    });
+    return totalMax;
+  }, [unit, config.tonnage]);
+  
+  // Cap available points to theoretical maximum to prevent over-allocation display
+  const cappedAvailablePoints = Math.min(availableArmorPoints, theoreticalMaxArmorPoints);
+  
+  // Manual calculation to ensure negative values are captured correctly
+  const manualUnallocatedPoints = React.useMemo(() => {
+    let totalAllocated = 0;
+    Object.values(armorAllocation).forEach(armor => {
+      totalAllocated += armor.front + armor.rear;
+    });
+    return cappedAvailablePoints - totalAllocated;
+  }, [cappedAvailablePoints, armorAllocation]);
+  
+  // Use manual calculation if it differs significantly from data model
+  const displayUnallocatedPoints = Math.abs(unallocatedArmorPoints - manualUnallocatedPoints) > 0.1 
+    ? manualUnallocatedPoints 
+    : unallocatedArmorPoints;
   
   // Get max armor for specific location using data model
   const getLocationMaxArmor = (location: string): number => {
@@ -592,9 +619,7 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
     
     updateConfiguration({
       ...config,
-      armorTonnage: cappedValue,
-      totalArmorPoints: newTotalArmorPoints,
-      maxArmorPoints: newTotalArmorPoints
+      armorTonnage: cappedValue
     });
   };
 
@@ -605,6 +630,15 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       handleArmorTonnageChange(maxArmorTonnage);
     }
   }, [maxArmorTonnage, config.tonnage, config.armorType]);
+
+  // Ensure armor points are calculated from tonnage on load
+  React.useEffect(() => {
+    if (currentArmorTonnage > 0 && availableArmorPoints === 0) {
+      console.log(`Recalculating armor points from tonnage: ${currentArmorTonnage}t`);
+      // The data model will automatically calculate points from tonnage
+      // No manual update needed - computed properties handle this
+    }
+  }, [currentArmorTonnage, availableArmorPoints, unit, config]);
   
   // Handle maximize armor tonnage (set tonnage to maximum allowed)
   const handleMaximizeArmor = () => {
@@ -632,49 +666,159 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
     });
   };
   
-  // Handle auto-allocate armor
+  // Enhanced auto-allocate armor with remainder distribution
   const handleAutoAllocate = () => {
     if (readOnly) return;
     
-    // Simple proportional allocation
+    // Enhanced MegaMekLab-style armor allocation algorithm
+    // 1. Maximize head armor first
+    // 2. Distribute remaining points by internal structure ratios
+    // 3. Apply 75% front / 25% rear split for torsos
+    // 4. NEW: Distribute remainder points using priority allocation
+    
     const locations = ['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
-    let remainingPoints = totalArmorPoints;
     const newAllocation = { ...armorAllocation };
+    let remainingPoints = availableArmorPoints;
     
     // Clear current allocation
     locations.forEach(loc => {
       (newAllocation as any)[loc] = { front: 0, rear: 0 };
     });
     
-    // Allocate proportionally
-    const weights = {
-      HD: 0.05, // 5% to head
-      CT: 0.25, // 25% to center torso
-      LT: 0.15, RT: 0.15, // 15% each to side torsos
-      LA: 0.10, RA: 0.10, // 10% each to arms
-      LL: 0.10, RL: 0.10  // 10% each to legs
+    // Step 1: Maximize head armor first (official BattleTech construction rule)
+    const headMaxArmor = getLocationMaxArmor('HD'); // Always 9 for head
+    const headArmor = Math.min(headMaxArmor, remainingPoints);
+    (newAllocation as any)['HD'] = { front: headArmor, rear: 0 };
+    remainingPoints -= headArmor;
+    
+    // Step 2: Get internal structure points for remaining locations
+    const getRemainingLocationIS = (location: string): number => {
+      const maxLocationArmor = getLocationMaxArmor(location);
+      
+      if (location === 'HD') {
+        return 0; // Head already handled
+      }
+      
+      // Calculate IS from max armor (max armor = IS * 2 for non-head locations)
+      return Math.floor(maxLocationArmor / 2);
     };
     
-    locations.forEach(location => {
-      const maxArmor = getLocationMaxArmor(location);
-      const allocated = Math.min(Math.floor(totalArmorPoints * weights[location as keyof typeof weights]), maxArmor);
+    const remainingLocations = ['CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
+    const internalStructure: { [key: string]: number } = {};
+    let totalRemainingIS = 0;
+    
+    remainingLocations.forEach(location => {
+      const is = getRemainingLocationIS(location);
+      internalStructure[location] = is;
+      totalRemainingIS += is;
+    });
+    
+    // Step 3: Distribute remaining points by internal structure ratios (using Math.floor)
+    const distributedPoints: { [key: string]: number } = {};
+    let usedPoints = 0;
+    
+    remainingLocations.forEach(location => {
+      if (totalRemainingIS === 0) return; // Safety check
       
+      const isRatio = internalStructure[location] / totalRemainingIS;
+      const targetArmor = Math.floor(remainingPoints * isRatio);
+      const maxLocationArmor = getLocationMaxArmor(location);
+      const actualArmor = Math.min(targetArmor, maxLocationArmor);
+      
+      distributedPoints[location] = actualArmor;
+      usedPoints += actualArmor;
+      
+      // Apply 75% front / 25% rear split for torso locations
       if (['CT', 'LT', 'RT'].includes(location)) {
-        // Torsos get rear armor (20% of total goes to rear)
-        const rearArmor = Math.min(Math.floor(allocated * 0.2), Math.floor(maxArmor * 0.3));
+        const frontArmor = Math.ceil(actualArmor * 0.75);
+        const rearArmor = actualArmor - frontArmor;
+        
+        // Ensure rear armor doesn't exceed location limits
+        const maxRearArmor = Math.floor(maxLocationArmor * 0.5); // Rear armor limited to 50% of max
+        const finalRearArmor = Math.min(rearArmor, maxRearArmor);
+        const finalFrontArmor = actualArmor - finalRearArmor;
+        
         (newAllocation as any)[location] = {
-          front: allocated - rearArmor,
-          rear: rearArmor
+          front: finalFrontArmor,
+          rear: finalRearArmor
         };
       } else {
+        // Arms and legs get no rear armor
         (newAllocation as any)[location] = {
-          front: allocated,
+          front: actualArmor,
           rear: 0
         };
       }
-      
-      remainingPoints -= allocated;
     });
+    
+    // Step 4: NEW - Distribute remainder points using priority allocation
+    const remainder = remainingPoints - usedPoints;
+    
+    if (remainder > 0) {
+      console.log(`Distributing ${remainder} remainder points...`);
+      
+      // Create priority queue: locations with highest remaining capacity
+      const locationPriority = remainingLocations
+        .map(location => {
+          const maxArmor = getLocationMaxArmor(location);
+          const currentArmor = distributedPoints[location];
+          const availableCapacity = maxArmor - currentArmor;
+          
+          return {
+            location,
+            availableCapacity,
+            currentArmor,
+            maxArmor,
+            // Priority: torsos > legs > arms (for BattleTech survivability)
+            priority: ['CT', 'LT', 'RT'].includes(location) ? 3 : 
+                     ['LL', 'RL'].includes(location) ? 2 : 1
+          };
+        })
+        .filter(item => item.availableCapacity > 0) // Only locations with room
+        .sort((a, b) => {
+          // Sort by priority first, then by available capacity
+          if (a.priority !== b.priority) {
+            return b.priority - a.priority; // Higher priority first
+          }
+          return b.availableCapacity - a.availableCapacity; // More capacity first
+        });
+      
+      // Distribute remainder points one by one using round-robin through priority queue
+      let remainderToDistribute = remainder;
+      let priorityIndex = 0;
+      
+      while (remainderToDistribute > 0 && locationPriority.length > 0) {
+        const targetLocation = locationPriority[priorityIndex];
+        
+        if (targetLocation.availableCapacity > 0) {
+          // Add one point to this location
+          const location = targetLocation.location;
+          const currentAllocation = (newAllocation as any)[location];
+          
+          // Add to front armor (prefer front armor for remainder)
+          currentAllocation.front += 1;
+          targetLocation.availableCapacity -= 1;
+          remainderToDistribute -= 1;
+          
+          console.log(`Added 1 remainder point to ${location} front armor`);
+        }
+        
+        // Remove locations that are full
+        if (targetLocation.availableCapacity <= 0) {
+          locationPriority.splice(priorityIndex, 1);
+          if (priorityIndex >= locationPriority.length) {
+            priorityIndex = 0;
+          }
+        } else {
+          // Move to next location in round-robin
+          priorityIndex = (priorityIndex + 1) % locationPriority.length;
+        }
+      }
+      
+      if (remainderToDistribute > 0) {
+        console.warn(`Could not distribute ${remainderToDistribute} remainder points - all locations at maximum`);
+      }
+    }
     
     updateConfiguration({
       ...config,
@@ -790,18 +934,31 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Armor Diagram (2/3 width) */}
         <div className="lg:col-span-2 bg-slate-800 rounded-lg p-6 border border-slate-700">
-          <h3 className="text-slate-100 font-medium mb-3">
-            Armor Diagram (Available: {availableArmor} pts)
+          <h3 className={`font-medium mb-3 ${
+            displayUnallocatedPoints < 0 ? 'text-orange-300' : 'text-slate-100'
+          }`}>
+            Armor Diagram ({displayUnallocatedPoints < 0 ? 'Over-allocated' : 'Available'}: {displayUnallocatedPoints} pts / {cappedAvailablePoints} total)
           </h3>
           {/* Auto Allocate Button - full width below title */}
           <button
             onClick={handleAutoAllocate}
             disabled={readOnly}
-            className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white rounded text-sm font-medium transition-colors mb-4 flex items-center justify-center gap-2"
+            className={`w-full px-4 py-2 disabled:bg-gray-600 text-white rounded text-sm font-medium transition-colors mb-4 flex items-center justify-center gap-2 ${
+              displayUnallocatedPoints < 0 
+                ? 'bg-orange-600 hover:bg-orange-700' 
+                : 'bg-purple-600 hover:bg-purple-700'
+            }`}
           >
             <span>⚡</span>
             <span>Auto-Allocate Armor Points</span>
-            <span className="text-xs opacity-75">({remainingArmorPoints} pts available)</span>
+            <span className={`text-xs ${
+              displayUnallocatedPoints < 0 ? 'text-orange-200 font-medium' : 'opacity-75'
+            }`}>
+              {displayUnallocatedPoints < 0 
+                ? `(${displayUnallocatedPoints} pts over-allocated)`
+                : `(${displayUnallocatedPoints} pts available)`
+              }
+            </span>
           </button>
           
           {/* Simple clickable diagram without overlays */}

@@ -58,11 +58,10 @@ export interface UnitConfiguration {
   structureType: StructureType
   armorType: ArmorType
   
-  // Armor allocation and calculations
-  armorAllocation: ArmorAllocation
-  totalArmorPoints: number           // Total allocated armor points
-  armorTonnage: number              // Weight of armor in tons
-  maxArmorPoints: number            // Maximum allowed armor points for this config
+  // Armor allocation - Single Source of Truth approach
+  armorAllocation: ArmorAllocation   // User input - what's actually allocated to locations
+  armorTonnage: number              // User input - tonnage invested in armor
+  // NOTE: All other armor values (available, allocated, remaining) are computed on-demand
   
   // Heat management
   heatSinkType: HeatSinkType
@@ -142,9 +141,7 @@ export class UnitConfigurationBuilder {
         LL: { front: 15, rear: 0 },
         RL: { front: 15, rear: 0 }
       },
-      totalArmorPoints: 0, // Will be calculated
       armorTonnage: 0, // Will be calculated
-      maxArmorPoints: 0, // Will be calculated
       heatSinkType: 'Single',
       totalHeatSinks: 10,
       internalHeatSinks: 0,
@@ -184,9 +181,7 @@ export class UnitConfigurationBuilder {
         LL: { front: 30, rear: 0 },
         RL: { front: 30, rear: 0 }
       },
-      totalArmorPoints: 0, // Will be calculated
-      armorTonnage: 0, // Will be calculated
-      maxArmorPoints: 0, // Will be calculated
+      armorTonnage: 0, // User input
       heatSinkType: 'Single',
       totalHeatSinks: 10,
       internalHeatSinks: 0,
@@ -235,9 +230,7 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: minHeatSinks,
       internalHeatSinks,
       externalHeatSinks,
-      totalArmorPoints: armorValues.totalArmorPoints,
       armorTonnage: armorValues.armorTonnage,
-      maxArmorPoints: armorValues.maxArmorPoints,
       mass: config.tonnage // Keep legacy compatibility
     }
   }
@@ -1361,15 +1354,37 @@ export class UnitCriticalManager {
     return Math.max(0, availableForArmor)
   }
 
+  // ===== OPTION A: SINGLE SOURCE OF TRUTH + COMPUTED PROPERTIES =====
+  // Clean armor points calculation - no data conflicts
+
   /**
-   * Get armor points remaining for allocation
+   * Get available armor points from tonnage investment
    */
-  getRemainingArmorPoints(): number {
-    const totalAllocated = Object.values(this.configuration.armorAllocation).reduce((total, location) => {
+  getAvailableArmorPoints(): number {
+    return Math.floor(this.configuration.armorTonnage * this.getArmorEfficiency())
+  }
+
+  /**
+   * Get allocated armor points from location assignments
+   */
+  getAllocatedArmorPoints(): number {
+    return Object.values(this.configuration.armorAllocation).reduce((total, location) => {
       return total + (location.front || 0) + (location.rear || 0)
     }, 0)
-    
-    return Math.max(0, this.configuration.totalArmorPoints - totalAllocated)
+  }
+
+  /**
+   * Get unallocated armor points available for auto-allocation
+   */
+  getUnallocatedArmorPoints(): number {
+    return Math.max(0, this.getAvailableArmorPoints() - this.getAllocatedArmorPoints())
+  }
+
+  /**
+   * Get armor points remaining for allocation (legacy compatibility)
+   */
+  getRemainingArmorPoints(): number {
+    return this.getUnallocatedArmorPoints()
   }
 
   /**
