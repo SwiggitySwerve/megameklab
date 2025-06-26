@@ -3,7 +3,7 @@
  * Built on top of the UnitCriticalManager system from the critical slots v2 demo
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { UnitProvider, useUnit } from '../../components/criticalSlots/UnitProvider';
@@ -19,6 +19,11 @@ import {
   SkeletonText, 
   SkeletonFormSection 
 } from '../../components/common/SkeletonLoader';
+
+// Import equipment components
+import { EquipmentBrowser } from '../../components/criticalSlots/EquipmentBrowser';
+import { AllEquipmentDisplay } from '../../components/criticalSlots/AllEquipmentDisplay';
+import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
 
 // Placeholder tab components - these will be implemented later
 const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
@@ -880,476 +885,318 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   };
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
-      {/* Compact Top Controls Section */}
-      <div className="bg-slate-800 rounded-lg p-2 mb-4 border border-slate-700">
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Armor Type */}
-          <div className="flex items-center gap-2">
-            <label className="text-slate-300 text-xs font-medium whitespace-nowrap">Armor Type:</label>
-            <select
-              value={config.armorType}
-              onChange={(e) => handleArmorTypeChange(e.target.value)}
-              disabled={readOnly}
-              className="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-            >
-              {armorTypeOptions.map(option => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-          
-          {/* Tonnage Input with Step Controls - Inline */}
-          <div className="flex items-center gap-2">
-            <label className="text-slate-300 text-xs font-medium whitespace-nowrap">Tonnage:</label>
-            <div className="flex items-center gap-1">
-              <input
-                type="number"
-                min={0}
-                max={maxArmorTonnage}
-                step={0.5}
-                value={currentArmorTonnage}
-                onChange={(e) => handleArmorTonnageChange(parseFloat(e.target.value) || 0)}
-                disabled={readOnly}
-                className={`w-24 px-2 py-1 bg-slate-700 border rounded text-slate-100 focus:border-blue-500 text-center text-xs ${
-                  currentArmorTonnage >= maxArmorTonnage 
-                    ? 'border-yellow-500' 
-                    : 'border-slate-600'
-                }`}
-                placeholder="0.0"
-              />
-              <div className="flex flex-col">
-                <button
-                  onClick={() => handleArmorTonnageChange(currentArmorTonnage + 0.5)}
-                  disabled={readOnly || currentArmorTonnage >= maxArmorTonnage}
-                  className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-t text-xs transition-colors leading-3"
-                  title="Increase by 0.5 tons"
+    <div className="p-4 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
+        {/* Left Panel: Armor Configuration (1/3) */}
+        <div className="lg:col-span-1">
+          <div className="bg-slate-800 rounded-lg border border-slate-700 h-full flex flex-col">
+            {/* Header */}
+            <div className="p-3 border-b border-slate-700">
+              <h3 className="text-slate-100 font-medium">Armor Configuration</h3>
+            </div>
+            
+            {/* Configuration Content */}
+            <div className="flex-1 p-4 space-y-4">
+              {/* Armor Type Selection */}
+              <div>
+                <label className="text-slate-300 text-sm font-medium block mb-2">Armor Type</label>
+                <select
+                  value={config.armorType}
+                  onChange={(e) => handleArmorTypeChange(e.target.value)}
+                  disabled={readOnly}
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500"
                 >
-                  ▲
-                </button>
-                <button
-                  onClick={() => handleArmorTonnageChange(currentArmorTonnage - 0.5)}
-                  disabled={readOnly || currentArmorTonnage <= 0}
-                  className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-b text-xs transition-colors leading-3"
-                  title="Decrease by 0.5 tons"
-                >
-                  ▼
-                </button>
+                  {armorTypeOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
-              <span className="text-slate-400 text-xs">
-                /{maxArmorTonnage.toFixed(1)}t
-              </span>
+              
+              {/* Armor Tonnage */}
+              <div>
+                <label className="text-slate-300 text-sm font-medium block mb-2">
+                  Armor Tonnage ({currentArmorTonnage.toFixed(1)} / {maxArmorTonnage.toFixed(1)} tons)
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  max={maxArmorTonnage}
+                  step={0.5}
+                  value={currentArmorTonnage}
+                  onChange={(e) => handleArmorTonnageChange(parseFloat(e.target.value) || 0)}
+                  disabled={readOnly}
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500"
+                />
+                <div className="mt-2 flex gap-2">
+                  <button
+                    onClick={handleMaximizeArmor}
+                    disabled={readOnly}
+                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white rounded text-sm transition-colors"
+                  >
+                    Maximize
+                  </button>
+                  <button
+                    onClick={handleUseRemainingTonnage}
+                    disabled={readOnly}
+                    className="px-3 py-1 bg-green-600 hover:bg-green-700 disabled:bg-slate-600 text-white rounded text-sm transition-colors"
+                  >
+                    Use Remaining
+                  </button>
+                </div>
+              </div>
+              
+              {/* Armor Points Summary */}
+              <div className="bg-slate-700/50 rounded p-3">
+                <h4 className="text-slate-200 font-medium mb-2">Armor Points</h4>
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Available:</span>
+                    <span className="text-slate-100">{cappedAvailablePoints}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Allocated:</span>
+                    <span className="text-slate-100">{allocatedArmorPoints}</span>
+                  </div>
+                  <div className="flex justify-between border-t border-slate-600 pt-1">
+                    <span className="text-slate-300 font-medium">Unallocated:</span>
+                    <span className={`font-medium ${displayUnallocatedPoints < 0 ? 'text-red-400' : 'text-slate-100'}`}>
+                      {displayUnallocatedPoints}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Auto-Allocate Button */}
+              <button
+                onClick={handleAutoAllocate}
+                disabled={readOnly || availableArmorPoints === 0}
+                className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-600 disabled:text-slate-400 text-white rounded font-medium transition-colors"
+              >
+                Auto-Allocate Armor
+              </button>
+              
+              {/* Remaining Tonnage Info */}
+              <div className="bg-slate-700/30 rounded p-3">
+                <div className="text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Remaining Tonnage:</span>
+                    <span className="text-slate-100 font-medium">{remainingTonnage.toFixed(1)}t</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          
-          {/* Quick Actions - Stacked */}
-          <div className="flex flex-col gap-1">
-            <button
-              onClick={handleUseRemainingTonnage}
-              disabled={readOnly}
-              className="w-full px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors"
-              title={`Use remaining ${getRemainingTonnage().toFixed(1)} tons`}
-            >
-              Use Remaining Tonnage
-            </button>
-            <button
-              onClick={handleMaximizeArmor}
-              disabled={readOnly}
-              className="w-full px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors"
-            >
-              Maximize Armor
-            </button>
-          </div>
-          
         </div>
-      </div>
-
-      {/* Two-Column Layout: Diagram + Side Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Armor Diagram (2/3 width) */}
-        <div className="lg:col-span-2 bg-slate-800 rounded-lg p-6 border border-slate-700">
-          <h3 className={`font-medium mb-3 ${
-            displayUnallocatedPoints < 0 ? 'text-orange-300' : 'text-slate-100'
-          }`}>
-            Armor Diagram ({displayUnallocatedPoints < 0 ? 'Over-allocated' : 'Available'}: {displayUnallocatedPoints} pts / {cappedAvailablePoints} total)
-          </h3>
-          {/* Auto Allocate Button - full width below title */}
-          <button
-            onClick={handleAutoAllocate}
-            disabled={readOnly}
-            className={`w-full px-4 py-2 disabled:bg-gray-600 text-white rounded text-sm font-medium transition-colors mb-4 flex items-center justify-center gap-2 ${
-              displayUnallocatedPoints < 0 
-                ? 'bg-orange-600 hover:bg-orange-700' 
-                : 'bg-purple-600 hover:bg-purple-700'
-            }`}
-          >
-            <span>⚡</span>
-            <span>Auto-Allocate Armor Points</span>
-            <span className={`text-xs ${
-              displayUnallocatedPoints < 0 ? 'text-orange-200 font-medium' : 'opacity-75'
-            }`}>
-              {displayUnallocatedPoints < 0 
-                ? `(${displayUnallocatedPoints} pts over-allocated)`
-                : `(${displayUnallocatedPoints} pts available)`
-              }
-            </span>
-          </button>
-          
-          {/* Simple clickable diagram without overlays */}
-          <div className="bg-slate-900 rounded-lg p-6">
-            <svg
-              width="400"
-              height="500"
-              viewBox="0 0 400 500"
-              className="w-full h-full max-w-md mx-auto"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Head */}
-              <g>
-                <rect
-                  x={175}
-                  y={20}
-                  width={50}
-                  height={40}
-                  fill={selectedSection === 'HD' ? "#3b82f6" : "#16a34a"}
-                  stroke="#22c55e"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-500 transition-all"
-                  onClick={() => setSelectedSection('HD')}
-                />
-                <text x={200} y={35} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">HD</text>
-                <text x={200} y={50} textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">
-                  {armorAllocation.HD.front}
-                </text>
-              </g>
-
-              {/* Center Torso */}
-              <g>
-                <rect
-                  x={150}
-                  y={80}
-                  width={100}
-                  height={120}
-                  fill={selectedSection === 'CT' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('CT')}
-                />
-                <text x={200} y={125} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">CT</text>
-                <text x={200} y={145} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.CT.front}
-                </text>
-                <rect x={150} y={205} width={100} height={20} fill="#92400e" stroke="#d97706" strokeWidth="1" rx="2" className="cursor-pointer" onClick={() => setSelectedSection('CT')} />
-                <text x={200} y={215} textAnchor="middle" fill="white" fontSize="10">
-                  {armorAllocation.CT.rear}
-                </text>
-              </g>
-
-              {/* Left Torso */}
-              <g>
-                <rect
-                  x={60}
-                  y={90}
-                  width={80}
-                  height={100}
-                  fill={selectedSection === 'LT' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('LT')}
-                />
-                <text x={100} y={125} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">LT</text>
-                <text x={100} y={145} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.LT.front}
-                </text>
-                <rect x={60} y={195} width={80} height={20} fill="#92400e" stroke="#d97706" strokeWidth="1" rx="2" className="cursor-pointer" onClick={() => setSelectedSection('LT')} />
-                <text x={100} y={208} textAnchor="middle" fill="white" fontSize="10">
-                  {armorAllocation.LT.rear}
-                </text>
-              </g>
-
-              {/* Right Torso */}
-              <g>
-                <rect
-                  x={260}
-                  y={90}
-                  width={80}
-                  height={100}
-                  fill={selectedSection === 'RT' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('RT')}
-                />
-                <text x={300} y={125} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">RT</text>
-                <text x={300} y={145} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.RT.front}
-                </text>
-                <rect x={260} y={195} width={80} height={20} fill="#92400e" stroke="#d97706" strokeWidth="1" rx="2" className="cursor-pointer" onClick={() => setSelectedSection('RT')} />
-                <text x={300} y={208} textAnchor="middle" fill="white" fontSize="10">
-                  {armorAllocation.RT.rear}
-                </text>
-              </g>
-
-              {/* Left Arm */}
-              <g>
-                <rect
-                  x={10}
-                  y={100}
-                  width={40}
-                  height={140}
-                  fill={selectedSection === 'LA' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('LA')}
-                />
-                <text x={30} y={160} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">LA</text>
-                <text x={30} y={180} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.LA.front}
-                </text>
-              </g>
-
-              {/* Right Arm */}
-              <g>
-                <rect
-                  x={350}
-                  y={100}
-                  width={40}
-                  height={140}
-                  fill={selectedSection === 'RA' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('RA')}
-                />
-                <text x={370} y={160} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">RA</text>
-                <text x={370} y={180} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.RA.front}
-                </text>
-              </g>
-
-              {/* Left Leg */}
-              <g>
-                <rect
-                  x={110}
-                  y={230}
-                  width={60}
-                  height={180}
-                  fill={selectedSection === 'LL' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('LL')}
-                />
-                <text x={140} y={310} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">LL</text>
-                <text x={140} y={330} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.LL.front}
-                </text>
-              </g>
-
-              {/* Right Leg */}
-              <g>
-                <rect
-                  x={230}
-                  y={230}
-                  width={60}
-                  height={180}
-                  fill={selectedSection === 'RL' ? "#3b82f6" : "#d97706"}
-                  stroke="#f59e0b"
-                  strokeWidth="2"
-                  rx="4"
-                  className="cursor-pointer hover:fill-blue-600 transition-all"
-                  onClick={() => setSelectedSection('RL')}
-                />
-                <text x={260} y={310} textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">RL</text>
-                <text x={260} y={330} textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">
-                  {armorAllocation.RL.front}
-                </text>
-              </g>
-            </svg>
-          </div>
-        </div>
-
-        {/* Right: Side Panel Editor (1/3 width) */}
-        <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-          <h3 className="text-slate-100 font-medium mb-4">Armor Editor</h3>
-          
-          {selectedSection ? (
-            <div className="space-y-4">
-              <div className="bg-slate-700/30 rounded p-3">
-                <h4 className="text-slate-200 font-medium mb-2">Editing: {selectedSection}</h4>
+        
+        {/* Right Panel: Armor Allocation (2/3) */}
+        <div className="lg:col-span-2">
+          <div className="bg-slate-800 rounded-lg border border-slate-700 h-full flex flex-col">
+            {/* Header */}
+            <div className="p-3 border-b border-slate-700">
+              <h3 className="text-slate-100 font-medium">Armor Allocation</h3>
+              <div className="text-slate-400 text-xs mt-1">
+                Click on location sections to select and edit armor values
+              </div>
+            </div>
+            
+            {/* Armor Allocation Content */}
+            <div className="flex-1 p-4">
+              <div className="grid grid-cols-2 gap-4 h-full">
+                {/* Left Column - Front Locations */}
                 <div className="space-y-3">
-                  {/* Front and Rear Armor on same line */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Front Armor */}
-                    <div>
-                      <label className="block text-slate-300 text-xs mb-1">Front</label>
-                      <div className="flex items-center gap-1">
+                  <h4 className="text-slate-200 font-medium mb-3">Front Armor</h4>
+                  
+                  {/* Head */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Head</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('HD')}</span>
+                    </div>
+                    <input
+                      type="number"
+                      min={0}
+                      max={getLocationMaxArmor('HD')}
+                      value={armorAllocation.HD?.front || 0}
+                      onChange={(e) => handleArmorLocationChange('HD', parseInt(e.target.value) || 0, armorAllocation.HD?.rear || 0)}
+                      disabled={readOnly}
+                      className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                    />
+                  </div>
+                  
+                  {/* Center Torso */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Center Torso</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('CT')}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-slate-400 text-xs">Front</label>
                         <input
                           type="number"
                           min={0}
-                          max={getLocationMaxArmor(selectedSection)}
-                          value={armorAllocation[selectedSection as keyof typeof armorAllocation].front}
-                          onChange={(e) => handleArmorLocationChange(
-                            selectedSection, 
-                            parseInt(e.target.value) || 0, 
-                            armorAllocation[selectedSection as keyof typeof armorAllocation].rear
-                          )}
+                          max={getLocationMaxArmor('CT')}
+                          value={armorAllocation.CT?.front || 0}
+                          onChange={(e) => handleArmorLocationChange('CT', parseInt(e.target.value) || 0, armorAllocation.CT?.rear || 0)}
                           disabled={readOnly}
-                          className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
                         />
-                        <span className="text-slate-400 text-xs">/{getLocationMaxArmor(selectedSection)}</span>
+                      </div>
+                      <div>
+                        <label className="text-slate-400 text-xs">Rear</label>
+                        <input
+                          type="number"
+                          min={0}
+                          max={Math.floor(getLocationMaxArmor('CT') / 2)}
+                          value={armorAllocation.CT?.rear || 0}
+                          onChange={(e) => handleArmorLocationChange('CT', armorAllocation.CT?.front || 0, parseInt(e.target.value) || 0)}
+                          disabled={readOnly}
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                        />
                       </div>
                     </div>
-                    
-                    {/* Rear Armor (only for torsos) */}
-                    {['CT', 'LT', 'RT'].includes(selectedSection) ? (
-                      <div>
-                        <label className="block text-slate-300 text-xs mb-1">Rear</label>
-                        <div className="flex items-center gap-1">
-                          <input
-                            type="number"
-                            min={0}
-                            max={Math.floor(getLocationMaxArmor(selectedSection) * 0.5)}
-                            value={armorAllocation[selectedSection as keyof typeof armorAllocation].rear}
-                            onChange={(e) => handleArmorLocationChange(
-                              selectedSection, 
-                              armorAllocation[selectedSection as keyof typeof armorAllocation].front,
-                              parseInt(e.target.value) || 0
-                            )}
-                            disabled={readOnly}
-                            className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-                          />
-                          <span className="text-slate-400 text-xs">/{Math.floor(getLocationMaxArmor(selectedSection) * 0.5)}</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <label className="block text-slate-300 text-xs mb-1">Rear</label>
-                        <div className="flex items-center justify-center h-8 bg-slate-700/50 rounded text-slate-500 text-xs">
-                          N/A
-                        </div>
-                      </div>
-                    )}
                   </div>
                   
-                  {/* Quick Actions */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        const maxFront = getLocationMaxArmor(selectedSection);
-                        handleArmorLocationChange(selectedSection, maxFront, armorAllocation[selectedSection as keyof typeof armorAllocation].rear);
-                      }}
+                  {/* Left Arm */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Left Arm</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('LA')}</span>
+                    </div>
+                    <input
+                      type="number"
+                      min={0}
+                      max={getLocationMaxArmor('LA')}
+                      value={armorAllocation.LA?.front || 0}
+                      onChange={(e) => handleArmorLocationChange('LA', parseInt(e.target.value) || 0, 0)}
                       disabled={readOnly}
-                      className="flex-1 px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded text-xs transition-colors"
-                    >
-                      Max Front
-                    </button>
-                    <button
-                      onClick={() => handleArmorLocationChange(selectedSection, 0, 0)}
+                      className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                    />
+                  </div>
+                  
+                  {/* Left Leg */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Left Leg</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('LL')}</span>
+                    </div>
+                    <input
+                      type="number"
+                      min={0}
+                      max={getLocationMaxArmor('LL')}
+                      value={armorAllocation.LL?.front || 0}
+                      onChange={(e) => handleArmorLocationChange('LL', parseInt(e.target.value) || 0, 0)}
                       disabled={readOnly}
-                      className="flex-1 px-2 py-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white rounded text-xs transition-colors"
-                    >
-                      Clear
-                    </button>
+                      className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-center text-slate-400 py-8">
-              <p>Click an armor section on the diagram to edit its values</p>
-            </div>
-          )}
-          
-          {/* Armor Summary Table */}
-          <div className="mt-6">
-            <h4 className="text-slate-200 font-medium mb-3 text-sm">All Locations</h4>
-            <div className="space-y-1 text-xs">
-              {['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'].map(location => {
-                const armor = armorAllocation[location as keyof typeof armorAllocation];
-                const max = getLocationMaxArmor(location);
-                const total = armor.front + armor.rear;
-                const hasRear = ['CT', 'LT', 'RT'].includes(location);
-                const efficiency = max > 0 ? (total / max) * 100 : 0;
                 
-                // Color coding based on efficiency
-                const getEfficiencyColor = () => {
-                  if (total > max) return 'border-l-red-500 bg-red-900/20'; // Over-allocation
-                  if (efficiency >= 90) return 'border-l-green-500 bg-green-900/20'; // Excellent (90%+)
-                  if (efficiency >= 70) return 'border-l-blue-500 bg-blue-900/20'; // Good (70-89%)
-                  if (efficiency >= 50) return 'border-l-yellow-500 bg-yellow-900/20'; // Fair (50-69%)
-                  if (efficiency >= 25) return 'border-l-orange-500 bg-orange-900/20'; // Poor (25-49%)
-                  return 'border-l-slate-500 bg-slate-800/20'; // Very low (<25%)
-                };
-                
-                const getTextColor = () => {
-                  if (total > max) return 'text-red-300';
-                  if (efficiency >= 90) return 'text-green-300';
-                  if (efficiency >= 70) return 'text-blue-300';
-                  if (efficiency >= 50) return 'text-yellow-300';
-                  if (efficiency >= 25) return 'text-orange-300';
-                  return 'text-slate-400';
-                };
-                
-                return (
-                  <div
-                    key={location}
-                    className={`grid grid-cols-4 gap-1 p-2 rounded border-l-4 cursor-pointer transition-colors ${
-                      getEfficiencyColor()
-                    } ${selectedSection === location ? 'ring-2 ring-blue-500/50' : 'hover:bg-slate-700/30'}`}
-                    onClick={() => setSelectedSection(location)}
-                  >
-                    <div className="text-slate-300 font-medium">{location}</div>
-                    <div className="text-slate-100 text-center">{armor.front}</div>
-                    <div className="text-slate-100 text-center">{hasRear ? armor.rear : '-'}</div>
-                    <div className={`text-center font-medium ${getTextColor()}`}>
-                      {total}/{max}
-                      <span className="text-xs ml-1 opacity-75">
-                        ({efficiency.toFixed(0)}%)
-                      </span>
+                {/* Right Column - Remaining Locations */}
+                <div className="space-y-3">
+                  <h4 className="text-slate-200 font-medium mb-3">Side & Rear Armor</h4>
+                  
+                  {/* Left Torso */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Left Torso</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('LT')}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-slate-400 text-xs">Front</label>
+                        <input
+                          type="number"
+                          min={0}
+                          max={getLocationMaxArmor('LT')}
+                          value={armorAllocation.LT?.front || 0}
+                          onChange={(e) => handleArmorLocationChange('LT', parseInt(e.target.value) || 0, armorAllocation.LT?.rear || 0)}
+                          disabled={readOnly}
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-slate-400 text-xs">Rear</label>
+                        <input
+                          type="number"
+                          min={0}
+                          max={Math.floor(getLocationMaxArmor('LT') / 2)}
+                          value={armorAllocation.LT?.rear || 0}
+                          onChange={(e) => handleArmorLocationChange('LT', armorAllocation.LT?.front || 0, parseInt(e.target.value) || 0)}
+                          disabled={readOnly}
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                        />
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-            
-            {/* Color Legend */}
-            <div className="mt-3 p-2 bg-slate-700/30 rounded text-xs">
-              <div className="text-slate-300 font-medium mb-2">Efficiency Legend:</div>
-              <div className="grid grid-cols-2 gap-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded"></div>
-                  <span className="text-slate-400">90%+ Excellent</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                  <span className="text-slate-400">70-89% Good</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                  <span className="text-slate-400">50-69% Fair</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                  <span className="text-slate-400">25-49% Poor</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-slate-500 rounded"></div>
-                  <span className="text-slate-400">&lt;25% Very Low</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded"></div>
-                  <span className="text-slate-400">Over-allocated</span>
+                  
+                  {/* Right Torso */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Right Torso</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('RT')}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-slate-400 text-xs">Front</label>
+                        <input
+                          type="number"
+                          min={0}
+                          max={getLocationMaxArmor('RT')}
+                          value={armorAllocation.RT?.front || 0}
+                          onChange={(e) => handleArmorLocationChange('RT', parseInt(e.target.value) || 0, armorAllocation.RT?.rear || 0)}
+                          disabled={readOnly}
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-slate-400 text-xs">Rear</label>
+                        <input
+                          type="number"
+                          min={0}
+                          max={Math.floor(getLocationMaxArmor('RT') / 2)}
+                          value={armorAllocation.RT?.rear || 0}
+                          onChange={(e) => handleArmorLocationChange('RT', armorAllocation.RT?.front || 0, parseInt(e.target.value) || 0)}
+                          disabled={readOnly}
+                          className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Right Arm */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Right Arm</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('RA')}</span>
+                    </div>
+                    <input
+                      type="number"
+                      min={0}
+                      max={getLocationMaxArmor('RA')}
+                      value={armorAllocation.RA?.front || 0}
+                      onChange={(e) => handleArmorLocationChange('RA', parseInt(e.target.value) || 0, 0)}
+                      disabled={readOnly}
+                      className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                    />
+                  </div>
+                  
+                  {/* Right Leg */}
+                  <div className="bg-slate-700/50 rounded p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-slate-300 font-medium">Right Leg</span>
+                      <span className="text-slate-400 text-xs">Max: {getLocationMaxArmor('RL')}</span>
+                    </div>
+                    <input
+                      type="number"
+                      min={0}
+                      max={getLocationMaxArmor('RL')}
+                      value={armorAllocation.RL?.front || 0}
+                      onChange={(e) => handleArmorLocationChange('RL', parseInt(e.target.value) || 0, 0)}
+                      disabled={readOnly}
+                      className="w-full px-2 py-1 bg-slate-600 border border-slate-500 rounded text-slate-100 focus:border-blue-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1360,12 +1207,188 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   );
 };
 
-const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = () => (
-  <div className="p-6 text-center text-slate-400">
-    <h3 className="text-lg font-medium mb-2">Equipment Tab</h3>
-    <p>Coming soon - Weapon and equipment selection</p>
-  </div>
-);
+const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
+  const { unit } = useUnit();
+  
+  // Tray state for hover-based expansion
+  const [isTrayExpanded, setIsTrayExpanded] = useState(false);
+  
+  // Helper function to check if equipment is a special structural component
+  const isSpecialComponent = (equipment: any) => {
+    if (!equipment?.equipmentData) return false;
+    
+    const name = equipment.equipmentData.name?.toLowerCase() || '';
+    const type = equipment.equipmentData.type?.toLowerCase() || '';
+    
+    // Filter out structural components that shouldn't appear in equipment view
+    const specialComponents = [
+      'ferro-fibrous', 'ferro fibrous', 'endo steel', 'endo-steel',
+      'standard', 'composite', 'reinforced', 'industrial',
+      'heat sink', 'heat-sink', 'double heat sink',
+      'jump jet', 'jump-jet', 'standard jump jet'
+    ];
+    
+    return specialComponents.some(component => 
+      name.includes(component) || 
+      (equipment.equipmentData.componentType && 
+       ['structure', 'armor'].includes(equipment.equipmentData.componentType))
+    );
+  };
+  
+  // Get filtered equipment (excluding special components)
+  const getFilteredEquipment = () => {
+    const allEquipment = unit.getAllEquipment();
+    const filtered = new Map();
+    
+    allEquipment.forEach((equipmentList, equipmentId) => {
+      const nonSpecialEquipment = equipmentList.filter(eq => !isSpecialComponent(eq));
+      if (nonSpecialEquipment.length > 0) {
+        filtered.set(equipmentId, nonSpecialEquipment);
+      }
+    });
+    
+    return filtered;
+  };
+  
+  // Calculate totals for current loadout
+  const calculateTotals = () => {
+    const filteredEquipment = getFilteredEquipment();
+    let totalWeight = 0;
+    let totalCrits = 0;
+    let totalHeat = 0;
+    
+    filteredEquipment.forEach(equipmentList => {
+      equipmentList.forEach((allocation: any) => {
+        totalWeight += allocation.equipmentData.weight || 0;
+        totalCrits += allocation.equipmentData.requiredSlots || 0;
+        totalHeat += allocation.equipmentData.heat || 0;
+      });
+    });
+    
+    return { totalWeight, totalCrits, totalHeat };
+  };
+  
+  const { totalWeight, totalCrits, totalHeat } = calculateTotals();
+  const filteredEquipment = getFilteredEquipment();
+  
+  // Remove all equipment handler
+  const handleRemoveAllEquipment = () => {
+    if (readOnly) return;
+    
+    // Remove all non-special equipment
+    filteredEquipment.forEach(equipmentList => {
+      equipmentList.forEach((allocation: any) => {
+        const found = unit.findEquipmentGroup(allocation.equipmentGroupId);
+        if (found && found.section) {
+          found.section.removeEquipmentGroup(allocation.equipmentGroupId);
+        } else {
+          unit.removeUnallocatedEquipment(allocation.equipmentGroupId);
+        }
+      });
+    });
+  };
+  
+  // Remove individual equipment handler
+  const handleRemoveEquipment = (equipmentGroupId: string) => {
+    if (readOnly) return;
+    
+    const found = unit.findEquipmentGroup(equipmentGroupId);
+    if (found && found.section) {
+      found.section.removeEquipmentGroup(equipmentGroupId);
+    } else {
+      unit.removeUnallocatedEquipment(equipmentGroupId);
+    }
+  };
+  
+  return (
+    <div className="p-4 h-full flex gap-4">
+      {/* Main Content Area - Equipment Browser */}
+      <div className={`
+        flex-1 bg-slate-800 rounded-lg border border-slate-700 flex flex-col
+        transition-all duration-300 ease-in-out
+        ${isTrayExpanded ? 'mr-2' : 'mr-0'}
+      `}>
+        {/* Header */}
+        <div className="p-3 border-b border-slate-700">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="text-slate-100 font-medium">Equipment Database</h3>
+            <div className="text-yellow-400 text-xs">
+              Ctrl+Click filters to add to selection
+            </div>
+          </div>
+        </div>
+        
+        {/* Equipment Browser */}
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full">
+            <EquipmentBrowser />
+          </div>
+        </div>
+      </div>
+      
+      {/* Persistent Right Tray */}
+      <div 
+        className={`
+          bg-slate-800 border border-slate-700 rounded-lg flex flex-col
+          transition-all duration-300 ease-in-out
+          ${isTrayExpanded ? 'w-80' : 'w-12'}
+          hover:cursor-pointer
+        `}
+        onMouseEnter={() => setIsTrayExpanded(true)}
+        onMouseLeave={() => setIsTrayExpanded(false)}
+      >
+        {/* Tray Header */}
+        <div className="p-3 border-b border-slate-700 flex items-center justify-center">
+          {isTrayExpanded ? (
+            <h3 className="text-slate-100 font-medium text-sm">Unallocated Equipment</h3>
+          ) : (
+            <div className="flex flex-col items-center gap-1">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth={1.5} 
+                stroke="currentColor" 
+                className="w-5 h-5 text-slate-400"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+              </svg>
+              <div className="text-xs text-slate-400 text-center leading-tight">
+                <div>UN</div>
+                <div>EQ</div>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Tray Content */}
+        <div className="flex-1 overflow-hidden">
+          {isTrayExpanded ? (
+            <div className="p-4 h-full overflow-y-auto">
+              <UnallocatedEquipmentDisplay />
+            </div>
+          ) : (
+            <div className="p-2 flex flex-col items-center justify-start gap-2 h-full overflow-hidden">
+              {/* Collapsed state - show just a count or indicator */}
+              <div className="text-xs text-slate-500 text-center">
+                <div className="text-slate-400 font-medium">0</div>
+                <div className="text-slate-600">items</div>
+              </div>
+              
+              {/* Visual separator */}
+              <div className="w-6 h-px bg-slate-600"></div>
+              
+              {/* Hover hint */}
+              <div className="text-xs text-slate-600 text-center transform rotate-90 mt-8">
+                HOVER
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CriticalsTabV2: React.FC<{ readOnly?: boolean }> = () => (
   <div className="p-6 text-center text-slate-400">

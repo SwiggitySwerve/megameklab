@@ -150,55 +150,73 @@ function EquipmentRow({ variant }: EquipmentRowProps) {
   
   return (
     <tr className="border-b border-gray-600 hover:bg-gray-700 transition-colors">
-      {/* Equipment Name */}
-      <td className="px-3 py-2">
-        <div className="flex items-center space-x-2">
-          <div className={`w-3 h-3 rounded ${getTypeColor(variant.category_name)}`}></div>
-          <div className="flex flex-col">
-            <span className="text-white font-medium text-sm">{variant.variant_name}</span>
-            {variant.damage && (
-              <span className="text-gray-400 text-xs">
-                Damage: {variant.damage}
-                {variant.heat_generated && `, Heat: ${variant.heat_generated}`}
-                {rangeDisplay && `, Range: ${rangeDisplay}`}
-              </span>
-            )}
-          </div>
-        </div>
+      {/* Add Button (Plus Column) */}
+      <td className="px-2 py-2 text-center w-12">
+        <button
+          onClick={handleAdd}
+          className="bg-green-600 hover:bg-green-500 text-white text-xs w-6 h-6 rounded flex items-center justify-center transition-colors"
+          title="Add to unit"
+        >
+          +
+        </button>
       </td>
       
-      {/* Category */}
-      <td className="px-3 py-2 text-gray-300 text-xs">
-        {variant.category_name || 'Equipment'}
+      {/* Name */}
+      <td className="px-3 py-2 text-white font-medium text-sm">
+        {variant.variant_name}
       </td>
       
-      {/* Slots */}
-      <td className="px-3 py-2 text-center">
-        <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded">
-          {variant.critical_slots}
+      {/* Damage */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.damage || '-'}
+      </td>
+      
+      {/* Heat */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.heat_generated || '-'}
+      </td>
+      
+      {/* Min R */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.minimum_range || '0'}
+      </td>
+      
+      {/* Range */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {rangeDisplay || '-'}
+      </td>
+      
+      {/* Shots */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.ammo_per_ton || '-'}
+      </td>
+      
+      {/* Base */}
+      <td className="px-3 py-2 text-xs">
+        <span className={getTechBaseColor(variant.tech_base)}>
+          {variant.tech_base === 'Inner Sphere' ? 'Both' : variant.tech_base}
         </span>
+      </td>
+      
+      {/* BV */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.battle_value || '-'}
       </td>
       
       {/* Weight */}
-      <td className="px-3 py-2 text-gray-300 text-xs text-center">
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.weight_tons}
       </td>
       
-      {/* Tech Base */}
-      <td className="px-3 py-2 text-xs">
-        <span className={getTechBaseColor(variant.tech_base)}>
-          {variant.tech_base}
-        </span>
+      {/* Crit */}
+      <td className="px-3 py-2 text-gray-300 text-sm text-center">
+        {variant.critical_slots}
       </td>
       
-      {/* Add Button */}
-      <td className="px-3 py-2 text-center">
-        <button
-          onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1 rounded transition-colors"
-        >
-          Add
-        </button>
+      {/* Reference */}
+      <td className="px-3 py-2 text-gray-400 text-xs">
+        {variant.page_reference || 
+         (variant.introduction_year ? `${variant.introduction_year}, ${variant.availability_rating || 'Introductory'}` : 'Introductory')}
       </td>
     </tr>
   )
@@ -410,16 +428,23 @@ export function EquipmentBrowser() {
           </div>
           
           {/* Equipment Table */}
-          <div className="overflow-x-auto max-h-96 overflow-y-auto">
-            <table className="w-full text-left">
+          <div className="flex-1 overflow-hidden">
+            <div className="overflow-auto h-full">
+              <table className="w-full text-left">
               <thead className="sticky top-0 bg-gray-800">
                 <tr className="border-b border-gray-600">
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Equipment</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Category</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Slots</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Weight</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Tech Base</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium text-center">Action</th>
+                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center w-12"></th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Name ▲</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Damage</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Heat</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Min R</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Range</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Shots</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Base</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">BV</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Weight</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Crit</th>
+                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Reference</th>
                 </tr>
               </thead>
               <tbody>
@@ -427,7 +452,8 @@ export function EquipmentBrowser() {
                   <EquipmentRow key={variant.id} variant={variant} />
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
 
           {/* Pagination */}
