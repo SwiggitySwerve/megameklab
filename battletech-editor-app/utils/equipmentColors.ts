@@ -1,363 +1,237 @@
 /**
- * Equipment Color Coding System
- * Provides visual clarity for different equipment types in critical slots
+ * Unified Equipment Color Coding System for V2 Customizer
+ * Provides consistent color schemes across all equipment displays
  */
 
-export enum EquipmentCategory {
-  SYSTEM_COMPONENT = 'system_component',
-  UNHITTABLE = 'unhittable',
-  ENERGY_WEAPON = 'energy_weapon',
-  BALLISTIC_WEAPON = 'ballistic_weapon',
-  MISSILE_WEAPON = 'missile_weapon',
-  MOVEMENT_EQUIPMENT = 'movement_equipment',
-  HEAT_SINK = 'heat_sink',
-  ARMOR_STRUCTURE = 'armor_structure',
-  BALLISTIC_AMMO = 'ballistic_ammo',
-  MISSILE_AMMO = 'missile_ammo',
-  ENERGY_AMMO = 'energy_ammo',
-  ELECTRONICS = 'electronics',
-  PHYSICAL_WEAPON = 'physical_weapon',
-  MISC_EQUIPMENT = 'misc_equipment',
-  EMPTY = 'empty'
-}
+import { EquipmentObject } from './criticalSlots/CriticalSlot';
 
-// Color scheme for equipment categories
-export const EQUIPMENT_COLORS: Record<EquipmentCategory, { bg: string; border: string; text: string }> = {
-  [EquipmentCategory.SYSTEM_COMPONENT]: {
-    bg: 'bg-gray-700',      // Darker gray for fixed system components
-    border: 'border-gray-600',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.UNHITTABLE]: {
-    bg: 'bg-gray-500',      // Light gray for unhittables
-    border: 'border-gray-400',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.ENERGY_WEAPON]: {
-    bg: 'bg-yellow-600',    // Yellow for energy weapons
-    border: 'border-yellow-500',
-    text: 'text-gray-900'
-  },
-  [EquipmentCategory.BALLISTIC_WEAPON]: {
-    bg: 'bg-purple-600',    // Purple for ballistic weapons
-    border: 'border-purple-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.MISSILE_WEAPON]: {
-    bg: 'bg-teal-600',      // Teal for missile weapons
-    border: 'border-teal-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.MOVEMENT_EQUIPMENT]: {
-    bg: 'bg-blue-600',      // Blue for jump jets, MASC, supercharger
-    border: 'border-blue-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.HEAT_SINK]: {
-    bg: 'bg-green-600',     // Green for heat sinks
-    border: 'border-green-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.ARMOR_STRUCTURE]: {
-    bg: 'bg-rose-600',      // Rose for armor/structure components
-    border: 'border-rose-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.BALLISTIC_AMMO]: {
-    bg: 'bg-purple-400',    // Lavender for ballistic ammo
-    border: 'border-purple-300',
-    text: 'text-gray-900'
-  },
-  [EquipmentCategory.MISSILE_AMMO]: {
-    bg: 'bg-cyan-400',      // Aqua for missile ammo
-    border: 'border-cyan-300',
-    text: 'text-gray-900'
-  },
-  [EquipmentCategory.ENERGY_AMMO]: {
-    bg: 'bg-yellow-400',    // Light yellow for energy ammo
-    border: 'border-yellow-300',
-    text: 'text-gray-900'
-  },
-  [EquipmentCategory.ELECTRONICS]: {
-    bg: 'bg-green-500',     // Green for electronics (ECM, BAP, etc.)
-    border: 'border-green-400',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.PHYSICAL_WEAPON]: {
-    bg: 'bg-red-600',       // Red for physical weapons
+// Equipment type color mappings
+export const EQUIPMENT_TYPE_COLORS = {
+  weapon: {
+    bg: 'bg-red-700',
+    text: 'text-red-100',
     border: 'border-red-500',
-    text: 'text-gray-100'
+    glow: 'ring-red-500/20'
   },
-  [EquipmentCategory.MISC_EQUIPMENT]: {
-    bg: 'bg-gray-600',      // Medium gray for misc equipment
+  ammo: {
+    bg: 'bg-orange-700',
+    text: 'text-orange-100',
+    border: 'border-orange-500',
+    glow: 'ring-orange-500/20'
+  },
+  heat_sink: {
+    bg: 'bg-cyan-700',
+    text: 'text-cyan-100',
+    border: 'border-cyan-500',
+    glow: 'ring-cyan-500/20'
+  },
+  equipment: {
+    bg: 'bg-blue-700',
+    text: 'text-blue-100',
+    border: 'border-blue-500',
+    glow: 'ring-blue-500/20'
+  },
+  unknown: {
+    bg: 'bg-gray-700',
+    text: 'text-gray-100',
     border: 'border-gray-500',
-    text: 'text-gray-100'
-  },
-  [EquipmentCategory.EMPTY]: {
-    bg: 'bg-slate-800',     // Dark background for empty slots
-    border: 'border-slate-700',
-    text: 'text-gray-400'
+    glow: 'ring-gray-500/20'
   }
+} as const;
+
+// Category name to equipment type mapping
+export const CATEGORY_TO_TYPE_MAP: Record<string, keyof typeof EQUIPMENT_TYPE_COLORS> = {
+  'Weapons': 'weapon',
+  'Energy Weapons': 'weapon',
+  'Ballistic Weapons': 'weapon',
+  'Missile Weapons': 'weapon',
+  'Physical Weapons': 'weapon',
+  'Anti-Personnel Weapons': 'weapon',
+  'Capital Weapons': 'weapon',
+  'Artillery Weapons': 'weapon',
+  'Ammunition': 'ammo',
+  'Heat Management': 'heat_sink',
+  'Heat Sinks': 'heat_sink',
+  'Equipment': 'equipment',
+  'Electronic Warfare': 'equipment',
+  'Targeting Systems': 'equipment',
+  'Special Equipment': 'equipment',
+  'Jump Jets': 'equipment',
+  'Cockpit Systems': 'equipment',
+  'Actuators': 'equipment',
+  'Movement Equipment': 'equipment'
 };
 
-// System components that cannot be removed
-const SYSTEM_COMPONENTS = [
-  'Engine', 'Gyro', 'Cockpit', 'Life Support', 'Sensors',
-  'Shoulder', 'Upper Arm Actuator', 'Upper Leg Actuator', 
-  'Hip', 'Lower Leg Actuator', 'Foot Actuator'
-];
+// Tech base color mappings
+export const TECH_BASE_COLORS = {
+  'Inner Sphere': {
+    text: 'text-blue-400',
+    bg: 'bg-blue-900/30',
+    border: 'border-blue-500/30'
+  },
+  'Clan': {
+    text: 'text-green-400',
+    bg: 'bg-green-900/30',
+    border: 'border-green-500/30'
+  },
+  'Mixed': {
+    text: 'text-purple-400',
+    bg: 'bg-purple-900/30',
+    border: 'border-purple-500/30'
+  },
+  'Unknown': {
+    text: 'text-gray-400',
+    bg: 'bg-gray-900/30',
+    border: 'border-gray-500/30'
+  }
+} as const;
 
-// Components that can potentially be removed
-const REMOVABLE_ACTUATORS = ['Lower Arm Actuator', 'Hand Actuator'];
+// Color scheme type for equipment types
+type EquipmentColorScheme = {
+  bg: string;
+  text: string;
+  border: string;
+  glow: string;
+};
 
-// Unhittable components
-const UNHITTABLE_COMPONENTS = [
-  'Endo Steel', 'Endo Steel (Clan)', 'Composite', 'Reinforced',
-  'Ferro-Fibrous', 'Ferro-Fibrous (Clan)', 'Light Ferro-Fibrous',
-  'Heavy Ferro-Fibrous', 'Stealth', 'Reactive', 'Reflective', 'Hardened'
-];
-
-// Energy weapons
-const ENERGY_WEAPONS = [
-  'Small Laser', 'Medium Laser', 'Large Laser', 'ER Small Laser', 
-  'ER Medium Laser', 'ER Large Laser', 'Pulse Laser', 'ER PPC', 'PPC',
-  'Light PPC', 'Heavy PPC', 'Snub-Nose PPC', 'Flamer', 'Plasma Rifle',
-  'TAG', 'Small X-Pulse Laser', 'Medium X-Pulse Laser', 'Large X-Pulse Laser'
-];
-
-// Ballistic weapons
-const BALLISTIC_WEAPONS = [
-  'Machine Gun', 'AC/2', 'AC/5', 'AC/10', 'AC/20', 'Ultra AC/2', 
-  'Ultra AC/5', 'Ultra AC/10', 'Ultra AC/20', 'LB 2-X AC', 'LB 5-X AC',
-  'LB 10-X AC', 'LB 20-X AC', 'Gauss Rifle', 'Light Gauss Rifle',
-  'Heavy Gauss Rifle', 'Rotary AC/2', 'Rotary AC/5'
-];
-
-// Missile weapons
-const MISSILE_WEAPONS = [
-  'SRM 2', 'SRM 4', 'SRM 6', 'LRM 5', 'LRM 10', 'LRM 15', 'LRM 20',
-  'Streak SRM 2', 'Streak SRM 4', 'Streak SRM 6', 'MRM 10', 'MRM 20',
-  'MRM 30', 'MRM 40', 'Rocket Launcher 10', 'Rocket Launcher 15',
-  'Rocket Launcher 20', 'Thunderbolt 5', 'Thunderbolt 10', 'Thunderbolt 15',
-  'Thunderbolt 20', 'Arrow IV', 'NARC', 'iNARC'
-];
-
-// Movement equipment
-const MOVEMENT_EQUIPMENT = [
-  'Jump Jet', 'Jump Jets', 'Improved Jump Jet', 'Improved Jump Jets',
-  'MASC', 'Supercharger', 'Triple Strength Myomer', 'TSM'
-];
-
-// Electronics
-const ELECTRONICS = [
-  'ECM Suite', 'Guardian ECM Suite', 'Angel ECM Suite', 'BAP',
-  'Beagle Active Probe', 'Bloodhound Active Probe', 'C3 Computer',
-  'C3 Slave', 'C3 Master', 'C3i Computer', 'Targeting Computer'
-];
-
-// Physical weapons
-const PHYSICAL_WEAPONS = [
-  'Hatchet', 'Sword', 'Mace', 'Claws', 'Talons', 'Spikes'
-];
+// Color scheme type for tech bases
+type TechBaseColorScheme = {
+  text: string;
+  bg: string;
+  border: string;
+};
 
 /**
- * Determine the category of an equipment item based on its name
+ * Get equipment type color scheme
  */
-export function getEquipmentCategory(itemName: string): EquipmentCategory {
-  if (!itemName || itemName === '-Empty-') {
-    return EquipmentCategory.EMPTY;
+export function getEquipmentTypeColors(type: EquipmentObject['type'] | string | undefined): EquipmentColorScheme {
+  if (!type) return EQUIPMENT_TYPE_COLORS.unknown;
+  
+  // Direct type match
+  if (type in EQUIPMENT_TYPE_COLORS) {
+    return EQUIPMENT_TYPE_COLORS[type as keyof typeof EQUIPMENT_TYPE_COLORS];
   }
-
-  // Check system components first
-  if (SYSTEM_COMPONENTS.some(comp => itemName.includes(comp))) {
-    return EquipmentCategory.SYSTEM_COMPONENT;
+  
+  // Category name mapping
+  const mappedType = CATEGORY_TO_TYPE_MAP[type];
+  if (mappedType) {
+    return EQUIPMENT_TYPE_COLORS[mappedType];
   }
-
-  // Check removable actuators - these are still system components but can be removed
-  if (REMOVABLE_ACTUATORS.some(comp => itemName.includes(comp))) {
-    return EquipmentCategory.SYSTEM_COMPONENT;
+  
+  // Fallback detection
+  const lowerType = type.toLowerCase();
+  if (lowerType.includes('weapon') || lowerType.includes('laser') || lowerType.includes('cannon') || lowerType.includes('missile')) {
+    return EQUIPMENT_TYPE_COLORS.weapon;
   }
-
-  // Check unhittables
-  if (UNHITTABLE_COMPONENTS.some(comp => itemName.includes(comp))) {
-    return EquipmentCategory.UNHITTABLE;
+  if (lowerType.includes('ammo') || lowerType.includes('ammunition')) {
+    return EQUIPMENT_TYPE_COLORS.ammo;
   }
-
-  // Check heat sinks
-  if (itemName.includes('Heat Sink')) {
-    return EquipmentCategory.HEAT_SINK;
+  if (lowerType.includes('heat') && lowerType.includes('sink')) {
+    return EQUIPMENT_TYPE_COLORS.heat_sink;
   }
-
-  // Check ammo - determine type based on weapon it's for
-  if (itemName.includes('Ammo') || itemName.includes('(OS)')) {
-    // Check if it's ballistic ammo
-    if (BALLISTIC_WEAPONS.some(weapon => itemName.includes(weapon))) {
-      return EquipmentCategory.BALLISTIC_AMMO;
-    }
-    // Check if it's missile ammo
-    if (MISSILE_WEAPONS.some(weapon => itemName.includes(weapon))) {
-      return EquipmentCategory.MISSILE_AMMO;
-    }
-    // Check for specific missile ammo
-    if (itemName.includes('SRM') || itemName.includes('LRM') || itemName.includes('MRM') || 
-        itemName.includes('Streak') || itemName.includes('Rocket') || itemName.includes('Arrow') ||
-        itemName.includes('Thunderbolt') || itemName.includes('NARC')) {
-      return EquipmentCategory.MISSILE_AMMO;
-    }
-    // Check for energy ammo (plasma rifle, etc)
-    if (itemName.includes('Plasma')) {
-      return EquipmentCategory.ENERGY_AMMO;
-    }
-    // Default to ballistic ammo for unspecified
-    return EquipmentCategory.BALLISTIC_AMMO;
-  }
-
-  // Check energy weapons
-  if (ENERGY_WEAPONS.some(weapon => itemName.includes(weapon))) {
-    return EquipmentCategory.ENERGY_WEAPON;
-  }
-
-  // Check ballistic weapons
-  if (BALLISTIC_WEAPONS.some(weapon => itemName.includes(weapon))) {
-    return EquipmentCategory.BALLISTIC_WEAPON;
-  }
-
-  // Check missile weapons
-  if (MISSILE_WEAPONS.some(weapon => itemName.includes(weapon))) {
-    return EquipmentCategory.MISSILE_WEAPON;
-  }
-
-  // Check movement equipment
-  if (MOVEMENT_EQUIPMENT.some(equip => itemName.includes(equip))) {
-    return EquipmentCategory.MOVEMENT_EQUIPMENT;
-  }
-
-  // Check electronics
-  if (ELECTRONICS.some(equip => itemName.includes(equip))) {
-    return EquipmentCategory.ELECTRONICS;
-  }
-
-  // Check physical weapons
-  if (PHYSICAL_WEAPONS.some(weapon => itemName.includes(weapon))) {
-    return EquipmentCategory.PHYSICAL_WEAPON;
-  }
-
-  // Default to misc equipment
-  return EquipmentCategory.MISC_EQUIPMENT;
+  
+  return EQUIPMENT_TYPE_COLORS.equipment;
 }
 
 /**
- * Get the color classes for an equipment item
+ * Get tech base color scheme
  */
-export function getEquipmentColorClasses(itemName: string): { bg: string; border: string; text: string } {
-  const category = getEquipmentCategory(itemName);
-  return EQUIPMENT_COLORS[category];
+export function getTechBaseColors(techBase: EquipmentObject['techBase'] | string | undefined): TechBaseColorScheme {
+  if (!techBase) return TECH_BASE_COLORS.Unknown;
+  
+  if (techBase in TECH_BASE_COLORS) {
+    return TECH_BASE_COLORS[techBase as keyof typeof TECH_BASE_COLORS];
+  }
+  
+  // Handle common variations
+  if (techBase === 'IS' || techBase === 'Inner Sphere') {
+    return TECH_BASE_COLORS['Inner Sphere'];
+  }
+  if (techBase === 'Clan') {
+    return TECH_BASE_COLORS.Clan;
+  }
+  
+  return TECH_BASE_COLORS.Unknown;
 }
 
 /**
- * Get the color style for an equipment item (for inline styles if needed)
+ * Get combined CSS classes for equipment type badge
  */
-export function getEquipmentColorStyle(itemName: string): React.CSSProperties {
-  const category = getEquipmentCategory(itemName);
-  const colorMap: Record<EquipmentCategory, React.CSSProperties> = {
-    [EquipmentCategory.SYSTEM_COMPONENT]: { 
-      backgroundColor: '#374151', 
-      borderColor: '#4B5563', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.UNHITTABLE]: { 
-      backgroundColor: '#6B7280', 
-      borderColor: '#9CA3AF', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.ENERGY_WEAPON]: { 
-      backgroundColor: '#D97706', 
-      borderColor: '#F59E0B', 
-      color: '#111827' 
-    },
-    [EquipmentCategory.BALLISTIC_WEAPON]: { 
-      backgroundColor: '#7C3AED', 
-      borderColor: '#8B5CF6', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.MISSILE_WEAPON]: { 
-      backgroundColor: '#14B8A6', 
-      borderColor: '#2DD4BF', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.MOVEMENT_EQUIPMENT]: { 
-      backgroundColor: '#2563EB', 
-      borderColor: '#3B82F6', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.HEAT_SINK]: { 
-      backgroundColor: '#059669', 
-      borderColor: '#10B981', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.ARMOR_STRUCTURE]: { 
-      backgroundColor: '#E11D48', 
-      borderColor: '#F43F5E', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.BALLISTIC_AMMO]: { 
-      backgroundColor: '#C084FC', 
-      borderColor: '#D8B4FE', 
-      color: '#111827' 
-    },
-    [EquipmentCategory.MISSILE_AMMO]: { 
-      backgroundColor: '#5EEAD4', 
-      borderColor: '#99F6E4', 
-      color: '#111827' 
-    },
-    [EquipmentCategory.ENERGY_AMMO]: { 
-      backgroundColor: '#FDE047', 
-      borderColor: '#FEF08A', 
-      color: '#111827' 
-    },
-    [EquipmentCategory.ELECTRONICS]: { 
-      backgroundColor: '#10B981', 
-      borderColor: '#34D399', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.PHYSICAL_WEAPON]: { 
-      backgroundColor: '#DC2626', 
-      borderColor: '#EF4444', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.MISC_EQUIPMENT]: { 
-      backgroundColor: '#4B5563', 
-      borderColor: '#6B7280', 
-      color: '#F3F4F6' 
-    },
-    [EquipmentCategory.EMPTY]: { 
-      backgroundColor: '#1E293B', 
-      borderColor: '#334155', 
-      color: '#9CA3AF' 
-    }
+export function getEquipmentTypeBadgeClasses(type: EquipmentObject['type'] | string | undefined): string {
+  const colors = getEquipmentTypeColors(type);
+  return `${colors.bg} ${colors.text} ${colors.border}`;
+}
+
+/**
+ * Get combined CSS classes for tech base display
+ */
+export function getTechBaseBadgeClasses(techBase: EquipmentObject['techBase'] | string | undefined): string {
+  const colors = getTechBaseColors(techBase);
+  return `${colors.text} ${colors.bg} ${colors.border}`;
+}
+
+/**
+ * Get equipment type display name
+ */
+export function getEquipmentTypeDisplayName(type: EquipmentObject['type'] | string | undefined): string {
+  if (!type) return 'UNKNOWN';
+  
+  // Convert type to display format
+  const typeMap: Record<string, string> = {
+    weapon: 'WEAPON',
+    ammo: 'AMMO',
+    heat_sink: 'HEAT SINK',
+    equipment: 'EQUIPMENT'
   };
   
-  return colorMap[category];
+  if (type in typeMap) {
+    return typeMap[type];
+  }
+  
+  // For category names, use as-is but uppercase
+  return type.toUpperCase();
 }
 
 /**
- * Get a legend for the equipment colors
+ * Get tech base display name
  */
-export function getEquipmentColorLegend(): Array<{ category: string; label: string; color: string }> {
-  return [
-    { category: EquipmentCategory.SYSTEM_COMPONENT, label: 'System Components', color: '#374151' },
-    { category: EquipmentCategory.UNHITTABLE, label: 'Unhittable', color: '#6B7280' },
-    { category: EquipmentCategory.ENERGY_WEAPON, label: 'Energy Weapons', color: '#D97706' },
-    { category: EquipmentCategory.BALLISTIC_WEAPON, label: 'Ballistic Weapons', color: '#7C3AED' },
-    { category: EquipmentCategory.MISSILE_WEAPON, label: 'Missile Weapons', color: '#14B8A6' },
-    { category: EquipmentCategory.MOVEMENT_EQUIPMENT, label: 'Movement', color: '#2563EB' },
-    { category: EquipmentCategory.HEAT_SINK, label: 'Heat Sinks', color: '#059669' },
-    { category: EquipmentCategory.ARMOR_STRUCTURE, label: 'Armor/Structure', color: '#E11D48' },
-    { category: EquipmentCategory.BALLISTIC_AMMO, label: 'Ballistic Ammo', color: '#C084FC' },
-    { category: EquipmentCategory.MISSILE_AMMO, label: 'Missile Ammo', color: '#5EEAD4' },
-    { category: EquipmentCategory.ENERGY_AMMO, label: 'Energy Ammo', color: '#FDE047' },
-    { category: EquipmentCategory.ELECTRONICS, label: 'Electronics', color: '#10B981' },
-    { category: EquipmentCategory.PHYSICAL_WEAPON, label: 'Physical Weapons', color: '#DC2626' },
-    { category: EquipmentCategory.MISC_EQUIPMENT, label: 'Misc Equipment', color: '#4B5563' }
-  ];
+export function getTechBaseDisplayName(techBase: EquipmentObject['techBase'] | string | undefined): string {
+  if (!techBase) return 'Unknown';
+  
+  // Handle common variations
+  if (techBase === 'Inner Sphere' || techBase === 'IS') {
+    return 'IS';
+  }
+  if (techBase === 'Clan') {
+    return 'Clan';
+  }
+  
+  return techBase;
+}
+
+/**
+ * Equipment priority for sorting (weapons first, then by type)
+ */
+export function getEquipmentSortPriority(type: EquipmentObject['type'] | string | undefined): number {
+  const priorities = {
+    weapon: 1,
+    ammo: 2,
+    heat_sink: 3,
+    equipment: 4,
+    unknown: 5
+  };
+  
+  if (!type) return priorities.unknown;
+  
+  if (type in priorities) {
+    return priorities[type as keyof typeof priorities];
+  }
+  
+  // Category mapping
+  const mappedType = CATEGORY_TO_TYPE_MAP[type];
+  if (mappedType && mappedType in priorities) {
+    return priorities[mappedType as keyof typeof priorities];
+  }
+  
+  return priorities.equipment;
 }

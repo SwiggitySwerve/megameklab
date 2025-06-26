@@ -129,8 +129,9 @@ function DemoWithTestEquipment({
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="h-screen bg-gray-900 flex flex-col overflow-hidden">
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-white text-3xl font-bold mb-2">Critical Slots V2 Demo</h1>
@@ -201,12 +202,18 @@ function DemoWithTestEquipment({
 
         {/* Equipment Browser - Add equipment from database */}
         <div className="mb-6">
-          <EquipmentBrowser />
+          <EquipmentBrowser 
+            onAddEquipment={addEquipmentToUnit}
+            showAddButtons={true}
+            actionButtonLabel="Add to unit"
+            actionButtonIcon="+"
+          />
         </div>
 
         {/* Footer */}
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>Critical Slots V2 System - Layered Architecture Demo</p>
+        </div>
         </div>
       </div>
     </div>

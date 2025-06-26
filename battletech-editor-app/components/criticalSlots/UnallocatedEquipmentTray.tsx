@@ -7,6 +7,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useUnit } from '../multiUnit/MultiUnitProvider';
 import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
+import { 
+  getEquipmentTypeBadgeClasses, 
+  getEquipmentTypeDisplayName,
+  getTechBaseColors,
+  getTechBaseDisplayName,
+  getEquipmentSortPriority
+} from '../../utils/equipmentColors';
 
 interface UnallocatedEquipmentTrayProps {
   isExpanded: boolean;
@@ -22,57 +29,113 @@ interface EquipmentTrayItemProps {
 }
 
 function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: EquipmentTrayItemProps) {
-  // Equipment type color coding
-  const getEquipmentTypeColor = (type: EquipmentObject['type']) => {
-    const colors = {
-      weapon: 'bg-red-700 text-red-100',
-      ammo: 'bg-orange-700 text-orange-100',
-      heat_sink: 'bg-cyan-700 text-cyan-100',
-      equipment: 'bg-blue-700 text-blue-100'
-    };
-    return colors[type] || 'bg-gray-700 text-gray-100';
+  // State for selection (for future critical slot assignment)
+  const [isSelected, setIsSelected] = React.useState(false);
+  
+  // Safely access equipment properties with any type
+  const equipmentAny = equipment as any;
+  
+  // Extract equipment data with multiple fallback patterns
+  const equipmentData = {
+    name: equipmentAny.name || equipmentAny.equipmentName || equipmentAny.variant_name || 'Unknown Equipment',
+    type: equipmentAny.type || equipmentAny.equipmentType || equipmentAny.category || 'equipment',
+    techBase: equipmentAny.techBase || equipmentAny.tech_base || equipmentAny.techbase || 'Inner Sphere',
+    weight: equipmentAny.weight || equipmentAny.weight_tons || equipmentAny.tonnage || 0,
+    slots: equipmentAny.requiredSlots || equipmentAny.critical_slots || equipmentAny.slots || 0,
+    heat: equipmentAny.heat || equipmentAny.heat_generated || equipmentAny.heatGeneration || 0,
+    id: equipmentAny.id || equipmentAny.equipmentId || `equipment-${index}`
   };
 
-  // Tech base color coding
-  const getTechBaseColor = (techBase: EquipmentObject['techBase']) => {
-    return techBase === 'Clan' ? 'text-green-400' : 'text-blue-400';
-  };
+  // V2 Demo style equipment type colors
+  const getEquipmentTypeColor = (type: string): string => {
+    const baseColors = {
+      'weapon': 'bg-red-700 border-red-600',
+      'ammo': 'bg-orange-700 border-orange-600', 
+      'equipment': 'bg-blue-700 border-blue-600',
+      'heat_sink': 'bg-cyan-700 border-cyan-600',
+    }
+    
+    const selectedColors = {
+      'weapon': 'bg-red-500 border-red-400',
+      'ammo': 'bg-orange-500 border-orange-400',
+      'equipment': 'bg-blue-500 border-blue-400', 
+      'heat_sink': 'bg-cyan-500 border-cyan-400',
+    }
+    
+    if (isSelected) {
+      return selectedColors[type as keyof typeof selectedColors] || 'bg-gray-500 border-gray-400'
+    }
+    
+    return baseColors[type as keyof typeof baseColors] || 'bg-gray-700 border-gray-600'
+  }
+
+  // Tech base abbreviation helper
+  const getTechAbbreviation = (techBase: string): string => {
+    switch (techBase) {
+      case 'Inner Sphere': return 'IS'
+      case 'Clan': return 'CLAN'
+      case 'Star League': return 'SL'
+      default: return techBase.substring(0, 3).toUpperCase()
+    }
+  }
+
+  // Handle single click for selection
+  const handleClick = () => {
+    if (readOnly) return;
+    setIsSelected(!isSelected);
+  }
+
+  // Handle double click for removal
+  const handleDoubleClick = () => {
+    if (readOnly) return;
+    onRemove(equipmentData.id);
+  }
+
+  // Dynamic tooltip based on state
+  const getTooltip = () => {
+    if (readOnly) return equipmentData.name;
+    return isSelected 
+      ? 'Click to deselect • Double-click to remove'
+      : 'Click to select • Double-click to remove';
+  }
 
   return (
-    <div className="flex items-center justify-between p-2 bg-slate-700/30 rounded border border-slate-600 hover:bg-slate-700/50 transition-colors">
-      <div className="flex-1 min-w-0">
-        {/* Equipment Type Badge */}
-        <div className="flex items-center gap-2 mb-1">
-          <div className={`px-1.5 py-0.5 rounded text-xs font-medium ${getEquipmentTypeColor(equipment.type)}`}>
-            {equipment.type.toUpperCase()}
-          </div>
-          <div className={`text-xs ${getTechBaseColor(equipment.techBase)}`}>
-            {equipment.techBase}
-          </div>
+    <div 
+      className={`${getEquipmentTypeColor(equipmentData.type)} 
+                 text-white px-2 py-1 rounded border transition-colors hover:opacity-80 
+                 cursor-pointer transform hover:scale-105 ${isSelected ? 'ring-2 ring-blue-400' : ''} 
+                 min-w-0 flex-shrink-0 relative`}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
+      title={getTooltip()}
+    >
+      {/* Yellow star indicator for selected equipment */}
+      {isSelected && (
+        <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-300 text-black rounded-full flex items-center justify-center text-xs font-bold">
+          ★
         </div>
-        
-        {/* Equipment Name */}
-        <div className="font-medium text-slate-100 text-sm truncate">{equipment.name}</div>
-        
-        {/* Equipment Stats */}
-        <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
-          <span>{equipment.weight}t</span>
-          <span>{equipment.requiredSlots} slots</span>
-          {equipment.heat && equipment.heat > 0 && (
-            <span className="text-orange-400">+{equipment.heat} heat</span>
-          )}
-        </div>
+      )}
+      
+      {/* Header with name and tech type */}
+      <div className="flex justify-between items-center">
+        <h4 className="font-medium text-xs pr-1 truncate">{equipmentData.name}</h4>
+        <span className="text-xs font-bold bg-black bg-opacity-40 px-1 py-0.5 rounded text-gray-200">
+          ({getTechAbbreviation(equipmentData.techBase)})
+        </span>
       </div>
       
-      {/* Remove Button */}
-      <button
-        onClick={() => onRemove(equipment.id)}
-        disabled={readOnly}
-        className="ml-2 px-2 py-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors flex-shrink-0"
-        title="Remove equipment"
-      >
-        ×
-      </button>
+      {/* Condensed stats in single line */}
+      <div className="text-xs text-gray-300 leading-tight">
+        <span>
+          {equipmentData.slots}cr • {equipmentData.weight}t
+          {equipmentData.heat !== undefined && equipmentData.heat !== 0 && (
+            <span> • {equipmentData.heat > 0 ? '+' : ''}{equipmentData.heat}h</span>
+          )}
+        </span>
+        {isSelected && (
+          <div className="text-blue-300 font-medium text-xs">Click slot to assign</div>
+        )}
+      </div>
     </div>
   );
 }
@@ -250,9 +313,10 @@ export function UnallocatedEquipmentTray({ isExpanded, onToggle }: UnallocatedEq
         {unallocatedEquipment.length > 0 && (
           <div className="flex-shrink-0 p-4 border-t border-slate-700 bg-slate-800/50">
             <div className="text-slate-400 text-xs">
-              <p className="mb-1">• Equipment here isn't assigned to critical slots yet</p>
-              <p className="mb-1">• Use the Criticals tab to assign equipment to locations</p>
-              <p>• Remove unwanted equipment with the × button</p>
+              <p className="mb-1">• Click equipment to select for critical slot assignment</p>
+              <p className="mb-1">• Double-click equipment to remove from unit</p>
+              <p className="mb-1">• Selected equipment shows yellow star and blue ring</p>
+              <p>• Heat: +X = generated, -X = dissipated</p>
             </div>
           </div>
         )}
