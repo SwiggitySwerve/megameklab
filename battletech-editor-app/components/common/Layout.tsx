@@ -32,36 +32,26 @@ const Layout: React.FC<LayoutProps> = ({
         {/* Add other meta tags, favicons etc. here */}
       </Head>
 
-      <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="flex flex-grow">
+      <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden">
           {/* Global sidebar is expected to be a fixed position component, rendered here */}
           {sidebarComponent && <div className="print:hidden">{sidebarComponent}</div>}
 
           {/* Main content area with optional secondary sidebar */}
-          <div className={`flex-grow flex ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}>
+          <div className={`flex-1 flex ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out overflow-hidden`}>
             {/* Optional page-specific secondary sidebar */}
             {secondarySidebar && (
-              <aside className="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 print:hidden">
+              <aside className="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 print:hidden overflow-auto">
                 {secondarySidebar}
               </aside>
             )}
             
             {/* Main content */}
-            <main className="flex-grow p-4 sm:p-6">
+            <main className="flex-1 overflow-hidden">
               {children}
             </main>
           </div>
         </div>
-
-        {/* Footer */}
-        <footer
-          className={`p-4 bg-gray-200 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300 print:hidden ml-0 ${contentAndFooterMargin} transition-all duration-300 ease-in-out`}
-        >
-          <div className="container mx-auto px-4 text-center">
-            <p>BattleTech Data Editor & Viewer | Concept by Jules</p>
-            <p>&copy; {new Date().getFullYear()} BattleTech Editor Project. All rights reserved.</p>
-          </div>
-        </footer>
       </div>
     </>
   );

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { useUnit } from './UnitProvider'
+import { useUnit } from '../multiUnit/MultiUnitProvider'
 import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot'
 
 // API interfaces
@@ -315,11 +315,11 @@ export function EquipmentBrowser() {
   }
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+    <div className="h-full flex flex-col bg-gray-800 p-4 rounded-lg border border-gray-700">
       <h2 className="text-white text-lg font-bold mb-4">Equipment Browser</h2>
       
-      {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      {/* Filters - Fixed at top */}
+      <div className="flex-shrink-0 grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {/* Search */}
         <div>
           <label className="block text-gray-300 text-sm font-medium mb-2">Search Equipment</label>
@@ -384,121 +384,124 @@ export function EquipmentBrowser() {
         </div>
       </div>
 
-      {/* Loading/Error States */}
-      {loading && (
-        <div className="text-center py-8">
-          <div className="text-gray-400">Loading equipment catalog...</div>
-        </div>
-      )}
-
-      {error && (
-        <div className="bg-red-900 border border-red-600 text-red-100 p-4 rounded-lg mb-4">
-          <div className="font-bold">Error loading equipment catalog:</div>
-          <div>{error}</div>
-          <button 
-            onClick={fetchCatalog}
-            className="mt-2 bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm"
-          >
-            Retry
-          </button>
-        </div>
-      )}
-
-      {catalog && !loading && (
-        <>
-          {/* Results Info */}
-          <div className="flex justify-between items-center mb-4">
-            <div className="text-gray-400 text-sm">
-              Showing {catalog.items.length} of {catalog.totalItems} equipment variants
-              (Page {catalog.currentPage} of {catalog.totalPages})
-            </div>
-            <div className="flex items-center space-x-2">
-              <label className="text-gray-400 text-sm">Items per page:</label>
-              <select
-                value={pageSize}
-                onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-                className="bg-gray-700 border border-gray-600 text-white text-sm rounded px-2 py-1"
-              >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
+      {/* Main Content Area - Scrollable */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Loading/Error States */}
+        {loading && (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-gray-400">Loading equipment catalog...</div>
           </div>
-          
-          {/* Equipment Table */}
-          <div className="flex-1 overflow-hidden">
-            <div className="overflow-auto h-full">
-              <table className="w-full text-left">
-              <thead className="sticky top-0 bg-gray-800">
-                <tr className="border-b border-gray-600">
-                  <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center w-12"></th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Name ▲</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Damage</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Heat</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Min R</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Range</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Shots</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Base</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">BV</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Weight</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Crit</th>
-                  <th className="px-3 py-2 text-gray-300 text-sm font-medium">Reference</th>
-                </tr>
-              </thead>
-              <tbody>
-                {catalog.items.map((variant) => (
-                  <EquipmentRow key={variant.id} variant={variant} />
-                ))}
-              </tbody>
-              </table>
-            </div>
-          </div>
+        )}
 
-          {/* Pagination */}
-          {catalog.totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-2 mt-4">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage <= 1}
-                className="bg-gray-600 hover:bg-gray-500 disabled:bg-gray-700 disabled:text-gray-500 text-white px-3 py-1 rounded text-sm"
-              >
-                Previous
-              </button>
-              
-              {/* Page numbers */}
-              {Array.from({ length: Math.min(5, catalog.totalPages) }, (_, i) => {
-                const pageNum = Math.max(1, Math.min(catalog.totalPages - 4, currentPage - 2)) + i
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    className={`px-3 py-1 rounded text-sm ${
-                      pageNum === currentPage
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-600 hover:bg-gray-500 text-white'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                )
-              })}
-              
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage >= catalog.totalPages}
-                className="bg-gray-600 hover:bg-gray-500 disabled:bg-gray-700 disabled:text-gray-500 text-white px-3 py-1 rounded text-sm"
-              >
-                Next
-              </button>
+        {error && (
+          <div className="flex-shrink-0 bg-red-900 border border-red-600 text-red-100 p-4 rounded-lg mb-4">
+            <div className="font-bold">Error loading equipment catalog:</div>
+            <div>{error}</div>
+            <button 
+              onClick={fetchCatalog}
+              className="mt-2 bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {catalog && !loading && (
+          <>
+            {/* Results Info - Fixed */}
+            <div className="flex-shrink-0 flex justify-between items-center mb-4">
+              <div className="text-gray-400 text-sm">
+                Showing {catalog.items.length} of {catalog.totalItems} equipment variants
+                (Page {catalog.currentPage} of {catalog.totalPages})
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="text-gray-400 text-sm">Items per page:</label>
+                <select
+                  value={pageSize}
+                  onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+                  className="bg-gray-700 border border-gray-600 text-white text-sm rounded px-2 py-1"
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
             </div>
-          )}
-        </>
-      )}
+            
+            {/* Equipment Table - Scrollable */}
+            <div className="flex-1 overflow-hidden border border-gray-600 rounded">
+              <div className="overflow-auto h-full">
+                <table className="w-full text-left">
+                <thead className="sticky top-0 bg-gray-800 z-10">
+                  <tr className="border-b border-gray-600">
+                    <th className="px-2 py-2 text-gray-300 text-sm font-medium text-center w-12"></th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Name ▲</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Damage</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Heat</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Min R</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Range</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Shots</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Base</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">BV</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Weight</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Crit</th>
+                    <th className="px-3 py-2 text-gray-300 text-sm font-medium">Reference</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {catalog.items.map((variant) => (
+                    <EquipmentRow key={variant.id} variant={variant} />
+                  ))}
+                </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Pagination - Fixed at bottom */}
+            {catalog.totalPages > 1 && (
+              <div className="flex-shrink-0 flex justify-center items-center space-x-2 mt-4">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage <= 1}
+                  className="bg-gray-600 hover:bg-gray-500 disabled:bg-gray-700 disabled:text-gray-500 text-white px-3 py-1 rounded text-sm"
+                >
+                  Previous
+                </button>
+                
+                {/* Page numbers */}
+                {Array.from({ length: Math.min(5, catalog.totalPages) }, (_, i) => {
+                  const pageNum = Math.max(1, Math.min(catalog.totalPages - 4, currentPage - 2)) + i
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`px-3 py-1 rounded text-sm ${
+                        pageNum === currentPage
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-600 hover:bg-gray-500 text-white'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  )
+                })}
+                
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= catalog.totalPages}
+                  className="bg-gray-600 hover:bg-gray-500 disabled:bg-gray-700 disabled:text-gray-500 text-white px-3 py-1 rounded text-sm"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
       
-      {/* Instructions */}
-      <div className="mt-4 pt-4 border-t border-gray-600">
+      {/* Instructions - Fixed at bottom */}
+      <div className="flex-shrink-0 mt-4 pt-4 border-t border-gray-600">
         <div className="text-gray-400 text-xs">
           <p className="mb-1">• Click <span className="text-green-400">Add</span> to add equipment to unallocated list</p>
           <p className="mb-1">• Each variant (IS/Clan) is shown as a separate entry with specific stats</p>
