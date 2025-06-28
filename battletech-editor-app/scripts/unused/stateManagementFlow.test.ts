@@ -4,7 +4,7 @@
  * With loop detection and timeout protection
  */
 
-import { testWithLoopDetection, StateChangeMonitor, executeWithLoopDetection } from '../utils/testUtilities';
+import { testWithLoopDetection, StateChangeMonitor, executeWithLoopDetection } from '../scripts/unused/testUtilities';
 import { UnitStateManager } from '../utils/criticalSlots/UnitStateManager';
 import { UnitCriticalManager, UnitConfiguration, UnitConfigurationBuilder } from '../utils/criticalSlots/UnitCriticalManager';
 
