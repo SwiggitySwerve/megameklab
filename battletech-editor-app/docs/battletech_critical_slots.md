@@ -37,22 +37,39 @@
 | **Cockpit** | 1 slot | Head | No |
 | **Available Space** | 1 slot | Head | Yes |
 
-#### **Engine Systems (Center Torso)**
-| Engine Type | CT Slots | Side Torso Slots | Total Slots | Weight Efficiency |
-|-------------|----------|------------------|-------------|-------------------|
-| **Standard** | 6 slots | 0 slots | 6 slots | Standard weight |
-| **Light** | 6 slots | 2 slots each side | 10 slots | 75% weight |
-| **XL (Inner Sphere)** | 6 slots | 3 slots each side | 12 slots | 50% weight |
-| **XL (Clan)** | 6 slots | 2 slots each side | 10 slots | 50% weight |
-| **Compact** | 3 slots | 0 slots | 3 slots | 150% weight |
+#### **Engine Systems (Center Torso + Side Torsos)**
+| Engine Type | CT Slots | Side Torso Slots | Total Slots | Weight Efficiency | Technology Base |
+|-------------|----------|------------------|-------------|-------------------|-----------------|
+| **Standard Fusion** | 6 slots | 0 slots | 6 slots | 100% weight | Universal |
+| **Light Fusion** | 6 slots | 2 slots each side | 10 slots | 75% weight | IS/Clan |
+| **XL (Inner Sphere)** | 6 slots | 3 slots each side | 12 slots | 50% weight | Inner Sphere |
+| **XL (Clan)** | 6 slots | 2 slots each side | 10 slots | 50% weight | Clan |
+| **XXL Fusion** | 6 slots | 6 slots each side | 18 slots | 33% weight | IS/Clan |
+| **Compact Fusion** | 3 slots | 0 slots | 3 slots | 150% weight | IS/Clan |
+| **ICE Engine** | 6 slots | 0 slots | 6 slots | Standard weight | Industrial |
+| **Fuel Cell** | 6 slots | 0 slots | 6 slots | Standard weight | Industrial |
+
+#### **Engine Slot Placement Rules**
+- **Center Torso**: All engines use slots 1-3, then additional slots after gyro (slots 8-10, 11-12 as needed)
+- **Side Torsos**: XL, Light, and XXL engines place additional slots starting from slot 1
+- **Gyro Dependency**: Engine's second CT group placement depends on gyro size
+- **Critical Vulnerability**: XL and XXL engines are destroyed if either side torso is destroyed
 
 #### **Gyroscope Systems (Center Torso)**
-| Gyro Type | Slots Required | Special Rules | Weight |
-|-----------|----------------|---------------|---------|
-| **Standard** | 4 slots | None | Standard |
-| **Compact** | 2 slots | +1 Piloting penalty | 150% weight |
-| **Heavy Duty** | 6 slots | +1 critical hit resistance | 200% weight |
-| **XL Gyro** | 6 slots | Extra vulnerability | 50% weight |
+| Gyro Type | Slots Required | Special Rules | Weight | Technology Base |
+|-----------|----------------|---------------|---------|-----------------|
+| **Standard** | 4 slots | None | 100% weight | Universal |
+| **Compact** | 2 slots | +1 Piloting penalty | 150% weight | IS/Clan |
+| **Heavy-Duty** | 4 slots | +1 critical hit resistance | 200% weight | IS/Clan |
+| **XL Gyro** | 6 slots | Extra vulnerability | 50% weight | IS/Clan |
+
+#### **Gyro Slot Placement Rules**
+- **Placement**: All gyros use Center Torso slots 4-7 (standard), expanding as needed
+- **Standard Gyro**: Slots 4-7 (4 slots total)
+- **XL Gyro**: Slots 4-9 (6 slots total)
+- **Compact Gyro**: Slots 4-5 (2 slots total)
+- **Heavy-Duty Gyro**: Slots 4-7 (4 slots total)
+- **Engine Interaction**: Engine's second slot group starts after gyro ends
 
 ### **2. Actuator Systems**
 

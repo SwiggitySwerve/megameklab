@@ -586,31 +586,23 @@ export class UnitCriticalManager {
    */
   private initializeSpecialComponents(): void {
     if (this.specialComponentsInitialized) {
-      console.log('[UnitCriticalManager] Special components already initialized, skipping')
       return
     }
 
-    console.log('[UnitCriticalManager] FACTORY: Initializing special components for unit creation')
-    console.log('[UnitCriticalManager] Structure type:', this.configuration.structureType)
-    console.log('[UnitCriticalManager] Armor type:', this.configuration.armorType)
-    
     // Create structure components if needed
     const structureSlots = this.getStructureCriticalSlots(this.configuration.structureType)
     if (structureSlots > 0) {
-      console.log(`[UnitCriticalManager] FACTORY: Creating ${structureSlots} structure components for ${this.configuration.structureType}`)
       this.addSpecialComponents(this.configuration.structureType, 'structure', structureSlots)
     }
     
     // Create armor components if needed
     const armorSlots = this.getArmorCriticalSlots(this.configuration.armorType)
     if (armorSlots > 0) {
-      console.log(`[UnitCriticalManager] FACTORY: Creating ${armorSlots} armor components for ${this.configuration.armorType}`)
       this.addSpecialComponents(this.configuration.armorType, 'armor', armorSlots)
     }
     
     // Create jump jet components if needed
     if (this.configuration.jumpMP > 0) {
-      console.log(`[UnitCriticalManager] FACTORY: Creating ${this.configuration.jumpMP} jump jet components`)
       this.addJumpJetEquipment(
         this.configuration.jumpJetType, 
         this.configuration.jumpMP, 
@@ -620,7 +612,6 @@ export class UnitCriticalManager {
     }
     
     this.specialComponentsInitialized = true
-    console.log(`[UnitCriticalManager] FACTORY: Special component initialization complete. Unallocated equipment count: ${this.unallocatedEquipment.length}`)
   }
 
   /**

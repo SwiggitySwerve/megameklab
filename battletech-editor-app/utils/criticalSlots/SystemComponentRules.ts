@@ -45,7 +45,7 @@ export class SystemComponentRules {
         allocation.centerTorso = [3, 4] // Slots 4-5
         break
       case 'Heavy-Duty':
-        allocation.centerTorso = [3, 4, 5, 6] // Slots 4-7
+        allocation.centerTorso = [3, 4, 5, 6] // Slots 4-7 (4 slots, same as Standard)
         break
     }
 
@@ -53,32 +53,93 @@ export class SystemComponentRules {
   }
 
   /**
-   * Get engine slot allocation based on engine type and gyro configuration
+   * Get engine slot allocation based on engine type (official BattleTech rules)
+   * CRITICAL FIX: Engine placement is gyro-aware - engine slots come after gyro ends
    */
   static getEngineAllocation(engineType: EngineType, gyroType: GyroType): SystemAllocation {
     const allocation: SystemAllocation = {
-      centerTorso: [0, 1, 2], // ALL engines ALWAYS take CT slots 1-3
+      centerTorso: [],
       leftTorso: [],
       rightTorso: []
     }
 
-    // XL engines add additional slots
-    if (engineType === 'XL') {
-      allocation.leftTorso = [0, 1, 2]  // LT slots 1-3
-      allocation.rightTorso = [0, 1, 2] // RT slots 1-3
-      
-      // Additional CT slots after gyro
-      const gyroAllocation = this.getGyroAllocation(gyroType)
-      const gyroEndSlot = Math.max(...gyroAllocation.centerTorso)
-      
-      // XL engine takes 3 slots after gyro ends
-      allocation.centerTorso.push(gyroEndSlot + 1, gyroEndSlot + 2, gyroEndSlot + 3)
-    }
-    
-    // Light engines add reduced side torso slots
-    if (engineType === 'Light') {
-      allocation.leftTorso = [0, 1]   // LT slots 1-2
-      allocation.rightTorso = [0, 1]  // RT slots 1-2
+    // Get gyro allocation to determine where engine's second slot group should start
+    const gyroAllocation = this.getGyroAllocation(gyroType)
+    const gyroEndSlot = gyroAllocation.centerTorso.length > 0 
+      ? Math.max(...gyroAllocation.centerTorso) 
+      : 2 // If no gyro slots, start after slot 3 (index 2)
+
+    switch (engineType) {
+      case 'Standard':
+      case 'ICE':
+      case 'Fuel Cell':
+        // Standard engines: 6 slots total (3 before gyro + 3 after gyro)
+        allocation.centerTorso = [0, 1, 2] // Always slots 1-3 first
+        
+        // Add 3 more slots after gyro ends
+        for (let i = 1; i <= 3; i++) {
+          const slot = gyroEndSlot + i
+          if (slot < 12) { // Don't exceed CT slot limit
+            allocation.centerTorso.push(slot)
+          }
+        }
+        break
+        
+      case 'XL':
+        // XL engines: 12 slots total (6 CT + 3 each side)
+        allocation.centerTorso = [0, 1, 2] // Always slots 1-3 first
+        
+        // Add 3 more CT slots after gyro ends
+        for (let i = 1; i <= 3; i++) {
+          const slot = gyroEndSlot + i
+          if (slot < 12) { // Don't exceed CT slot limit
+            allocation.centerTorso.push(slot)
+          }
+        }
+        
+        // Side torso slots for XL engine
+        allocation.leftTorso = [0, 1, 2]  // Slots 1-3
+        allocation.rightTorso = [0, 1, 2] // Slots 1-3
+        break
+        
+      case 'Light':
+        // Light engines: 10 slots total (6 CT + 2 each side)
+        allocation.centerTorso = [0, 1, 2] // Always slots 1-3 first
+        
+        // Add 3 more CT slots after gyro ends
+        for (let i = 1; i <= 3; i++) {
+          const slot = gyroEndSlot + i
+          if (slot < 12) { // Don't exceed CT slot limit
+            allocation.centerTorso.push(slot)
+          }
+        }
+        
+        // Two side torso slots for Light engine
+        allocation.leftTorso = [0, 1]   // Slots 1-2
+        allocation.rightTorso = [0, 1]  // Slots 1-2
+        break
+        
+      case 'XXL':
+        // XXL engines: 18 slots total (6 CT + 6 each side)
+        allocation.centerTorso = [0, 1, 2] // Always slots 1-3 first
+        
+        // Add 3 more CT slots after gyro ends (for total of 6 CT slots)
+        for (let i = 1; i <= 3; i++) {
+          const slot = gyroEndSlot + i
+          if (slot < 12) { // Don't exceed CT slot limit
+            allocation.centerTorso.push(slot)
+          }
+        }
+        
+        // Side torso slots for XXL engine (6 each side)
+        allocation.leftTorso = [0, 1, 2, 3, 4, 5]  // Slots 1-6
+        allocation.rightTorso = [0, 1, 2, 3, 4, 5] // Slots 1-6
+        break
+        
+      case 'Compact':
+        // Compact engines: 3 slots in Center Torso (only the first 3 slots)
+        allocation.centerTorso = [0, 1, 2] // Slots 1-3, no slots after gyro
+        break
     }
 
     return allocation
@@ -123,11 +184,26 @@ export class SystemComponentRules {
       const allocation = this.getCompleteSystemAllocation(engineType, gyroType)
       
       // Check for slot overflow in center torso
-      const maxCenterTorsoSlot = Math.max(...allocation.combined.centerTorso)
-      if (maxCenterTorsoSlot >= 12) {
+      if (allocation.combined.centerTorso.length > 0) {
+        const maxCenterTorsoSlot = Math.max(...allocation.combined.centerTorso)
+        if (maxCenterTorsoSlot >= 12) {
+          result.isValid = false
+          result.errors.push(
+            `${engineType} engine with ${gyroType} gyro requires slot ${maxCenterTorsoSlot + 1}, but Center Torso only has 12 slots`
+          )
+        }
+      }
+
+      // Check that engines get their full complement of slots
+      const expectedEngineSlots = this.getExpectedEngineSlots(engineType)
+      const actualEngineSlots = allocation.engine.centerTorso.length + 
+                               allocation.engine.leftTorso.length + 
+                               allocation.engine.rightTorso.length
+      
+      if (actualEngineSlots < expectedEngineSlots) {
         result.isValid = false
         result.errors.push(
-          `${engineType} engine with ${gyroType} gyro requires slot ${maxCenterTorsoSlot + 1}, but Center Torso only has 12 slots`
+          `${engineType} engine requires ${expectedEngineSlots} slots but only ${actualEngineSlots} slots available with ${gyroType} gyro`
         )
       }
 
@@ -150,6 +226,28 @@ export class SystemComponentRules {
     }
 
     return result
+  }
+
+  /**
+   * Get expected number of critical slots for each engine type
+   */
+  private static getExpectedEngineSlots(engineType: EngineType): number {
+    switch (engineType) {
+      case 'Standard':
+      case 'ICE':
+      case 'Fuel Cell':
+        return 6
+      case 'XL':
+        return 12
+      case 'Light':
+        return 10
+      case 'XXL':
+        return 18
+      case 'Compact':
+        return 3
+      default:
+        return 6
+    }
   }
 
   /**
