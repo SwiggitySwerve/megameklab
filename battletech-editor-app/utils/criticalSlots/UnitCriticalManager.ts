@@ -1869,7 +1869,9 @@ export class UnitCriticalManager {
       this.configuration = UnitConfigurationBuilder.buildConfiguration(state.configuration)
       
       // Rebuild system components with new configuration
-      this.rebuildSystemComponents()
+      // CRITICAL FIX: Skip special component initialization during state restoration
+      // Special components will be restored from saved unallocated equipment instead
+      this.rebuildSystemComponents(true)
       
       // Restore allocated equipment
       this.restoreAllocatedEquipment(state.criticalSlotAllocations)
@@ -2004,9 +2006,10 @@ export class UnitCriticalManager {
 
   /**
    * Rebuild system components after configuration change
+   * @param skipSpecialComponents - Skip special component initialization during state restoration
    */
-  private rebuildSystemComponents(): void {
-    console.log('[UnitCriticalManager] Rebuilding system components')
+  private rebuildSystemComponents(skipSpecialComponents: boolean = false): void {
+    console.log('[UnitCriticalManager] Rebuilding system components, skipSpecialComponents:', skipSpecialComponents)
     
     // CRITICAL FIX: Clear ALL special components before rebuilding
     this.clearAllSpecialComponents()
@@ -2020,8 +2023,14 @@ export class UnitCriticalManager {
     // Reallocate system components with current configuration
     this.allocateSystemComponents()
     
-    // Reinitialize special components (Endo Steel, Ferro-Fibrous, Jump Jets)
-    this.initializeSpecialComponents()
+    // Reinitialize special components ONLY if not restoring state
+    // During state restoration, special components will be restored from saved unallocated equipment
+    if (!skipSpecialComponents) {
+      console.log('[UnitCriticalManager] Initializing special components for new/modified configuration')
+      this.initializeSpecialComponents()
+    } else {
+      console.log('[UnitCriticalManager] Skipping special component initialization during state restoration')
+    }
   }
 
   /**
