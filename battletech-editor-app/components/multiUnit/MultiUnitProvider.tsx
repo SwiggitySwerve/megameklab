@@ -70,6 +70,9 @@ const MultiUnitContext = createContext<MultiUnitContextValue | null>(null)
 
 // Default unit configuration for new units
 const createDefaultConfiguration = (): UnitConfiguration => ({
+  // Default chassis/model for new multi-unit tabs
+  chassis: 'Custom',
+  model: 'New Design',
   tonnage: 50,
   unitType: 'BattleMech',
   techBase: 'Inner Sphere',

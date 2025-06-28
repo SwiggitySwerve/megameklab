@@ -79,6 +79,9 @@ export function NewTabModal({ onClose, onCreate }: NewTabModalProps) {
       case 'new':
         const template = UNIT_TEMPLATES[selectedTemplate]
         const newConfig: UnitConfiguration = {
+          // Generate chassis and model for template
+          chassis: 'Custom',
+          model: template.name.replace(' ', '-'),
           tonnage: template.config.tonnage || 50,
           unitType: 'BattleMech',
           techBase: 'Inner Sphere',

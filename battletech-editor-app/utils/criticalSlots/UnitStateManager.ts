@@ -22,6 +22,9 @@ export class UnitStateManager {
   constructor(initialConfiguration?: UnitConfiguration) {
     // Create default unit if no configuration provided
     const defaultConfig: UnitConfiguration = initialConfiguration || {
+      // Default chassis/model for state manager
+      chassis: 'Custom',
+      model: 'New Design',
       engineType: 'Standard',
       gyroType: 'Standard',
       tonnage: 50,

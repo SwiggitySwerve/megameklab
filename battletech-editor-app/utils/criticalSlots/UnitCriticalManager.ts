@@ -80,6 +80,10 @@ export interface ArmorAllocation {
 }
 
 export interface UnitConfiguration {
+  // Primary identification
+  chassis: string                    // "Annihilator", "Atlas", etc.
+  model: string                      // "ANH-1E", "AS7-D", etc.
+  
   // Core mech properties
   tonnage: number                    // 20-100 tons in 5-ton increments
   unitType: 'BattleMech' | 'IndustrialMech'
@@ -164,6 +168,9 @@ export class UnitConfigurationBuilder {
     const walkMP = 4 // Default reasonable walk speed
     
     return this.calculateDependentValues({
+      // Default chassis/model for legacy units
+      chassis: 'Unknown',
+      model: 'Legacy',
       tonnage,
       unitType: legacy.unitType,
       techBase: 'Inner Sphere',
@@ -204,6 +211,9 @@ export class UnitConfigurationBuilder {
    */
   private static getDefaultConfiguration(): UnitConfiguration {
     return {
+      // Default chassis/model for new units
+      chassis: 'Custom',
+      model: 'New Design',
       tonnage: 50,
       unitType: 'BattleMech',
       techBase: 'Inner Sphere',
