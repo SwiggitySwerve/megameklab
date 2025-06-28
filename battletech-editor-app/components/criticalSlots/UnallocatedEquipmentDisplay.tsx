@@ -188,6 +188,14 @@ function CategorySection({
 }) {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
 
+  // Auto-expand all equipment groups when category is expanded
+  React.useEffect(() => {
+    if (isExpanded && expandedGroups.size === 0) {
+      const allGroups = new Set(Object.keys(category.groups))
+      setExpandedGroups(allGroups)
+    }
+  }, [isExpanded, category.groups, expandedGroups.size])
+
   const toggleGroup = (equipmentName: string) => {
     const newExpanded = new Set(expandedGroups)
     if (newExpanded.has(equipmentName)) {
@@ -323,32 +331,33 @@ function EquipmentItem({ equipment }: { equipment: EquipmentAllocation }) {
 }
 
 export function UnallocatedEquipmentDisplay() {
-  const { unallocatedEquipment, summary, unit } = useUnit()
+  const { unit } = useUnit()
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
 
-  // CRITICAL FIX: Deduplicate equipment by groupId to solve duplication issue
-  const deduplicatedEquipment = useMemo(() => {
-    const seen = new Set<string>()
-    const deduplicated = unallocatedEquipment.filter(eq => {
-      if (seen.has(eq.equipmentGroupId)) {
-        return false // Skip duplicates
-      }
-      seen.add(eq.equipmentGroupId)
-      return true
-    })
-    
-    // Log deduplication results
-    if (unallocatedEquipment.length !== deduplicated.length) {
-      console.warn(`🔧 DEDUPLICATION: Removed ${unallocatedEquipment.length - deduplicated.length} duplicate items (${unallocatedEquipment.length} → ${deduplicated.length})`)
-    }
-    
-    return deduplicated
-  }, [unallocatedEquipment])
+  // PROPER ARCHITECTURE: Get fresh data directly from unit each render
+  const unallocatedEquipment = unit.getUnallocatedEquipment()
 
-  // Group equipment by category using deduplicated list
+  // Reset button handler with confirmation
+  const handleResetToBase = () => {
+    const confirmReset = window.confirm(
+      `Are you sure you want to reset to base configuration?\n\n` +
+      `This will:\n` +
+      `• Clear ALL allocated equipment\n` +
+      `• Reset special components (Endo Steel, Ferro-Fibrous, Jump Jets)\n` +
+      `• Rebuild unit from current configuration\n\n` +
+      `This action cannot be undone.`
+    )
+    
+    if (confirmReset) {
+      console.log('[UnallocatedEquipmentDisplay] User confirmed reset to base configuration')
+      unit.resetToBaseConfiguration()
+    }
+  }
+  
+  // Group equipment by category using fresh data from unit
   const categorizedEquipment = useMemo(() => {
-    return groupEquipmentByCategory(deduplicatedEquipment)
-  }, [deduplicatedEquipment])
+    return groupEquipmentByCategory(unallocatedEquipment)
+  }, [unallocatedEquipment])
 
   // Toggle category expansion
   const toggleCategory = (categoryName: string) => {
@@ -417,16 +426,18 @@ export function UnallocatedEquipmentDisplay() {
     <div className="bg-gray-800 p-2 rounded border border-gray-700">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-white text-sm font-bold">
-          Unallocated ({deduplicatedEquipment.length})
-          {unallocatedEquipment.length !== deduplicatedEquipment.length && (
-            <span className="text-yellow-400 ml-1">
-              [Fixed: was {unallocatedEquipment.length}]
-            </span>
-          )}
+          Unallocated ({unallocatedEquipment.length})
         </h3>
+        <button
+          onClick={handleResetToBase}
+          className="bg-red-600 hover:bg-red-700 text-white text-xs px-1 py-0.5 rounded border border-red-500 transition-colors"
+          title="Reset to Base Configuration - Clears all equipment and rebuilds unit fresh"
+        >
+          🔄
+        </button>
       </div>
       
-      {deduplicatedEquipment.length === 0 ? (
+      {unallocatedEquipment.length === 0 ? (
         <div className="text-center py-4 text-gray-400 text-sm">✓ All allocated</div>
       ) : (
         <div className="space-y-1">

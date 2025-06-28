@@ -445,6 +445,8 @@ export class UnitCriticalManager {
   private unallocatedEquipment: EquipmentAllocation[]
   private configuration: UnitConfiguration
   private listeners: (() => void)[] = []
+  private specialComponentsInitialized: boolean = false // Track if special components created
+  private static globalComponentCounter: number = 0 // CRITICAL FIX: Global counter for absolutely unique IDs
 
   constructor(configuration: UnitConfiguration | LegacyUnitConfiguration) {
     // Convert legacy configuration to new format if needed
@@ -565,31 +567,36 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Initialize special components for the initial configuration
-   * This ensures that units with Endo Steel/Ferro-Fibrous get their components on startup
+   * Initialize special components ONCE during unit factory creation
+   * FACTORY PATTERN: Components are created exactly once based on initial configuration
    */
   private initializeSpecialComponents(): void {
-    console.log('[UnitCriticalManager] Initializing special components for unit')
+    if (this.specialComponentsInitialized) {
+      console.log('[UnitCriticalManager] Special components already initialized, skipping')
+      return
+    }
+
+    console.log('[UnitCriticalManager] FACTORY: Initializing special components for unit creation')
     console.log('[UnitCriticalManager] Structure type:', this.configuration.structureType)
     console.log('[UnitCriticalManager] Armor type:', this.configuration.armorType)
     
     // Create structure components if needed
     const structureSlots = this.getStructureCriticalSlots(this.configuration.structureType)
     if (structureSlots > 0) {
-      console.log(`[UnitCriticalManager] Creating ${structureSlots} structure components for ${this.configuration.structureType}`)
+      console.log(`[UnitCriticalManager] FACTORY: Creating ${structureSlots} structure components for ${this.configuration.structureType}`)
       this.addSpecialComponents(this.configuration.structureType, 'structure', structureSlots)
     }
     
     // Create armor components if needed
     const armorSlots = this.getArmorCriticalSlots(this.configuration.armorType)
     if (armorSlots > 0) {
-      console.log(`[UnitCriticalManager] Creating ${armorSlots} armor components for ${this.configuration.armorType}`)
+      console.log(`[UnitCriticalManager] FACTORY: Creating ${armorSlots} armor components for ${this.configuration.armorType}`)
       this.addSpecialComponents(this.configuration.armorType, 'armor', armorSlots)
     }
     
     // Create jump jet components if needed
     if (this.configuration.jumpMP > 0) {
-      console.log(`[UnitCriticalManager] Creating ${this.configuration.jumpMP} jump jet components`)
+      console.log(`[UnitCriticalManager] FACTORY: Creating ${this.configuration.jumpMP} jump jet components`)
       this.addJumpJetEquipment(
         this.configuration.jumpJetType, 
         this.configuration.jumpMP, 
@@ -598,7 +605,8 @@ export class UnitCriticalManager {
       )
     }
     
-    console.log(`[UnitCriticalManager] Special component initialization complete. Unallocated equipment count: ${this.unallocatedEquipment.length}`)
+    this.specialComponentsInitialized = true
+    console.log(`[UnitCriticalManager] FACTORY: Special component initialization complete. Unallocated equipment count: ${this.unallocatedEquipment.length}`)
   }
 
   /**
@@ -676,6 +684,7 @@ export class UnitCriticalManager {
 
   /**
    * Handle system component changes with proper equipment displacement
+   * CRITICAL FIX: Don't rebuild special components here - they're handled separately
    */
   private handleSystemComponentChange(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): void {
     const allDisplacedEquipment: EquipmentAllocation[] = []
@@ -711,13 +720,33 @@ export class UnitCriticalManager {
       }
     })
     
-    // Allocate new system components using the new config values
-    this.allocateSystemComponentsWithConfig(newConfig)
+    // CRITICAL FIX: Only allocate system components (engine/gyro), not special components
+    // Special components are handled separately by updateSpecialComponents()
+    this.allocateSystemComponentsOnly(newConfig)
     
     // Add all displaced equipment to unallocated pool
     if (allDisplacedEquipment.length > 0) {
       this.addUnallocatedEquipment(allDisplacedEquipment)
     }
+  }
+
+  /**
+   * Allocate ONLY system components (engine/gyro) without touching special components
+   */
+  private allocateSystemComponentsOnly(config: UnitConfiguration): void {
+    const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
+      config.engineType,
+      config.gyroType
+    )
+
+    // Allocate engine slots
+    this.allocateEngineSlots(systemAllocation.engine)
+    
+    // Allocate gyro slots
+    this.allocateGyroSlots(systemAllocation.gyro)
+    
+    // DO NOT call initializeSpecialComponents() here - special components
+    // are handled separately by updateSpecialComponents()
   }
 
   /**
@@ -738,92 +767,280 @@ export class UnitCriticalManager {
 
   /**
    * Handle special component changes (Endo Steel, Ferro-Fibrous, Jump Jets)
+   * ULTIMATE FIX: Always clear ALL special components and recreate from scratch
    */
   private handleSpecialComponentConfigurationChange(
     oldConfig: UnitConfiguration, 
     newConfig: UnitConfiguration
   ): void {
-    // Handle structure type changes
-    if (oldConfig.structureType !== newConfig.structureType) {
-      this.updateSpecialComponents(
-        oldConfig.structureType,
-        newConfig.structureType,
-        'structure'
-      )
+    console.log('[UnitCriticalManager] ULTIMATE FIX: Handling special component configuration change')
+    
+    // ULTIMATE FIX: Clear ALL special components first to ensure clean slate
+    console.log('[UnitCriticalManager] ULTIMATE FIX: Clearing ALL special components')
+    this.clearAllSpecialComponents()
+    
+    // Now recreate exactly what's needed for the new configuration
+    console.log('[UnitCriticalManager] ULTIMATE FIX: Creating components for new configuration')
+    
+    // Create structure components if needed
+    const structureSlots = this.getStructureCriticalSlots(newConfig.structureType)
+    if (structureSlots > 0) {
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${structureSlots} structure components for ${newConfig.structureType}`)
+      this.addSpecialComponents(newConfig.structureType, 'structure', structureSlots)
     }
     
-    // Handle armor type changes
-    if (oldConfig.armorType !== newConfig.armorType) {
-      this.updateSpecialComponents(
-        oldConfig.armorType,
-        newConfig.armorType,
-        'armor'
-      )
+    // Create armor components if needed
+    const armorSlots = this.getArmorCriticalSlots(newConfig.armorType)
+    if (armorSlots > 0) {
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${armorSlots} armor components for ${newConfig.armorType}`)
+      this.addSpecialComponents(newConfig.armorType, 'armor', armorSlots)
     }
     
-    // Handle jump jet changes
-    if (oldConfig.jumpMP !== newConfig.jumpMP || oldConfig.jumpJetType !== newConfig.jumpJetType) {
-      this.updateJumpJetEquipment(oldConfig, newConfig)
+    // Handle jump jets
+    if (newConfig.jumpMP > 0) {
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${newConfig.jumpMP} jump jet components`)
+      this.addJumpJetEquipment(newConfig.jumpJetType, newConfig.jumpMP, newConfig.tonnage, newConfig.techBase)
     }
+    
+    console.log(`[UnitCriticalManager] ULTIMATE FIX: Special component update complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
   }
 
   /**
-   * Update special components for structure or armor changes
+   * FACTORY PATTERN: Update special components for structure or armor changes
+   * CRITICAL FIX: Always clear and create exact number needed to prevent accumulation
    */
   private updateSpecialComponents(
     oldType: StructureType | ArmorType,
     newType: StructureType | ArmorType,
     componentType: 'structure' | 'armor'
   ): void {
-    console.log(`[UnitCriticalManager] updateSpecialComponents called: ${oldType} -> ${newType} (${componentType})`)
+    console.log(`[UnitCriticalManager] COMPONENT UPDATE: ${oldType} -> ${newType} (${componentType})`)
     
-    // Remove old special components if they exist
-    const oldSlots = componentType === 'armor' 
-      ? this.getArmorCriticalSlots(oldType as ArmorType)
-      : this.getStructureCriticalSlots(oldType as StructureType)
-    
-    console.log(`[UnitCriticalManager] Old ${componentType} type ${oldType} requires ${oldSlots} slots`)
-    
-    if (oldSlots > 0) {
-      console.log(`[UnitCriticalManager] Removing old ${componentType} components: ${oldType}`)
-      this.removeSpecialComponents(oldType, componentType)
-    }
-    
-    // Add new special components if needed
     const newSlots = componentType === 'armor'
       ? this.getArmorCriticalSlots(newType as ArmorType)
       : this.getStructureCriticalSlots(newType as StructureType)
     
-    console.log(`[UnitCriticalManager] New ${componentType} type ${newType} requires ${newSlots} slots`)
+    console.log(`[UnitCriticalManager] COMPONENT UPDATE: Need ${newSlots} slots for ${newType}`)
     
+    // CRITICAL FIX: Always clear ALL components of this type first to prevent accumulation
+    console.log(`[UnitCriticalManager] COMPONENT UPDATE: Clearing all ${componentType} components`)
+    this.clearSpecialComponentsByType(componentType)
+    
+    // Create exactly the number of components needed for the new type
     if (newSlots > 0) {
-      console.log(`[UnitCriticalManager] Adding new ${componentType} components: ${newType}`)
+      console.log(`[UnitCriticalManager] COMPONENT UPDATE: Creating ${newSlots} new ${newType} components`)
       this.addSpecialComponents(newType, componentType, newSlots)
+    }
+    
+    console.log(`[UnitCriticalManager] COMPONENT UPDATE: Complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
+  }
+  
+  /**
+   * Clear all special components of a specific type (structure or armor)
+   */
+  private clearSpecialComponentsByType(componentType: 'structure' | 'armor'): void {
+    const beforeCount = this.unallocatedEquipment.length
+    
+    // Remove from unallocated equipment
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => {
+      const specialEq = eq.equipmentData as SpecialEquipmentObject
+      return !(specialEq.componentType === componentType)
+    })
+    
+    // Remove from allocated slots across all sections
+    let removedFromSlots = 0
+    this.sections.forEach(section => {
+      const equipmentToRemove = section.getAllEquipment().filter(eq => {
+        const specialEq = eq.equipmentData as SpecialEquipmentObject
+        return specialEq.componentType === componentType
+      })
+      
+      equipmentToRemove.forEach(eq => {
+        const removed = section.removeEquipmentGroup(eq.equipmentGroupId)
+        if (removed) {
+          removedFromSlots++
+        }
+      })
+    })
+    
+    const afterCount = this.unallocatedEquipment.length
+    console.log(`[UnitCriticalManager] Cleared ${componentType} components:`)
+    console.log(`  - From unallocated: ${beforeCount - afterCount}`)
+    console.log(`  - From allocated slots: ${removedFromSlots}`)
+    console.log(`  - Total cleared: ${(beforeCount - afterCount) + removedFromSlots}`)
+  }
+
+  /**
+   * FACTORY PATTERN: Transfer special components between types
+   * This maintains the exact component instances, just updates their properties
+   */
+  private transferSpecialComponents(
+    oldType: StructureType | ArmorType,
+    newType: StructureType | ArmorType,
+    componentType: 'structure' | 'armor',
+    oldSlots: number,
+    newSlots: number
+  ): void {
+    console.log(`[UnitCriticalManager] TRANSFER: Starting component transfer for ${componentType}`)
+    
+    // Collect all existing components of this type (allocated + unallocated)
+    const existingComponents = this.collectExistingSpecialComponents(oldType, componentType)
+    console.log(`[UnitCriticalManager] TRANSFER: Found ${existingComponents.length} existing components`)
+    
+    // Remove existing components from their current locations
+    this.removeSpecialComponents(oldType, componentType)
+    
+    if (newSlots === 0) {
+      // Configuration no longer requires special components
+      console.log(`[UnitCriticalManager] TRANSFER: New type ${newType} requires no slots, components removed`)
+      return
+    }
+    
+    // Transfer/adjust components to match new requirements
+    if (newSlots === oldSlots) {
+      // Same number of slots: just update component properties and place in unallocated
+      console.log(`[UnitCriticalManager] TRANSFER: Same slot count, updating component properties`)
+      this.updateComponentProperties(existingComponents, newType, componentType)
+      // Place updated components in unallocated pool for user to re-assign
+      this.unallocatedEquipment.push(...existingComponents)
+    } else if (newSlots < oldSlots) {
+      // Fewer slots needed: keep first N components, update properties
+      console.log(`[UnitCriticalManager] TRANSFER: Fewer slots needed (${newSlots}), keeping first ${newSlots} components`)
+      const keptComponents = existingComponents.slice(0, newSlots)
+      this.updateComponentProperties(keptComponents, newType, componentType)
+      // Place kept components in unallocated pool for user to re-assign
+      this.unallocatedEquipment.push(...keptComponents)
+    } else {
+      // More slots needed: keep all existing + create additional
+      console.log(`[UnitCriticalManager] TRANSFER: More slots needed (${newSlots}), creating ${newSlots - oldSlots} additional components`)
+      this.updateComponentProperties(existingComponents, newType, componentType)
+      // Place existing components in unallocated pool
+      this.unallocatedEquipment.push(...existingComponents)
+      
+      // Create additional components needed
+      const additionalComponents = this.createSpecialComponentEquipment(
+        newType, 
+        componentType, 
+        newSlots - oldSlots
+      )
+      
+      additionalComponents.forEach(component => {
+        const allocation: EquipmentAllocation = {
+          equipmentData: component,
+          equipmentGroupId: `${component.id}_group`,
+          location: '',
+          startSlotIndex: -1,
+          endSlotIndex: -1,
+          occupiedSlots: []
+        }
+        this.unallocatedEquipment.push(allocation)
+      })
     }
   }
 
   /**
+   * Collect all existing special components (allocated + unallocated)
+   */
+  private collectExistingSpecialComponents(
+    type: StructureType | ArmorType,
+    componentType: 'structure' | 'armor'
+  ): EquipmentAllocation[] {
+    const components: EquipmentAllocation[] = []
+    
+    // Collect from unallocated equipment
+    this.unallocatedEquipment.forEach(eq => {
+      const specialEq = eq.equipmentData as SpecialEquipmentObject
+      if (specialEq.name === type && specialEq.componentType === componentType) {
+        components.push(eq)
+      }
+    })
+    
+    // Collect from critical slots across all sections
+    this.sections.forEach(section => {
+      section.getAllEquipment().forEach(eq => {
+        const specialEq = eq.equipmentData as SpecialEquipmentObject
+        if (specialEq.name === type && specialEq.componentType === componentType) {
+          components.push(eq)
+        }
+      })
+    })
+    
+    return components
+  }
+
+  /**
+   * Update properties of existing components to match new type
+   * CRITICAL FIX: Do NOT push components back to unallocated here - caller handles placement
+   */
+  private updateComponentProperties(
+    components: EquipmentAllocation[],
+    newType: StructureType | ArmorType,
+    componentType: 'structure' | 'armor'
+  ): void {
+    components.forEach((allocation, index) => {
+      // Update the equipment data properties
+      const updatedEquipmentData: SpecialEquipmentObject = {
+        ...allocation.equipmentData,
+        id: `${newType.toLowerCase().replace(/\s+/g, '_')}_piece_${index + 1}`,
+        name: newType,
+        techBase: newType.includes('Clan') ? 'Clan' : 'Inner Sphere',
+        componentType
+      }
+      
+      // Update the allocation
+      allocation.equipmentData = updatedEquipmentData
+      allocation.equipmentGroupId = `${updatedEquipmentData.id}_group`
+      
+      // CRITICAL FIX: Do NOT push back to unallocated here!
+      // The caller (transferSpecialComponents) will handle proper placement
+      // This was causing 100+ component duplication because components 
+      // from BOTH allocated and unallocated pools were being pushed to unallocated
+    })
+  }
+
+  /**
    * Add special component pieces to unallocated equipment
+   * CRITICAL FIX: Ensure absolutely unique group IDs to prevent "lot assignment" bug
    */
   private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor', requiredSlots: number): void {
     console.log(`[UnitCriticalManager] Adding special components: ${type} (${componentType}) - ${requiredSlots} slots`)
     const components = this.createSpecialComponentEquipment(type, componentType, requiredSlots)
     console.log(`[UnitCriticalManager] Created ${components.length} component pieces:`, components)
     
-    components.forEach(component => {
+    components.forEach((component, index) => {
+      // CRITICAL FIX: Generate absolutely unique group IDs using global counter
+      UnitCriticalManager.globalComponentCounter++
+      const uniqueGroupId = `${component.id}_group_${UnitCriticalManager.globalComponentCounter}_${Date.now()}_${index}`
+      
       const allocation: EquipmentAllocation = {
         equipmentData: component,
-        equipmentGroupId: `${component.id}_group`,
+        equipmentGroupId: uniqueGroupId,
         location: '',
         startSlotIndex: -1,
         endSlotIndex: -1,
         occupiedSlots: []
       }
       this.unallocatedEquipment.push(allocation)
-      console.log(`[UnitCriticalManager] Added component to unallocated:`, allocation)
+      console.log(`[UnitCriticalManager] Added component to unallocated with unique ID:`, {
+        name: component.name,
+        groupId: uniqueGroupId,
+        componentType: component.componentType
+      })
     })
     
     console.log(`[UnitCriticalManager] Total unallocated equipment count: ${this.unallocatedEquipment.length}`)
+    
+    // CRITICAL DEBUG: Check for duplicate group IDs after adding
+    const groupIds = this.unallocatedEquipment.map(eq => eq.equipmentGroupId)
+    const uniqueGroupIds = new Set(groupIds)
+    if (groupIds.length !== uniqueGroupIds.size) {
+      console.error('[UnitCriticalManager] CRITICAL ERROR: Duplicate group IDs detected after adding special components!')
+      console.error('Total:', groupIds.length, 'Unique:', uniqueGroupIds.size)
+      
+      // Find and log duplicates
+      const duplicates = groupIds.filter((id, index, arr) => arr.indexOf(id) !== index)
+      console.error('Duplicate group IDs:', Array.from(new Set(duplicates)))
+    }
   }
 
   /**
@@ -1782,6 +1999,75 @@ export class UnitCriticalManager {
     })
   }
 
+  /**
+   * RESET TO BASE: Reset unit to base configuration and rebuild everything fresh
+   * This clears all equipment and reconstructs the unit from scratch
+   */
+  resetToBaseConfiguration(): void {
+    console.log('[UnitCriticalManager] RESET TO BASE: Starting complete unit reset')
+    
+    const currentConfig = this.configuration
+    
+    // Step 1: Clear ALL equipment AND special components
+    console.log('[UnitCriticalManager] RESET TO BASE: Clearing ALL equipment and components')
+    this.clearAllEquipment()
+    this.clearAllSpecialComponents()
+    
+    // Step 2: Reset special components initialization flag
+    console.log('[UnitCriticalManager] RESET TO BASE: Resetting special components flag')
+    this.specialComponentsInitialized = false
+    
+    // Step 3: Clear and rebuild ALL system reservations
+    console.log('[UnitCriticalManager] RESET TO BASE: Clearing system reservations')
+    this.sections.forEach(section => {
+      section.clearSystemReservations('engine')
+      section.clearSystemReservations('gyro')
+    })
+    
+    // Step 4: Rebuild system components from scratch
+    console.log('[UnitCriticalManager] RESET TO BASE: Rebuilding system components')
+    this.allocateSystemComponents()
+    
+    // Step 5: Initialize special components fresh
+    console.log('[UnitCriticalManager] RESET TO BASE: Initializing special components')
+    this.initializeSpecialComponents()
+    
+    // Step 6: Notify listeners about the reset
+    console.log('[UnitCriticalManager] RESET TO BASE: Notifying state change')
+    this.notifyStateChange()
+    
+    console.log(`[UnitCriticalManager] RESET TO BASE: Complete! Final unallocated count: ${this.unallocatedEquipment.length}`)
+    
+    // Log what should be expected
+    const structureSlots = this.getStructureCriticalSlots(currentConfig.structureType)
+    const armorSlots = this.getArmorCriticalSlots(currentConfig.armorType)
+    const jumpSlots = currentConfig.jumpMP
+    const expectedTotal = structureSlots + armorSlots + jumpSlots
+    
+    console.log(`[UnitCriticalManager] RESET TO BASE: Expected components:`)
+    console.log(`  - Structure (${currentConfig.structureType}): ${structureSlots}`)
+    console.log(`  - Armor (${currentConfig.armorType}): ${armorSlots}`)
+    console.log(`  - Jump Jets: ${jumpSlots}`)
+    console.log(`  - Total Expected: ${expectedTotal}`)
+    console.log(`  - Actual Unallocated: ${this.unallocatedEquipment.length}`)
+    
+    // CRITICAL DEBUG: Check for duplicates after reset
+    const nameCounts = this.unallocatedEquipment.reduce((acc, eq) => {
+      const name = eq.equipmentData.name
+      acc[name] = (acc[name] || 0) + 1
+      return acc
+    }, {} as Record<string, number>)
+    console.log(`[UnitCriticalManager] RESET TO BASE: Component counts by name:`, nameCounts)
+    
+    // Check for duplicate group IDs
+    const groupIds = this.unallocatedEquipment.map(eq => eq.equipmentGroupId)
+    const uniqueGroupIds = new Set(groupIds)
+    if (groupIds.length !== uniqueGroupIds.size) {
+      console.error('[UnitCriticalManager] RESET TO BASE: WARNING - Duplicate group IDs detected after reset!')
+      console.error('Total:', groupIds.length, 'Unique:', uniqueGroupIds.size)
+    }
+  }
+
   // ===== ENHANCED STATE SERIALIZATION METHODS =====
 
   /**
@@ -1960,48 +2246,143 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Clear all equipment from sections and unallocated pool
+   * Clear all equipment from sections and unallocated pool - AGGRESSIVE CLEARING
    */
   private clearAllEquipment(): void {
-    console.log('[UnitCriticalManager] Clearing all equipment')
+    console.log('[UnitCriticalManager] AGGRESSIVE CLEAR: Clearing all equipment')
     
-    // Clear from all sections (but preserve system components)
+    const beforeUnallocated = this.unallocatedEquipment.length
+    
+    // Get complete inventory before clearing
+    let totalEquipmentCount = 0
     this.sections.forEach(section => {
+      totalEquipmentCount += section.getAllEquipment().length
+    })
+    totalEquipmentCount += this.unallocatedEquipment.length
+    
+    console.log(`[UnitCriticalManager] AGGRESSIVE CLEAR: Before clearing - Allocated: ${totalEquipmentCount - beforeUnallocated}, Unallocated: ${beforeUnallocated}, Total: ${totalEquipmentCount}`)
+    
+    // STEP 1: Force clear ALL unallocated equipment
+    this.unallocatedEquipment = []
+    console.log('[UnitCriticalManager] AGGRESSIVE CLEAR: Forced clear of unallocated equipment')
+    
+    // STEP 2: Force clear ALL equipment from sections (preserve system components)
+    this.sections.forEach((section, location) => {
+      const beforeSection = section.getAllEquipment().length
+      
       // Get all equipment and remove each one
-      const allEquipment = section.getAllEquipment()
+      const allEquipment = [...section.getAllEquipment()] // Copy array to avoid modification during iteration
       allEquipment.forEach(equipment => {
         section.removeEquipmentGroup(equipment.equipmentGroupId)
       })
+      
+      const afterSection = section.getAllEquipment().length
+      console.log(`[UnitCriticalManager] AGGRESSIVE CLEAR: ${location} - Removed ${beforeSection - afterSection} equipment pieces`)
     })
     
-    // Clear unallocated equipment
-    this.unallocatedEquipment = []
+    // STEP 3: Verify complete clearing
+    let remainingEquipmentCount = 0
+    this.sections.forEach(section => {
+      remainingEquipmentCount += section.getAllEquipment().length
+    })
+    remainingEquipmentCount += this.unallocatedEquipment.length
+    
+    console.log(`[UnitCriticalManager] AGGRESSIVE CLEAR: After clearing - Total remaining equipment: ${remainingEquipmentCount}`)
+    
+    if (remainingEquipmentCount > 0) {
+      console.error('[UnitCriticalManager] AGGRESSIVE CLEAR: WARNING - Equipment still remains after clearing!')
+      this.sections.forEach((section, location) => {
+        const remaining = section.getAllEquipment()
+        if (remaining.length > 0) {
+          console.error(`  ${location}: ${remaining.length} pieces:`, remaining.map(eq => eq.equipmentData.name))
+        }
+      })
+    }
   }
 
   /**
    * Clear all special components before rebuilding
+   * ULTIMATE FIX: Clear from BOTH unallocated AND allocated slots using comprehensive detection
    */
   clearAllSpecialComponents(): void {
-    console.log('[DUPLICATION FIX] Clearing all special components')
+    console.log('[ULTIMATE FIX] Clearing ALL special components using comprehensive detection')
     
-    const beforeCount = this.unallocatedEquipment.length
+    const beforeUnallocated = this.unallocatedEquipment.length
     
-    // Remove all structure components
+    // ULTIMATE FIX: Remove ALL special components using comprehensive detection
     this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => {
-      const specialEq = eq.equipmentData as SpecialEquipmentObject
-      return !(specialEq.componentType === 'structure' || specialEq.componentType === 'armor')
+      return !this.isSpecialComponent(eq.equipmentData)
     })
     
-    // Remove all jump jets
-    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => 
-      !eq.equipmentData.name.includes('Jump') && 
-      !eq.equipmentData.name.includes('UMU') &&
-      !eq.equipmentData.name.includes('Booster') &&
-      !eq.equipmentData.name.includes('Wing')
-    )
+    const afterUnallocated = this.unallocatedEquipment.length
     
-    const afterCount = this.unallocatedEquipment.length
-    console.log(`[DUPLICATION FIX] Cleared ${beforeCount - afterCount} special components (${beforeCount} → ${afterCount})`)
+    // ULTIMATE FIX: Remove ALL special components from ALLOCATED slots across all sections
+    let removedFromSlots = 0
+    this.sections.forEach(section => {
+      const equipmentToRemove = section.getAllEquipment().filter(eq => {
+        return this.isSpecialComponent(eq.equipmentData)
+      })
+      
+      equipmentToRemove.forEach(eq => {
+        const removed = section.removeEquipmentGroup(eq.equipmentGroupId)
+        if (removed) {
+          removedFromSlots++
+        }
+      })
+    })
+    
+    console.log(`[ULTIMATE FIX] Cleared ALL special components:`)
+    console.log(`  - From unallocated: ${beforeUnallocated - afterUnallocated} (${beforeUnallocated} → ${afterUnallocated})`)
+    console.log(`  - From allocated slots: ${removedFromSlots}`)
+    console.log(`  - Total cleared: ${(beforeUnallocated - afterUnallocated) + removedFromSlots}`)
+  }
+
+  /**
+   * Comprehensive detection of special components
+   * Detects by component type, name patterns, and IDs to catch ALL variants
+   */
+  private isSpecialComponent(equipment: EquipmentObject): boolean {
+    const specialEq = equipment as SpecialEquipmentObject
+    const name = equipment.name.toLowerCase()
+    const id = equipment.id.toLowerCase()
+    
+    // Check by componentType field (preferred method)
+    if (specialEq.componentType === 'structure' || specialEq.componentType === 'armor') {
+      return true
+    }
+    
+    // Check by name patterns for structure types
+    const structureTypes = [
+      'endo steel', 'endosteel', 'endo_steel',
+      'composite', 'reinforced', 'industrial'
+    ]
+    
+    // Check by name patterns for armor types  
+    const armorTypes = [
+      'ferro-fibrous', 'ferrofibrous', 'ferro_fibrous',
+      'light ferro', 'heavy ferro', 'stealth', 'reactive', 'reflective', 'hardened'
+    ]
+    
+    // Check by name patterns for jump jets
+    const jumpJetTypes = [
+      'jump', 'umu', 'booster', 'wing'
+    ]
+    
+    // Check if name matches any special component pattern
+    const isStructure = structureTypes.some(type => name.includes(type))
+    const isArmor = armorTypes.some(type => name.includes(type))
+    const isJumpJet = jumpJetTypes.some(type => name.includes(type))
+    
+    // Check if ID matches special component pattern
+    const hasSpecialId = id.includes('piece') || id.includes('endo') || id.includes('ferro') || id.includes('jump')
+    
+    const isSpecial = isStructure || isArmor || isJumpJet || hasSpecialId
+    
+    if (isSpecial) {
+      console.log(`[ULTIMATE FIX] Detected special component: ${equipment.name} (ID: ${equipment.id})`)
+    }
+    
+    return isSpecial
   }
 
   /**
@@ -2011,8 +2392,12 @@ export class UnitCriticalManager {
   private rebuildSystemComponents(skipSpecialComponents: boolean = false): void {
     console.log('[UnitCriticalManager] Rebuilding system components, skipSpecialComponents:', skipSpecialComponents)
     
-    // CRITICAL FIX: Clear ALL special components before rebuilding
-    this.clearAllSpecialComponents()
+    // CRITICAL FIX: Only clear special components during complete rebuild (state restoration)
+    // Normal configuration changes should use transfer logic to preserve components
+    if (skipSpecialComponents) {
+      console.log('[UnitCriticalManager] Complete rebuild: Clearing ALL special components before restoration')
+      this.clearAllSpecialComponents()
+    }
     
     // Clear existing system reservations
     this.sections.forEach(section => {

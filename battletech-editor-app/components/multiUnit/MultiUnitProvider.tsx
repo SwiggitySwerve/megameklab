@@ -52,7 +52,6 @@ interface MultiUnitContextValue {
   summary: any
   isConfigLoaded: boolean
   selectedEquipmentId: string | null
-  stateVersion: number // Force React re-renders on state changes
   
   // Active tab action functions
   changeEngine: (engineType: EngineType) => void
@@ -143,14 +142,8 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   const [isClient, setIsClient] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
   
-  // CRITICAL FIX: State version counter to force React re-renders
-  const [stateVersion, setStateVersion] = useState(0)
-  
-  // Force state update function
-  const forceStateUpdate = useCallback(() => {
-    console.log('[MultiUnitProvider] Forcing state update - incrementing version')
-    setStateVersion(prev => prev + 1)
-  }, [])
+  // PROPER ARCHITECTURE: No manual state versioning needed
+  // React will naturally re-render when unit reference changes
   
   // Debounced save manager with 1-second delay
   const [saveManager] = useState(() => new MultiTabDebouncedSaveManager(1000))
@@ -632,7 +625,7 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     duplicateTab,
     
     // Active tab unit data (proxy to active tab's unit)
-    // CRITICAL FIX: Include stateVersion to force React re-renders on equipment changes
+    // PROPER ARCHITECTURE: Fresh data from unit each render
     unit: activeTab?.unitManager || null,
     engineType: activeTab?.unitManager.getEngineType() || null,
     gyroType: activeTab?.unitManager.getGyroType() || null,
@@ -641,7 +634,6 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     summary: activeTab?.stateManager.getUnitSummary().summary || null,
     isConfigLoaded: isInitialized,
     selectedEquipmentId,
-    stateVersion, // Force React to detect state changes
     
     // Active tab action functions with enhanced persistence
     changeEngine: (engineType: EngineType) => {
@@ -750,9 +742,9 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         activeTab.isModified = true
         activeTab.modified = new Date()
         
-        // CRITICAL FIX: Force React to detect the state change
-        console.log(`[MultiUnitProvider] FORCING STATE UPDATE after equipment allocation`)
-        forceStateUpdate()
+        // PROPER ARCHITECTURE: Use unit observer pattern to trigger re-renders
+        console.log(`[MultiUnitProvider] Equipment allocation completed, unit will notify observers`)
+        // The unit's observer pattern will automatically trigger forceUpdate() via the subscription
         
         // Force comprehensive state update
         setState(prevState => ({
