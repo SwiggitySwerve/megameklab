@@ -13,8 +13,12 @@ import {
   getEquipmentTypeDisplayName,
   getTechBaseColors,
   getTechBaseDisplayName,
-  getEquipmentSortPriority
+  getEquipmentSortPriority,
+  getBattleTechEquipmentClasses,
+  getEquipmentCategory,
+  isEquipmentCategory
 } from '../../utils/equipmentColors';
+import { classifyEquipment } from '../../utils/colors/battletechColors';
 
 interface EquipmentTrayProps {
   isExpanded: boolean;
@@ -106,16 +110,13 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
     }
   }, [equipmentAny, equipmentData]);
 
-  // V2 Demo style equipment type colors
-  const getEquipmentTypeColor = (type: string): string => {
-    const baseColors = {
-      'weapon': 'bg-red-700 border-red-600',
-      'ammo': 'bg-orange-700 border-orange-600', 
-      'equipment': 'bg-blue-700 border-blue-600',
-      'heat_sink': 'bg-cyan-700 border-cyan-600',
-    }
-    
-    return baseColors[type as keyof typeof baseColors] || 'bg-gray-700 border-gray-600'
+  // Use BattleTech color system for equipment
+  const getEquipmentTypeColor = (equipmentName: string): string => {
+    const battletechClasses = getBattleTechEquipmentClasses(equipmentName);
+    // Extract background color and create matching border
+    const bgMatch = battletechClasses.match(/bg-(\w+)-(\d+)/);
+    const borderClass = bgMatch ? `border-${bgMatch[1]}-${Math.max(parseInt(bgMatch[2]) - 100, 500)}` : 'border-gray-600';
+    return `${battletechClasses} ${borderClass}`;
   }
 
   // Tech base abbreviation helper
@@ -128,24 +129,72 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
     }
   }
 
-  // Handle double click for removal
-  const handleDoubleClick = () => {
-    if (readOnly) return;
-    onRemove(equipmentData.id);
+  // Check if this is a configuration-generated component that shouldn't be removable
+  const isConfigurationComponent = (equipment: any): boolean => {
+    const actualEquipment = equipment.equipmentData || equipment;
+    const name = actualEquipment.name?.toLowerCase() || '';
+    
+    // Check for structure/armor components via componentType field
+    const specialEq = actualEquipment as any;
+    const isStructureOrArmor = specialEq.componentType === 'structure' || specialEq.componentType === 'armor';
+    
+    // Check for jump jets - these should only be managed via movement configuration
+    const isJumpJet = name.includes('jump') || name.includes('umu') || name.includes('booster');
+    
+    const isConfigComponent = isStructureOrArmor || isJumpJet;
+    
+    
+    return isConfigComponent;
+  };
+
+  // Handle single click for testing
+  const handleClick = () => {
+    console.log('[EquipmentTrayItem] SINGLE CLICK detected on:', equipmentData.name);
   }
 
-  // Dynamic tooltip based on state
+  // Handle double click for removal
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('[EquipmentTrayItem] Double-click detected on:', equipmentData.name);
+    
+    if (readOnly) {
+      console.log('[EquipmentTrayItem] Blocked - read only mode');
+      return;
+    }
+    
+    // Don't allow removal of configuration-generated components
+    if (isConfigurationComponent(equipmentAny)) {
+      console.log('[EquipmentTrayItem] Cannot remove configuration component:', equipmentData.name);
+      return;
+    }
+    
+    // Use equipmentGroupId for removal since that's what the unit manager expects
+    const removalId = equipmentAny.equipmentGroupId || equipmentData.id;
+    console.log('[EquipmentTrayItem] Attempting removal with ID:', removalId);
+    
+    onRemove(removalId);
+  }
+
+  // Dynamic tooltip based on state and equipment type
   const getTooltip = () => {
     if (readOnly) return equipmentData.name;
+    
+    if (isConfigurationComponent(equipmentAny)) {
+      return `${equipmentData.name} (Configuration component - modify via Structure tab)`;
+    }
+    
     return 'Double-click to remove';
   }
 
   return (
     <div 
-      className={`${getEquipmentTypeColor(equipmentData.type)} 
-                 text-white px-2 py-1 rounded border min-w-0 flex-shrink-0`}
+      className={`${getEquipmentTypeColor(equipmentData.name)} 
+                 px-2 py-1 rounded border min-w-0 flex-shrink-0 cursor-pointer hover:opacity-80 select-none`}
       onDoubleClick={handleDoubleClick}
       title={getTooltip()}
+      style={{ userSelect: 'none' }}
     >
       {/* Header with name and tech type */}
       <div className="flex justify-between items-center">
@@ -171,6 +220,85 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
 export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
   const router = useRouter();
   const { unit, unallocatedEquipment, removeEquipment } = useUnit();
+
+  // State for hiding structural components
+  const [hideStructural, setHideStructural] = useState(false);
+
+  // Group and sort equipment
+  const groupedEquipment = useMemo(() => {
+    const groups: { [key: string]: any[] } = {
+      'Energy Weapons': [],
+      'Ballistic Weapons': [],
+      'Missile Weapons': [],
+      'Melee Weapons': [],
+      'Equipment': [],
+      'Structural': [],
+      'Ammunition': []
+    };
+
+    // Process and categorize equipment
+    unallocatedEquipment.forEach((equipment: any) => {
+      const actualEquipment = equipment.equipmentData || equipment;
+      const equipmentName = actualEquipment.name || actualEquipment.equipmentName || 'Unknown Equipment';
+      
+      // Classify using BattleTech color system
+      const category = classifyEquipment(equipmentName);
+      
+      // Map category to display groups
+      switch (category) {
+        case 'energy':
+          groups['Energy Weapons'].push(equipment);
+          break;
+        case 'ballistic':
+          groups['Ballistic Weapons'].push(equipment);
+          break;
+        case 'missile':
+          groups['Missile Weapons'].push(equipment);
+          break;
+        case 'melee':
+          groups['Melee Weapons'].push(equipment);
+          break;
+        case 'unhittable':
+          groups['Structural'].push(equipment);
+          break;
+        case 'equipment':
+        case 'engine':
+        case 'gyro':
+          groups['Equipment'].push(equipment);
+          break;
+        default:
+          // Check if it's ammo
+          const lowerName = equipmentName.toLowerCase();
+          if (lowerName.includes('ammo') || lowerName.includes('ammunition')) {
+            groups['Ammunition'].push(equipment);
+          } else {
+            groups['Equipment'].push(equipment);
+          }
+      }
+    });
+
+    // Sort equipment within each group alphabetically
+    Object.keys(groups).forEach(groupName => {
+      groups[groupName].sort((a, b) => {
+        const nameA = (a.equipmentData?.name || a.name || '').toLowerCase();
+        const nameB = (b.equipmentData?.name || b.name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+    });
+
+    // Filter out empty groups and apply structural hiding
+    const filteredGroups: { [key: string]: any[] } = {};
+    Object.entries(groups).forEach(([groupName, items]) => {
+      if (items.length > 0) {
+        if (hideStructural && groupName === 'Structural') {
+          return; // Skip structural components if hidden
+        }
+        filteredGroups[groupName] = items;
+      }
+    });
+
+    return filteredGroups;
+  }, [unallocatedEquipment, hideStructural]);
 
   // Calculate equipment statistics with V2 structure support
   const equipmentStats = useMemo(() => {
@@ -220,9 +348,10 @@ export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
     };
   }, [unallocatedEquipment]);
 
-  // Get remaining capacity
+  // Calculate capacity using new breakdown system
   const remainingWeight = unit.getRemainingTonnage();
-  const remainingSlots = 78 - unit.getSummary().occupiedSlots;
+  const breakdown = unit.getCriticalSlotBreakdown();
+  const slotsOverage = breakdown.totals.overCapacity;
 
   // Handle equipment removal
   const handleRemoveEquipment = (equipmentId: string) => {
@@ -308,7 +437,7 @@ export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
             <div className="bg-slate-700/30 rounded p-2 text-center">
               <div className="text-slate-400">Slots</div>
               <div className={`font-medium ${
-                equipmentStats.totalSlots > remainingSlots ? 'text-red-400' : 'text-slate-100'
+                slotsOverage > 0 ? 'text-red-400' : 'text-slate-100'
               }`}>
                 {equipmentStats.totalSlots}
               </div>
@@ -319,15 +448,29 @@ export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
             </div>
           </div>
 
+          {/* Hide Structural Components Checkbox */}
+          <div className="mt-3 flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="hideStructural"
+              checked={hideStructural}
+              onChange={(e) => setHideStructural(e.target.checked)}
+              className="rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800"
+            />
+            <label htmlFor="hideStructural" className="text-slate-300 text-xs">
+              Hide structural components
+            </label>
+          </div>
+
           {/* Capacity Warnings */}
-          {(equipmentStats.totalWeight > remainingWeight || equipmentStats.totalSlots > remainingSlots) && (
+          {(equipmentStats.totalWeight > remainingWeight || slotsOverage > 0) && (
             <div className="mt-3 p-2 bg-red-900/20 border border-red-600/30 rounded text-red-300 text-xs">
               <div className="font-medium mb-1">⚠️ Capacity Exceeded</div>
               {equipmentStats.totalWeight > remainingWeight && (
                 <div>• Weight over by {(equipmentStats.totalWeight - remainingWeight).toFixed(1)}t</div>
               )}
-              {equipmentStats.totalSlots > remainingSlots && (
-                <div>• Slots over by {equipmentStats.totalSlots - remainingSlots}</div>
+              {slotsOverage > 0 && (
+                <div>• Slots over by {slotsOverage}</div>
               )}
             </div>
           )}
@@ -351,30 +494,34 @@ export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
               </button>
             </div>
           ) : (
-            <div className="space-y-2">
-              {unallocatedEquipment.map((equipment: any, index: number) => (
-                <EquipmentTrayItem
-                  key={`${equipment.id}-${index}`}
-                  equipment={equipment}
-                  index={index}
-                  onRemove={handleRemoveEquipment}
-                  readOnly={false}
-                />
+            <div className="space-y-4">
+              {Object.entries(groupedEquipment).map(([groupName, items]) => (
+                <div key={groupName} className="space-y-2">
+                  {/* Group Header */}
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-slate-300 font-medium text-sm">{groupName}</h4>
+                    <div className="flex-1 h-px bg-slate-600"></div>
+                    <span className="text-slate-400 text-xs">{items.length}</span>
+                  </div>
+                  
+                  {/* Group Items */}
+                  <div className="space-y-1 pl-2">
+                    {items.map((equipment: any, index: number) => (
+                      <EquipmentTrayItem
+                        key={`${equipment.id || equipment.equipmentGroupId}-${index}`}
+                        equipment={equipment}
+                        index={index}
+                        onRemove={handleRemoveEquipment}
+                        readOnly={false}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Footer Instructions */}
-        {unallocatedEquipment.length > 0 && (
-          <div className="flex-shrink-0 p-4 border-t border-slate-700 bg-slate-800/50">
-            <div className="text-slate-400 text-xs">
-              <p className="mb-1">• Double-click equipment to remove from unit</p>
-              <p className="mb-1">• Equipment shown here needs to be assigned to critical slots</p>
-              <p>• Heat: +X = generated, -X = dissipated</p>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Backdrop overlay when expanded (for mobile) */}

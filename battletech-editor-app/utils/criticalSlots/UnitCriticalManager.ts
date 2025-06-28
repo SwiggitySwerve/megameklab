@@ -8,6 +8,7 @@ import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
 import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
 import { JumpJetType } from '../jumpJetCalculations'
+import { CriticalSlotCalculator, CriticalSlotBreakdown } from './CriticalSlotCalculator'
 
 export interface UnitValidationResult {
   isValid: boolean
@@ -449,6 +450,9 @@ const MECH_LOCATION_CONFIGS: LocationSlotConfiguration[] = [
     systemReservedSlots: []
   }
 ]
+
+// Critical slot constants
+export const TOTAL_CRITICAL_SLOTS = 78; // Standard BattleMech total
 
 export class UnitCriticalManager {
   private sections: Map<string, CriticalSection>
@@ -1873,6 +1877,75 @@ export class UnitCriticalManager {
   }
 
   /**
+   * Get slot status specifically for user equipment (excludes system components)
+   * This is what the Equipment Tray should use for accurate capacity warnings
+   */
+  getUserEquipmentSlotStatus(): {
+    totalUserSlots: number      // Slots available for user equipment
+    usedUserSlots: number       // Slots occupied by user equipment
+    availableUserSlots: number  // Remaining slots for user equipment
+  } {
+    // Calculate system component slot usage
+    const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
+      this.configuration.engineType,
+      this.configuration.gyroType
+    )
+    
+    // Count engine slots across all torso sections
+    const engineSlots = systemAllocation.engine.centerTorso.length +
+                       systemAllocation.engine.leftTorso.length +
+                       systemAllocation.engine.rightTorso.length
+    
+    // Count gyro slots (always in center torso)
+    const gyroSlots = systemAllocation.gyro.centerTorso.length
+    
+    // Count fixed component slots (actuators, cockpit, life support, sensors)
+    const fixedComponentSlots = this.getMandatoryComponentSlots()
+    
+    // Calculate total slots reserved for system components
+    const systemReservedSlots = engineSlots + gyroSlots + fixedComponentSlots
+    
+    // Calculate available slots for user equipment
+    const totalCriticalSlots = 78 // Standard BattleMech total
+    const totalUserSlots = totalCriticalSlots - systemReservedSlots
+    
+    // Count user equipment slots (exclude system components)
+    let usedUserSlots = 0
+    this.sections.forEach(section => {
+      section.getAllEquipment().forEach(allocation => {
+        // Only count user equipment, not system components
+        if (!this.isSystemComponent(allocation.equipmentData)) {
+          usedUserSlots += allocation.occupiedSlots.length
+        }
+      })
+    })
+    
+    // Calculate remaining slots available for user equipment
+    const availableUserSlots = Math.max(0, totalUserSlots - usedUserSlots)
+    
+    return {
+      totalUserSlots,
+      usedUserSlots,
+      availableUserSlots
+    }
+  }
+
+  /**
+   * Check if equipment is a system component (engine, gyro, actuators, etc.)
+   */
+  private isSystemComponent(equipment: EquipmentObject): boolean {
+    const name = equipment.name.toLowerCase()
+    
+    // System component patterns
+    const systemPatterns = [
+      'engine', 'gyro', 'actuator', 'cockpit', 'life support', 'sensors',
+      'shoulder', 'upper arm', 'lower arm', 'hand', 'hip', 'upper leg', 'lower leg', 'foot'
+    ]
+    
+    return systemPatterns.some(pattern => name.includes(pattern))
+  }
+
+  /**
    * Get summary statistics
    */
   getSummary(): {
@@ -1982,6 +2055,54 @@ export class UnitCriticalManager {
       default: // Single
         return 1.0
     }
+  }
+
+  // ===== NEW CRITICAL SLOT BREAKDOWN SYSTEM =====
+
+  /**
+   * Get complete critical slot breakdown using new calculator
+   */
+  getCriticalSlotBreakdown(): CriticalSlotBreakdown {
+    return CriticalSlotCalculator.getCompleteBreakdown(
+      this.configuration,
+      this.sections,
+      this.unallocatedEquipment
+    )
+  }
+
+  /**
+   * Get total critical slots available on a standard BattleMech
+   */
+  getTotalCriticalSlots(): number {
+    return this.getCriticalSlotBreakdown().totals.capacity
+  }
+
+  /**
+   * Get total critical slots used (including system components and user equipment)
+   */
+  getTotalUsedCriticalSlots(): number {
+    return this.getCriticalSlotBreakdown().totals.used
+  }
+
+  /**
+   * Get remaining critical slots available for equipment
+   */
+  getRemainingCriticalSlots(): number {
+    return this.getCriticalSlotBreakdown().totals.remaining
+  }
+
+  /**
+   * Get equipment burden (total if all unallocated equipment was allocated)
+   */
+  getEquipmentBurden(): number {
+    return this.getCriticalSlotBreakdown().totals.equipmentBurden
+  }
+
+  /**
+   * Get over-capacity slots (how many slots over limit if all equipment allocated)
+   */
+  getOverCapacitySlots(): number {
+    return this.getCriticalSlotBreakdown().totals.overCapacity
   }
 
   // ===== OBSERVER PATTERN FOR STATE CHANGES =====

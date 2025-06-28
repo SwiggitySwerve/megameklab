@@ -1,9 +1,17 @@
 /**
  * Unified Equipment Color Coding System for V2 Customizer
  * Provides consistent color schemes across all equipment displays
+ * Integrates with the new BattleTech color system
  */
 
 import { EquipmentObject } from './criticalSlots/CriticalSlot';
+import { 
+  getBattleTechEquipmentColor, 
+  getBattleTechEquipmentClasses, 
+  getBattleTechEquipmentClassesWithGlow,
+  classifyEquipment,
+  BATTLETECH_EQUIPMENT_COLORS
+} from './colors/battletechColors';
 
 // Equipment type color mappings
 export const EQUIPMENT_TYPE_COLORS = {
@@ -239,44 +247,34 @@ export function getEquipmentSortPriority(type: EquipmentObject['type'] | string 
 /**
  * Get equipment color classes for critical slot display
  * This function provides backward compatibility for existing components
+ * Now uses the new BattleTech color system
  */
 export function getEquipmentColorClasses(equipmentName: string): string {
-  // Handle empty slots
-  if (!equipmentName || equipmentName === '-Empty-' || equipmentName === '') {
-    return 'bg-slate-700 text-slate-400 border-slate-600';
-  }
-  
-  // Determine equipment type from name
-  let equipmentType: string = 'equipment';
-  const lowerName = equipmentName.toLowerCase();
-  
-  // System components
-  if (lowerName.includes('engine') || lowerName.includes('gyro') || 
-      lowerName.includes('cockpit') || lowerName.includes('life support') || 
-      lowerName.includes('sensors') || lowerName.includes('actuator')) {
-    return 'bg-slate-600 text-slate-200 border-slate-500';
-  }
-  
-  // Weapons
-  if (lowerName.includes('laser') || lowerName.includes('ppc') || 
-      lowerName.includes('cannon') || lowerName.includes('missile') ||
-      lowerName.includes('lrm') || lowerName.includes('srm') ||
-      lowerName.includes('ac/') || lowerName.includes('gauss') ||
-      lowerName.includes('weapon')) {
-    equipmentType = 'weapon';
-  }
-  
-  // Ammunition
-  else if (lowerName.includes('ammo') || lowerName.includes('ammunition')) {
-    equipmentType = 'ammo';
-  }
-  
-  // Heat Sinks
-  else if (lowerName.includes('heat sink') || lowerName.includes('heat-sink')) {
-    equipmentType = 'heat_sink';
-  }
-  
-  // Get colors using existing function
-  const colors = getEquipmentTypeColors(equipmentType);
-  return `${colors.bg} ${colors.text} ${colors.border}`;
+  // Use the new BattleTech color system
+  return getBattleTechEquipmentClasses(equipmentName);
 }
+
+/**
+ * Get equipment color classes with glow effect
+ * Extended function for enhanced visual effects
+ */
+export function getEquipmentColorClassesWithGlow(equipmentName: string): string {
+  return getBattleTechEquipmentClassesWithGlow(equipmentName);
+}
+
+/**
+ * Get the equipment category using BattleTech classification
+ */
+export function getEquipmentCategory(equipmentName: string): string {
+  return classifyEquipment(equipmentName);
+}
+
+/**
+ * Check if equipment is a specific category
+ */
+export function isEquipmentCategory(equipmentName: string, category: keyof typeof BATTLETECH_EQUIPMENT_COLORS): boolean {
+  return classifyEquipment(equipmentName) === category;
+}
+
+// Re-export BattleTech color functions for convenience
+export { getBattleTechEquipmentClasses, getBattleTechEquipmentClassesWithGlow } from './colors/battletechColors';

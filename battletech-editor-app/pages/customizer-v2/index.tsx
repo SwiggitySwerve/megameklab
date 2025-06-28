@@ -1495,6 +1495,9 @@ function CustomizerV2Content() {
     unallocatedEquipment
   } = useUnit();
 
+  // Equipment tray state
+  const [isEquipmentTrayExpanded, setIsEquipmentTrayExpanded] = useState(false);
+
   // Valid tab IDs
   const validTabs = ['structure', 'armor', 'equipment', 'criticals', 'fluff'];
 
@@ -1538,7 +1541,24 @@ function CustomizerV2Content() {
 
   // Calculate unit statistics using V2 data model (V1-style calculations)
   const calculateCurrentWeight = (): number => {
-    return unit.getUsedTonnage();
+    // Base unit weight (structure, engine, gyro, cockpit, heat sinks, armor)
+    const baseWeight = unit.getUsedTonnage();
+    
+    // Add unallocated equipment weight
+    let unallocatedWeight = 0;
+    unallocatedEquipment.forEach((equipment: any) => {
+      const actualEquipment = equipment.equipmentData || equipment;
+      const weight = actualEquipment.weight || 
+                    actualEquipment.weight_tons || 
+                    actualEquipment.tonnage || 
+                    equipment.weight || 
+                    equipment.weight_tons || 
+                    equipment.tonnage || 
+                    0;
+      unallocatedWeight += weight;
+    });
+    
+    return baseWeight + unallocatedWeight;
   };
 
   const calculateHeatBalance = (): { generated: number; dissipated: number } => {
@@ -1548,12 +1568,15 @@ function CustomizerV2Content() {
     };
   };
 
-  const calculateCriticalSlots = (): { total: number; required: number; assigned: number } => {
-    const summary = unit.getSummary();
+  const calculateCriticalSlots = (): { total: number; used: number; available: number } => {
+    // CRITICAL FIX: Use CriticalSlotCalculator for accurate, comprehensive calculations
+    // This eliminates double-counting of special components (EndoSteel, Ferro-Fibrous, etc.)
+    const breakdown = unit.getCriticalSlotBreakdown();
+    
     return {
-      total: 78, // Standard BattleMech total
-      required: summary.occupiedSlots,
-      assigned: summary.occupiedSlots
+      total: breakdown.totals.capacity,        // 78 for standard BattleMech
+      used: breakdown.totals.equipmentBurden,  // Includes structural + allocated + unallocated (no double-counting)
+      available: breakdown.totals.remaining    // Accurate remaining slots
     };
   };
 
@@ -1597,6 +1620,12 @@ function CustomizerV2Content() {
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col">
+      {/* Equipment Tray */}
+      <EquipmentTray 
+        isExpanded={isEquipmentTrayExpanded}
+        onToggle={() => setIsEquipmentTrayExpanded(!isEquipmentTrayExpanded)}
+      />
+
       {/* Unit Information Banner - Single Row Design */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -1644,9 +1673,9 @@ function CustomizerV2Content() {
             {/* Critical Slots */}
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Crits</span>
-              <span className={`font-medium ${criticalSlots.required > criticalSlots.total ? 'text-red-400' : 'text-slate-200'
+              <span className={`font-medium ${criticalSlots.used > criticalSlots.total ? 'text-red-400' : 'text-slate-200'
                 }`}>
-                {criticalSlots.required} / {criticalSlots.total}
+                {criticalSlots.used} / {criticalSlots.total}
               </span>
               <span className="text-slate-500 text-xs">used / total</span>
             </div>

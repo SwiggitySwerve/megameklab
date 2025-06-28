@@ -324,24 +324,54 @@ export class UnitStateManager {
   }
 
   /**
-   * Remove equipment from unit
+   * Remove equipment from unit (allocated or unallocated)
    */
   removeEquipment(equipmentGroupId: string): boolean {
-    const success = this.currentUnit.displaceEquipment(equipmentGroupId)
+    console.log(`[UnitStateManager] removeEquipment called with groupId: ${equipmentGroupId}`)
     
-    if (success) {
+    // First, try to remove from unallocated equipment
+    const removedFromUnallocated = this.currentUnit.removeUnallocatedEquipment(equipmentGroupId)
+    
+    if (removedFromUnallocated) {
+      console.log(`[UnitStateManager] Successfully removed equipment from unallocated pool:`, {
+        name: removedFromUnallocated.equipmentData.name,
+        groupId: removedFromUnallocated.equipmentGroupId
+      })
+      
       this.logChange({
         type: 'equipment_change',
         timestamp: new Date(),
         data: {
-          action: 'removed',
+          action: 'removed_from_unallocated',
+          equipmentGroupId,
+          equipmentName: removedFromUnallocated.equipmentData.name
+        }
+      })
+      this.notifySubscribers()
+      return true
+    }
+    
+    // If not found in unallocated, try to displace from allocated slots
+    console.log(`[UnitStateManager] Equipment not found in unallocated, trying to displace from allocated slots`)
+    const displacedFromAllocated = this.currentUnit.displaceEquipment(equipmentGroupId)
+    
+    if (displacedFromAllocated) {
+      console.log(`[UnitStateManager] Successfully displaced equipment from allocated slots`)
+      
+      this.logChange({
+        type: 'equipment_change',
+        timestamp: new Date(),
+        data: {
+          action: 'displaced_to_unallocated',
           equipmentGroupId
         }
       })
       this.notifySubscribers()
+      return true
     }
-
-    return success
+    
+    console.error(`[UnitStateManager] FAILED: Equipment ${equipmentGroupId} not found in unallocated OR allocated equipment`)
+    return false
   }
 
   /**
