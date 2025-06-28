@@ -30,8 +30,6 @@ interface EquipmentTrayItemProps {
 }
 
 function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: EquipmentTrayItemProps) {
-  // State for selection (for future critical slot assignment)
-  const [isSelected, setIsSelected] = React.useState(false);
   
   // Safely access equipment properties with any type
   const equipmentAny = equipment as any;
@@ -117,17 +115,6 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
       'heat_sink': 'bg-cyan-700 border-cyan-600',
     }
     
-    const selectedColors = {
-      'weapon': 'bg-red-500 border-red-400',
-      'ammo': 'bg-orange-500 border-orange-400',
-      'equipment': 'bg-blue-500 border-blue-400', 
-      'heat_sink': 'bg-cyan-500 border-cyan-400',
-    }
-    
-    if (isSelected) {
-      return selectedColors[type as keyof typeof selectedColors] || 'bg-gray-500 border-gray-400'
-    }
-    
     return baseColors[type as keyof typeof baseColors] || 'bg-gray-700 border-gray-600'
   }
 
@@ -141,12 +128,6 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
     }
   }
 
-  // Handle single click for selection
-  const handleClick = () => {
-    if (readOnly) return;
-    setIsSelected(!isSelected);
-  }
-
   // Handle double click for removal
   const handleDoubleClick = () => {
     if (readOnly) return;
@@ -156,28 +137,16 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
   // Dynamic tooltip based on state
   const getTooltip = () => {
     if (readOnly) return equipmentData.name;
-    return isSelected 
-      ? 'Click to deselect • Double-click to remove'
-      : 'Click to select • Double-click to remove';
+    return 'Double-click to remove';
   }
 
   return (
     <div 
       className={`${getEquipmentTypeColor(equipmentData.type)} 
-                 text-white px-2 py-1 rounded border transition-colors hover:opacity-80 
-                 cursor-pointer transform hover:scale-105 ${isSelected ? 'ring-2 ring-blue-400' : ''} 
-                 min-w-0 flex-shrink-0 relative`}
-      onClick={handleClick}
+                 text-white px-2 py-1 rounded border min-w-0 flex-shrink-0`}
       onDoubleClick={handleDoubleClick}
       title={getTooltip()}
     >
-      {/* Yellow star indicator for selected equipment */}
-      {isSelected && (
-        <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-300 text-black rounded-full flex items-center justify-center text-xs font-bold">
-          ★
-        </div>
-      )}
-      
       {/* Header with name and tech type */}
       <div className="flex justify-between items-center">
         <h4 className="font-medium text-xs pr-1 truncate">{equipmentData.name}</h4>
@@ -194,9 +163,6 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
             <span> • {equipmentData.heat > 0 ? '+' : ''}{equipmentData.heat}h</span>
           )}
         </span>
-        {isSelected && (
-          <div className="text-blue-300 font-medium text-xs">Click slot to assign</div>
-        )}
       </div>
     </div>
   );
@@ -403,9 +369,8 @@ export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
         {unallocatedEquipment.length > 0 && (
           <div className="flex-shrink-0 p-4 border-t border-slate-700 bg-slate-800/50">
             <div className="text-slate-400 text-xs">
-              <p className="mb-1">• Click equipment to select for critical slot assignment</p>
               <p className="mb-1">• Double-click equipment to remove from unit</p>
-              <p className="mb-1">• Selected equipment shows yellow star and blue ring</p>
+              <p className="mb-1">• Equipment shown here needs to be assigned to critical slots</p>
               <p>• Heat: +X = generated, -X = dissipated</p>
             </div>
           </div>

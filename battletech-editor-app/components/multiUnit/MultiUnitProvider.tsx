@@ -406,6 +406,9 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   const updateActiveTabConfiguration = useCallback((config: UnitConfiguration) => {
     if (!activeTab) return
     
+    console.log('[MultiUnitProvider] updateActiveTabConfiguration called with config:', config)
+    console.log('[MultiUnitProvider] activeTab.unitManager:', activeTab.unitManager)
+    
     activeTab.unitManager.updateConfiguration(config)
     activeTab.isModified = true
     activeTab.modified = new Date()
@@ -420,6 +423,8 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     
     // Save to localStorage
     saveTabData(activeTab.id, config)
+    
+    console.log('[MultiUnitProvider] Configuration update complete')
   }, [activeTab])
   
   // Context value
@@ -498,12 +503,20 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   
   // Don't render until initialized
   if (!isClient || !isInitialized) {
+    console.log('[MultiUnitProvider] Still initializing...', { isClient, isInitialized })
     return (
       <div className="h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-slate-400">Loading...</div>
       </div>
     )
   }
+  
+  console.log('[MultiUnitProvider] Rendering provider with initialized state:', { 
+    isClient, 
+    isInitialized, 
+    tabsCount: state.tabs.length, 
+    activeTabId: state.activeTabId 
+  })
   
   return (
     <MultiUnitContext.Provider value={contextValue}>

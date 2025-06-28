@@ -27,7 +27,6 @@ import { EquipmentTray } from '../../components/criticalSlots/EquipmentTray';
 import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
 
 // Import working critical slots components
-import { UnitProvider } from '../../components/criticalSlots/UnitProvider';
 import { SystemComponentControls } from '../../components/criticalSlots/SystemComponentControls';
 import { CriticalSlotsDisplay } from '../../components/criticalSlots/CriticalSlotsDisplay';
 import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
@@ -214,7 +213,11 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 {isConfigLoaded ? (
                   <select
                     value={config.structureType}
-                    onChange={(e) => updateConfig({ structureType: e.target.value })}
+                    onChange={(e) => {
+                      console.log('[StructureTab] Structure type changing from', config.structureType, 'to', e.target.value)
+                      updateConfig({ structureType: e.target.value })
+                      console.log('[StructureTab] updateConfig called')
+                    }}
                     disabled={readOnly}
                     className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                   >
@@ -667,7 +670,7 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   
   // Handle individual armor location changes
   const handleArmorLocationChange = (location: string, front: number, rear: number = 0) => {
-    if (readOnly) return;
+    if (readOnly) return
     
     const newAllocation = {
       ...armorAllocation,
@@ -679,6 +682,7 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       armorAllocation: newAllocation as any
     });
   };
+  
   
   // Enhanced auto-allocate armor with remainder distribution
   const handleAutoAllocate = () => {
@@ -1467,23 +1471,21 @@ const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
 const CriticalsTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   return (
     <div className="h-full bg-slate-900 overflow-auto">
-      {/* Use the working critical slots system from the demo */}
-      <UnitProvider>
-        <div className="p-6">
-          {/* Main Content Grid - Same layout as demo */}
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
-            {/* Critical Slots - Takes up 2 columns */}
-            <div className="xl:col-span-2">
-              <CriticalSlotsDisplay />
-            </div>
-            
-            {/* Unallocated Equipment - Takes up 1 column */}
-            <div className="xl:col-span-1">
-              <UnallocatedEquipmentDisplay />
-            </div>
+      {/* Use the critical slots system with MultiUnitProvider's state */}
+      <div className="p-6">
+        {/* Main Content Grid - Same layout as demo */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+          {/* Critical Slots - Takes up 2 columns */}
+          <div className="xl:col-span-2">
+            <CriticalSlotsDisplay />
+          </div>
+          
+          {/* Unallocated Equipment - Takes up 1 column */}
+          <div className="xl:col-span-1">
+            <UnallocatedEquipmentDisplay />
           </div>
         </div>
-      </UnitProvider>
+      </div>
     </div>
   );
 };

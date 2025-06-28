@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { useUnit } from './UnitProvider'
+import { useUnit } from '../multiUnit/MultiUnitProvider'
 import { CriticalSlot } from '../../utils/criticalSlots/CriticalSlot'
 
 function CriticalSlotDisplay({ slot, location }: { slot: CriticalSlot, location: string }) {

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { useUnit } from './UnitProvider'
+import { useUnit } from '../multiUnit/MultiUnitProvider'
 import { EquipmentAllocation } from '../../utils/criticalSlots/CriticalSlot'
 
 function EquipmentItem({ equipment }: { equipment: EquipmentAllocation }) {
@@ -92,7 +92,45 @@ function EquipmentItem({ equipment }: { equipment: EquipmentAllocation }) {
 }
 
 export function UnallocatedEquipmentDisplay() {
-  const { unallocatedEquipment, summary } = useUnit()
+  const { unallocatedEquipment, summary, unit } = useUnit()
+
+  // Debug logging - Enhanced
+  React.useEffect(() => {
+    console.log('=== UNALLOCATED EQUIPMENT DEBUG ===')
+    console.log('[UnallocatedEquipmentDisplay] Received unallocated equipment:', unallocatedEquipment)
+    console.log('[UnallocatedEquipmentDisplay] Equipment count:', unallocatedEquipment.length)
+    console.log('[UnallocatedEquipmentDisplay] Summary object:', summary)
+    
+    // Log unit configuration
+    if (unit) {
+      const config = unit.getConfiguration()
+      console.log('[UnallocatedEquipmentDisplay] Unit configuration:', {
+        structureType: config.structureType,
+        armorType: config.armorType,
+        jumpMP: config.jumpMP,
+        jumpJetType: config.jumpJetType
+      })
+      
+      // Get all equipment on unit
+      const allEquipment = unit.getAllEquipment()
+      console.log('[UnallocatedEquipmentDisplay] All equipment on unit:', allEquipment)
+      
+      // Get equipment by location
+      const equipmentByLocation = unit.getEquipmentByLocation()
+      console.log('[UnallocatedEquipmentDisplay] Equipment by location:', equipmentByLocation)
+    }
+    
+    unallocatedEquipment.forEach((eq, index) => {
+      console.log(`[UnallocatedEquipmentDisplay] Equipment ${index}:`, {
+        name: eq.equipmentData.name,
+        type: eq.equipmentData.type,
+        componentType: (eq.equipmentData as any).componentType,
+        groupId: eq.equipmentGroupId,
+        fullEquipment: eq
+      })
+    })
+    console.log('=== END UNALLOCATED EQUIPMENT DEBUG ===')
+  }, [unallocatedEquipment, summary, unit])
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">

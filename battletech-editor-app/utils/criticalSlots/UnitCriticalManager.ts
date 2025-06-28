@@ -409,6 +409,9 @@ export class UnitCriticalManager {
     
     this.initializeSections()
     this.allocateSystemComponents()
+    
+    // CRITICAL FIX: Create special components for initial configuration
+    this.initializeSpecialComponents()
   }
 
   /**
@@ -514,6 +517,43 @@ export class UnitCriticalManager {
         centerTorso.reserveSystemSlots('gyro', gyroAllocation.centerTorso)
       }
     }
+  }
+
+  /**
+   * Initialize special components for the initial configuration
+   * This ensures that units with Endo Steel/Ferro-Fibrous get their components on startup
+   */
+  private initializeSpecialComponents(): void {
+    console.log('[UnitCriticalManager] Initializing special components for unit')
+    console.log('[UnitCriticalManager] Structure type:', this.configuration.structureType)
+    console.log('[UnitCriticalManager] Armor type:', this.configuration.armorType)
+    
+    // Create structure components if needed
+    const structureSlots = this.getStructureCriticalSlots(this.configuration.structureType)
+    if (structureSlots > 0) {
+      console.log(`[UnitCriticalManager] Creating ${structureSlots} structure components for ${this.configuration.structureType}`)
+      this.addSpecialComponents(this.configuration.structureType, 'structure', structureSlots)
+    }
+    
+    // Create armor components if needed
+    const armorSlots = this.getArmorCriticalSlots(this.configuration.armorType)
+    if (armorSlots > 0) {
+      console.log(`[UnitCriticalManager] Creating ${armorSlots} armor components for ${this.configuration.armorType}`)
+      this.addSpecialComponents(this.configuration.armorType, 'armor', armorSlots)
+    }
+    
+    // Create jump jet components if needed
+    if (this.configuration.jumpMP > 0) {
+      console.log(`[UnitCriticalManager] Creating ${this.configuration.jumpMP} jump jet components`)
+      this.addJumpJetEquipment(
+        this.configuration.jumpJetType, 
+        this.configuration.jumpMP, 
+        this.configuration.tonnage, 
+        this.configuration.techBase
+      )
+    }
+    
+    console.log(`[UnitCriticalManager] Special component initialization complete. Unallocated equipment count: ${this.unallocatedEquipment.length}`)
   }
 
   /**
@@ -690,12 +730,17 @@ export class UnitCriticalManager {
     newType: StructureType | ArmorType,
     componentType: 'structure' | 'armor'
   ): void {
+    console.log(`[UnitCriticalManager] updateSpecialComponents called: ${oldType} -> ${newType} (${componentType})`)
+    
     // Remove old special components if they exist
     const oldSlots = componentType === 'armor' 
       ? this.getArmorCriticalSlots(oldType as ArmorType)
       : this.getStructureCriticalSlots(oldType as StructureType)
     
+    console.log(`[UnitCriticalManager] Old ${componentType} type ${oldType} requires ${oldSlots} slots`)
+    
     if (oldSlots > 0) {
+      console.log(`[UnitCriticalManager] Removing old ${componentType} components: ${oldType}`)
       this.removeSpecialComponents(oldType, componentType)
     }
     
@@ -704,7 +749,10 @@ export class UnitCriticalManager {
       ? this.getArmorCriticalSlots(newType as ArmorType)
       : this.getStructureCriticalSlots(newType as StructureType)
     
+    console.log(`[UnitCriticalManager] New ${componentType} type ${newType} requires ${newSlots} slots`)
+    
     if (newSlots > 0) {
+      console.log(`[UnitCriticalManager] Adding new ${componentType} components: ${newType}`)
       this.addSpecialComponents(newType, componentType, newSlots)
     }
   }
@@ -713,7 +761,9 @@ export class UnitCriticalManager {
    * Add special component pieces to unallocated equipment
    */
   private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor', requiredSlots: number): void {
+    console.log(`[UnitCriticalManager] Adding special components: ${type} (${componentType}) - ${requiredSlots} slots`)
     const components = this.createSpecialComponentEquipment(type, componentType, requiredSlots)
+    console.log(`[UnitCriticalManager] Created ${components.length} component pieces:`, components)
     
     components.forEach(component => {
       const allocation: EquipmentAllocation = {
@@ -725,7 +775,10 @@ export class UnitCriticalManager {
         occupiedSlots: []
       }
       this.unallocatedEquipment.push(allocation)
+      console.log(`[UnitCriticalManager] Added component to unallocated:`, allocation)
     })
+    
+    console.log(`[UnitCriticalManager] Total unallocated equipment count: ${this.unallocatedEquipment.length}`)
   }
 
   /**
