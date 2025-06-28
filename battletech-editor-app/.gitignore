@@ -38,3 +38,14 @@ yarn-error.log*
 /equipment_*
 /support_*
 /weapons_*
+
+# Additional patterns to prevent file accumulation
+*.backup
+*.bak
+*.old
+*-demo.tsx
+*-test.tsx
+*debug*
+temp-*
+*_results.json
+*_analysis_*.json
