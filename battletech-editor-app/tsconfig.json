@@ -35,6 +35,7 @@
     ".next/types/**/*.ts" // Added for Next.js 13+ type generation
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "scripts/unused/**/*"
   ]
 }

@@ -47,7 +47,7 @@ export function EquipmentAllocationDebugPanel() {
   })
 
   const logRef = useRef<HTMLDivElement>(null)
-  const intervalRef = useRef<ReturnType<typeof setInterval>>()
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Update real-time stats
   useEffect(() => {

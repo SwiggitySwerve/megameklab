@@ -44,7 +44,7 @@ export function initializeSystemComponents(unit: EditableUnit): SystemComponents
     if (oldType === 'Fusion' || oldType === 'Standard') {
       engineType = 'Standard';
     } else if (oldType === 'XL' || oldType === 'XL Engine') {
-      engineType = 'XL';
+      engineType = 'XL (IS)'; // Default to Inner Sphere
     } else if (oldType === 'Light' || oldType === 'Light Engine') {
       engineType = 'Light';
     } else if (oldType === 'XXL' || oldType === 'XXL Engine') {
@@ -241,7 +241,7 @@ export function syncGyroChange(
   
   // If we're changing to XL gyro with a compatible engine, we need to re-place the engine
   if (newGyroType === 'XL' && 
-      (systemComponents.engine.type === 'XL' || 
+      (String(systemComponents.engine.type).includes('XL') || 
        systemComponents.engine.type === 'Light' || 
        systemComponents.engine.type === 'XXL')) {
     

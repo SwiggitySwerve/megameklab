@@ -24,8 +24,8 @@ export function getEngineSlots(engineType: EngineType, gyroType?: GyroType): Slo
   // All engines take 6 slots in CT
   // Check if we have an XL gyro which requires special engine placement
   const hasXLGyro = gyroType === 'XL';
-  const canUseSpecialLayout = hasXLGyro && 
-    (engineType === 'XL' || engineType === 'Light' || engineType === 'XXL');
+  const canUseSpecialLayout = hasXLGyro &&
+    (String(engineType).includes('XL') || engineType === 'Light' || engineType === 'XXL');
   
   if (canUseSpecialLayout) {
     // Special layout for XL/Light/XXL engines with XL gyro
@@ -57,7 +57,7 @@ export function getEngineSlots(engineType: EngineType, gyroType?: GyroType): Slo
   }
   
   // XL, Light, and XXL engines also take side torso slots
-  if (engineType === 'XL' || engineType === 'Light' || engineType === 'XXL') {
+  if (String(engineType).includes('XL') || engineType === 'Light' || engineType === 'XXL') {
     // XL/XXL: 3 slots in each side torso
     // Light: 2 slots in each side torso
     const sideSlots = engineType === 'Light' ? 2 : 3;

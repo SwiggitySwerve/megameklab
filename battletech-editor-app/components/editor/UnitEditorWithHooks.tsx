@@ -13,7 +13,7 @@ import { calculateStructureWeight } from '../../utils/structureCalculations';
 import { calculateArmorWeight, ARMOR_POINTS_PER_TON } from '../../utils/armorCalculations';
 import { calculateGyroWeight } from '../../utils/gyroCalculations';
 import { getCockpitWeight } from '../../utils/cockpitCalculations';
-import { HEAT_DISSIPATION_RATES } from '../../utils/heatSinkCalculations';
+import { HEAT_SINK_SPECIFICATIONS } from '../../utils/heatSinkCalculations';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
@@ -178,7 +178,8 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
     
     // Calculate dissipation based on heat sink type
     let dissipationPerSink = 1;
-    if (heatSinkType === 'Double' || heatSinkType === 'Double (Clan)') {
+    const heatSinkTypeStr = String(heatSinkType);
+    if (heatSinkTypeStr.includes('Double')) {
       dissipationPerSink = 2;
     }
     
@@ -365,7 +366,11 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
       
       {/* Tab Content */}
       <div className="bg-slate-900">
-        <ActiveTabComponent readOnly={readOnly} />
+        <ActiveTabComponent 
+          unit={unit}
+          onUnitChange={() => {}} // Placeholder - hooks handle state
+          readOnly={readOnly}
+        />
       </div>
     </div>
   );

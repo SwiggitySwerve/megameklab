@@ -288,8 +288,8 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
     
     if (hasEquipment) {
       classes.push(styles.occupied);
-      // Apply color classes
-      classes.push(colorClasses.bg, colorClasses.border, colorClasses.text);
+      // Apply color classes (colorClasses is a string, not an object)
+      classes.push(colorClasses);
       
       if (isSystemComponent) {
         classes.push(styles.system);
@@ -309,8 +309,8 @@ const CriticalSlotDropZone: React.FC<CriticalSlotDropZoneProps> = ({
       }
     } else {
       classes.push(styles.empty);
-      // Apply empty slot colors
-      classes.push(colorClasses.bg, colorClasses.border, colorClasses.text);
+      // Apply empty slot colors (colorClasses is a string, not an object)
+      classes.push(colorClasses);
     }
     
     if (isHoveredMultiSlot || isPartOfDropPreview) {

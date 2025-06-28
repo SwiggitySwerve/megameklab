@@ -485,7 +485,7 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
       const slots = critLoc.slots.slice(0, maxSlots);
       // Pad with empty slots if needed
       while (slots.length < maxSlots) {
-        slots.push('-Empty-');
+        slots.push('-Empty-' as any);
       }
 
       return (
@@ -499,14 +499,14 @@ const UnitDetail: React.FC<UnitDetailProps> = ({ unit, isLoading, error }) => {
                 <li 
                   key={i} 
                   className={`px-3 py-1 text-xs flex justify-between items-center ${
-                    slot && slot !== '-Empty-' 
+                    slot && String(slot) !== '-Empty-' 
                       ? 'bg-white text-gray-900' 
                       : 'text-gray-400 bg-gray-50'
                   }`}
                 >
                   <span className="font-mono w-6">{i + 1}:</span>
-                  <span className="flex-1 ml-2 truncate" title={slot || 'Empty'}>
-                    {slot === '-Empty-' ? 'Empty' : slot}
+                  <span className="flex-1 ml-2 truncate" title={String(slot) || 'Empty'}>
+                    {String(slot) === '-Empty-' ? 'Empty' : String(slot)}
                   </span>
                 </li>
               ))}

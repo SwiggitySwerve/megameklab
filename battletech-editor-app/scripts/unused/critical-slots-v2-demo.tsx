@@ -9,7 +9,7 @@ import { SystemComponentControls } from '../components/criticalSlots/SystemCompo
 import { CriticalSlotsDisplay } from '../components/criticalSlots/CriticalSlotsDisplay'
 import { UnallocatedEquipmentDisplay } from '../components/criticalSlots/UnallocatedEquipmentDisplay'
 import { AllEquipmentDisplay } from '../components/criticalSlots/AllEquipmentDisplay'
-import { EquipmentBrowser } from '../components/criticalSlots/EquipmentBrowser'
+import { EquipmentBrowserRefactored as EquipmentBrowser } from '../components/equipment/EquipmentBrowserRefactored'
 import { UnifiedColorLegend } from '../components/criticalSlots/UnifiedColorLegend'
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager'
 

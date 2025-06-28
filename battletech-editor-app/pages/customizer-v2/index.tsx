@@ -22,7 +22,7 @@ import {
 } from '../../components/common/SkeletonLoader';
 
 // Import equipment components
-import { EquipmentBrowser } from '../../components/criticalSlots/EquipmentBrowser';
+import { EquipmentBrowserRefactored as EquipmentBrowser } from '../../components/equipment/EquipmentBrowserRefactored';
 import { EquipmentTray } from '../../components/criticalSlots/EquipmentTray';
 import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
 

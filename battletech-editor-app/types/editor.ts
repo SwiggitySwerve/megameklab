@@ -6,7 +6,7 @@ export type EditorTab = 'structure' | 'equipment' | 'criticals' | 'fluff' | 'qui
 
 export interface ValidationError {
   id: string;
-  category: 'error' | 'warning';
+  category: 'error' | 'warning' | 'info';
   message: string;
   location?: string;
   field?: string;

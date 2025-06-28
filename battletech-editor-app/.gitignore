@@ -2,6 +2,12 @@
 node_modules/
 .next/
 out/
+temp-build/
+
+# Build artifacts
+.swc/
+*.tsbuildinfo
+coverage/
 
 # Logs
 *.log
@@ -18,4 +24,17 @@ yarn-error.log*
 # OS files
 .DS_Store
 
+# Database files
 *.sqlite
+*.db
+
+# Development files (now organized in scripts/)
+/test-*
+/diagnose-*
+/validate-*
+/check_*
+/implement_*
+/create_*
+/equipment_*
+/support_*
+/weapons_*

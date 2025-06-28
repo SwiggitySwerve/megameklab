@@ -1,30 +1,21 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { EditableUnit, EditorTab, ValidationError, UnitEditorState } from '../../types/editor';
+import React from 'react';
+import { EditableUnit, EditorTab } from '../../types/editor';
 import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
-import CriticalsTabWithHooks from './tabs/CriticalsTabWithHooks';
+import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
-import QuirksTab from './tabs/QuirksTab';
-import PreviewTab from './tabs/PreviewTab';
-import { 
-  calculateHeatGeneration, 
-  calculateEquipmentWeight, 
-  calculateCriticalSlots,
-  calculateEquipmentBV 
-} from '../../utils/equipmentData';
-import { migrateUnitToSystemComponents } from '../../utils/componentValidation';
+import { useUnitEditor } from '../../hooks/editor/useUnitEditor';
 
 // Tab definitions
 const EDITOR_TABS = [
   { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
   { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
   { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
-  { id: 'criticals', label: 'Criticals', component: CriticalsTabWithHooks },
+  { id: 'criticals', label: 'Criticals', component: CriticalsTabIntegrated },
   { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },
-  { id: 'quirks', label: 'Quirks', component: QuirksTab },
-  { id: 'preview', label: 'Preview', component: PreviewTab },
+  { id: 'quirks', label: 'Quirks', component: null }, // Coming soon
+  { id: 'preview', label: 'Preview', component: null }, // Coming soon
 ] as const;
 
 interface UnitEditorProps {
@@ -42,240 +33,66 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
   readOnly = false,
   className = '',
 }) => {
-  const router = useRouter();
-  
-  // Initialize active tab from URL or default
-  const getInitialTab = (): EditorTab => {
-    const tab = router.query.tab;
-    if (tab && typeof tab === 'string') {
-      const validTab = EDITOR_TABS.find(t => t.id === tab);
-      if (validTab) {
-        return tab as EditorTab;
-      }
+  // Use the comprehensive unit editor hook
+  const {
+    unit: editorUnit,
+    activeTab,
+    validationErrors,
+    isValid,
+    isDirty,
+    isLoading,
+    isAutoSaving,
+    performance,
+    validation,
+    availableTabs,
+    updateUnit,
+    changeTab,
+    save,
+    getTabValidation,
+    canNavigateToTab
+  } = useUnitEditor(unit, {
+    enableAutoSave: !!onSave,
+    enablePersistence: true,
+    enableKeyboardShortcuts: true,
+    onSave,
+    onValidationChange: (validation) => {
+      // Optional: notify parent of validation changes
+    },
+    onTabChange: (tab) => {
+      // Optional: notify parent of tab changes
     }
-    return 'structure';
-  };
-
-  // Ensure unit has proper system components and critical allocations
-  const initializeUnit = useCallback((inputUnit: EditableUnit): EditableUnit => {
-    // If unit doesn't have system components or critical allocations, migrate it
-    if (!inputUnit.systemComponents || !inputUnit.criticalAllocations) {
-      console.log('Migrating unit to system components format');
-      return migrateUnitToSystemComponents(inputUnit);
-    }
-    return inputUnit;
-  }, []);
-
-  const [editorState, setEditorState] = useState<UnitEditorState>({
-    unit: initializeUnit(unit),
-    activeTab: getInitialTab(),
-    validationErrors: [],
-    isDirty: false,
-    autoSave: true,
-    isLoading: false,
   });
 
-  // Update unit when prop changes
-  useEffect(() => {
-    // Only update if it's a different unit or if current unit lacks system components
-    if (unit.id !== editorState.unit.id || !editorState.unit.systemComponents) {
-      const initializedUnit = initializeUnit(unit);
-      setEditorState(prev => ({
-        ...prev,
-        unit: initializedUnit,
-      }));
-    }
-  }, [unit.id]); // Only check when unit ID changes
-
-  // Handle tab changes
-  const handleTabChange = useCallback((tabId: EditorTab) => {
-    setEditorState(prev => ({
-      ...prev,
-      activeTab: tabId,
-    }));
-    
-    // Update URL with the new tab
-    router.push({
-      pathname: router.pathname,
-      query: { tab: tabId },
-    }, undefined, { shallow: true });
-  }, [router]);
-  
-  // Listen for URL changes
-  useEffect(() => {
-    const tab = router.query.tab;
-    if (tab && typeof tab === 'string') {
-      const validTab = EDITOR_TABS.find(t => t.id === tab);
-      if (validTab && editorState.activeTab !== tab) {
-        setEditorState(prev => ({
-          ...prev,
-          activeTab: tab as EditorTab,
-        }));
-      }
-    }
-  }, [router.query.tab, editorState.activeTab]);
-
-  // Handle unit updates
-  const handleUnitUpdate = useCallback((updates: Partial<EditableUnit>) => {
-    // Merge updates with existing unit
-    const mergedUnit = {
-      ...editorState.unit,
-      ...updates,
-      // Preserve system components and critical allocations if not in updates
-      systemComponents: updates.systemComponents || editorState.unit.systemComponents,
-      criticalAllocations: updates.criticalAllocations || editorState.unit.criticalAllocations,
-      editorMetadata: {
-        ...editorState.unit.editorMetadata,
-        lastModified: new Date(),
-        isDirty: true,
-      },
-    };
-
-    // Deep merge data if both exist
-    if (updates.data && editorState.unit.data) {
-      mergedUnit.data = {
-        ...editorState.unit.data,
-        ...updates.data,
-      };
-    }
-
-    setEditorState(prev => ({
-      ...prev,
-      unit: mergedUnit,
-      isDirty: true,
-    }));
-
-    onUnitChange(mergedUnit);
-  }, [editorState.unit, onUnitChange]);
-
-  // Validate unit
-  const validationErrors = useMemo((): ValidationError[] => {
-    const errors: ValidationError[] = [];
-    
-    // Basic validation - to be expanded
-    if (!editorState.unit.chassis) {
-      errors.push({
-        id: 'missing-chassis',
-        category: 'error',
-        message: 'Chassis name is required',
-        field: 'chassis',
-      });
-    }
-
-    if (!editorState.unit.model) {
-      errors.push({
-        id: 'missing-model',
-        category: 'error',
-        message: 'Model designation is required',
-        field: 'model',
-      });
-    }
-
-    return errors;
-  }, [editorState.unit]);
+  // Sync changes back to parent
+  React.useEffect(() => {
+    onUnitChange(editorUnit);
+  }, [editorUnit, onUnitChange]);
 
   // Get active tab component
-  const ActiveTabComponent = EDITOR_TABS.find(tab => tab.id === editorState.activeTab)?.component;
+  const ActiveTabComponent = EDITOR_TABS.find(tab => tab.id === activeTab)?.component;
 
-  // Calculate unit statistics
-  const calculateCurrentWeight = (): number => {
-    let weight = 0;
-    
-    // Use system components if available for accurate calculations
-    if (editorState.unit.systemComponents) {
-      const components = editorState.unit.systemComponents;
-      
-      // Structure weight
-      if (components.structure) {
-        const structureMultiplier = components.structure.type === 'Standard' ? 0.1 : 0.05;
-        weight += editorState.unit.mass * structureMultiplier;
-      } else {
-        weight += editorState.unit.mass * 0.1; // Default to standard
-      }
-      
-      // Engine weight (using actual engine rating if available)
-      if (components.engine) {
-        const rating = components.engine.rating;
-        let engineMultiplier = 1;
-        switch (components.engine.type) {
-          case 'XL': engineMultiplier = 0.5; break;
-          case 'Light': engineMultiplier = 0.75; break;
-          case 'XXL': engineMultiplier = 0.33; break;
-          case 'Compact': engineMultiplier = 1.5; break;
-        }
-        weight += (rating / 5) * engineMultiplier;
-      } else {
-        // Fallback calculation
-        const engineRating = editorState.unit.data?.engine?.rating || 300;
-        weight += engineRating / 10;
-      }
-      
-      // Gyro weight
-      if (components.gyro && components.engine) {
-        const gyroMultiplier = components.gyro.type === 'Standard' ? 1 : 
-                              components.gyro.type === 'Compact' ? 0.5 :
-                              components.gyro.type === 'Heavy-Duty' ? 2 : 1.5;
-        weight += Math.ceil(components.engine.rating / 100) * gyroMultiplier;
-      } else {
-        weight += 3; // Default 3 tons
-      }
-      
-      // Cockpit weight
-      weight += components.cockpit?.type === 'Small' ? 2 : 3;
-      
-      // External heat sinks
-      if (components.heatSinks) {
-        weight += components.heatSinks.externalRequired * 
-                 (components.heatSinks.type === 'Double' ? 1 : 1);
-      }
-    } else {
-      // Fallback to simple calculation
-      const structureWeight = editorState.unit.mass * 0.1;
-      const engineRating = editorState.unit.data?.engine?.rating || 300;
-      const engineWeight = engineRating / 10;
-      weight += structureWeight + engineWeight + 3; // +3 for gyro
-    }
-    
-    // Armor weight
-    const armorWeight = (editorState.unit.data?.armor?.total_armor_points || 0) / 16;
-    weight += armorWeight;
-    
-    // Equipment weight
-    const equipmentWeight = calculateEquipmentWeight(editorState.unit.data?.weapons_and_equipment || []);
-    weight += equipmentWeight;
-    
-    return Math.round(weight * 10) / 10;
-  };
+  // Calculate display values from performance metrics
+  const currentWeight = performance?.weight.total || 0;
+  const heatGeneration = performance?.heat.generation || 0;
+  const heatDissipation = performance?.heat.dissipation || 10;
+  const battleValue = performance?.battleValue.total || 0;
+  const dryCost = performance?.cost.total || 0;
+  const freeCriticalSlots = performance?.criticalSlots.free || 0;
+  const totalCriticalSlots = performance?.criticalSlots.total || 78;
+  
+  const isOverweight = performance?.weight.isOverweight || false;
+  const isOverheating = performance?.heat.isOverheating || false;
+  const hasValidationErrors = !isValid;
 
-  const currentWeight = calculateCurrentWeight();
-  const weapons = editorState.unit.data?.weapons_and_equipment?.filter(e => e.item_type === 'weapon') || [];
-  const heatGeneration = calculateHeatGeneration(weapons);
-  const heatDissipation = editorState.unit.data?.heat_sinks?.count || 10;
-  
-  // Calculate critical slots
-  const structureSlots = 0; // Standard structure uses no slots
-  const engineSlots = 6; // Standard engine in torso
-  const gyroSlots = 4;
-  const cockpitSlots = 5; // Including life support and sensors
-  const actuatorSlots = 8; // 4 per arm for biped
-  const equipmentSlots = calculateCriticalSlots(editorState.unit.data?.weapons_and_equipment || []);
-  const usedCriticalSlots = structureSlots + engineSlots + gyroSlots + cockpitSlots + actuatorSlots + equipmentSlots;
-  const totalCriticalSlots = 78; // Standard for battlemech
-  const freeCriticalSlots = totalCriticalSlots - usedCriticalSlots;
-  
-  // Calculate battle value (simplified)
-  const baseBV = editorState.unit.mass * 2;
-  const equipmentBV = calculateEquipmentBV(editorState.unit.data?.weapons_and_equipment || []);
-  const battleValue = Math.round(baseBV + equipmentBV);
-  
-  // Calculate cost (simplified)
-  const baseCost = editorState.unit.mass * 10000;
-  const equipmentCost = equipmentBV * 1000; // Simplified cost calculation
-  const dryCost = Math.round(baseCost + equipmentCost);
-  
-  const isOverweight = currentWeight > (editorState.unit.mass || 0);
-  const isOverheating = heatGeneration > heatDissipation;
-  const hasValidationErrors = validationErrors.length > 0;
+  // Handle tab changes
+  const handleTabChange = React.useCallback((tabId: EditorTab) => {
+    changeTab(tabId);
+  }, [changeTab]);
+
+  // Handle unit updates
+  const handleUnitUpdate = React.useCallback((updates: Partial<EditableUnit>) => {
+    updateUnit(updates);
+  }, [updateUnit]);
 
   return (
     <div className={`unit-editor ${className}`}>
@@ -284,14 +101,14 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h2 className="text-lg font-semibold text-gray-900">
-              {editorState.unit.chassis} {editorState.unit.model}
-              {editorState.isDirty && <span className="text-orange-500 ml-2">*</span>}
+              {editorUnit.chassis} {editorUnit.model}
+              {isDirty && <span className="text-orange-500 ml-2">*</span>}
             </h2>
             <div className="text-sm text-gray-500">
-              {editorState.unit.mass}t {editorState.unit.tech_base}
-              {editorState.unit.systemComponents?.engine && (
+              {editorUnit.mass}t {editorUnit.tech_base}
+              {editorUnit.systemComponents?.engine && (
                 <span className="ml-2 text-xs">
-                  ({editorState.unit.systemComponents.engine.type} {editorState.unit.systemComponents.engine.rating})
+                  ({editorUnit.systemComponents.engine.type} {editorUnit.systemComponents.engine.rating})
                 </span>
               )}
             </div>
@@ -308,13 +125,23 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
               </div>
             )}
             
+            {isAutoSaving && (
+              <div className="flex items-center text-blue-600 text-sm">
+                <svg className="animate-spin h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Auto-saving...
+              </div>
+            )}
+            
             {onSave && (
               <button
-                onClick={() => onSave(editorState.unit)}
-                disabled={!editorState.isDirty || editorState.isLoading}
+                onClick={save}
+                disabled={!isDirty || isLoading}
                 className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {editorState.isLoading ? 'Saving...' : 'Save'}
+                {isLoading ? 'Saving...' : 'Save'}
               </button>
             )}
           </div>
@@ -343,11 +170,9 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
             <div className="flex items-center space-x-2">
               <span className="text-gray-400">Weight:</span>
               <span className={`font-medium ${
-                currentWeight > (editorState.unit.mass || 0) 
-                  ? 'text-red-400' 
-                  : 'text-green-400'
+                isOverweight ? 'text-red-400' : 'text-green-400'
               }`}>
-                {currentWeight} / {editorState.unit.mass || 0} tons
+                {currentWeight.toFixed(1)} / {editorUnit.mass || 0} tons
               </span>
             </div>
 
@@ -358,7 +183,7 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
             </div>
 
             {/* Validation Status */}
-            {validationErrors.length > 0 && (
+            {!isValid && (
               <div className="flex items-center space-x-2">
                 <span className="text-red-400 font-medium">Invalid</span>
               </div>
@@ -384,9 +209,7 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
             <div className="flex items-center space-x-2">
               <span className="text-gray-400">Heat:</span>
               <span className={`font-medium ${
-                heatGeneration > heatDissipation
-                  ? 'text-red-400'
-                  : 'text-green-400'
+                isOverheating ? 'text-red-400' : 'text-green-400'
               }`}>
                 {heatGeneration} / {heatDissipation}
               </span>
@@ -395,11 +218,13 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
 
           {/* Right side info */}
           <div className="flex items-center space-x-4">
-            {editorState.autoSave && (
-              <span className="text-green-400 text-xs">Auto-save enabled</span>
+            {isAutoSaving ? (
+              <span className="text-blue-400 text-xs">Auto-saving...</span>
+            ) : (
+              onSave && <span className="text-green-400 text-xs">Auto-save enabled</span>
             )}
             <span className="text-xs text-gray-400">
-              v{editorState.unit.editorMetadata?.version || '1.0.0'}
+              v{editorUnit.editorMetadata?.version || '1.0.0'}
             </span>
           </div>
         </div>
@@ -409,16 +234,17 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
       <div className="editor-tabs border-b border-gray-200 bg-gray-50">
         <nav className="flex space-x-8 px-4" aria-label="Tabs">
           {EDITOR_TABS.map((tab) => {
-            const isActive = tab.id === editorState.activeTab;
+            const isActive = tab.id === activeTab;
             const isDisabled = !tab.component;
+            const tabValidation = getTabValidation(tab.id as EditorTab);
             
             return (
               <button
                 key={tab.id}
                 onClick={() => !isDisabled && handleTabChange(tab.id as EditorTab)}
-                disabled={isDisabled}
+                disabled={isDisabled || !canNavigateToTab(tab.id as EditorTab)}
                 className={`
-                  py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap
+                  py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap relative
                   ${isActive
                     ? 'border-blue-500 text-blue-600'
                     : isDisabled
@@ -428,6 +254,16 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
                 `}
               >
                 {tab.label}
+                {tabValidation.hasErrors && (
+                  <span className="ml-1 inline-flex items-center justify-center px-1 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    !
+                  </span>
+                )}
+                {tabValidation.hasWarnings && !tabValidation.hasErrors && (
+                  <span className="ml-1 inline-flex items-center justify-center px-1 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    ⚠
+                  </span>
+                )}
                 {isDisabled && (
                   <span className="ml-1 text-xs text-gray-400">(Coming Soon)</span>
                 )}
@@ -441,7 +277,7 @@ const UnitEditor: React.FC<UnitEditorProps> = ({
       <div className="editor-content flex-1 p-4 bg-gray-50 min-h-[600px]">
         {ActiveTabComponent ? (
           <ActiveTabComponent
-            unit={editorState.unit}
+            unit={editorUnit}
             onUnitChange={handleUnitUpdate}
             validationErrors={validationErrors}
             readOnly={readOnly}

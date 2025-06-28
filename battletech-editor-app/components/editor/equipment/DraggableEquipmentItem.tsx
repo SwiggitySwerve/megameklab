@@ -131,7 +131,7 @@ export const DraggableEquipmentItem: React.FC<DraggableEquipmentItemProps> = ({
   return (
     <div 
       ref={dragRef}
-      className={`${styles.container} ${colorClasses.bg} ${colorClasses.border} ${colorClasses.text} ${isCompact ? styles.compact : ''} ${isDragging ? styles.dragging : ''}`}
+      className={`${styles.container} ${colorClasses} ${isCompact ? styles.compact : ''} ${isDragging ? styles.dragging : ''}`}
       style={{ 
         opacity: isDragging ? 0.5 : 1,
         cursor: isDragging ? 'grabbing' : 'grab'

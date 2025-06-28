@@ -264,7 +264,7 @@ function placeEngine(criticalSlots: CriticalAllocationMap, engineType: EngineTyp
     // Check if we have an XL gyro which takes slots 3-8
     const hasXLGyro = gyroType === 'XL';
     
-    if (hasXLGyro && (validEngineType === 'XL' || validEngineType === 'Light' || validEngineType === 'XXL')) {
+    if (hasXLGyro && (String(validEngineType).includes('XL') || String(validEngineType).includes('Light') || String(validEngineType).includes('XXL'))) {
       // Special layout for XL/Light/XXL engines with XL gyro
       // Engine uses slots 0-2 and 9-11 to avoid XL gyro at 3-8
       for (let i = 0; i < 3; i++) {
