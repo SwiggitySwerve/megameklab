@@ -1,11 +1,8 @@
 /**
- * TabContentWrapper - Standardized container for tab content with consistent scrolling
+ * TabContentWrapper - Minimal wrapper for consistent tab scrolling
  * 
- * This component ensures all tabs have:
- * - Consistent height calculation
- * - Proper scrolling behavior
- * - Standardized scrollbar styling
- * - Responsive design support
+ * Provides the working calc(100vh - 140px) pattern in a reusable component.
+ * This is a thin wrapper around the proven scrolling solution.
  */
 
 import React from 'react';
@@ -15,64 +12,22 @@ interface TabContentWrapperProps {
   /** Content to be rendered inside the scrollable container */
   children: React.ReactNode;
   
-  /** Additional CSS classes to apply to the container */
+  /** Additional CSS classes to apply */
   className?: string;
-  
-  /** Background color override (defaults to slate-900) */
-  backgroundColor?: string;
-  
-  /** Whether to apply padding to the content (defaults to false) */
-  withPadding?: boolean;
-  
-  /** Custom padding amount if withPadding is true */
-  padding?: string;
 }
 
 /**
- * Standardized tab content wrapper that provides:
- * - Calculated height to fill available viewport space
- * - Consistent scrolling behavior
- * - Proper scrollbar styling
- * - Background color management
+ * Minimal tab content wrapper that applies the working scrolling pattern.
+ * Uses the proven calc(100vh - 140px) approach for consistent behavior.
  */
 export const TabContentWrapper: React.FC<TabContentWrapperProps> = ({
   children,
-  className = '',
-  backgroundColor = 'bg-slate-900',
-  withPadding = false,
-  padding = 'p-4'
+  className = ''
 }) => {
-  const baseClasses = `overflow-auto ${SCROLLBAR_CLASSES} ${backgroundColor}`;
-  const paddingClasses = withPadding ? padding : '';
-  const finalClasses = `${baseClasses} ${paddingClasses} ${className}`.trim();
-
   return (
     <div 
-      className={finalClasses}
+      className={`bg-slate-900 overflow-auto ${SCROLLBAR_CLASSES} ${className}`}
       style={{ height: TAB_CONTENT_HEIGHT }}
-      role="tabpanel"
-      aria-label="Tab content"
-    >
-      {children}
-    </div>
-  );
-};
-
-/**
- * Alternative wrapper for tabs that need custom height calculations
- * Use this only when the standard height doesn't work for specific use cases
- */
-export const CustomHeightTabWrapper: React.FC<{
-  children: React.ReactNode;
-  height: string;
-  className?: string;
-}> = ({ children, height, className = '' }) => {
-  return (
-    <div 
-      className={`overflow-auto ${SCROLLBAR_CLASSES} bg-slate-900 ${className}`}
-      style={{ height }}
-      role="tabpanel"
-      aria-label="Tab content"
     >
       {children}
     </div>

@@ -3,12 +3,24 @@
 :root {
   --background: #f3f4f6;
   --foreground: #1e293b;
+  
+  /* Global Scrollbar Theme Variables */
+  --scrollbar-thumb: #d1d5db;
+  --scrollbar-thumb-hover: #9ca3af;
+  --scrollbar-track: #f3f4f6;
+  --scrollbar-width: 8px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f172a;
     --foreground: #e2e8f0;
+    
+    /* Dark Theme Scrollbar Variables */
+    --scrollbar-thumb: #475569;
+    --scrollbar-thumb-hover: #64748b;
+    --scrollbar-track: #1e293b;
+    --scrollbar-width: 8px;
   }
 }
 
@@ -22,6 +34,36 @@ body {
 
 * {
   box-sizing: border-box;
+  
+  /* Global scrollbar styling for all elements */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* WebKit browsers (Chrome, Safari, Edge) scrollbar styling */
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+  border: 1px solid var(--scrollbar-track);
+  transition: background 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
 }
 
 html,
@@ -386,3 +428,19 @@ button:disabled {
 .scrollbar-track-slate-800::-webkit-scrollbar-track {
   background: #1e293b;
 }
+
+/* ========================================
+   GLOBAL SCROLLBAR STYLING DOCUMENTATION
+   ======================================== */
+
+/* 
+ * Global scrollbar styles are now applied via the universal selector (*) above
+ * This ensures all scrollable elements get the cohesive dark theme aesthetic
+ * that matches the tab components throughout the application.
+ * 
+ * Override classes available:
+ * - .scrollbar-hide - Completely hides scrollbars
+ * - .scrollbar-elegant - Auto-hiding elegant variant
+ * - .scrollbar-autohide - Completely invisible until hover
+ * - .scrollbar-thin - Legacy explicit thin scrollbars
+ */

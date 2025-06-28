@@ -8,9 +8,10 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { MultiUnitProvider, useUnit } from '../../components/multiUnit/MultiUnitProvider';
 import { TabManager } from '../../components/multiUnit/TabManager';
-import { calculateEnhancedMovement, formatEngineMovementInfo } from '../../utils/movementCalculations';
+import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement } from '../../utils/movementCalculations';
 import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../utils/armorCalculations';
 import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, useRemainingTonnageForArmor } from '../../utils/armorAllocation';
+import { TabContentWrapper } from '../../components/common/TabContentWrapper';
 
 // Import skeleton components
 import {
@@ -1596,83 +1597,87 @@ function CustomizerV2Content() {
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col">
-      {/* Unit Information Banner - V1 Style */}
+      {/* Unit Information Banner - Single Row Design */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex-shrink-0">
         <div className="flex items-center justify-between">
-          {/* Left Side: Unit Info and Controls */}
-          <div className="space-y-2">
-            {/* Unit Name and Type */}
-            <div className="flex items-center gap-4">
-              <h2 className="text-xl font-bold text-slate-100">
-                New Mek
-              </h2>
-              <button
-                onClick={() => setIsDebugVisible(!isDebugVisible)}
-                className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
-                title="Toggle Debug Panel"
-              >
-                Debug
-              </button>
-              <span className="text-sm text-slate-400">
-                {unitConfig.tonnage}-ton {unitConfig.techBase} BattleMech
-              </span>
-            </div>
-
+          {/* Left: Unit Identity */}
+          <div className="flex flex-col">
+            <h2 className="text-xl font-bold text-slate-100">
+              New Mek
+            </h2>
+            <span className="text-sm text-slate-400">
+              {unitConfig.tonnage}-ton {unitConfig.techBase} BattleMech
+            </span>
           </div>
 
-          {/* Right Side: Key Statistics - V1 Style */}
-          <div className="flex items-center gap-6 text-sm">
+          {/* Center: Statistics Grid */}
+          <div className="grid grid-cols-6 gap-4 text-sm">
             {/* Weight */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Weight:</span>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Weight</span>
               <span className={`font-medium ${currentWeight > unitConfig.tonnage ? 'text-red-400' : 'text-slate-200'
                 }`}>
-                {currentWeight.toFixed(1)} / {unitConfig.tonnage} tons
+                {currentWeight.toFixed(1)} / {unitConfig.tonnage}
               </span>
+              <span className="text-slate-500 text-xs">tons</span>
             </div>
 
             {/* Heat */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Heat:</span>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Heat</span>
               <span className={`font-medium ${heatBalance.generated > heatBalance.dissipated ? 'text-orange-400' : 'text-green-400'
                 }`}>
                 {heatBalance.generated} / {heatBalance.dissipated}
               </span>
+              <span className="text-slate-500 text-xs">gen / sink</span>
             </div>
 
-            {/* Movement */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Movement:</span>
+            {/* Movement - Gets more space */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Movement</span>
               <span className="font-medium text-slate-200">
-                {unitConfig.walkMP}/{unitConfig.jumpMP || 0}
+                {formatCondensedMovement(unitConfig, unitConfig.tonnage)}
               </span>
+              <span className="text-slate-500 text-xs">walk / run / jump</span>
             </div>
 
             {/* Critical Slots */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Crits:</span>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Crits</span>
               <span className={`font-medium ${criticalSlots.required > criticalSlots.total ? 'text-red-400' : 'text-slate-200'
                 }`}>
                 {criticalSlots.required} / {criticalSlots.total}
               </span>
+              <span className="text-slate-500 text-xs">used / total</span>
             </div>
 
             {/* Rules Level */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Rules:</span>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Rules</span>
               <span className="font-medium text-slate-200">
                 Standard
               </span>
+              <span className="text-slate-500 text-xs">level</span>
             </div>
 
             {/* Era */}
-            <div className="flex items-center gap-2">
-              <span className="text-slate-400">Era:</span>
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Era</span>
               <span className="font-medium text-slate-200">
                 3025
               </span>
+              <span className="text-slate-500 text-xs">year</span>
             </div>
           </div>
+
+          {/* Right: Debug Button */}
+          <button
+            onClick={() => setIsDebugVisible(!isDebugVisible)}
+            className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
+            title="Toggle Debug Panel"
+          >
+            Debug
+          </button>
         </div>
       </div>
 
@@ -1695,13 +1700,10 @@ function CustomizerV2Content() {
         ))}
       </div>
 
-      {/* Tab Content - Fixed height with scrolling */}
-      <div 
-        className="bg-slate-900 overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800"
-        style={{ height: 'calc(100vh - 140px)' }}
-      >
+      {/* Tab Content - Using standardized wrapper */}
+      <TabContentWrapper>
         <ActiveTabComponent readOnly={false} />
-      </div>
+      </TabContentWrapper>
 
       {/* Conditional Debug Panel */}
       {isDebugVisible && (

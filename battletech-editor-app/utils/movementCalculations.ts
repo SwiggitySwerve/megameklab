@@ -116,3 +116,31 @@ export function getMovementValues(config: UnitConfiguration) {
     display: movement
   };
 }
+
+/**
+ * Format condensed movement display for top bar
+ * Returns format: "walk / run [maxWalk] / jump"
+ * @param config Unit configuration containing movement and enhancement data
+ * @param tonnage Unit tonnage for max walk calculation
+ * @returns Condensed movement string like "4 / 6 [8] / 0" or "4 [5] / 6 [8] / 0" with TSM
+ */
+export function formatCondensedMovement(config: UnitConfiguration, tonnage: number): string {
+  const maxWalkMP = Math.floor(400 / tonnage);
+  const jumpMP = config.jumpMP || 0;
+  
+  if (config.enhancementType === 'Triple Strength Myomer') {
+    // TSM: show enhanced values in brackets, no separate maxWalk
+    const enhancedWalkMP = config.walkMP + 1;
+    const enhancedRunMP = Math.ceil(enhancedWalkMP * 1.5);
+    
+    return `${config.walkMP} [${enhancedWalkMP}] / ${config.runMP} [${enhancedRunMP}] / ${jumpMP}`;
+  } else if (config.enhancementType === 'MASC') {
+    // MASC: enhanced run replaces maxWalk position
+    const enhancedRunMP = config.walkMP * 2;
+    
+    return `${config.walkMP} / ${config.runMP} [${enhancedRunMP}] / ${jumpMP}`;
+  } else {
+    // No enhancement: show maxWalk in brackets
+    return `${config.walkMP} / ${config.runMP} [${maxWalkMP}] / ${jumpMP}`;
+  }
+}
