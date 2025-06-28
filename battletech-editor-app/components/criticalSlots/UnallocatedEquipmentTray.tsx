@@ -35,16 +35,77 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
   // Safely access equipment properties with any type
   const equipmentAny = equipment as any;
   
-  // Extract equipment data with multiple fallback patterns
+  // Check for V2 EquipmentAllocation structure first (most common)
+  const actualEquipment = equipmentAny.equipmentData || equipmentAny;
+  
+  // Extract equipment data with comprehensive fallback patterns
+  // Priority: V2 nested structure -> direct structure -> legacy patterns
   const equipmentData = {
-    name: equipmentAny.name || equipmentAny.equipmentName || equipmentAny.variant_name || 'Unknown Equipment',
-    type: equipmentAny.type || equipmentAny.equipmentType || equipmentAny.category || 'equipment',
-    techBase: equipmentAny.techBase || equipmentAny.tech_base || equipmentAny.techbase || 'Inner Sphere',
-    weight: equipmentAny.weight || equipmentAny.weight_tons || equipmentAny.tonnage || 0,
-    slots: equipmentAny.requiredSlots || equipmentAny.critical_slots || equipmentAny.slots || 0,
-    heat: equipmentAny.heat || equipmentAny.heat_generated || equipmentAny.heatGeneration || 0,
-    id: equipmentAny.id || equipmentAny.equipmentId || `equipment-${index}`
+    name: actualEquipment.name || 
+          actualEquipment.equipmentName || 
+          actualEquipment.variant_name || 
+          equipmentAny.name || 
+          equipmentAny.equipmentName || 
+          'Unknown Equipment',
+    
+    type: actualEquipment.type || 
+          actualEquipment.equipmentType || 
+          actualEquipment.category || 
+          equipmentAny.type || 
+          equipmentAny.equipmentType || 
+          equipmentAny.category || 
+          'equipment',
+    
+    techBase: actualEquipment.techBase || 
+              actualEquipment.tech_base || 
+              actualEquipment.techbase || 
+              equipmentAny.techBase || 
+              equipmentAny.tech_base || 
+              equipmentAny.techbase || 
+              'Inner Sphere',
+    
+    weight: actualEquipment.weight || 
+            actualEquipment.weight_tons || 
+            actualEquipment.tonnage || 
+            equipmentAny.weight || 
+            equipmentAny.weight_tons || 
+            equipmentAny.tonnage || 
+            0,
+    
+    slots: actualEquipment.requiredSlots || 
+           actualEquipment.critical_slots || 
+           actualEquipment.slots || 
+           equipmentAny.requiredSlots || 
+           equipmentAny.critical_slots || 
+           equipmentAny.slots || 
+           0,
+    
+    heat: actualEquipment.heat || 
+          actualEquipment.heat_generated || 
+          actualEquipment.heatGeneration || 
+          equipmentAny.heat || 
+          equipmentAny.heat_generated || 
+          equipmentAny.heatGeneration || 
+          0,
+    
+    id: equipmentAny.equipmentGroupId || 
+        actualEquipment.id || 
+        actualEquipment.equipmentId || 
+        equipmentAny.id || 
+        equipmentAny.equipmentId || 
+        `equipment-${index}`
   };
+  
+  // Debug logging for development (can be removed in production)
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('EquipmentTrayItem data extraction:', {
+        originalEquipment: equipmentAny,
+        extractedData: equipmentData,
+        hasNestedData: !!equipmentAny.equipmentData
+      });
+    }
+  }, [equipmentAny, equipmentData]);
 
   // V2 Demo style equipment type colors
   const getEquipmentTypeColor = (type: string): string => {
@@ -144,16 +205,44 @@ export function UnallocatedEquipmentTray({ isExpanded, onToggle }: UnallocatedEq
   const router = useRouter();
   const { unit, unallocatedEquipment, removeEquipment } = useUnit();
 
-  // Calculate equipment statistics
+  // Calculate equipment statistics with V2 structure support
   const equipmentStats = useMemo(() => {
     let totalWeight = 0;
     let totalSlots = 0;
     let totalHeat = 0;
 
     unallocatedEquipment.forEach((equipment: any) => {
-      totalWeight += equipment.weight || 0;
-      totalSlots += equipment.requiredSlots || 0;
-      totalHeat += equipment.heat || 0;
+      // Check for V2 EquipmentAllocation structure first
+      const actualEquipment = equipment.equipmentData || equipment;
+      
+      // Extract values with comprehensive fallback patterns
+      const weight = actualEquipment.weight || 
+                    actualEquipment.weight_tons || 
+                    actualEquipment.tonnage || 
+                    equipment.weight || 
+                    equipment.weight_tons || 
+                    equipment.tonnage || 
+                    0;
+      
+      const slots = actualEquipment.requiredSlots || 
+                    actualEquipment.critical_slots || 
+                    actualEquipment.slots || 
+                    equipment.requiredSlots || 
+                    equipment.critical_slots || 
+                    equipment.slots || 
+                    0;
+      
+      const heat = actualEquipment.heat || 
+                   actualEquipment.heat_generated || 
+                   actualEquipment.heatGeneration || 
+                   equipment.heat || 
+                   equipment.heat_generated || 
+                   equipment.heatGeneration || 
+                   0;
+      
+      totalWeight += weight;
+      totalSlots += slots;
+      totalHeat += heat;
     });
 
     return {
