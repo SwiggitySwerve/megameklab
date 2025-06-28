@@ -115,16 +115,16 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
   };
 
   return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto h-full flex flex-col">
+    <div className="p-3 max-w-7xl mx-auto">
       {/* Responsive 2-Column Layout with better mobile handling */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 flex-1 min-h-0">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
 
         {/* Left Column: Component Configuration - Condensed 3-Section Layout */}
         <div className="space-y-3 sm:space-y-4 flex flex-col min-h-0 overflow-y-auto scrollbar-autohide">
           {/* 1. Core Unit Configuration - Combines Unit + Engine */}
-          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
+          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
             <h3 className="text-slate-100 font-semibold text-sm mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+              <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
               Core Unit Configuration
             </h3>
 
@@ -215,9 +215,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
           </div>
 
           {/* 2. System Components - Combines Structure & Gyro + Enhancement */}
-          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
+          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
             <h3 className="text-slate-100 font-semibold text-sm mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
               System Components
             </h3>
 
@@ -297,7 +297,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
           </div>
 
           {/* 3. Heat Management - Keep as separate focused section */}
-          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
+          <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
             <h3 className="text-slate-100 font-semibold text-sm mb-3 flex items-center gap-2">
               <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
               Heat Management
@@ -1505,23 +1505,8 @@ function CustomizerV2Content() {
 
   const [activeTab, setActiveTab] = useState<string>(getInitialTab());
 
-  // Equipment tray state with localStorage persistence
-  const [isTrayExpanded, setIsTrayExpanded] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('equipmentTrayExpanded');
-      return stored ? JSON.parse(stored) : false;
-    }
-    return false;
-  });
-
-  // Save tray state to localStorage
-  const toggleTray = () => {
-    const newState = !isTrayExpanded;
-    setIsTrayExpanded(newState);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('equipmentTrayExpanded', JSON.stringify(newState));
-    }
-  };
+  // Debug panel state
+  const [isDebugVisible, setIsDebugVisible] = useState<boolean>(false);
 
   // Update activeTab when URL changes
   useEffect(() => {
@@ -1610,9 +1595,9 @@ function CustomizerV2Content() {
   const ActiveTabComponent = tabs.find(tab => tab.id === activeTab)?.component || StructureTabV2;
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900 flex flex-col">
       {/* Unit Information Banner - V1 Style */}
-      <div className="bg-slate-800 border-b border-slate-700 px-6 py-3">
+      <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex-shrink-0">
         <div className="flex items-center justify-between">
           {/* Left Side: Unit Info and Controls */}
           <div className="space-y-2">
@@ -1621,38 +1606,18 @@ function CustomizerV2Content() {
               <h2 className="text-xl font-bold text-slate-100">
                 New Mek
               </h2>
+              <button
+                onClick={() => setIsDebugVisible(!isDebugVisible)}
+                className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
+                title="Toggle Debug Panel"
+              >
+                Debug
+              </button>
               <span className="text-sm text-slate-400">
                 {unitConfig.tonnage}-ton {unitConfig.techBase} BattleMech
               </span>
             </div>
 
-            {/* Engine and Gyro Dropdowns - V1 Style */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-400">Engine:</span>
-                <select
-                  value={engineType}
-                  onChange={(e) => handleEngineChange(e.target.value)}
-                  className="w-32 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-                >
-                  {engineTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-400">Gyro:</span>
-                <select
-                  value={gyroType}
-                  onChange={(e) => handleGyroChange(e.target.value)}
-                  className="w-32 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-                >
-                  {gyroTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
           </div>
 
           {/* Right Side: Key Statistics - V1 Style */}
@@ -1712,7 +1677,7 @@ function CustomizerV2Content() {
       </div>
 
       {/* Tab Navigation - V1 Style */}
-      <div className="flex border-b border-slate-700 bg-slate-800">
+      <div className="flex border-b border-slate-700 bg-slate-800 flex-shrink-0">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -1730,22 +1695,32 @@ function CustomizerV2Content() {
         ))}
       </div>
 
-      {/* Tab Content - Enhanced with better scrolling and mobile support */}
-      <div
+      {/* Tab Content - Fixed height with scrolling */}
+      <div 
         className="bg-slate-900 overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800"
-        style={{ height: 'calc(100vh - 200px)' }}
+        style={{ height: 'calc(100vh - 140px)' }}
       >
         <ActiveTabComponent readOnly={false} />
       </div>
 
-      {/* Equipment Tray - Persistent across all tabs */}
-      <EquipmentTray
-        isExpanded={isTrayExpanded}
-        onToggle={toggleTray}
-      />
+      {/* Conditional Debug Panel */}
+      {isDebugVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-slate-800 rounded-lg p-4 max-w-4xl max-h-[80vh] overflow-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-slate-100 font-semibold">Debug Panel</h3>
+              <button
+                onClick={() => setIsDebugVisible(false)}
+                className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
+              >
+                Close
+              </button>
+            </div>
+            <EquipmentAllocationDebugPanel />
+          </div>
+        </div>
+      )}
 
-      {/* Equipment Allocation Debug Panel */}
-      <EquipmentAllocationDebugPanel />
     </div>
   );
 }
