@@ -23,8 +23,16 @@ import {
 
 // Import equipment components
 import { EquipmentBrowser } from '../../components/criticalSlots/EquipmentBrowser';
-import { UnallocatedEquipmentTray } from '../../components/criticalSlots/UnallocatedEquipmentTray';
+import { EquipmentTray } from '../../components/criticalSlots/EquipmentTray';
 import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
+
+// Import working critical slots components
+import { UnitProvider } from '../../components/criticalSlots/UnitProvider';
+import { SystemComponentControls } from '../../components/criticalSlots/SystemComponentControls';
+import { CriticalSlotsDisplay } from '../../components/criticalSlots/CriticalSlotsDisplay';
+import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
+
+// No additional imports needed - will use basic implementation
 
 // Placeholder tab components - these will be implemented later
 const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
@@ -1394,7 +1402,7 @@ const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
   const remainingSlots = 78 - unit.getSummary().occupiedSlots;
 
   return (
-    <div className="flex flex-col min-h-0">
+    <div className="h-full flex flex-col">
       {/* Equipment Summary Header - Fixed */}
       <div className="flex-shrink-0 p-4">
         <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
@@ -1448,6 +1456,7 @@ const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
             showAddButtons={!readOnly}
             actionButtonLabel="Add to unit"
             actionButtonIcon="+"
+            className="h-full"
           />
         </div>
       </div>
@@ -1455,12 +1464,29 @@ const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
   );
 };
 
-const CriticalsTabV2: React.FC<{ readOnly?: boolean }> = () => (
-  <div className="p-6 text-center text-slate-400">
-    <h3 className="text-lg font-medium mb-2">Critical Slots Tab</h3>
-    <p>Coming soon - Critical slot allocation using V2 system</p>
-  </div>
-);
+const CriticalsTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
+  return (
+    <div className="h-full bg-slate-900 overflow-auto">
+      {/* Use the working critical slots system from the demo */}
+      <UnitProvider>
+        <div className="p-6">
+          {/* Main Content Grid - Same layout as demo */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+            {/* Critical Slots - Takes up 2 columns */}
+            <div className="xl:col-span-2">
+              <CriticalSlotsDisplay />
+            </div>
+            
+            {/* Unallocated Equipment - Takes up 1 column */}
+            <div className="xl:col-span-1">
+              <UnallocatedEquipmentDisplay />
+            </div>
+          </div>
+        </div>
+      </UnitProvider>
+    </div>
+  );
+};
 
 const FluffTabV2: React.FC<{ readOnly?: boolean }> = () => (
   <div className="p-6 text-center text-slate-400">
@@ -1469,10 +1495,16 @@ const FluffTabV2: React.FC<{ readOnly?: boolean }> = () => (
   </div>
 );
 
-// Inner component that uses the V2 data model
+// Inner component that uses the V2 data model with V1 UI design
 function CustomizerV2Content() {
   const router = useRouter();
-  const { unit, engineType, gyroType, summary } = useUnit();
+  const { 
+    unit, 
+    engineType, 
+    gyroType, 
+    updateConfiguration,
+    unallocatedEquipment 
+  } = useUnit();
   
   // Valid tab IDs
   const validTabs = ['structure', 'armor', 'equipment', 'criticals', 'fluff'];
@@ -1527,40 +1559,15 @@ function CustomizerV2Content() {
     );
   };
   
-  // Calculate unit statistics from V2 data model with validation
+  // Get unit configuration from V2 system
+  const unitConfig = unit.getConfiguration();
+  
+  // Calculate unit statistics using V2 data model (V1-style calculations)
   const calculateCurrentWeight = (): number => {
-    const modelWeight = unit.getUsedTonnage();
-    const config = unit.getConfiguration();
-    
-    // Manual calculation for validation
-    const structureWeight = config.tonnage * 0.1;
-    const engineWeight = unit.getEngineWeight();
-    const gyroWeight = unit.getGyroWeight();
-    const cockpitWeight = 3.0;
-    const heatSinkWeight = config.externalHeatSinks * unit.getHeatSinkTonnage();
-    const jumpJetWeight = unit.getJumpJetWeight();
-    const armorWeight = config.armorTonnage;
-    
-    const validatedWeight = structureWeight + engineWeight + gyroWeight + cockpitWeight + heatSinkWeight + jumpJetWeight + armorWeight;
-    
-    // Check for discrepancy
-    const discrepancy = Math.abs(modelWeight - validatedWeight);
-    if (discrepancy > 0.1) {
-      console.warn(`Weight calculation discrepancy detected:
-        Model: ${modelWeight.toFixed(1)}t
-        Validated: ${validatedWeight.toFixed(1)}t
-        Armor tonnage: ${armorWeight.toFixed(1)}t
-        Discrepancy: ${discrepancy.toFixed(1)}t`);
-      
-      // Always use validated calculation to ensure accuracy
-      return validatedWeight;
-    }
-    
-    return validatedWeight; // Always use validated weight for consistency
+    return unit.getUsedTonnage();
   };
   
   const calculateHeatBalance = (): { generated: number; dissipated: number } => {
-    // Get heat info directly from data model methods
     return {
       generated: unit.getHeatGeneration(),
       dissipated: unit.getHeatDissipation()
@@ -1568,7 +1575,6 @@ function CustomizerV2Content() {
   };
   
   const calculateCriticalSlots = (): { total: number; required: number; assigned: number } => {
-    // Get critical slot info from data model summary
     const summary = unit.getSummary();
     return {
       total: 78, // Standard BattleMech total
@@ -1577,17 +1583,6 @@ function CustomizerV2Content() {
     };
   };
   
-  // Get unit configuration from V2 system
-  const unitConfig = unit.getConfiguration();
-  
-  // Force re-calculation on every render to ensure fresh data
-  const [refreshKey, setRefreshKey] = useState(0);
-  
-  // Force refresh when armor tonnage changes
-  useEffect(() => {
-    setRefreshKey(prev => prev + 1);
-  }, [unitConfig.armorTonnage, unitConfig.tonnage, unitConfig.engineType, unitConfig.gyroType]);
-  
   const currentWeight = calculateCurrentWeight();
   const heatBalance = calculateHeatBalance();
   const criticalSlots = calculateCriticalSlots();
@@ -1595,12 +1590,24 @@ function CustomizerV2Content() {
   // Calculate enhanced movement for header display using shared utility
   const enhancedMovement = calculateEnhancedMovement(unitConfig);
   
-  // Default unit info (will be configurable in future versions)
-  const unitInfo = {
-    chassis: 'New Mek', // Default chassis name
-    model: '', // No model designation for new mech
-    rulesLevel: 'Standard', // Default rules level
-    era: '3025' // Default era
+  // Engine and Gyro types for dropdowns
+  const engineTypes = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  const gyroTypes = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+  
+  // Handle engine type change
+  const handleEngineChange = (newType: string) => {
+    updateConfiguration({
+      ...unitConfig,
+      engineType: newType as any
+    });
+  };
+  
+  // Handle gyro type change
+  const handleGyroChange = (newType: string) => {
+    updateConfiguration({
+      ...unitConfig,
+      gyroType: newType as any
+    });
   };
   
   // Tab configuration
@@ -1615,36 +1622,52 @@ function CustomizerV2Content() {
   const ActiveTabComponent = tabs.find(tab => tab.id === activeTab)?.component || StructureTabV2;
   
   return (
-    <div className="h-full bg-slate-900 flex flex-col overflow-hidden">
-      {/* Unit Information Banner */}
+    <div className="min-h-screen bg-slate-900">
+      {/* Unit Information Banner - V1 Style */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3">
         <div className="flex items-center justify-between">
-          {/* Left Side: Unit Info */}
+          {/* Left Side: Unit Info and Controls */}
           <div className="space-y-2">
             {/* Unit Name and Type */}
             <div className="flex items-center gap-4">
               <h2 className="text-xl font-bold text-slate-100">
-                {unitInfo.chassis} {unitInfo.model}
+                New Mek
               </h2>
               <span className="text-sm text-slate-400">
                 {unitConfig.tonnage}-ton {unitConfig.techBase} BattleMech
               </span>
             </div>
             
-            {/* Engine and Gyro Info */}
+            {/* Engine and Gyro Dropdowns - V1 Style */}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-sm text-slate-400">Engine:</span>
-                <span className="text-sm text-slate-200">{engineType} {unitConfig.engineRating}</span>
+                <select
+                  value={engineType}
+                  onChange={(e) => handleEngineChange(e.target.value)}
+                  className="w-32 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
+                >
+                  {engineTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-slate-400">Gyro:</span>
-                <span className="text-sm text-slate-200">{gyroType}</span>
+                <select
+                  value={gyroType}
+                  onChange={(e) => handleGyroChange(e.target.value)}
+                  className="w-32 px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
+                >
+                  {gyroTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
           
-          {/* Right Side: Key Statistics */}
+          {/* Right Side: Key Statistics - V1 Style */}
           <div className="flex items-center gap-6 text-sm">
             {/* Weight */}
             <div className="flex items-center gap-2">
@@ -1670,7 +1693,7 @@ function CustomizerV2Content() {
             <div className="flex items-center gap-2">
               <span className="text-slate-400">Movement:</span>
               <span className="font-medium text-slate-200">
-                {enhancedMovement.combinedDisplay}
+                {unitConfig.walkMP}/{unitConfig.jumpMP || 0}
               </span>
             </div>
             
@@ -1688,7 +1711,7 @@ function CustomizerV2Content() {
             <div className="flex items-center gap-2">
               <span className="text-slate-400">Rules:</span>
               <span className="font-medium text-slate-200">
-                {unitInfo.rulesLevel}
+                Standard
               </span>
             </div>
             
@@ -1696,14 +1719,14 @@ function CustomizerV2Content() {
             <div className="flex items-center gap-2">
               <span className="text-slate-400">Era:</span>
               <span className="font-medium text-slate-200">
-                {unitInfo.era}
+                3025
               </span>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Tab Navigation */}
+      {/* Tab Navigation - V1 Style */}
       <div className="flex border-b border-slate-700 bg-slate-800">
         {tabs.map(tab => (
           <button
@@ -1722,13 +1745,13 @@ function CustomizerV2Content() {
         ))}
       </div>
       
-      {/* Tab Content - Full remaining height */}
-      <div className="flex-1 bg-slate-900 overflow-auto">
+      {/* Tab Content - V1 Style with Scrolling Support */}
+      <div className="bg-slate-900 overflow-auto" style={{ height: 'calc(100vh - 140px)' }}>
         <ActiveTabComponent readOnly={false} />
       </div>
 
-      {/* Unallocated Equipment Tray - Persistent across all tabs */}
-      <UnallocatedEquipmentTray 
+      {/* Equipment Tray - Persistent across all tabs */}
+      <EquipmentTray 
         isExpanded={isTrayExpanded} 
         onToggle={toggleTray} 
       />

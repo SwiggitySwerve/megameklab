@@ -90,28 +90,28 @@ function convertLocalEquipmentToObject(variant: LocalEquipmentVariant): Equipmen
 // Flatten equipment from the local data structure with comprehensive validation
 function flattenLocalEquipment(): LocalEquipmentVariant[] {
   const flattened: LocalEquipmentVariant[] = [];
-  
+
   // Validation: Check if ALL_EQUIPMENT_VARIANTS is available and populated
   if (!ALL_EQUIPMENT_VARIANTS) {
     console.error('EquipmentBrowser: ALL_EQUIPMENT_VARIANTS is not available');
     return [];
   }
-  
+
   if (!Array.isArray(ALL_EQUIPMENT_VARIANTS)) {
     console.error('EquipmentBrowser: ALL_EQUIPMENT_VARIANTS is not an array', typeof ALL_EQUIPMENT_VARIANTS);
     return [];
   }
-  
+
   if (ALL_EQUIPMENT_VARIANTS.length === 0) {
     console.warn('EquipmentBrowser: ALL_EQUIPMENT_VARIANTS is empty');
     return [];
   }
-  
+
   console.log(`EquipmentBrowser: Processing ${ALL_EQUIPMENT_VARIANTS.length} equipment items`);
-  
+
   let processedCount = 0;
   let variantCount = 0;
-  
+
   ALL_EQUIPMENT_VARIANTS.forEach((equipment, index) => {
     try {
       // Validate equipment structure
@@ -119,7 +119,7 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
         console.warn(`EquipmentBrowser: Invalid equipment at index ${index}:`, equipment);
         return;
       }
-      
+
       if (!equipment.id || !equipment.name || !equipment.category) {
         console.warn(`EquipmentBrowser: Missing required fields in equipment at index ${index}:`, {
           id: equipment.id,
@@ -128,12 +128,12 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
         });
         return;
       }
-      
+
       if (!equipment.variants || typeof equipment.variants !== 'object') {
         console.warn(`EquipmentBrowser: No variants found for equipment ${equipment.id}:`, equipment.variants);
         return;
       }
-      
+
       // Process each tech base variant
       Object.entries(equipment.variants).forEach(([techBase, variant]) => {
         try {
@@ -141,7 +141,7 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
             console.warn(`EquipmentBrowser: Invalid variant for ${equipment.id} ${techBase}:`, variant);
             return;
           }
-          
+
           // Validate required variant fields
           if (typeof variant.weight !== 'number' || typeof variant.crits !== 'number') {
             console.warn(`EquipmentBrowser: Missing weight/crits for ${equipment.id} ${techBase}:`, {
@@ -150,7 +150,7 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
             });
             return;
           }
-          
+
           const flattennedVariant: LocalEquipmentVariant = {
             id: `${equipment.id}_${techBase.toLowerCase()}`,
             name: equipment.name,
@@ -177,28 +177,28 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
             sourceBook: equipment.sourceBook,
             pageReference: equipment.pageReference
           };
-          
+
           flattened.push(flattennedVariant);
           variantCount++;
-          
+
         } catch (variantError) {
           console.error(`EquipmentBrowser: Error processing variant ${techBase} for ${equipment.id}:`, variantError);
         }
       });
-      
+
       processedCount++;
-      
+
     } catch (equipmentError) {
       console.error(`EquipmentBrowser: Error processing equipment at index ${index}:`, equipmentError);
     }
   });
-  
+
   console.log(`EquipmentBrowser: Successfully processed ${processedCount}/${ALL_EQUIPMENT_VARIANTS.length} equipment items, created ${variantCount} variants`);
-  
+
   if (flattened.length === 0) {
     console.error('EquipmentBrowser: No valid equipment variants were created!');
   }
-  
+
   return flattened;
 }
 
@@ -216,7 +216,7 @@ function getTechBaseColors(techBase: string) {
   switch (techBase) {
     case 'IS':
       return { text: 'text-blue-300' };
-    case 'Clan': 
+    case 'Clan':
       return { text: 'text-green-300' };
     default:
       return { text: 'text-gray-300' };
@@ -232,23 +232,23 @@ interface EquipmentRowProps {
   actionButtonIcon?: string
 }
 
-function EquipmentRow({ 
-  variant, 
-  onAddEquipment, 
+function EquipmentRow({
+  variant,
+  onAddEquipment,
   onEquipmentAction,
   showAddButtons = true,
   actionButtonLabel = "Add to unit",
   actionButtonIcon = "+"
 }: EquipmentRowProps) {
   const techBaseColors = getTechBaseColors(variant.techBase);
-  
+
   const handleAdd = () => {
     try {
       // Convert variant to equipment object
       const equipment = convertLocalEquipmentToObject(variant)
-      
+
       console.log('EquipmentBrowser: Adding equipment:', equipment);
-      
+
       // Call provided handler if available
       if (onAddEquipment) {
         onAddEquipment(equipment)
@@ -261,12 +261,12 @@ function EquipmentRow({
       console.error('EquipmentBrowser: Error adding equipment:', error);
     }
   }
-  
+
   // Build range display
-  const rangeDisplay = variant.rangeShort && variant.rangeMedium && variant.rangeLong 
+  const rangeDisplay = variant.rangeShort && variant.rangeMedium && variant.rangeLong
     ? `${variant.rangeShort}/${variant.rangeMedium}/${variant.rangeLong}`
     : ''
-  
+
   return (
     <tr className="border-b border-gray-600 hover:bg-gray-700 transition-colors">
       {/* Add Button (Plus Column) - Only show if integration is configured */}
@@ -285,63 +285,63 @@ function EquipmentRow({
           </div>
         )}
       </td>
-      
+
       {/* Name */}
       <td className="px-3 py-2 text-white font-medium text-sm">
         {variant.name}
       </td>
-      
+
       {/* Damage */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.damage || '-'}
       </td>
-      
+
       {/* Heat */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.heat || '-'}
       </td>
-      
+
       {/* Min R */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.minRange || '0'}
       </td>
-      
+
       {/* Range */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {rangeDisplay || '-'}
       </td>
-      
+
       {/* Shots */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.ammoPerTon || '-'}
       </td>
-      
+
       {/* Base */}
       <td className="px-3 py-2 text-xs">
         <span className={techBaseColors.text}>
           {getTechBaseDisplayName(variant.techBase)}
         </span>
       </td>
-      
+
       {/* BV */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.battleValue || '-'}
       </td>
-      
+
       {/* Weight */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.weight}
       </td>
-      
+
       {/* Crit */}
       <td className="px-3 py-2 text-gray-300 text-sm text-center">
         {variant.crits}
       </td>
-      
+
       {/* Reference */}
       <td className="px-3 py-2 text-gray-400 text-xs">
-        {variant.pageReference || 
-         `${variant.introductionYear}, ${variant.rulesLevel}`}
+        {variant.pageReference ||
+          `${variant.introductionYear}, ${variant.rulesLevel}`}
       </td>
     </tr>
   )
@@ -361,32 +361,32 @@ export function EquipmentBrowser({
   const [techBaseFilter, setTechBaseFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState('name')
   const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>('ASC')
-  
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(25)
-  
+
   // Get all equipment data with comprehensive error handling
   const allEquipment = useMemo(() => {
     try {
       console.log('EquipmentBrowser: Flattening equipment data...');
       const flattened = flattenLocalEquipment();
       console.log(`EquipmentBrowser: Generated ${flattened.length} equipment variants`);
-      
+
       if (flattened.length === 0) {
         console.error('EquipmentBrowser: No equipment data available!');
       } else {
         // Log first few items for verification
         console.log('EquipmentBrowser: Sample equipment:', flattened.slice(0, 3));
       }
-      
+
       return flattened;
     } catch (error) {
       console.error('EquipmentBrowser: Error generating equipment data:', error);
       return [];
     }
   }, []);
-  
+
   // Get unique categories and tech bases with validation
   const categories = useMemo(() => {
     try {
@@ -394,7 +394,7 @@ export function EquipmentBrowser({
         console.warn('EquipmentBrowser: No equipment available for category filtering');
         return [];
       }
-      
+
       const cats = Array.from(new Set(allEquipment.map(eq => eq.category))).sort();
       console.log('EquipmentBrowser: Available categories:', cats);
       return cats;
@@ -403,7 +403,7 @@ export function EquipmentBrowser({
       return [];
     }
   }, [allEquipment]);
-  
+
   const techBases = useMemo(() => {
     return ['IS', 'Clan'];
   }, []);
@@ -412,40 +412,40 @@ export function EquipmentBrowser({
   const filteredAndSortedEquipment = useMemo(() => {
     try {
       let filtered = allEquipment;
-      
+
       if (filtered.length === 0) {
         console.warn('EquipmentBrowser: No equipment to filter');
         return [];
       }
-      
+
       // Apply search filter
       if (searchTerm) {
         const searchLower = searchTerm.toLowerCase();
-        filtered = filtered.filter(eq => 
+        filtered = filtered.filter(eq =>
           eq.name.toLowerCase().includes(searchLower) ||
           eq.category.toLowerCase().includes(searchLower) ||
           eq.description?.toLowerCase().includes(searchLower)
         );
         console.log(`EquipmentBrowser: Search '${searchTerm}' filtered to ${filtered.length} items`);
       }
-      
+
       // Apply category filter
       if (categoryFilter !== 'all') {
         filtered = filtered.filter(eq => eq.category === categoryFilter);
         console.log(`EquipmentBrowser: Category '${categoryFilter}' filtered to ${filtered.length} items`);
       }
-      
+
       // Apply tech base filter
       if (techBaseFilter !== 'all') {
         filtered = filtered.filter(eq => eq.techBase === techBaseFilter);
         console.log(`EquipmentBrowser: Tech base '${techBaseFilter}' filtered to ${filtered.length} items`);
       }
-      
+
       // Sort equipment
       filtered.sort((a, b) => {
         let aVal: any = a.name;
         let bVal: any = b.name;
-        
+
         switch (sortBy) {
           case 'name':
             aVal = a.name;
@@ -472,7 +472,7 @@ export function EquipmentBrowser({
             bVal = b.heat || 0;
             break;
         }
-        
+
         if (typeof aVal === 'string' && typeof bVal === 'string') {
           const comparison = aVal.localeCompare(bVal);
           return sortOrder === 'DESC' ? -comparison : comparison;
@@ -481,10 +481,10 @@ export function EquipmentBrowser({
           return sortOrder === 'DESC' ? -comparison : comparison;
         }
       });
-      
+
       console.log(`EquipmentBrowser: Final filtered and sorted result: ${filtered.length} items`);
       return filtered;
-      
+
     } catch (error) {
       console.error('EquipmentBrowser: Error filtering/sorting equipment:', error);
       return [];
@@ -497,13 +497,13 @@ export function EquipmentBrowser({
       if (filteredAndSortedEquipment.length === 0) {
         return [];
       }
-      
+
       const startIndex = (currentPage - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       const paginated = filteredAndSortedEquipment.slice(startIndex, endIndex);
-      
+
       console.log(`EquipmentBrowser: Page ${currentPage}: showing ${paginated.length} items (${startIndex}-${Math.min(endIndex, filteredAndSortedEquipment.length)} of ${filteredAndSortedEquipment.length})`);
-      
+
       return paginated;
     } catch (error) {
       console.error('EquipmentBrowser: Error paginating equipment:', error);
@@ -526,7 +526,7 @@ export function EquipmentBrowser({
     setPageSize(newPageSize)
     setCurrentPage(1)
   }
-  
+
   // Debug information display
   const debugInfo = allEquipment.length === 0 ? (
     <div className="bg-red-900/20 border border-red-600 rounded p-4 mb-4">
@@ -542,9 +542,9 @@ export function EquipmentBrowser({
   return (
     <div className={`h-full flex flex-col bg-gray-800 p-4 rounded-lg border border-gray-700 ${className}`}>
       <h2 className="text-white text-lg font-bold mb-4">Equipment Browser</h2>
-      
+
       {debugInfo}
-      
+
       {/* Filters - Fixed at top */}
       <div className="flex-shrink-0 grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {/* Search */}
@@ -558,7 +558,7 @@ export function EquipmentBrowser({
             className="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-blue-500"
           />
         </div>
-        
+
         {/* Category Filter */}
         <div>
           <label className="block text-gray-300 text-sm font-medium mb-2">Category</label>
@@ -573,7 +573,7 @@ export function EquipmentBrowser({
             ))}
           </select>
         </div>
-        
+
         {/* Tech Base Filter */}
         <div>
           <label className="block text-gray-300 text-sm font-medium mb-2">Tech Base</label>
@@ -633,7 +633,7 @@ export function EquipmentBrowser({
             </select>
           </div>
         </div>
-        
+
         {/* Equipment Table - Scrollable */}
         <div className="flex-1 border border-gray-600 rounded bg-gray-900">
           <div className="max-h-96 overflow-auto">
@@ -657,8 +657,8 @@ export function EquipmentBrowser({
                 </thead>
                 <tbody>
                   {paginatedEquipment.map((variant) => (
-                    <EquipmentRow 
-                      key={variant.id} 
+                    <EquipmentRow
+                      key={variant.id}
                       variant={variant}
                       onAddEquipment={onAddEquipment}
                       onEquipmentAction={onEquipmentAction}
@@ -674,7 +674,7 @@ export function EquipmentBrowser({
                 <div className="text-center">
                   <div className="text-lg mb-2">No Equipment Found</div>
                   <div className="text-sm">
-                    {allEquipment.length === 0 
+                    {allEquipment.length === 0
                       ? 'Equipment database could not be loaded. Check console for errors.'
                       : 'Try adjusting your search filters to find equipment.'
                     }
@@ -695,7 +695,7 @@ export function EquipmentBrowser({
             >
               Previous
             </button>
-            
+
             {/* Page numbers */}
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
@@ -703,17 +703,16 @@ export function EquipmentBrowser({
                 <button
                   key={pageNum}
                   onClick={() => handlePageChange(pageNum)}
-                  className={`px-3 py-1 rounded text-sm ${
-                    pageNum === currentPage
+                  className={`px-3 py-1 rounded text-sm ${pageNum === currentPage
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-600 hover:bg-gray-500 text-white'
-                  }`}
+                    }`}
                 >
                   {pageNum}
                 </button>
               )
             })}
-            
+
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage >= totalPages}
@@ -724,7 +723,7 @@ export function EquipmentBrowser({
           </div>
         )}
       </div>
-      
+
       {/* Instructions - Fixed at bottom */}
       <div className="flex-shrink-0 mt-4 pt-4 border-t border-gray-600">
         <div className="text-gray-400 text-xs">

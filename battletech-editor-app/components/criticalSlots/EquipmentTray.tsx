@@ -1,5 +1,6 @@
 /**
- * Unallocated Equipment Tray - Expandable sidebar showing equipment not yet assigned to critical slots
+ * Equipment Tray - Expandable sidebar showing all equipment on the unit
+ * Shows allocated and unallocated equipment with location information
  * Persistent across all tabs in the customizer
  */
 
@@ -15,7 +16,7 @@ import {
   getEquipmentSortPriority
 } from '../../utils/equipmentColors';
 
-interface UnallocatedEquipmentTrayProps {
+interface EquipmentTrayProps {
   isExpanded: boolean;
   onToggle: () => void;
 }
@@ -201,7 +202,7 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
   );
 }
 
-export function UnallocatedEquipmentTray({ isExpanded, onToggle }: UnallocatedEquipmentTrayProps) {
+export function EquipmentTray({ isExpanded, onToggle }: EquipmentTrayProps) {
   const router = useRouter();
   const { unit, unallocatedEquipment, removeEquipment } = useUnit();
 
@@ -314,7 +315,7 @@ export function UnallocatedEquipmentTray({ isExpanded, onToggle }: UnallocatedEq
         {/* Header */}
         <div className="flex-shrink-0 p-4 border-b border-slate-700">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-slate-100 font-medium">Unallocated Equipment</h3>
+            <h3 className="text-slate-100 font-medium">Equipment Tray</h3>
             <button
               onClick={onToggle}
               className="text-slate-400 hover:text-slate-100 transition-colors"
