@@ -156,20 +156,15 @@ function EquipmentGroup({
         </span>
       </div>
       
-      {/* Individual equipment items - very compact */}
+      {/* Individual equipment items - show all items */}
       {isExpanded && (
-        <div className="ml-4 mt-1">
-          {groupData.items.slice(0, 3).map(equipment => (
+        <div className="ml-4 mt-1 space-y-1">
+          {groupData.items.map(equipment => (
             <EquipmentItem 
               key={equipment.equipmentGroupId} 
               equipment={equipment} 
             />
           ))}
-          {groupData.items.length > 3 && (
-            <div className="text-xs text-gray-500 px-2">
-              ...and {groupData.items.length - 3} more (click to select any)
-            </div>
-          )}
         </div>
       )}
     </div>
