@@ -24,6 +24,50 @@ export interface SpecialEquipmentObject extends EquipmentObject {
   componentType?: 'structure' | 'armor'
 }
 
+// ===== ENHANCED STATE SERIALIZATION INTERFACES =====
+
+/**
+ * Complete unit state for persistence - includes everything needed to restore unit exactly
+ */
+export interface CompleteUnitState {
+  version: string                                // Version for future compatibility
+  configuration: UnitConfiguration               // Basic unit configuration
+  criticalSlotAllocations: SerializedSlotAllocations  // Equipment in specific slots
+  unallocatedEquipment: SerializedEquipment[]    // Equipment not yet placed
+  timestamp: number                              // When state was saved
+}
+
+/**
+ * Serialized equipment data for persistence
+ */
+export interface SerializedEquipment {
+  equipmentData: EquipmentObject
+  equipmentGroupId: string
+  location: string                               // Empty string if unallocated
+  startSlotIndex: number                         // -1 if unallocated
+  endSlotIndex: number                           // -1 if unallocated
+  occupiedSlots: number[]                        // Empty array if unallocated
+}
+
+/**
+ * Critical slot allocations organized by location
+ */
+export interface SerializedSlotAllocations {
+  [location: string]: {
+    [slotIndex: number]: SerializedEquipment
+  }
+}
+
+/**
+ * Validation result for state deserialization
+ */
+export interface StateValidationResult {
+  isValid: boolean
+  errors: string[]
+  warnings: string[]
+  canRecover: boolean                            // Can we recover from errors automatically?
+}
+
 export interface ArmorAllocation {
   HD: { front: number; rear: number };
   CT: { front: number; rear: number };
@@ -400,6 +444,7 @@ export class UnitCriticalManager {
   private sections: Map<string, CriticalSection>
   private unallocatedEquipment: EquipmentAllocation[]
   private configuration: UnitConfiguration
+  private listeners: (() => void)[] = []
 
   constructor(configuration: UnitConfiguration | LegacyUnitConfiguration) {
     // Convert legacy configuration to new format if needed
@@ -1041,12 +1086,40 @@ export class UnitCriticalManager {
 
   /**
    * Remove equipment from unallocated pool
+   * CRITICAL FIX: Ensure React detects array changes by creating new array reference
    */
   removeUnallocatedEquipment(equipmentGroupId: string): EquipmentAllocation | null {
+    console.log(`[UnitCriticalManager] removeUnallocatedEquipment called with groupId: ${equipmentGroupId}`)
+    console.log(`[UnitCriticalManager] Current unallocated equipment:`, this.unallocatedEquipment.map(eq => ({
+      name: eq.equipmentData.name,
+      groupId: eq.equipmentGroupId,
+      componentType: (eq.equipmentData as any).componentType
+    })))
+    
     const index = this.unallocatedEquipment.findIndex(eq => eq.equipmentGroupId === equipmentGroupId)
+    console.log(`[UnitCriticalManager] Found equipment at index: ${index}`)
+    
     if (index >= 0) {
-      return this.unallocatedEquipment.splice(index, 1)[0]
+      const removed = this.unallocatedEquipment[index]
+      
+      // CRITICAL FIX: Create new array to ensure React detects the change
+      this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => eq.equipmentGroupId !== equipmentGroupId)
+      
+      console.log(`[UnitCriticalManager] Successfully removed equipment:`, {
+        name: removed.equipmentData.name,
+        groupId: removed.equipmentGroupId,
+        componentType: (removed.equipmentData as any).componentType
+      })
+      console.log(`[UnitCriticalManager] Remaining unallocated count: ${this.unallocatedEquipment.length}`)
+      
+      // Notify listeners about state change
+      this.notifyStateChange()
+      
+      return removed
     }
+    
+    console.error(`[UnitCriticalManager] FAILED to find equipment with groupId: ${equipmentGroupId}`)
+    console.error(`[UnitCriticalManager] Available group IDs:`, this.unallocatedEquipment.map(eq => eq.equipmentGroupId))
     return null
   }
 
@@ -1135,11 +1208,27 @@ export class UnitCriticalManager {
    * Attempt to allocate equipment from unallocated pool
    */
   allocateEquipmentFromPool(equipmentGroupId: string, location: string, startSlot: number): boolean {
+    console.log(`[UnitCriticalManager] allocateEquipmentFromPool called with:`, {
+      equipmentGroupId,
+      location,
+      startSlot
+    })
+    
     const equipment = this.removeUnallocatedEquipment(equipmentGroupId)
-    if (!equipment) return false
+    if (!equipment) {
+      console.error(`[UnitCriticalManager] FAILED: Could not remove equipment ${equipmentGroupId} from unallocated pool`)
+      return false
+    }
+    
+    console.log(`[UnitCriticalManager] Successfully removed equipment from unallocated pool:`, {
+      name: equipment.equipmentData.name,
+      groupId: equipment.equipmentGroupId,
+      componentType: (equipment.equipmentData as any).componentType
+    })
     
     // Check location restrictions
     if (!this.canPlaceEquipmentInLocation(equipment.equipmentData, location)) {
+      console.warn(`[UnitCriticalManager] Location restriction failed for ${equipment.equipmentData.name} in ${location}`)
       // Restore to unallocated if location is restricted
       this.addUnallocatedEquipment([equipment])
       console.warn(this.getLocationRestrictionError(equipment.equipmentData, location))
@@ -1148,16 +1237,24 @@ export class UnitCriticalManager {
     
     const section = this.getSection(location)
     if (!section) {
+      console.error(`[UnitCriticalManager] FAILED: Section not found: ${location}`)
       // Restore to unallocated if section not found
       this.addUnallocatedEquipment([equipment])
       return false
     }
     
+    console.log(`[UnitCriticalManager] Attempting to allocate equipment to section ${location} at slot ${startSlot}`)
     const success = section.allocateEquipment(equipment.equipmentData, startSlot, equipmentGroupId)
+    
     if (!success) {
+      console.error(`[UnitCriticalManager] FAILED: Section allocation failed for ${equipment.equipmentData.name}`)
       // Restore to unallocated if allocation failed
       this.addUnallocatedEquipment([equipment])
+    } else {
+      console.log(`[UnitCriticalManager] SUCCESS: Equipment ${equipment.equipmentData.name} allocated to ${location} slot ${startSlot}`)
     }
+    
+    console.log(`[UnitCriticalManager] Final unallocated equipment count: ${this.unallocatedEquipment.length}`)
     
     return success
   }
@@ -1658,5 +1755,380 @@ export class UnitCriticalManager {
       default: // Single
         return 1.0
     }
+  }
+
+  // ===== OBSERVER PATTERN FOR STATE CHANGES =====
+
+  /**
+   * Subscribe to state changes
+   */
+  subscribe(callback: () => void): () => void {
+    this.listeners.push(callback)
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== callback)
+    }
+  }
+
+  /**
+   * Notify all listeners about state changes
+   */
+  private notifyStateChange(): void {
+    this.listeners.forEach(callback => {
+      try {
+        callback()
+      } catch (error) {
+        console.error('[UnitCriticalManager] Error in state change listener:', error)
+      }
+    })
+  }
+
+  // ===== ENHANCED STATE SERIALIZATION METHODS =====
+
+  /**
+   * Serialize the complete unit state for persistence
+   */
+  serializeCompleteState(): CompleteUnitState {
+    console.log('[UnitCriticalManager] Serializing complete unit state')
+    
+    const criticalSlotAllocations: SerializedSlotAllocations = {}
+    const timestamp = Date.now()
+    
+    // Serialize allocated equipment from all sections
+    this.sections.forEach((section, location) => {
+      const equipment = section.getAllEquipment()
+      if (equipment.length > 0) {
+        criticalSlotAllocations[location] = {}
+        
+        equipment.forEach(allocation => {
+          // Store equipment in each occupied slot
+          allocation.occupiedSlots.forEach(slotIndex => {
+            criticalSlotAllocations[location][slotIndex] = this.serializeEquipment(allocation)
+          })
+        })
+      }
+    })
+    
+    // Serialize unallocated equipment
+    const unallocatedEquipment = this.unallocatedEquipment.map(allocation => 
+      this.serializeEquipment(allocation)
+    )
+    
+    const state: CompleteUnitState = {
+      version: '1.0.0',
+      configuration: { ...this.configuration },
+      criticalSlotAllocations,
+      unallocatedEquipment,
+      timestamp
+    }
+    
+    console.log('[UnitCriticalManager] Serialized state:', {
+      allocatedSections: Object.keys(criticalSlotAllocations).length,
+      unallocatedCount: unallocatedEquipment.length,
+      configVersion: state.version
+    })
+    
+    return state
+  }
+
+  /**
+   * Serialize individual equipment allocation
+   */
+  private serializeEquipment(allocation: EquipmentAllocation): SerializedEquipment {
+    return {
+      equipmentData: { ...allocation.equipmentData },
+      equipmentGroupId: allocation.equipmentGroupId,
+      location: allocation.location || '',
+      startSlotIndex: allocation.startSlotIndex ?? -1,
+      endSlotIndex: allocation.endSlotIndex ?? -1,
+      occupiedSlots: [...(allocation.occupiedSlots || [])]
+    }
+  }
+
+  /**
+   * Deserialize and restore complete unit state
+   */
+  deserializeCompleteState(state: CompleteUnitState): boolean {
+    console.log('[UnitCriticalManager] Deserializing complete unit state')
+    
+    try {
+      // Validate state before applying
+      const validation = this.validateSerializedState(state)
+      if (!validation.isValid && !validation.canRecover) {
+        console.error('[UnitCriticalManager] Cannot deserialize invalid state:', validation.errors)
+        return false
+      }
+      
+      if (validation.warnings.length > 0) {
+        console.warn('[UnitCriticalManager] State deserialization warnings:', validation.warnings)
+      }
+      
+      // Clear current state
+      this.clearAllEquipment()
+      
+      // Update configuration first
+      this.configuration = UnitConfigurationBuilder.buildConfiguration(state.configuration)
+      
+      // Rebuild system components with new configuration
+      this.rebuildSystemComponents()
+      
+      // Restore allocated equipment
+      this.restoreAllocatedEquipment(state.criticalSlotAllocations)
+      
+      // Restore unallocated equipment
+      this.restoreUnallocatedEquipment(state.unallocatedEquipment)
+      
+      console.log('[UnitCriticalManager] State deserialization complete')
+      return true
+      
+    } catch (error) {
+      console.error('[UnitCriticalManager] Failed to deserialize state:', error)
+      return false
+    }
+  }
+
+  /**
+   * Validate serialized state before deserialization
+   */
+  validateSerializedState(state: CompleteUnitState): StateValidationResult {
+    const result: StateValidationResult = {
+      isValid: true,
+      errors: [],
+      warnings: [],
+      canRecover: true
+    }
+    
+    // Check version compatibility
+    if (!state.version) {
+      result.warnings.push('Missing state version, assuming v1.0.0')
+    } else if (state.version !== '1.0.0') {
+      result.warnings.push(`State version ${state.version} may not be fully compatible`)
+    }
+    
+    // Validate configuration
+    if (!state.configuration) {
+      result.errors.push('Missing unit configuration')
+      result.isValid = false
+      result.canRecover = false
+      return result
+    }
+    
+    // Validate required configuration fields
+    const requiredFields = ['tonnage', 'engineType', 'gyroType', 'structureType', 'armorType']
+    for (const field of requiredFields) {
+      if (!(field in state.configuration)) {
+        result.errors.push(`Missing required configuration field: ${field}`)
+        result.isValid = false
+      }
+    }
+    
+    // Validate equipment data
+    if (state.unallocatedEquipment) {
+      state.unallocatedEquipment.forEach((equipment, index) => {
+        if (!equipment.equipmentData || !equipment.equipmentGroupId) {
+          result.errors.push(`Invalid unallocated equipment at index ${index}`)
+          result.isValid = false
+        }
+      })
+    }
+    
+    // Validate critical slot allocations
+    if (state.criticalSlotAllocations) {
+      Object.entries(state.criticalSlotAllocations).forEach(([location, slots]) => {
+        if (!this.sections.has(location)) {
+          result.warnings.push(`Unknown location in saved state: ${location}`)
+          return
+        }
+        
+        const section = this.sections.get(location)!
+        Object.entries(slots).forEach(([slotStr, equipment]) => {
+          const slotIndex = parseInt(slotStr)
+          if (slotIndex >= section.getTotalSlots()) {
+            result.warnings.push(`Invalid slot index ${slotIndex} in ${location}`)
+          }
+          
+          if (!equipment.equipmentData || !equipment.equipmentGroupId) {
+            result.errors.push(`Invalid equipment in ${location} slot ${slotIndex}`)
+            result.isValid = false
+          }
+        })
+      })
+    }
+    
+    return result
+  }
+
+  /**
+   * Clear all equipment from sections and unallocated pool
+   */
+  private clearAllEquipment(): void {
+    console.log('[UnitCriticalManager] Clearing all equipment')
+    
+    // Clear from all sections (but preserve system components)
+    this.sections.forEach(section => {
+      // Get all equipment and remove each one
+      const allEquipment = section.getAllEquipment()
+      allEquipment.forEach(equipment => {
+        section.removeEquipmentGroup(equipment.equipmentGroupId)
+      })
+    })
+    
+    // Clear unallocated equipment
+    this.unallocatedEquipment = []
+  }
+
+  /**
+   * Clear all special components before rebuilding
+   */
+  clearAllSpecialComponents(): void {
+    console.log('[DUPLICATION FIX] Clearing all special components')
+    
+    const beforeCount = this.unallocatedEquipment.length
+    
+    // Remove all structure components
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => {
+      const specialEq = eq.equipmentData as SpecialEquipmentObject
+      return !(specialEq.componentType === 'structure' || specialEq.componentType === 'armor')
+    })
+    
+    // Remove all jump jets
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => 
+      !eq.equipmentData.name.includes('Jump') && 
+      !eq.equipmentData.name.includes('UMU') &&
+      !eq.equipmentData.name.includes('Booster') &&
+      !eq.equipmentData.name.includes('Wing')
+    )
+    
+    const afterCount = this.unallocatedEquipment.length
+    console.log(`[DUPLICATION FIX] Cleared ${beforeCount - afterCount} special components (${beforeCount} → ${afterCount})`)
+  }
+
+  /**
+   * Rebuild system components after configuration change
+   */
+  private rebuildSystemComponents(): void {
+    console.log('[UnitCriticalManager] Rebuilding system components')
+    
+    // CRITICAL FIX: Clear ALL special components before rebuilding
+    this.clearAllSpecialComponents()
+    
+    // Clear existing system reservations
+    this.sections.forEach(section => {
+      section.clearSystemReservations('engine')
+      section.clearSystemReservations('gyro')
+    })
+    
+    // Reallocate system components with current configuration
+    this.allocateSystemComponents()
+    
+    // Reinitialize special components (Endo Steel, Ferro-Fibrous, Jump Jets)
+    this.initializeSpecialComponents()
+  }
+
+  /**
+   * Restore allocated equipment to critical slots
+   */
+  private restoreAllocatedEquipment(allocations: SerializedSlotAllocations): void {
+    console.log('[UnitCriticalManager] Restoring allocated equipment')
+    
+    const processedGroups = new Set<string>()
+    
+    Object.entries(allocations).forEach(([location, slots]) => {
+      const section = this.sections.get(location)
+      if (!section) {
+        console.warn(`[UnitCriticalManager] Section not found: ${location}`)
+        return
+      }
+      
+      Object.entries(slots).forEach(([slotStr, serializedEquipment]) => {
+        const slotIndex = parseInt(slotStr)
+        
+        // Skip if we've already processed this equipment group
+        if (processedGroups.has(serializedEquipment.equipmentGroupId)) {
+          return
+        }
+        
+        try {
+          // Attempt to allocate the equipment
+          const success = section.allocateEquipment(
+            serializedEquipment.equipmentData,
+            serializedEquipment.startSlotIndex,
+            serializedEquipment.equipmentGroupId
+          )
+          
+          if (success) {
+            processedGroups.add(serializedEquipment.equipmentGroupId)
+            console.log(`[UnitCriticalManager] Restored ${serializedEquipment.equipmentData.name} to ${location}`)
+          } else {
+            console.warn(`[UnitCriticalManager] Failed to restore ${serializedEquipment.equipmentData.name} to ${location}, adding to unallocated`)
+            // Add to unallocated if allocation failed
+            this.addToUnallocatedFromSerialized(serializedEquipment)
+          }
+        } catch (error) {
+          console.error(`[UnitCriticalManager] Error restoring equipment ${serializedEquipment.equipmentData.name}:`, error)
+          this.addToUnallocatedFromSerialized(serializedEquipment)
+        }
+      })
+    })
+  }
+
+  /**
+   * Restore unallocated equipment
+   */
+  private restoreUnallocatedEquipment(unallocatedEquipment: SerializedEquipment[]): void {
+    console.log('[UnitCriticalManager] Restoring unallocated equipment')
+    
+    unallocatedEquipment.forEach(serializedEquipment => {
+      this.addToUnallocatedFromSerialized(serializedEquipment)
+    })
+    
+    console.log(`[UnitCriticalManager] Restored ${unallocatedEquipment.length} unallocated equipment pieces`)
+  }
+
+  /**
+   * Add serialized equipment to unallocated pool
+   */
+  private addToUnallocatedFromSerialized(serializedEquipment: SerializedEquipment): void {
+    const allocation: EquipmentAllocation = {
+      equipmentData: serializedEquipment.equipmentData,
+      equipmentGroupId: serializedEquipment.equipmentGroupId,
+      location: '',
+      startSlotIndex: -1,
+      endSlotIndex: -1,
+      occupiedSlots: []
+    }
+    
+    this.unallocatedEquipment.push(allocation)
+  }
+
+  /**
+   * Create a minimal state for backward compatibility
+   */
+  static createMinimalStateFromConfiguration(configuration: UnitConfiguration): CompleteUnitState {
+    return {
+      version: '1.0.0',
+      configuration,
+      criticalSlotAllocations: {},
+      unallocatedEquipment: [],
+      timestamp: Date.now()
+    }
+  }
+
+  /**
+   * Check if a state is from an older version that only has configuration
+   */
+  static isLegacyConfigurationOnly(data: any): boolean {
+    return data && 
+           typeof data === 'object' && 
+           'tonnage' in data && 
+           !('version' in data) && 
+           !('criticalSlotAllocations' in data)
+  }
+
+  /**
+   * Convert legacy configuration-only data to complete state
+   */
+  static upgradeLegacyConfiguration(legacyConfig: UnitConfiguration): CompleteUnitState {
+    console.log('[UnitCriticalManager] Upgrading legacy configuration to complete state')
+    return this.createMinimalStateFromConfiguration(legacyConfig)
   }
 }

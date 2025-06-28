@@ -30,6 +30,7 @@ import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
 import { SystemComponentControls } from '../../components/criticalSlots/SystemComponentControls';
 import { CriticalSlotsDisplay } from '../../components/criticalSlots/CriticalSlotsDisplay';
 import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
+import { EquipmentAllocationDebugPanel } from '../../components/criticalSlots/EquipmentAllocationDebugPanel';
 
 // No additional imports needed - will use basic implementation
 
@@ -1757,6 +1758,9 @@ function CustomizerV2Content() {
         isExpanded={isTrayExpanded} 
         onToggle={toggleTray} 
       />
+
+      {/* Equipment Allocation Debug Panel */}
+      <EquipmentAllocationDebugPanel />
     </div>
   );
 }

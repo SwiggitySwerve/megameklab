@@ -1,13 +1,15 @@
 /**
  * Multi-Unit Provider - Manages multiple unit instances with independent tabs
  * Each tab maintains its own UnitCriticalManager and UnitStateManager
+ * Enhanced with comprehensive persistence and debounced saving
  */
 
 import React, { createContext, useContext, useReducer, useEffect, useCallback, useState } from 'react'
 import { UnitStateManager } from '../../utils/criticalSlots/UnitStateManager'
-import { UnitCriticalManager, UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
+import { UnitCriticalManager, UnitConfiguration, CompleteUnitState } from '../../utils/criticalSlots/UnitCriticalManager'
 import { EngineType, GyroType } from '../../utils/criticalSlots/SystemComponentRules'
 import { EquipmentAllocation } from '../../utils/criticalSlots/CriticalSlot'
+import { MultiTabDebouncedSaveManager, SaveManagerBrowserHandlers } from '../../utils/DebouncedSaveManager'
 
 // Tab unit interface
 export interface TabUnit {
@@ -50,6 +52,7 @@ interface MultiUnitContextValue {
   summary: any
   isConfigLoaded: boolean
   selectedEquipmentId: string | null
+  stateVersion: number // Force React re-renders on state changes
   
   // Active tab action functions
   changeEngine: (engineType: EngineType) => void
@@ -106,11 +109,23 @@ const TABS_METADATA_KEY = 'battletech-tabs-metadata'
 const TAB_DATA_PREFIX = 'battletech-unit-tab-'
 const LEGACY_CONFIG_KEY = 'battletech-unit-configuration'
 
+// Enhanced storage keys for complete state
+const COMPLETE_STATE_PREFIX = 'battletech-complete-state-'
+
 interface TabsMetadata {
   activeTabId: string | null
   nextTabNumber: number
   tabOrder: string[]
   tabNames: Record<string, string>
+  version?: string  // For future migration support
+}
+
+// Enhanced tab data interface
+interface EnhancedTabData {
+  completeState?: CompleteUnitState  // New complete state format
+  config?: UnitConfiguration         // Legacy configuration format
+  modified: string
+  version: string
 }
 
 interface MultiUnitProviderProps {
@@ -127,6 +142,30 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   const [selectedEquipmentId, setSelectedEquipmentId] = useState<string | null>(null)
   const [isClient, setIsClient] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  
+  // CRITICAL FIX: State version counter to force React re-renders
+  const [stateVersion, setStateVersion] = useState(0)
+  
+  // Force state update function
+  const forceStateUpdate = useCallback(() => {
+    console.log('[MultiUnitProvider] Forcing state update - incrementing version')
+    setStateVersion(prev => prev + 1)
+  }, [])
+  
+  // Debounced save manager with 1-second delay
+  const [saveManager] = useState(() => new MultiTabDebouncedSaveManager(1000))
+  
+  // Initialize browser event handlers for save flushing
+  useEffect(() => {
+    if (isClient) {
+      const browserHandlers = SaveManagerBrowserHandlers.getInstance()
+      browserHandlers.attachSaveManager(saveManager)
+      
+      return () => {
+        browserHandlers.detachSaveManager()
+      }
+    }
+  }, [isClient, saveManager])
   
   // Initialize on client-side
   useEffect(() => {
@@ -148,12 +187,9 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         const tabs: TabUnit[] = []
         
         for (const tabId of metadata.tabOrder) {
-          const tabDataStr = localStorage.getItem(`${TAB_DATA_PREFIX}${tabId}`)
-          if (tabDataStr) {
-            const tabData = JSON.parse(tabDataStr)
-            const tab = createTabFromData(tabId, metadata.tabNames[tabId] || 'New Mech', tabData.config)
-            tabs.push(tab)
-          }
+          const { config } = loadTabData(tabId)
+          const tab = createTabFromDataEnhanced(tabId, metadata.tabNames[tabId] || 'New Mech', config)
+          tabs.push(tab)
         }
         
         if (tabs.length > 0) {
@@ -218,10 +254,22 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     setIsInitialized(true)
   }, [])
   
+  // Force update mechanism for tab state changes
+  const [, forceUpdate] = useReducer(x => x + 1, 0)
+
   // Create tab from configuration data
   const createTabFromData = (id: string, name: string, config: UnitConfiguration): TabUnit => {
     const stateManager = new UnitStateManager(config)
     const unitManager = stateManager.getCurrentUnit()
+    
+    // Subscribe to unit state changes
+    const unsubscribe = unitManager.subscribe(() => {
+      console.log(`[MultiUnitProvider] Unit state changed for tab ${id}, forcing re-render`)
+      forceUpdate()
+    })
+    
+    // Store unsubscribe function on the unit manager for cleanup
+    ;(unitManager as any)._unsubscribe = unsubscribe
     
     return {
       id,
@@ -244,16 +292,158 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     }
   }
   
-  // Save individual tab data
+  // Enhanced save methods with complete state serialization and debounced saving
+  
+  /**
+   * Save individual tab data with complete state (legacy config for compatibility)
+   */
   const saveTabData = (tabId: string, config: UnitConfiguration) => {
     if (typeof window === 'undefined') return
     try {
-      localStorage.setItem(`${TAB_DATA_PREFIX}${tabId}`, JSON.stringify({
-        config,
-        modified: new Date().toISOString()
-      }))
+      const tabData: EnhancedTabData = {
+        config, // Legacy format for backward compatibility
+        modified: new Date().toISOString(),
+        version: '1.0.0'
+      }
+      localStorage.setItem(`${TAB_DATA_PREFIX}${tabId}`, JSON.stringify(tabData))
     } catch (error) {
       console.warn('Failed to save tab data:', error)
+    }
+  }
+
+  /**
+   * Save complete unit state with debounced saving
+   */
+  const saveCompleteState = (tabId: string, unitManager: UnitCriticalManager) => {
+    const saveHandler = (completeState: CompleteUnitState) => {
+      if (typeof window === 'undefined') return
+      try {
+        const tabData: EnhancedTabData = {
+          completeState,
+          config: completeState.configuration, // Keep legacy config for compatibility
+          modified: new Date().toISOString(),
+          version: '2.0.0' // New version with complete state
+        }
+        localStorage.setItem(`${COMPLETE_STATE_PREFIX}${tabId}`, JSON.stringify(tabData))
+        console.log(`[MultiUnitProvider] Saved complete state for tab ${tabId}`)
+      } catch (error) {
+        console.error('Failed to save complete state:', error)
+      }
+    }
+
+    const getStateCallback = () => {
+      return unitManager.serializeCompleteState()
+    }
+
+    // Use debounced saving
+    saveManager.scheduleSaveForTab(tabId, saveHandler, getStateCallback)
+  }
+
+  /**
+   * Save complete state immediately (for critical operations)
+   */
+  const saveCompleteStateImmediately = (tabId: string, unitManager: UnitCriticalManager) => {
+    const saveHandler = (completeState: CompleteUnitState) => {
+      if (typeof window === 'undefined') return
+      try {
+        const tabData: EnhancedTabData = {
+          completeState,
+          config: completeState.configuration,
+          modified: new Date().toISOString(),
+          version: '2.0.0'
+        }
+        localStorage.setItem(`${COMPLETE_STATE_PREFIX}${tabId}`, JSON.stringify(tabData))
+        console.log(`[MultiUnitProvider] Saved complete state immediately for tab ${tabId}`)
+      } catch (error) {
+        console.error('Failed to save complete state immediately:', error)
+      }
+    }
+
+    const getStateCallback = () => {
+      return unitManager.serializeCompleteState()
+    }
+
+    // Use immediate saving
+    saveManager.saveTabImmediately(tabId, saveHandler, getStateCallback)
+  }
+
+  /**
+   * Load tab data with complete state support and legacy migration
+   */
+  const loadTabData = (tabId: string): { config: UnitConfiguration, hasCompleteState: boolean } => {
+    if (typeof window === 'undefined') {
+      return { config: createDefaultConfiguration(), hasCompleteState: false }
+    }
+
+    try {
+      // Try to load complete state first
+      const completeStateStr = localStorage.getItem(`${COMPLETE_STATE_PREFIX}${tabId}`)
+      if (completeStateStr) {
+        const tabData: EnhancedTabData = JSON.parse(completeStateStr)
+        if (tabData.completeState) {
+          console.log(`[MultiUnitProvider] Loaded complete state for tab ${tabId}`)
+          return { 
+            config: tabData.completeState.configuration, 
+            hasCompleteState: true
+          }
+        }
+      }
+
+      // Fallback to legacy configuration format
+      const legacyDataStr = localStorage.getItem(`${TAB_DATA_PREFIX}${tabId}`)
+      if (legacyDataStr) {
+        const legacyData = JSON.parse(legacyDataStr)
+        console.log(`[MultiUnitProvider] Loaded legacy config for tab ${tabId}`)
+        return { 
+          config: legacyData.config || createDefaultConfiguration(), 
+          hasCompleteState: false
+        }
+      }
+
+    } catch (error) {
+      console.error(`Failed to load tab data for ${tabId}:`, error)
+    }
+
+    return { config: createDefaultConfiguration(), hasCompleteState: false }
+  }
+
+  /**
+   * Create tab from data with complete state restoration
+   */
+  const createTabFromDataEnhanced = (id: string, name: string, config: UnitConfiguration): TabUnit => {
+    const stateManager = new UnitStateManager(config)
+    const unitManager = stateManager.getCurrentUnit()
+    
+    // Check if we have complete state to restore
+    const { hasCompleteState } = loadTabData(id)
+    if (hasCompleteState) {
+      try {
+        const completeStateStr = localStorage.getItem(`${COMPLETE_STATE_PREFIX}${id}`)
+        if (completeStateStr) {
+          const tabData: EnhancedTabData = JSON.parse(completeStateStr)
+          if (tabData.completeState) {
+            console.log(`[MultiUnitProvider] Restoring complete state for tab ${id}`)
+            const success = unitManager.deserializeCompleteState(tabData.completeState)
+            if (success) {
+              console.log(`[MultiUnitProvider] Successfully restored complete state for tab ${id}`)
+            } else {
+              console.warn(`[MultiUnitProvider] Failed to restore complete state for tab ${id}, using config only`)
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`[MultiUnitProvider] Error restoring complete state for tab ${id}:`, error)
+      }
+    }
+
+    return {
+      id,
+      name,
+      unitManager,
+      stateManager,
+      created: new Date(),
+      modified: new Date(),
+      isModified: false
     }
   }
   
@@ -442,6 +632,7 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     duplicateTab,
     
     // Active tab unit data (proxy to active tab's unit)
+    // CRITICAL FIX: Include stateVersion to force React re-renders on equipment changes
     unit: activeTab?.unitManager || null,
     engineType: activeTab?.unitManager.getEngineType() || null,
     gyroType: activeTab?.unitManager.getGyroType() || null,
@@ -450,50 +641,137 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     summary: activeTab?.stateManager.getUnitSummary().summary || null,
     isConfigLoaded: isInitialized,
     selectedEquipmentId,
+    stateVersion, // Force React to detect state changes
     
-    // Active tab action functions
+    // Active tab action functions with enhanced persistence
     changeEngine: (engineType: EngineType) => {
       if (!activeTab) return
       activeTab.stateManager.handleEngineChange(engineType)
+      activeTab.isModified = true
+      activeTab.modified = new Date()
       setState(prevState => ({ ...prevState })) // Force re-render
+      
+      // Save complete state with debouncing (configuration changes are significant)
+      saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
     },
     changeGyro: (gyroType: GyroType) => {
       if (!activeTab) return
       activeTab.stateManager.handleGyroChange(gyroType)
+      activeTab.isModified = true
+      activeTab.modified = new Date()
       setState(prevState => ({ ...prevState })) // Force re-render
+      
+      // Save complete state with debouncing (configuration changes are significant)
+      saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
     },
     updateConfiguration: updateActiveTabConfiguration,
     addTestEquipment: (equipment: any, location: string, startSlot?: number) => {
       if (!activeTab) return false
-      return activeTab.stateManager.addTestEquipment(equipment, location, startSlot)
+      const result = activeTab.stateManager.addTestEquipment(equipment, location, startSlot)
+      
+      if (result) {
+        activeTab.isModified = true
+        activeTab.modified = new Date()
+        setState(prevState => ({ ...prevState })) // Force re-render
+        
+        // Save complete state with debouncing
+        saveCompleteState(activeTab.id, activeTab.unitManager)
+      }
+      
+      return result
     },
     addEquipmentToUnit: (equipment: any) => {
       if (!activeTab) return
       activeTab.stateManager.addUnallocatedEquipment(equipment)
+      activeTab.isModified = true
+      activeTab.modified = new Date()
       setState(prevState => ({ ...prevState })) // Force re-render
+      
+      // Save complete state with debouncing
+      saveCompleteState(activeTab.id, activeTab.unitManager)
     },
     removeEquipment: (equipmentGroupId: string) => {
       if (!activeTab) return false
       const result = activeTab.stateManager.removeEquipment(equipmentGroupId)
-      setState(prevState => ({ ...prevState })) // Force re-render
+      
+      if (result) {
+        activeTab.isModified = true
+        activeTab.modified = new Date()
+        setState(prevState => ({ ...prevState })) // Force re-render
+        
+        // Save complete state with debouncing
+        saveCompleteState(activeTab.id, activeTab.unitManager)
+      }
+      
       return result
     },
     resetUnit: (config?: UnitConfiguration) => {
       if (!activeTab) return
       activeTab.stateManager.resetUnit(config)
+      activeTab.isModified = true
+      activeTab.modified = new Date()
       setState(prevState => ({ ...prevState })) // Force re-render
+      
+      // Save complete state immediately (reset is a significant operation)
+      saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
     },
     selectEquipment: (equipmentGroupId: string | null) => {
       setSelectedEquipmentId(equipmentGroupId)
+      // Note: Equipment selection doesn't modify unit state, so no save needed
     },
     assignSelectedEquipment: (location: string, slotIndex: number) => {
       if (!selectedEquipmentId || !activeTab) return false
       
+      console.log(`[MultiUnitProvider] Attempting to assign equipment ${selectedEquipmentId} to ${location} slot ${slotIndex}`)
+      
+      // Get the current unallocated count before allocation
+      const unallocatedCountBefore = activeTab.unitManager.getUnallocatedEquipment().length
+      console.log(`[MultiUnitProvider] Unallocated equipment count before allocation: ${unallocatedCountBefore}`)
+      
       const success = activeTab.unitManager.allocateEquipmentFromPool(selectedEquipmentId, location, slotIndex)
+      
       if (success) {
+        console.log(`[MultiUnitProvider] Equipment allocation successful`)
+        
+        // Verify the equipment was actually removed from unallocated pool
+        const unallocatedCountAfter = activeTab.unitManager.getUnallocatedEquipment().length
+        console.log(`[MultiUnitProvider] Unallocated equipment count after allocation: ${unallocatedCountAfter}`)
+        
+        if (unallocatedCountAfter >= unallocatedCountBefore) {
+          console.error(`[MultiUnitProvider] PROBLEM: Equipment was not removed from unallocated pool! Before: ${unallocatedCountBefore}, After: ${unallocatedCountAfter}`)
+        } else {
+          console.log(`[MultiUnitProvider] SUCCESS: Equipment properly removed from unallocated pool. Reduced from ${unallocatedCountBefore} to ${unallocatedCountAfter}`)
+        }
+        
+        // Clear selection
         setSelectedEquipmentId(null)
-        setState(prevState => ({ ...prevState })) // Force re-render
+        
+        // Mark tab as modified
+        activeTab.isModified = true
+        activeTab.modified = new Date()
+        
+        // CRITICAL FIX: Force React to detect the state change
+        console.log(`[MultiUnitProvider] FORCING STATE UPDATE after equipment allocation`)
+        forceStateUpdate()
+        
+        // Force comprehensive state update
+        setState(prevState => ({
+          ...prevState,
+          tabs: prevState.tabs.map(tab => 
+            tab.id === activeTab.id ? { ...activeTab } : tab
+          )
+        }))
+        
+        // Log final state for debugging
+        const finalUnallocated = activeTab.unitManager.getUnallocatedEquipment()
+        console.log(`[MultiUnitProvider] Final unallocated equipment:`, finalUnallocated.map(eq => eq.equipmentData.name))
+        
+        // Save complete state with debouncing
+        saveCompleteState(activeTab.id, activeTab.unitManager)
+      } else {
+        console.error(`[MultiUnitProvider] Equipment allocation failed for ${selectedEquipmentId} to ${location} slot ${slotIndex}`)
       }
+      
       return success
     },
     getDebugInfo: () => {
