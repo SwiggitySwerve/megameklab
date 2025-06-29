@@ -272,7 +272,16 @@ export class UnitConfigurationBuilder {
     // Calculate heat sinks
     const internalHeatSinks = this.calculateInternalHeatSinks(engineRating, config.engineType)
     const minHeatSinks = Math.max(10, config.totalHeatSinks)
-    const externalHeatSinks = Math.max(0, minHeatSinks - internalHeatSinks)
+    
+    // CRITICAL FIX: Respect user-provided externalHeatSinks when explicitly set
+    let externalHeatSinks: number
+    if (config.externalHeatSinks !== undefined && config.externalHeatSinks >= 0) {
+      // User explicitly set external heat sinks - respect their value
+      externalHeatSinks = config.externalHeatSinks
+    } else {
+      // Calculate external heat sinks from total - internal
+      externalHeatSinks = Math.max(0, minHeatSinks - internalHeatSinks)
+    }
     
     // Calculate armor values
     const armorValues = this.calculateArmorValues(config)
@@ -611,6 +620,15 @@ export class UnitCriticalManager {
       )
     }
     
+    // Create external heat sink components if needed
+    if (this.configuration.externalHeatSinks > 0) {
+      this.addHeatSinkEquipment(
+        this.configuration.heatSinkType,
+        this.configuration.externalHeatSinks,
+        this.configuration.techBase
+      )
+    }
+    
     this.specialComponentsInitialized = true
   }
 
@@ -771,7 +789,7 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Handle special component changes (Endo Steel, Ferro-Fibrous, Jump Jets)
+   * Handle special component changes (Endo Steel, Ferro-Fibrous, Jump Jets, Heat Sinks)
    * ULTIMATE FIX: Always clear ALL special components and recreate from scratch
    */
   private handleSpecialComponentConfigurationChange(
@@ -783,6 +801,10 @@ export class UnitCriticalManager {
     // ULTIMATE FIX: Clear ALL special components first to ensure clean slate
     console.log('[UnitCriticalManager] ULTIMATE FIX: Clearing ALL special components')
     this.clearAllSpecialComponents()
+    
+    // CRITICAL FIX: Also clear heat sinks separately since they're not considered "special components"
+    console.log('[UnitCriticalManager] ULTIMATE FIX: Clearing ALL heat sink equipment')
+    this.removeHeatSinkEquipment()
     
     // Now recreate exactly what's needed for the new configuration
     console.log('[UnitCriticalManager] ULTIMATE FIX: Creating components for new configuration')
@@ -801,10 +823,14 @@ export class UnitCriticalManager {
       this.addSpecialComponents(newConfig.armorType, 'armor', armorSlots)
     }
     
-    // Handle jump jets
-    if (newConfig.jumpMP > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${newConfig.jumpMP} jump jet components`)
-      this.addJumpJetEquipment(newConfig.jumpJetType, newConfig.jumpMP, newConfig.tonnage, newConfig.techBase)
+    // Handle jump jets - clear existing and add new
+    console.log('[UnitCriticalManager] ULTIMATE FIX: Updating jump jet equipment')
+    this.updateJumpJetEquipment(oldConfig, newConfig)
+    
+    // Handle external heat sinks - add exactly what's needed
+    if (newConfig.externalHeatSinks > 0) {
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${newConfig.externalHeatSinks} external heat sink components`)
+      this.addHeatSinkEquipment(newConfig.heatSinkType, newConfig.externalHeatSinks, newConfig.techBase)
     }
     
     console.log(`[UnitCriticalManager] ULTIMATE FIX: Special component update complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
@@ -1170,6 +1196,122 @@ export class UnitCriticalManager {
       }
       this.unallocatedEquipment.push(allocation)
     })
+  }
+
+  /**
+   * Remove all heat sink equipment from unallocated and allocated slots
+   */
+  private removeHeatSinkEquipment(): void {
+    console.log('[UnitCriticalManager] Removing ALL heat sink equipment')
+    
+    const beforeUnallocated = this.unallocatedEquipment.length
+    
+    // Remove from unallocated equipment
+    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => 
+      !eq.equipmentData.name.includes('Heat Sink') && 
+      eq.equipmentData.type !== 'heat_sink'
+    )
+    
+    const afterUnallocated = this.unallocatedEquipment.length
+    
+    // Remove from critical slots across all sections
+    let removedFromSlots = 0
+    this.sections.forEach(section => {
+      const equipmentToRemove = section.getAllEquipment().filter(eq => 
+        eq.equipmentData.name.includes('Heat Sink') || 
+        eq.equipmentData.type === 'heat_sink'
+      )
+      
+      equipmentToRemove.forEach(eq => {
+        const removed = section.removeEquipmentGroup(eq.equipmentGroupId)
+        if (removed) {
+          removedFromSlots++
+        }
+      })
+    })
+    
+    console.log(`[UnitCriticalManager] Removed heat sink equipment:`)
+    console.log(`  - From unallocated: ${beforeUnallocated - afterUnallocated}`)
+    console.log(`  - From allocated slots: ${removedFromSlots}`)
+    console.log(`  - Total removed: ${(beforeUnallocated - afterUnallocated) + removedFromSlots}`)
+  }
+
+  /**
+   * Add heat sink equipment to unallocated pool
+   */
+  private addHeatSinkEquipment(heatSinkType: HeatSinkType, externalHeatSinks: number, techBase: string): void {
+    console.log(`[UnitCriticalManager] Adding heat sink equipment: ${heatSinkType} - ${externalHeatSinks} external heat sinks`)
+    
+    // CRITICAL FIX: Don't generate any heat sinks if externalHeatSinks is 0
+    if (externalHeatSinks <= 0) {
+      console.log(`[UnitCriticalManager] No external heat sinks needed (${externalHeatSinks}), skipping generation`)
+      return
+    }
+    
+    // Import heat sink calculations
+    const { getHeatSinkSpecification } = require('../heatSinkCalculations')
+    
+    // CRITICAL FIX: Map configuration heat sink types to calculation types
+    let calculationHeatSinkType: string = heatSinkType
+    if (heatSinkType === 'Double') {
+      calculationHeatSinkType = techBase === 'Clan' ? 'Double (Clan)' : 'Double (IS)'
+    }
+    
+    const heatSinkSpec = getHeatSinkSpecification(calculationHeatSinkType as any)
+    if (!heatSinkSpec) {
+      console.error(`[UnitCriticalManager] No specification found for heat sink type: ${calculationHeatSinkType} (original: ${heatSinkType})`)
+      return
+    }
+    
+    console.log(`[UnitCriticalManager] Using heat sink spec:`, {
+      type: calculationHeatSinkType,
+      slots: heatSinkSpec.criticalSlots,
+      weight: heatSinkSpec.weight,
+      dissipation: heatSinkSpec.dissipation
+    })
+    
+    const heatSinks: EquipmentObject[] = []
+    
+    // Define location restrictions for heat sinks (can be placed anywhere except head)
+    const heatSinkLocations = ['Center Torso', 'Left Torso', 'Right Torso', 'Left Arm', 'Right Arm', 'Left Leg', 'Right Leg']
+    
+    for (let i = 0; i < externalHeatSinks; i++) {
+      heatSinks.push({
+        id: `${heatSinkType.toLowerCase().replace(/\s+/g, '_')}_external_${i + 1}`,
+        name: `${calculationHeatSinkType} Heat Sink`,
+        type: 'heat_sink' as const,
+        requiredSlots: heatSinkSpec.criticalSlots,
+        weight: heatSinkSpec.weight,
+        techBase: heatSinkSpec.techBase === 'Both' ? techBase : heatSinkSpec.techBase,
+        heat: -heatSinkSpec.dissipation, // Negative because they dissipate heat
+        allowedLocations: heatSinkLocations
+      })
+    }
+    
+    heatSinks.forEach((heatSink, index) => {
+      // Generate unique group IDs for heat sinks
+      UnitCriticalManager.globalComponentCounter++
+      const uniqueGroupId = `${heatSink.id}_group_${UnitCriticalManager.globalComponentCounter}_${Date.now()}_${index}`
+      
+      const allocation: EquipmentAllocation = {
+        equipmentData: heatSink,
+        equipmentGroupId: uniqueGroupId,
+        location: '',
+        startSlotIndex: -1,
+        endSlotIndex: -1,
+        occupiedSlots: []
+      }
+      this.unallocatedEquipment.push(allocation)
+      
+      console.log(`[UnitCriticalManager] Added heat sink to unallocated:`, {
+        name: heatSink.name,
+        groupId: uniqueGroupId,
+        slots: heatSink.requiredSlots,
+        weight: heatSink.weight
+      })
+    })
+    
+    console.log(`[UnitCriticalManager] Total heat sinks added: ${heatSinks.length}`)
   }
 
   /**
@@ -2462,11 +2604,17 @@ export class UnitCriticalManager {
   /**
    * Comprehensive detection of special components
    * Detects by component type, name patterns, and IDs to catch ALL variants
+   * Heat sinks are NOT special components - they are regular equipment that happens to be auto-generated
    */
   private isSpecialComponent(equipment: EquipmentObject): boolean {
     const specialEq = equipment as SpecialEquipmentObject
     const name = equipment.name.toLowerCase()
     const id = equipment.id.toLowerCase()
+    
+    // CRITICAL: Heat sinks are NOT special components - exclude them explicitly
+    if (name.includes('heat sink') || equipment.type === 'heat_sink') {
+      return false
+    }
     
     // Check by componentType field (preferred method)
     if (specialEq.componentType === 'structure' || specialEq.componentType === 'armor') {
@@ -2495,8 +2643,8 @@ export class UnitCriticalManager {
     const isArmor = armorTypes.some(type => name.includes(type))
     const isJumpJet = jumpJetTypes.some(type => name.includes(type))
     
-    // Check if ID matches special component pattern
-    const hasSpecialId = id.includes('piece') || id.includes('endo') || id.includes('ferro') || id.includes('jump')
+    // Check if ID matches special component pattern (exclude heat sink IDs)
+    const hasSpecialId = !name.includes('heat sink') && (id.includes('piece') || id.includes('endo') || id.includes('ferro') || id.includes('jump'))
     
     const isSpecial = isStructure || isArmor || isJumpJet || hasSpecialId
     

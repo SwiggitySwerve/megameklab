@@ -1,11 +1,13 @@
 import React from 'react';
 import { EditableUnit, ArmorType, ARMOR_TYPES } from '../../../types/editor';
+import { ARMOR_POINTS_PER_TON } from '../../../utils/armorCalculations';
 import styles from './ArmorStatisticsPanel.module.css';
 
 export interface ArmorStatisticsProps {
   unit: EditableUnit;
   totalArmorTonnage: number;
   onArmorTypeChange?: (armorType: ArmorType) => void;
+  onOptimizeArmor?: (newTonnage: number) => void;
   readOnly?: boolean;
 }
 
@@ -13,35 +15,61 @@ export const ArmorStatisticsPanel: React.FC<ArmorStatisticsProps> = ({
   unit,
   totalArmorTonnage,
   onArmorTypeChange,
+  onOptimizeArmor,
   readOnly = false,
 }) => {
   // Get current armor type
   const currentArmorType = unit.armorAllocation?.HEAD?.type || ARMOR_TYPES[0];
   
-  // Calculate armor statistics
+  // Calculate comprehensive armor statistics with efficiency analysis
   const calculateArmorStats = () => {
     let totalAllocated = 0;
     let totalMax = 0;
+    let locationsAtCap = 0;
+    let cappedPoints = 0;
     
     if (unit.armorAllocation) {
       Object.entries(unit.armorAllocation).forEach(([location, armor]) => {
-        totalAllocated += armor.front + (armor.rear || 0);
+        const allocated = armor.front + (armor.rear || 0);
+        totalAllocated += allocated;
         totalMax += armor.maxArmor;
+        
+        // Check if this location is at maximum armor
+        if (allocated >= armor.maxArmor) {
+          locationsAtCap++;
+          cappedPoints += armor.maxArmor;
+        }
       });
     }
     
-    const pointsPerTon = currentArmorType.pointsPerTon;
+    const pointsPerTon = ARMOR_POINTS_PER_TON[currentArmorType.id as keyof typeof ARMOR_POINTS_PER_TON] || currentArmorType.pointsPerTon;
     const totalPoints = Math.floor(totalArmorTonnage * pointsPerTon);
     const unallocated = totalPoints - totalAllocated;
-    const wasted = unallocated > 0 ? unallocated % pointsPerTon : 0;
+    
+    // Enhanced waste analysis
+    const wastedFromRounding = unallocated > 0 ? unallocated % Math.floor(pointsPerTon) : 0;
+    const trappedPoints = Math.max(0, totalAllocated >= totalMax ? unallocated : 0);
+    const totalWasted = wastedFromRounding + trappedPoints;
+    
+    // Calculate optimal tonnage (what user actually needs)
+    const optimalPoints = Math.min(totalAllocated + Math.floor(pointsPerTon), totalMax);
+    const optimalTonnage = Math.ceil(optimalPoints / pointsPerTon * 2) / 2; // Round to nearest 0.5 ton
+    const tonnageSavings = totalArmorTonnage - optimalTonnage;
     
     return {
       totalAllocated,
       totalMax,
       totalPoints,
       unallocated,
-      wasted,
-      efficiency: totalMax > 0 ? (totalAllocated / totalMax) * 100 : 0
+      wastedFromRounding,
+      trappedPoints,
+      totalWasted,
+      locationsAtCap,
+      cappedPoints,
+      optimalTonnage,
+      tonnageSavings,
+      efficiency: totalMax > 0 ? (totalAllocated / totalMax) * 100 : 0,
+      wastePercentage: totalPoints > 0 ? (totalWasted / totalPoints) * 100 : 0
     };
   };
   
@@ -112,15 +140,96 @@ export const ArmorStatisticsPanel: React.FC<ArmorStatisticsProps> = ({
             {stats.unallocated}
           </span>
         </div>
-        {stats.wasted > 0 && (
+        {stats.totalWasted > 0 && (
           <div className={styles.stat}>
             <span className={styles.statLabel}>Wasted:</span>
             <span className={`${styles.statValue} ${styles.error}`}>
-              {stats.wasted}
+              {stats.totalWasted}
             </span>
           </div>
         )}
       </div>
+
+      {/* Armor Efficiency Warning Section */}
+      {stats.totalWasted > 0 && (
+        <div className={`${styles.section} ${styles.warningSection}`}>
+          <div className={styles.warningHeader}>
+            <span className={styles.warningIcon}>⚠️</span>
+            <h4 className={styles.warningTitle}>Armor Efficiency Notice</h4>
+          </div>
+          
+          <div className={styles.warningContent}>
+            {/* Breakdown of wasted points */}
+            {stats.wastedFromRounding > 0 && (
+              <div className={styles.wasteItem}>
+                <span className={styles.wasteIcon}>🔹</span>
+                <span className={styles.wasteText}>
+                  <strong>{stats.wastedFromRounding} points</strong> wasted due to tonnage rounding
+                </span>
+              </div>
+            )}
+            
+            {stats.trappedPoints > 0 && (
+              <div className={styles.wasteItem}>
+                <span className={styles.wasteIcon}>🔸</span>
+                <span className={styles.wasteText}>
+                  <strong>{stats.trappedPoints} points</strong> trapped - {stats.locationsAtCap} location(s) at maximum armor
+                </span>
+              </div>
+            )}
+            
+            {/* Smart recommendations */}
+            {stats.tonnageSavings > 0 && (
+              <div className={styles.recommendationBox}>
+                <div className={styles.recommendationHeader}>
+                  <span className={styles.recommendationIcon}>💡</span>
+                  <span className={styles.recommendationTitle}>Optimization Suggestion</span>
+                </div>
+                <div className={styles.recommendationText}>
+                  Consider reducing armor tonnage to <strong>{stats.optimalTonnage} tons</strong> to save{' '}
+                  <strong>{stats.tonnageSavings.toFixed(1)} tons</strong> without losing protection.
+                </div>
+                {!readOnly && onOptimizeArmor && (
+                  <button
+                    onClick={() => onOptimizeArmor(stats.optimalTonnage)}
+                    className={styles.optimizeButton}
+                    title="Apply optimal armor tonnage"
+                  >
+                    Optimize Automatically
+                  </button>
+                )}
+              </div>
+            )}
+            
+            {/* Efficiency metrics */}
+            <div className={styles.efficiencyMetrics}>
+              <div className={styles.efficiencyItem}>
+                <span className={styles.efficiencyLabel}>Waste Percentage:</span>
+                <span className={`${styles.efficiencyValue} ${stats.wastePercentage > 10 ? styles.highWaste : stats.wastePercentage > 5 ? styles.mediumWaste : styles.lowWaste}`}>
+                  {stats.wastePercentage.toFixed(1)}%
+                </span>
+              </div>
+              <div className={styles.efficiencyItem}>
+                <span className={styles.efficiencyLabel}>Investment Efficiency:</span>
+                <span className={`${styles.efficiencyValue} ${100 - stats.wastePercentage > 90 ? styles.highEfficiency : styles.lowEfficiency}`}>
+                  {(100 - stats.wastePercentage).toFixed(1)}%
+                </span>
+              </div>
+            </div>
+            
+            {/* BattleTech rules explanation */}
+            {stats.trappedPoints > 0 && (
+              <div className={styles.rulesExplanation}>
+                <div className={styles.rulesTitle}>📖 BattleTech Rule:</div>
+                <div className={styles.rulesText}>
+                  Each location has a maximum armor limit based on its internal structure. 
+                  Once all locations reach maximum armor, additional armor points cannot be allocated.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       
       {/* Progress Bar */}
       <div className={styles.progressSection}>

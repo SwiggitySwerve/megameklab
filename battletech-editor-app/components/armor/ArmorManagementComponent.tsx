@@ -68,6 +68,25 @@ const ArmorManagementComponent: React.FC<ArmorManagementComponentProps> = ({
     setArmorTonnage(tonnage);
   }, [readOnly]);
 
+  // Handle armor optimization (edit mode only)
+  const handleOptimizeArmor = useCallback((newTonnage: number) => {
+    if (readOnly || !onUnitChange) return;
+    
+    // Update armor tonnage in the unit's data structure
+    onUnitChange({
+      data: {
+        ...unit.data,
+        armor: {
+          ...unit.data?.armor,
+          total_armor_tonnage: newTonnage
+        } as any // Type assertion to work around interface limitation
+      }
+    });
+    
+    // Update local state
+    setArmorTonnage(newTonnage);
+  }, [readOnly, onUnitChange, unit.data]);
+
   // Handle armor location change (edit mode only)
   function handleArmorLocationChange(location: string, front: number, rear: number) {
     if (readOnly || !onUnitChange) return;
@@ -232,6 +251,7 @@ const ArmorManagementComponent: React.FC<ArmorManagementComponentProps> = ({
           unit={unit as EditableUnit}
           totalArmorTonnage={armorTonnage}
           onArmorTypeChange={handleArmorTypeChange}
+          onOptimizeArmor={handleOptimizeArmor}
           readOnly={readOnly}
         />
       )}

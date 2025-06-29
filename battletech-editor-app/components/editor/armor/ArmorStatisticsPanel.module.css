@@ -134,3 +134,203 @@
   color: #4caf50;
   font-weight: 500;
 }
+
+/* Warning Section Styles */
+.warningSection {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.warningHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.warningIcon {
+  font-size: 1.2rem;
+}
+
+.warningTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #856404;
+}
+
+.warningContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Waste Item Styles */
+.wasteItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 4px solid #ffc107;
+}
+
+.wasteIcon {
+  font-size: 0.875rem;
+  color: #856404;
+}
+
+.wasteText {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+/* Recommendation Box */
+.recommendationBox {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.recommendationHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.recommendationIcon {
+  font-size: 1rem;
+}
+
+.recommendationTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0c5460;
+  margin: 0;
+}
+
+.recommendationText {
+  font-size: 0.875rem;
+  color: #0c5460;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.optimizeButton {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.optimizeButton:hover {
+  background-color: #138496;
+}
+
+.optimizeButton:active {
+  background-color: #11707d;
+}
+
+/* Efficiency Metrics */
+.efficiencyMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.efficiencyItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.efficiencyLabel {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.efficiencyValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Efficiency Value Colors */
+.highWaste {
+  color: #dc3545;
+}
+
+.mediumWaste {
+  color: #fd7e14;
+}
+
+.lowWaste {
+  color: #198754;
+}
+
+.highEfficiency {
+  color: #198754;
+}
+
+.lowEfficiency {
+  color: #fd7e14;
+}
+
+/* Rules Explanation */
+.rulesExplanation {
+  background-color: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.rulesTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0066cc;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rulesText {
+  font-size: 0.75rem;
+  color: #495057;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .efficiencyMetrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .wasteItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .recommendationBox {
+    padding: 10px;
+  }
+}
