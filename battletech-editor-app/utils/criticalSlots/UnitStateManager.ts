@@ -461,7 +461,10 @@ export class UnitStateManager {
   handleConfigurationUpdate(newConfiguration: UnitConfiguration): void {
     const oldConfig = this.currentUnit.getConfiguration()
     
-    console.log('Configuration update:', oldConfig, '->', newConfiguration)
+    console.log('[UnitStateManager] Configuration update:', oldConfig, '->', newConfiguration)
+    
+    // Detect significant changes that require complete state persistence
+    const hasSignificantChanges = this.detectSignificantConfigurationChanges(oldConfig, newConfiguration)
     
     // Update the unit configuration, which will trigger special component handling
     this.currentUnit.updateConfiguration(newConfiguration)
@@ -472,11 +475,52 @@ export class UnitStateManager {
       data: {
         action: 'configuration_update',
         oldConfig,
-        newConfig: newConfiguration
+        newConfig: newConfiguration,
+        hasSignificantChanges
       }
     })
     
+    console.log(`[UnitStateManager] Configuration update complete, significant changes: ${hasSignificantChanges}`)
     this.notifySubscribers()
+  }
+
+  /**
+   * Detect if configuration changes require complete state persistence
+   */
+  private detectSignificantConfigurationChanges(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): boolean {
+    // Engine or gyro changes
+    if (oldConfig.engineType !== newConfig.engineType || oldConfig.gyroType !== newConfig.gyroType) {
+      return true
+    }
+    
+    // Structure or armor type changes (affects special components)
+    if (oldConfig.structureType !== newConfig.structureType || oldConfig.armorType !== newConfig.armorType) {
+      return true
+    }
+    
+    // Enhancement changes
+    if (oldConfig.enhancementType !== newConfig.enhancementType) {
+      return true
+    }
+    
+    // Heat sink configuration changes
+    if (oldConfig.heatSinkType !== newConfig.heatSinkType || 
+        oldConfig.totalHeatSinks !== newConfig.totalHeatSinks ||
+        oldConfig.externalHeatSinks !== newConfig.externalHeatSinks) {
+      return true
+    }
+    
+    // Jump jet changes
+    if (oldConfig.jumpMP !== newConfig.jumpMP || oldConfig.jumpJetType !== newConfig.jumpJetType) {
+      return true
+    }
+    
+    // Tonnage changes (affects internal structure, engine rating)
+    if (oldConfig.tonnage !== newConfig.tonnage || oldConfig.walkMP !== newConfig.walkMP) {
+      return true
+    }
+    
+    return false
   }
 
   /**

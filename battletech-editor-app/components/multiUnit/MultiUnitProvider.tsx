@@ -607,10 +607,11 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       )
     }))
     
-    // Save to localStorage
-    saveTabData(activeTab.id, config)
+    // CRITICAL FIX: Save complete state instead of just basic config
+    // Configuration changes can include special components that need complete serialization
+    saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
     
-    console.log('[MultiUnitProvider] Configuration update complete')
+    console.log('[MultiUnitProvider] Configuration update complete with full state persistence')
   }, [activeTab])
   
   // Context value
