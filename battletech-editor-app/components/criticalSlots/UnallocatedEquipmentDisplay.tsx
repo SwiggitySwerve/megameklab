@@ -328,6 +328,7 @@ function EquipmentItem({ equipment }: { equipment: EquipmentAllocation }) {
 export function UnallocatedEquipmentDisplay() {
   const { unit } = useUnit()
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
+  const [hasAutoExpanded, setHasAutoExpanded] = useState(false)
 
   // PROPER ARCHITECTURE: Get fresh data directly from unit each render
   const unallocatedEquipment = unit.getUnallocatedEquipment()
@@ -365,13 +366,14 @@ export function UnallocatedEquipmentDisplay() {
     setExpandedCategories(newExpanded)
   }
 
-  // Auto-expand categories with items on first render
+  // Auto-expand categories with items on first render only
   React.useEffect(() => {
-    if (categorizedEquipment.length > 0 && expandedCategories.size === 0) {
+    if (categorizedEquipment.length > 0 && !hasAutoExpanded && expandedCategories.size === 0) {
       const autoExpand = new Set(categorizedEquipment.map(cat => cat.name))
       setExpandedCategories(autoExpand)
+      setHasAutoExpanded(true)
     }
-  }, [categorizedEquipment, expandedCategories.size])
+  }, [categorizedEquipment, hasAutoExpanded, expandedCategories.size])
 
   // Debug logging - Enhanced with duplication detection
   React.useEffect(() => {
