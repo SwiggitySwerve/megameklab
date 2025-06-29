@@ -1889,9 +1889,15 @@ export class UnitCriticalManager {
 
   /**
    * Get unallocated armor points available for auto-allocation
+   * ALLOWS NEGATIVE VALUES: Shows over-allocation relative to tonnage investment
    */
   getUnallocatedArmorPoints(): number {
-    return Math.max(0, this.getAvailableArmorPoints() - this.getAllocatedArmorPoints())
+    const availableFromTonnage = this.getAvailableArmorPoints()
+    const allocated = this.getAllocatedArmorPoints()
+    
+    // CRITICAL FIX: Allow negative values to show over-allocation
+    // This shows the true balance between tonnage investment and allocation
+    return availableFromTonnage - allocated
   }
 
   /**
@@ -1899,6 +1905,77 @@ export class UnitCriticalManager {
    */
   getRemainingArmorPoints(): number {
     return this.getUnallocatedArmorPoints()
+  }
+
+  /**
+   * Calculate wasted armor points using simple maximum comparison
+   * CLEAN LOGIC: Pure comparison between tonnage maximum vs unit maximum
+   */
+  getArmorWasteAnalysis(): {
+    totalWasted: number;
+    wastedFromRounding: number;
+    trappedPoints: number;
+    locationsAtCap: number;
+    wastePercentage: number;
+    optimalTonnage: number;
+    tonnageSavings: number;
+  } {
+    const unitMaximum = this.getMaxArmorPoints()           // Unit's physical armor limit
+    const tonnageMaximum = this.getAvailableArmorPoints()  // Points available from tonnage investment
+    const allocatedPoints = this.getAllocatedArmorPoints()
+    const armorEfficiency = this.getArmorEfficiency()
+    
+    // CLEAN WASTE CALCULATION: Only waste when tonnage exceeds unit capacity
+    const totalWasted = Math.max(0, tonnageMaximum - unitMaximum)
+    
+    // Count locations at maximum capacity
+    let locationsAtCap = 0
+    Object.entries(this.configuration.armorAllocation).forEach(([location, armor]) => {
+      const maxForLocation = this.getMaxArmorPointsForLocation(location)
+      const currentArmor = (armor.front || 0) + (armor.rear || 0)
+      
+      if (currentArmor >= maxForLocation) {
+        locationsAtCap++
+      }
+    })
+    
+    // Calculate optimal tonnage (minimum needed for current allocation)
+    const optimalPoints = Math.min(allocatedPoints, unitMaximum)
+    const optimalTonnage = Math.ceil(optimalPoints / armorEfficiency * 2) / 2 // Round to nearest 0.5 ton
+    
+    // Calculate potential tonnage savings
+    const tonnageSavings = Math.max(0, this.configuration.armorTonnage - optimalTonnage)
+    
+    // Calculate waste percentage based on tonnage investment
+    const wastePercentage = tonnageMaximum > 0 ? (totalWasted / tonnageMaximum) * 100 : 0
+    
+    // For backwards compatibility, break down waste types (though simpler now)
+    const wastedFromRounding = 0  // Not applicable in simplified model
+    const trappedPoints = totalWasted  // All waste is "trapped" by unit limits
+    
+    return {
+      totalWasted,
+      wastedFromRounding,
+      trappedPoints,
+      locationsAtCap,
+      wastePercentage,
+      optimalTonnage,
+      tonnageSavings
+    }
+  }
+
+  /**
+   * Check if armor allocation has any waste
+   */
+  hasArmorWaste(): boolean {
+    return this.getArmorWasteAnalysis().totalWasted > 0;
+  }
+
+  /**
+   * Get wasted armor points (simple version for quick checks)
+   */
+  getWastedArmorPoints(): number {
+    return this.getArmorWasteAnalysis().totalWasted;
   }
 
   /**

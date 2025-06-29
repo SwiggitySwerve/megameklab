@@ -33,6 +33,9 @@ import { CriticalSlotsDisplay } from '../../components/criticalSlots/CriticalSlo
 import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
 import { EquipmentAllocationDebugPanel } from '../../components/criticalSlots/EquipmentAllocationDebugPanel';
 
+// Import armor efficiency notification
+import { ArmorEfficiencyNotification } from '../../components/armor/ArmorEfficiencyNotification';
+
 // No additional imports needed - will use basic implementation
 
 // Placeholder tab components - these will be implemented later
@@ -547,46 +550,29 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
 
   const armorTypeOptions = getArmorTypeOptions(config.techBase);
 
-  // ===== OPTION A: SINGLE SOURCE OF TRUTH + COMPUTED PROPERTIES =====
-  // Clean armor points calculation - no data conflicts
+  // ===== USE DATA MODEL ONLY - NO MANUAL CALCULATIONS =====
+  // All calculations come from the data model to ensure consistency
 
   const maxArmorTonnage = unit.getMaxArmorTonnage();
   const maxArmorPoints = unit.getMaxArmorPoints();
   const currentArmorTonnage = config.armorTonnage;
   const armorAllocation = config.armorAllocation;
 
-  // Use computed properties from data model
+  // Use ONLY data model computed properties
   const availableArmorPoints = unit.getAvailableArmorPoints();    // From tonnage
   const allocatedArmorPoints = unit.getAllocatedArmorPoints();    // From allocation
   const unallocatedArmorPoints = unit.getUnallocatedArmorPoints(); // Available - allocated
   const remainingTonnage = unit.getRemainingTonnage();
 
-  // Calculate theoretical maximum armor points (sum of all location maximums)
-  const theoreticalMaxArmorPoints = React.useMemo(() => {
-    const locations = ['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
-    let totalMax = 0;
-    locations.forEach(location => {
-      totalMax += unit.getMaxArmorPointsForLocation(location);
-    });
-    return totalMax;
-  }, [unit, config.tonnage]);
+  // Cap available points to theoretical maximum using data model method
+  const cappedAvailablePoints = Math.min(availableArmorPoints, maxArmorPoints);
 
-  // Cap available points to theoretical maximum to prevent over-allocation display
-  const cappedAvailablePoints = Math.min(availableArmorPoints, theoreticalMaxArmorPoints);
-
-  // Manual calculation to ensure negative values are captured correctly
-  const manualUnallocatedPoints = React.useMemo(() => {
-    let totalAllocated = 0;
-    Object.values(armorAllocation).forEach(armor => {
-      totalAllocated += armor.front + armor.rear;
-    });
-    return cappedAvailablePoints - totalAllocated;
-  }, [cappedAvailablePoints, armorAllocation]);
-
-  // Use manual calculation if it differs significantly from data model
-  const displayUnallocatedPoints = Math.abs(unallocatedArmorPoints - manualUnallocatedPoints) > 0.1
-    ? manualUnallocatedPoints
-    : unallocatedArmorPoints;
+  // FIXED: Cap displayUnallocatedPoints to only show points that can actually be allocated
+  // When unit reaches physical armor limit, show 0 available instead of wasted tonnage points
+  // This makes the UI intuitive: "Available" only shows points that can be used
+  // The efficiency warning separately handles wasted tonnage investment
+  const actuallyAvailablePoints = Math.max(0, maxArmorPoints - allocatedArmorPoints);
+  const displayUnallocatedPoints = Math.min(unallocatedArmorPoints, actuallyAvailablePoints);
 
   // Get max armor for specific location using data model
   const getLocationMaxArmor = (location: string): number => {
@@ -678,66 +664,47 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   };
 
 
-  // Enhanced auto-allocate armor with remainder distribution
+  // Enhanced auto-allocate armor using data model only
   const handleAutoAllocate = () => {
     if (readOnly) return;
 
-    // Enhanced MegaMekLab-style armor allocation algorithm
-    // 1. Maximize head armor first
-    // 2. Distribute remaining points by internal structure ratios
-    // 3. Apply 75% front / 25% rear split for torsos
-    // 4. NEW: Distribute remainder points using priority allocation
-
+    // Use data model methods for all calculations
     const locations = ['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
     const newAllocation = { ...armorAllocation };
-    let remainingPoints = availableArmorPoints;
+    const availablePoints = unit.getAvailableArmorPoints();
+    let remainingPoints = availablePoints;
 
     // Clear current allocation
     locations.forEach(loc => {
       (newAllocation as any)[loc] = { front: 0, rear: 0 };
     });
 
-    // Step 1: Maximize head armor first (official BattleTech construction rule)
-    const headMaxArmor = getLocationMaxArmor('HD'); // Always 9 for head
+    // Step 1: Maximize head armor first using data model
+    const headMaxArmor = unit.getMaxArmorPointsForLocation('HD');
     const headArmor = Math.min(headMaxArmor, remainingPoints);
     (newAllocation as any)['HD'] = { front: headArmor, rear: 0 };
     remainingPoints -= headArmor;
 
-    // Step 2: Get internal structure points for remaining locations
-    const getRemainingLocationIS = (location: string): number => {
-      const maxLocationArmor = getLocationMaxArmor(location);
-
-      if (location === 'HD') {
-        return 0; // Head already handled
-      }
-
-      // Calculate IS from max armor (max armor = IS * 2 for non-head locations)
-      return Math.floor(maxLocationArmor / 2);
-    };
-
+    // Step 2: Get internal structure using data model
+    const internalStructure = unit.getInternalStructurePoints();
     const remainingLocations = ['CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
-    const internalStructure: { [key: string]: number } = {};
     let totalRemainingIS = 0;
 
     remainingLocations.forEach(location => {
-      const is = getRemainingLocationIS(location);
-      internalStructure[location] = is;
-      totalRemainingIS += is;
+      totalRemainingIS += internalStructure[location] || 0;
     });
 
-    // Step 3: Distribute remaining points by internal structure ratios (using Math.floor)
-    const distributedPoints: { [key: string]: number } = {};
+    // Step 3: Distribute remaining points by internal structure ratios
     let usedPoints = 0;
 
     remainingLocations.forEach(location => {
-      if (totalRemainingIS === 0) return; // Safety check
+      if (totalRemainingIS === 0) return;
 
-      const isRatio = internalStructure[location] / totalRemainingIS;
+      const isRatio = (internalStructure[location] || 0) / totalRemainingIS;
       const targetArmor = Math.floor(remainingPoints * isRatio);
-      const maxLocationArmor = getLocationMaxArmor(location);
+      const maxLocationArmor = unit.getMaxArmorPointsForLocation(location);
       const actualArmor = Math.min(targetArmor, maxLocationArmor);
 
-      distributedPoints[location] = actualArmor;
       usedPoints += actualArmor;
 
       // Apply 75% front / 25% rear split for torso locations
@@ -746,7 +713,7 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
         const rearArmor = actualArmor - frontArmor;
 
         // Ensure rear armor doesn't exceed location limits
-        const maxRearArmor = Math.floor(maxLocationArmor * 0.5); // Rear armor limited to 50% of max
+        const maxRearArmor = Math.floor(maxLocationArmor * 0.5);
         const finalRearArmor = Math.min(rearArmor, maxRearArmor);
         const finalFrontArmor = actualArmor - finalRearArmor;
 
@@ -763,20 +730,18 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       }
     });
 
-    // Step 4: NEW - Symmetric remainder distribution with left/right balance
+    // Step 4: Distribute remainder points using data model location caps
     const remainder = remainingPoints - usedPoints;
 
     if (remainder > 0) {
-      console.log(`Distributing ${remainder} remainder points with symmetry...`);
-
       // Get current armor for each location after ratio distribution
       const getCurrentArmor = (location: string) => {
         return (newAllocation as any)[location].front + (newAllocation as any)[location].rear;
       };
 
-      // Check capacity for each location
+      // Check capacity using data model
       const getAvailableCapacity = (location: string) => {
-        const maxArmor = getLocationMaxArmor(location);
+        const maxArmor = unit.getMaxArmorPointsForLocation(location);
         const currentArmor = getCurrentArmor(location);
         return maxArmor - currentArmor;
       };
@@ -789,11 +754,10 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
         if (ctCapacity > 0) {
           (newAllocation as any)['CT'].front += 1;
           remainderToDistribute -= 1;
-          console.log(`Added 1 remainder point to CT (odd remainder handling)`);
         }
       }
 
-      // Define symmetric pairs in priority order: Torsos > Legs > Arms
+      // Define symmetric pairs in priority order
       const symmetricPairs = [
         ['LT', 'RT'], // Left/Right Torso (highest priority)
         ['LL', 'RL'], // Left/Right Leg (medium priority)  
@@ -804,24 +768,18 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
       for (const [leftLoc, rightLoc] of symmetricPairs) {
         if (remainderToDistribute <= 0) break;
 
-        // Check if both locations have capacity
         const leftCapacity = getAvailableCapacity(leftLoc);
         const rightCapacity = getAvailableCapacity(rightLoc);
 
         if (leftCapacity > 0 && rightCapacity > 0 && remainderToDistribute >= 2) {
-          // Add one point to each side
           (newAllocation as any)[leftLoc].front += 1;
           (newAllocation as any)[rightLoc].front += 1;
           remainderToDistribute -= 2;
-          console.log(`Added 1 remainder point each to ${leftLoc} and ${rightLoc} (symmetric pair)`);
         }
       }
 
-      // If there are still points left and we couldn't maintain symmetry, 
-      // fall back to priority-based single point distribution
+      // Distribute any final points individually by priority
       if (remainderToDistribute > 0) {
-        console.log(`Distributing final ${remainderToDistribute} points individually...`);
-
         const allLocations = ['CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'];
         const locationsByPriority = allLocations
           .map(location => ({
@@ -847,7 +805,6 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
             (newAllocation as any)[target.location].front += 1;
             target.capacity -= 1;
             remainderToDistribute -= 1;
-            console.log(`Added 1 final remainder point to ${target.location}`);
           }
 
           if (target.capacity <= 0) {
@@ -859,10 +816,6 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
             priorityIndex = (priorityIndex + 1) % locationsByPriority.length;
           }
         }
-      }
-
-      if (remainderToDistribute > 0) {
-        console.warn(`Could not distribute ${remainderToDistribute} remainder points - all locations at maximum`);
       }
     }
 
@@ -889,6 +842,15 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   // Calculate remaining tonnage for display using data model
   const getRemainingTonnage = (): number => {
     return unit.getRemainingTonnage();
+  };
+
+  // Handle armor optimization from notification
+  const handleOptimizeArmor = (newTonnage: number) => {
+    if (readOnly) return;
+    updateConfigurationWithValidation({
+      ...config,
+      armorTonnage: newTonnage
+    });
   };
 
   return (
@@ -974,6 +936,13 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
 
         </div>
       </div>
+
+      {/* Armor Efficiency Notification */}
+      <ArmorEfficiencyNotification
+        unit={unit}
+        onOptimizeArmor={handleOptimizeArmor}
+        readOnly={readOnly}
+      />
 
       {/* Two-Column Layout: Diagram + Side Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
