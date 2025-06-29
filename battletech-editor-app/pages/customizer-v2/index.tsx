@@ -29,7 +29,7 @@ import { EquipmentObject } from '../../utils/criticalSlots/CriticalSlot';
 
 // Import working critical slots components
 import { SystemComponentControls } from '../../components/criticalSlots/SystemComponentControls';
-import { CriticalSlotsDisplay } from '../../components/criticalSlots/CriticalSlotsDisplay';
+import { EnhancedCriticalSlotsDisplay } from '../../components/criticalSlots/EnhancedCriticalSlotsDisplay';
 import { UnallocatedEquipmentDisplay } from '../../components/criticalSlots/UnallocatedEquipmentDisplay';
 import { EquipmentAllocationDebugPanel } from '../../components/criticalSlots/EquipmentAllocationDebugPanel';
 
@@ -1426,22 +1426,9 @@ const EquipmentTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
 
 const CriticalsTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   return (
-    <div className="h-full bg-slate-900 overflow-auto">
-      {/* Use the critical slots system with MultiUnitProvider's state */}
-      <div className="p-6">
-        {/* Main Content Grid - Same layout as demo */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
-          {/* Critical Slots - Takes up 2 columns */}
-          <div className="xl:col-span-2">
-            <CriticalSlotsDisplay />
-          </div>
-
-          {/* Unallocated Equipment - Takes up 1 column */}
-          <div className="xl:col-span-1">
-            <UnallocatedEquipmentDisplay />
-          </div>
-        </div>
-      </div>
+    <div className="h-full bg-slate-900">
+      {/* Use the enhanced critical slots system with toolbar */}
+      <EnhancedCriticalSlotsDisplay />
     </div>
   );
 };

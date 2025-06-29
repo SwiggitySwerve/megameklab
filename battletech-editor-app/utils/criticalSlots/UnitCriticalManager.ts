@@ -2872,4 +2872,315 @@ export class UnitCriticalManager {
     console.log('[UnitCriticalManager] Upgrading legacy configuration to complete state')
     return this.createMinimalStateFromConfiguration(legacyConfig)
   }
+
+  // ===== ENHANCED AUTO-ALLOCATION SYSTEM =====
+
+  /**
+   * Auto-allocate all unallocated equipment using intelligent priority-based placement
+   * Implements the enhanced fill algorithm with slots-first priority and BattleTech compliance
+   */
+  autoAllocateEquipment(): {
+    success: boolean
+    message: string
+    slotsModified: number
+    placedEquipment: number
+    failedEquipment: number
+    failureReasons: string[]
+  } {
+    console.log('[UnitCriticalManager] Starting enhanced auto-allocation')
+    
+    const startingCount = this.unallocatedEquipment.length
+    const failureReasons: string[] = []
+    let placedCount = 0
+    
+    if (startingCount === 0) {
+      return {
+        success: true,
+        message: 'No unallocated equipment to place',
+        slotsModified: 0,
+        placedEquipment: 0,
+        failedEquipment: 0,
+        failureReasons: []
+      }
+    }
+    
+    // Step 1: Sort equipment by priority (slots desc, then type priority)
+    const sortedEquipment = this.sortEquipmentByPriority([...this.unallocatedEquipment])
+    console.log('[UnitCriticalManager] Sorted equipment for placement:', 
+      sortedEquipment.map(eq => ({ 
+        name: eq.equipmentData.name, 
+        slots: eq.equipmentData.requiredSlots,
+        type: this.getEquipmentTypePriority(eq.equipmentData)
+      }))
+    )
+    
+    // Step 2: Attempt to place each equipment item
+    for (const equipment of sortedEquipment) {
+      const placementResult = this.findAndAllocateEquipment(equipment)
+      
+      if (placementResult.success) {
+        placedCount++
+        console.log(`[UnitCriticalManager] Successfully placed: ${equipment.equipmentData.name} in ${placementResult.location}`)
+      } else {
+        failureReasons.push(`${equipment.equipmentData.name}: ${placementResult.reason}`)
+        console.log(`[UnitCriticalManager] Failed to place: ${equipment.equipmentData.name} - ${placementResult.reason}`)
+      }
+    }
+    
+    const failedCount = startingCount - placedCount
+    
+    // Notify listeners about state changes
+    if (placedCount > 0) {
+      this.notifyStateChange()
+    }
+    
+    const result = {
+      success: true, // Operation itself succeeded, individual failures are reported separately
+      message: placedCount > 0
+        ? `Placed ${placedCount} of ${startingCount} equipment items` + 
+          (failedCount > 0 ? `, ${failedCount} items could not be placed` : '')
+        : `Could not place any of ${startingCount} equipment items`,
+      slotsModified: placedCount,
+      placedEquipment: placedCount,
+      failedEquipment: failedCount,
+      failureReasons
+    }
+    
+    console.log('[UnitCriticalManager] Auto-allocation complete:', result)
+    return result
+  }
+
+  /**
+   * Sort equipment by priority: Critical slots (desc) → Equipment type → Name
+   */
+  private sortEquipmentByPriority(equipment: EquipmentAllocation[]): EquipmentAllocation[] {
+    return equipment.sort((a, b) => {
+      // Primary: Slots required (descending - largest first)
+      const slotsA = a.equipmentData.requiredSlots || 1
+      const slotsB = b.equipmentData.requiredSlots || 1
+      if (slotsA !== slotsB) {
+        return slotsB - slotsA
+      }
+      
+      // Secondary: Equipment type priority
+      const priorityA = this.getEquipmentTypePriority(a.equipmentData)
+      const priorityB = this.getEquipmentTypePriority(b.equipmentData)
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB
+      }
+      
+      // Tertiary: Name (alphabetical)
+      return a.equipmentData.name.localeCompare(b.equipmentData.name)
+    })
+  }
+
+  /**
+   * Get equipment type priority (lower numbers = higher priority)
+   */
+  private getEquipmentTypePriority(equipment: EquipmentObject): number {
+    // Check if it's an unhittable component first (highest priority)
+    if (this.isUnhittableEquipment(equipment)) {
+      return 1 // Unhittables (Ferro-Fibrous, Endo Steel)
+    }
+    
+    // Check by equipment type
+    switch (equipment.type) {
+      case 'weapon':
+        return 2 // Weapons
+      case 'ammo':
+        return 3 // Ammunition
+      case 'heat_sink':
+        return 4 // Heat Sinks
+      case 'equipment':
+      default:
+        return 5 // Other Equipment
+    }
+  }
+
+  /**
+   * Check if equipment is an unhittable component (structure/armor pieces)
+   */
+  private isUnhittableEquipment(equipment: EquipmentObject): boolean {
+    const specialEq = equipment as SpecialEquipmentObject
+    const name = equipment.name.toLowerCase()
+    
+    // Check by componentType field (preferred method)
+    if (specialEq.componentType === 'structure' || specialEq.componentType === 'armor') {
+      return true
+    }
+    
+    // Check by name patterns for unhittable components
+    const unhittablePatterns = [
+      'endo steel', 'endosteel', 'endo_steel',
+      'ferro-fibrous', 'ferrofibrous', 'ferro_fibrous',
+      'ferro fibrous', 'light ferro', 'heavy ferro',
+      'stealth armor', 'reactive armor', 'reflective armor'
+    ]
+    
+    return unhittablePatterns.some(pattern => name.includes(pattern))
+  }
+
+  /**
+   * Find the best placement for equipment and allocate it
+   */
+  private findAndAllocateEquipment(equipment: EquipmentAllocation): {
+    success: boolean
+    location?: string
+    startSlot?: number
+    reason?: string
+  } {
+    const equipmentData = equipment.equipmentData
+    const requiredSlots = equipmentData.requiredSlots || 1
+    
+    // Get all available placement options
+    const availablePlacements = this.findAvailablePlacements(equipmentData, requiredSlots)
+    
+    if (availablePlacements.length === 0) {
+      return {
+        success: false,
+        reason: `No available ${requiredSlots}-slot space in allowed locations`
+      }
+    }
+    
+    // Choose the best placement using location preference
+    const bestPlacement = this.selectBestPlacement(availablePlacements, equipmentData)
+    
+    // Attempt to allocate the equipment
+    const success = this.allocateEquipmentFromPool(
+      equipment.equipmentGroupId,
+      bestPlacement.location,
+      bestPlacement.startSlot
+    )
+    
+    if (success) {
+      return {
+        success: true,
+        location: bestPlacement.location,
+        startSlot: bestPlacement.startSlot
+      }
+    } else {
+      return {
+        success: false,
+        reason: 'Allocation failed due to slot conflict'
+      }
+    }
+  }
+
+  /**
+   * Find all available placements for equipment across all valid locations
+   */
+  private findAvailablePlacements(equipment: EquipmentObject, requiredSlots: number): Array<{
+    location: string
+    startSlot: number
+    availableSlots: number
+  }> {
+    const placements: Array<{ location: string; startSlot: number; availableSlots: number }> = []
+    
+    // Get all location names in priority order
+    const locationNames = this.getLocationPriorityOrder()
+    
+    for (const locationName of locationNames) {
+      // Check if equipment is allowed in this location
+      if (!this.canPlaceEquipmentInLocation(equipment, locationName)) {
+        continue
+      }
+      
+      const section = this.getSection(locationName)
+      if (!section) continue
+      
+      // Find consecutive empty slots in this location
+      const consecutiveSlots = this.findConsecutiveEmptySlots(section, requiredSlots)
+      
+      consecutiveSlots.forEach(placement => {
+        placements.push({
+          location: locationName,
+          startSlot: placement.startSlot,
+          availableSlots: placement.consecutiveSlots
+        })
+      })
+    }
+    
+    return placements
+  }
+
+  /**
+   * Get location names in priority order for equipment placement
+   */
+  private getLocationPriorityOrder(): string[] {
+    // Standard BattleTech placement preference:
+    // 1. Torso locations (better protection, more space)
+    // 2. Arms (moderate protection, good for weapons)
+    // 3. Legs (good protection, limited space)
+    // 4. Head (best protection, very limited space)
+    return [
+      'Center Torso',
+      'Left Torso', 
+      'Right Torso',
+      'Left Arm',
+      'Right Arm', 
+      'Left Leg',
+      'Right Leg',
+      'Head'
+    ]
+  }
+
+  /**
+   * Find consecutive empty slots in a critical section
+   */
+  private findConsecutiveEmptySlots(section: CriticalSection, requiredSlots: number): Array<{
+    startSlot: number
+    consecutiveSlots: number
+  }> {
+    const placements: Array<{ startSlot: number; consecutiveSlots: number }> = []
+    const slots = section.getAllSlots()
+    
+    let consecutiveCount = 0
+    let currentStart = -1
+    
+    for (let i = 0; i < slots.length; i++) {
+      const slot = slots[i]
+      
+      if (slot.isEmpty() && !slot.isSystemSlot()) {
+        // This slot is available
+        if (consecutiveCount === 0) {
+          currentStart = i
+        }
+        consecutiveCount++
+        
+        // If we have enough consecutive slots, record this placement
+        if (consecutiveCount >= requiredSlots) {
+          placements.push({
+            startSlot: currentStart,
+            consecutiveSlots: consecutiveCount
+          })
+        }
+      } else {
+        // Slot is occupied or reserved, reset consecutive count
+        consecutiveCount = 0
+        currentStart = -1
+      }
+    }
+    
+    // Filter to only include placements with enough consecutive slots
+    return placements.filter(p => p.consecutiveSlots >= requiredSlots)
+  }
+
+  /**
+   * Select the best placement from available options
+   */
+  private selectBestPlacement(
+    placements: Array<{ location: string; startSlot: number; availableSlots: number }>,
+    equipment: EquipmentObject
+  ): { location: string; startSlot: number } {
+    // For now, use simple first-available strategy
+    // Future enhancement: could implement more sophisticated placement logic
+    // - Group weapons with ammo
+    // - Spread heat sinks for thermal management
+    // - Consider critical hit vulnerability
+    
+    return {
+      location: placements[0].location,
+      startSlot: placements[0].startSlot
+    }
+  }
 }

@@ -332,23 +332,6 @@ export function UnallocatedEquipmentDisplay() {
 
   // PROPER ARCHITECTURE: Get fresh data directly from unit each render
   const unallocatedEquipment = unit.getUnallocatedEquipment()
-
-  // Reset button handler with confirmation
-  const handleResetToBase = () => {
-    const confirmReset = window.confirm(
-      `Are you sure you want to reset to base configuration?\n\n` +
-      `This will:\n` +
-      `• Clear ALL allocated equipment\n` +
-      `• Reset special components (Endo Steel, Ferro-Fibrous, Jump Jets)\n` +
-      `• Rebuild unit from current configuration\n\n` +
-      `This action cannot be undone.`
-    )
-    
-    if (confirmReset) {
-      console.log('[UnallocatedEquipmentDisplay] User confirmed reset to base configuration')
-      unit.resetToBaseConfiguration()
-    }
-  }
   
   // Group equipment by category using fresh data from unit
   const categorizedEquipment = useMemo(() => {
@@ -421,17 +404,10 @@ export function UnallocatedEquipmentDisplay() {
 
   return (
     <div className="bg-gray-800 p-2 rounded border border-gray-700">
-      <div className="flex justify-between items-center mb-2">
+      <div className="mb-2">
         <h3 className="text-white text-sm font-bold">
           Unallocated ({unallocatedEquipment.length})
         </h3>
-        <button
-          onClick={handleResetToBase}
-          className="bg-red-600 hover:bg-red-700 text-white text-xs px-1 py-0.5 rounded border border-red-500 transition-colors"
-          title="Reset to Base Configuration - Clears all equipment and rebuilds unit fresh"
-        >
-          🔄
-        </button>
       </div>
       
       {unallocatedEquipment.length === 0 ? (
