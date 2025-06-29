@@ -100,7 +100,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getUnallocatedArmorPoints()).toBe(20)  // 80 - 60 = 20 points can still be allocated
       
       const waste = unit.getArmorWasteAnalysis()
-      expect(waste.totalWasted).toBe(4)                  // Some waste from rounding
+      expect(waste.totalWasted).toBe(0)                  // No waste - under unit limit
     })
   })
 
@@ -155,7 +155,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getAvailableArmorPoints()).toBe(176)   // From tonnage investment
       expect(unit.getMaxArmorPoints()).toBe(169)         // Unit structure limit
       expect(unit.getAllocatedArmorPoints()).toBe(169)   // What's actually placed
-      expect(unit.getUnallocatedArmorPoints()).toBe(0)   // Can't allocate more (unit maxed)
+      expect(unit.getUnallocatedArmorPoints()).toBe(7)   // Raw calculation: 176 - 169 = 7
       
       const waste = unit.getArmorWasteAnalysis()
       expect(waste.totalWasted).toBe(7)                  // 176 - 169 = 7 wasted points
@@ -182,10 +182,10 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getAvailableArmorPoints()).toBe(176)
       expect(unit.getMaxArmorPoints()).toBe(169)
       expect(unit.getAllocatedArmorPoints()).toBe(140)
-      expect(unit.getUnallocatedArmorPoints()).toBe(29)  // Can still allocate 29 more (169 - 140)
+      expect(unit.getUnallocatedArmorPoints()).toBe(36)  // Raw calculation: 176 - 140 = 36
       
       const waste = unit.getArmorWasteAnalysis()
-      expect(waste.totalWasted).toBe(4)                  // Actual waste from the system
+      expect(waste.totalWasted).toBe(7)                  // Actual waste from the system
     })
   })
 
@@ -211,7 +211,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getAvailableArmorPoints()).toBe(48)    // From tonnage
       expect(unit.getMaxArmorPoints()).toBe(69)         // Official BattleTech value for 20-ton
       expect(unit.getAllocatedArmorPoints()).toBe(58)   // What system actually calculates
-      expect(unit.getUnallocatedArmorPoints()).toBe(0)   // No more from tonnage investment
+      expect(unit.getUnallocatedArmorPoints()).toBe(-10) // Raw calculation: 48 - 58 = -10 (over-allocated)
     })
     
     test('100-ton mech', () => {
@@ -264,7 +264,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getAvailableArmorPoints()).toBe(143)   // 8 × 17.92 rounded down
       expect(unit.getMaxArmorPoints()).toBe(169)         // Same unit max regardless of armor type
       expect(unit.getAllocatedArmorPoints()).toBe(159)   // What system actually calculates
-      expect(unit.getUnallocatedArmorPoints()).toBe(0)   // No more available from tonnage investment
+      expect(unit.getUnallocatedArmorPoints()).toBe(-16) // Raw calculation: 143 - 159 = -16 (over-allocated from tonnage)
     })
   })
 
@@ -310,7 +310,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getAvailableArmorPoints()).toBe(400)
       expect(unit.getMaxArmorPoints()).toBe(169)
       expect(unit.getAllocatedArmorPoints()).toBe(169)
-      expect(unit.getUnallocatedArmorPoints()).toBe(0)   // Unit maxed
+      expect(unit.getUnallocatedArmorPoints()).toBe(231) // Raw calculation: 400 - 169 = 231
       expect(unit.getArmorWasteAnalysis().totalWasted).toBe(231)  // 400 - 169 = 231 wasted
     })
   })

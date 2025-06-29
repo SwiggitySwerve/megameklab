@@ -152,7 +152,7 @@ describe('Armor Efficiency Warning System', () => {
     );
     
     // Should show BattleTech rule explanation
-    expect(screen.getByText('BattleTech Rule:')).toBeInTheDocument();
+    expect(screen.getByText(/📖 BattleTech Rule:/)).toBeInTheDocument();
     expect(screen.getByText(/maximum armor limit/)).toBeInTheDocument();
   });
 
