@@ -796,18 +796,13 @@ export class UnitCriticalManager {
     oldConfig: UnitConfiguration, 
     newConfig: UnitConfiguration
   ): void {
-    console.log('[UnitCriticalManager] ULTIMATE FIX: Handling special component configuration change')
-    
-    // ULTIMATE FIX: Clear ALL special components first to ensure clean slate
-    console.log('[UnitCriticalManager] ULTIMATE FIX: Clearing ALL special components')
+    // Clear ALL special components first to ensure clean slate
     this.clearAllSpecialComponents()
     
     // CRITICAL FIX: Also clear heat sinks separately since they're not considered "special components"
-    console.log('[UnitCriticalManager] ULTIMATE FIX: Clearing ALL heat sink equipment')
     this.removeHeatSinkEquipment()
     
     // Now recreate exactly what's needed for the new configuration
-    console.log('[UnitCriticalManager] ULTIMATE FIX: Creating components for new configuration')
     
     // Create structure components if needed
     const structureSlots = this.getStructureCriticalSlots(newConfig.structureType)
