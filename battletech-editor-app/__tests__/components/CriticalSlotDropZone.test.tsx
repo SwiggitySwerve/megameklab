@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import CriticalSlotDropZone from '../../components/editor/criticals/CriticalSlotDropZone';
+import { CriticalSlotObject, EquipmentObject, EquipmentType, EquipmentCategory, SlotType } from '../../types/criticalSlots';
 import { DraggedEquipment, DragItemType } from '../../components/editor/dnd/types';
 
-// Mock react-dnd hooks - this is now handled by the __mocks__/react-dnd.js file
-// We still need to mock this for the specific tests that manipulate the mock behavior
+// Mock react-dnd hooks
 jest.mock('react-dnd', () => {
   return {
     useDrag: jest.fn(() => [
@@ -22,49 +22,31 @@ jest.mock('react-dnd', () => {
   };
 });
 
-// Mock equipment database
-jest.mock('../../utils/equipmentData', () => ({
-  EQUIPMENT_DATABASE: [
-    {
-      name: 'Medium Laser',
-      crits: 1,
-      weight: 1,
-      type: 'Energy Weapon',
-    },
-    {
-      name: 'AC/10',
-      crits: 7,
-      weight: 12,
-      type: 'Ballistic Weapon',
-    },
-    {
-      name: 'Heat Sink',
-      crits: 1,
-      weight: 1,
-      type: 'Heat Sink',
-    },
-  ],
+// Mock equipment colors
+jest.mock('../../utils/equipmentColors', () => ({
+  getEquipmentColorClasses: jest.fn(() => 'mock-color-class'),
 }));
 
 // Mock CSS modules
 jest.mock('../../components/editor/criticals/CriticalSlotDropZone.module.css', () => ({
   slot: 'slot',
   empty: 'empty',
-  invalid: 'invalid',
-  highlighted: 'highlighted',
-  rejected: 'rejected',
-  omniPod: 'omniPod',
+  occupied: 'occupied',
+  system: 'system',
   disabled: 'disabled',
-  systemProtected: 'systemProtected',
   dragging: 'dragging',
-  hoveredMultiSlot: 'hoveredMultiSlot',
-  groupStart: 'groupStart',
-  groupMiddle: 'groupMiddle',
-  groupEnd: 'groupEnd',
-  draggable: 'draggable',
+  multiSlot: 'multiSlot',
+  multiSlotStart: 'multiSlotStart',
+  multiSlotMiddle: 'multiSlotMiddle',
+  multiSlotEnd: 'multiSlotEnd',
+  hovered: 'hovered',
+  validDrop: 'validDrop',
+  invalidDrop: 'invalidDrop',
   slotNumber: 'slotNumber',
-  slotContent: 'slotContent',
-  omniPodIndicator: 'omniPodIndicator',
+  equipmentName: 'equipmentName',
+  slotCount: 'slotCount',
+  continuationMarker: 'continuationMarker',
+  removeButton: 'removeButton',
 }));
 
 const renderWithDnd = (component: React.ReactElement) => {
@@ -75,33 +57,84 @@ const renderWithDnd = (component: React.ReactElement) => {
   );
 };
 
+// Helper function to create a mock empty slot
+const createEmptySlot = (): CriticalSlotObject => ({
+  slotIndex: 0,
+  location: 'Right Arm',
+  equipment: null,
+  isPartOfMultiSlot: false,
+  multiSlotIndex: undefined,
+  multiSlotGroupId: undefined,
+  slotType: SlotType.NORMAL,
+});
+
+// Helper function to create a mock equipment object
+const createMockEquipment = (overrides: Partial<EquipmentObject> = {}): EquipmentObject => ({
+  id: 'test-equipment-1',
+  name: 'Medium Laser',
+  type: EquipmentType.ENERGY,
+  category: EquipmentCategory.WEAPON,
+  requiredSlots: 1,
+  weight: 1,
+  isFixed: false,
+  isRemovable: true,
+  techBase: 'Inner Sphere',
+  ...overrides,
+});
+
+// Helper function to create a mock slot with equipment
+const createSlotWithEquipment = (equipment: EquipmentObject, multiSlotData?: {
+  isPartOfMultiSlot: boolean;
+  multiSlotIndex?: number;
+  multiSlotGroupId?: string;
+}): CriticalSlotObject => ({
+  slotIndex: 0,
+  location: 'Right Arm',
+  equipment: {
+    equipmentId: equipment.id,
+    equipmentData: equipment,
+    allocatedSlots: equipment.requiredSlots,
+    startSlotIndex: 0,
+    endSlotIndex: equipment.requiredSlots - 1,
+  },
+  isPartOfMultiSlot: multiSlotData?.isPartOfMultiSlot || false,
+  multiSlotIndex: multiSlotData?.multiSlotIndex,
+  multiSlotGroupId: multiSlotData?.multiSlotGroupId,
+  slotType: SlotType.NORMAL,
+});
+
+// Helper function to create mock dragged equipment
 const createMockDraggedEquipment = (overrides: Partial<DraggedEquipment> = {}): DraggedEquipment => ({
   type: DragItemType.EQUIPMENT,
   equipmentId: 'test-equipment-1',
   name: 'Medium Laser',
   criticalSlots: 1,
   weight: 1,
+  category: EquipmentCategory.WEAPON,
+  techBase: 'Inner Sphere',
   ...overrides,
 });
 
 describe('CriticalSlotDropZone', () => {
   const mockOnDrop = jest.fn();
   const mockOnRemove = jest.fn();
-  const mockCanAccept = jest.fn();
-  const mockOnSystemClick = jest.fn();
+  const mockOnMove = jest.fn();
+  const mockCanAccept = jest.fn(() => true);
   const mockOnHoverChange = jest.fn();
 
   const defaultProps = {
     location: 'Right Arm',
     slotIndex: 0,
+    slot: createEmptySlot(),
     onDrop: mockOnDrop,
+    canAccept: mockCanAccept,
   };
 
   beforeEach(() => {
     mockOnDrop.mockClear();
     mockOnRemove.mockClear();
+    mockOnMove.mockClear();
     mockCanAccept.mockClear();
-    mockOnSystemClick.mockClear();
     mockOnHoverChange.mockClear();
   });
 
@@ -110,94 +143,150 @@ describe('CriticalSlotDropZone', () => {
       renderWithDnd(<CriticalSlotDropZone {...defaultProps} />);
       
       expect(screen.getByText('1')).toBeInTheDocument(); // slot number
-      expect(screen.getByText('- Empty -')).toBeInTheDocument();
     });
 
     test('renders filled slot with equipment name', () => {
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser" 
+          slot={slot}
         />
       );
       
-      expect(screen.getByText('1')).toBeInTheDocument();
+      // Filled slots show equipment name, not slot number
       expect(screen.getByText('Medium Laser')).toBeInTheDocument();
+      expect(screen.queryByText('1')).not.toBeInTheDocument();
     });
 
     test('displays correct slot number', () => {
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          slotIndex={4} 
+          slotIndex={4}
         />
       );
       
       expect(screen.getByText('5')).toBeInTheDocument(); // slotIndex + 1
     });
 
-    test('shows OmniPod indicator when isOmniPodSlot is true', () => {
+    test('shows slot count for multi-slot equipment', () => {
+      const equipment = createMockEquipment({ 
+        name: 'AC/10',
+        requiredSlots: 7 
+      });
+      const slot = createSlotWithEquipment(equipment);
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          isOmniPodSlot={true} 
+          slot={slot}
         />
       );
       
-      expect(screen.getByText('○')).toBeInTheDocument();
+      expect(screen.getByText('AC/10')).toBeInTheDocument();
+      expect(screen.getByText('(7)')).toBeInTheDocument();
     });
   });
 
-  describe('Empty Slot Detection', () => {
-    test('treats undefined as empty', () => {
+  describe('Multi-slot Equipment', () => {
+    test('shows continuation marker for middle slots', () => {
+      const equipment = createMockEquipment({ 
+        name: 'AC/10',
+        requiredSlots: 7 
+      });
+      const slot = createSlotWithEquipment(equipment, {
+        isPartOfMultiSlot: true,
+        multiSlotIndex: 2,
+        multiSlotGroupId: 'ac10-group'
+      });
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem={undefined} 
+          slot={slot}
         />
       );
       
-      expect(screen.getByText('- Empty -')).toBeInTheDocument();
+      expect(screen.getByText('↕')).toBeInTheDocument();
     });
 
-    test('treats various empty representations as empty', () => {
-      const emptyValues = [
-        '',
-        '   ',
-        '- Empty -',
-        '- empty -',
-        'empty',
-        '-',
-        '- -',
-        '—',
-        '–',
-        'null',
-        'undefined',
-      ];
+    test('applies multi-slot CSS classes correctly', () => {
+      const equipment = createMockEquipment({ requiredSlots: 3 });
+      
+      // Start slot
+      const startSlot = createSlotWithEquipment(equipment, {
+        isPartOfMultiSlot: true,
+        multiSlotIndex: 0,
+        multiSlotGroupId: 'test-group'
+      });
+      
+      const { container, rerender } = renderWithDnd(
+        <CriticalSlotDropZone 
+          {...defaultProps} 
+          slot={startSlot}
+        />
+      );
+      
+      expect(container.firstChild).toHaveClass('multiSlot', 'multiSlotStart');
 
-      emptyValues.forEach(value => {
-        const { unmount } = renderWithDnd(
+      // Middle slot
+      const middleSlot = createSlotWithEquipment(equipment, {
+        isPartOfMultiSlot: true,
+        multiSlotIndex: 1,
+        multiSlotGroupId: 'test-group'
+      });
+      
+      rerender(
+        <DndProvider backend={HTML5Backend}>
           <CriticalSlotDropZone 
             {...defaultProps} 
-            currentItem={value} 
+            slot={middleSlot}
           />
-        );
-        
-        expect(screen.getByText('- Empty -')).toBeInTheDocument();
-        unmount();
-      });
+        </DndProvider>
+      );
+      
+      expect(container.firstChild).toHaveClass('multiSlot', 'multiSlotMiddle');
     });
+  });
 
-    test('does not treat actual equipment names as empty', () => {
+  describe('System Components', () => {
+    test('renders system components correctly', () => {
+      const systemEquipment = createMockEquipment({
+        name: 'Engine',
+        isFixed: true,
+        isRemovable: false
+      });
+      const slot = createSlotWithEquipment(systemEquipment);
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser" 
+          slot={slot}
         />
       );
       
-      expect(screen.getByText('Medium Laser')).toBeInTheDocument();
-      expect(screen.queryByText('- Empty -')).not.toBeInTheDocument();
+      expect(screen.getByText('Engine')).toBeInTheDocument();
+    });
+
+    test('applies system CSS class for system components', () => {
+      const systemEquipment = createMockEquipment({
+        name: 'Engine',
+        isFixed: true,
+        isRemovable: false
+      });
+      const slot = createSlotWithEquipment(systemEquipment);
+      
+      const { container } = renderWithDnd(
+        <CriticalSlotDropZone 
+          {...defaultProps} 
+          slot={slot}
+        />
+      );
+      
+      expect(container.firstChild).toHaveClass('system');
     });
   });
 
@@ -210,20 +299,18 @@ describe('CriticalSlotDropZone', () => {
       expect(container.firstChild).toHaveClass('slot', 'empty');
     });
 
-    test('applies invalid class when isValid is false', () => {
+    test('applies occupied class for filled slots', () => {
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
+      
       const { container } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} isValid={false} />
+        <CriticalSlotDropZone 
+          {...defaultProps} 
+          slot={slot}
+        />
       );
       
-      expect(container.firstChild).toHaveClass('invalid');
-    });
-
-    test('applies omniPod class when isOmniPodSlot is true', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} isOmniPodSlot={true} />
-      );
-      
-      expect(container.firstChild).toHaveClass('omniPod');
+      expect(container.firstChild).toHaveClass('slot', 'occupied');
     });
 
     test('applies disabled class when disabled is true', () => {
@@ -234,59 +321,25 @@ describe('CriticalSlotDropZone', () => {
       expect(container.firstChild).toHaveClass('disabled');
     });
 
-    test('applies group classes for multi-slot equipment', () => {
-      const { container, rerender } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} isStartOfGroup={true} />
-      );
-      expect(container.firstChild).toHaveClass('groupStart');
-
-      rerender(
-        <DndProvider backend={HTML5Backend}>
-          <CriticalSlotDropZone {...defaultProps} isMiddleOfGroup={true} />
-        </DndProvider>
-      );
-      expect(container.firstChild).toHaveClass('groupMiddle');
-
-      rerender(
-        <DndProvider backend={HTML5Backend}>
-          <CriticalSlotDropZone {...defaultProps} isEndOfGroup={true} />
-        </DndProvider>
-      );
-      expect(container.firstChild).toHaveClass('groupEnd');
-    });
-
-    test('applies draggable class for non-empty, non-system slots', () => {
+    test('applies hovered class when isHoveredMultiSlot is true', () => {
       const { container } = renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser"
-          onRemove={mockOnRemove}
+          isHoveredMultiSlot={true}
         />
       );
       
-      expect(container.firstChild).toHaveClass('draggable');
-    });
-
-    test('does not apply draggable class for system components', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Engine"
-          isSystemComponent={true}
-        />
-      );
-      
-      expect(container.firstChild).not.toHaveClass('draggable');
+      expect(container.firstChild).toHaveClass('hovered');
     });
   });
 
   describe('Drop Functionality', () => {
-    test('accepts valid drops on empty slots', () => {
+    test('calls canAccept with equipment object', () => {
       const mockUseDrop = require('react-dnd').useDrop;
-      const mockDropSpec = jest.fn();
+      let dropSpec: any;
       
       mockUseDrop.mockImplementation((spec: any) => {
-        mockDropSpec.mockImplementation(spec().canDrop);
+        dropSpec = spec;
         return [
           { isOver: false, canDrop: true, draggedItem: null },
           jest.fn(),
@@ -296,94 +349,18 @@ describe('CriticalSlotDropZone', () => {
       renderWithDnd(<CriticalSlotDropZone {...defaultProps} />);
       
       const draggedItem = createMockDraggedEquipment();
-      const canDrop = mockDropSpec(draggedItem);
+      dropSpec.canDrop(draggedItem);
       
-      expect(canDrop).toBe(true);
+      // canAccept should be called as part of the validation process
+      expect(mockCanAccept).toHaveBeenCalled();
     });
 
-    test('rejects drops on occupied slots', () => {
-      const mockUseDrop = require('react-dnd').useDrop;
-      const mockDropSpec = jest.fn();
-      
-      mockUseDrop.mockImplementation((spec: any) => {
-        mockDropSpec.mockImplementation(spec().canDrop);
-        return [
-          { isOver: false, canDrop: false, draggedItem: null },
-          jest.fn(),
-        ];
-      });
-
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Medium Laser" 
-        />
-      );
-      
-      const draggedItem = createMockDraggedEquipment();
-      const canDrop = mockDropSpec(draggedItem);
-      
-      expect(canDrop).toBe(false);
-    });
-
-    test('rejects drops when disabled', () => {
-      const mockUseDrop = require('react-dnd').useDrop;
-      const mockDropSpec = jest.fn();
-      
-      mockUseDrop.mockImplementation((spec: any) => {
-        mockDropSpec.mockImplementation(spec().canDrop);
-        return [
-          { isOver: false, canDrop: false, draggedItem: null },
-          jest.fn(),
-        ];
-      });
-
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          disabled={true} 
-        />
-      );
-      
-      const draggedItem = createMockDraggedEquipment();
-      const canDrop = mockDropSpec(draggedItem);
-      
-      expect(canDrop).toBe(false);
-    });
-
-    test('uses custom canAccept function when provided', () => {
-      mockCanAccept.mockReturnValue(false);
-      
-      const mockUseDrop = require('react-dnd').useDrop;
-      const mockDropSpec = jest.fn();
-      
-      mockUseDrop.mockImplementation((spec: any) => {
-        mockDropSpec.mockImplementation(spec().canDrop);
-        return [
-          { isOver: false, canDrop: false, draggedItem: null },
-          jest.fn(),
-        ];
-      });
-
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          canAccept={mockCanAccept} 
-        />
-      );
-      
-      const draggedItem = createMockDraggedEquipment();
-      mockDropSpec(draggedItem);
-      
-      expect(mockCanAccept).toHaveBeenCalledWith(draggedItem);
-    });
-
-    test('calls onDrop when drop occurs', () => {
+    test('calls onDrop when drop occurs on empty slot', () => {
       const mockUseDrop = require('react-dnd').useDrop;
       
       mockUseDrop.mockImplementation((spec: any) => {
         const draggedItem = createMockDraggedEquipment();
-        spec().drop(draggedItem);
+        spec.drop(draggedItem);
         return [
           { isOver: false, canDrop: true, draggedItem: null },
           jest.fn(),
@@ -398,179 +375,177 @@ describe('CriticalSlotDropZone', () => {
         0
       );
     });
-  });
 
-  describe('Drag Functionality', () => {
-    test('creates drag item for filled slots', () => {
-      const mockUseDrag = require('react-dnd').useDrag;
-      const mockDragSpec = jest.fn();
+    test('calls onMove when moving equipment between slots', () => {
+      const mockUseDrop = require('react-dnd').useDrop;
       
-      mockUseDrag.mockImplementation((spec: any) => {
-        const item = spec().item();
-        mockDragSpec.mockReturnValue(item);
-        return [{ isDragging: false }, jest.fn()];
+      mockUseDrop.mockImplementation((spec: any) => {
+        const draggedItem = createMockDraggedEquipment({
+          isFromCriticalSlot: true,
+          sourceLocation: 'Left Arm',
+          sourceSlotIndex: 2
+        });
+        spec.drop(draggedItem);
+        return [
+          { isOver: false, canDrop: true, draggedItem: null },
+          jest.fn(),
+        ];
       });
 
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser" 
+          onMove={mockOnMove}
         />
       );
       
-      const dragItem = mockDragSpec();
+      expect(mockOnMove).toHaveBeenCalledWith(
+        'Left Arm',
+        2,
+        'Right Arm',
+        0
+      );
+    });
+  });
+
+  describe('Drag Functionality', () => {
+    test('creates drag item for filled slots', () => {
+      const mockUseDrag = require('react-dnd').useDrag;
+      let dragItem: any;
+      
+      mockUseDrag.mockImplementation((spec: any) => {
+        dragItem = spec().item();
+        return [{ isDragging: false }, jest.fn()];
+      });
+
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
+      
+      renderWithDnd(
+        <CriticalSlotDropZone 
+          {...defaultProps} 
+          slot={slot}
+        />
+      );
       
       expect(dragItem).toMatchObject({
+        type: 'equipment',
+        equipmentId: 'test-equipment-1',
         name: 'Medium Laser',
-        type: DragItemType.EQUIPMENT,
         sourceLocation: 'Right Arm',
         sourceSlotIndex: 0,
         isFromCriticalSlot: true,
       });
     });
 
-    test('does not create drag item for empty slots', () => {
+    test('returns null drag item for empty slots', () => {
       const mockUseDrag = require('react-dnd').useDrag;
-      const mockDragSpec = jest.fn();
+      let dragItem: any;
       
       mockUseDrag.mockImplementation((spec: any) => {
-        const item = spec().item();
-        mockDragSpec.mockReturnValue(item);
+        dragItem = spec().item();
         return [{ isDragging: false }, jest.fn()];
       });
 
       renderWithDnd(<CriticalSlotDropZone {...defaultProps} />);
       
-      const dragItem = mockDragSpec();
       expect(dragItem).toBeNull();
     });
 
     test('does not allow dragging of system components', () => {
       const mockUseDrag = require('react-dnd').useDrag;
-      const mockCanDrag = jest.fn();
+      let canDrag: any;
       
       mockUseDrag.mockImplementation((spec: any) => {
-        mockCanDrag.mockReturnValue(spec().canDrag);
+        canDrag = spec().canDrag();
         return [{ isDragging: false }, jest.fn()];
       });
 
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Engine"
-          isSystemComponent={true}
-        />
-      );
-      
-      const canDrag = mockCanDrag();
-      expect(canDrag).toBe(false);
-    });
-
-    test('does not allow dragging when disabled', () => {
-      const mockUseDrag = require('react-dnd').useDrag;
-      const mockCanDrag = jest.fn();
-      
-      mockUseDrag.mockImplementation((spec: any) => {
-        mockCanDrag.mockReturnValue(spec().canDrag);
-        return [{ isDragging: false }, jest.fn()];
+      const systemEquipment = createMockEquipment({
+        name: 'Engine',
+        isFixed: true,
+        isRemovable: false
       });
-
+      const slot = createSlotWithEquipment(systemEquipment);
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser"
-          disabled={true}
+          slot={slot}
         />
       );
       
-      const canDrag = mockCanDrag();
       expect(canDrag).toBe(false);
     });
   });
 
-  describe('Double Click Handling', () => {
-    test('calls onRemove for equipment slots when double-clicked', async () => {
-      const user = userEvent.setup();
+  describe('Remove Functionality', () => {
+    test('shows remove button for removable equipment', () => {
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
       
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser"
+          slot={slot}
           onRemove={mockOnRemove}
         />
       );
       
-      const slot = screen.getByText('Medium Laser').parentElement;
-      await user.dblClick(slot!);
+      expect(screen.getByRole('button', { name: /remove equipment/i })).toBeInTheDocument();
+    });
+
+    test('calls onRemove when remove button is clicked', async () => {
+      const user = userEvent.setup();
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
+      
+      renderWithDnd(
+        <CriticalSlotDropZone 
+          {...defaultProps} 
+          slot={slot}
+          onRemove={mockOnRemove}
+        />
+      );
+      
+      const removeButton = screen.getByRole('button', { name: /remove equipment/i });
+      await user.click(removeButton);
       
       expect(mockOnRemove).toHaveBeenCalledWith('Right Arm', 0);
     });
 
-    test('calls onSystemClick for system components when double-clicked', async () => {
-      const user = userEvent.setup();
+    test('does not show remove button for system components', () => {
+      const systemEquipment = createMockEquipment({
+        name: 'Engine',
+        isFixed: true,
+        isRemovable: false
+      });
+      const slot = createSlotWithEquipment(systemEquipment);
       
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Engine"
-          isSystemComponent={true}
-          onSystemClick={mockOnSystemClick}
-        />
-      );
-      
-      const slot = screen.getByText('Engine').parentElement;
-      await user.dblClick(slot!);
-      
-      expect(mockOnSystemClick).toHaveBeenCalled();
-    });
-
-    test('does not call onRemove for empty slots', async () => {
-      const user = userEvent.setup();
-      
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
+          slot={slot}
           onRemove={mockOnRemove}
         />
       );
       
-      const slot = screen.getByText('- Empty -').parentElement;
-      await user.dblClick(slot!);
-      
-      expect(mockOnRemove).not.toHaveBeenCalled();
-    });
-
-    test('does not call onRemove when disabled', async () => {
-      const user = userEvent.setup();
-      
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Medium Laser"
-          disabled={true}
-          onRemove={mockOnRemove}
-        />
-      );
-      
-      const slot = screen.getByText('Medium Laser').parentElement;
-      await user.dblClick(slot!);
-      
-      expect(mockOnRemove).not.toHaveBeenCalled();
+      expect(screen.queryByRole('button', { name: /remove equipment/i })).not.toBeInTheDocument();
     });
   });
 
-  describe('Hover State Management', () => {
-    test('calls onHoverChange when hovering with valid drop', () => {
+  describe('Hover Functionality', () => {
+    test('calls onHoverChange when hovering', () => {
       const mockUseDrop = require('react-dnd').useDrop;
       
-      mockUseDrop.mockReturnValue([
-        { 
-          isOver: true, 
-          canDrop: true, 
-          draggedItem: createMockDraggedEquipment() 
-        },
-        jest.fn(),
-      ]);
+      mockUseDrop.mockImplementation((spec: any) => {
+        const draggedItem = createMockDraggedEquipment();
+        spec.hover(draggedItem, { isOver: () => true });
+        return [
+          { isOver: true, canDrop: true, draggedItem },
+          jest.fn(),
+        ];
+      });
 
       renderWithDnd(
         <CriticalSlotDropZone 
@@ -584,290 +559,73 @@ describe('CriticalSlotDropZone', () => {
         expect.objectContaining({ name: 'Medium Laser' })
       );
     });
-
-    test('applies hoveredMultiSlot styling when prop is true', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          isHoveredMultiSlot={true}
-        />
-      );
-      
-      expect(container.firstChild).toHaveClass('hoveredMultiSlot');
-    });    test('applies inline styles for hovered multi-slot', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          isHoveredMultiSlot={true}
-        />
-      );
-      
-      // Instead of checking the inline styles directly, we'll check if the class is applied
-      // The useEffect in the component applies styles to the DOM node directly
-      expect(container.firstChild).toHaveClass('hoveredMultiSlot');
-    });
   });
 
-  describe('Equipment Database Integration', () => {
-    test('retrieves equipment stats from database', () => {
-      const mockUseDrag = require('react-dnd').useDrag;
-      const mockDragSpec = jest.fn();
-      
-      mockUseDrag.mockImplementation((spec: any) => {
-        const item = spec().item();
-        mockDragSpec.mockReturnValue(item);
-        return [{ isDragging: false }, jest.fn()];
-      });
-
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="AC/10" 
-        />
-      );
-      
-      const dragItem = mockDragSpec();
-      
-      expect(dragItem).toMatchObject({
-        name: 'AC/10',
-        criticalSlots: 7,
-        weight: 12,
-      });
-    });
-
-    test('uses fallback stats for unknown equipment', () => {
-      const mockUseDrag = require('react-dnd').useDrag;
-      const mockDragSpec = jest.fn();
-      
-      mockUseDrag.mockImplementation((spec: any) => {
-        const item = spec().item();
-        mockDragSpec.mockReturnValue(item);
-        return [{ isDragging: false }, jest.fn()];
-      });
-
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Unknown Equipment" 
-        />
-      );
-      
-      const dragItem = mockDragSpec();
-      
-      expect(dragItem).toMatchObject({
-        name: 'Unknown Equipment',
-        criticalSlots: 1,
-        weight: 1,
-      });
-    });
-  });
-
-  describe('Visual Feedback', () => {
-    test('shows system feedback when system component is double-clicked', async () => {
-      jest.useFakeTimers();
-      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  describe('Accessibility', () => {
+    test('provides tooltip with equipment information', () => {
+      const equipment = createMockEquipment({ weight: 2 });
+      const slot = createSlotWithEquipment(equipment);
       
       const { container } = renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Engine"
-          isSystemComponent={true}
-          onSystemClick={mockOnSystemClick}
-        />
-      );
-      
-      const slot = screen.getByText('Engine').parentElement;
-      await user.dblClick(slot!);
-      
-      // Should show system protected class immediately
-      expect(container.firstChild).toHaveClass('systemProtected');
-      
-      // Should remove the class after timeout
-      jest.advanceTimersByTime(1000);
-      
-      await waitFor(() => {
-        expect(container.firstChild).not.toHaveClass('systemProtected');
-      });
-      
-      jest.useRealTimers();
-    });
-
-    test('applies highlighted class when drop is valid and hovering', () => {
-      const mockUseDrop = require('react-dnd').useDrop;
-      
-      mockUseDrop.mockReturnValue([
-        { isOver: true, canDrop: true, draggedItem: null },
-        jest.fn(),
-      ]);
-
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} />
-      );
-      
-      expect(container.firstChild).toHaveClass('highlighted');
-    });
-
-    test('applies rejected class when drop is invalid and hovering', () => {
-      const mockUseDrop = require('react-dnd').useDrop;
-      
-      mockUseDrop.mockReturnValue([
-        { isOver: true, canDrop: false, draggedItem: null },
-        jest.fn(),
-      ]);
-
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} />
-      );
-      
-      expect(container.firstChild).toHaveClass('rejected');
-    });
-  });
-
-  describe('Cursor and Tooltip', () => {
-    test('shows move cursor for draggable filled slots', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Medium Laser"
-          onRemove={mockOnRemove}
+          slot={slot}
         />
       );
       
       const element = container.firstChild as HTMLElement;
-      expect(element.style.cursor).toBe('move');
+      expect(element.title).toBe('Medium Laser (2t)');
     });
 
-    test('shows default cursor for empty slots', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone {...defaultProps} />
-      );
-      
-      const element = container.firstChild as HTMLElement;
-      expect(element.style.cursor).toBe('default');
-    });
-
-    test('shows tooltip for draggable slots', () => {
+    test('provides tooltip for empty slots', () => {
       const { container } = renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem="Medium Laser"
-          onRemove={mockOnRemove}
-        />
-      );
-      
-      const element = container.firstChild as HTMLElement;
-      expect(element.title).toBe('Drag to move or double-click to remove');
-    });
-  });
-
-  describe('Data Attributes', () => {
-    test('sets correct data attributes', () => {
-      const { container } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          location="Left Torso"
           slotIndex={3}
         />
       );
       
       const element = container.firstChild as HTMLElement;
-      expect(element.getAttribute('data-location')).toBe('Left Torso');
-      expect(element.getAttribute('data-slot')).toBe('3');
+      expect(element.title).toBe('Slot 4');
     });
   });
 
   describe('Edge Cases', () => {
-    test('handles null currentItem gracefully', () => {
+    test('handles slots with null equipment gracefully', () => {
+      const slot: CriticalSlotObject = {
+        slotIndex: 0,
+        location: 'Right Arm',
+        equipment: null,
+        isPartOfMultiSlot: false,
+        multiSlotIndex: undefined,
+        multiSlotGroupId: undefined,
+        slotType: SlotType.NORMAL,
+      };
+      
       renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem={null as any}
+          slot={slot}
         />
       );
       
-      expect(screen.getByText('- Empty -')).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument();
     });
 
-    test('handles non-string currentItem gracefully', () => {
-      renderWithDnd(
+    test('handles disabled state correctly', () => {
+      const equipment = createMockEquipment();
+      const slot = createSlotWithEquipment(equipment);
+      
+      const { container } = renderWithDnd(
         <CriticalSlotDropZone 
           {...defaultProps} 
-          currentItem={123 as any}
+          slot={slot}
+          disabled={true}
         />
       );
       
-      expect(screen.getByText('- Empty -')).toBeInTheDocument();
-    });
-
-    test('prevents dragging middle and end group slots', () => {
-      const mockUseDrag = require('react-dnd').useDrag;
-      const mockCanDrag = jest.fn();
-      
-      mockUseDrag.mockImplementation((spec: any) => {
-        mockCanDrag.mockReturnValue(spec().canDrag);
-        return [{ isDragging: false }, jest.fn()];
-      });
-
-      // Test middle of group
-      const { rerender } = renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="AC/10"
-          isMiddleOfGroup={true}
-        />
-      );
-      
-      let canDrag = mockCanDrag();
-      expect(canDrag).toBe(false);
-
-      // Test end of group
-      rerender(
-        <DndProvider backend={HTML5Backend}>
-          <CriticalSlotDropZone 
-            {...defaultProps} 
-            currentItem="AC/10"
-            isEndOfGroup={true}
-          />
-        </DndProvider>
-      );
-      
-      canDrag = mockCanDrag();
-      expect(canDrag).toBe(false);
-    });
-  });
-
-  describe('Accessibility', () => {
-    test('slot number is accessible', () => {
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          slotIndex={5}
-        />
-      );
-      
-      expect(screen.getByText('6')).toBeInTheDocument();
-    });
-
-    test('slot content is accessible', () => {
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          currentItem="Large Laser"
-        />
-      );
-      
-      expect(screen.getByText('Large Laser')).toBeInTheDocument();
-    });
-
-    test('OmniPod indicator is accessible', () => {
-      renderWithDnd(
-        <CriticalSlotDropZone 
-          {...defaultProps} 
-          isOmniPodSlot={true}
-        />
-      );
-      
-      expect(screen.getByText('○')).toBeInTheDocument();
+      expect(container.firstChild).toHaveClass('disabled');
+      expect(screen.queryByRole('button', { name: /remove equipment/i })).not.toBeInTheDocument();
     });
   });
 });

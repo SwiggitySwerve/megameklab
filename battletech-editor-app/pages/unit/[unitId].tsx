@@ -354,12 +354,6 @@ export default function UnitPage() {
           <p className="text-slate-400 mb-4">
             Unit ID must be in format: chassis-model (e.g. annihilator-anh-1e)
           </p>
-          <button
-            onClick={() => router.push('/unit/demo')}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-          >
-            View Demo
-          </button>
         </div>
       </div>
     )

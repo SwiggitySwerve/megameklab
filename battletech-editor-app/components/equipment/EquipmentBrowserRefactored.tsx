@@ -1,7 +1,7 @@
 /**
  * Equipment Browser (Refactored) - Clean, service-based equipment browser
  * Uses the new service architecture for maintainable and testable code
- * Demonstrates complete transformation from 600+ line monolithic component
+ * Clean, service-based equipment browser with complete transformation from 600+ line monolithic component
  */
 
 import React from 'react';

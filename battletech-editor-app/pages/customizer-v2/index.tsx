@@ -1,6 +1,6 @@
 /**
  * Customizer V2 - Next generation unit customizer using the V2 data model
- * Built on top of the UnitCriticalManager system from the critical slots v2 demo
+ * Built on top of the UnitCriticalManager system for advanced unit customization
  */
 
 import React, { useState, useEffect } from 'react';

@@ -1,5 +1,5 @@
 /**
- * Unified Color Legend - Comprehensive color reference for the Critical Slots V2 Demo
+ * Unified Color Legend - Comprehensive color reference for the Critical Slots V2 system
  * Shows all colors used across critical slots, equipment types, and status indicators
  */
 

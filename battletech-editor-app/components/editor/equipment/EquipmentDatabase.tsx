@@ -7,7 +7,7 @@ import {
   EQUIPMENT_TECH_DATA 
 } from '../../../utils/techProgression';
 
-// Sample equipment data for demonstration with tech progression IDs
+// Sample equipment data with tech progression IDs
 const SAMPLE_EQUIPMENT: FullEquipment[] = [
   // Energy Weapons
   {
