@@ -10,9 +10,9 @@
  */
 export const LAYOUT_HEIGHTS = {
   /** Unit information banner height */
-  HEADER: 70,
+  HEADER: 80,
   /** Tab navigation bar height */
-  NAVIGATION: 70,
+  NAVIGATION: 60,
   /** Combined height of header + navigation */
   get TOTAL_FIXED() {
     return this.HEADER + this.NAVIGATION;
@@ -21,9 +21,9 @@ export const LAYOUT_HEIGHTS = {
 
 /**
  * Pre-calculated CSS height for tab content areas
- * Uses the working calc() pattern that eliminates dead space
+ * Uses a more generous calculation to ensure content visibility
  */
-export const TAB_CONTENT_HEIGHT = `calc(100vh - ${LAYOUT_HEIGHTS.TOTAL_FIXED}px)`;
+export const TAB_CONTENT_HEIGHT = `calc(100vh - 120px)`;
 
 /**
  * Standard scrollbar styling classes

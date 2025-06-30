@@ -9,6 +9,14 @@ import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRul
 import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
 import { JumpJetType } from '../jumpJetCalculations'
 import { CriticalSlotCalculator, CriticalSlotBreakdown } from './CriticalSlotCalculator'
+import { 
+  ComponentConfiguration, 
+  TechBase, 
+  ComponentCategory, 
+  createComponentConfiguration,
+  migrateStringToComponentConfiguration,
+  getComponentTypeNames
+} from '../../types/componentConfiguration'
 
 export interface UnitValidationResult {
   isValid: boolean
@@ -98,14 +106,14 @@ export interface UnitConfiguration {
   
   // Jump jets
   jumpMP: number                     // Jump movement points
-  jumpJetType: JumpJetType           // Type of jump jets
+  jumpJetType: ComponentConfiguration // Type of jump jets with tech base
   jumpJetCounts: Partial<Record<JumpJetType, number>>  // Count of each jump jet type
   hasPartialWing: boolean            // Whether unit has partial wing
   
-  // System components
-  gyroType: GyroType
-  structureType: StructureType
-  armorType: ArmorType
+  // System components - with explicit tech base
+  gyroType: ComponentConfiguration
+  structureType: ComponentConfiguration
+  armorType: ComponentConfiguration
   
   // Armor allocation - Single Source of Truth approach
   armorAllocation: ArmorAllocation   // User input - what's actually allocated to locations
@@ -113,19 +121,25 @@ export interface UnitConfiguration {
   // NOTE: All other armor values (available, allocated, remaining) are computed on-demand
   
   // Heat management
-  heatSinkType: HeatSinkType
+  heatSinkType: ComponentConfiguration
   totalHeatSinks: number             // User configurable, minimum 10
   internalHeatSinks: number          // Auto-calculated from engine rating
   externalHeatSinks: number          // Auto-calculated (total - internal)
   
   // Enhancement systems
-  enhancementType?: 'MASC' | 'Triple Strength Myomer' | null  // Movement enhancement systems
+  enhancementType: ComponentConfiguration | null  // Movement enhancement systems (MASC, TSM, etc.)
   
   // Legacy compatibility
   mass: number                       // Alias for tonnage
+  
+  // Legacy type compatibility - deprecated, will be migrated to ComponentConfiguration
+  legacyStructureType?: StructureType
+  legacyArmorType?: ArmorType
+  legacyHeatSinkType?: HeatSinkType
+  legacyJumpJetType?: JumpJetType
 }
 
-// Import additional types
+// Legacy types for backwards compatibility during migration
 export type StructureType = 'Standard' | 'Endo Steel' | 'Endo Steel (Clan)' | 'Composite' | 'Reinforced' | 'Industrial'
 export type ArmorType = 'Standard' | 'Ferro-Fibrous' | 'Ferro-Fibrous (Clan)' | 'Light Ferro-Fibrous' | 'Heavy Ferro-Fibrous' | 'Stealth' | 'Reactive' | 'Reflective' | 'Hardened'
 export type HeatSinkType = 'Single' | 'Double' | 'Double (Clan)' | 'Compact' | 'Laser'
@@ -179,9 +193,9 @@ export class UnitConfigurationBuilder {
       engineRating: tonnage * walkMP,
       runMP: Math.floor(walkMP * 1.5),
       engineType: legacy.engineType,
-      gyroType: legacy.gyroType,
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: legacy.gyroType, techBase: 'Inner Sphere' },
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       // Default armor allocation (minimal)
       armorAllocation: {
         HD: { front: 9, rear: 0 },
@@ -194,13 +208,15 @@ export class UnitConfigurationBuilder {
         RL: { front: 15, rear: 0 }
       },
       armorTonnage: 0, // Will be calculated
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
+      // Enhancement systems
+      enhancementType: null,
       // Jump jet defaults
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: tonnage // Legacy compatibility
@@ -222,9 +238,9 @@ export class UnitConfigurationBuilder {
       engineRating: 200,
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       // Default armor allocation (reasonable distribution)
       armorAllocation: {
         HD: { front: 9, rear: 0 },
@@ -237,7 +253,7 @@ export class UnitConfigurationBuilder {
         RL: { front: 30, rear: 0 }
       },
       armorTonnage: 0, // User input
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
@@ -245,7 +261,7 @@ export class UnitConfigurationBuilder {
       enhancementType: null,
       // Jump jet defaults
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50
@@ -471,6 +487,64 @@ export class UnitCriticalManager {
   private specialComponentsInitialized: boolean = false // Track if special components created
   private static globalComponentCounter: number = 0 // CRITICAL FIX: Global counter for absolutely unique IDs
 
+  // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
+
+  /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private static extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component // Legacy compatibility
+    }
+    return component.type
+  }
+
+  /**
+   * Extract tech base from ComponentConfiguration or infer from string
+   */
+  private static extractTechBase(component: ComponentConfiguration | string, fallback: TechBase = 'Inner Sphere'): TechBase {
+    if (typeof component === 'string') {
+      // Infer tech base from string (legacy compatibility)
+      return component.includes('Clan') ? 'Clan' : fallback
+    }
+    return component.techBase
+  }
+
+  /**
+   * Get structure type as string
+   */
+  private getStructureTypeString(): StructureType {
+    return UnitCriticalManager.extractComponentType(this.configuration.structureType) as StructureType
+  }
+
+  /**
+   * Get armor type as string
+   */
+  private getArmorTypeString(): ArmorType {
+    return UnitCriticalManager.extractComponentType(this.configuration.armorType) as ArmorType
+  }
+
+  /**
+   * Get heat sink type as string
+   */
+  private getHeatSinkTypeString(): HeatSinkType {
+    return UnitCriticalManager.extractComponentType(this.configuration.heatSinkType) as HeatSinkType
+  }
+
+  /**
+   * Get jump jet type as string
+   */
+  private getJumpJetTypeString(): JumpJetType {
+    return UnitCriticalManager.extractComponentType(this.configuration.jumpJetType) as JumpJetType
+  }
+
+  /**
+   * Get gyro type as string
+   */
+  private getGyroTypeString(): GyroType {
+    return UnitCriticalManager.extractComponentType(this.configuration.gyroType) as GyroType
+  }
+
   constructor(configuration: UnitConfiguration | LegacyUnitConfiguration) {
     // Convert legacy configuration to new format if needed
     this.configuration = UnitConfigurationBuilder.buildConfiguration(configuration)
@@ -538,7 +612,7 @@ export class UnitCriticalManager {
   private allocateSystemComponents(): void {
     const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
       this.configuration.engineType,
-      this.configuration.gyroType
+      this.getGyroTypeString()
     )
 
     // Allocate engine slots
@@ -599,21 +673,21 @@ export class UnitCriticalManager {
     }
 
     // Create structure components if needed
-    const structureSlots = this.getStructureCriticalSlots(this.configuration.structureType)
+    const structureSlots = this.getStructureCriticalSlots(this.getStructureTypeString())
     if (structureSlots > 0) {
-      this.addSpecialComponents(this.configuration.structureType, 'structure', structureSlots)
+      this.addSpecialComponents(this.getStructureTypeString(), 'structure', structureSlots)
     }
     
     // Create armor components if needed
-    const armorSlots = this.getArmorCriticalSlots(this.configuration.armorType)
+    const armorSlots = this.getArmorCriticalSlots(this.getArmorTypeString())
     if (armorSlots > 0) {
-      this.addSpecialComponents(this.configuration.armorType, 'armor', armorSlots)
+      this.addSpecialComponents(this.getArmorTypeString(), 'armor', armorSlots)
     }
     
     // Create jump jet components if needed
     if (this.configuration.jumpMP > 0) {
       this.addJumpJetEquipment(
-        this.configuration.jumpJetType, 
+        this.getJumpJetTypeString(), 
         this.configuration.jumpMP, 
         this.configuration.tonnage, 
         this.configuration.techBase
@@ -623,7 +697,7 @@ export class UnitCriticalManager {
     // Create external heat sink components if needed
     if (this.configuration.externalHeatSinks > 0) {
       this.addHeatSinkEquipment(
-        this.configuration.heatSinkType,
+        this.getHeatSinkTypeString(),
         this.configuration.externalHeatSinks,
         this.configuration.techBase
       )
@@ -805,17 +879,17 @@ export class UnitCriticalManager {
     // Now recreate exactly what's needed for the new configuration
     
     // Create structure components if needed
-    const structureSlots = this.getStructureCriticalSlots(newConfig.structureType)
+    const structureSlots = this.getStructureCriticalSlots(this.getStructureTypeString())
     if (structureSlots > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${structureSlots} structure components for ${newConfig.structureType}`)
-      this.addSpecialComponents(newConfig.structureType, 'structure', structureSlots)
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${structureSlots} structure components for ${this.getStructureTypeString()}`)
+      this.addSpecialComponents(this.getStructureTypeString(), 'structure', structureSlots)
     }
     
     // Create armor components if needed
-    const armorSlots = this.getArmorCriticalSlots(newConfig.armorType)
+    const armorSlots = this.getArmorCriticalSlots(this.getArmorTypeString())
     if (armorSlots > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${armorSlots} armor components for ${newConfig.armorType}`)
-      this.addSpecialComponents(newConfig.armorType, 'armor', armorSlots)
+      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${armorSlots} armor components for ${this.getArmorTypeString()}`)
+      this.addSpecialComponents(this.getArmorTypeString(), 'armor', armorSlots)
     }
     
     // Handle jump jets - clear existing and add new
@@ -825,7 +899,7 @@ export class UnitCriticalManager {
     // Handle external heat sinks - add exactly what's needed
     if (newConfig.externalHeatSinks > 0) {
       console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${newConfig.externalHeatSinks} external heat sink components`)
-      this.addHeatSinkEquipment(newConfig.heatSinkType, newConfig.externalHeatSinks, newConfig.techBase)
+      this.addHeatSinkEquipment(this.getHeatSinkTypeString(), newConfig.externalHeatSinks, newConfig.techBase)
     }
     
     console.log(`[UnitCriticalManager] ULTIMATE FIX: Special component update complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
@@ -1699,7 +1773,7 @@ export class UnitCriticalManager {
    */
   getArmorEfficiency(): number {
     const { ARMOR_POINTS_PER_TON } = require('../armorCalculations')
-    return ARMOR_POINTS_PER_TON[this.configuration.armorType] || 16
+    return ARMOR_POINTS_PER_TON[this.getArmorTypeString()] || 16
   }
 
   /**

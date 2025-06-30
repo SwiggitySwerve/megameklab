@@ -36,58 +36,121 @@ import { EquipmentAllocationDebugPanel } from '../../components/criticalSlots/Eq
 // Import armor efficiency notification
 import { ArmorEfficiencyNotification } from '../../components/armor/ArmorEfficiencyNotification';
 
+// Import Overview tab
+import { OverviewTabV2 } from '../../components/overview/OverviewTabV2';
+
+// Import tech progression filtering
+import { 
+  getFilteredComponentOptions,
+  validateComponentSelection,
+  autoCorrectComponentSelections,
+  formatTechBaseForDisplay
+} from '../../utils/techProgressionFiltering';
+
 // No additional imports needed - will use basic implementation
+
+// Import ComponentConfiguration helpers
+import { 
+  ComponentConfiguration, 
+  TechBase, 
+  createComponentConfiguration, 
+  migrateStringToComponentConfiguration,
+  createDefaultComponentConfiguration 
+} from '../../types/componentConfiguration';
 
 // Placeholder tab components - these will be implemented later
 const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
   const { unit, engineType, gyroType, updateConfiguration, isConfigLoaded } = useUnit();
   const config = unit.getConfiguration();
 
-  // Generate tonnage options (20-100 in 5-ton increments)
-  const tonnageOptions = Array.from({ length: 17 }, (_, i) => 20 + (i * 5));
-
-  // Tech base options including Mixed
-  const techBaseOptions = ['Inner Sphere', 'Clan', 'Mixed'];
-
-  // Get available options based on tech base
-  const engineOptions = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
-  const gyroOptions = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
-
-  const getStructureOptions = (techBase: string) => {
-    if (techBase === 'Mixed') {
-      return ['Standard', 'Endo Steel', 'Endo Steel (Clan)', 'Composite', 'Reinforced', 'Industrial'];
+  // Enhanced configuration with tech progression (with defaults for missing fields)
+  const enhancedConfig = {
+    ...config,
+    techProgression: (config as any).techProgression || {
+      chassis: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      gyro: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      engine: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      heatsink: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      targeting: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      myomer: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      movement: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      armor: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere'
     }
-    return techBase === 'Clan'
-      ? ['Standard', 'Endo Steel (Clan)', 'Composite', 'Reinforced', 'Industrial']
-      : ['Standard', 'Endo Steel', 'Composite', 'Reinforced', 'Industrial'];
   };
 
-  const getHeatSinkOptions = (techBase: string) => {
-    if (techBase === 'Mixed') {
-      return ['Single', 'Double', 'Double (Clan)', 'Compact', 'Laser'];
+  // Get dynamic component options based on tech progression
+  const filteredOptions = getFilteredComponentOptions(enhancedConfig.techProgression);
+
+  // Helper functions to handle ComponentConfiguration vs string migration
+  const getStructureTypeValue = (): string => {
+    if (typeof config.structureType === 'string') {
+      return config.structureType;
+    } else if (config.structureType && typeof config.structureType === 'object') {
+      return config.structureType.type;
     }
-    return techBase === 'Clan'
-      ? ['Single', 'Double (Clan)', 'Compact', 'Laser']
-      : ['Single', 'Double', 'Compact', 'Laser'];
+    return 'Standard';
   };
 
-  const structureOptions = getStructureOptions(config.techBase);
-  const heatSinkOptions = getHeatSinkOptions(config.techBase);
+  const getGyroTypeValue = (): string => {
+    if (typeof config.gyroType === 'string') {
+      return config.gyroType;
+    } else if (config.gyroType && typeof config.gyroType === 'object') {
+      return config.gyroType.type;
+    }
+    return 'Standard';
+  };
+
+  const getEnhancementTypeValue = (): string => {
+    if (!config.enhancementType) return 'None';
+    if (typeof config.enhancementType === 'string') {
+      return config.enhancementType;
+    } else if (config.enhancementType && typeof config.enhancementType === 'object') {
+      return config.enhancementType.type;
+    }
+    return 'None';
+  };
+
+  const getHeatSinkTypeValue = (): string => {
+    if (typeof config.heatSinkType === 'string') {
+      return config.heatSinkType;
+    } else if (config.heatSinkType && typeof config.heatSinkType === 'object') {
+      return config.heatSinkType.type;
+    }
+    return 'Single';
+  };
+
+  const getArmorTypeValue = (): string => {
+    if (typeof config.armorType === 'string') {
+      return config.armorType;
+    } else if (config.armorType && typeof config.armorType === 'object') {
+      return config.armorType.type;
+    }
+    return 'Standard';
+  };
 
   // Calculate derived values
   const maxWalkMP = Math.floor(400 / config.tonnage);
   const calculatedEngineRating = config.tonnage * config.walkMP;
   const actualEngineRating = Math.min(calculatedEngineRating, 400);
 
-  const heatDissipation = config.heatSinkType === 'Double' || config.heatSinkType === 'Double (Clan)'
+  const heatDissipation = getHeatSinkTypeValue() === 'Double' || getHeatSinkTypeValue() === 'Double (Clan)'
     ? config.totalHeatSinks * 2
     : config.totalHeatSinks;
 
-  // Use shared movement utility for consistent display
-  const enhancedMovement = calculateEnhancedMovement(config);
+  // Use shared movement utility for consistent display - convert ComponentConfiguration to string
+  const enhancementValue = getEnhancementTypeValue();
+  const typedEnhancementType = enhancementValue === 'None' ? null : 
+    (enhancementValue === 'MASC' || enhancementValue === 'Triple Strength Myomer') ? 
+    enhancementValue as 'MASC' | 'Triple Strength Myomer' : null;
+  
+  const movementConfig = {
+    ...config,
+    enhancementType: typedEnhancementType
+  };
+  const enhancedMovement = calculateEnhancedMovement(movementConfig);
   const calculatedRunMP = config.runMP; // Use base run MP for data model consistency
 
-  // Update configuration helper with auto-calculations
+  // Update configuration helper with auto-calculations and tech progression sync
   const updateConfig = (updates: any) => {
     let newConfig = { ...config, ...updates };
 
@@ -112,6 +175,41 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
     updateConfiguration(newConfig);
   };
 
+  // Handle system type changes with tech progression sync
+  const handleSystemTypeChange = (
+    systemType: 'engine' | 'chassis' | 'gyro' | 'heatsink' | 'myomer',
+    newValue: string,
+    configProperty: string
+  ) => {
+    console.log(`[StructureTab] System type change: ${systemType} → ${newValue}`);
+    
+    // Determine tech base from the new value
+    const newTechBase = newValue.includes('Clan') ? 'Clan' : 'Inner Sphere';
+    
+    // Update tech progression
+    const currentProgression = enhancedConfig.techProgression;
+    const newProgression = {
+      ...currentProgression,
+      [systemType]: newTechBase
+    };
+    
+    // Create the component configuration update
+    const componentUpdate = { [configProperty]: newValue };
+    
+    // If we're changing to Mixed tech, update the master tech base
+    const isMixed = Object.values(newProgression).some(tech => tech === 'Inner Sphere') && 
+                   Object.values(newProgression).some(tech => tech === 'Clan');
+    
+    const finalUpdates = {
+      ...componentUpdate,
+      techProgression: newProgression,
+      ...(isMixed && (enhancedConfig.techBase as string) !== 'Mixed' ? { techBase: 'Mixed' } : {})
+    };
+    
+    console.log(`[StructureTab] Updating config with:`, finalUpdates);
+    updateConfig(finalUpdates);
+  };
+
   // Handle walk MP change with validation
   const handleWalkMPChange = (value: number) => {
     const clampedValue = Math.min(Math.max(value, 1), maxWalkMP);
@@ -132,8 +230,8 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
               Core Unit Configuration
             </h3>
 
-            {/* First Row: Tonnage + Tech Base */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            {/* First Row: Tonnage (Tech Base moved to Overview tab) */}
+            <div className="grid grid-cols-1 gap-3 mb-3">
               <div>
                 <label className="text-slate-300 text-xs font-medium block mb-2">Tonnage</label>
                 {isConfigLoaded ? (
@@ -151,26 +249,8 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                   <SkeletonInput />
                 )}
                 <div className="text-xs text-slate-400 text-center mt-1.5">
-                  20-100t (step: 5)
+                  20-100t (step: 5) • Tech Base set in Overview tab
                 </div>
-              </div>
-              <div>
-                <label className="text-slate-300 text-xs font-medium block mb-2">Tech Base</label>
-                {isConfigLoaded ? (
-                  <select
-                    value={config.techBase}
-                    onChange={(e) => updateConfig({ techBase: e.target.value })}
-                    disabled={readOnly}
-                    className="w-full px-3 py-2 bg-slate-700/80 border border-slate-600/50 rounded-md text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 hover:border-slate-500"
-                    aria-label="Technology base"
-                  >
-                    {techBaseOptions.map(option => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <SkeletonSelect />
-                )}
               </div>
             </div>
 
@@ -181,12 +261,12 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 {isConfigLoaded ? (
                   <select
                     value={config.engineType}
-                    onChange={(e) => updateConfig({ engineType: e.target.value })}
+                    onChange={(e) => handleSystemTypeChange('engine', e.target.value, 'engineType')}
                     disabled={readOnly}
                     className="w-full px-3 py-2 bg-slate-700/80 border border-slate-600/50 rounded-md text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 hover:border-slate-500"
                     aria-label="Engine type"
                   >
-                    {engineOptions.map(option => (
+                    {filteredOptions.engine.map(option => (
                       <option key={option} value={option}>{option}</option>
                     ))}
                   </select>
@@ -231,16 +311,12 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 <label className="text-slate-300 text-xs block mb-1">Structure</label>
                 {isConfigLoaded ? (
                   <select
-                    value={config.structureType}
-                    onChange={(e) => {
-                      console.log('[StructureTab] Structure type changing from', config.structureType, 'to', e.target.value)
-                      updateConfig({ structureType: e.target.value })
-                      console.log('[StructureTab] updateConfig called')
-                    }}
+                    value={getStructureTypeValue()}
+                    onChange={(e) => handleSystemTypeChange('chassis', e.target.value, 'structureType')}
                     disabled={readOnly}
                     className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                   >
-                    {structureOptions.map(option => (
+                    {filteredOptions.structure.map(option => (
                       <option key={option} value={option}>{option}</option>
                     ))}
                   </select>
@@ -252,12 +328,12 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 <label className="text-slate-300 text-xs block mb-1">Gyro</label>
                 {isConfigLoaded ? (
                   <select
-                    value={config.gyroType}
-                    onChange={(e) => updateConfig({ gyroType: e.target.value })}
+                    value={getGyroTypeValue()}
+                    onChange={(e) => handleSystemTypeChange('gyro', e.target.value, 'gyroType')}
                     disabled={readOnly}
                     className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                   >
-                    {gyroOptions.map(option => (
+                    {filteredOptions.gyro.map(option => (
                       <option key={option} value={option}>{option}</option>
                     ))}
                   </select>
@@ -271,7 +347,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
             <div>
               <label className="text-slate-300 text-xs block mb-1">Enhancement Type</label>
               <select
-                value={config.enhancementType || 'None'}
+                value={getEnhancementTypeValue()}
                 onChange={(e) => updateConfig({ enhancementType: e.target.value === 'None' ? null : e.target.value })}
                 disabled={readOnly}
                 className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
@@ -283,14 +359,14 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
             </div>
 
             {/* Enhancement Details - Conditional Full Width */}
-            {config.enhancementType === 'MASC' && (
+            {getEnhancementTypeValue() === 'MASC' && (
               <div className="mt-3 text-xs text-slate-400 bg-slate-700/30 rounded px-3 py-2">
                 <div>• Doubles run speed when active</div>
                 <div>• Generates 5 heat per activation</div>
                 <div>• Risk of system damage if overused</div>
               </div>
             )}
-            {config.enhancementType === 'Triple Strength Myomer' && (
+            {getEnhancementTypeValue() === 'Triple Strength Myomer' && (
               <div className="mt-3 text-xs text-slate-400 bg-slate-700/30 rounded px-3 py-2">
                 <div>• Activates at 9+ heat levels</div>
                 <div>• +1 Walk MP, recalculated Run MP</div>
@@ -310,12 +386,12 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
               <div>
                 <label className="text-slate-300 text-xs block mb-1">Heat Sink Type</label>
                 <select
-                  value={config.heatSinkType}
-                  onChange={(e) => updateConfig({ heatSinkType: e.target.value })}
+                  value={getHeatSinkTypeValue()}
+                  onChange={(e) => handleSystemTypeChange('heatsink', e.target.value, 'heatSinkType')}
                   disabled={readOnly}
                   className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                 >
-                  {heatSinkOptions.map(option => (
+                  {filteredOptions.heatSink.map(option => (
                     <option key={option} value={option}>
                       {config.techBase === 'Inner Sphere' && option === 'Double' ? 'IS Double' : option}
                     </option>
@@ -378,7 +454,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                   {enhancedMovement.runDisplay}
                 </div>
                 <div className="text-xs text-slate-400 text-center mt-1.5">
-                  Auto-calc {config.enhancementType ? `(${config.enhancementType})` : ''}
+                  Auto-calc {getEnhancementTypeValue() !== 'None' ? `(${getEnhancementTypeValue()})` : ''}
                 </div>
               </div>
               <div>
@@ -428,9 +504,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                     <td className="text-center text-green-400 font-medium">Standard</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
-                    <td className="py-1">Structure ({config.structureType}):</td>
+                    <td className="py-1">Structure ({getStructureTypeValue()}):</td>
                     <td className="text-center font-medium">{(config.tonnage * 0.1).toFixed(1)}t</td>
-                    <td className="text-center">{config.structureType === 'Endo Steel' || config.structureType === 'Endo Steel (Clan)' ? '14' : '0'}</td>
+                    <td className="text-center">{getStructureTypeValue() === 'Endo Steel' || getStructureTypeValue() === 'Endo Steel (Clan)' ? '14' : '0'}</td>
                     <td className="text-center text-yellow-400">D/C-E-D-D</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
@@ -440,9 +516,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                     <td className="text-center text-green-400">D/C-E-D-D</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
-                    <td className="py-1">Gyro ({config.gyroType}):</td>
+                    <td className="py-1">Gyro ({getGyroTypeValue()}):</td>
                     <td className="text-center font-medium">{Math.ceil(config.engineRating / 100).toFixed(1)}t</td>
-                    <td className="text-center">{config.gyroType === 'XL' ? '6' : config.gyroType === 'Compact' ? '2' : '4'}</td>
+                    <td className="text-center">{getGyroTypeValue() === 'XL' ? '6' : getGyroTypeValue() === 'Compact' ? '2' : '4'}</td>
                     <td className="text-center text-green-400">D/C-C-C-C</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
@@ -452,15 +528,15 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                     <td className="text-center text-green-400">D/C-C-C-C</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
-                    <td className="py-1">Heat Sinks ({config.totalHeatSinks} {config.heatSinkType}):</td>
+                    <td className="py-1">Heat Sinks ({config.totalHeatSinks} {getHeatSinkTypeValue()}):</td>
                     <td className="text-center font-medium">{config.externalHeatSinks}t</td>
                     <td className="text-center">{config.externalHeatSinks}</td>
-                    <td className="text-center text-blue-400">{config.heatSinkType === 'Double' || config.heatSinkType === 'Double (Clan)' ? 'C/B-B-B-B' : 'D/C-C-C-C'}</td>
+                    <td className="text-center text-blue-400">{getHeatSinkTypeValue() === 'Double' || getHeatSinkTypeValue() === 'Double (Clan)' ? 'C/B-B-B-B' : 'D/C-C-C-C'}</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
-                    <td className="py-1">Armor ({config.armorType}):</td>
+                    <td className="py-1">Armor ({getArmorTypeValue()}):</td>
                     <td className="text-center font-medium">{config.armorTonnage.toFixed(1)}t</td>
-                    <td className="text-center">{config.armorType === 'Ferro-Fibrous' ? '14' : config.armorType === 'Ferro-Fibrous (Clan)' ? '7' : '0'}</td>
+                    <td className="text-center">{getArmorTypeValue() === 'Ferro-Fibrous' ? '14' : getArmorTypeValue() === 'Ferro-Fibrous (Clan)' ? '7' : '0'}</td>
                     <td className="text-center text-green-400">D/C-C-C-B</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
@@ -486,9 +562,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                       ((config.jumpMP || 0) * (config.tonnage <= 55 ? 0.5 : config.tonnage <= 85 ? 1.0 : 2.0)) // Jump jets
                     ).toFixed(1)}t</td>
                     <td className="text-center text-slate-200">{
-                      (config.structureType === 'Endo Steel' || config.structureType === 'Endo Steel (Clan)' ? 14 : 0) +
+                      (getStructureTypeValue() === 'Endo Steel' || getStructureTypeValue() === 'Endo Steel (Clan)' ? 14 : 0) +
                       (config.engineType === 'XL' ? 12 : config.engineType === 'Light' ? 8 : 6) +
-                      (config.gyroType === 'XL' ? 6 : config.gyroType === 'Compact' ? 2 : 4) +
+                      (getGyroTypeValue() === 'XL' ? 6 : getGyroTypeValue() === 'Compact' ? 2 : 4) +
                       1 + // Cockpit
                       config.externalHeatSinks +
                       (config.jumpMP || 0)
@@ -514,9 +590,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 <div className="flex justify-between items-center">
                   <span>Available Critical Slots:</span>
                   <span className="text-slate-100 font-semibold">{78 - (
-                    (config.structureType === 'Endo Steel' || config.structureType === 'Endo Steel (Clan)' ? 14 : 0) +
+                    (getStructureTypeValue() === 'Endo Steel' || getStructureTypeValue() === 'Endo Steel (Clan)' ? 14 : 0) +
                     (config.engineType === 'XL' ? 12 : config.engineType === 'Light' ? 8 : 6) +
-                    (config.gyroType === 'XL' ? 6 : config.gyroType === 'Compact' ? 2 : 4) +
+                    (getGyroTypeValue() === 'XL' ? 6 : getGyroTypeValue() === 'Compact' ? 2 : 4) +
                     1 + config.externalHeatSinks + (config.jumpMP || 0)
                   )}</span>
                 </div>
@@ -862,7 +938,7 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
           <div className="flex items-center gap-2">
             <label className="text-slate-300 text-xs font-medium whitespace-nowrap">Armor Type:</label>
             <select
-              value={config.armorType}
+              value={typeof config.armorType === 'string' ? config.armorType : (config.armorType as any)?.type || 'Standard'}
               onChange={(e) => handleArmorTypeChange(e.target.value)}
               disabled={readOnly}
               className="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
@@ -1455,12 +1531,12 @@ function CustomizerV2Content() {
   const [isEquipmentTrayExpanded, setIsEquipmentTrayExpanded] = useState(false);
 
   // Valid tab IDs
-  const validTabs = ['structure', 'armor', 'equipment', 'criticals', 'fluff'];
+  const validTabs = ['overview', 'structure', 'armor', 'equipment', 'criticals', 'fluff'];
 
-  // Get initial tab from URL or default to 'structure'
+  // Get initial tab from URL or default to 'overview'
   const getInitialTab = () => {
     const tabFromUrl = router.query.tab as string;
-    return validTabs.includes(tabFromUrl) ? tabFromUrl : 'structure';
+    return validTabs.includes(tabFromUrl) ? tabFromUrl : 'overview';
   };
 
   const [activeTab, setActiveTab] = useState<string>(getInitialTab());
@@ -1540,8 +1616,25 @@ function CustomizerV2Content() {
   const heatBalance = calculateHeatBalance();
   const criticalSlots = calculateCriticalSlots();
 
-  // Calculate enhanced movement for header display using shared utility
-  const enhancedMovement = calculateEnhancedMovement(unitConfig);
+  // Calculate enhanced movement for header display using shared utility - convert ComponentConfiguration to string
+  const getEnhancementTypeForMovement = (): 'MASC' | 'Triple Strength Myomer' | null => {
+    if (!unitConfig.enhancementType) return null;
+    if (typeof unitConfig.enhancementType === 'string') {
+      return unitConfig.enhancementType === 'MASC' || unitConfig.enhancementType === 'Triple Strength Myomer' ? 
+        unitConfig.enhancementType as 'MASC' | 'Triple Strength Myomer' : null;
+    } else if (unitConfig.enhancementType && typeof unitConfig.enhancementType === 'object') {
+      const type = unitConfig.enhancementType.type;
+      return type === 'MASC' || type === 'Triple Strength Myomer' ? 
+        type as 'MASC' | 'Triple Strength Myomer' : null;
+    }
+    return null;
+  };
+
+  const movementConfigForCalculation = {
+    ...unitConfig,
+    enhancementType: getEnhancementTypeForMovement()
+  };
+  const enhancedMovement = calculateEnhancedMovement(movementConfigForCalculation);
 
   // Engine and Gyro types for dropdowns
   const engineTypes = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
@@ -1563,8 +1656,9 @@ function CustomizerV2Content() {
     });
   };
 
-  // Tab configuration
+  // Tab configuration - Overview is now the first tab
   const tabs = [
+    { id: 'overview', label: 'Overview', component: OverviewTabV2 },
     { id: 'structure', label: 'Structure', component: StructureTabV2 },
     { id: 'armor', label: 'Armor', component: ArmorTabV2 },
     { id: 'equipment', label: 'Equipment', component: EquipmentTabV2 },
@@ -1572,7 +1666,7 @@ function CustomizerV2Content() {
     { id: 'fluff', label: 'Fluff', component: FluffTabV2 },
   ];
 
-  const ActiveTabComponent = tabs.find(tab => tab.id === activeTab)?.component || StructureTabV2;
+  const ActiveTabComponent = tabs.find(tab => tab.id === activeTab)?.component || OverviewTabV2;
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col">
@@ -1621,7 +1715,7 @@ function CustomizerV2Content() {
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Movement</span>
               <span className="font-medium text-slate-200">
-                {formatCondensedMovement(unitConfig, unitConfig.tonnage)}
+                {formatCondensedMovement(movementConfigForCalculation, unitConfig.tonnage)}
               </span>
               <span className="text-slate-500 text-xs">walk / run / jump</span>
             </div>

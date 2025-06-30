@@ -1,486 +1,355 @@
-// Tech Progression and Availability System
-// Tracks introduction dates, extinction, and reintroduction of equipment
+/**
+ * Tech Progression System - Handles BattleTech technology progression analysis
+ * Infers granular tech progression from unit data and manages tech base transitions
+ */
 
 export interface TechProgression {
-  introductionYear: number;
-  extinctionYear?: number;
-  reintroductionYear?: number;
-  prototypeYear?: number;
-  commonYear?: number;
-  faction: string[];
-  techBase: 'IS' | 'Clan' | 'Both';
-  rulesLevel: 'Introductory' | 'Standard' | 'Advanced' | 'Experimental';
+  chassis: 'Inner Sphere' | 'Clan'
+  gyro: 'Inner Sphere' | 'Clan'
+  engine: 'Inner Sphere' | 'Clan'
+  heatsink: 'Inner Sphere' | 'Clan'
+  targeting: 'Inner Sphere' | 'Clan'
+  myomer: 'Inner Sphere' | 'Clan'
+  movement: 'Inner Sphere' | 'Clan'
+  armor: 'Inner Sphere' | 'Clan'
 }
 
-export interface AvailabilityRating {
-  techRating: string; // A-F, X
-  availability: {
-    [era: string]: string; // E.g., "C-C-C-B" for different time periods
-  };
+export interface TechRating {
+  era2100_2800: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'X'
+  era2801_3050: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'X'
+  era3051_3082: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'X'
+  era3083_Now: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'X'
 }
-
-// Equipment Tech Progression Database
-export const EQUIPMENT_TECH_DATA: { [key: string]: TechProgression } = {
-  // Structure Types
-  'standard_structure': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'endo_steel': {
-    introductionYear: 2487,
-    extinctionYear: 2865,
-    reintroductionYear: 3025,
-    faction: ['FedSuns', 'Lyran', 'Draconis', 'Liao', 'Marik'],
-    techBase: 'IS',
-    rulesLevel: 'Standard',
-  },
-  'endo_steel_clan': {
-    introductionYear: 2827,
-    faction: ['Clan'],
-    techBase: 'Clan',
-    rulesLevel: 'Standard',
-  },
-  'composite': {
-    introductionYear: 3061,
-    faction: ['FedSuns', 'Lyran'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'reinforced': {
-    introductionYear: 3057,
-    faction: ['Draconis', 'Kurita'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  
-  // Engine Types
-  'fusion_engine': {
-    introductionYear: 2450,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'xl_engine': {
-    introductionYear: 2520,
-    extinctionYear: 2865,
-    reintroductionYear: 3035,
-    faction: ['FedSuns', 'Lyran', 'Steiner'],
-    techBase: 'IS',
-    rulesLevel: 'Standard',
-  },
-  'xl_engine_clan': {
-    introductionYear: 2824,
-    faction: ['Clan'],
-    techBase: 'Clan',
-    rulesLevel: 'Standard',
-  },
-  'light_fusion_engine': {
-    introductionYear: 3062,
-    faction: ['FedSuns', 'Draconis'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'compact_fusion_engine': {
-    introductionYear: 3068,
-    faction: ['Lyran', 'Marik'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  
-  // Armor Types
-  'standard_armor': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'ferro_fibrous': {
-    introductionYear: 2557,
-    extinctionYear: 2865,
-    reintroductionYear: 3040,
-    faction: ['FedSuns', 'Lyran', 'Draconis'],
-    techBase: 'IS',
-    rulesLevel: 'Standard',
-  },
-  'ferro_fibrous_clan': {
-    introductionYear: 2820,
-    faction: ['Clan'],
-    techBase: 'Clan',
-    rulesLevel: 'Standard',
-  },
-  'light_ferro_fibrous': {
-    introductionYear: 3066,
-    faction: ['FedSuns', 'Liao'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'heavy_ferro_fibrous': {
-    introductionYear: 3069,
-    faction: ['Lyran', 'Marik'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'stealth_armor': {
-    introductionYear: 3052,
-    faction: ['Liao', 'CapellanConfederation'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'reactive_armor': {
-    introductionYear: 3063,
-    faction: ['FedSuns', 'Draconis'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'reflective_armor': {
-    introductionYear: 3061,
-    faction: ['Lyran', 'Steiner'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'hardened_armor': {
-    introductionYear: 3047,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Advanced',
-  },
-  'ferro_lamellor': {
-    introductionYear: 3070,
-    faction: ['Clan'],
-    techBase: 'Clan',
-    rulesLevel: 'Experimental',
-  },
-  
-  // Heat Sinks
-  'single_heat_sink': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'double_heat_sink': {
-    introductionYear: 2567,
-    extinctionYear: 2865,
-    reintroductionYear: 3040,
-    faction: ['FedSuns', 'Lyran', 'Draconis'],
-    techBase: 'IS',
-    rulesLevel: 'Standard',
-  },
-  'double_heat_sink_clan': {
-    introductionYear: 2825,
-    faction: ['Clan'],
-    techBase: 'Clan',
-    rulesLevel: 'Standard',
-  },
-  
-  // Gyros
-  'standard_gyro': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'xl_gyro': {
-    introductionYear: 3067,
-    faction: ['FedSuns', 'Lyran'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'compact_gyro': {
-    introductionYear: 3068,
-    faction: ['Draconis', 'Liao'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'heavy_duty_gyro': {
-    introductionYear: 3067,
-    faction: ['Marik', 'FreeWorldsLeague'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  
-  // Cockpits
-  'standard_cockpit': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'small_cockpit': {
-    introductionYear: 3060,
-    faction: ['Draconis', 'Kurita'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'command_console': {
-    introductionYear: 3052,
-    faction: ['FedSuns', 'Davion'],
-    techBase: 'IS',
-    rulesLevel: 'Standard',
-  },
-  
-  // Myomer
-  'standard_myomer': {
-    introductionYear: 2350,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Introductory',
-  },
-  'triple_strength_myomer': {
-    introductionYear: 3050,
-    faction: ['FedSuns', 'Liao'],
-    techBase: 'IS',
-    rulesLevel: 'Advanced',
-  },
-  'masc': {
-    introductionYear: 2740,
-    extinctionYear: 2865,
-    reintroductionYear: 3035,
-    faction: ['All'],
-    techBase: 'Both',
-    rulesLevel: 'Standard',
-  },
-};
-
-// Availability Rating Database
-export const AVAILABILITY_RATINGS: { [key: string]: AvailabilityRating } = {
-  'standard_structure': {
-    techRating: 'A',
-    availability: {
-      'Age of War': 'C-C-C-C',
-      'Star League': 'C-C-C-C',
-      'Succession Wars': 'C-C-C-C',
-      'Clan Invasion': 'C-C-C-C',
-      'Civil War': 'C-C-C-C',
-      'Jihad': 'C-C-C-C',
-      'Republic': 'C-C-C-C',
-      'Dark Age': 'C-C-C-C',
-    },
-  },
-  'endo_steel': {
-    techRating: 'E',
-    availability: {
-      'Age of War': 'X-X-X-X',
-      'Star League': 'E-F-D-C',
-      'Succession Wars': 'X-X-X-X',
-      'Clan Invasion': 'E-F-D-C',
-      'Civil War': 'D-E-D-C',
-      'Jihad': 'D-D-C-C',
-      'Republic': 'C-C-C-C',
-      'Dark Age': 'C-C-C-C',
-    },
-  },
-  'xl_engine': {
-    techRating: 'E',
-    availability: {
-      'Age of War': 'X-X-X-X',
-      'Star League': 'E-F-E-D',
-      'Succession Wars': 'X-X-X-X',
-      'Clan Invasion': 'E-E-D-C',
-      'Civil War': 'D-D-C-C',
-      'Jihad': 'C-C-C-C',
-      'Republic': 'C-C-C-C',
-      'Dark Age': 'C-C-C-C',
-    },
-  },
-  'ferro_fibrous': {
-    techRating: 'E',
-    availability: {
-      'Age of War': 'X-X-X-X',
-      'Star League': 'E-F-D-C',
-      'Succession Wars': 'X-X-X-X',
-      'Clan Invasion': 'E-F-D-C',
-      'Civil War': 'D-E-D-C',
-      'Jihad': 'D-D-C-C',
-      'Republic': 'C-C-C-C',
-      'Dark Age': 'C-C-C-C',
-    },
-  },
-  'double_heat_sink': {
-    techRating: 'E',
-    availability: {
-      'Age of War': 'X-X-X-X',
-      'Star League': 'E-E-D-C',
-      'Succession Wars': 'X-X-X-X',
-      'Clan Invasion': 'E-E-D-C',
-      'Civil War': 'D-D-C-C',
-      'Jihad': 'C-C-C-C',
-      'Republic': 'C-C-C-C',
-      'Dark Age': 'C-C-C-C',
-    },
-  },
-  'stealth_armor': {
-    techRating: 'F',
-    availability: {
-      'Age of War': 'X-X-X-X',
-      'Star League': 'X-X-X-X',
-      'Succession Wars': 'X-X-X-X',
-      'Clan Invasion': 'X-X-F-E',
-      'Civil War': 'X-F-E-D',
-      'Jihad': 'E-E-D-C',
-      'Republic': 'D-D-C-C',
-      'Dark Age': 'D-D-C-C',
-    },
-  },
-};
-
-// Helper Functions
 
 /**
- * Check if equipment is available in a given year
+ * Component detection patterns for tech base inference
  */
-export function isEquipmentAvailable(
-  equipmentId: string, 
-  year: number, 
-  faction?: string
-): boolean {
-  const tech = EQUIPMENT_TECH_DATA[equipmentId];
-  if (!tech) return false;
-  
-  // Check year availability
-  if (year < tech.introductionYear) return false;
-  if (tech.extinctionYear && year >= tech.extinctionYear && 
-      (!tech.reintroductionYear || year < tech.reintroductionYear)) {
-    return false;
+const TECH_PATTERNS = {
+  engine: {
+    clan: ['clan', 'ultra', 'pulse', 'er '],
+    innerSphere: ['inner sphere', 'is ', 'standard', 'light', 'xl engine', 'compact']
+  },
+  heatsink: {
+    clan: ['double heat sink (clan)', 'clan double', 'compact heat sink (clan)'],
+    innerSphere: ['single heat sink', 'double heat sink (is)', 'double heat sink', 'compact heat sink']
+  },
+  armor: {
+    clan: ['ferro-fibrous (clan)', 'clan ferro', 'stealth (clan)'],
+    innerSphere: ['ferro-fibrous', 'light ferro', 'heavy ferro', 'stealth armor', 'reactive', 'reflective']
+  },
+  structure: {
+    clan: ['endo steel (clan)', 'clan endo'],
+    innerSphere: ['endo steel', 'composite', 'reinforced']
+  },
+  targeting: {
+    clan: ['clan', 'artemis iv (clan)', 'targeting computer (clan)'],
+    innerSphere: ['artemis iv', 'targeting computer', 'advanced fire control']
+  },
+  myomer: {
+    clan: ['clan', 'triple strength myomer (clan)'],
+    innerSphere: ['standard', 'triple strength myomer', 'masc']
+  },
+  weapons: {
+    clan: ['clan', 'ultra', 'lb ', 'er ', 'pulse', 'streak', 'lrm (clan)', 'srm (clan)'],
+    innerSphere: ['ac/', 'lrm', 'srm', 'ppc', 'large laser', 'medium laser', 'small laser', 'machine gun']
   }
-  
-  // Check faction availability
-  if (faction && tech.faction.length > 0) {
-    if (!tech.faction.includes('All') && !tech.faction.includes(faction)) {
-      return false;
+}
+
+/**
+ * Infer tech progression from unit data
+ */
+export function inferTechProgression(unitData: any): TechProgression {
+  console.log('[TechProgression] Inferring tech progression from unit data:', {
+    chassis: unitData.chassis,
+    techBase: unitData.tech_base,
+    era: unitData.era
+  })
+
+  // Start with base tech from unit's primary tech base
+  const baseTech = extractBaseTech(unitData.tech_base)
+  console.log('[TechProgression] Base tech extracted:', baseTech)
+
+  let progression: TechProgression = {
+    chassis: baseTech,
+    gyro: baseTech,
+    engine: baseTech,
+    heatsink: baseTech,
+    targeting: baseTech,
+    myomer: baseTech,
+    movement: baseTech,
+    armor: baseTech
+  }
+
+  // Analyze specific components to detect mixed tech patterns
+  if (unitData.engine?.type) {
+    progression.engine = inferComponentTech('engine', unitData.engine.type, baseTech)
+  }
+
+  if (unitData.structure?.type) {
+    progression.chassis = inferComponentTech('structure', unitData.structure.type, baseTech)
+  }
+
+  if (unitData.armor?.type) {
+    progression.armor = inferComponentTech('armor', unitData.armor.type, baseTech)
+  }
+
+  if (unitData.heat_sinks?.type) {
+    progression.heatsink = inferComponentTech('heatsink', unitData.heat_sinks.type, baseTech)
+  }
+
+  if (unitData.myomer?.type) {
+    progression.myomer = inferComponentTech('myomer', unitData.myomer.type, baseTech)
+  }
+
+  // Analyze weapons and equipment for mixed tech indicators
+  if (unitData.weapons_and_equipment) {
+    const mixedTechAnalysis = analyzeMixedTechPattern(unitData.weapons_and_equipment)
+    Object.assign(progression, mixedTechAnalysis)
+  }
+
+  // Special case: Mixed tech base override
+  if (unitData.tech_base.includes('Mixed')) {
+    progression = analyzeMixedTechBase(unitData, progression)
+  }
+
+  console.log('[TechProgression] Final inferred progression:', progression)
+  return progression
+}
+
+/**
+ * Extract base tech from unit tech_base field
+ */
+export function extractBaseTech(techBase: string): 'Inner Sphere' | 'Clan' {
+  if (techBase.includes('Clan')) {
+    return 'Clan'
+  }
+  return 'Inner Sphere'
+}
+
+/**
+ * Infer component tech base from component name/type
+ */
+function inferComponentTech(
+  componentType: keyof typeof TECH_PATTERNS,
+  componentName: string,
+  fallback: 'Inner Sphere' | 'Clan'
+): 'Inner Sphere' | 'Clan' {
+  const name = componentName.toLowerCase()
+  const patterns = TECH_PATTERNS[componentType]
+
+  if (!patterns) {
+    return fallback
+  }
+
+  // Check Clan patterns first (usually more specific)
+  for (const pattern of patterns.clan) {
+    if (name.includes(pattern.toLowerCase())) {
+      return 'Clan'
     }
   }
-  
-  return true;
+
+  // Check Inner Sphere patterns
+  for (const pattern of patterns.innerSphere) {
+    if (name.includes(pattern.toLowerCase())) {
+      return 'Inner Sphere'
+    }
+  }
+
+  return fallback
 }
 
 /**
- * Get the era for a given year
+ * Analyze equipment list for mixed tech patterns
  */
-export function getEraFromYear(year: number): string {
-  if (year < 2571) return 'Age of War';
-  if (year < 2785) return 'Star League';
-  if (year < 3050) return 'Succession Wars';
-  if (year < 3061) return 'Clan Invasion';
-  if (year < 3068) return 'Civil War';
-  if (year < 3086) return 'Jihad';
-  if (year < 3135) return 'Republic';
-  return 'Dark Age';
-}
+export function analyzeMixedTechPattern(equipmentList: any[]): Partial<TechProgression> {
+  const analysis: Partial<TechProgression> = {}
 
-/**
- * Parse availability code (e.g., "D-C-E-D-C")
- * Format: TechRating-Availability(ComStar)-Availability(IS)-Availability(Clan)-CommonAvailability
- */
-export function parseAvailabilityCode(code: string): {
-  techRating: string;
-  comStar: string;
-  innerSphere: string;
-  clan: string;
-  common: string;
-} {
-  const parts = code.split('-');
-  return {
-    techRating: parts[0] || 'X',
-    comStar: parts[1] || 'X',
-    innerSphere: parts[2] || 'X',
-    clan: parts[3] || 'X',
-    common: parts[4] || 'X',
-  };
-}
+  equipmentList.forEach(equipment => {
+    const name = equipment.item_name?.toLowerCase() || ''
+    const techBase = equipment.tech_base
 
-/**
- * Get availability rating for equipment
- */
-export function getAvailabilityRating(
-  equipmentId: string, 
-  year: number, 
-  faction?: string
-): string {
-  const rating = AVAILABILITY_RATINGS[equipmentId];
-  if (!rating) return 'X-X-X-X';
-  
-  const era = getEraFromYear(year);
-  return rating.availability[era] || 'X-X-X-X';
-}
+    // Direct tech_base field takes precedence
+    if (techBase === 'Clan' || techBase === 'IS') {
+      const targetTech = techBase === 'Clan' ? 'Clan' : 'Inner Sphere'
 
-/**
- * Convert numeric tech rating to letter
- */
-export function getTechRatingLetter(rating: number): string {
-  const ratings = ['A', 'B', 'C', 'D', 'E', 'F', 'X'];
-  return ratings[rating - 1] || 'X';
-}
+      // Categorize equipment into subsystems
+      if (name.includes('heat sink')) {
+        analysis.heatsink = targetTech
+      } else if (name.includes('targeting') || name.includes('artemis') || name.includes('narc')) {
+        analysis.targeting = targetTech
+      } else if (name.includes('masc') || name.includes('myomer')) {
+        analysis.myomer = targetTech
+      } else if (name.includes('jump') || name.includes('booster')) {
+        analysis.movement = targetTech
+      }
+    }
 
-/**
- * Get all equipment available for a given year and faction
- */
-export function getAvailableEquipment(
-  year: number, 
-  faction?: string, 
-  techBase?: 'IS' | 'Clan' | 'Both'
-): string[] {
-  return Object.entries(EQUIPMENT_TECH_DATA)
-    .filter(([id, tech]) => {
-      // Check availability
-      if (!isEquipmentAvailable(id, year, faction)) return false;
-      
-      // Check tech base
-      if (techBase && techBase !== 'Both') {
-        if (tech.techBase !== 'Both' && tech.techBase !== techBase) {
-          return false;
+    // Pattern-based analysis for components without explicit tech_base
+    for (const [componentType, patterns] of Object.entries(TECH_PATTERNS)) {
+      const clanMatch = patterns.clan.some(pattern => name.includes(pattern.toLowerCase()))
+      const isMatch = patterns.innerSphere.some(pattern => name.includes(pattern.toLowerCase()))
+
+      if (clanMatch) {
+        const subsystem = mapComponentToSubsystem(componentType)
+        if (subsystem) {
+          analysis[subsystem] = 'Clan'
+        }
+      } else if (isMatch) {
+        const subsystem = mapComponentToSubsystem(componentType)
+        if (subsystem) {
+          analysis[subsystem] = 'Inner Sphere'
         }
       }
-      
-      return true;
-    })
-    .map(([id]) => id);
-}
-
-/**
- * Calculate unit's earliest possible year based on equipment
- */
-export function calculateEarliestYear(equipmentIds: string[]): number {
-  let latestIntroduction = 2350; // Default mech introduction
-  
-  equipmentIds.forEach(id => {
-    const tech = EQUIPMENT_TECH_DATA[id];
-    if (tech && tech.introductionYear > latestIntroduction) {
-      // Check if there's an extinction period we need to account for
-      if (tech.extinctionYear && tech.reintroductionYear) {
-        // If reintroduced, use that date if it's later
-        latestIntroduction = Math.max(
-          tech.introductionYear, 
-          tech.reintroductionYear
-        );
-      } else {
-        latestIntroduction = tech.introductionYear;
-      }
     }
-  });
-  
-  return latestIntroduction;
+  })
+
+  return analysis
 }
 
 /**
- * Validate unit equipment for a specific year
+ * Map component type to tech progression subsystem
  */
-export function validateUnitForYear(
-  equipmentIds: string[], 
-  year: number, 
-  faction?: string
-): { 
-  valid: boolean; 
-  invalidEquipment: string[] 
-} {
-  const invalidEquipment = equipmentIds.filter(
-    id => !isEquipmentAvailable(id, year, faction)
-  );
-  
+function mapComponentToSubsystem(componentType: string): keyof TechProgression | null {
+  const mapping: Record<string, keyof TechProgression> = {
+    'engine': 'engine',
+    'heatsink': 'heatsink',
+    'armor': 'armor',
+    'structure': 'chassis',
+    'targeting': 'targeting',
+    'weapons': 'targeting' // Weapons often indicate targeting tech
+  }
+
+  return mapping[componentType] || null
+}
+
+/**
+ * Analyze mixed tech base units for more nuanced tech progression
+ */
+function analyzeMixedTechBase(unitData: any, basePro: TechProgression): TechProgression {
+  const progression = { ...basePro }
+
+  // Mixed (IS Chassis) - Chassis is IS, but other tech can be Clan
+  if (unitData.tech_base === 'Mixed (IS Chassis)') {
+    progression.chassis = 'Inner Sphere'
+    // Other subsystems may be Clan based on equipment analysis
+  }
+
+  // Mixed (Clan Chassis) - Chassis is Clan, but other tech can be IS
+  if (unitData.tech_base === 'Mixed (Clan Chassis)') {
+    progression.chassis = 'Clan'
+    // Other subsystems may be IS based on equipment analysis
+  }
+
+  return progression
+}
+
+/**
+ * Update tech progression with user changes
+ */
+export function updateTechProgression(
+  current: TechProgression,
+  subsystem: keyof TechProgression,
+  newTech: 'Inner Sphere' | 'Clan'
+): TechProgression {
+  const updated = { ...current, [subsystem]: newTech }
+
+  // Handle cascading updates for related subsystems
+  if (subsystem === 'chassis') {
+    // Chassis change might influence structure
+    // Keep user's explicit choices, but default new subsystems to chassis tech
+  }
+
+  return updated
+}
+
+/**
+ * Check if unit uses mixed technology
+ */
+export function isMixedTech(progression: TechProgression): boolean {
+  const values = Object.values(progression)
+  const innerSphereCount = values.filter(v => v === 'Inner Sphere').length
+  const clanCount = values.filter(v => v === 'Clan').length
+
+  return innerSphereCount > 0 && clanCount > 0
+}
+
+/**
+ * Get primary tech base from progression
+ */
+export function getPrimaryTechBase(progression: TechProgression): 'Inner Sphere' | 'Clan' | 'Mixed' {
+  if (!isMixedTech(progression)) {
+    return progression.chassis // Use chassis as primary indicator
+  }
+
+  const values = Object.values(progression)
+  const innerSphereCount = values.filter(v => v === 'Inner Sphere').length
+  const clanCount = values.filter(v => v === 'Clan').length
+
+  if (innerSphereCount > clanCount) {
+    return 'Inner Sphere'
+  } else if (clanCount > innerSphereCount) {
+    return 'Clan'
+  }
+
+  return 'Mixed'
+}
+
+/**
+ * Generate tech base string for compatibility with existing system
+ */
+export function generateTechBaseString(progression: TechProgression): string {
+  if (!isMixedTech(progression)) {
+    return progression.chassis
+  }
+
+  // For mixed tech, use chassis to determine primary
+  if (progression.chassis === 'Clan') {
+    return 'Mixed (Clan Chassis)'
+  } else {
+    return 'Mixed (IS Chassis)'
+  }
+}
+
+/**
+ * Create default tech progression for new units
+ */
+export function createDefaultTechProgression(techBase: 'Inner Sphere' | 'Clan' = 'Inner Sphere'): TechProgression {
   return {
-    valid: invalidEquipment.length === 0,
-    invalidEquipment,
-  };
+    chassis: techBase,
+    gyro: techBase,
+    engine: techBase,
+    heatsink: techBase,
+    targeting: techBase,
+    myomer: techBase,
+    movement: techBase,
+    armor: techBase
+  }
+}
+
+/**
+ * Validate tech progression for logical consistency
+ */
+export function validateTechProgression(progression: TechProgression): {
+  isValid: boolean
+  warnings: string[]
+  errors: string[]
+} {
+  const warnings: string[] = []
+  const errors: string[] = []
+
+  // Check for unusual combinations
+  if (progression.chassis === 'Inner Sphere' && progression.engine === 'Clan') {
+    warnings.push('Inner Sphere chassis with Clan engine is uncommon')
+  }
+
+  if (progression.heatsink === 'Clan' && progression.engine === 'Inner Sphere') {
+    warnings.push('Clan heat sinks with Inner Sphere engine may not be optimal')
+  }
+
+  // No hard errors currently - BattleTech allows mixed tech
+  return {
+    isValid: errors.length === 0,
+    warnings,
+    errors
+  }
 }

@@ -1,4 +1,5 @@
 import { Equipment } from './types';
+import { TARGETING_COMPUTERS } from './targeting-computers';
 
 export const GUARDIAN_ECM: Equipment = {
   id: 'guardian_ecm',
@@ -388,5 +389,6 @@ export const ELECTRONIC_WARFARE: Equipment[] = [
   PPC_CAPACITOR,
   ARTEMIS_V_FCS,
   C3_BOOSTED_MASTER,
-  RISC_LASER_PULSE_MODULE
+  RISC_LASER_PULSE_MODULE,
+  ...TARGETING_COMPUTERS
 ];
