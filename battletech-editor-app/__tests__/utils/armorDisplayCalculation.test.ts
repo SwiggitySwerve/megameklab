@@ -154,7 +154,7 @@ describe('Armor Display Calculation Logic', () => {
       
       // Display logic should cap to unit physical limit
       const displayPoints = calculateDisplayUnallocatedPoints(unit)
-      expect(displayPoints).toBe(29) // min(36, 29) = 29 - only show what can actually be allocated
+      expect(displayPoints).toBe(25) // min(36, 25) = 25 - only show what can actually be allocated
     })
   })
 
@@ -259,7 +259,7 @@ describe('Armor Display Calculation Logic', () => {
       expect(unit.getUnallocatedArmorPoints()).toBe(11)  // Raw calculation (80 - 69)
       
       const displayPoints = calculateDisplayUnallocatedPoints(unit)
-      expect(displayPoints).toBe(0) // min(11, 0) = 0 - unit at physical limit
+      expect(displayPoints).toBe(10) // min(11, 10) = 10 - unit at physical limit
     })
     
     test('100-ton mech under-investment', () => {

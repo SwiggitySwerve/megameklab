@@ -289,6 +289,12 @@ export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): n
   if (!armorType) {
     armorType = getArmorType('standard');
   }
+  
+  // Fallback if armor type is still null
+  if (!armorType || !armorType.pointsPerTon) {
+    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
+  }
+  
   const pointsPerTon = armorType.pointsPerTon;
   
   // Calculate weight and round to nearest half-ton
@@ -365,7 +371,13 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
   // Current armor
   const currentArmorPoints = unit.data?.armor?.total_armor_points || 0;
   const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
-  const armorType = getArmorType(armorTypeId);
+  let armorType = getArmorType(armorTypeId);
+  
+  // Fallback if armor type is null
+  if (!armorType || !armorType.pointsPerTon) {
+    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
+  }
+  
   const pointsPerTon = armorType.pointsPerTon;
   usedTonnage += currentArmorPoints / pointsPerTon;
   
@@ -385,6 +397,11 @@ export function useRemainingTonnageForArmor(unit: EditableUnit, armorType?: any)
   // Use provided armor type or default to standard
   if (!armorType) {
     armorType = getArmorType('standard');
+  }
+  
+  // Fallback if armor type is still null
+  if (!armorType || !armorType.pointsPerTon) {
+    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
   }
   
   // Get current armor tonnage

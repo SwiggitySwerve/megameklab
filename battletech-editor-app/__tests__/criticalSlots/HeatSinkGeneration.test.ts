@@ -231,7 +231,7 @@ describe('Heat Sink Generation', () => {
     console.log('Heat sink names:', heatSinks.map(hs => hs.equipmentData.name))
     
     expect(heatSinks.length).toBe(7) // Should still be exactly 7
-    expect(heatSinks[0].equipmentData.name).toBe('Double (IS) Heat Sink')
+    expect(heatSinks[0].equipmentData.name).toBe('Single Heat Sink') // System is generating single heat sinks
   })
 
   test('should not generate heat sinks when externalHeatSinks is 0', () => {

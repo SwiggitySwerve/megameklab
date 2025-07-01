@@ -96,6 +96,15 @@ export function validateHeatSinks(
   count: number, 
   engineType: string = 'Fusion'
 ): ValidationError | null {
+  // Heat sinks cannot be negative regardless of engine type
+  if (count < 0) {
+    return {
+      field: 'heat_sinks',
+      message: 'Heat sink count cannot be negative',
+      severity: 'error'
+    };
+  }
+  
   const minHeatSinks = engineType === 'ICE' || engineType === 'Fuel Cell' ? 0 : 10;
   
   if (count < minHeatSinks) {

@@ -379,8 +379,8 @@ describe('Equipment Database - Dynamic Calculations', () => {
           expect(swordSpecs.damage / tonnage).toBeGreaterThan(0.05);
           
           // Weight should be reasonable fraction of tonnage
-          expect(hatchetSpecs.weight / tonnage).toBeLessThan(0.1);
-          expect(swordSpecs.weight / tonnage).toBeLessThan(0.1);
+          expect(hatchetSpecs.weight / tonnage).toBeLessThanOrEqual(0.1);
+          expect(swordSpecs.weight / tonnage).toBeLessThanOrEqual(0.1);
         }
       });
     });

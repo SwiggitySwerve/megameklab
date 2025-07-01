@@ -271,15 +271,20 @@ describe('UnallocatedEquipmentDisplay', () => {
 
       render(<UnallocatedEquipmentDisplay />);
 
+      // Wait for auto-expansion to complete
       await waitFor(() => {
-        expect(screen.getAllByText('Large Laser')[0]).toBeInTheDocument();
+        expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
       });
 
-      // Find the group header by looking for the element with count badge "2"
-      const groupRow = screen.getByText('2').closest('div[class*="flex items-center cursor-pointer"]');
+      // Find the group header by looking for the equipment group arrow (mr-1, not category mr-2)
+      // The group header has: ▼ Large Laser [count badge]
+      const expandIcons = screen.getAllByText('▼');
+      const groupExpandIcon = expandIcons.find(icon => 
+        icon.className.includes('mr-1') // Equipment groups use mr-1, categories use mr-2
+      );
+      const groupRow = groupExpandIcon?.closest('div[class*="flex items-center cursor-pointer"]');
       
-      // Should show individual items when auto-expanded
-      expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
+      expect(groupRow).toBeTruthy();
 
       // Click to collapse group
       fireEvent.click(groupRow!);
@@ -287,15 +292,22 @@ describe('UnallocatedEquipmentDisplay', () => {
       await waitFor(() => {
         // Should hide individual items
         expect(screen.queryAllByText(/2cr • 5t/)).toHaveLength(0);
+      }, { timeout: 3000 });
+
+      // Verify the arrow changed to collapsed state
+      await waitFor(() => {
+        expect(screen.getByText('▶')).toBeInTheDocument();
       });
 
       // Click to expand group again
-      fireEvent.click(groupRow!);
+      const collapsedIcon = screen.getByText('▶');
+      const expandGroupRow = collapsedIcon.closest('div[class*="flex items-center cursor-pointer"]');
+      fireEvent.click(expandGroupRow!);
 
       await waitFor(() => {
         // Should show individual items again
         expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
-      });
+      }, { timeout: 3000 });
     });
   });
 

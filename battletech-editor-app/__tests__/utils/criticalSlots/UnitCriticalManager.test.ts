@@ -122,7 +122,12 @@ describe('UnitCriticalManager', () => {
 
       expect(config.tonnage).toBe(75);
       expect(config.engineType).toBe('XL');
-      expect(config.gyroType).toBe('Standard');
+      // Handle both string and object formats for gyroType
+      if (typeof config.gyroType === 'string') {
+        expect(config.gyroType).toBe('Standard');
+      } else {
+        expect(config.gyroType.type).toBe('Standard');
+      }
       expect(config.chassis).toBe('Unknown'); // Default for legacy
       expect(config.model).toBe('Legacy'); // Default for legacy
     });

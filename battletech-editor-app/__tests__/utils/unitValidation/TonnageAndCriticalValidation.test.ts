@@ -145,9 +145,9 @@ describe('Unit Validation - Tonnage and Critical Validation', () => {
       expect(validateHeatSinks(50, 'Fusion')).toBeNull();
       expect(validateHeatSinks(100, 'ICE')).toBeNull();
       
-      // Negative heat sink counts should fail for Fusion
+      // Negative heat sink counts should fail for all engine types
       expect(validateHeatSinks(-1, 'Fusion')).not.toBeNull();
-      expect(validateHeatSinks(-1, 'ICE')).toBeNull(); // ICE allows any count >= 0
+      expect(validateHeatSinks(-1, 'ICE')).not.toBeNull(); // Negative heat sinks are invalid
     });
 
     test('should provide engine-specific error messages', () => {
@@ -404,8 +404,8 @@ describe('Unit Validation - Tonnage and Critical Validation', () => {
       expect(validateHeatSinks(9, 'Fusion')).not.toBeNull();
       expect(validateHeatSinks(10, 'Fusion')).toBeNull();
       
-      // ICE engine boundary (no minimum)
-      expect(validateHeatSinks(-1, 'ICE')).toBeNull();
+      // ICE engine boundary (minimum 0)
+      expect(validateHeatSinks(-1, 'ICE')).not.toBeNull(); // Negative is invalid
       expect(validateHeatSinks(0, 'ICE')).toBeNull();
       expect(validateHeatSinks(1, 'ICE')).toBeNull();
     });

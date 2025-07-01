@@ -182,14 +182,19 @@ function CategorySection({
   onToggle: () => void
 }) {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
+  const [hasAutoExpanded, setHasAutoExpanded] = useState(false)
 
-  // Auto-expand all equipment groups when category is expanded
+  // Auto-expand all equipment groups when category first becomes expanded
   React.useEffect(() => {
-    if (isExpanded && expandedGroups.size === 0) {
+    if (isExpanded && !hasAutoExpanded) {
       const allGroups = new Set(Object.keys(category.groups))
       setExpandedGroups(allGroups)
+      setHasAutoExpanded(true)
+    } else if (!isExpanded && hasAutoExpanded) {
+      // Reset auto-expansion flag when category is collapsed
+      setHasAutoExpanded(false)
     }
-  }, [isExpanded, category.groups, expandedGroups.size])
+  }, [isExpanded, category.groups, hasAutoExpanded])
 
   const toggleGroup = (equipmentName: string) => {
     const newExpanded = new Set(expandedGroups)
