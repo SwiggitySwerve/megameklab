@@ -268,6 +268,7 @@ function EquipmentItem({ equipment }: { equipment: EquipmentAllocation }) {
   }
 
   const getTechAbbreviation = (techBase: string): string => {
+    if (!techBase) return 'UNK'
     switch (techBase) {
       case 'Inner Sphere': return 'IS'
       case 'Clan': return 'CLAN'

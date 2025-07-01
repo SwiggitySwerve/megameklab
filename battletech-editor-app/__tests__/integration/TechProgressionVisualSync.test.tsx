@@ -50,12 +50,37 @@ jest.mock('../../utils/techRating', () => ({
   }
 }));
 
-jest.mock('../../utils/techProgressionMapping', () => ({
-  updateConfigurationForTechProgression: jest.fn(() => ({})),
-  getTechProgressionChangeDescription: jest.fn(() => 'Component updated'),
-  TECH_PROGRESSION_MAPPINGS: {
-    targeting: { configProperty: 'targetingComputer', isEquipmentCategory: false }
-  }
+// Mock component resolution utilities
+jest.mock('../../utils/componentResolution', () => ({
+  resolveComponentForTechBase: jest.fn((component, category, techBase) => {
+    // Return a simple tech-base-specific component name
+    if (techBase === 'Clan') {
+      return `${component} (Clan)`;
+    }
+    return component === `${component} (Clan)` ? component.replace(' (Clan)', '') : component;
+  })
+}));
+
+// Mock tech base memory utilities
+jest.mock('../../utils/techBaseMemory', () => ({
+  validateAndResolveComponentWithMemory: jest.fn((component, category, oldTech, newTech, memory, rules) => ({
+    resolvedComponent: newTech === 'Clan' ? `${component} (Clan)` : component.replace(' (Clan)', ''),
+    updatedMemory: memory,
+    wasRestored: false,
+    resolutionReason: 'fallback'
+  })),
+  initializeMemoryFromConfiguration: jest.fn(() => ({}))
+}));
+
+// Mock memory persistence utilities
+jest.mock('../../utils/memoryPersistence', () => ({
+  initializeMemorySystem: jest.fn(() => ({
+    techBaseMemory: {},
+    lastUpdate: Date.now()
+  })),
+  updateMemoryState: jest.fn((current, updates) => ({ ...current, ...updates })),
+  saveMemoryToStorage: jest.fn(),
+  loadMemoryFromStorage: jest.fn()
 }));
 
 describe('Tech Progression Visual State Synchronization', () => {
