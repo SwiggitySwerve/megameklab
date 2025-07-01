@@ -1,0 +1,385 @@
+# 🏗️ **Large File Refactoring Progress Checklist**
+
+## **Overview**
+Track the progress of breaking down large files (500+ lines) into smaller, maintainable components. Mark items as complete when they pass all validation criteria.
+
+**Total Progress**: ⬜ 0/134 tasks completed  
+**Current Phase**: Phase 1 - UnitCriticalManager Breakdown  
+**Started**: [Date]  
+**Target Completion**: [Date + 25 days]
+
+---
+
+## 🎯 **Phase 1: UnitCriticalManager Breakdown (3,257 → 6 services)**
+
+**Phase Progress**: ⬜ 0/35 tasks completed
+
+### **Setup & Preparation**
+- [ ] Create feature branch `refactor/phase-1-unit-critical-manager`
+- [ ] Backup original UnitCriticalManager.ts file
+- [ ] Create service directories (`services/`, `utils/unit/`, `utils/criticalSlots/calculators/`)
+- [ ] Run initial test suite and record baseline metrics
+- [ ] Document current dependencies and data flows
+
+### **Day 1: Extract UnitStateManager**
+- [ ] Create `utils/unit/UnitStateManager.ts` interface
+- [ ] Implement UnitStateManager class with all methods
+- [ ] Extract state management logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use new service
+- [ ] Create comprehensive test suite for UnitStateManager
+- [ ] Verify all existing tests still pass
+- [ ] Update imports and dependencies
+
+### **Day 2: Extract SystemComponentService**
+- [ ] Create `services/SystemComponentService.ts` interface
+- [ ] Implement engine weight calculation methods
+- [ ] Implement gyro calculation methods
+- [ ] Implement heat sink allocation methods
+- [ ] Implement structure calculation methods
+- [ ] Extract system component logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use SystemComponentService
+- [ ] Create test suite for SystemComponentService
+- [ ] Verify BattleTech rule compliance in tests
+- [ ] Performance test: system calculations < 50ms
+
+### **Day 3: Extract WeightBalanceService**
+- [ ] Create `services/WeightBalanceService.ts` interface
+- [ ] Implement weight calculation methods
+- [ ] Implement balance analysis methods
+- [ ] Implement optimization suggestion methods
+- [ ] Extract weight logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use WeightBalanceService
+- [ ] Create test suite for WeightBalanceService
+- [ ] Test weight calculations for all mech tonnages
+- [ ] Performance test: weight calculations < 100ms
+
+### **Day 4: Extract CriticalSlotCalculator**
+- [ ] Create `utils/criticalSlots/CriticalSlotCalculator.ts` interface
+- [ ] Implement slot calculation methods
+- [ ] Implement special component allocation methods
+- [ ] Implement slot optimization algorithms
+- [ ] Extract critical slot logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use CriticalSlotCalculator
+- [ ] Create test suite for CriticalSlotCalculator
+- [ ] Test all mech configurations (Biped, Quad, Tripod)
+- [ ] Performance test: slot calculations < 75ms
+
+### **Day 5: Extract EquipmentAllocationService**
+- [ ] Create `services/EquipmentAllocationService.ts` interface
+- [ ] Implement equipment placement methods
+- [ ] Implement auto-allocation algorithms
+- [ ] Implement validation methods
+- [ ] Extract equipment logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use EquipmentAllocationService
+- [ ] Create test suite for EquipmentAllocationService
+- [ ] Test equipment placement validation rules
+- [ ] Performance test: equipment operations < 200ms
+
+### **Day 6: Extract ConstructionRulesValidator**
+- [ ] Create `services/ConstructionRulesValidator.ts` interface
+- [ ] Implement core validation methods
+- [ ] Implement BattleTech rule checking methods
+- [ ] Implement tech level validation methods
+- [ ] Extract validation logic from UnitCriticalManager
+- [ ] Update UnitCriticalManager to use ConstructionRulesValidator
+- [ ] Create test suite for ConstructionRulesValidator
+- [ ] Test all BattleTech construction rules
+- [ ] Performance test: validation < 300ms
+
+### **Day 7: Refactor Core Manager**
+- [ ] Simplify UnitCriticalManager to orchestrator pattern
+- [ ] Implement dependency injection for all services
+- [ ] Update all component integrations
+- [ ] Run comprehensive integration tests
+- [ ] Performance validation: overall system < 500ms
+- [ ] Memory usage validation: no memory leaks
+- [ ] Update documentation for new architecture
+
+---
+
+## 🎨 **Phase 2: Customizer V2 Tab Extraction (2,020 → 6 components)**
+
+**Phase Progress**: ⬜ 0/24 tasks completed
+
+### **Day 8: Extract StructureTabV2**
+- [ ] Create `components/editor/tabs/StructureTabV2.tsx`
+- [ ] Define proper TypeScript interfaces
+- [ ] Extract structure-related logic from main component
+- [ ] Implement core configuration panel
+- [ ] Implement engine type selector
+- [ ] Implement movement configuration
+- [ ] Implement system components panel
+- [ ] Update imports in main customizer file
+- [ ] Test tab functionality independently
+- [ ] Verify data flow to/from parent component
+
+### **Day 9: Extract ArmorTabV2**
+- [ ] Create `components/editor/tabs/ArmorTabV2.tsx`
+- [ ] Define ArmorTabProps interface
+- [ ] Extract armor-related logic from main component
+- [ ] Implement armor type controls
+- [ ] Implement tonnage management
+- [ ] Integrate with armor diagram components
+- [ ] Implement auto-allocation buttons
+- [ ] Update main file imports
+- [ ] Test armor interactions
+- [ ] Verify armor calculations are preserved
+
+### **Day 10: Extract Remaining Tabs**
+- [ ] Create `components/editor/tabs/EquipmentTabV2.tsx`
+- [ ] Create `components/editor/tabs/CriticalsTabV2.tsx`  
+- [ ] Create `components/editor/tabs/FluffTabV2.tsx`
+- [ ] Extract respective logic from main component
+- [ ] Create shared tab components (TabHeader, TabControls, TabSummary)
+- [ ] Update main file to use all extracted tabs
+- [ ] Test all tab switching functionality
+- [ ] Verify no functionality regression
+
+### **Day 11: Refactor Main Component**
+- [ ] Simplify CustomizerV2Content to orchestrator only
+- [ ] Implement clean tab management logic
+- [ ] Update state management patterns
+- [ ] Remove all inline tab implementations
+- [ ] Test integration between all tabs
+- [ ] Performance validation: tab switching < 100ms
+- [ ] Update component documentation
+
+---
+
+## 📊 **Phase 3: Data File Reorganization (4,316 → 15 files)**
+
+**Phase Progress**: ⬜ 0/18 tasks completed
+
+### **Day 12: Create Migration Script**
+- [ ] Create `scripts/data-migration/split-equipment-files.ts`
+- [ ] Define migration rules for all equipment categories
+- [ ] Implement validation logic for data integrity
+- [ ] Create backup procedures for original files
+- [ ] Test migration script on sample data
+- [ ] Document migration process
+
+### **Day 13: Execute Data Migration**
+- [ ] Run migration script for energy weapons
+- [ ] Run migration script for ballistic weapons
+- [ ] Run migration script for missile weapons
+- [ ] Run migration script for ammunition
+- [ ] Update all import statements across codebase
+- [ ] Update equipment service to use new structure
+- [ ] Test data integrity after migration
+- [ ] Verify no missing equipment items
+
+### **Day 14: Update Build System**
+- [ ] Update webpack configuration for new structure
+- [ ] Add tree-shaking optimization
+- [ ] Update TypeScript exports
+- [ ] Test bundle optimization results
+- [ ] Update development server configuration
+- [ ] Verify build performance improvements
+
+---
+
+## 🧩 **Phase 4: Component Modularization (2,755 → 12 components)**
+
+**Phase Progress**: ⬜ 0/24 tasks completed
+
+### **Days 15-16: OverviewTabV2 Breakdown (992 → 4 components)**
+- [ ] Create `components/overview/TechProgressionPanel.tsx`
+- [ ] Create `components/overview/UnitIdentityPanel.tsx`
+- [ ] Create `components/overview/TechRatingPanel.tsx`  
+- [ ] Create `components/overview/OverviewSummaryPanel.tsx`
+- [ ] Extract tech progression logic
+- [ ] Extract unit identity logic
+- [ ] Extract tech rating controls
+- [ ] Extract summary display logic
+- [ ] Refactor main OverviewTabV2 component
+- [ ] Test all panel interactions
+- [ ] Verify overview functionality preserved
+
+### **Days 17-18: UnitDetail Breakdown (924 → 5 components)**
+- [ ] Create `components/units/UnitBasicInfo.tsx`
+- [ ] Create `components/units/UnitTechnicalSpecs.tsx`
+- [ ] Create `components/units/UnitEquipmentSummary.tsx`
+- [ ] Create `components/units/UnitArmorDisplay.tsx`
+- [ ] Create `components/units/UnitActionButtons.tsx`
+- [ ] Extract basic info display logic
+- [ ] Extract technical specifications logic
+- [ ] Extract equipment listing logic
+- [ ] Extract armor visualization logic
+- [ ] Extract action controls logic
+- [ ] Refactor main UnitDetail component
+- [ ] Test unit display functionality
+- [ ] Verify all unit data properly displayed
+
+### **Days 19-20: MultiUnitProvider Breakdown (839 → 3 services + provider)**
+- [ ] Create `services/MultiUnitStateService.ts`
+- [ ] Create `services/UnitComparisonService.ts`
+- [ ] Create `services/UnitSynchronizationService.ts`
+- [ ] Extract state management logic
+- [ ] Extract unit comparison logic
+- [ ] Extract synchronization logic
+- [ ] Refactor MultiUnitProvider to use services
+- [ ] Test multi-unit functionality
+- [ ] Verify unit comparison features
+- [ ] Test synchronization between units
+
+---
+
+## 🧪 **Phase 5: Validation & Testing (All phases)**
+
+**Phase Progress**: ⬜ 0/21 tasks completed
+
+### **Days 21-22: Service Testing**
+- [ ] Create comprehensive test suite for SystemComponentService
+- [ ] Create comprehensive test suite for EquipmentAllocationService
+- [ ] Create comprehensive test suite for CriticalSlotCalculator
+- [ ] Create comprehensive test suite for WeightBalanceService
+- [ ] Create comprehensive test suite for ConstructionRulesValidator
+- [ ] Create comprehensive test suite for UnitStateManager
+- [ ] Validate BattleTech rule compliance in all tests
+- [ ] Test edge cases and error conditions
+- [ ] Ensure 100% test coverage for all services
+- [ ] Performance test all services within targets
+
+### **Days 23-24: Integration Testing**
+- [ ] Test service coordination and communication
+- [ ] Test data flow integrity across all services
+- [ ] Test state synchronization between services
+- [ ] Test tab component communication
+- [ ] Test prop passing between components
+- [ ] Test event handling throughout system
+- [ ] Run end-to-end user workflow tests
+- [ ] Test import/export functionality
+- [ ] Test validation system integration
+
+### **Day 25: Performance Validation**
+- [ ] Benchmark service initialization times
+- [ ] Benchmark unit calculation performance
+- [ ] Benchmark UI response times
+- [ ] Test memory usage patterns
+- [ ] Validate bundle size improvements
+- [ ] Test loading time improvements
+- [ ] Monitor error rates in refactored code
+
+---
+
+## 🎯 **Success Metrics Tracking**
+
+### **Code Quality Metrics**
+- [ ] Max file size ≤ 400 lines (Current: 3,257)
+- [ ] Average file size ≤ 280 lines (Current: 850)
+- [ ] Cyclomatic complexity ≤ 10 per function (Current: 25)
+- [ ] Test coverage ≥ 95% (Current: 75%)
+- [ ] TypeScript coverage = 100%
+
+### **Performance Metrics**
+- [ ] Service initialization ≤ 100ms
+- [ ] Unit calculation ≤ 500ms
+- [ ] UI response time ≤ 100ms
+- [ ] Bundle size reduction ≥ 15%
+- [ ] Memory usage reduction ≥ 20%
+
+### **Maintainability Metrics**
+- [ ] Developer onboarding ≤ 4 hours
+- [ ] New feature addition ≤ 2 hours average
+- [ ] Bug fix time ≤ 1 hour average
+- [ ] Test execution ≤ 30 seconds
+- [ ] Build time ≤ 60 seconds
+
+---
+
+## 🛡️ **Risk Mitigation Checkpoints**
+
+### **After Each Service Extraction**
+- [ ] All existing tests pass
+- [ ] No TypeScript compilation errors
+- [ ] UI functionality unchanged
+- [ ] Performance within 10% of baseline
+- [ ] Code coverage maintained/improved
+
+### **After Each Component Extraction**
+- [ ] Component renders correctly in isolation
+- [ ] Props flow correctly to/from parent
+- [ ] Event handling works as expected
+- [ ] No visual regression in UI
+- [ ] Accessibility standards maintained
+
+### **After Each Phase**
+- [ ] Integration tests pass
+- [ ] User workflows function correctly
+- [ ] Memory usage is stable
+- [ ] Bundle size acceptable
+- [ ] Documentation updated
+
+---
+
+## 📚 **Documentation Updates**
+
+### **Required Documentation Updates**
+- [ ] Update PROJECT_OVERVIEW.md with refactoring achievements
+- [ ] Update TECHNICAL_ARCHITECTURE.md with new service layer
+- [ ] Update DEVELOPER_GUIDE.md with new development patterns
+- [ ] Update IMPLEMENTATION_REFERENCE.md with service patterns
+- [ ] Create API documentation for all new services
+- [ ] Update component documentation
+- [ ] Update README.md with new architecture overview
+
+### **Code Documentation**
+- [ ] Add comprehensive JSDoc comments to all services
+- [ ] Document BattleTech rule implementations
+- [ ] Document service dependencies and interfaces
+- [ ] Add inline comments for complex algorithms
+- [ ] Create migration guides for developers
+
+---
+
+## ✅ **Final Validation**
+
+### **Pre-Deployment Checklist**
+- [ ] All tests pass (unit, integration, e2e)
+- [ ] Performance benchmarks met
+- [ ] Code review completed
+- [ ] Documentation complete and accurate
+- [ ] No linting errors or warnings
+- [ ] Security review passed
+- [ ] Accessibility testing passed
+- [ ] Browser compatibility verified
+- [ ] User acceptance testing completed
+- [ ] Deployment plan reviewed and approved
+
+### **Post-Deployment Monitoring**
+- [ ] Monitor error rates in production
+- [ ] Monitor performance metrics
+- [ ] Monitor user feedback
+- [ ] Monitor system stability
+- [ ] Schedule follow-up code review in 2 weeks
+
+---
+
+## 📈 **Progress Summary**
+
+**Overall Completion**: ⬜ 0% (0/134 tasks)
+
+| Phase | Tasks | Completed | Progress |
+|-------|-------|-----------|----------|
+| Phase 1: UnitCriticalManager | 35 | 0 | ⬜ 0% |
+| Phase 2: Customizer V2 | 24 | 0 | ⬜ 0% |
+| Phase 3: Data Reorganization | 18 | 0 | ⬜ 0% |
+| Phase 4: Component Modularization | 24 | 0 | ⬜ 0% |
+| Phase 5: Validation & Testing | 21 | 0 | ⬜ 0% |
+| Documentation & Final | 12 | 0 | ⬜ 0% |
+
+**Last Updated**: [Date]  
+**Current Sprint**: Phase 1, Day 1  
+**Next Milestone**: UnitStateManager extraction complete  
+**Estimated Completion**: [Target Date]
+
+---
+
+## 🚀 **Getting Started**
+
+**Ready to begin?** Start with the first checkbox:
+- [ ] Create feature branch `refactor/phase-1-unit-critical-manager`
+
+**Having issues?** Check the rollback procedures in IMPLEMENTATION_REFERENCE.md
+
+**Need help?** Reference the code templates in LARGE_FILE_REFACTORING_COMPLETION.md

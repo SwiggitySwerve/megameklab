@@ -2439,7 +2439,829 @@ This implementation reference provides the detailed patterns and solutions neede
 
 ---
 
-**Last Updated**: December 11, 2024  
-**Implementation Status**: Complete Reference ✅  
-**Pattern Coverage**: Comprehensive 🎯  
-**Code Quality**: Production Ready ⚡
+# 🏗️ **Large File Refactoring Implementation Plan**
+
+## Executive Summary
+
+This section provides a comprehensive plan for breaking down large files (500+ lines) in the BattleTech Editor App into smaller, more maintainable components following SOLID principles and the project's architectural guidelines.
+
+### **Critical Files Identified for Refactoring**
+
+| File | Lines | Priority | Complexity | Dependencies |
+|------|-------|----------|------------|--------------|
+| `UnitCriticalManager.ts` | 3,257 | 🔴 Critical | Very High | Core system |
+| `customizer-v2/index.tsx` | 2,020 | 🔴 Critical | High | UI components |
+| `missile-weapons.ts` | 1,650 | 🟡 Medium | Low | Data only |
+| `ballistic-weapons.ts` | 1,023 | 🟡 Medium | Low | Data only |
+| `OverviewTabV2.tsx` | 992 | 🔴 High | High | UI + Logic |
+| `UnitDetail.tsx` | 924 | 🟡 Medium | Medium | Display logic |
+| `UnitValidationService.ts` | 868 | 🔴 High | High | Business logic |
+| `EquipmentDatabase.tsx` | 843 | 🟡 Medium | Medium | UI + Data |
+| `MultiUnitProvider.tsx` | 839 | 🔴 High | High | State management |
+
+---
+
+## 🎯 **Phase 1: UnitCriticalManager Breakdown (Priority 1)**
+
+### **Current State Analysis**
+```typescript
+// Current monolithic structure (3,257 lines)
+class UnitCriticalManager {
+  // System component management (~800 lines)
+  // Equipment allocation logic (~600 lines)
+  // Critical slot calculations (~500 lines)
+  // Weight and balance calculations (~400 lines)
+  // Validation and rules checking (~400 lines)
+  // State management and persistence (~300 lines)
+  // Utility and helper methods (~250 lines)
+}
+```
+
+### **Target Architecture**
+```typescript
+// New modular structure (~300-400 lines each)
+interface UnitCriticalManager {
+  // Core orchestrator (300 lines)
+  systemComponentService: SystemComponentService;
+  equipmentAllocationService: EquipmentAllocationService;
+  criticalSlotCalculator: CriticalSlotCalculator;
+  weightBalanceService: WeightBalanceService;
+  constructionRulesValidator: ConstructionRulesValidator;
+  unitStateManager: UnitStateManager;
+}
+```
+
+### **Service Extraction Plan**
+
+#### **1.1 SystemComponentService** (~400 lines)
+```typescript
+interface SystemComponentService {
+  // Engine management
+  calculateEngineWeight(rating: number, type: string): number;
+  getEngineSlots(rating: number, type: string): number;
+  validateEngineRating(tonnage: number, walkMP: number): boolean;
+  
+  // Gyro management  
+  calculateGyroWeight(engineRating: number, type: string): number;
+  getGyroSlots(type: string): number;
+  
+  // Heat sink management
+  calculateHeatSinkRequirements(weapons: Equipment[]): number;
+  allocateInternalHeatSinks(engineRating: number, heatSinkType: string): number;
+  calculateExternalHeatSinks(total: number, internal: number): number;
+  
+  // Structure management
+  calculateStructureWeight(tonnage: number, type: string): number;
+  getStructureSlots(type: string): number;
+}
+```
+
+#### **1.2 EquipmentAllocationService** (~500 lines)
+```typescript
+interface EquipmentAllocationService {
+  // Equipment placement
+  canPlaceEquipment(equipment: Equipment, location: string, unit: UnitData): ValidationResult;
+  placeEquipment(equipment: Equipment, location: string, unit: UnitData): UnitData;
+  removeEquipment(equipmentId: string, unit: UnitData): UnitData;
+  moveEquipment(equipmentId: string, fromLocation: string, toLocation: string, unit: UnitData): UnitData;
+  
+  // Auto-allocation
+  autoAllocateEquipment(equipment: Equipment[], unit: UnitData): AllocationResult;
+  optimizeEquipmentPlacement(unit: UnitData): UnitData;
+  
+  // Validation
+  validateEquipmentCompatibility(equipment: Equipment, unit: UnitData): ValidationResult;
+  checkLocationRestrictions(equipment: Equipment, location: string): boolean;
+}
+```
+
+#### **1.3 CriticalSlotCalculator** (~350 lines)
+```typescript
+interface CriticalSlotCalculator {
+  // Slot calculations
+  calculateTotalSlots(config: UnitConfig): LocationSlotBreakdown;
+  calculateUsedSlots(unit: UnitData): LocationSlotBreakdown;
+  calculateAvailableSlots(unit: UnitData): LocationSlotBreakdown;
+  
+  // Special component handling
+  allocateSpecialComponents(unit: UnitData): CriticalSlotAllocation;
+  validateSlotAllocation(allocation: CriticalSlotAllocation): ValidationResult;
+  
+  // Optimization
+  optimizeSlotUsage(unit: UnitData): CriticalSlotAllocation;
+  findBestLocationForEquipment(equipment: Equipment, unit: UnitData): string | null;
+}
+
+interface LocationSlotBreakdown {
+  HD: { total: number; used: number; available: number };
+  CT: { total: number; used: number; available: number };
+  LT: { total: number; used: number; available: number };
+  RT: { total: number; used: number; available: number };
+  LA: { total: number; used: number; available: number };
+  RA: { total: number; used: number; available: number };
+  LL: { total: number; used: number; available: number };
+  RL: { total: number; used: number; available: number };
+}
+```
+
+#### **1.4 WeightBalanceService** (~350 lines)
+```typescript
+interface WeightBalanceService {
+  // Weight calculations
+  calculateTotalWeight(unit: UnitData): WeightBreakdown;
+  calculateRemainingTonnage(unit: UnitData): number;
+  validateWeightLimits(unit: UnitData): ValidationResult;
+  
+  // Balance analysis
+  analyzeCenterOfGravity(unit: UnitData): BalanceAnalysis;
+  checkStabilityFactors(unit: UnitData): StabilityReport;
+  
+  // Optimization suggestions
+  suggestWeightOptimizations(unit: UnitData): OptimizationSuggestion[];
+  findLightweightAlternatives(equipment: Equipment): Equipment[];
+}
+
+interface WeightBreakdown {
+  structure: number;
+  engine: number;
+  gyro: number;
+  cockpit: number;
+  armor: number;
+  equipment: number;
+  total: number;
+  percentage: number;
+}
+```
+
+#### **1.5 ConstructionRulesValidator** (~400 lines)
+```typescript
+interface ConstructionRulesValidator {
+  // Core validation
+  validateUnit(unit: UnitData): ValidationResult;
+  validateBattleTechRules(unit: UnitData): RuleViolation[];
+  validateTechLevel(unit: UnitData): TechLevelValidation;
+  
+  // Specific rule checks
+  validateArmorLimits(unit: UnitData): ValidationResult;
+  validateWeaponRanges(unit: UnitData): ValidationResult;
+  validateHeatManagement(unit: UnitData): ValidationResult;
+  validateCriticalHits(unit: UnitData): ValidationResult;
+  
+  // Era and tech base validation
+  validateEraRestrictions(unit: UnitData, era: string): ValidationResult;
+  validateTechBaseConsistency(unit: UnitData): ValidationResult;
+}
+```
+
+#### **1.6 UnitStateManager** (~300 lines)
+```typescript
+interface UnitStateManager {
+  // State management
+  getUnitState(): UnitData;
+  updateUnitState(updates: Partial<UnitData>): void;
+  resetUnitState(): void;
+  
+  // Persistence
+  saveToStorage(key: string): Promise<void>;
+  loadFromStorage(key: string): Promise<UnitData | null>;
+  
+  // History management
+  pushState(state: UnitData): void;
+  undo(): UnitData | null;
+  redo(): UnitData | null;
+  canUndo(): boolean;
+  canRedo(): boolean;
+  
+  // Event handling
+  subscribeToChanges(callback: (state: UnitData) => void): () => void;
+  notifyStateChange(changes: Partial<UnitData>): void;
+}
+```
+
+### **Data Flow Preservation Map**
+
+```mermaid
+graph TD
+    A[UnitCriticalManager] --> B[SystemComponentService]
+    A --> C[EquipmentAllocationService] 
+    A --> D[CriticalSlotCalculator]
+    A --> E[WeightBalanceService]
+    A --> F[ConstructionRulesValidator]
+    A --> G[UnitStateManager]
+    
+    B --> G
+    C --> D
+    C --> E
+    C --> F
+    D --> E
+    E --> F
+    F --> G
+    
+    G --> H[UI Components]
+    G --> I[API Layer]
+    G --> J[Persistence Layer]
+```
+
+### **Implementation Steps**
+
+#### **Step 1.1: Extract UnitStateManager** (Day 1)
+```typescript
+// 1. Create new file: utils/unit/UnitStateManager.ts
+// 2. Move state management logic
+// 3. Update imports in UnitCriticalManager
+// 4. Add interface contracts
+// 5. Test state operations
+```
+
+#### **Step 1.2: Extract SystemComponentService** (Day 2)
+```typescript
+// 1. Create new file: services/SystemComponentService.ts  
+// 2. Move engine, gyro, heat sink logic
+// 3. Update UnitCriticalManager to use service
+// 4. Add dependency injection
+// 5. Test system component calculations
+```
+
+#### **Step 1.3: Extract WeightBalanceService** (Day 3)
+```typescript
+// 1. Create new file: services/WeightBalanceService.ts
+// 2. Move weight calculation logic
+// 3. Add balance analysis capabilities
+// 4. Update dependent services
+// 5. Test weight calculations
+```
+
+#### **Step 1.4: Extract CriticalSlotCalculator** (Day 4)
+```typescript
+// 1. Create new file: utils/criticalSlots/CriticalSlotCalculator.ts
+// 2. Move slot calculation logic
+// 3. Add optimization algorithms
+// 4. Update equipment allocation service
+// 5. Test slot calculations
+```
+
+#### **Step 1.5: Extract EquipmentAllocationService** (Day 5)
+```typescript
+// 1. Create new file: services/EquipmentAllocationService.ts
+// 2. Move equipment placement logic
+// 3. Add auto-allocation capabilities
+// 4. Integrate with other services
+// 5. Test equipment operations
+```
+
+#### **Step 1.6: Extract ConstructionRulesValidator** (Day 6)
+```typescript
+// 1. Create new file: services/ConstructionRulesValidator.ts
+// 2. Move validation logic
+// 3. Add comprehensive rule checking
+// 4. Integrate with all services
+// 5. Test validation rules
+```
+
+#### **Step 1.7: Refactor Core Manager** (Day 7)
+```typescript
+// 1. Simplify UnitCriticalManager to orchestrator
+// 2. Add dependency injection
+// 3. Update all component integrations
+// 4. Run comprehensive tests
+// 5. Performance validation
+```
+
+---
+
+## 🎨 **Phase 2: Customizer V2 Tab Extraction (Priority 2)**
+
+### **Current State Analysis**
+```typescript
+// Current monolithic structure (2,020 lines)
+const CustomizerV2Content = () => {
+  // StructureTabV2 component (~450 lines)
+  // ArmorTabV2 component (~500 lines)  
+  // EquipmentTabV2 component (~200 lines)
+  // CriticalsTabV2 component (~100 lines)
+  // FluffTabV2 component (~100 lines)
+  // Main wrapper and state management (~670 lines)
+};
+```
+
+### **Target Architecture**
+```typescript
+// New modular structure
+const CustomizerV2Content = () => {
+  // Main orchestrator only (~200 lines)
+  return (
+    <TabManager>
+      <OverviewTabV2 />      // Existing component
+      <StructureTabV2 />     // → components/editor/tabs/
+      <ArmorTabV2 />         // → components/editor/tabs/
+      <EquipmentTabV2 />     // → components/editor/tabs/
+      <CriticalsTabV2 />     // → components/editor/tabs/
+      <FluffTabV2 />         // → components/editor/tabs/
+    </TabManager>
+  );
+};
+```
+
+### **Tab Component Extraction Plan**
+
+#### **2.1 StructureTabV2.tsx** (~400 lines)
+```typescript
+// Target: components/editor/tabs/StructureTabV2.tsx
+interface StructureTabProps {
+  unit: UnitData;
+  onUnitChange: (updates: Partial<UnitData>) => void;
+  readOnly?: boolean;
+}
+
+const StructureTabV2: React.FC<StructureTabProps> = ({ unit, onUnitChange, readOnly }) => {
+  // Core configuration panel
+  // Engine type selector
+  // Movement configuration
+  // System components panel
+  // Enhanced summary table
+};
+```
+
+#### **2.2 ArmorTabV2.tsx** (~450 lines)
+```typescript
+// Target: components/editor/tabs/ArmorTabV2.tsx
+interface ArmorTabProps {
+  unit: UnitData;
+  onUnitChange: (updates: Partial<UnitData>) => void;
+  readOnly?: boolean;
+}
+
+const ArmorTabV2: React.FC<ArmorTabProps> = ({ unit, onUnitChange, readOnly }) => {
+  // Armor type controls
+  // Tonnage management
+  // Interactive armor diagram
+  // Auto-allocation buttons
+  // Side panel editor
+};
+```
+
+#### **2.3 Enhanced Tab Components** (~150 lines each)
+```typescript
+// EquipmentTabV2.tsx - Equipment browser integration
+// CriticalsTabV2.tsx - Critical slots management
+// FluffTabV2.tsx - Unit background and description
+```
+
+### **Shared Components Strategy**
+```typescript
+// Create reusable components for common patterns
+interface TabHeaderProps {
+  title: string;
+  stats: UnitStats;
+  readOnly?: boolean;
+}
+
+interface TabControlsProps {
+  actions: TabAction[];
+  readOnly?: boolean;
+}
+
+interface TabSummaryProps {
+  data: SummaryData;
+  className?: string;
+}
+```
+
+### **Implementation Steps**
+
+#### **Step 2.1: Extract StructureTabV2** (Day 8)
+```typescript
+// 1. Create components/editor/tabs/StructureTabV2.tsx
+// 2. Move structure-related logic
+// 3. Add proper prop interfaces
+// 4. Update imports in main file
+// 5. Test tab functionality
+```
+
+#### **Step 2.2: Extract ArmorTabV2** (Day 9)
+```typescript
+// 1. Create components/editor/tabs/ArmorTabV2.tsx
+// 2. Move armor-related logic
+// 3. Integrate with ArmorDiagram components
+// 4. Update main file imports
+// 5. Test armor interactions
+```
+
+#### **Step 2.3: Extract Remaining Tabs** (Day 10)
+```typescript
+// 1. Create EquipmentTabV2.tsx, CriticalsTabV2.tsx, FluffTabV2.tsx
+// 2. Move respective logic
+// 3. Add shared components
+// 4. Update main file
+// 5. Test all tab switching
+```
+
+#### **Step 2.4: Refactor Main Component** (Day 11)
+```typescript
+// 1. Simplify CustomizerV2Content to orchestrator
+// 2. Add tab management logic
+// 3. Update state management
+// 4. Test integration
+// 5. Performance validation
+```
+
+---
+
+## 📊 **Phase 3: Data File Reorganization (Priority 3)**
+
+### **Equipment Data Structure Reorganization**
+
+#### **Current Structure Issues**
+```typescript
+// Problematic large files
+missile-weapons.ts     // 1,650 lines - all missile weapons
+ballistic-weapons.ts   // 1,023 lines - all ballistic weapons  
+energy-weapons.ts      // 848 lines - all energy weapons
+ammunition.ts          // 795 lines - all ammunition
+```
+
+#### **Target Structure**
+```typescript
+// New organized structure
+data/equipment/
+├── weapons/
+│   ├── energy/
+│   │   ├── inner-sphere-lasers.ts      (~150 lines)
+│   │   ├── clan-lasers.ts              (~150 lines)
+│   │   ├── particle-cannons.ts         (~150 lines)
+│   │   ├── plasma-weapons.ts           (~100 lines)
+│   │   └── index.ts                    (exports)
+│   ├── ballistic/
+│   │   ├── autocannons.ts              (~200 lines)
+│   │   ├── gauss-rifles.ts             (~150 lines)
+│   │   ├── machine-guns.ts             (~100 lines)
+│   │   ├── ultra-autocannons.ts        (~150 lines)
+│   │   └── index.ts                    (exports)
+│   ├── missile/
+│   │   ├── short-range-missiles.ts     (~200 lines)
+│   │   ├── long-range-missiles.ts      (~200 lines)
+│   │   ├── streak-missiles.ts          (~150 lines)
+│   │   ├── artillery.ts                (~200 lines)
+│   │   ├── special-missiles.ts         (~150 lines)
+│   │   └── index.ts                    (exports)
+│   └── ammunition/
+│       ├── autocannon-ammo.ts          (~150 lines)
+│       ├── missile-ammo.ts             (~200 lines)
+│       ├── special-ammo.ts             (~150 lines)
+│       └── index.ts                    (exports)
+├── equipment/
+│   ├── electronics.ts                  (~200 lines)
+│   ├── movement.ts                     (~150 lines)
+│   ├── targeting.ts                    (~150 lines)
+│   └── index.ts                        (exports)
+└── index.ts                            (main exports)
+```
+
+### **Data Migration Strategy**
+```typescript
+// Automated migration script
+interface MigrationRule {
+  sourceFile: string;
+  targetFiles: Array<{
+    path: string;
+    filter: (item: EquipmentItem) => boolean;
+  }>;
+}
+
+const migrationRules: MigrationRule[] = [
+  {
+    sourceFile: 'energy-weapons.ts',
+    targetFiles: [
+      {
+        path: 'weapons/energy/inner-sphere-lasers.ts',
+        filter: (item) => item.techBase === 'IS' && item.name.includes('Laser')
+      },
+      {
+        path: 'weapons/energy/clan-lasers.ts', 
+        filter: (item) => item.techBase === 'Clan' && item.name.includes('Laser')
+      }
+      // ... more rules
+    ]
+  }
+  // ... more migration rules
+];
+```
+
+### **Implementation Steps**
+
+#### **Step 3.1: Create Migration Script** (Day 12)
+```typescript
+// 1. Create scripts/data-migration/split-equipment-files.ts
+// 2. Define migration rules
+// 3. Add validation logic
+// 4. Test on sample data
+```
+
+#### **Step 3.2: Execute Data Migration** (Day 13)
+```typescript
+// 1. Run migration script
+// 2. Update all import statements
+// 3. Update equipment service
+// 4. Test data integrity
+```
+
+#### **Step 3.3: Update Build System** (Day 14)
+```typescript
+// 1. Update webpack configuration
+// 2. Add tree-shaking optimization
+// 3. Update type exports
+// 4. Test bundle optimization
+```
+
+---
+
+## 🧩 **Phase 4: Component Modularization (Priority 4)**
+
+### **Target Components for Breakdown**
+
+#### **4.1 OverviewTabV2.tsx** (992 lines → 4 components)
+```typescript
+// Current monolithic component
+OverviewTabV2 // 992 lines total
+
+// Target breakdown
+├── OverviewTabV2.tsx              // Main component (~200 lines)
+├── TechProgressionPanel.tsx       // Tech base management (~250 lines)
+├── UnitIdentityPanel.tsx          // Basic unit info (~200 lines)  
+├── TechRatingPanel.tsx            // Tech rating controls (~200 lines)
+└── OverviewSummaryPanel.tsx       // Statistics display (~150 lines)
+```
+
+#### **4.2 UnitDetail.tsx** (924 lines → 5 components)
+```typescript
+// Current monolithic component
+UnitDetail // 924 lines total
+
+// Target breakdown  
+├── UnitDetail.tsx                 // Main component (~150 lines)
+├── UnitBasicInfo.tsx             // Header and basic stats (~150 lines)
+├── UnitTechnicalSpecs.tsx        // Technical specifications (~200 lines)
+├── UnitEquipmentSummary.tsx      // Equipment listing (~200 lines)
+├── UnitArmorDisplay.tsx          // Armor visualization (~150 lines)
+└── UnitActionButtons.tsx         // Actions and controls (~100 lines)
+```
+
+#### **4.3 MultiUnitProvider.tsx** (839 lines → 3 services + provider)
+```typescript
+// Current provider with embedded logic
+MultiUnitProvider // 839 lines total
+
+// Target breakdown
+├── MultiUnitProvider.tsx          // React provider only (~200 lines)
+├── MultiUnitStateService.ts      // State management (~250 lines)
+├── UnitComparisonService.ts       // Unit comparison logic (~200 lines)
+└── UnitSynchronizationService.ts // Multi-unit sync (~200 lines)
+```
+
+### **Implementation Steps**
+
+#### **Step 4.1: OverviewTabV2 Breakdown** (Days 15-16)
+```typescript
+// Day 15: Extract tech progression and identity panels
+// Day 16: Extract tech rating and summary panels, refactor main component
+```
+
+#### **Step 4.2: UnitDetail Breakdown** (Days 17-18)
+```typescript
+// Day 17: Extract basic info and technical specs
+// Day 18: Extract equipment, armor, and action components
+```
+
+#### **Step 4.3: MultiUnitProvider Breakdown** (Days 19-20)
+```typescript
+// Day 19: Extract state and comparison services
+// Day 20: Extract synchronization service, refactor provider
+```
+
+---
+
+## 🧪 **Phase 5: Validation & Testing (Priority 5)**
+
+### **Testing Strategy**
+
+#### **5.1 Unit Tests for Extracted Services**
+```typescript
+// Test coverage requirements
+describe('SystemComponentService', () => {
+  test('engine weight calculations', () => {});
+  test('gyro slot requirements', () => {});
+  test('heat sink allocation', () => {});
+  // 100% coverage required
+});
+
+describe('EquipmentAllocationService', () => {
+  test('equipment placement validation', () => {});
+  test('auto-allocation algorithms', () => {});
+  test('location restrictions', () => {});
+  // 100% coverage required
+});
+```
+
+#### **5.2 Integration Tests**
+```typescript
+// Cross-service integration testing
+describe('UnitCriticalManager Integration', () => {
+  test('service coordination', () => {});
+  test('data flow integrity', () => {});
+  test('state synchronization', () => {});
+});
+
+describe('Component Integration', () => {
+  test('tab component communication', () => {});
+  test('prop passing', () => {});
+  test('event handling', () => {});
+});
+```
+
+#### **5.3 Performance Testing**
+```typescript
+// Performance benchmarks
+describe('Performance Validation', () => {
+  test('service initialization time < 100ms', () => {});
+  test('unit calculation time < 500ms', () => {});
+  test('UI response time < 100ms', () => {});
+  test('memory usage within bounds', () => {});
+});
+```
+
+### **Implementation Steps**
+
+#### **Step 5.1: Service Testing** (Days 21-22)
+```typescript
+// Create comprehensive test suites for all extracted services
+// Validate business logic correctness
+// Ensure edge case handling
+```
+
+#### **Step 5.2: Integration Testing** (Days 23-24)
+```typescript
+// Test service interactions
+// Validate data flow preservation
+// Test UI component integration
+```
+
+#### **Step 5.3: Performance Validation** (Days 25)
+```typescript
+// Benchmark performance improvements
+// Validate memory usage
+// Test loading times
+```
+
+---
+
+## 🛡️ **Risk Mitigation & Rollback Strategy**
+
+### **Pre-Implementation Safeguards**
+
+#### **Code Backup Strategy**
+```bash
+# Create feature branch for each phase
+git checkout -b refactor/phase-1-unit-critical-manager
+git checkout -b refactor/phase-2-customizer-tabs
+git checkout -b refactor/phase-3-data-reorganization
+git checkout -b refactor/phase-4-component-modularization
+```
+
+#### **Incremental Validation**
+```typescript
+// Validation checkpoints after each step
+interface ValidationCheckpoint {
+  phase: string;
+  step: string;
+  testsPass: boolean;
+  performanceMetrics: PerformanceMetrics;
+  regressionTests: boolean;
+  codeQuality: CodeQualityMetrics;
+}
+```
+
+### **Rollback Procedures**
+
+#### **Service Extraction Rollback**
+```typescript
+// If extracted service fails validation
+const rollbackService = (serviceName: string) => {
+  // 1. Revert to original monolithic structure
+  // 2. Remove service files
+  // 3. Restore original imports
+  // 4. Run regression tests
+  // 5. Validate functionality
+};
+```
+
+#### **Component Extraction Rollback**
+```typescript
+// If component extraction causes issues
+const rollbackComponent = (componentName: string) => {
+  // 1. Merge component back into parent
+  // 2. Remove extracted files
+  // 3. Restore inline logic
+  // 4. Test UI functionality
+  // 5. Validate user workflows
+};
+```
+
+### **Monitoring During Implementation**
+
+#### **Automated Checks**
+```typescript
+// Continuous validation during refactoring
+interface RefactoringMonitor {
+  testCoverage: number;        // Must stay >= current
+  performanceMetrics: object;  // Must not degrade > 10%
+  bundleSize: number;         // Must not increase > 5%
+  errorRate: number;          // Must stay at 0%
+}
+```
+
+#### **Manual Validation Points**
+```typescript
+// Required manual testing after each step
+const validationChecklist = [
+  'Unit creation workflow',
+  'Equipment placement',
+  'Armor allocation', 
+  'Critical slot management',
+  'Validation system',
+  'Data persistence',
+  'Import/export functionality'
+];
+```
+
+---
+
+## 📈 **Success Metrics & Timeline**
+
+### **Key Performance Indicators**
+
+#### **Code Quality Metrics**
+```typescript
+interface CodeQualityTargets {
+  maxFileSize: 400;                    // lines per file
+  averageFileSize: 250;               // lines per file
+  cyclomaticComplexity: 10;           // max per function
+  testCoverage: 100;                  // percentage
+  typeScriptCoverage: 100;            // percentage
+}
+```
+
+#### **Performance Targets**
+```typescript
+interface PerformanceTargets {
+  serviceInitialization: 100;         // milliseconds
+  unitCalculation: 500;              // milliseconds
+  uiResponseTime: 100;               // milliseconds
+  bundleSizeReduction: 15;           // percentage
+  memoryUsageReduction: 20;          // percentage
+}
+```
+
+#### **Maintainability Improvements**
+```typescript
+interface MaintainabilityTargets {
+  developOnboardingTime: 4;           // hours to productivity
+  newFeatureAddTime: 2;              // hours average
+  bugFixTime: 1;                     // hours average
+  testExecutionTime: 30;             // seconds
+  buildTime: 60;                     // seconds
+}
+```
+
+### **Implementation Timeline**
+
+```mermaid
+gantt
+    title Large File Refactoring Timeline
+    dateFormat  YYYY-MM-DD
+    section Phase 1: UnitCriticalManager
+    Extract UnitStateManager        :2025-01-02, 1d
+    Extract SystemComponentService  :2025-01-03, 1d
+    Extract WeightBalanceService    :2025-01-04, 1d
+    Extract CriticalSlotCalculator  :2025-01-05, 1d
+    Extract EquipmentAllocation     :2025-01-06, 1d
+    Extract ConstructionRules       :2025-01-07, 1d
+    Refactor Core Manager          :2025-01-08, 1d
+    
+    section Phase 2: Customizer V2
+    Extract StructureTabV2         :2025-01-09, 1d
+    Extract ArmorTabV2             :2025-01-10, 1d
+    Extract Remaining Tabs         :2025-01-11, 1d
+    Refactor Main Component        :2025-01-12, 1d
+    
+    section Phase 3: Data Files
+    Create Migration Script        :2025-01-13, 1d
+    Execute Data Migration         :2025-01-14, 1d
+    Update Build System           :2025-01-15, 1d
+    
+    section Phase 4: Components
+    OverviewTabV2 Breakdown       :2025-01-16, 2d
+    UnitDetail Breakdown          :2025-01-18, 2d
+    MultiUnitProvider Breakdown   :2025-01-20, 2d
+    
+    section Phase 5: Validation
+    Service Testing
