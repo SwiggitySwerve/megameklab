@@ -21,6 +21,8 @@ import {
   ComponentSorter,
   ComponentNotFoundError,
   InvalidTechProgressionError,
+  ComponentResolutionWithMemory,
+  TechBaseMemory,
   COMPONENT_CATEGORIES,
   TECH_BASES
 } from '../types/componentDatabase';
@@ -182,6 +184,31 @@ export function validateAndResolveComponent(
   // CRITICAL FIX: Invalid selection - ALWAYS resolve to the conservative default
   // For enhancement systems like myomer, this should be "None", not any active enhancement
   return getDefaultComponent(category, techBase).name;
+}
+
+/**
+ * Enhanced component resolution with tech base memory support
+ * Handles tech base switching with memory restoration
+ */
+export function validateAndResolveComponentWithMemory(
+  currentComponent: string | undefined,
+  category: ComponentCategory,
+  oldTechBase: TechBase,
+  newTechBase: TechBase,
+  memory: TechBaseMemory,
+  rulesLevel?: RulesLevel
+): ComponentResolutionWithMemory {
+  // Import memory functions (to avoid circular dependencies, we'll delegate to techBaseMemory.ts)
+  const { validateAndResolveComponentWithMemory: memoryResolve } = require('./techBaseMemory');
+  
+  return memoryResolve(
+    currentComponent,
+    category,
+    oldTechBase,
+    newTechBase,
+    memory,
+    rulesLevel
+  );
 }
 
 /**

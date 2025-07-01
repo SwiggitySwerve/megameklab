@@ -164,6 +164,51 @@ export interface ComponentConfiguration {
   techBase: TechBase;              // Which tech base this component belongs to
 }
 
+// ===== TECH BASE MEMORY SYSTEM =====
+
+/**
+ * Memory system to remember component selections per tech base
+ * Enables seamless switching between Inner Sphere and Clan configurations
+ */
+export interface TechBaseMemory {
+  chassis: { [K in TechBase]: string };
+  engine: { [K in TechBase]: string };
+  gyro: { [K in TechBase]: string };
+  heatsink: { [K in TechBase]: string };
+  armor: { [K in TechBase]: string };
+  myomer: { [K in TechBase]: string };
+  targeting: { [K in TechBase]: string };
+  movement: { [K in TechBase]: string };
+}
+
+/**
+ * Complete memory state with metadata
+ */
+export interface ComponentMemoryState {
+  techBaseMemory: TechBaseMemory;
+  lastUpdated: number;             // Timestamp of last update
+  version: string;                 // Schema version for migration support
+}
+
+/**
+ * Result of component resolution with memory
+ */
+export interface ComponentResolutionWithMemory {
+  resolvedComponent: string;       // The component name that was resolved
+  updatedMemory: TechBaseMemory;   // Updated memory state
+  wasRestored: boolean;            // True if component was restored from memory
+  resolutionReason: string;        // Explanation of what happened
+}
+
+/**
+ * Memory update operation result
+ */
+export interface MemoryUpdateResult {
+  updatedMemory: TechBaseMemory;
+  changed: boolean;                // True if memory actually changed
+  previousValue?: string;          // Previous value if it changed
+}
+
 // ===== COMPONENT CHANGE TRACKING =====
 
 /**

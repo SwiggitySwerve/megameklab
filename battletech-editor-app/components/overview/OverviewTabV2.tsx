@@ -28,6 +28,20 @@ import {
   ComponentCategory,
   TechBase
 } from '../../utils/componentAvailability'
+import {
+  TechBaseMemory,
+  ComponentMemoryState
+} from '../../types/componentDatabase'
+import {
+  validateAndResolveComponentWithMemory,
+  initializeMemoryFromConfiguration
+} from '../../utils/techBaseMemory'
+import {
+  initializeMemorySystem,
+  updateMemoryState,
+  saveMemoryToStorage,
+  loadMemoryFromStorage
+} from '../../utils/memoryPersistence'
 
 /**
  * Rules level options
@@ -82,6 +96,9 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   // Force re-render when tech progression changes by using a counter
   const [renderKey, setRenderKey] = useState(0)
   
+  // Memory system state
+  const [memoryState, setMemoryState] = useState<ComponentMemoryState | null>(null)
+  
   if (!isConfigLoaded || !unit) {
     return (
       <div className="p-6 text-center text-slate-400">
@@ -96,10 +113,37 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   // Initialize config with defaults only once
   const [hasInitialized, setHasInitialized] = useState(false)
   
-  // Initialize enhanced fields on first load
+  // Track if memory restoration is pending due to component unavailability
+  const [needsMemoryRestoration, setNeedsMemoryRestoration] = useState(false)
+  
+  // Enhanced configuration - use actual config values directly
+  const enhancedConfig = {
+    ...config,
+    introductionYear: (config as any).introductionYear || 3025,
+    rulesLevel: (config as any).rulesLevel || 'Standard',
+    techBase: config.techBase || 'Inner Sphere',
+    techProgression: (config as any).techProgression || {
+      chassis: 'Inner Sphere',
+      gyro: 'Inner Sphere',
+      engine: 'Inner Sphere',
+      heatsink: 'Inner Sphere',
+      targeting: 'Inner Sphere',
+      myomer: 'Inner Sphere',
+      movement: 'Inner Sphere',
+      armor: 'Inner Sphere'
+    },
+    techRating: (config as any).techRating || {
+      era2100_2800: 'D' as const,
+      era2801_3050: 'D' as const,
+      era3051_3082: 'D' as const,
+      era3083_Now: 'D' as const
+    }
+  }
+  
+  // Initialize enhanced fields and memory system on first load
   useEffect(() => {
     if (!hasInitialized && isConfigLoaded && unit) {
-      console.log('[OverviewTab] Initializing enhanced config fields')
+      console.log('[OverviewTab] Initializing enhanced config fields and memory system')
       
       // Get fresh config at initialization time
       const currentConfig = unit.getConfiguration()
@@ -133,9 +177,26 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
         }
       }
       
+      // Initialize memory system FIRST
+      console.log('[OverviewTab] 💾 Initializing memory system')
+      const initialMemoryState = initializeMemorySystem()
+      setMemoryState(initialMemoryState)
+      
+      // 🔥 NEW: Apply memory restoration to recover saved component selections
+      const restorationUpdates = applyMemoryRestoration(currentConfig, initialMemoryState)
+      
+      // Check if restoration was deferred
+      if (restorationUpdates._needsMemoryRestoration) {
+        console.log('[OverviewTab] 💾 ⏳ Memory restoration deferred, will retry when components are available')
+        setNeedsMemoryRestoration(true)
+        delete restorationUpdates._needsMemoryRestoration // Remove flag before applying
+      }
+      
+      Object.assign(updates, restorationUpdates)
+      
       // Only update if we have changes
       if (Object.keys(updates).length > 0) {
-        console.log('[OverviewTab] Setting default values:', updates)
+        console.log('[OverviewTab] 🚀 Applying config updates (including memory restoration):', updates)
         updateConfiguration({ ...currentConfig, ...updates })
       }
       
@@ -143,13 +204,66 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     }
   }, [isConfigLoaded, hasInitialized, unit, updateConfiguration])
   
-  // Enhanced configuration - use actual config values directly
-  const enhancedConfig = {
-    ...config,
-    introductionYear: (config as any).introductionYear || 3025,
-    rulesLevel: (config as any).rulesLevel || 'Standard',
-    techBase: config.techBase || 'Inner Sphere',
-    techProgression: (config as any).techProgression || {
+  // 🔥 NEW: Retry restoration when components become available
+  useEffect(() => {
+    if (needsMemoryRestoration && memoryState && isConfigLoaded && unit) {
+      console.log('[OverviewTab] 💾 🔄 Setting up retry mechanism...')
+      
+      // Use interval to periodically check for component availability
+      const retryInterval = setInterval(() => {
+        console.log('[OverviewTab] 💾 🔄 Checking component availability for retry...')
+        
+        const currentConfig = unit.getConfiguration()
+        const restorationUpdates = applyMemoryRestoration(currentConfig, memoryState)
+        
+        // Check if restoration succeeded this time
+        if (!restorationUpdates._needsMemoryRestoration) {
+          console.log('[OverviewTab] 💾 ✅ Retry restoration successful!')
+          
+          // Clear the retry flag
+          setNeedsMemoryRestoration(false)
+          
+          // Apply the restoration updates
+          delete restorationUpdates._needsMemoryRestoration
+          if (Object.keys(restorationUpdates).length > 0) {
+            console.log('[OverviewTab] 💾 🚀 Applying deferred restoration updates:', restorationUpdates)
+            updateConfiguration({ ...currentConfig, ...restorationUpdates })
+          }
+          
+          // Clear the interval since we succeeded
+          clearInterval(retryInterval)
+        } else {
+          console.log('[OverviewTab] 💾 ⏳ Components still not available, will retry again in 500ms')
+        }
+      }, 500) // Check every 500ms
+      
+      // Clean up interval after 10 seconds max to prevent infinite retries
+      const timeout = setTimeout(() => {
+        console.log('[OverviewTab] 💾 ⏰ Retry timeout reached, giving up on restoration')
+        clearInterval(retryInterval)
+        setNeedsMemoryRestoration(false)
+      }, 10000)
+      
+      // Cleanup function
+      return () => {
+        clearInterval(retryInterval)
+        clearTimeout(timeout)
+      }
+    }
+  }, [needsMemoryRestoration, memoryState, isConfigLoaded, unit, updateConfiguration])
+  
+  // 🔥 SIMPLIFIED: Clean memory restoration function with proper imports
+  const applyMemoryRestoration = (config: any, memoryState: ComponentMemoryState): any => {
+    if (!memoryState || !memoryState.techBaseMemory) {
+      console.log('[OverviewTab] 💾 No memory state available for restoration')
+      return {}
+    }
+    
+    console.log('[OverviewTab] 💾 Attempting memory restoration from saved state')
+    const restorationUpdates: any = {}
+    
+    // Get current tech progression (or use defaults)
+    const techProgression = config.techProgression || {
       chassis: 'Inner Sphere',
       gyro: 'Inner Sphere',
       engine: 'Inner Sphere',
@@ -158,14 +272,82 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
       myomer: 'Inner Sphere',
       movement: 'Inner Sphere',
       armor: 'Inner Sphere'
-    },
-    techRating: (config as any).techRating || {
-      era2100_2800: 'D' as const,
-      era2801_3050: 'D' as const,
-      era3051_3082: 'D' as const,
-      era3083_Now: 'D' as const
     }
+    
+    // 🔥 SIMPLE APPROACH: Try restoration, defer if components not available
+    let componentsAvailable = true
+    try {
+      // Use correct import path
+      const { isComponentAvailable } = require('../../utils/componentDatabaseHelpers')
+      
+      // Quick test to see if component system is working
+      const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere')
+      if (testResult === undefined || testResult === null) {
+        componentsAvailable = false
+      }
+    } catch (error: any) {
+      console.log('[OverviewTab] 💾 ⚠️ Component system not ready, deferring restoration:', error.message)
+      componentsAvailable = false
+    }
+    
+    if (!componentsAvailable) {
+      console.log('[OverviewTab] 💾 🚫 Skipping restoration - will retry when components are available')
+      return { _needsMemoryRestoration: true }
+    }
+    
+    console.log('[OverviewTab] 💾 ✅ Components available, proceeding with restoration')
+    
+    // For each subsystem, restore component from memory if available
+    Object.entries(techProgression).forEach(([subsystem, techBase]) => {
+      const savedComponent = memoryState.techBaseMemory[subsystem as keyof typeof memoryState.techBaseMemory]?.[techBase as 'Inner Sphere' | 'Clan']
+      
+      if (savedComponent && savedComponent !== 'None' && savedComponent !== 'Standard') {
+        const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression)
+        if (configProperty) {
+          restorationUpdates[configProperty] = savedComponent
+          console.log(`[OverviewTab] 💾 ✅ Restored ${subsystem} (${techBase}) → ${savedComponent}`)
+        }
+      }
+    })
+    
+    console.log(`[OverviewTab] 💾 🎯 Restoration completed with ${Object.keys(restorationUpdates).length} updates`)
+    return restorationUpdates
   }
+  
+  // 🔥 SIMPLIFIED: Update memory only when user makes changes, not on every render
+  const updateMemoryFromConfig = React.useCallback(() => {
+    if (memoryState && isConfigLoaded && config) {
+      const currentProgression = (config as any).techProgression || {
+        chassis: 'Inner Sphere',
+        gyro: 'Inner Sphere',
+        engine: 'Inner Sphere',
+        heatsink: 'Inner Sphere',
+        targeting: 'Inner Sphere',
+        myomer: 'Inner Sphere',
+        movement: 'Inner Sphere',
+        armor: 'Inner Sphere'
+      }
+      
+      const currentComponents = {
+        chassis: getCurrentComponentForSubsystem('chassis', config),
+        engine: getCurrentComponentForSubsystem('engine', config),
+        gyro: getCurrentComponentForSubsystem('gyro', config),
+        heatsink: getCurrentComponentForSubsystem('heatsink', config),
+        armor: getCurrentComponentForSubsystem('armor', config),
+        myomer: getCurrentComponentForSubsystem('myomer', config),
+        targeting: getCurrentComponentForSubsystem('targeting', config),
+        movement: getCurrentComponentForSubsystem('movement', config)
+      }
+      
+      const updatedMemory = initializeMemoryFromConfiguration(
+        currentProgression,
+        currentComponents
+      )
+      
+      const newMemoryState = updateMemoryState(memoryState, updatedMemory)
+      setMemoryState(newMemoryState)
+    }
+  }, [memoryState, isConfigLoaded, config])
   
   console.log('[OverviewTab] Tech progression state:', enhancedConfig.techProgression)
 
@@ -227,67 +409,92 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     updateConfiguration(newConfig)
   }
 
-  // Handle tech progression changes with immediate state update
-  const handleTechProgressionChange = (subsystem: keyof TechProgression, techBase: 'Inner Sphere' | 'Clan') => {
-    console.log(`[OverviewTab] BUTTON CLICKED: ${subsystem} → ${techBase}`)
+  // Handle tech progression changes with memory-first approach
+  const handleTechProgressionChange = (subsystem: keyof TechProgression, newTechBase: 'Inner Sphere' | 'Clan') => {
+    console.log(`[OverviewTab] BUTTON CLICKED: ${subsystem} → ${newTechBase}`)
     console.log(`[OverviewTab] ReadOnly status: ${readOnly}`)
-    console.log(`[OverviewTab] Current value for ${subsystem}:`, enhancedConfig.techProgression[subsystem])
     
     if (readOnly) {
       console.log('[OverviewTab] Skipping update - readonly mode')
       return
     }
     
-    // ✅ ALLOW ALL CLICKS - Let user toggle even if "same" value for visual feedback
-    console.log(`[OverviewTab] Processing tech progression change (current: ${enhancedConfig.techProgression[subsystem]} → new: ${techBase})`)
-    
     try {
-      const newProgression = updateTechProgression(enhancedConfig.techProgression, subsystem, techBase)
+      // 🔥 STEP 1: CAPTURE CURRENT STATE BEFORE ANY CHANGES
+      const oldTechBase = enhancedConfig.techProgression[subsystem];
+      const currentComponent = getCurrentComponentForSubsystem(subsystem, enhancedConfig);
       
-      console.log(`[OverviewTab] Tech progression change: ${subsystem} → ${techBase}`)
-      console.log(`[OverviewTab] Current progression:`, enhancedConfig.techProgression)
-      console.log(`[OverviewTab] New progression:`, newProgression)
+      console.log(`[OverviewTab] MEMORY FLOW: ${subsystem} (${oldTechBase} → ${newTechBase})`);
+      console.log(`[OverviewTab] Current component: ${currentComponent}`);
       
-      // Verify the change actually happened
-      if (newProgression[subsystem] !== techBase) {
-        console.error(`[OverviewTab] CRITICAL: Tech progression update failed! Expected ${techBase}, got ${newProgression[subsystem]}`)
-        return
+      // Skip if no actual change (but allow for visual feedback)
+      if (oldTechBase === newTechBase) {
+        console.log(`[OverviewTab] No tech base change needed for ${subsystem}, but allowing for UI feedback`);
       }
       
-      // Update the actual unit configuration based on the new tech progression
-      let updatedConfig = {}
-      try {
-        // Get current component for this subsystem
-        const currentComponent = getCurrentComponentForSubsystem(subsystem, enhancedConfig);
-        const newComponent = resolveComponentForTechBase(currentComponent, subsystem as ComponentCategory, techBase);
+      let componentToApply = currentComponent;
+      let updatedMemoryState = memoryState;
+      
+      // 🔥 STEP 2: HANDLE MEMORY OPERATIONS IF AVAILABLE
+      if (memoryState && oldTechBase !== newTechBase) {
+        const resolution = validateAndResolveComponentWithMemory(
+          currentComponent,
+          subsystem as ComponentCategory,
+          oldTechBase,
+          newTechBase,
+          memoryState.techBaseMemory,
+          enhancedConfig.rulesLevel as any
+        );
         
-        if (newComponent !== currentComponent) {
-          const configProperty = getConfigPropertyForSubsystem(subsystem);
-          if (configProperty) {
-            updatedConfig = { [configProperty]: newComponent };
-            console.log(`[OverviewTab] Component update: ${subsystem} ${currentComponent} → ${newComponent}`);
-          }
-        }
-      } catch (resolutionError) {
-        console.warn('[OverviewTab] Error resolving component configuration:', resolutionError)
-        // Continue with just the tech progression update
+        console.log(`[OverviewTab] 🧠 Memory resolution: ${resolution.resolutionReason}`);
+        console.log(`[OverviewTab] 🧠 Component change: ${currentComponent} → ${resolution.resolvedComponent}`);
+        console.log(`[OverviewTab] 🧠 Was restored from memory: ${resolution.wasRestored}`);
+        
+        // Update memory state and component to apply
+        updatedMemoryState = updateMemoryState(memoryState, resolution.updatedMemory);
+        setMemoryState(updatedMemoryState);
+        componentToApply = resolution.resolvedComponent;
+      } else if (!memoryState) {
+        // Fallback resolution without memory
+        componentToApply = resolveComponentForTechBase(currentComponent, subsystem as ComponentCategory, newTechBase);
+        console.log(`[OverviewTab] 🔄 Fallback resolution: ${currentComponent} → ${componentToApply}`);
       }
       
+      // 🔥 STEP 3: UPDATE TECH PROGRESSION
+      const newProgression = updateTechProgression(enhancedConfig.techProgression, subsystem, newTechBase);
+      
+      console.log(`[OverviewTab] ✅ Tech progression updated:`, {
+        old: enhancedConfig.techProgression,
+        new: newProgression
+      });
+      
+      // 🔥 STEP 4: PREPARE COMPONENT CONFIGURATION UPDATE
+      let componentConfig = {};
+      if (componentToApply !== currentComponent) {
+        const configProperty = getConfigPropertyForSubsystem(subsystem);
+        if (configProperty) {
+          componentConfig = { [configProperty]: componentToApply };
+          console.log(`[OverviewTab] 🔧 Component config update: ${configProperty} = ${componentToApply}`);
+        }
+      }
+      
+      // 🔥 STEP 5: APPLY ALL CHANGES TOGETHER
       const finalConfig = { 
         techProgression: newProgression,
-        ...updatedConfig
-      }
+        ...componentConfig
+      };
       
-      console.log(`[OverviewTab] Calling handleConfigUpdate with:`, finalConfig)
+      console.log(`[OverviewTab] 🚀 Final config update:`, finalConfig);
       
-      handleConfigUpdate(finalConfig)
+      handleConfigUpdate(finalConfig);
       
       // Force immediate re-render to ensure visual state updates
-      setRenderKey(prev => prev + 1)
+      setRenderKey(prev => prev + 1);
       
-      console.log(`[OverviewTab] State update completed for ${subsystem} → ${techBase}`)
+      console.log(`[OverviewTab] ✅ Memory-aware update completed for ${subsystem} → ${newTechBase}`);
+      
     } catch (error) {
-      console.error('[OverviewTab] Error in tech progression change:', error)
+      console.error('[OverviewTab] Error in memory-aware tech progression change:', error);
     }
   }
 
@@ -325,22 +532,65 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
       
       // Update all component configurations to match the new tech base
       try {
-        // Resolve all components for the new tech base
+        // 🔥 MEMORY-FIRST APPROACH: Capture current state before any changes
         const componentUpdates: any = {};
+        let updatedMemoryState = memoryState;
+        
+        // Process each subsystem with memory-first approach
         Object.keys(newProgression).forEach(subsystem => {
+          // Capture current state BEFORE any changes
           const currentComponent = getCurrentComponentForSubsystem(subsystem as keyof TechProgression, enhancedConfig);
-          const newComponent = resolveComponentForTechBase(currentComponent, subsystem as ComponentCategory, newTechBase as TechBase);
+          const oldTechBase = enhancedConfig.techProgression[subsystem as keyof TechProgression];
           
-          if (newComponent !== currentComponent) {
-            const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression);
-            if (configProperty) {
-              componentUpdates[configProperty] = newComponent;
-              console.log(`[OverviewTab] ${subsystem}: ${currentComponent} → ${newComponent}`);
+          console.log(`[OverviewTab] 🔥 Master ${subsystem}: ${oldTechBase} → ${newTechBase}, component: ${currentComponent}`);
+          
+          if (memoryState && updatedMemoryState && oldTechBase !== newTechBase) {
+            // Use memory-aware resolution for master tech base change
+            const resolution = validateAndResolveComponentWithMemory(
+              currentComponent,
+              subsystem as ComponentCategory,
+              oldTechBase,
+              newTechBase as TechBase,
+              updatedMemoryState.techBaseMemory,
+              enhancedConfig.rulesLevel as any
+            );
+            
+            console.log(`[OverviewTab] 🧠 Master ${subsystem}: ${resolution.resolutionReason}`);
+            console.log(`[OverviewTab] 🧠 Master ${subsystem}: ${currentComponent} → ${resolution.resolvedComponent}, restored: ${resolution.wasRestored}`);
+            
+            // Update memory state with each resolution
+            updatedMemoryState = updateMemoryState(updatedMemoryState, resolution.updatedMemory);
+            
+            // Apply component change if different
+            if (resolution.resolvedComponent !== currentComponent) {
+              const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression);
+              if (configProperty) {
+                componentUpdates[configProperty] = resolution.resolvedComponent;
+                console.log(`[OverviewTab] 🔧 Master config: ${configProperty} = ${resolution.resolvedComponent}`);
+              }
+            }
+          } else if (!memoryState) {
+            // Fallback to old resolution
+            const newComponent = resolveComponentForTechBase(currentComponent, subsystem as ComponentCategory, newTechBase as TechBase);
+            
+            if (newComponent !== currentComponent) {
+              const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression);
+              if (configProperty) {
+                componentUpdates[configProperty] = newComponent;
+                console.log(`[OverviewTab] 🔄 Master fallback ${subsystem}: ${currentComponent} → ${newComponent}`);
+              }
             }
           }
         });
+        
+        // Update memory state if we have changes
+        if (updatedMemoryState && updatedMemoryState !== memoryState) {
+          setMemoryState(updatedMemoryState);
+          console.log(`[OverviewTab] 💾 Master memory state updated`);
+        }
+        
         updatedConfig = componentUpdates;
-        console.log(`[OverviewTab] Component updates:`, updatedConfig)
+        console.log(`[OverviewTab] 🚀 Master tech base component updates:`, updatedConfig)
       } catch (error) {
         console.error('[OverviewTab] Error updating configuration:', error)
       }
