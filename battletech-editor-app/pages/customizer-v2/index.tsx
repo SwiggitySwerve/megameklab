@@ -11,6 +11,7 @@ import { TabManager } from '../../components/multiUnit/TabManager';
 import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement } from '../../utils/movementCalculations';
 import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../utils/armorCalculations';
 import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, useRemainingTonnageForArmor } from '../../utils/armorAllocation';
+import { calculateStructureWeight, getStructureSlots } from '../../utils/structureCalculations';
 import { TabContentWrapper } from '../../components/common/TabContentWrapper';
 
 // Import skeleton components
@@ -47,7 +48,25 @@ import {
   formatTechBaseForDisplay
 } from '../../utils/techProgressionFiltering';
 
-// No additional imports needed - will use basic implementation
+// Import memory system for Structure tab integration
+import {
+  initializeMemorySystem,
+  updateMemoryState,
+  saveMemoryToStorage,
+  loadMemoryFromStorage
+} from '../../utils/memoryPersistence';
+
+import {
+  validateAndResolveComponentWithMemory,
+  initializeMemoryFromConfiguration
+} from '../../utils/techBaseMemory';
+
+import {
+  TechBaseMemory,
+  ComponentMemoryState
+} from '../../types/componentDatabase';
+
+import { ComponentCategory } from '../../utils/componentAvailability';
 
 // Import ComponentConfiguration helpers
 import { 
@@ -63,6 +82,10 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
   const { unit, engineType, gyroType, updateConfiguration, isConfigLoaded } = useUnit();
   const config = unit.getConfiguration();
 
+  // 🔥 MEMORY SYSTEM STATE (same as Overview tab)
+  const [memoryState, setMemoryState] = React.useState<ComponentMemoryState | null>(null);
+  const [hasInitialized, setHasInitialized] = React.useState(false);
+
   // Enhanced configuration with tech progression (with defaults for missing fields)
   const enhancedConfig = {
     ...config,
@@ -76,6 +99,109 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
       movement: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
       armor: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere'
     }
+  };
+
+  // 🔥 MEMORY SYSTEM INITIALIZATION (initialize only, no restoration - let Overview tab handle restoration)
+  React.useEffect(() => {
+    if (!hasInitialized && isConfigLoaded && unit) {
+      console.log('[StructureTab] 💾 Initializing memory system (no restoration - Overview tab handles that)');
+      
+      // Initialize memory system but don't restore - Overview tab handles restoration
+      const initialMemoryState = initializeMemorySystem();
+      setMemoryState(initialMemoryState);
+      
+      setHasInitialized(true);
+    }
+  }, [isConfigLoaded, hasInitialized, unit, updateConfiguration]);
+
+  // 🔥 MEMORY RESTORATION FUNCTION (same pattern as Overview tab)
+  const applyMemoryRestoration = (config: any, memoryState: ComponentMemoryState): any => {
+    if (!memoryState || !memoryState.techBaseMemory) {
+      console.log('[StructureTab] 💾 No memory state available for restoration');
+      return {};
+    }
+    
+    console.log('[StructureTab] 💾 Attempting memory restoration from saved state');
+    const restorationUpdates: any = {};
+    
+    // Get current tech progression (or use defaults)
+    const techProgression = config.techProgression || enhancedConfig.techProgression;
+    
+    // Check if component system is available
+    let componentsAvailable = true;
+    try {
+      const { isComponentAvailable } = require('../../utils/componentDatabaseHelpers');
+      const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere');
+      if (testResult === undefined || testResult === null) {
+        componentsAvailable = false;
+      }
+    } catch (error: any) {
+      console.log('[StructureTab] 💾 ⚠️ Component system not ready, skipping restoration:', error.message);
+      componentsAvailable = false;
+    }
+    
+    if (!componentsAvailable) {
+      console.log('[StructureTab] 💾 🚫 Components not available, skipping restoration');
+      return {};
+    }
+    
+    console.log('[StructureTab] 💾 ✅ Components available, proceeding with restoration');
+    
+    // For each subsystem, restore component from memory if available
+    Object.entries(techProgression).forEach(([subsystem, techBase]) => {
+      const savedComponent = memoryState.techBaseMemory[subsystem as keyof typeof memoryState.techBaseMemory]?.[techBase as 'Inner Sphere' | 'Clan'];
+      
+      if (savedComponent && savedComponent !== 'None' && savedComponent !== 'Standard') {
+        const configProperty = getConfigPropertyForSubsystem(subsystem as string);
+        if (configProperty) {
+          restorationUpdates[configProperty] = savedComponent;
+          console.log(`[StructureTab] 💾 ✅ Restored ${subsystem} (${techBase}) → ${savedComponent}`);
+        }
+      }
+    });
+    
+    console.log(`[StructureTab] 💾 🎯 Restoration completed with ${Object.keys(restorationUpdates).length} updates`);
+    return restorationUpdates;
+  };
+
+  // 🔥 HELPER FUNCTIONS (same pattern as Overview tab)
+  const getCurrentComponentForSubsystem = (subsystem: string, config: any): string => {
+    const propertyMap = {
+      chassis: 'structureType',
+      gyro: 'gyroType', 
+      engine: 'engineType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      armor: 'armorType',
+      targeting: 'targetingType',
+      movement: 'movementType'
+    } as any;
+    
+    const property = propertyMap[subsystem];
+    if (!property) return 'Standard';
+    
+    const value = config[property];
+    if (typeof value === 'string') {
+      return value;
+    } else if (value && typeof value === 'object') {
+      return value.type || 'Standard';
+    }
+    return 'Standard';
+  };
+
+  const getConfigPropertyForSubsystem = (subsystem: string): string | null => {
+    const propertyMap = {
+      chassis: 'structureType',
+      gyro: 'gyroType', 
+      engine: 'engineType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      armor: 'armorType',
+      targeting: 'targetingType',
+      movement: 'movementType'
+    } as any;
+    
+    return propertyMap[subsystem] || null;
   };
 
   // Get dynamic component options based on tech progression
@@ -175,39 +301,53 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
     updateConfiguration(newConfig);
   };
 
-  // Handle system type changes with tech progression sync
-  const handleSystemTypeChange = (
-    systemType: 'engine' | 'chassis' | 'gyro' | 'heatsink' | 'myomer',
-    newValue: string,
-    configProperty: string
-  ) => {
-    console.log(`[StructureTab] System type change: ${systemType} → ${newValue}`);
+  // 🔥 WORKING DROPDOWN PATTERN - Based on Overview tab success
+  const handleEngineTypeChange = (newValue: string) => {
+    console.log(`[StructureTab] 🔧 Engine type change: ${config.engineType} → ${newValue}`);
     
-    // Determine tech base from the new value
-    const newTechBase = newValue.includes('Clan') ? 'Clan' : 'Inner Sphere';
+    if (readOnly) {
+      console.log('[StructureTab] Skipping update - readonly mode');
+      return;
+    }
+
+    updateConfig({ engineType: newValue });
+    console.log(`[StructureTab] ✅ Engine type updated successfully`);
+  };
+
+  const handleGyroTypeChange = (newValue: string) => {
+    console.log(`[StructureTab] 🔧 Gyro type change: ${getGyroTypeValue()} → ${newValue}`);
     
-    // Update tech progression
-    const currentProgression = enhancedConfig.techProgression;
-    const newProgression = {
-      ...currentProgression,
-      [systemType]: newTechBase
-    };
+    if (readOnly) {
+      console.log('[StructureTab] Skipping update - readonly mode');
+      return;
+    }
+
+    updateConfig({ gyroType: newValue });
+    console.log(`[StructureTab] ✅ Gyro type updated successfully`);
+  };
+
+  const handleStructureTypeChange = (newValue: string) => {
+    console.log(`[StructureTab] 🔧 Structure type change: ${getStructureTypeValue()} → ${newValue}`);
     
-    // Create the component configuration update
-    const componentUpdate = { [configProperty]: newValue };
+    if (readOnly) {
+      console.log('[StructureTab] Skipping update - readonly mode');
+      return;
+    }
+
+    updateConfig({ structureType: newValue });
+    console.log(`[StructureTab] ✅ Structure type updated successfully`);
+  };
+
+  const handleHeatSinkTypeChange = (newValue: string) => {
+    console.log(`[StructureTab] 🔧 Heat sink type change: ${getHeatSinkTypeValue()} → ${newValue}`);
     
-    // If we're changing to Mixed tech, update the master tech base
-    const isMixed = Object.values(newProgression).some(tech => tech === 'Inner Sphere') && 
-                   Object.values(newProgression).some(tech => tech === 'Clan');
-    
-    const finalUpdates = {
-      ...componentUpdate,
-      techProgression: newProgression,
-      ...(isMixed && (enhancedConfig.techBase as string) !== 'Mixed' ? { techBase: 'Mixed' } : {})
-    };
-    
-    console.log(`[StructureTab] Updating config with:`, finalUpdates);
-    updateConfig(finalUpdates);
+    if (readOnly) {
+      console.log('[StructureTab] Skipping update - readonly mode');
+      return;
+    }
+
+    updateConfig({ heatSinkType: newValue });
+    console.log(`[StructureTab] ✅ Heat sink type updated successfully`);
   };
 
   // Handle walk MP change with validation
@@ -261,7 +401,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 {isConfigLoaded ? (
                   <select
                     value={config.engineType}
-                    onChange={(e) => handleSystemTypeChange('engine', e.target.value, 'engineType')}
+                    onChange={(e) => handleEngineTypeChange(e.target.value)}
                     disabled={readOnly}
                     className="w-full px-3 py-2 bg-slate-700/80 border border-slate-600/50 rounded-md text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 hover:border-slate-500"
                     aria-label="Engine type"
@@ -273,6 +413,9 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 ) : (
                   <SkeletonSelect />
                 )}
+                <div className="text-xs text-slate-400 mt-1">
+                  Current: {config.engineType} | Options: {filteredOptions.engine.join(', ')}
+                </div>
               </div>
               <div>
                 <label className="text-slate-300 text-xs font-medium block mb-2">Engine Rating</label>
@@ -312,7 +455,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 {isConfigLoaded ? (
                   <select
                     value={getStructureTypeValue()}
-                    onChange={(e) => handleSystemTypeChange('chassis', e.target.value, 'structureType')}
+                    onChange={(e) => handleStructureTypeChange(e.target.value)}
                     disabled={readOnly}
                     className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                   >
@@ -329,7 +472,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 {isConfigLoaded ? (
                   <select
                     value={getGyroTypeValue()}
-                    onChange={(e) => handleSystemTypeChange('gyro', e.target.value, 'gyroType')}
+                    onChange={(e) => handleGyroTypeChange(e.target.value)}
                     disabled={readOnly}
                     className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                   >
@@ -387,7 +530,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 <label className="text-slate-300 text-xs block mb-1">Heat Sink Type</label>
                 <select
                   value={getHeatSinkTypeValue()}
-                  onChange={(e) => handleSystemTypeChange('heatsink', e.target.value, 'heatSinkType')}
+                  onChange={(e) => handleHeatSinkTypeChange(e.target.value)}
                   disabled={readOnly}
                   className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
                 >
@@ -505,8 +648,8 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                   </tr>
                   <tr className="border-b border-slate-700/50">
                     <td className="py-1">Structure ({getStructureTypeValue()}):</td>
-                    <td className="text-center font-medium">{(config.tonnage * 0.1).toFixed(1)}t</td>
-                    <td className="text-center">{getStructureTypeValue() === 'Endo Steel' || getStructureTypeValue() === 'Endo Steel (Clan)' ? '14' : '0'}</td>
+                    <td className="text-center font-medium">{calculateStructureWeight(config.tonnage, getStructureTypeValue() as any).toFixed(1)}t</td>
+                    <td className="text-center">{getStructureSlots(getStructureTypeValue() as any)}</td>
                     <td className="text-center text-yellow-400">D/C-E-D-D</td>
                   </tr>
                   <tr className="border-b border-slate-700/50">
@@ -554,7 +697,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                   <tr className="border-t-2 border-slate-600 font-medium">
                     <td className="py-2 text-slate-200">Subtotal:</td>
                     <td className="text-center text-slate-200">{(
-                      (config.tonnage * 0.1) + // Structure
+                      calculateStructureWeight(config.tonnage, getStructureTypeValue() as any) + // Structure
                       (config.engineRating * (config.engineType === 'XL' ? 0.5 : config.engineType === 'Light' ? 0.75 : 1) / 25) + // Engine
                       Math.ceil(config.engineRating / 100) + // Gyro  
                       3.0 + // Cockpit
@@ -579,7 +722,7 @@ const StructureTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) 
                 <div className="flex justify-between items-center">
                   <span>Remaining Tonnage:</span>
                   <span className="text-slate-100 font-semibold">{(config.tonnage -
-                    ((config.tonnage * 0.1) +
+                    (calculateStructureWeight(config.tonnage, getStructureTypeValue() as any) +
                       (config.engineRating * (config.engineType === 'XL' ? 0.5 : config.engineType === 'Light' ? 0.75 : 1) / 25) +
                       Math.ceil(config.engineRating / 100) +
                       3.0 +
@@ -670,13 +813,63 @@ const ArmorTabV2: React.FC<{ readOnly?: boolean }> = ({ readOnly = false }) => {
     updateConfiguration(newConfig);
   };
 
-  // Handle armor type change
+  // Handle armor type change with memory integration and tech progression sync
   const handleArmorTypeChange = (newArmorType: string) => {
     if (readOnly) return;
-    updateConfigurationWithValidation({
-      ...config,
-      armorType: newArmorType as any
-    });
+    
+    console.log(`[ArmorTab] Armor type change: ${newArmorType}`);
+    
+    // Determine tech base from the new value
+    const newTechBase = newArmorType.includes('Clan') ? 'Clan' : 'Inner Sphere';
+    
+    // Get current tech progression (or use defaults)
+    const currentProgression = (config as any).techProgression || {
+      chassis: 'Inner Sphere',
+      gyro: 'Inner Sphere',
+      engine: 'Inner Sphere',
+      heatsink: 'Inner Sphere',
+      targeting: 'Inner Sphere',
+      myomer: 'Inner Sphere',
+      movement: 'Inner Sphere',
+      armor: 'Inner Sphere'
+    };
+    
+    // Update tech progression for armor subsystem
+    const newProgression = {
+      ...currentProgression,
+      armor: newTechBase
+    };
+    
+    // Create the component configuration update
+    const componentUpdate = { armorType: newArmorType };
+    
+    // If we're changing to Mixed tech, update the master tech base
+    const isMixed = Object.values(newProgression).some(tech => tech === 'Inner Sphere') && 
+                   Object.values(newProgression).some(tech => tech === 'Clan');
+    
+    // ARMOR TONNAGE PRESERVATION FIX
+    // Preserve current armor tonnage investment, capping to new maximum if needed
+    const currentTonnage = config.armorTonnage;
+    
+    // Calculate new maximum tonnage for the new armor type
+    // Create a temporary unit configuration to get the new max
+    const tempConfig = { ...config, armorType: newArmorType };
+    const newMaxTonnage = Math.floor(tempConfig.tonnage / 2); // Standard max is 50% of mech tonnage
+    
+    // Preserve tonnage but cap to new maximum if necessary
+    const preservedTonnage = Math.min(currentTonnage, newMaxTonnage);
+    
+    console.log(`[ArmorTab] Armor tonnage preservation: ${currentTonnage}t → ${preservedTonnage}t (max: ${newMaxTonnage}t)`);
+    
+    const finalUpdates = {
+      ...componentUpdate,
+      techProgression: newProgression,
+      armorTonnage: preservedTonnage, // Preserve/cap armor tonnage
+      ...(isMixed && (config.techBase as string) !== 'Mixed' ? { techBase: 'Mixed' } : {})
+    };
+    
+    console.log(`[ArmorTab] Updating config with:`, finalUpdates);
+    updateConfigurationWithValidation(finalUpdates);
   };
 
   // Simple, direct armor tonnage update - single source of truth

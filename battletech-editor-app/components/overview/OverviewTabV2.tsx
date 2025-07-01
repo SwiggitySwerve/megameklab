@@ -140,10 +140,10 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     }
   }
   
-  // Initialize enhanced fields and memory system on first load
+  // Initialize enhanced fields and memory system on first load - FIXED: Remove updateConfiguration dependency
   useEffect(() => {
     if (!hasInitialized && isConfigLoaded && unit) {
-      console.log('[OverviewTab] Initializing enhanced config fields and memory system')
+      console.log('[OverviewTab] 💾 🚀 ONE-TIME INITIALIZATION - Enhanced config fields and memory system')
       
       // Get fresh config at initialization time
       const currentConfig = unit.getConfiguration()
@@ -182,7 +182,8 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
       const initialMemoryState = initializeMemorySystem()
       setMemoryState(initialMemoryState)
       
-      // 🔥 NEW: Apply memory restoration to recover saved component selections
+      // 🔥 FIXED: Only apply memory restoration during true initialization
+      console.log('[OverviewTab] 💾 ⚠️ ONE-TIME MEMORY RESTORATION - This should only happen once')
       const restorationUpdates = applyMemoryRestoration(currentConfig, initialMemoryState)
       
       // Check if restoration was deferred
@@ -196,13 +197,14 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
       
       // Only update if we have changes
       if (Object.keys(updates).length > 0) {
-        console.log('[OverviewTab] 🚀 Applying config updates (including memory restoration):', updates)
+        console.log('[OverviewTab] 🚀 ONE-TIME CONFIG UPDATE (including memory restoration):', updates)
         updateConfiguration({ ...currentConfig, ...updates })
       }
       
       setHasInitialized(true)
+      console.log('[OverviewTab] ✅ INITIALIZATION COMPLETE - No more automatic restoration')
     }
-  }, [isConfigLoaded, hasInitialized, unit, updateConfiguration])
+  }, [isConfigLoaded, hasInitialized, unit]) // FIXED: Removed updateConfiguration dependency
   
   // 🔥 NEW: Retry restoration when components become available
   useEffect(() => {
@@ -365,7 +367,17 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     };
     
     const property = propertyMap[subsystem];
-    return property ? (config[property] || 'Standard') : 'Standard';
+    if (!property) return 'Standard';
+    
+    const value = config[property];
+    
+    // Handle ComponentConfiguration objects by extracting the type property
+    if (value && typeof value === 'object' && 'type' in value) {
+      return value.type;
+    }
+    
+    // Handle string values or fallback to default
+    return value || 'Standard';
   }
 
   // Helper function to get config property for subsystem
@@ -475,6 +487,44 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
         if (configProperty) {
           componentConfig = { [configProperty]: componentToApply };
           console.log(`[OverviewTab] 🔧 Component config update: ${configProperty} = ${componentToApply}`);
+          
+          // 🔥 SPECIAL HANDLING FOR ARMOR TONNAGE PRESERVATION
+          if (subsystem === 'armor' && 'armorTonnage' in enhancedConfig) {
+            try {
+              // Import needed functions directly to avoid circular dependencies
+              const { getArmorType } = require('../../utils/armorTypes');
+              const { calculateMaxArmorTonnage } = require('../../utils/armorAllocation');
+              
+              // Get current armor tonnage
+              const currentArmorTonnage = enhancedConfig.armorTonnage || 0;
+              console.log(`[OverviewTab] 🛡️ Current armor tonnage: ${currentArmorTonnage}t`);
+              
+              // Create a simple unit object with the necessary properties for calculateMaxArmorTonnage
+              const unitObj = {
+                mass: enhancedConfig.tonnage || 50,
+                getMaxArmorTonnage: () => {
+                  const armorType = getArmorType(componentToApply);
+                  return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 }, armorType);
+                }
+              };
+              
+              // Calculate max armor tonnage for the new armor type
+              const newMaxArmorTonnage = unitObj.getMaxArmorTonnage();
+              console.log(`[OverviewTab] 🛡️ New maximum armor tonnage: ${newMaxArmorTonnage}t`);
+              
+              // Preserve tonnage, but cap at new maximum
+              const preservedArmorTonnage = Math.min(currentArmorTonnage, newMaxArmorTonnage);
+              console.log(`[OverviewTab] 🛡️ Preserved armor tonnage: ${preservedArmorTonnage}t`);
+              
+              // Add armorTonnage to the component update
+              componentConfig = {
+                ...componentConfig,
+                armorTonnage: preservedArmorTonnage
+              };
+            } catch (error) {
+              console.error('[OverviewTab] Error preserving armor tonnage:', error);
+            }
+          }
         }
       }
       
@@ -567,10 +617,45 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
               if (configProperty) {
                 componentUpdates[configProperty] = resolution.resolvedComponent;
                 console.log(`[OverviewTab] 🔧 Master config: ${configProperty} = ${resolution.resolvedComponent}`);
+                
+                // 🔥 SPECIAL HANDLING FOR ARMOR TONNAGE PRESERVATION
+                if (subsystem === 'armor' && 'armorTonnage' in enhancedConfig) {
+                  try {
+                    // Import needed functions directly
+                    const { getArmorType } = require('../../utils/armorTypes');
+                    const { calculateMaxArmorTonnage } = require('../../utils/armorAllocation');
+                    
+                    // Get current armor tonnage
+                    const currentArmorTonnage = enhancedConfig.armorTonnage || 0;
+                    console.log(`[OverviewTab] 🛡️ Master: Current armor tonnage: ${currentArmorTonnage}t`);
+                    
+                    // Create a simple unit object with necessary properties
+                    const unitObj = {
+                      mass: enhancedConfig.tonnage || 50,
+                      getMaxArmorTonnage: () => {
+                        const armorType = getArmorType(resolution.resolvedComponent);
+                        return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 }, armorType);
+                      }
+                    };
+                    
+                    // Calculate max armor tonnage for the new armor type
+                    const newMaxArmorTonnage = unitObj.getMaxArmorTonnage();
+                    console.log(`[OverviewTab] 🛡️ Master: New maximum armor tonnage: ${newMaxArmorTonnage}t`);
+                    
+                    // Preserve tonnage, but cap at new maximum
+                    const preservedArmorTonnage = Math.min(currentArmorTonnage, newMaxArmorTonnage);
+                    console.log(`[OverviewTab] 🛡️ Master: Preserved armor tonnage: ${preservedArmorTonnage}t`);
+                    
+                    // Add armorTonnage to the component update
+                    componentUpdates.armorTonnage = preservedArmorTonnage;
+                  } catch (error) {
+                    console.error('[OverviewTab] Error preserving armor tonnage in master change:', error);
+                  }
+                }
               }
             }
           } else if (!memoryState) {
-            // Fallback to old resolution
+            // Fallback resolution without memory
             const newComponent = resolveComponentForTechBase(currentComponent, subsystem as ComponentCategory, newTechBase as TechBase);
             
             if (newComponent !== currentComponent) {

@@ -114,7 +114,8 @@ export function validateStructureType(
   const restrictions = STRUCTURE_TECH_RESTRICTIONS[type];
   if (!restrictions) return false;
   
-  const validTechBase = restrictions.techBase.includes(techBase) || restrictions.techBase.includes('Both');
+  // Check if the tech base is directly allowed
+  const validTechBase = restrictions.techBase.includes(techBase);
   const validRulesLevel = restrictions.rulesLevel.includes(rulesLevel as any);
   
   return validTechBase && validRulesLevel;

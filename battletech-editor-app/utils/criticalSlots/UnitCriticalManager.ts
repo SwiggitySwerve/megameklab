@@ -1811,8 +1811,10 @@ export class UnitCriticalManager {
   getUsedTonnage(): number {
     const config = this.configuration
     
-    // Structure weight (10% of unit tonnage)
-    const structureWeight = config.tonnage * 0.1
+    // Structure weight using proper calculation for structure type
+    const { calculateStructureWeight } = require('../structureCalculations')
+    const structureTypeString = this.getStructureTypeString()
+    const structureWeight = calculateStructureWeight(config.tonnage, structureTypeString)
     
     // Engine weight
     const engineWeight = this.getEngineWeight()
