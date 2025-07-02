@@ -5,11 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "analyze": "npm run build:analyze && npx webpack-bundle-analyzer .next/static/chunks/*.js",
+    "build:profile": "next build --profile",
+    "build:debug": "next build --debug",
+    "perf:test": "node scripts/performance/measure-bundle-size.js",
+    "migrate:equipment": "node scripts/data-migration/split-equipment-files.js",
+    "validate:refactor": "npm run test && npm run lint && npm run build"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.8",
@@ -52,7 +59,8 @@
     "jest-environment-node": "^30.0.0",
     "node-mocks-http": "^1.17.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0"
+    "typescript-eslint": "^8.34.0",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "overrides": {
     "brace-expansion": "^4.0.0"
