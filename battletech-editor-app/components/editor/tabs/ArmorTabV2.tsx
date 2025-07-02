@@ -17,6 +17,9 @@ import { ArmorEfficiencyNotification } from '../../armor/ArmorEfficiencyNotifica
 import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../../utils/armorCalculations';
 import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, useRemainingTonnageForArmor } from '../../../utils/armorAllocation';
 
+// Import extracted armor components
+import { ArmorValidationPanel } from '../armor/ArmorValidationPanel';
+
 /**
  * Props for ArmorTabV2 component
  */
@@ -803,87 +806,15 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
             </div>
           )}
 
-          {/* Armor Summary Table */}
+          {/* Armor Validation Panel */}
           <div className="mt-6">
-            <h4 className="text-slate-200 font-medium mb-3 text-sm">All Locations</h4>
-            <div className="space-y-1 text-xs">
-              {['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'].map(location => {
-                const armor = armorAllocation[location as keyof typeof armorAllocation];
-                const max = getLocationMaxArmor(location);
-                const total = armor.front + armor.rear;
-                const hasRear = ['CT', 'LT', 'RT'].includes(location);
-                const efficiency = max > 0 ? (total / max) * 100 : 0;
-
-                // Color coding based on efficiency
-                const getEfficiencyColor = () => {
-                  if (total > max) return 'border-l-red-500 bg-red-900/20'; // Over-allocation
-                  if (efficiency >= 90) return 'border-l-green-500 bg-green-900/20'; // Excellent (90%+)
-                  if (efficiency >= 70) return 'border-l-blue-500 bg-blue-900/20'; // Good (70-89%)
-                  if (efficiency >= 50) return 'border-l-yellow-500 bg-yellow-900/20'; // Fair (50-69%)
-                  if (efficiency >= 25) return 'border-l-orange-500 bg-orange-900/20'; // Poor (25-49%)
-                  return 'border-l-slate-500 bg-slate-800/20'; // Very low (<25%)
-                };
-
-                const getTextColor = () => {
-                  if (total > max) return 'text-red-300';
-                  if (efficiency >= 90) return 'text-green-300';
-                  if (efficiency >= 70) return 'text-blue-300';
-                  if (efficiency >= 50) return 'text-yellow-300';
-                  if (efficiency >= 25) return 'text-orange-300';
-                  return 'text-slate-400';
-                };
-
-                return (
-                  <div
-                    key={location}
-                    className={`grid grid-cols-4 gap-1 p-2 rounded border-l-4 cursor-pointer transition-colors ${getEfficiencyColor()
-                      } ${selectedSection === location ? 'ring-2 ring-blue-500/50' : 'hover:bg-slate-700/30'}`}
-                    onClick={() => setSelectedSection(location)}
-                  >
-                    <div className="text-slate-300 font-medium">{location}</div>
-                    <div className="text-slate-100 text-center">{armor.front}</div>
-                    <div className="text-slate-100 text-center">{hasRear ? armor.rear : '-'}</div>
-                    <div className={`text-center font-medium ${getTextColor()}`}>
-                      {total}/{max}
-                      <span className="text-xs ml-1 opacity-75">
-                        ({efficiency.toFixed(0)}%)
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Color Legend */}
-            <div className="mt-3 p-2 bg-slate-700/30 rounded text-xs">
-              <div className="text-slate-300 font-medium mb-2">Efficiency Legend:</div>
-              <div className="grid grid-cols-2 gap-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded"></div>
-                  <span className="text-slate-400">90%+ Excellent</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                  <span className="text-slate-400">70-89% Good</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                  <span className="text-slate-400">50-69% Fair</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                  <span className="text-slate-400">25-49% Poor</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-slate-500 rounded"></div>
-                  <span className="text-slate-400">&lt;25% Very Low</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded"></div>
-                  <span className="text-slate-400">Over-allocated</span>
-                </div>
-              </div>
-            </div>
+            <ArmorValidationPanel
+              armorAllocation={armorAllocation}
+              getLocationMaxArmor={getLocationMaxArmor}
+              selectedSection={selectedSection}
+              onSectionSelect={setSelectedSection}
+              readOnly={readOnly}
+            />
           </div>
         </div>
       </div>
