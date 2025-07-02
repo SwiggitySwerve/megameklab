@@ -21,6 +21,7 @@ const createMockTabUnit = (id: string, name: string): TabUnit => ({
   name,
   unitManager: {
     subscribe: jest.fn().mockReturnValue(jest.fn()),
+    updateConfiguration: jest.fn(),
     getUnallocatedEquipment: jest.fn().mockReturnValue([]),
     allocateEquipmentFromPool: jest.fn().mockReturnValue(true),
     serializeCompleteState: jest.fn().mockReturnValue({

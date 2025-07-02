@@ -96,21 +96,30 @@ export class UnitSynchronizationService {
    * Initialize unit synchronization for a tab
    */
   initializeTabSync(tab: TabUnit): void {
-    // Set up unit observer for state changes
-    const unsubscribe = tab.unitManager.subscribe(() => {
-      this.handleUnitStateChange(tab)
-    })
+    if (!tab) {
+      console.warn('[UnitSynchronizationService] Cannot initialize sync for null tab')
+      return
+    }
 
-    // Store unsubscribe function for cleanup
-    this.unitObservers.set(tab.id, unsubscribe)
+    try {
+      // Set up unit observer for state changes
+      const unsubscribe = tab.unitManager.subscribe(() => {
+        this.handleUnitStateChange(tab)
+      })
 
-    // Emit initialization event
-    this.emitEvent({
-      type: 'tab_change',
-      tabId: tab.id,
-      timestamp: new Date(),
-      data: { action: 'initialized' }
-    })
+      // Store unsubscribe function for cleanup
+      this.unitObservers.set(tab.id, unsubscribe)
+
+      // Emit initialization event
+      this.emitEvent({
+        type: 'tab_change',
+        tabId: tab.id,
+        timestamp: new Date(),
+        data: { action: 'initialized' }
+      })
+    } catch (error) {
+      console.error('[UnitSynchronizationService] Failed to initialize tab sync:', error)
+    }
   }
 
   /**
@@ -172,6 +181,11 @@ export class UnitSynchronizationService {
    * Handle configuration updates with synchronization
    */
   updateConfiguration(tab: TabUnit, config: UnitConfiguration): void {
+    if (!tab) {
+      console.warn('[UnitSynchronizationService] Cannot update configuration for null tab')
+      return
+    }
+
     console.log(`[UnitSynchronizationService] Configuration update for tab ${tab.id}`)
 
     // Validate configuration if enabled
@@ -179,13 +193,19 @@ export class UnitSynchronizationService {
       this.validateConfiguration(tab, config)
     }
 
-    // Update the configuration
-    tab.unitManager.updateConfiguration(config)
-    tab.isModified = true
-    tab.modified = new Date()
+    try {
+      // Update the configuration
+      tab.unitManager.updateConfiguration(config)
+      tab.isModified = true
+      tab.modified = new Date()
 
-    // Save immediately for configuration changes (they're significant)
-    this.saveCompleteStateImmediately(tab)
+      // Save immediately for configuration changes (they're significant)
+      this.saveCompleteStateImmediately(tab)
+    } catch (error) {
+      console.error(`[UnitSynchronizationService] Failed to update configuration for tab ${tab.id}:`, error)
+      // Don't re-throw, just log and continue
+      return
+    }
 
     // Emit configuration change event
     this.emitEvent({
@@ -204,6 +224,11 @@ export class UnitSynchronizationService {
    * Handle equipment changes with synchronization
    */
   addEquipmentToUnit(tab: TabUnit, equipment: any): void {
+    if (!tab) {
+      console.warn('[UnitSynchronizationService] Cannot add equipment to null tab')
+      return
+    }
+
     console.log(`[UnitSynchronizationService] Adding equipment to tab ${tab.id}`)
 
     tab.stateManager.addUnallocatedEquipment(equipment)
@@ -229,6 +254,11 @@ export class UnitSynchronizationService {
    * Handle equipment removal with synchronization
    */
   removeEquipment(tab: TabUnit, equipmentGroupId: string): boolean {
+    if (!tab) {
+      console.warn('[UnitSynchronizationService] Cannot remove equipment from null tab')
+      return false
+    }
+
     console.log(`[UnitSynchronizationService] Removing equipment from tab ${tab.id}`)
 
     const result = tab.stateManager.removeEquipment(equipmentGroupId)

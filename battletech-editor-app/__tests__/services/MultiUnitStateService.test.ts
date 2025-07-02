@@ -25,6 +25,11 @@ const createMockLocalStorage = () => {
     clear: jest.fn(() => {
       store = {}
     }),
+    get length() { return Object.keys(store).length },
+    key: jest.fn((index: number) => {
+      const keys = Object.keys(store)
+      return keys[index] || null
+    }),
     get store() { return { ...store } }
   }
 }
@@ -34,6 +39,7 @@ jest.mock('../../utils/criticalSlots/UnitStateManager', () => ({
   UnitStateManager: jest.fn().mockImplementation((config) => ({
     getCurrentUnit: jest.fn().mockReturnValue({
       getConfiguration: jest.fn().mockReturnValue(config),
+      updateConfiguration: jest.fn(),
       deserializeCompleteState: jest.fn().mockReturnValue(true),
       serializeCompleteState: jest.fn().mockReturnValue({
         configuration: config,

@@ -34,32 +34,38 @@ const createMockLocalStorage = () => {
 
 // Mock UnitStateManager and UnitCriticalManager
 jest.mock('../../utils/criticalSlots/UnitStateManager', () => ({
-  UnitStateManager: jest.fn().mockImplementation((config) => ({
-    getCurrentUnit: jest.fn().mockReturnValue({
-      getConfiguration: jest.fn().mockReturnValue(config),
-      updateConfiguration: jest.fn(),
-      getUnallocatedEquipment: jest.fn().mockReturnValue([]),
-      allocateEquipmentFromPool: jest.fn().mockReturnValue(true),
-      subscribe: jest.fn().mockReturnValue(jest.fn()),
-      serializeCompleteState: jest.fn().mockReturnValue({
-        configuration: config,
-        criticalSlotAllocations: {},
-        unallocatedEquipment: [],
-        timestamp: Date.now(),
-        version: '2.0.0'
+  UnitStateManager: jest.fn().mockImplementation((config) => {
+    let currentConfig = { ...config }
+    
+    return {
+      getCurrentUnit: jest.fn().mockReturnValue({
+        getConfiguration: jest.fn().mockImplementation(() => currentConfig),
+        updateConfiguration: jest.fn().mockImplementation((newConfig) => {
+          currentConfig = { ...currentConfig, ...newConfig }
+        }),
+        getUnallocatedEquipment: jest.fn().mockReturnValue([]),
+        allocateEquipmentFromPool: jest.fn().mockReturnValue(true),
+        subscribe: jest.fn().mockReturnValue(jest.fn()),
+        serializeCompleteState: jest.fn().mockReturnValue({
+          configuration: currentConfig,
+          criticalSlotAllocations: {},
+          unallocatedEquipment: [],
+          timestamp: Date.now(),
+          version: '2.0.0'
+        }),
+        deserializeCompleteState: jest.fn().mockReturnValue(true)
       }),
-      deserializeCompleteState: jest.fn().mockReturnValue(true)
-    }),
-    getUnitSummary: jest.fn().mockReturnValue({
-      validation: { isValid: true },
-      summary: { tonnage: config.tonnage }
-    }),
-    addUnallocatedEquipment: jest.fn(),
-    removeEquipment: jest.fn().mockReturnValue(true),
-    handleEngineChange: jest.fn(),
-    handleGyroChange: jest.fn(),
-    resetUnit: jest.fn()
-  }))
+      getUnitSummary: jest.fn().mockImplementation(() => ({
+        validation: { isValid: true },
+        summary: { tonnage: currentConfig.tonnage || 50 }
+      })),
+      addUnallocatedEquipment: jest.fn(),
+      removeEquipment: jest.fn().mockReturnValue(true),
+      handleEngineChange: jest.fn(),
+      handleGyroChange: jest.fn(),
+      resetUnit: jest.fn()
+    }
+  })
 }))
 
 describe('Service Integration Tests', () => {

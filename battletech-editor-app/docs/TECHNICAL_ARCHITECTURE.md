@@ -5,6 +5,544 @@ This document details the complete technical architecture, design patterns, and 
 
 ---
 
+## 🏗️ **Service Layer Architecture (Refactored)**
+
+### **UnitCriticalManager Breakdown Overview**
+The core system has been refactored from a monolithic 3,257-line file into a clean service-oriented architecture with 6 specialized services plus an orchestrator. This represents a complete architectural transformation focused on maintainability, testability, and performance.
+
+### **Service Layer Components**
+
+#### **1. UnitStateManager** (`utils/unit/UnitStateManager.ts`)
+```typescript
+interface UnitStateManager {
+  // State management and persistence
+  getCurrentUnit(): UnitCriticalManager;
+  getUnitSummary(): UnitSummary;
+  addUnallocatedEquipment(equipment: EquipmentInstance): void;
+  removeEquipment(equipmentId: string): boolean;
+  handleEngineChange(engineType: string): void;
+  handleGyroChange(gyroType: string): void;
+  resetUnit(): void;
+  
+  // Persistence operations
+  serializeCompleteState(): CompleteUnitState;
+  deserializeCompleteState(state: CompleteUnitState): boolean;
+}
+```
+**Responsibilities:**
+- Unit state lifecycle management
+- Equipment pool management
+- Configuration change coordination
+- State serialization/deserialization
+
+#### **2. SystemComponentService** (`services/SystemComponentService.ts`)
+```typescript
+interface SystemComponentService {
+  // Engine calculations
+  calculateEngineWeight(engineRating: number, engineType: string): number;
+  calculateEngineSlots(engineRating: number, engineType: string): number;
+  getEngineLocationBreakdown(engineType: string): EngineLocationBreakdown;
+  
+  // Gyro calculations
+  calculateGyroWeight(tonnage: number, gyroType: string): number;
+  calculateGyroSlots(gyroType: string): number;
+  
+  // Heat sink management
+  calculateRequiredHeatSinks(unit: UnitConfiguration): number;
+  allocateHeatSinks(unit: UnitConfiguration): HeatSinkAllocation;
+  
+  // Structure calculations
+  calculateInternalStructureWeight(tonnage: number, structureType: string): number;
+  calculateStructureSlots(structureType: string): number;
+}
+```
+**Responsibilities:**
+- Engine weight and slot calculations
+- Gyro system management
+- Heat sink allocation algorithms
+- Internal structure calculations
+
+#### **3. WeightBalanceService** (`services/WeightBalanceService.ts`)
+```typescript
+interface WeightBalanceService {
+  // Weight calculations
+  calculateComponentWeights(unit: UnitConfiguration): ComponentWeights;
+  calculateTotalWeight(unit: UnitConfiguration): number;
+  getWeightBreakdown(unit: UnitConfiguration): WeightBreakdown;
+  
+  // Balance analysis
+  analyzeWeightDistribution(unit: UnitConfiguration): WeightDistribution;
+  suggestWeightOptimizations(unit: UnitConfiguration): WeightOptimization[];
+  
+  // Validation
+  validateWeightLimits(unit: UnitConfiguration): WeightValidation;
+  calculateAvailableTonnage(unit: UnitConfiguration): number;
+}
+```
+**Responsibilities:**
+- Comprehensive weight calculations
+- Weight distribution analysis
+- Optimization suggestions
+- Weight limit validation
+
+#### **4. CriticalSlotCalculator** (`utils/criticalSlots/CriticalSlotCalculator.ts`)
+```typescript
+interface CriticalSlotCalculator {
+  // Slot calculations
+  calculateRequiredSlots(equipment: EquipmentInstance): number;
+  calculateLocationCapacity(location: string, config: string): number;
+  getSlotAllocation(unit: UnitConfiguration): SlotAllocation;
+  
+  // Auto-allocation
+  autoAllocateEquipment(unit: UnitConfiguration): AllocationResult;
+  findOptimalPlacement(equipment: EquipmentInstance, unit: UnitConfiguration): PlacementOptions;
+  
+  // Special components
+  allocateSpecialComponents(unit: UnitConfiguration): SpecialComponentAllocation;
+  validateSlotConstraints(unit: UnitConfiguration): SlotValidation;
+}
+```
+**Responsibilities:**
+- Critical slot requirement calculations
+- Automatic equipment placement
+- Special component allocation (Endo Steel, Ferro-Fibrous)
+- Slot constraint validation
+
+#### **5. EquipmentAllocationService** (`services/EquipmentAllocationService.ts`)
+```typescript
+interface EquipmentAllocationService {
+  // Equipment placement
+  allocateEquipment(equipment: EquipmentInstance, location: string, unit: UnitConfiguration): AllocationResult;
+  removeEquipment(equipmentId: string, unit: UnitConfiguration): RemovalResult;
+  moveEquipment(equipmentId: string, fromLocation: string, toLocation: string): MoveResult;
+  
+  // Validation
+  validateEquipmentPlacement(equipment: EquipmentInstance, location: string): ValidationResult;
+  checkLocationRestrictions(equipment: EquipmentInstance): LocationRestrictions;
+  
+  // Auto-allocation
+  autoAllocateAllEquipment(unit: UnitConfiguration): AutoAllocationResult;
+  suggestEquipmentPlacements(unit: UnitConfiguration): PlacementSuggestions;
+}
+```
+**Responsibilities:**
+- Equipment placement and removal
+- Location restriction validation
+- Auto-allocation algorithms
+- Placement optimization
+
+#### **6. ConstructionRulesValidator** (`services/ConstructionRulesValidator.ts`)
+```typescript
+interface ConstructionRulesValidator {
+  // Core validation
+  validateUnit(unit: UnitConfiguration): UnitValidationResult;
+  validateConfiguration(config: UnitConfiguration): ConfigurationValidation;
+  
+  // BattleTech rules
+  validateTechBase(unit: UnitConfiguration): TechBaseValidation;
+  validateEraRestrictions(unit: UnitConfiguration): EraValidation;
+  validateMovementRules(unit: UnitConfiguration): MovementValidation;
+  
+  // Equipment rules
+  validateEquipmentCompatibility(unit: UnitConfiguration): EquipmentValidation;
+  validateAmmoConsistency(unit: UnitConfiguration): AmmoValidation;
+  
+  // Construction limits
+  validateWeightLimits(unit: UnitConfiguration): WeightValidation;
+  validateArmorLimits(unit: UnitConfiguration): ArmorValidation;
+}
+```
+**Responsibilities:**
+- Complete BattleTech rule validation
+- Tech base compatibility checking
+- Era restriction enforcement
+- Equipment compatibility validation
+
+#### **7. UnitCriticalManagerV2** (`utils/criticalSlots/UnitCriticalManagerV2.ts`)
+```typescript
+class UnitCriticalManagerV2 {
+  constructor(
+    private stateManager: UnitStateManager,
+    private systemService: SystemComponentService,
+    private weightService: WeightBalanceService,
+    private slotCalculator: CriticalSlotCalculator,
+    private equipmentService: EquipmentAllocationService,
+    private validator: ConstructionRulesValidator
+  ) {}
+  
+  // Orchestrator methods
+  updateConfiguration(updates: Partial<UnitConfiguration>): UpdateResult;
+  processEquipmentChange(change: EquipmentChange): ProcessResult;
+  generateUnitSummary(): UnitSummary;
+  validateCompleteUnit(): ValidationResult;
+  
+  // Service coordination
+  coordinateWeightUpdate(): void;
+  coordinateSlotReallocation(): void;
+  coordinateValidation(): void;
+}
+```
+**Responsibilities:**
+- Service coordination and orchestration
+- Cross-service communication
+- Performance monitoring
+- Legacy API compatibility
+
+### **Service Coordination Patterns**
+
+#### **Observer Pattern Implementation**
+```typescript
+// Event-driven coordination between services
+interface ServiceEvent {
+  type: string;
+  source: string;
+  data: any;
+  timestamp: number;
+}
+
+class ServiceEventBus {
+  private listeners: Map<string, Function[]> = new Map();
+  
+  subscribe(eventType: string, callback: Function): () => void {
+    if (!this.listeners.has(eventType)) {
+      this.listeners.set(eventType, []);
+    }
+    this.listeners.get(eventType)!.push(callback);
+    
+    return () => this.unsubscribe(eventType, callback);
+  }
+  
+  emit(event: ServiceEvent): void {
+    const listeners = this.listeners.get(event.type) || [];
+    listeners.forEach(callback => callback(event));
+  }
+  
+  private unsubscribe(eventType: string, callback: Function): void {
+    const listeners = this.listeners.get(eventType) || [];
+    const index = listeners.indexOf(callback);
+    if (index > -1) {
+      listeners.splice(index, 1);
+    }
+  }
+}
+
+// Usage in services
+class WeightBalanceService {
+  constructor(private eventBus: ServiceEventBus) {
+    this.eventBus.subscribe('equipment_change', this.handleEquipmentChange.bind(this));
+    this.eventBus.subscribe('configuration_change', this.handleConfigChange.bind(this));
+  }
+  
+  private handleEquipmentChange(event: ServiceEvent): void {
+    // Recalculate weights when equipment changes
+    const newWeights = this.calculateTotalWeight(event.data.unit);
+    this.eventBus.emit({
+      type: 'weight_updated',
+      source: 'WeightBalanceService',
+      data: { weights: newWeights },
+      timestamp: Date.now()
+    });
+  }
+}
+```
+
+#### **Dependency Injection Container**
+```typescript
+class ServiceContainer {
+  private services: Map<string, any> = new Map();
+  private factories: Map<string, () => any> = new Map();
+  
+  register<T>(name: string, factory: () => T): void {
+    this.factories.set(name, factory);
+  }
+  
+  get<T>(name: string): T {
+    if (!this.services.has(name)) {
+      const factory = this.factories.get(name);
+      if (!factory) {
+        throw new Error(`Service ${name} not registered`);
+      }
+      this.services.set(name, factory());
+    }
+    return this.services.get(name)!;
+  }
+  
+  createManager(): UnitCriticalManagerV2 {
+    return new UnitCriticalManagerV2(
+      this.get('UnitStateManager'),
+      this.get('SystemComponentService'),
+      this.get('WeightBalanceService'),
+      this.get('CriticalSlotCalculator'),
+      this.get('EquipmentAllocationService'),
+      this.get('ConstructionRulesValidator')
+    );
+  }
+}
+
+// Service registration
+const container = new ServiceContainer();
+container.register('UnitStateManager', () => new UnitStateManager(defaultConfig));
+container.register('SystemComponentService', () => new SystemComponentService());
+container.register('WeightBalanceService', () => new WeightBalanceService(eventBus));
+// ... register all services
+```
+
+### **Performance Optimization Architecture**
+
+#### **Memoization Strategy**
+```typescript
+// Service-level caching for expensive calculations
+class CachedCalculationService {
+  private cache: Map<string, any> = new Map();
+  private cacheExpiry: Map<string, number> = new Map();
+  private readonly TTL = 5000; // 5 second cache
+  
+  getCachedResult<T>(key: string, calculator: () => T): T {
+    const now = Date.now();
+    const expiry = this.cacheExpiry.get(key);
+    
+    if (expiry && now < expiry && this.cache.has(key)) {
+      return this.cache.get(key);
+    }
+    
+    const result = calculator();
+    this.cache.set(key, result);
+    this.cacheExpiry.set(key, now + this.TTL);
+    
+    return result;
+  }
+  
+  invalidateCache(pattern?: string): void {
+    if (pattern) {
+      for (const [key] of this.cache) {
+        if (key.includes(pattern)) {
+          this.cache.delete(key);
+          this.cacheExpiry.delete(key);
+        }
+      }
+    } else {
+      this.cache.clear();
+      this.cacheExpiry.clear();
+    }
+  }
+}
+
+// Usage in weight service
+class WeightBalanceService {
+  constructor(private cache: CachedCalculationService) {}
+  
+  calculateTotalWeight(unit: UnitConfiguration): number {
+    const cacheKey = `weight_${unit.id}_${unit.lastModified}`;
+    return this.cache.getCachedResult(cacheKey, () => {
+      return this.performExpensiveWeightCalculation(unit);
+    });
+  }
+}
+```
+
+#### **Service Performance Monitoring**
+```typescript
+interface PerformanceMetrics {
+  serviceName: string;
+  methodName: string;
+  executionTime: number;
+  memoryUsage: number;
+  cacheHitRate: number;
+}
+
+class ServicePerformanceMonitor {
+  private metrics: PerformanceMetrics[] = [];
+  
+  measureExecution<T>(
+    serviceName: string,
+    methodName: string,
+    operation: () => T
+  ): T {
+    const startTime = performance.now();
+    const startMemory = performance.memory?.usedJSHeapSize || 0;
+    
+    try {
+      const result = operation();
+      
+      const endTime = performance.now();
+      const endMemory = performance.memory?.usedJSHeapSize || 0;
+      
+      this.metrics.push({
+        serviceName,
+        methodName,
+        executionTime: endTime - startTime,
+        memoryUsage: endMemory - startMemory,
+        cacheHitRate: 0 // Calculate from cache service
+      });
+      
+      return result;
+    } catch (error) {
+      // Log performance data even for failed operations
+      const endTime = performance.now();
+      this.metrics.push({
+        serviceName,
+        methodName,
+        executionTime: endTime - startTime,
+        memoryUsage: 0,
+        cacheHitRate: 0
+      });
+      throw error;
+    }
+  }
+  
+  getPerformanceReport(): PerformanceReport {
+    return {
+      averageExecutionTime: this.calculateAverage('executionTime'),
+      totalMemoryUsage: this.calculateSum('memoryUsage'),
+      slowestOperations: this.getSlowestOperations(5),
+      serviceBreakdown: this.getServiceBreakdown()
+    };
+  }
+}
+```
+
+### **Testing Architecture for Services**
+
+#### **Service Unit Testing Pattern**
+```typescript
+// Example service test structure
+describe('WeightBalanceService', () => {
+  let service: WeightBalanceService;
+  let mockEventBus: jest.Mocked<ServiceEventBus>;
+  
+  beforeEach(() => {
+    mockEventBus = {
+      subscribe: jest.fn(),
+      emit: jest.fn(),
+      unsubscribe: jest.fn()
+    } as any;
+    
+    service = new WeightBalanceService(mockEventBus);
+  });
+  
+  describe('calculateTotalWeight', () => {
+    it('should calculate correct weight for standard mech', () => {
+      const mockUnit: UnitConfiguration = createMockUnit({
+        mass: 75,
+        equipment: [
+          createMockEquipment({ name: 'PPC', weight: 7 }),
+          createMockEquipment({ name: 'Medium Laser', weight: 1 })
+        ]
+      });
+      
+      const result = service.calculateTotalWeight(mockUnit);
+      expect(result).toBe(mockUnit.mass); // Assuming unit is properly configured
+    });
+    
+    it('should handle edge cases gracefully', () => {
+      const invalidUnit = createMockUnit({ mass: -1 });
+      expect(() => service.calculateTotalWeight(invalidUnit)).not.toThrow();
+    });
+  });
+  
+  describe('analyzeWeightDistribution', () => {
+    it('should provide optimization suggestions for overweight unit', () => {
+      const overweightUnit = createMockUnit({
+        mass: 75,
+        calculatedWeight: 80 // 5 tons over
+      });
+      
+      const analysis = service.analyzeWeightDistribution(overweightUnit);
+      expect(analysis.isOverweight).toBe(true);
+      expect(analysis.suggestions).toHaveLength(expect.any(Number));
+    });
+  });
+});
+```
+
+#### **Integration Testing Between Services**
+```typescript
+describe('Service Integration', () => {
+  let manager: UnitCriticalManagerV2;
+  let container: ServiceContainer;
+  
+  beforeEach(() => {
+    container = new ServiceContainer();
+    // Register all services with real implementations
+    registerAllServices(container);
+    manager = container.createManager();
+  });
+  
+  it('should coordinate weight updates across services', async () => {
+    const initialUnit = createTestUnit();
+    manager.loadUnit(initialUnit);
+    
+    // Add heavy equipment
+    const heavyWeapon = createMockEquipment({ name: 'AC/20', weight: 14 });
+    const result = await manager.addEquipment(heavyWeapon);
+    
+    // Verify all services updated correctly
+    expect(result.weightUpdated).toBe(true);
+    expect(result.slotsReallocated).toBe(true);
+    expect(result.validationRun).toBe(true);
+  });
+  
+  it('should handle cascading changes properly', async () => {
+    const unit = createTestUnit();
+    manager.loadUnit(unit);
+    
+    // Change engine type (affects weight, slots, heat sinks)
+    const result = await manager.updateConfiguration({ 
+      engineType: 'XL' 
+    });
+    
+    expect(result.changes).toEqual(
+      expect.arrayContaining([
+        'weight_recalculated',
+        'slots_reallocated', 
+        'heatsinks_adjusted',
+        'validation_updated'
+      ])
+    );
+  });
+});
+```
+
+### **Migration and Compatibility**
+
+#### **Legacy API Compatibility Layer**
+```typescript
+// Maintains compatibility with existing code
+class LegacyCompatibilityLayer {
+  constructor(private manager: UnitCriticalManagerV2) {}
+  
+  // Old method signatures mapped to new service calls
+  calculateWeight(unit: any): number {
+    return this.manager.getWeightService().calculateTotalWeight(
+      this.convertLegacyUnit(unit)
+    );
+  }
+  
+  validateUnit(unit: any): any {
+    const modernUnit = this.convertLegacyUnit(unit);
+    const result = this.manager.getValidator().validateUnit(modernUnit);
+    return this.convertValidationResult(result);
+  }
+  
+  allocateEquipment(equipment: any, location: string): boolean {
+    const modernEquipment = this.convertLegacyEquipment(equipment);
+    const result = this.manager.getEquipmentService()
+      .allocateEquipment(modernEquipment, location, this.manager.getCurrentUnit());
+    return result.success;
+  }
+  
+  private convertLegacyUnit(legacyUnit: any): UnitConfiguration {
+    // Convert old unit format to new format
+    return {
+      id: legacyUnit.id || generateId(),
+      chassis: legacyUnit.chassis,
+      model: legacyUnit.model,
+      // ... map all fields
+    };
+  }
+}
+```
+
 ## 🏛️ **System Architecture**
 
 ### **High-Level Architecture**

@@ -16,7 +16,16 @@
     "build:debug": "next build --debug",
     "perf:test": "node scripts/performance/measure-bundle-size.js",
     "migrate:equipment": "node scripts/data-migration/split-equipment-files.js",
-    "validate:refactor": "npm run test && npm run lint && npm run build"
+    "validate:refactor": "npm run test && npm run lint && npm run build",
+    "analyze:files": "./scripts/monitor-file-sizes.sh",
+    "analyze:files:report": "./scripts/monitor-file-sizes.sh > file-analysis-report.txt && cat file-analysis-report.txt",
+    "analyze:complexity": "npx complexity-report --format json --output complexity-report.json .",
+    "analyze:dependencies": "npx madge --circular --extensions ts,tsx --exclude node_modules --json src/ utils/ components/ services/ > dependency-analysis.json",
+    "refactor:validate": "npm run analyze:files && npm run test && npm run lint",
+    "refactor:pre-commit": "npm run analyze:files && npm run test:coverage && npm run lint && npm run build",
+    "refactor:metrics": "node scripts/metrics/validate-refactoring-metrics.js",
+    "quality:check": "npm run analyze:files && npm run analyze:complexity && npm run test:coverage",
+    "quality:report": "npm run analyze:files:report && npm run analyze:complexity && npm run analyze:dependencies && echo 'Quality analysis complete. Check generated reports.'"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.8",

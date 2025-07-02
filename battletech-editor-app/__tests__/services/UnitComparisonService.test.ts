@@ -138,9 +138,9 @@ describe('UnitComparisonService', () => {
       const result = service.compareUnits([tab])
       const stats = result.statistics['tab-1']
       
-      expect(stats.armorPoints).toBe(144) // Sum of all armor points
-      expect(stats.survivability.armorPerTon).toBeCloseTo(2.88) // 144/50
-      expect(stats.survivability.totalArmor).toBe(144)
+      expect(stats.armorPoints).toBe(149) // Sum of all armor points: 9+26+21+21+16+16+20+20 = 149
+      expect(stats.survivability.armorPerTon).toBeCloseTo(2.98) // 149/50
+      expect(stats.survivability.totalArmor).toBe(149)
     })
 
     it('should calculate mobility metrics', () => {

@@ -778,21 +778,20 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   
   // ===== PRIVATE HELPER METHODS =====
   
-  private extractComponentType(component: ComponentConfiguration | string): string {
+  public extractComponentType(component: ComponentConfiguration | string): string {
     if (typeof component === 'string') return component;
     return component.type;
   }
   
-  private calculateSystemComponentSlots(config: UnitConfiguration): number {
-    // System components (engine, gyro, cockpit) take slots
+  public calculateSystemComponentSlots(config: UnitConfiguration): number {
+    // System components (engine, gyro) - cockpit is part of fixed components
     const engineSlots = this.getEngineSlots(config.engineType);
     const gyroSlots = this.getGyroSlots(this.extractComponentType(config.gyroType));
-    const cockpitSlots = 5; // Standard cockpit
     
-    return engineSlots + gyroSlots + cockpitSlots;
+    return engineSlots + gyroSlots;
   }
   
-  private calculateSpecialComponentSlots(config: UnitConfiguration): number {
+  public calculateSpecialComponentSlots(config: UnitConfiguration): number {
     let slots = 0;
     
     // Endo Steel structure
@@ -800,10 +799,15 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     if (structureType === 'Endo Steel') slots += 14;
     else if (structureType === 'Endo Steel (Clan)') slots += 7;
     
-    // Ferro-Fibrous armor
+    // Ferro-Fibrous armor variants
     const armorType = this.extractComponentType(config.armorType);
     if (armorType === 'Ferro-Fibrous') slots += 14;
     else if (armorType === 'Ferro-Fibrous (Clan)') slots += 7;
+    else if (armorType === 'Light Ferro-Fibrous') slots += 7;
+    else if (armorType === 'Heavy Ferro-Fibrous') slots += 21;
+    else if (armorType === 'Stealth') slots += 12;
+    else if (armorType === 'Reactive') slots += 14;
+    else if (armorType === 'Reflective') slots += 10;
     
     return slots;
   }
@@ -844,7 +848,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     return Object.values(this.STANDARD_SLOT_COUNTS).reduce((sum, slots) => sum + slots, 0);
   }
   
-  private getEngineSlots(engineType: string): number {
+  public getEngineSlots(engineType: string): number {
     switch (engineType) {
       case 'Standard': return 6;
       case 'XL': return 12;
@@ -857,7 +861,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     }
   }
   
-  private getGyroSlots(gyroType: string): number {
+  public getGyroSlots(gyroType: string): number {
     switch (gyroType) {
       case 'Standard': return 4;
       case 'XL': return 6;
@@ -1041,7 +1045,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     return {}; // Simplified implementation
   }
   
-  private getEndoSteelRequirement(config: UnitConfiguration): number {
+  public getEndoSteelRequirement(config: UnitConfiguration): number {
     const structureType = this.extractComponentType(config.structureType);
     if (structureType === 'Endo Steel') return 14;
     if (structureType === 'Endo Steel (Clan)') return 7;
@@ -1052,7 +1056,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     return []; // Simplified implementation
   }
   
-  private getFerroFibrousRequirement(config: UnitConfiguration): number {
+  public getFerroFibrousRequirement(config: UnitConfiguration): number {
     const armorType = this.extractComponentType(config.armorType);
     if (armorType === 'Ferro-Fibrous') return 14;
     if (armorType === 'Ferro-Fibrous (Clan)') return 7;
@@ -1348,6 +1352,65 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     }
     
     return availableSlots;
+  }
+}
+
+// Backwards compatibility: Static methods that delegate to instance implementation
+export class CriticalSlotCalculator {
+  // Legacy static method for backwards compatibility
+  static calculateStructuralSlots(config: UnitConfiguration): any {
+    const instance = new CriticalSlotCalculatorImpl();
+    const systemSlots = instance.calculateSystemComponentSlots(config);
+    const specialSlots = instance.calculateSpecialComponentSlots(config);
+    const jumpJetSlots = config.jumpMP || 0;
+    
+    return {
+      fixedComponents: 17, // Cockpit + Life Support + Sensors + Actuators
+      systemComponents: systemSlots,
+      specialComponents: specialSlots + jumpJetSlots,
+      total: 17 + systemSlots + specialSlots + jumpJetSlots
+    };
+  }
+
+  // Legacy static method for complete breakdown
+  static getCompleteBreakdown(config: UnitConfiguration, sections: any, equipment: any[]): any {
+    const instance = new CriticalSlotCalculatorImpl();
+    const structural = CriticalSlotCalculator.calculateStructuralSlots(config);
+    
+    return {
+      structural,
+      equipment: {
+        allocated: 0,
+        unallocated: equipment?.length || 0,
+        total: equipment?.length || 0
+      },
+      totals: {
+        capacity: 78,
+        used: structural.total,
+        remaining: Math.max(0, 78 - structural.total),
+        equipmentBurden: structural.total + (equipment?.length || 0),
+        overCapacity: Math.max(0, structural.total + (equipment?.length || 0) - 78)
+      },
+      debug: {
+        fixedBreakdown: {
+          head: { total: 5 },
+          arms: { total: 4 },
+          legs: { total: 8 },
+          total: 17
+        },
+        systemBreakdown: {
+          engine: instance.getEngineSlots(config.engineType),
+          gyro: instance.getGyroSlots(instance.extractComponentType(config.gyroType)),
+          total: instance.calculateSystemComponentSlots(config)
+        },
+        specialBreakdown: {
+          structure: instance.getEndoSteelRequirement(config),
+          armor: instance.getFerroFibrousRequirement(config),
+          jumpJets: config.jumpMP || 0,
+          total: instance.calculateSpecialComponentSlots(config) + (config.jumpMP || 0)
+        }
+      }
+    };
   }
 }
 
