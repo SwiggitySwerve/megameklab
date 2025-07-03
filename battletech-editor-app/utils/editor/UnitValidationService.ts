@@ -6,6 +6,9 @@
 
 import { EditableUnit, ValidationError } from '../../types/editor'
 import { UnitCalculationService } from './UnitCalculationService'
+import { EngineValidationService } from './EngineValidationService'
+import { WeaponValidationService } from './WeaponValidationService'
+import { StructureValidationService } from './StructureValidationService'
 
 export interface ValidationContext {
   strictMode: boolean
@@ -252,56 +255,10 @@ export class UnitValidationService {
 
     const components = unit.systemComponents
 
-    // Engine validation
-    if (!components.engine) {
-      errors.push({
-        id: 'missing-engine',
-        category: 'error',
-        message: 'Engine configuration is required',
-        field: 'systemComponents.engine',
-      })
-    } else {
-      if (components.engine.rating <= 0) {
-        errors.push({
-          id: 'invalid-engine-rating',
-          category: 'error',
-          message: 'Engine rating must be greater than 0',
-          field: 'systemComponents.engine.rating',
-        })
-      }
-
-      if (components.engine.rating > 400) {
-        errors.push({
-          id: 'excessive-engine-rating',
-          category: 'error',
-          message: 'Engine rating cannot exceed 400',
-          field: 'systemComponents.engine.rating',
-        })
-      }
-
-      // Check engine rating vs unit mass
-      const unitMass = unit.mass || 50
-      const maxWalkMP = Math.floor(400 / unitMass)
-      const currentWalkMP = Math.floor(components.engine.rating / unitMass)
-      
-      if (currentWalkMP > maxWalkMP) {
-        errors.push({
-          id: 'engine-rating-exceeds-limit',
-          category: 'error',
-          message: `Engine rating too high for ${unitMass}-ton unit. Maximum walk MP: ${maxWalkMP}`,
-          field: 'systemComponents.engine.rating',
-        })
-      }
-
-      if (currentWalkMP < 1) {
-        errors.push({
-          id: 'insufficient-engine-rating',
-          category: 'error',
-          message: 'Engine rating too low - unit must have at least 1 walk MP',
-          field: 'systemComponents.engine.rating',
-        })
-      }
-    }
+    // Engine validation - delegated to EngineValidationService
+    const engineValidation = EngineValidationService.validateEngineIntegration(unit, context)
+    errors.push(...engineValidation.errors)
+    warnings.push(...engineValidation.warnings)
 
     // Heat sink validation
     if (!components.heatSinks) {
@@ -558,105 +515,39 @@ export class UnitValidationService {
       }
     }
 
-    // Equipment tech compatibility
-    if (unit.data?.weapons_and_equipment) {
-      unit.data.weapons_and_equipment.forEach((item, index) => {
-        if (item.tech_base && unitTechBase) {
-          const itemTechBase = item.tech_base === 'IS' ? 'Inner Sphere' : 'Clan'
-          
-          if (unitTechBase === 'Inner Sphere' && itemTechBase === 'Clan') {
-            if (context.strictMode) {
-              errors.push({
-                id: `equipment-tech-mismatch-${index}`,
-                category: 'error',
-                message: `${item.item_name}: Clan equipment incompatible with Inner Sphere tech base`,
-                field: `weapons_and_equipment[${index}].tech_base`,
-              })
-            } else {
-              warnings.push({
-                id: `equipment-tech-mismatch-${index}`,
-                category: 'warning',
-                message: `${item.item_name}: Mixed tech detected`,
-                field: `weapons_and_equipment[${index}].tech_base`,
-              })
-            }
-          }
-        }
+    // Equipment tech compatibility - delegated to WeaponValidationService
+    if (context.checkTechCompatibility && unit.data?.weapons_and_equipment) {
+      const weaponValidation = WeaponValidationService.validateWeapons(unit, {
+        strictMode: context.strictMode,
+        checkTechCompatibility: true,
+        validateAmmoBalance: false,
+        enforceEraRestrictions: false
       })
+      errors.push(...weaponValidation.errors)
+      warnings.push(...weaponValidation.warnings)
     }
 
     return { errors, warnings }
   }
 
   /**
-   * Validate armor allocation
+   * Validate armor allocation - delegated to StructureValidationService
    */
   static validateArmorAllocation(
     unit: EditableUnit,
     context: ValidationContext
   ): { errors: ValidationError[], warnings: ValidationError[] } {
-    const errors: ValidationError[] = []
-    const warnings: ValidationError[] = []
+    const structureValidation = StructureValidationService.validateStructure(unit, {
+      strictMode: context.strictMode,
+      validateArmorDistribution: true,
+      enforceArmorLimits: true,
+      checkStructureIntegrity: false // Only armor validation needed here
+    })
 
-    if (!unit.data?.armor) {
-      warnings.push({
-        id: 'missing-armor-config',
-        category: 'warning',
-        message: 'Armor configuration should be specified',
-        field: 'armor',
-      })
-      return { errors, warnings }
+    return {
+      errors: structureValidation.errors,
+      warnings: structureValidation.warnings
     }
-
-    const armor = unit.data.armor
-
-    // Check for negative armor values
-    if (armor.locations) {
-      armor.locations.forEach((location, index) => {
-        if (location.armor_points < 0) {
-          errors.push({
-            id: `negative-armor-${index}`,
-            category: 'error',
-            message: `${location.location}: Armor points cannot be negative`,
-            field: `armor.locations[${index}].armor_points`,
-          })
-        }
-
-        if (location.rear_armor_points && location.rear_armor_points < 0) {
-          errors.push({
-            id: `negative-rear-armor-${index}`,
-            category: 'error',
-            message: `${location.location}: Rear armor points cannot be negative`,
-            field: `armor.locations[${index}].rear_armor_points`,
-          })
-        }
-
-        // Check head armor maximum (9 points)
-        if (location.location.toLowerCase().includes('head') && location.armor_points > 9) {
-          errors.push({
-            id: `head-armor-excess-${index}`,
-            category: 'error',
-            message: `Head armor cannot exceed 9 points (current: ${location.armor_points})`,
-            field: `armor.locations[${index}].armor_points`,
-          })
-        }
-
-        // Check for rear armor on head, arms, legs
-        if (location.rear_armor_points && location.rear_armor_points > 0) {
-          const locationName = location.location.toLowerCase()
-          if (locationName.includes('head') || locationName.includes('arm') || locationName.includes('leg')) {
-            errors.push({
-              id: `invalid-rear-armor-${index}`,
-              category: 'error',
-              message: `${location.location}: Cannot have rear armor`,
-              field: `armor.locations[${index}].rear_armor_points`,
-            })
-          }
-        }
-      })
-    }
-
-    return { errors, warnings }
   }
 
   /**
