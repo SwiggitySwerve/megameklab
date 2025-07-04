@@ -395,6 +395,10 @@ export class UnitCriticalManager {
   updateConfiguration(newConfiguration: UnitConfiguration): void {
     const oldConfig = this.configuration
     
+    // Debug: Log input armor allocation
+    if (process.env.NODE_ENV === 'test') {
+      console.log('[DEBUG] updateConfiguration input armorAllocation:', JSON.stringify(newConfiguration.armorAllocation));
+    }
     // CRITICAL FIX: Force engine rating recalculation if tonnage or walkMP changed
     const shouldRecalculateEngineRating = 
       newConfiguration.tonnage !== oldConfig.tonnage || 
@@ -409,6 +413,11 @@ export class UnitCriticalManager {
     
     // Enforce BattleTech construction rules
     validatedConfig = this.enforceConstructionRules(validatedConfig)
+    
+    // Debug: Log output armor allocation
+    if (process.env.NODE_ENV === 'test') {
+      console.log('[DEBUG] enforceConstructionRules output armorAllocation:', JSON.stringify(validatedConfig.armorAllocation));
+    }
     
     // Handle special component changes
     this.handleSpecialComponentConfigurationChange(oldConfig, validatedConfig)
@@ -433,22 +442,16 @@ export class UnitCriticalManager {
     
     // Enforce head armor maximum (9 points)
     if (enforcedConfig.armorAllocation.HD.front > 9) {
-      enforcedConfig.armorAllocation = {
-        ...enforcedConfig.armorAllocation,
-        HD: { front: 9, rear: 0 }
-      }
+      enforcedConfig.armorAllocation.HD = { front: 9, rear: 0 }
     }
     
     // Enforce no rear armor on head, arms, legs
     const noRearLocations = ['HD', 'LA', 'RA', 'LL', 'RL']
     noRearLocations.forEach(location => {
       if (enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation].rear > 0) {
-        enforcedConfig.armorAllocation = {
-          ...enforcedConfig.armorAllocation,
-          [location]: {
-            ...enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation],
-            rear: 0
-          }
+        enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation] = {
+          ...enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation],
+          rear: 0
         }
       }
     })
@@ -462,16 +465,16 @@ export class UnitCriticalManager {
       if (totalArmor > maxArmor) {
         // Reduce proportionally
         const ratio = maxArmor / totalArmor
-        enforcedConfig.armorAllocation = {
-          ...enforcedConfig.armorAllocation,
-          [location]: {
-            front: Math.floor(currentArmor.front * ratio),
-            rear: Math.floor(currentArmor.rear * ratio)
-          }
+        enforcedConfig.armorAllocation[location as keyof typeof enforcedConfig.armorAllocation] = {
+          front: Math.floor(currentArmor.front * ratio),
+          rear: Math.floor(currentArmor.rear * ratio)
         }
       }
     })
     
+    if (process.env.NODE_ENV === 'test') {
+      console.log('[DEBUG] enforceConstructionRules final armorAllocation:', JSON.stringify(enforcedConfig.armorAllocation));
+    }
     return enforcedConfig
   }
 
@@ -1730,21 +1733,21 @@ export class UnitCriticalManager {
    * Get total critical slots available on a standard BattleMech
    */
   getTotalCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().total
+    return this.getCriticalSlotBreakdown().totals.capacity;
   }
 
   /**
    * Get total critical slots used (including system components and user equipment)
    */
   getTotalUsedCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().used
+    return this.getCriticalSlotBreakdown().totals.used;
   }
 
   /**
    * Get remaining critical slots available for equipment
    */
   getRemainingCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().free
+    return this.getCriticalSlotBreakdown().totals.remaining;
   }
 
   /**

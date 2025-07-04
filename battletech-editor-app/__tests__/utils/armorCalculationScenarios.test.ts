@@ -4,6 +4,7 @@
  */
 
 import { UnitCriticalManager, UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 describe('Armor Calculation Scenarios', () => {
   
@@ -18,9 +19,9 @@ describe('Armor Calculation Scenarios', () => {
       engineRating: 200,
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 30, rear: 10 },
@@ -32,13 +33,13 @@ describe('Armor Calculation Scenarios', () => {
         RL: { front: 30, rear: 0 }
       },
       armorTonnage: 8.0,
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as ComponentConfiguration,
       totalHeatSinks: 10,
       internalHeatSinks: 8,
       externalHeatSinks: 2,
       enhancementType: null,
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' } as ComponentConfiguration,
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50,
@@ -158,7 +159,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getUnallocatedArmorPoints()).toBe(11)  // Raw calculation: 176 - 165 = 11
       
       const waste = unit.getArmorWasteAnalysis()
-      expect(waste.totalWasted).toBe(11)                 // 176 - 165 = 11 wasted points
+      expect(waste.totalWasted).toBe(11)                  // 176 - 165 = 11 wasted points
     })
     
     test('11 tons armor with partial allocation', () => {
@@ -185,7 +186,7 @@ describe('Armor Calculation Scenarios', () => {
       expect(unit.getUnallocatedArmorPoints()).toBe(36)  // Raw calculation: 176 - 140 = 36
       
       const waste = unit.getArmorWasteAnalysis()
-      expect(waste.totalWasted).toBe(11)                 // Actual waste from the system
+      expect(waste.totalWasted).toBe(11)                  // Actual waste from the system
     })
   })
 
@@ -244,7 +245,7 @@ describe('Armor Calculation Scenarios', () => {
       // 8 tons × 17.92 = 143.36 → but system calculates 147
       const unit = createTestUnit({
         tonnage: 50,
-        armorType: 'Ferro-Fibrous',
+        armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' } as ComponentConfiguration,
         armorTonnage: 8.0,
         armorAllocation: {
           HD: { front: 9, rear: 0 },

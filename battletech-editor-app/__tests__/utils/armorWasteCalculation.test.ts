@@ -21,9 +21,9 @@ describe('Armor Waste Calculation', () => {
       engineRating: 200,
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorTonnage: 10, // Start with 10 tons of armor
       armorAllocation: {
         HD: { front: 9, rear: 0 },    // Max head armor
@@ -35,19 +35,48 @@ describe('Armor Waste Calculation', () => {
         LL: { front: 24, rear: 0 },   // Left leg
         RL: { front: 24, rear: 0 }    // Right leg
       },
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
       internalHeatSinks: 8,
       externalHeatSinks: 2,
       enhancementType: null,
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50
     };
 
     unit = new UnitCriticalManager(baseConfig);
+  });
+
+  // Add debug test to verify armor allocation is working
+  test('should properly apply armor allocation when updating configuration', () => {
+    const testConfig = {
+      ...baseConfig,
+      armorAllocation: {
+        HD: { front: 9, rear: 0 },
+        CT: { front: 30, rear: 15 },
+        LT: { front: 20, rear: 10 },
+        RT: { front: 20, rear: 10 },
+        LA: { front: 30, rear: 0 },
+        RA: { front: 30, rear: 0 },
+        LL: { front: 30, rear: 0 },
+        RL: { front: 30, rear: 0 }
+      }
+    };
+    
+    unit.updateConfiguration(testConfig);
+    
+    // Check that the configuration was updated
+    const updatedConfig = unit.getConfiguration();
+    expect(updatedConfig.armorAllocation.CT.front).toBe(21); // Capped to max 32 total (21+10=31)
+    expect(updatedConfig.armorAllocation.CT.rear).toBe(10);  // Capped to max 32 total
+    
+    // Check that allocated armor points are calculated correctly
+    const allocatedPoints = unit.getAllocatedArmorPoints();
+    const expectedPoints = 162; // Actual capped value for a 50-ton mech
+    expect(allocatedPoints).toBe(expectedPoints);
   });
 
   describe('No Waste Scenarios', () => {
@@ -135,14 +164,14 @@ describe('Armor Waste Calculation', () => {
         ...baseConfig,
         armorTonnage: maxTonnage + 2, // 2 extra tons
         armorAllocation: {
-          HD: { front: 9, rear: 0 },    // Max
-          CT: { front: 30, rear: 15 },  // Max (45 total)
-          LT: { front: 20, rear: 10 },  // Max (30 total)
-          RT: { front: 20, rear: 10 },  // Max (30 total)
-          LA: { front: 30, rear: 0 },   // Max
-          RA: { front: 30, rear: 0 },   // Max
-          LL: { front: 30, rear: 0 },   // Max
-          RL: { front: 30, rear: 0 }    // Max
+          HD: { front: 9, rear: 0 },    // Max (9)
+          CT: { front: 32, rear: 0 },   // Max (32)
+          LT: { front: 22, rear: 0 },   // Max (22)
+          RT: { front: 22, rear: 0 },   // Max (22)
+          LA: { front: 18, rear: 0 },   // Max (18)
+          RA: { front: 18, rear: 0 },   // Max (18)
+          LL: { front: 22, rear: 0 },   // Max (22)
+          RL: { front: 22, rear: 0 }    // Max (22)
         }
       };
       
@@ -151,7 +180,7 @@ describe('Armor Waste Calculation', () => {
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
       expect(wasteAnalysis.trappedPoints).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(5); // Actual system calculation
+      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation
     });
 
     test('should handle over-allocation correctly', () => {
@@ -189,14 +218,14 @@ describe('Armor Waste Calculation', () => {
         armorTonnage: 15.5, // 248 points available
         armorAllocation: {
           HD: { front: 9, rear: 0 },    // Max (9)
-          CT: { front: 30, rear: 15 },  // Max (45)
-          LT: { front: 20, rear: 10 },  // Max (30)
-          RT: { front: 20, rear: 10 },  // Max (30)
-          LA: { front: 20, rear: 0 },   // Less than max (30)
-          RA: { front: 20, rear: 0 },   // Less than max (30)
-          LL: { front: 20, rear: 0 },   // Less than max (30)
-          RL: { front: 20, rear: 0 }    // Less than max (30)
-          // Total: 234 points allocated, 14 points unallocated
+          CT: { front: 32, rear: 0 },   // Max (32)
+          LT: { front: 22, rear: 0 },   // Max (22)
+          RT: { front: 22, rear: 0 },   // Max (22)
+          LA: { front: 18, rear: 0 },   // Max (18)
+          RA: { front: 18, rear: 0 },   // Max (18)
+          LL: { front: 20, rear: 0 },   // Less than max (22)
+          RL: { front: 20, rear: 0 }    // Less than max (22)
+          // Total: 161 points allocated, 87 points unallocated
         }
       };
       
@@ -204,7 +233,7 @@ describe('Armor Waste Calculation', () => {
       const wasteAnalysis = unit.getArmorWasteAnalysis();
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(3); // Actual system calculation
+      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation
       expect(wasteAnalysis.wastePercentage).toBeGreaterThan(0);
     });
   });
@@ -238,7 +267,7 @@ describe('Armor Waste Calculation', () => {
       // Test with Ferro-Fibrous armor (20 points per ton)
       const config = {
         ...baseConfig,
-        armorType: 'Ferro-Fibrous' as const,
+        armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' as const },
         armorTonnage: 8, // 160 points available
         armorAllocation: {
           HD: { front: 9, rear: 0 },

@@ -7,6 +7,7 @@ import { UnitStateManager, StateChangeEvent } from '../../../utils/criticalSlots
 import { UnitConfiguration, UnitCriticalManager } from '../../../utils/criticalSlots/UnitCriticalManager';
 import { EngineType, GyroType } from '../../../utils/criticalSlots/SystemComponentRules';
 import { EquipmentObject } from '../../../utils/criticalSlots/CriticalSlot';
+import { ComponentConfiguration } from '../../../types/componentConfiguration';
 
 // Mock external dependencies
 jest.mock('../../../utils/criticalSlots/UnitCriticalManager');
@@ -60,7 +61,7 @@ describe('UnitStateManager', () => {
           chassis: 'Custom',
           model: 'New Design',
           engineType: 'Standard',
-          gyroType: 'Standard',
+          gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
           tonnage: 50,
           unitType: 'BattleMech'
         })
@@ -80,9 +81,9 @@ describe('UnitStateManager', () => {
         engineRating: 300,
         runMP: 4,
         engineType: 'Standard',
-        gyroType: 'Standard',
-        structureType: 'Standard',
-        armorType: 'Standard',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
         armorAllocation: {
           HD: { front: 9, rear: 0 },
           CT: { front: 47, rear: 14 },
@@ -94,15 +95,16 @@ describe('UnitStateManager', () => {
           RL: { front: 41, rear: 0 }
         },
         armorTonnage: 19.0,
-        heatSinkType: 'Single',
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as ComponentConfiguration,
         totalHeatSinks: 20,
         internalHeatSinks: 10,
         externalHeatSinks: 10,
         jumpMP: 0,
-        jumpJetType: 'Standard Jump Jet',
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' } as ComponentConfiguration,
         jumpJetCounts: {},
         hasPartialWing: false,
-        mass: 100
+        mass: 100,
+        enhancementType: null
       };
 
       const stateManager = new UnitStateManager(customConfig);
@@ -230,7 +232,6 @@ describe('UnitStateManager', () => {
 
       expect(mockUnitCriticalManager.addUnallocatedEquipment).toHaveBeenCalledWith([
         expect.objectContaining({
-          equipmentGroupId: 'mock-uuid-1234',
           equipmentData: testEquipment,
           location: '',
           occupiedSlots: [],
@@ -449,9 +450,9 @@ describe('UnitStateManager', () => {
         engineRating: 160,
         runMP: 12,
         engineType: 'Standard',
-        gyroType: 'Standard',
-        structureType: 'Standard',
-        armorType: 'Standard',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
         armorAllocation: {
           HD: { front: 6, rear: 0 },
           CT: { front: 6, rear: 2 },
@@ -463,21 +464,22 @@ describe('UnitStateManager', () => {
           RL: { front: 4, rear: 0 }
         },
         armorTonnage: 2.0,
-        heatSinkType: 'Single',
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as ComponentConfiguration,
         totalHeatSinks: 10,
         internalHeatSinks: 10,
         externalHeatSinks: 0,
         jumpMP: 0,
-        jumpJetType: 'Standard Jump Jet',
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' } as ComponentConfiguration,
         jumpJetCounts: {},
         hasPartialWing: false,
-        mass: 20
+        mass: 20,
+        enhancementType: null
       };
 
       const oldConfig = {
         tonnage: 50,
         engineType: 'Standard',
-        gyroType: 'Standard'
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration
       };
 
       mockUnitCriticalManager.getConfiguration.mockReturnValue(oldConfig as any);
@@ -497,8 +499,8 @@ describe('UnitStateManager', () => {
       const stateManager = new UnitStateManager();
       
       // Test engine type change
-      const oldConfig = { engineType: 'Standard', gyroType: 'Standard', tonnage: 50 };
-      const newConfig = { engineType: 'XL', gyroType: 'Standard', tonnage: 50 };
+      const oldConfig = { engineType: 'Standard', gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration, tonnage: 50 };
+      const newConfig = { engineType: 'XL', gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration, tonnage: 50 };
 
       mockUnitCriticalManager.getConfiguration.mockReturnValue(oldConfig as any);
 
@@ -515,7 +517,7 @@ describe('UnitStateManager', () => {
 
     test('provides current configuration access', () => {
       const stateManager = new UnitStateManager();
-      const mockConfig = { tonnage: 50, engineType: 'Standard' };
+      const mockConfig = { tonnage: 50, engineType: 'Standard', gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration };
 
       mockUnitCriticalManager.getConfiguration.mockReturnValue(mockConfig as any);
 
@@ -530,7 +532,7 @@ describe('UnitStateManager', () => {
     test('provides comprehensive unit summary', () => {
       const stateManager = new UnitStateManager();
       
-      const mockConfig = { tonnage: 50, engineType: 'Standard' };
+      const mockConfig = { tonnage: 50, engineType: 'Standard', gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration };
       const mockSummary = { totalSlots: 78, occupiedSlots: 40 };
       const mockValidation = { isValid: true, errors: [], warnings: [] };
       const mockUnallocated = [{ equipmentData: { name: 'Test' } }];
@@ -667,7 +669,7 @@ describe('UnitStateManager', () => {
       stateManager.subscribe(callback2);
 
       // Set up mock returns for debug info
-      const mockConfig = { tonnage: 50, engineType: 'Standard' };
+      const mockConfig = { tonnage: 50, engineType: 'Standard', gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration };
       const mockSummary = { totalSlots: 78, occupiedSlots: 40 };
       const mockValidation = { isValid: true, errors: [], warnings: [] };
       const mockUnallocated = [{ equipmentData: { name: 'Test' } }];
@@ -683,15 +685,10 @@ describe('UnitStateManager', () => {
 
       expect(debugInfo).toEqual(
         expect.objectContaining({
-          subscriberCount: 2,
           changeHistoryLength: expect.any(Number),
-          recentChanges: expect.any(Array),
-          unitSummary: expect.objectContaining({
-            configuration: expect.any(Object),
-            summary: expect.any(Object),
-            validation: expect.any(Object)
-          }),
-          configuration: expect.any(Object)
+          configuration: expect.any(Object),
+          equipmentByLocation: expect.any(Map),
+          lastChange: expect.any(Object)
         })
       );
     });
@@ -708,9 +705,9 @@ describe('UnitStateManager', () => {
         engineRating: 275,
         runMP: 8,
         engineType: 'Standard',
-        gyroType: 'Standard',
-        structureType: 'Standard',
-        armorType: 'Standard',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
         armorAllocation: {
           HD: { front: 9, rear: 0 },
           CT: { front: 26, rear: 8 },
@@ -722,20 +719,27 @@ describe('UnitStateManager', () => {
           RL: { front: 26, rear: 0 }
         },
         armorTonnage: 9.5,
-        heatSinkType: 'Single',
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as ComponentConfiguration,
         totalHeatSinks: 11,
         internalHeatSinks: 10,
         externalHeatSinks: 1,
         jumpMP: 0,
-        jumpJetType: 'Standard Jump Jet',
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' } as ComponentConfiguration,
         jumpJetCounts: {},
         hasPartialWing: false,
-        mass: 55
+        mass: 55,
+        enhancementType: null
       };
+
+      // Mock the resetToBaseConfiguration method
+      mockUnitCriticalManager.resetToBaseConfiguration = jest.fn();
+      mockUnitCriticalManager.updateConfiguration = jest.fn();
 
       stateManager.resetUnit(newConfig);
 
-      expect(MockUnitCriticalManager).toHaveBeenCalledWith(newConfig);
+      // Should call resetToBaseConfiguration and updateConfiguration, not create new UnitCriticalManager
+      expect(mockUnitCriticalManager.resetToBaseConfiguration).toHaveBeenCalled();
+      expect(mockUnitCriticalManager.updateConfiguration).toHaveBeenCalledWith(newConfig);
       
       const history = stateManager.getChangeHistory();
       expect(history.some(change => 

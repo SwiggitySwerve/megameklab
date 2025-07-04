@@ -27,12 +27,12 @@ describe('RuleManagementManager', () => {
       runMP: 5,
       engineType: 'Standard',
       jumpMP: 0,
-      jumpJetType: { type: 'Standard', techBase: 'IS' } as ComponentConfiguration,
+      jumpJetType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
       jumpJetCounts: {},
       hasPartialWing: false,
-      gyroType: { type: 'Standard', techBase: 'IS' } as ComponentConfiguration,
-      structureType: { type: 'Standard', techBase: 'IS' } as ComponentConfiguration,
-      armorType: { type: 'Standard', techBase: 'IS' } as ComponentConfiguration,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' } as ComponentConfiguration,
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 31, rear: 10 },
@@ -44,7 +44,7 @@ describe('RuleManagementManager', () => {
         RL: { front: 21, rear: 7 }
       },
       armorTonnage: 19.5,
-      heatSinkType: { type: 'Single', techBase: 'IS' } as ComponentConfiguration,
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as ComponentConfiguration,
       totalHeatSinks: 20,
       internalHeatSinks: 12,
       externalHeatSinks: 8,
@@ -211,8 +211,13 @@ describe('RuleManagementManager', () => {
     });
 
     test('should apply penalties for violations', () => {
-      const invalidConfig = { ...mockConfig, tonnage: 150 }; // Overweight configuration
-      const score = ruleManager.calculateRuleScore(invalidConfig, mockEquipment);
+      // Make the unit overweight by adding heavy equipment
+      const overweightEquipment = [
+        ...mockEquipment,
+        { name: 'Super Heavy Cannon', type: 'weapon', weight: 200, heat: 0, criticalSlots: 20 }
+      ];
+      const invalidConfig = { ...mockConfig, tonnage: 100 };
+      const score = ruleManager.calculateRuleScore(invalidConfig, overweightEquipment);
       
       expect(score.overallScore).toBeLessThan(100); // Should have penalties
       expect(score.penalties.length).toBeGreaterThan(0);
@@ -244,11 +249,16 @@ describe('RuleManagementManager', () => {
 
   describe('Specific Rule Validations', () => {
     test('should validate weight limits correctly', () => {
+      // Overweight config: equipment exceeds tonnage
+      const overweightEquipment = [
+        ...mockEquipment,
+        { name: 'Super Heavy Cannon', type: 'weapon', weight: 200, heat: 0, criticalSlots: 20 }
+      ];
       const validConfig = { ...mockConfig, tonnage: 100 };
-      const overweightConfig = { ...mockConfig, tonnage: 150 };
+      const overweightConfig = { ...mockConfig, tonnage: 100 };
       
       const validScore = ruleManager.calculateRuleScore(validConfig, mockEquipment);
-      const overweightScore = ruleManager.calculateRuleScore(overweightConfig, mockEquipment);
+      const overweightScore = ruleManager.calculateRuleScore(overweightConfig, overweightEquipment);
       
       // Valid configuration should score higher
       expect(validScore.overallScore).toBeGreaterThan(overweightScore.overallScore);
@@ -271,8 +281,9 @@ describe('RuleManagementManager', () => {
     });
 
     test('should validate engine rating correctly', () => {
+      // Invalid engine rating: walkMP = 12 (engineRating 1200 / tonnage 100)
       const validEngineConfig = { ...mockConfig, engineRating: 300 };
-      const invalidEngineConfig = { ...mockConfig, engineRating: 500 }; // Exceeds 400 limit
+      const invalidEngineConfig = { ...mockConfig, engineRating: 1200 };
       
       const validScore = ruleManager.calculateRuleScore(validEngineConfig, mockEquipment);
       const invalidScore = ruleManager.calculateRuleScore(invalidEngineConfig, mockEquipment);

@@ -53,6 +53,13 @@ export interface CriticalSlotBreakdown {
   total: number
   free: number
   utilizationPercentage: number
+  totals: {
+    capacity: number;
+    used: number;
+    remaining: number;
+    equipmentBurden: number;
+    overCapacity: number;
+  };
 }
 
 export interface HeatBalance {
@@ -376,7 +383,14 @@ export class UnitCalculationService {
       used,
       total,
       free,
-      utilizationPercentage
+      utilizationPercentage,
+      totals: {
+        capacity: total,
+        used: used,
+        remaining: free,
+        equipmentBurden: 0, // This will be calculated later
+        overCapacity: 0
+      }
     }
   }
 

@@ -109,16 +109,36 @@ describe('Equipment Displacement Fix', () => {
     // Step 4: Verify fix worked
     const afterSummary = unit.getSummary();
     const unallocatedEquipment = unit.getUnallocatedEquipment();
-    
+
+    // Helper to filter user equipment only
+    function isUserEquipment(eq: any) {
+      const name = eq.equipmentData?.name?.toLowerCase?.() || '';
+      const systemPatterns = [
+        'engine', 'gyro', 'heat sink', 'jump jet', 'cockpit', 'life support', 'sensors',
+        'shoulder', 'upper arm', 'lower arm', 'hand', 'hip', 'upper leg', 'lower leg', 'foot',
+        'structure', 'armor'
+      ];
+      return !systemPatterns.some(pattern => name.includes(pattern));
+    }
+
+    // Count only user equipment
+    const allocatedUserEquipment = [];
+    unit.getAllSections().forEach(section => {
+      section.getAllEquipment().forEach(eq => {
+        if (isUserEquipment(eq)) allocatedUserEquipment.push(eq);
+      });
+    });
+    const unallocatedUserEquipment = unallocatedEquipment.filter(isUserEquipment);
+    const totalUserEquipmentAfter = allocatedUserEquipment.length + unallocatedUserEquipment.length;
+
     // Verify engine changed
     expect(unit.getEngineType()).toBe('XL');
-    
-    // Verify all equipment is preserved (accounting for system-generated equipment)
-    const totalEquipmentAfter = afterSummary.totalEquipment + (afterSummary.unallocatedEquipment - baseUnallocatedCount);
-    expect(totalEquipmentAfter).toBe(2);
-    
-    // Verify some equipment was displaced (should have more unallocated equipment than base)
-    expect(afterSummary.unallocatedEquipment).toBeGreaterThanOrEqual(baseUnallocatedCount);
+
+    // Verify all user equipment is preserved
+    expect(totalUserEquipmentAfter).toBe(2);
+
+    // Verify some equipment was displaced (should have more unallocated user equipment than base)
+    expect(unallocatedUserEquipment.length).toBeGreaterThanOrEqual(1);
   });
 
   test('equipment should remain preserved when changing back to Standard engine', () => {

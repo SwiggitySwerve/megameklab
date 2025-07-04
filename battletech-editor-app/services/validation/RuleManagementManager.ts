@@ -284,7 +284,6 @@ export class RuleManagementManager {
     complianceResults.forEach(result => {
       if (!result.compliant) {
         const penalty = this.getSeverityPenalty(result.rule.severity);
-        totalScore -= penalty;
         penalties.push({
           rule: result.rule.name,
           penalty,
@@ -292,7 +291,6 @@ export class RuleManagementManager {
         });
       } else {
         const bonus = this.getComplianceBonus(result.rule.severity);
-        totalScore += bonus;
         bonuses.push({
           feature: result.rule.name,
           bonus,
@@ -301,8 +299,24 @@ export class RuleManagementManager {
       }
     });
 
+    // Apply bonuses first
+    bonuses.forEach(bonus => {
+      totalScore += bonus.bonus;
+    });
+
+    // Cap at 100 after bonuses
+    totalScore = Math.min(100, totalScore);
+
+    // Apply penalties after bonuses
+    penalties.forEach(penalty => {
+      totalScore -= penalty.penalty;
+    });
+
+    // Final cap at 0
+    totalScore = Math.max(0, totalScore);
+
     return {
-      overallScore: Math.max(0, Math.min(100, totalScore)),
+      overallScore: totalScore,
       categoryScores,
       componentScores,
       penalties,
@@ -313,11 +327,11 @@ export class RuleManagementManager {
   /**
    * Validate total weight
    */
-  private validateTotalWeight(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateTotalWeight(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const totalWeight = this.calculateTotalWeight(config, equipment);
     const maxWeight = config.tonnage;
     const compliant = totalWeight <= maxWeight;
-
     return {
       rule: this.BATTLETECH_RULES.find(r => r.id === 'WEIGHT_001')!,
       compliant,
@@ -337,7 +351,8 @@ export class RuleManagementManager {
   /**
    * Validate minimum weight
    */
-  private validateMinimumWeight(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateMinimumWeight(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const totalWeight = this.calculateTotalWeight(config, equipment);
     const minWeight = config.tonnage * 0.95; // 95% of tonnage
     const compliant = totalWeight >= minWeight;
@@ -361,7 +376,8 @@ export class RuleManagementManager {
   /**
    * Validate weight distribution
    */
-  private validateWeightDistribution(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateWeightDistribution(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     // Simplified weight distribution validation
     const totalWeight = this.calculateTotalWeight(config, equipment);
     const engineWeight = this.calculateEngineWeight(config.engineRating, this.extractComponentType(config.engineType));
@@ -387,7 +403,8 @@ export class RuleManagementManager {
   /**
    * Validate heat sinks
    */
-  private validateHeatSinks(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateHeatSinks(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const heatGeneration = this.calculateHeatGeneration(equipment);
     const engineHeatSinks = this.getEngineHeatSinks(config);
     const externalHeatSinks = this.getExternalHeatSinks(equipment);
@@ -413,7 +430,8 @@ export class RuleManagementManager {
   /**
    * Validate heat sink compatibility
    */
-  private validateHeatSinkCompatibility(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateHeatSinkCompatibility(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const engineType = this.extractComponentType(config.engineType);
     const hasDoubleHeatSinks = equipment.some(item => item.type === 'heat_sink' && item.name.includes('Double'));
     const compliant = !(engineType === 'ICE' && hasDoubleHeatSinks); // ICE engines can't use double heat sinks
@@ -437,7 +455,8 @@ export class RuleManagementManager {
   /**
    * Validate engine rating
    */
-  private validateEngineRating(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateEngineRating(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const engineRating = config.engineRating;
     const tonnage = config.tonnage;
     const walkMP = Math.floor(engineRating / tonnage);
@@ -462,7 +481,8 @@ export class RuleManagementManager {
   /**
    * Validate jump jet limits
    */
-  private validateJumpJetLimits(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateJumpJetLimits(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const jumpJets = equipment.filter(item => item.type === 'jump_jet');
     const jumpJetCount = jumpJets.length;
     const maxJumpJets = Math.floor(config.tonnage / 5); // 1 jump jet per 5 tons
@@ -487,7 +507,8 @@ export class RuleManagementManager {
   /**
    * Validate maximum armor
    */
-  private validateMaximumArmor(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateMaximumArmor(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const maxArmor = this.calculateMaxArmor(config.tonnage);
     const totalArmor = this.calculateTotalArmor(config, equipment);
     const compliant = totalArmor <= maxArmor;
@@ -511,7 +532,8 @@ export class RuleManagementManager {
   /**
    * Validate armor type compatibility
    */
-  private validateArmorTypeCompatibility(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateArmorTypeCompatibility(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const armorType = this.extractComponentType(config.armorType);
     const validTypes = ['Standard', 'Ferro-Fibrous', 'Ferro-Fibrous (Clan)', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous'];
     const compliant = validTypes.includes(armorType);
@@ -535,7 +557,8 @@ export class RuleManagementManager {
   /**
    * Validate structure type
    */
-  private validateStructureType(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateStructureType(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const structureType = this.extractComponentType(config.structureType);
     const validTypes = ['Standard', 'Endo Steel', 'Endo Steel (Clan)'];
     const compliant = validTypes.includes(structureType);
@@ -559,7 +582,8 @@ export class RuleManagementManager {
   /**
    * Validate engine type
    */
-  private validateEngineType(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateEngineType(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const engineType = this.extractComponentType(config.engineType);
     const validTypes = ['Standard', 'XL', 'XL (IS)', 'XL (Clan)', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
     const compliant = validTypes.includes(engineType);
@@ -583,7 +607,8 @@ export class RuleManagementManager {
   /**
    * Validate gyro compatibility
    */
-  private validateGyroCompatibility(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateGyroCompatibility(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     const gyroType = this.extractComponentType(config.gyroType);
     const engineType = this.extractComponentType(config.engineType);
     const compliant = this.isGyroEngineCompatible(gyroType, engineType);
@@ -607,13 +632,31 @@ export class RuleManagementManager {
   /**
    * Validate tech level consistency
    */
-  private validateTechLevelConsistency(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateTechLevelConsistency(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     // Simplified tech level validation
-    const unitTechBase = config.techBase || 'IS';
+    const unitTechBase = config.techBase || 'Inner Sphere';
+    // Only allow 'Inner Sphere' or 'Clan' as valid tech bases
+    if (unitTechBase !== 'Inner Sphere' && unitTechBase !== 'Clan') {
+      return {
+        rule: this.BATTLETECH_RULES.find(r => r.id === 'TECH_001')!,
+        compliant: false,
+        score: 50,
+        violations: [{
+          ruleId: 'TECH_001',
+          ruleName: 'Tech Base Consistency',
+          description: 'Invalid tech base',
+          severity: 'major',
+          impact: 'Inconsistent tech base',
+          suggestedFix: 'Use a valid tech base for all components'
+        }],
+        notes: 'Invalid tech base detected'
+      };
+    }
     const hasClanEquipment = equipment.some(item => item.techBase === 'Clan');
     const hasISEquipment = equipment.some(item => item.techBase === 'IS');
     const isMixed = hasClanEquipment && hasISEquipment;
-    const compliant = !isMixed || unitTechBase === 'Mixed';
+    const compliant = !isMixed;
 
     return {
       rule: this.BATTLETECH_RULES.find(r => r.id === 'TECH_001')!,
@@ -622,10 +665,10 @@ export class RuleManagementManager {
       violations: compliant ? [] : [{
         ruleId: 'TECH_001',
         ruleName: 'Tech Level Consistency',
-        description: 'Mixed tech components require Mixed tech base',
+        description: 'Mixed tech components are not allowed',
         severity: 'major',
         impact: 'Tech level inconsistency',
-        suggestedFix: 'Set tech base to Mixed or use consistent components'
+        suggestedFix: 'Use consistent tech base for all components'
       }],
       notes: `Tech Base: ${unitTechBase}, Mixed: ${isMixed}`
     };
@@ -634,9 +677,10 @@ export class RuleManagementManager {
   /**
    * Validate era restrictions
    */
-  private validateEraRestrictions(config: UnitConfiguration, equipment: any[]): RuleComplianceResult {
+  private validateEraRestrictions(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    equipment = equipment || [];
     // Simplified era validation
-    const era = config.era || 'Succession Wars';
+    const era = (config as any).era || 'Succession Wars';
     const hasAdvancedEquipment = equipment.some(item => item.era && item.era !== 'Succession Wars');
     const compliant = !hasAdvancedEquipment || era !== 'Succession Wars';
 
@@ -702,15 +746,16 @@ export class RuleManagementManager {
   /**
    * Calculate total weight
    */
-  private calculateTotalWeight(config: UnitConfiguration, equipment: any[]): number {
+  private calculateTotalWeight(config: UnitConfiguration, equipment?: any[]): number {
+    equipment = equipment || [];
     const structureWeight = this.calculateStructureWeight(config.tonnage, this.extractComponentType(config.structureType));
     const armorWeight = this.calculateArmorWeight(this.calculateMaxArmor(config.tonnage), this.extractComponentType(config.armorType));
     const engineWeight = this.calculateEngineWeight(config.engineRating, this.extractComponentType(config.engineType));
     const gyroWeight = this.calculateGyroWeight(config.engineRating, this.extractComponentType(config.gyroType));
-    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType(config.cockpitType));
+    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType((config as any).cockpitType || 'Standard'));
     const equipmentWeight = equipment.reduce((sum, item) => sum + (item.weight || 0), 0);
-
-    return structureWeight + armorWeight + engineWeight + gyroWeight + cockpitWeight + equipmentWeight;
+    const total = structureWeight + armorWeight + engineWeight + gyroWeight + cockpitWeight + equipmentWeight;
+    return total;
   }
 
   /**

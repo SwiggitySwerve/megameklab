@@ -20,6 +20,11 @@ export class UnitConfigurationBuilder {
    * Create a complete UnitConfiguration from legacy or partial configuration
    */
   static buildConfiguration(input: Partial<UnitConfiguration> | LegacyUnitConfiguration): UnitConfiguration {
+    // Handle undefined or null input
+    if (!input) {
+      return this.getDefaultConfiguration()
+    }
+    
     // Handle legacy configuration
     if ('mass' in input && !('tonnage' in input)) {
       return this.fromLegacyConfiguration(input as LegacyUnitConfiguration)
@@ -29,13 +34,31 @@ export class UnitConfigurationBuilder {
     const defaults = this.getDefaultConfiguration()
     const config = { ...defaults, ...input } as UnitConfiguration
     
+    // Ensure armorAllocation is properly merged if provided in input
+    if (input && 'armorAllocation' in input && input.armorAllocation) {
+      const mergedArmorAllocation = { ...defaults.armorAllocation };
+      (Object.keys(defaults.armorAllocation) as (keyof typeof defaults.armorAllocation)[]).forEach(loc => {
+        if (input.armorAllocation![loc]) {
+          mergedArmorAllocation[loc] = {
+            ...defaults.armorAllocation[loc],
+            ...input.armorAllocation![loc]
+          };
+        }
+      });
+      config.armorAllocation = mergedArmorAllocation;
+    }
+    
     // Always recalculate engineRating unless explicitly set in the input
     if (!Object.prototype.hasOwnProperty.call(input, 'engineRating')) {
       config.engineRating = config.tonnage * config.walkMP
     }
     
     // Calculate dependent values
-    return this.calculateDependentValues(config)
+    const result = this.calculateDependentValues(config)
+    if (process.env.NODE_ENV === 'test') {
+      console.log('[DEBUG] buildConfiguration output armorAllocation:', JSON.stringify(result.armorAllocation));
+    }
+    return result
   }
   
   /**

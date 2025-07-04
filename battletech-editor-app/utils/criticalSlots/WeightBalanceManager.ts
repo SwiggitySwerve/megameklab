@@ -121,16 +121,16 @@ export class WeightBalanceManager {
     try {
       const structure = getInternalStructurePoints(tonnage)
       
-      // Convert to the expected format with full location names
+      // Convert to the expected format with abbreviation keys
       return {
-        'Head': structure.HD,
-        'Center Torso': structure.CT,
-        'Left Torso': structure.LT,
-        'Right Torso': structure.RT,
-        'Left Arm': structure.LA,
-        'Right Arm': structure.RA,
-        'Left Leg': structure.LL,
-        'Right Leg': structure.RL
+        HD: structure.HD,
+        CT: structure.CT,
+        LT: structure.LT,
+        RT: structure.RT,
+        LA: structure.LA,
+        RA: structure.RA,
+        LL: structure.LL,
+        RL: structure.RL
       }
     } catch (error) {
       // Fallback for invalid tonnages or missing table data
@@ -139,14 +139,14 @@ export class WeightBalanceManager {
       // Fallback calculation for non-standard tonnages
       const basePoints = Math.max(3, Math.min(8, Math.floor(tonnage / 10)))
       return {
-        'Head': 3, // Head is always 3 internal structure points
-        'Center Torso': basePoints,
-        'Left Torso': basePoints,
-        'Right Torso': basePoints,
-        'Left Arm': basePoints,
-        'Right Arm': basePoints,
-        'Left Leg': basePoints,
-        'Right Leg': basePoints
+        HD: 3, // Head is always 3 internal structure points
+        CT: basePoints,
+        LT: basePoints,
+        RT: basePoints,
+        LA: basePoints,
+        RA: basePoints,
+        LL: basePoints,
+        RL: basePoints
       }
     }
   }

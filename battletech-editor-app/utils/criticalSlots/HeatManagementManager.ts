@@ -33,7 +33,13 @@ export class HeatManagementManager {
     
     // Calculate total heat dissipation
     const totalHeatSinks = baseHeatSinks + externalHeatSinks
-    return totalHeatSinks * heatSinkEfficiency
+    const totalDissipation = totalHeatSinks * heatSinkEfficiency
+    
+    if (process.env.NODE_ENV === 'test') {
+      console.log(`[DEBUG] Heat dissipation calculation: heatSinkType=${heatSinkType}, efficiency=${heatSinkEfficiency}, baseHeatSinks=${baseHeatSinks}, externalHeatSinks=${externalHeatSinks}, totalHeatSinks=${totalHeatSinks}, totalDissipation=${totalDissipation}`);
+    }
+    
+    return totalDissipation
   }
 
   /**
@@ -63,11 +69,12 @@ export class HeatManagementManager {
   private getHeatSinkEfficiency(): number {
     const heatSinkType = this.getHeatSinkTypeString()
     
+    if (typeof heatSinkType === 'string' && heatSinkType.toLowerCase().includes('double')) {
+      return 2 // All double heat sinks dissipate 2 heat each
+    }
     switch (heatSinkType) {
       case 'Single':
         return 1 // Single heat sinks dissipate 1 heat each
-      case 'Double':
-        return 2 // Double heat sinks dissipate 2 heat each
       case 'Compact':
         return 1 // Compact heat sinks dissipate 1 heat each
       default:
@@ -80,10 +87,12 @@ export class HeatManagementManager {
    */
   private getBaseHeatSinks(): number {
     const engineRating = this.configuration.engineRating
-    const tonnage = this.configuration.tonnage
     
     // Standard BattleTech rule: base heat sinks = engine rating / 25
-    return Math.floor(engineRating / 25)
+    const baseInternalHeatSinks = Math.floor(engineRating / 25)
+    
+    // Minimum of 10 internal heat sinks
+    return Math.max(10, baseInternalHeatSinks)
   }
 
   /**
