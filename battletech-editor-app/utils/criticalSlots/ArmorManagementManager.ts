@@ -4,6 +4,8 @@
  */
 
 import { UnitConfiguration, ArmorType, ArmorAllocation } from './UnitCriticalManagerTypes'
+import { getArmorSpecification } from '../armorCalculations';
+import { getInternalStructurePoints } from '../internalStructureTable';
 
 export class ArmorManagementManager {
   private configuration: UnitConfiguration
@@ -33,7 +35,6 @@ export class ArmorManagementManager {
    * Get critical slot requirements for armor type
    */
   getArmorCriticalSlots(armorType: ArmorType): number {
-    const { getArmorSpecification } = require('../armorCalculations')
     const spec = getArmorSpecification(armorType)
     return spec.criticalSlots
   }
@@ -42,7 +43,6 @@ export class ArmorManagementManager {
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(): number {
-    const { getArmorSpecification } = require('../armorCalculations')
     const spec = getArmorSpecification(this.getArmorTypeString())
     return spec.pointsPerTon
   }
@@ -64,9 +64,8 @@ export class ArmorManagementManager {
    * Get internal structure points for a specific location
    */
   private getInternalStructurePointsForLocation(location: string): number {
-    const { getInternalStructurePoints } = require('../internalStructureTable')
     const allPoints = getInternalStructurePoints(this.configuration.tonnage)
-    return allPoints[location] || 0
+    return allPoints[location as keyof typeof allPoints] || 0;
   }
 
   /**
@@ -147,7 +146,6 @@ export class ArmorManagementManager {
    * Get maximum armor points allowed for this unit
    */
   getMaxArmorPoints(): number {
-    const { getInternalStructurePoints } = require('../internalStructureTable')
     const allPoints = getInternalStructurePoints(this.configuration.tonnage)
     const totalInternalStructure = Object.values(allPoints).reduce((sum: number, points: unknown) => sum + (points as number), 0)
     const multiplier = this.getArmorEfficiency() / 16

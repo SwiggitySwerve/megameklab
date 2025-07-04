@@ -10,6 +10,8 @@
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { EngineType, GyroType, SystemAllocation as SystemComponentAllocation, SystemComponentRules } from '../utils/criticalSlots/SystemComponentRules';
 import { ComponentConfiguration, TechBase } from '../types/componentConfiguration';
+import { calculateGyroWeight } from '../utils/gyroCalculations';
+import { calculateInternalHeatSinksForEngine } from '../utils/heatSinkCalculations';
 
 export interface SystemComponentService {
   // Engine calculations
@@ -174,21 +176,7 @@ export class SystemComponentServiceImpl implements SystemComponentService {
   // ===== GYRO CALCULATIONS =====
   
   calculateGyroWeight(engineRating: number, gyroType: GyroType): number {
-    if (engineRating <= 0) return 0;
-    
-    const baseWeight = Math.ceil(engineRating / 100);
-    
-    switch (gyroType) {
-      case 'XL':
-        return baseWeight * 0.5;
-      case 'Compact':
-        return baseWeight * 1.5;
-      case 'Heavy-Duty':
-        return baseWeight * 2.0;
-      case 'Standard':
-      default:
-        return baseWeight;
-    }
+    return calculateGyroWeight(engineRating, gyroType);
   }
   
   calculateGyroSlots(gyroType: GyroType): number {
@@ -225,18 +213,8 @@ export class SystemComponentServiceImpl implements SystemComponentService {
   }
   
   calculateInternalHeatSinks(engineRating: number, engineType: EngineType): number {
-    // Non-fusion engines don't provide heat sinks
-    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-      return 0;
-    }
-    
-    // Fusion engines include 10 heat sinks for ratings 250+
-    if (engineRating >= 250) {
-      return 10;
-    }
-    
-    // Smaller engines get fewer integrated heat sinks
-    return Math.floor(engineRating / 25);
+    // Use the centralized calculation function
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   
   calculateHeatDissipation(totalHeatSinks: number, heatSinkType: string): number {

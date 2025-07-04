@@ -8,10 +8,11 @@ import { CriticalSection } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { EngineType, GyroType } from './SystemComponentRules'
-import { JumpJetType } from '../jumpJetCalculations'
+import { JumpJetType, calculateJumpJetWeight, calculateJumpJetCriticalSlots, JUMP_JET_VARIANTS } from '../jumpJetCalculations'
 import { TechBase, ComponentConfiguration } from '../../types/componentConfiguration'
 import { SystemComponentRules } from './SystemComponentRules'
 import { UnitCriticalManager } from './UnitCriticalManager'
+import { getHeatSinkSpecification } from '../heatSinkCalculations';
 
 export class SystemComponentsManager {
   private sections: Map<string, CriticalSection>
@@ -229,9 +230,6 @@ export class SystemComponentsManager {
   private addJumpJetEquipment(jumpJetType: ComponentConfiguration, jumpMP: number, tonnage: number, techBase: string): void {
     console.log(`[SystemComponentsManager] Adding jump jet equipment: ${jumpJetType} - ${jumpMP} jump MP`)
     
-    // Import jump jet calculations
-    const { calculateJumpJetWeight, calculateJumpJetCriticalSlots, JUMP_JET_VARIANTS } = require('../jumpJetCalculations')
-    
     // Extract the actual jump jet type from ComponentConfiguration
     const actualJumpJetType = typeof jumpJetType === 'string' ? jumpJetType : jumpJetType.type
     console.log(`[SystemComponentsManager] Actual jump jet type: ${actualJumpJetType}`)
@@ -335,7 +333,7 @@ export class SystemComponentsManager {
     }
     
     // Import heat sink calculations
-    const { getHeatSinkSpecification } = require('../heatSinkCalculations')
+    // const { getHeatSinkSpecification } = require('../heatSinkCalculations') // This line is removed
     
     // CRITICAL FIX: Map configuration heat sink types to calculation types
     let calculationHeatSinkType: string = actualHeatSinkType
@@ -351,9 +349,9 @@ export class SystemComponentsManager {
     
     console.log(`[SystemComponentsManager] Using heat sink spec:`, {
       type: calculationHeatSinkType,
-      slots: heatSinkSpec.criticalSlots,
-      weight: heatSinkSpec.weight,
-      dissipation: heatSinkSpec.dissipation
+      slots: heatSinkSpec.criticalSlotsPerSink,
+      weight: heatSinkSpec.weightPerSink,
+      dissipation: heatSinkSpec.pointsPerSink
     })
     
     const heatSinks: EquipmentObject[] = []
@@ -366,10 +364,10 @@ export class SystemComponentsManager {
         id: `${actualHeatSinkType.toLowerCase().replace(/\s+/g, '_')}_external_${i + 1}`,
         name: `${calculationHeatSinkType} Heat Sink`,
         type: 'heat_sink' as const,
-        requiredSlots: heatSinkSpec.criticalSlots,
-        weight: heatSinkSpec.weight,
+        requiredSlots: heatSinkSpec.criticalSlotsPerSink,
+        weight: heatSinkSpec.weightPerSink,
         techBase: heatSinkSpec.techBase === 'Both' ? techBase : heatSinkSpec.techBase,
-        heat: -heatSinkSpec.dissipation, // Negative because they dissipate heat
+        heat: -heatSinkSpec.pointsPerSink, // Negative because they dissipate heat
         allowedLocations: heatSinkLocations
       })
     }
@@ -387,6 +385,7 @@ export class SystemComponentsManager {
         endSlotIndex: -1,
         occupiedSlots: []
       }
+      
       this.unitManager.unallocatedEquipment.push(allocation)
       
       console.log(`[SystemComponentsManager] Added heat sink to unallocated:`, {
@@ -431,16 +430,16 @@ export class SystemComponentsManager {
   // Helper methods for getting component type strings
   private getGyroTypeString(): GyroType {
     const gyroType = this.unitManager.configuration.gyroType
-    return (typeof gyroType === 'string' ? gyroType : gyroType.type) as GyroType
+    return typeof gyroType === 'string' ? gyroType : gyroType.type as GyroType
   }
 
   private getJumpJetTypeString(): JumpJetType {
     const jumpJetType = this.unitManager.configuration.jumpJetType
-    return (typeof jumpJetType === 'string' ? jumpJetType : jumpJetType.type) as JumpJetType
+    return typeof jumpJetType === 'string' ? jumpJetType : jumpJetType.type as JumpJetType
   }
 
   private getHeatSinkTypeString(): HeatSinkType {
     const heatSinkType = this.unitManager.configuration.heatSinkType
-    return (typeof heatSinkType === 'string' ? heatSinkType : heatSinkType.type) as HeatSinkType
+    return typeof heatSinkType === 'string' ? heatSinkType : heatSinkType.type as HeatSinkType
   }
 } 

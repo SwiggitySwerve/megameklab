@@ -9,6 +9,7 @@ import { UnitConfiguration } from './UnitCriticalManagerTypes'
 import { EngineType, GyroType } from './SystemComponentRules'
 import { JumpJetType } from '../jumpJetCalculations'
 import { HeatSinkType } from './UnitCriticalManagerTypes'
+import { calculateGyroWeight } from '../gyroCalculations';
 
 export class WeightBalanceManager {
   private configuration: UnitConfiguration
@@ -254,22 +255,7 @@ export class WeightBalanceManager {
     const engineRating = this.configuration.engineRating
     const gyroType = this.getGyroTypeString()
     
-    // Calculate base gyro weight
-    let baseWeight = engineRating / 100
-
-    // Apply gyro type modifiers
-    switch (gyroType) {
-      case 'Standard':
-        return baseWeight
-      case 'XL':
-        return baseWeight * 0.5
-      case 'Compact':
-        return baseWeight * 0.5
-      case 'Heavy-Duty':
-        return baseWeight * 1.5
-      default:
-        return baseWeight
-    }
+    return calculateGyroWeight(engineRating, gyroType as any);
   }
 
   /**

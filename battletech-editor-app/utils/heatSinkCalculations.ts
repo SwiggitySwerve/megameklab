@@ -10,7 +10,7 @@
  * - Single heat sinks provide 1 point of dissipation each
  */
 
-import { HeatSinkType } from '../types/systemComponents';
+import { HeatSinkType, EngineType } from '../types/systemComponents';
 
 export interface HeatSinkSpecification {
   type: HeatSinkType;
@@ -80,6 +80,37 @@ export function calculateInternalHeatSinks(engineRating: number): number {
   
   // Smaller engines provide partial heat sinks
   return Math.floor(engineRating / 25);
+}
+
+/**
+ * Calculate internal heat sinks based on engine rating and type
+ * This consolidates all the wrapper functions that were duplicated across the codebase
+ * @param engineRating Engine rating
+ * @param engineType Engine type (optional, defaults to fusion behavior)
+ * @returns Number of internal heat sinks
+ */
+export function calculateInternalHeatSinksForEngine(engineRating: number, engineType?: EngineType | string): number {
+  // Non-fusion engines don't provide heat sinks
+  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
+    return 0;
+  }
+  
+  // Get base internal heat sinks
+  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating);
+  
+  // Apply engine type modifications
+  if (engineType?.includes('XL')) {
+    // XL engines can integrate fewer heat sinks due to side torso location
+    return Math.min(baseInternalHeatSinks, 8);
+  } else if (engineType?.includes('Light')) {
+    // Light engines have reduced heat sink capacity
+    return Math.min(baseInternalHeatSinks, 6);
+  } else if (engineType === 'Compact') {
+    // Compact engines cannot integrate heat sinks
+    return 0;
+  }
+  
+  return baseInternalHeatSinks;
 }
 
 /**

@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface HeatValidation {
   isValid: boolean;
@@ -208,23 +209,8 @@ export class HeatRulesValidator {
     const engineRating = config.engineRating || 0;
     const engineType = config.engineType || 'Standard';
     
-    // Engine heat sinks are based on engine rating, max 10
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  let engineHeatSinks = calculateInternalHeatSinks(engineRating);
-    
-    // Some engine types affect heat sink integration
-    if (engineType.includes('XL')) {
-      // XL engines can integrate fewer heat sinks due to side torso location
-      engineHeatSinks = Math.min(engineHeatSinks, 8);
-    } else if (engineType.includes('Light')) {
-      // Light engines have reduced heat sink capacity
-      engineHeatSinks = Math.min(engineHeatSinks, 6);
-    } else if (engineType === 'Compact') {
-      // Compact engines cannot integrate heat sinks
-      engineHeatSinks = 0;
-    }
-    
-    return engineHeatSinks;
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
 
   /**

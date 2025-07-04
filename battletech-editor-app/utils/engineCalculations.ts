@@ -4,6 +4,7 @@
  */
 
 import { EngineType } from '../types/systemComponents';
+import { calculateInternalHeatSinks } from './heatSinkCalculations';
 
 // Engine weight multipliers with IS/Clan XL differentiation
 export const ENGINE_WEIGHT_MULTIPLIERS: Record<EngineType, number> = {
@@ -75,19 +76,8 @@ export function getEngineSlotDistribution(type: EngineType) {
  * Calculate integrated heat sinks based on engine rating
  */
 export function calculateIntegratedHeatSinks(engineRating: number, engineType: EngineType): number {
-  // Non-fusion engines don't provide heat sinks
-  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-    return 0;
-  }
-  
-  // Fusion engines include 10 heat sinks for ratings 250+
-  if (engineRating >= ENGINE_HEAT_SINKS.MIN_RATING_FOR_FULL) {
-    return ENGINE_HEAT_SINKS.FUSION_BASE;
-  }
-  
-  // Smaller engines get fewer integrated heat sinks
-  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+  const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
+  return calculateInternalHeatSinksForEngine(engineRating, engineType);
 }
 
 /**

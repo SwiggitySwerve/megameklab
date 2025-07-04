@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { calculateGyroWeight } from '../../utils/gyroCalculations';
 
 export interface WeightValidation {
   isValid: boolean;
@@ -347,20 +348,7 @@ export class WeightRulesValidator {
   }
 
   private static calculateGyroWeight(engineRating: number, gyroType: string): number {
-    if (engineRating <= 0) return 1; // Minimum gyro weight
-    
-    const baseWeight = Math.ceil(engineRating / 100);
-    
-    switch (gyroType) {
-      case 'Compact':
-        return baseWeight * 1.5;
-      case 'Heavy Duty':
-        return baseWeight * 2;
-      case 'XL':
-        return baseWeight * 0.5;
-      default:
-        return baseWeight;
-    }
+    return calculateGyroWeight(engineRating, gyroType as any);
   }
 
   private static calculateArmorWeight(totalArmor: number, armorType: string): number {

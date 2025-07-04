@@ -72,6 +72,9 @@ export interface GyroCalculationResult {
  * Calculate gyro weight based on engine rating and gyro type
  */
 export function calculateGyroWeight(engineRating: number, type: GyroType): number {
+  // Handle edge cases
+  if (engineRating <= 0) return 0;
+  
   // Gyro weight is based on engine rating (1 ton per 100 rating, rounded up)
   const baseWeight = Math.ceil(engineRating / 100);
   const multiplier = GYRO_WEIGHT_MULTIPLIERS[type];

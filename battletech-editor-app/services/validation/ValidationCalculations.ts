@@ -7,6 +7,8 @@
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
 import { getTotalInternalStructure } from '../../utils/internalStructureTable';
+import { calculateGyroWeight } from '../../utils/gyroCalculations';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export const ValidationCalculations = {
   extractComponentType(component: ComponentConfiguration | string): string {
@@ -41,8 +43,9 @@ export const ValidationCalculations = {
 
   getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+    const engineType = config.engineType || 'Standard';
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   },
 
   getExternalHeatSinks(equipment: any[]): number {
@@ -80,13 +83,7 @@ export const ValidationCalculations = {
   },
 
   calculateGyroWeight(engineRating: number, gyroType: string): number {
-    const baseWeight = Math.ceil(engineRating / 100);
-    switch (gyroType) {
-      case 'Compact': return baseWeight * 1.5;
-      case 'Heavy Duty': return baseWeight * 2;
-      case 'XL': return baseWeight * 0.5;
-      default: return baseWeight;
-    }
+    return calculateGyroWeight(engineRating, gyroType as any);
   },
 
   calculateCockpitWeight(cockpitType: string): number {

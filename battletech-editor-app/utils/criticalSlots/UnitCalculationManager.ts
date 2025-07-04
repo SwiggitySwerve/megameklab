@@ -7,6 +7,7 @@
 import { UnitConfiguration } from './UnitCriticalManagerTypes';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
 import { getInternalStructurePoints } from '../internalStructureTable';
+import { calculateGyroWeight } from '../gyroCalculations';
 
 export interface WeightBreakdown {
   structure: number;
@@ -93,18 +94,7 @@ export class UnitCalculationManager {
     const rating = config.engineRating;
     const type = UnitCalculationManager.extractComponentType(config.gyroType);
     
-    const baseWeight = Math.ceil(rating / 100);
-    
-    switch (type) {
-      case 'XL':
-        return baseWeight * 0.5;
-      case 'Compact':
-        return baseWeight * 1.5;
-      case 'Heavy-Duty':
-        return baseWeight * 2.0;
-      default: // Standard
-        return baseWeight;
-    }
+    return calculateGyroWeight(rating, type as any);
   }
 
   /**

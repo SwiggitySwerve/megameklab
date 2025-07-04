@@ -6,6 +6,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
 import { ComponentConfiguration } from '../../types/componentConfiguration'
+import { calculateGyroWeight } from '../../utils/gyroCalculations';
 
 export interface EngineValidation {
   isValid: boolean
@@ -438,23 +439,7 @@ export class ComponentValidationManager {
    * Calculate gyro weight based on engine rating and type
    */
   private calculateGyroWeight(engineRating: number, gyroType: string): number {
-    let baseWeight = engineRating / 100
-    
-    // Adjust for gyro type
-    switch (gyroType) {
-      case 'XL Gyro':
-        baseWeight *= 0.5
-        break
-      case 'Compact Gyro':
-        baseWeight *= 1.5
-        break
-      case 'Standard Gyro':
-      default:
-        // No adjustment
-        break
-    }
-    
-    return Math.ceil(baseWeight * 10) / 10 // Round to nearest 0.1
+    return calculateGyroWeight(engineRating, gyroType as any);
   }
   
   /**

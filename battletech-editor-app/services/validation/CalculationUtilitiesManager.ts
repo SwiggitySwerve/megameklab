@@ -6,6 +6,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface WeightCalculationResult {
   totalWeight: number;
@@ -304,8 +305,7 @@ export class CalculationUtilitiesManager {
    */
   private getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating;
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+    return calculateInternalHeatSinks(engineRating);
   }
 
   /**

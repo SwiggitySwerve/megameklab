@@ -7,6 +7,7 @@
 import { EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { JumpJetType } from '../jumpJetCalculations'
+import { calculateInternalHeatSinks } from '../heatSinkCalculations';
 
 export class HeatManagementManager {
   private configuration: UnitConfiguration
@@ -29,7 +30,7 @@ export class HeatManagementManager {
     const heatSinkEfficiency = this.getHeatSinkEfficiency()
     
     // Base heat sinks (10 for most mechs, varies by engine)
-    const baseHeatSinks = this.getBaseHeatSinks()
+    const baseHeatSinks = this.getBaseHeatSinksFromEngine(this.configuration.engineRating)
     
     // Calculate total heat dissipation
     const totalHeatSinks = baseHeatSinks + externalHeatSinks
@@ -83,14 +84,15 @@ export class HeatManagementManager {
   }
 
   /**
-   * Get base heat sinks from engine
+   * Get base heat sinks from engine rating
    */
-  private getBaseHeatSinks(): number {
-    const engineRating = this.configuration.engineRating
-    
+  private getBaseHeatSinksFromEngine(engineRating: number): number {
     // Standard BattleTech rule: base heat sinks = engine rating / 25
-    const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
-  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating)
+    const { calculateInternalHeatSinksForEngine } = require('../heatSinkCalculations');
+    const engineType = typeof this.configuration.engineType === 'string' 
+      ? this.configuration.engineType 
+      : (this.configuration.engineType as any).type;
+    const baseInternalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, engineType)
     
     // Minimum of 10 internal heat sinks
     return Math.max(10, baseInternalHeatSinks)

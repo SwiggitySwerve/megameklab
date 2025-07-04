@@ -6,6 +6,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface BattleTechRule {
   id: string;
@@ -770,8 +771,8 @@ export class RuleManagementManager {
    */
   private getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating;
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   }
 
   /**

@@ -1,5 +1,11 @@
 // Component weight and critical slot calculations for BattleTech units
 
+import { calculateEngineWeight } from './engineCalculations';
+import { calculateStructureWeight } from './structureCalculations';
+import { calculateInternalHeatSinks } from './heatSinkCalculations';
+import { calculateArmorWeight } from './armorCalculations';
+import { calculateGyroWeight as calculateGyroWeightCentralized } from './gyroCalculations';
+
 export interface ComponentWeights {
   structure: number;
   engine: number;
@@ -24,62 +30,49 @@ export interface ComponentCrits {
   total: number;
 }
 
-// Calculate structure weight based on tonnage and type
-export function calculateStructureWeight(tonnage: number, structureType: string = 'Standard'): number {
-  const standardWeight = tonnage * 0.1; // 10% of tonnage
-  
-  switch (structureType) {
-    case 'Endo Steel':
-    case 'Endo Steel (Clan)':
-      return standardWeight * 0.5; // 50% of standard
-    case 'Composite':
-      return standardWeight * 0.5; // 50% of standard
-    case 'Reinforced':
-      return standardWeight * 2; // 200% of standard
-    default:
-      return standardWeight;
-  }
-}
+// Legacy structure weight calculation - now using centralized module
+// export function calculateStructureWeight(tonnage: number, structureType: string = 'Standard'): number {
+//   const standardWeight = tonnage * 0.1; // 10% of tonnage
+//   
+//   switch (structureType) {
+//     case 'Endo Steel':
+//     case 'Endo Steel (Clan)':
+//       return standardWeight * 0.5; // 50% of standard
+//     case 'Composite':
+//       return standardWeight * 0.5; // 50% of standard
+//     case 'Reinforced':
+//       return standardWeight * 2; // 200% of standard
+//     default:
+//       return standardWeight;
+//   }
+// }
 
-// Calculate engine weight based on rating and type
-export function calculateEngineWeight(rating: number, engineType: string = 'Fusion'): number {
-  // Base engine weight calculation
-  const baseWeight = Math.ceil(rating / 25) * 0.5;
-  
-  switch (engineType) {
-    case 'XL':
-      return baseWeight * 0.5; // 50% of standard
-    case 'XXL':
-      return baseWeight / 3; // 33% of standard
-    case 'Light':
-      return baseWeight * 0.75; // 75% of standard
-    case 'Compact':
-      return baseWeight * 1.5; // 150% of standard
-    case 'ICE':
-      return baseWeight * 2; // 200% of standard
-    case 'Fuel Cell':
-      return baseWeight * 1.2; // 120% of standard
-    default:
-      return baseWeight;
-  }
-}
+// Legacy engine weight calculation - now using centralized module
+// export function calculateEngineWeight(rating: number, engineType: string = 'Fusion'): number {
+//   // Base engine weight calculation
+//   const baseWeight = Math.ceil(rating / 25) * 0.5;
+//   
+//   switch (engineType) {
+//     case 'XL':
+//       return baseWeight * 0.5; // 50% of standard
+//     case 'XXL':
+//       return baseWeight / 3; // 33% of standard
+//     case 'Light':
+//       return baseWeight * 0.75; // 75% of standard
+//     case 'Compact':
+//       return baseWeight * 1.5; // 150% of standard
+//     case 'ICE':
+//       return baseWeight * 2; // 200% of standard
+//     case 'Fuel Cell':
+//       return baseWeight * 1.2; // 120% of standard
+//     default:
+//       return baseWeight;
+//   }
+// }
 
 // Calculate gyro weight based on engine rating and type
 export function calculateGyroWeight(engineRating: number, gyroType: string = 'Standard'): number {
-  const standardWeight = Math.ceil(engineRating / 100);
-  
-  switch (gyroType) {
-    case 'XL':
-      return standardWeight * 0.5; // 50% of standard
-    case 'Compact':
-      return standardWeight * 1.5; // 150% of standard
-    case 'Heavy Duty':
-      return standardWeight * 2; // 200% of standard
-    case 'None':
-      return 0;
-    default:
-      return standardWeight;
-  }
+  return calculateGyroWeightCentralized(engineRating, gyroType as any);
 }
 
 // Calculate cockpit weight based on type
@@ -162,7 +155,7 @@ export function calculateComponentWeights(unit: any): ComponentWeights {
   const tonnage = unit.mass || 20;
   const structureType = unit.data?.structure?.type || 'Standard';
   const engineRating = (unit.data?.movement?.walk_mp || 1) * tonnage;
-  const engineType = unit.data?.engine?.type || 'Fusion';
+  const engineType = unit.data?.engine?.type || 'Standard';
   const gyroType = unit.data?.gyro?.type || 'Standard';
   const cockpitType = unit.data?.cockpit?.type || 'Standard Cockpit';
   const heatSinkCount = unit.data?.heat_sinks?.count || 10;
@@ -171,16 +164,15 @@ export function calculateComponentWeights(unit: any): ComponentWeights {
   const jumpType = unit.data?.movement?.jump_type || 'Jump Jet';
   const armorPoints = unit.data?.armor?.total_armor_points || 0;
   const armorType = unit.data?.armor?.type || 'Standard';
-  const pointsPerTon = armorType === 'Ferro-Fibrous' ? 17.92 : 16;
   const enhancementType = unit.data?.myomer?.type;
   
   const weights = {
-    structure: calculateStructureWeight(tonnage, structureType),
-    engine: calculateEngineWeight(engineRating, engineType),
+    structure: calculateStructureWeight(tonnage, structureType as any),
+    engine: calculateEngineWeight(engineRating, tonnage, engineType as any),
     gyro: calculateGyroWeight(engineRating, gyroType),
     cockpit: calculateCockpitWeight(cockpitType),
     heatSinks: calculateHeatSinkWeight(heatSinkCount, heatSinkType),
-    armor: Math.ceil((armorPoints / pointsPerTon) * 2) / 2,
+    armor: calculateArmorWeight(armorPoints, armorType as any),
     jumpJets: calculateJumpJetWeight(jumpMP, tonnage, jumpType),
     enhancement: calculateEnhancementWeight(tonnage, enhancementType),
     total: 0
@@ -290,7 +282,6 @@ export function calculateComponentCrits(unit: any): ComponentCrits {
   }
   
   // Heat sink crits (only for extras beyond engine capacity)
-  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
   const engineCapacity = calculateInternalHeatSinks(engineRating);
   const externalHeatSinks = Math.max(0, heatSinkCount - engineCapacity);
   crits.heatSinks = heatSinkType === 'Double' ? externalHeatSinks * 3 : externalHeatSinks;
@@ -323,15 +314,10 @@ export function calculateComponentCrits(unit: any): ComponentCrits {
   return crits;
 }
 
-// Calculate free engine heat sinks based on engine rating
+// Use centralized heat sink calculation
 export function calculateEngineFreeHeatSinks(engineRating: number, engineType: string = 'Fusion'): number {
-  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-    return 0; // Non-fusion engines don't provide free heat sinks
-  }
-  
-  // Fusion engines provide heat sinks equal to rating/25
-  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+  const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
+  return calculateInternalHeatSinksForEngine(engineRating, engineType);
 }
 
 // Get availability code for a component

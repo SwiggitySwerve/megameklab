@@ -11,6 +11,7 @@ import {
   ArmorType, 
   HeatSinkType 
 } from './UnitCriticalManagerTypes'
+import { calculateInternalHeatSinks } from '../heatSinkCalculations';
 
 /**
  * Utility functions for unit configuration
@@ -100,7 +101,7 @@ export class UnitConfigurationBuilder {
       hasPartialWing: false,
       heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
-      internalHeatSinks: this.calculateInternalHeatSinks(tonnage * walkMP, legacy.engineType),
+      internalHeatSinks: this.calculateInternalHeatSinksForEngine(tonnage * walkMP, legacy.engineType),
       externalHeatSinks: 0,
       enhancementType: null,
       mass: tonnage
@@ -164,7 +165,7 @@ export class UnitConfigurationBuilder {
     
     // Always recalculate internal heat sinks unless explicitly set in the input object
     if (!Object.prototype.hasOwnProperty.call(config, 'internalHeatSinks')) {
-      config.internalHeatSinks = this.calculateInternalHeatSinks(config.engineRating, config.engineType)
+      config.internalHeatSinks = this.calculateInternalHeatSinksForEngine(config.engineRating, config.engineType)
     }
     // Only recalculate external heat sinks if not explicitly set in the input
     if (!Object.prototype.hasOwnProperty.call(config, 'externalHeatSinks')) {
@@ -179,13 +180,9 @@ export class UnitConfigurationBuilder {
   /**
    * Calculate internal heat sinks based on engine rating and type
    */
-  private static calculateInternalHeatSinks(engineRating: number, engineType: EngineType): number {
-    // Standard BattleTech rules: internal heat sinks = engine rating / 25
-    const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
-  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating)
-    
-    // Minimum of 10 internal heat sinks
-    return Math.max(10, baseInternalHeatSinks)
+  private static calculateInternalHeatSinksForEngine(engineRating: number, engineType: EngineType): number {
+    const { calculateInternalHeatSinksForEngine } = require('../heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   
   /**

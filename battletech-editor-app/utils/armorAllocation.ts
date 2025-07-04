@@ -305,18 +305,62 @@ export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): n
   return Math.ceil(armorWeight * 2) / 2;
 }
 
+// Helper functions to map test values to proper case
+function mapStructureType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'endo-steel': 'Endo Steel',
+    'endo-steel (clan)': 'Endo Steel (Clan)',
+    'composite': 'Composite',
+    'reinforced': 'Reinforced',
+    'industrial': 'Industrial'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
+function mapEngineType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'xl': 'XL (IS)',
+    'xl (is)': 'XL (IS)',
+    'xl (clan)': 'XL (Clan)',
+    'light': 'Light',
+    'xxl': 'XXL',
+    'compact': 'Compact',
+    'ice': 'ICE',
+    'fuel cell': 'Fuel Cell',
+    'fission': 'Fission'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
+function mapArmorType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'ferro-fibrous': 'Ferro-Fibrous',
+    'ferro-fibrous (clan)': 'Ferro-Fibrous (Clan)',
+    'light ferro-fibrous': 'Light Ferro-Fibrous',
+    'heavy ferro-fibrous': 'Heavy Ferro-Fibrous',
+    'stealth': 'Stealth',
+    'reactive': 'Reactive',
+    'reflective': 'Reflective',
+    'hardened': 'Hardened'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
 export function calculateRemainingTonnage(unit: EditableUnit): number {
   const totalTonnage = unit.mass || 0;
   let usedTonnage = 0;
 
   // Structure weight
   const structureType = unit.data?.structure?.type || 'Standard';
-  usedTonnage += calculateStructureWeight(totalTonnage, structureType as any);
+  usedTonnage += calculateStructureWeight(totalTonnage, mapStructureType(structureType) as any);
 
   // Engine weight
   const engineRating = unit.data?.engine?.rating || 200;
   const engineType = unit.data?.engine?.type || 'Standard';
-  usedTonnage += calculateEngineWeight(engineRating, totalTonnage, engineType as any);
+  usedTonnage += calculateEngineWeight(engineRating, totalTonnage, mapEngineType(engineType) as any);
 
   // Gyro (unchanged for now)
   const gyroType = unit.data?.gyro?.type || 'standard';
@@ -341,7 +385,8 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
 
   // Heat sinks (beyond free engine sinks)
   const totalHeatSinks = unit.data?.heat_sinks?.count || 10;
-  const engineHeatSinks = calculateInternalHeatSinks(engineRating);
+      const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
+    const engineHeatSinks = calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   const extraHeatSinks = Math.max(0, totalHeatSinks - engineHeatSinks);
   const heatSinkType = unit.data?.heat_sinks?.type || 'single';
   const heatSinkWeight = 1; // Both single and double are 1 ton each

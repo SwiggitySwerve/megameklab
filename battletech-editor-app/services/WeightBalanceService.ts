@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../types/componentConfiguration';
+import { calculateGyroWeight } from '../utils/gyroCalculations';
 
 export interface WeightBalanceService {
   // Total weight calculations
@@ -621,27 +622,22 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
   
   private calculateGyroWeight(config: UnitConfiguration): ComponentWeightBreakdown['gyro'] {
     const gyroType = this.extractComponentType(config.gyroType);
-    const baseWeight = Math.ceil(config.engineRating / 100);
+    const weight = calculateGyroWeight(config.engineRating, gyroType as any);
     
-    let weight: number;
     let efficiency: number;
     
     switch (gyroType) {
       case 'XL':
-        weight = baseWeight * 0.5;
         efficiency = 2.0;
         break;
       case 'Compact':
-        weight = baseWeight * 1.5;
         efficiency = 0.67;
         break;
       case 'Heavy-Duty':
-        weight = baseWeight * 2.0;
         efficiency = 0.5;
         break;
       case 'Standard':
       default:
-        weight = baseWeight;
         efficiency = 1.0;
         break;
     }

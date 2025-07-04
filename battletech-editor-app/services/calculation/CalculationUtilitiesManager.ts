@@ -4,6 +4,7 @@
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface CalculationResult {
   value: number;
@@ -78,8 +79,8 @@ export class CalculationUtilitiesManager {
    * Calculate internal heat sinks from engine rating
    */
   calculateInternalHeatSinks(engineRating: number): CalculationResult {
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  const internalHeatSinks = calculateInternalHeatSinks(engineRating);
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    const internalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, 'Standard');
     
     return {
       value: internalHeatSinks,

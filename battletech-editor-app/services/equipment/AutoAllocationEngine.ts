@@ -10,6 +10,7 @@
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { EquipmentPlacement, EquipmentConstraints } from './PlacementCalculationService';
 import { PlacementCalculationService } from './PlacementCalculationService';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface AutoAllocationResult {
   success: boolean;
@@ -815,8 +816,8 @@ export class AutoAllocationEngine {
 
   private static getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-  return calculateInternalHeatSinks(engineRating);
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   }
 
   private static findBestHeatSinkPlacement(

@@ -500,14 +500,8 @@ export class UnitConfigurationService {
   }
   
   private calculateInternalHeatSinks(engineRating: number, engineType: EngineType): number {
-    // Non-fusion engines don't provide heat sinks
-    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-      return 0;
-    }
-    
-    // Fusion engines include 10 heat sinks for ratings 250+
-    const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
-    return calculateInternalHeatSinks(engineRating);
+    const { calculateInternalHeatSinksForEngine } = require('../heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   
   private calculateArmorValues(config: UnitConfiguration): {

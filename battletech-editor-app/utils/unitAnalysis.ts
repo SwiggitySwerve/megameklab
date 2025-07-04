@@ -10,6 +10,8 @@ import {
   BuildRecommendation,
   TechnicalSpecs
 } from '../types/unitDisplay';
+import { calculateInternalHeatSinks } from './heatSinkCalculations';
+import { calculateEngineWeight } from './engineCalculations';
 
 export class UnitAnalyzer {
   /**
@@ -84,8 +86,9 @@ export class UnitAnalyzer {
 
     // Engine heat sink capacity (usually 10 for most engines)
     const engineRating = unit.data?.engine?.rating || 0;
-    const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
-  const engineHeatSinkCapacity = calculateInternalHeatSinks(engineRating);
+    const engineType = unit.data?.engine?.type || 'Standard';
+    const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
+    const engineHeatSinkCapacity = calculateInternalHeatSinksForEngine(engineRating, engineType);
     const engineIntegratedHeatSinks = Math.min(heatSinkCount, engineHeatSinkCapacity);
     const externalHeatSinks = Math.max(0, heatSinkCount - engineIntegratedHeatSinks);
 
@@ -409,8 +412,7 @@ export class UnitAnalyzer {
 
     // Estimate tonnage breakdown (simplified)
     const engineRating = unit.data?.engine?.rating || 0;
-    const { calculateEngineWeight } = require('./engineCalculations');
-  const engineTonnage = calculateEngineWeight(engineRating, 'Standard', 100); // Use proper engine weight calculation
+    const engineTonnage = calculateEngineWeight(engineRating, 100, 'Standard'); // Use proper engine weight calculation
     
     const weaponTonnage = loadout
       .filter(item => item.item_type === 'weapon')

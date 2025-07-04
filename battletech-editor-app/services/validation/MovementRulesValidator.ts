@@ -8,6 +8,7 @@
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface MovementValidation {
   isValid: boolean;
@@ -149,12 +150,8 @@ export class MovementRulesValidator {
    * Get internal heat sinks provided by engine
    */
   static getEngineInternalHeatSinks(engineRating: number, engineType: string): number {
-    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-      return 0; // No internal heat sinks
-    }
-    
-    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
-    return calculateInternalHeatSinks(engineRating);
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   
   /**
