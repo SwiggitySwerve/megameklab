@@ -8,7 +8,8 @@ import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
 import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
 import { JumpJetType } from '../jumpJetCalculations'
-import { CriticalSlotCalculator, CriticalSlotBreakdown } from './CriticalSlotCalculator'
+import { CriticalSlotCalculator } from './CriticalSlotCalculator'
+import { CriticalSlotBreakdown } from '../editor/UnitCalculationService'
 import { 
   ComponentConfiguration, 
   TechBase, 
@@ -38,6 +39,12 @@ import { UnitConfigurationBuilder } from './UnitConfigurationBuilder'
 import { SpecialComponentsManager } from './SpecialComponentsManager'
 import { SystemComponentsManager } from './SystemComponentsManager'
 import { EquipmentAllocationManager } from './EquipmentAllocationManager'
+import { WeightBalanceManager } from './WeightBalanceManager'
+import { HeatManagementManager } from './HeatManagementManager'
+import { ValidationManager } from './ValidationManager'
+import { UnitSerializationManager } from './UnitSerializationManager'
+import { UnitCalculationManager } from './UnitCalculationManager';
+import { UnitStateManager } from './UnitStateManager';
 
 
 
@@ -142,6 +149,12 @@ export class UnitCriticalManager {
   private specialComponentsManager: SpecialComponentsManager
   private systemComponentsManager: SystemComponentsManager
   private equipmentAllocationManager: EquipmentAllocationManager
+  private weightBalanceManager: WeightBalanceManager
+  private heatManagementManager: HeatManagementManager
+  private validationManager: ValidationManager
+  private serializationManager: UnitSerializationManager
+  private calculationManager: UnitCalculationManager;
+  private stateManager: UnitStateManager;
 
   // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
 
@@ -198,7 +211,7 @@ export class UnitCriticalManager {
    * Get gyro type as string
    */
   private getGyroTypeString(): GyroType {
-    return UnitCriticalManager.extractComponentType(this.configuration.gyroType) as GyroType
+    return UnitCriticalManager.extractComponentType(this.configuration.gyroType) as GyroType;
   }
 
   constructor(configuration: UnitConfiguration | LegacyUnitConfiguration) {
@@ -234,6 +247,29 @@ export class UnitCriticalManager {
       this.sections,
       this.configuration
     )
+    
+    // Initialize weight balance manager
+    this.weightBalanceManager = new WeightBalanceManager(
+      this.configuration,
+      this.unallocatedEquipment
+    )
+    
+    // Initialize heat management manager
+    this.heatManagementManager = new HeatManagementManager(
+      this.configuration,
+      this.unallocatedEquipment
+    )
+    
+    // Initialize validation manager
+    this.validationManager = new ValidationManager(
+      this.sections,
+      this.unallocatedEquipment,
+      this.configuration
+    )
+    
+    this.serializationManager = new UnitSerializationManager()
+    this.calculationManager = new UnitCalculationManager();
+    this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment);
   }
 
   /**
@@ -459,7 +495,7 @@ export class UnitCriticalManager {
   private allocateSystemComponentsOnly(config: UnitConfiguration): void {
     const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
       config.engineType,
-      config.gyroType
+      UnitCriticalManager.extractComponentType(config.gyroType) as GyroType
     )
 
     // Allocate engine slots
@@ -478,7 +514,7 @@ export class UnitCriticalManager {
   private allocateSystemComponentsWithConfig(config: UnitConfiguration): void {
     const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
       config.engineType,
-      config.gyroType
+      UnitCriticalManager.extractComponentType(config.gyroType) as GyroType
     )
 
     // Allocate engine slots
@@ -795,7 +831,7 @@ export class UnitCriticalManager {
     
     // Add new jump jets if needed
     if (newConfig.jumpMP > 0) {
-      this.addJumpJetEquipment(newConfig.jumpJetType, newConfig.jumpMP, newConfig.tonnage, newConfig.techBase)
+      this.addJumpJetEquipment(UnitCriticalManager.extractComponentType(newConfig.jumpJetType), newConfig.jumpMP, newConfig.tonnage, newConfig.techBase)
     }
   }
 
@@ -829,7 +865,7 @@ export class UnitCriticalManager {
   /**
    * Add jump jet equipment to unallocated pool
    */
-  private addJumpJetEquipment(jumpJetType: JumpJetType, jumpMP: number, tonnage: number, techBase: string): void {
+  private addJumpJetEquipment(jumpJetType: string, jumpMP: number, tonnage: number, techBase: string): void {
     // Import jump jet calculations
     const { calculateJumpJetWeight, calculateJumpJetCriticalSlots, JUMP_JET_VARIANTS } = require('../jumpJetCalculations')
     
@@ -1207,7 +1243,7 @@ export class UnitCriticalManager {
     // Check if this location has engine slots based on current engine configuration
     const engineAllocation = SystemComponentRules.getCompleteSystemAllocation(
       this.configuration.engineType,
-      this.configuration.gyroType
+      UnitCriticalManager.extractComponentType(this.configuration.gyroType) as GyroType
     )
     
     switch (location) {
@@ -1306,66 +1342,28 @@ export class UnitCriticalManager {
    * Get maximum armor tonnage allowed for this unit
    */
   getMaxArmorTonnage(): number {
-    // BattleTech rule: Maximum armor tonnage for any unit
-    // Cannot exceed remaining tonnage or physical armor limits
-    const remainingTonnage = this.getRemainingTonnageForArmor()
-    const physicalMaxTonnage = this.getPhysicalMaxArmorTonnage()
-    
-    // Return the smaller of the two limits
-    const maxTonnage = Math.min(remainingTonnage, physicalMaxTonnage)
-    
-    // Round to nearest 0.5 ton
-    return Math.ceil(maxTonnage * 2) / 2
+    return this.weightBalanceManager.getMaxArmorTonnage()
   }
 
   /**
    * Get the physical maximum armor tonnage based on BattleTech construction rules
    */
   getPhysicalMaxArmorTonnage(): number {
-    // BattleTech rule: Maximum armor points based on internal structure
-    const maxArmorPoints = this.getMaxArmorPoints()
-    const armorEfficiency = this.getArmorEfficiency()
-    
-    // Convert max armor points to tonnage
-    return maxArmorPoints / armorEfficiency
+    return this.weightBalanceManager.getPhysicalMaxArmorTonnage()
   }
 
   /**
    * Get maximum armor points allowed for this unit
    */
   getMaxArmorPoints(): number {
-    // BattleTech rule: Head max (9) + sum of all other location max armor
-    const tonnage = this.configuration.tonnage
-    
-    // Internal structure points by location
-    const internalStructure = this.getInternalStructurePoints()
-    
-    // Max armor = Head max + (sum of other locations × 2)
-    const headMax = 9
-    const otherLocationsMax = (internalStructure.CT + internalStructure.LT + internalStructure.RT + 
-                              internalStructure.LA + internalStructure.RA + internalStructure.LL + 
-                              internalStructure.RL) * 2
-    
-    return headMax + otherLocationsMax
+    return this.weightBalanceManager.getMaxArmorPoints()
   }
 
   /**
    * Get internal structure points for each location using official BattleTech table
    */
   getInternalStructurePoints(): Record<string, number> {
-    const { getInternalStructurePoints } = require('../internalStructureTable')
-    const structure = getInternalStructurePoints(this.configuration.tonnage)
-    
-    return {
-      HD: structure.HD,
-      CT: structure.CT,
-      LT: structure.LT,
-      RT: structure.RT,
-      LA: structure.LA,
-      RA: structure.RA,
-      LL: structure.LL,
-      RL: structure.RL
-    }
+    return this.weightBalanceManager.getInternalStructurePoints()
   }
 
   /**
@@ -1454,90 +1452,28 @@ export class UnitCriticalManager {
    * Get engine weight based on type and rating
    */
   getEngineWeight(): number {
-    const rating = this.configuration.engineRating
-    const type = this.configuration.engineType
-    
-    let multiplier = 1.0 // Standard engine
-    
-    switch (type) {
-      case 'XL':
-        multiplier = 0.5
-        break
-      case 'Light':
-        multiplier = 0.75
-        break
-      case 'XXL':
-        multiplier = 0.33
-        break
-      case 'Compact':
-        multiplier = 1.5
-        break
-      case 'ICE':
-      case 'Fuel Cell':
-        multiplier = 2.0
-        break
-    }
-    
-    return (rating * multiplier) / 25
+    return this.calculationManager.calculateEngineWeight(this.configuration);
   }
 
   /**
    * Get gyro weight based on type and engine rating
    */
   getGyroWeight(): number {
-    const rating = this.configuration.engineRating
-    const type = this.configuration.gyroType
-    
-    const baseWeight = Math.ceil(rating / 100)
-    
-    switch (type) {
-      case 'XL':
-        return baseWeight * 0.5
-      case 'Compact':
-        return baseWeight * 1.5
-      case 'Heavy-Duty':
-        return baseWeight * 2.0
-      default: // Standard
-        return baseWeight
-    }
+    return this.calculationManager.calculateGyroWeight(this.configuration);
   }
 
   /**
    * Get heat sink tonnage per unit
    */
   getHeatSinkTonnage(): number {
-    const type = this.configuration.heatSinkType
-    
-    switch (type) {
-      case 'Double':
-      case 'Double (Clan)':
-        return 1.0
-      case 'Compact':
-        return 0.5
-      case 'Laser':
-        return 1.5
-      default: // Single
-        return 1.0
-    }
+    return this.calculationManager.calculateHeatSinkTonnage(this.configuration);
   }
 
   /**
    * Get total jump jet weight
    */
   getJumpJetWeight(): number {
-    const jumpMP = this.configuration.jumpMP || 0
-    if (jumpMP === 0) return 0
-    
-    const tonnage = this.configuration.tonnage
-    
-    // Jump jet weight by tonnage class
-    if (tonnage <= 55) {
-      return jumpMP * 0.5
-    } else if (tonnage <= 85) {
-      return jumpMP * 1.0
-    } else {
-      return jumpMP * 2.0
-    }
+    return this.calculationManager.calculateJumpJetWeight(this.configuration);
   }
 
   /**
@@ -1559,16 +1495,14 @@ export class UnitCriticalManager {
    * Get available armor points from tonnage investment
    */
   getAvailableArmorPoints(): number {
-    return Math.floor(this.configuration.armorTonnage * this.getArmorEfficiency())
+    return this.calculationManager.calculateAvailableArmorPoints(this.configuration);
   }
 
   /**
    * Get allocated armor points from location assignments
    */
   getAllocatedArmorPoints(): number {
-    return Object.values(this.configuration.armorAllocation).reduce((total, location) => {
-      return total + (location.front || 0) + (location.rear || 0)
-    }, 0)
+    return this.calculationManager.calculateAllocatedArmorPoints(this.configuration);
   }
 
   /**
@@ -1576,97 +1510,43 @@ export class UnitCriticalManager {
    * ALLOWS NEGATIVE VALUES: Shows over-allocation relative to tonnage investment
    */
   getUnallocatedArmorPoints(): number {
-    const availableFromTonnage = this.getAvailableArmorPoints()
-    const allocated = this.getAllocatedArmorPoints()
-    
-    // CRITICAL FIX: Allow negative values to show over-allocation
-    // This shows the true balance between tonnage investment and allocation
-    return availableFromTonnage - allocated
+    return this.calculationManager.calculateUnallocatedArmorPoints(this.configuration);
   }
 
   /**
    * Get armor points remaining for allocation (legacy compatibility)
    */
   getRemainingArmorPoints(): number {
-    return this.getUnallocatedArmorPoints()
+    return this.calculationManager.calculateUnallocatedArmorPoints(this.configuration);
   }
 
   /**
    * Calculate wasted armor points using simple maximum comparison
    * CLEAN LOGIC: Pure comparison between tonnage maximum vs unit maximum
    */
-  getArmorWasteAnalysis(): {
-    totalWasted: number;
-    wastedFromRounding: number;
-    trappedPoints: number;
-    locationsAtCap: number;
-    wastePercentage: number;
-    optimalTonnage: number;
-    tonnageSavings: number;
-  } {
-    const unitMaximum = this.getMaxArmorPoints()           // Unit's physical armor limit
-    const tonnageMaximum = this.getAvailableArmorPoints()  // Points available from tonnage investment
-    const allocatedPoints = this.getAllocatedArmorPoints()
-    const armorEfficiency = this.getArmorEfficiency()
-    
-    // CLEAN WASTE CALCULATION: Only waste when tonnage exceeds unit capacity
-    const totalWasted = Math.max(0, tonnageMaximum - unitMaximum)
-    
-    // Count locations at maximum capacity
-    let locationsAtCap = 0
-    Object.entries(this.configuration.armorAllocation).forEach(([location, armor]) => {
-      const maxForLocation = this.getMaxArmorPointsForLocation(location)
-      const currentArmor = (armor.front || 0) + (armor.rear || 0)
-      
-      if (currentArmor >= maxForLocation) {
-        locationsAtCap++
-      }
-    })
-    
-    // Calculate optimal tonnage (minimum needed for current allocation)
-    const optimalPoints = Math.min(allocatedPoints, unitMaximum)
-    const optimalTonnage = Math.ceil(optimalPoints / armorEfficiency * 2) / 2 // Round to nearest 0.5 ton
-    
-    // Calculate potential tonnage savings
-    const tonnageSavings = Math.max(0, this.configuration.armorTonnage - optimalTonnage)
-    
-    // Calculate waste percentage based on tonnage investment
-    const wastePercentage = tonnageMaximum > 0 ? (totalWasted / tonnageMaximum) * 100 : 0
-    
-    // For backwards compatibility, break down waste types (though simpler now)
-    const wastedFromRounding = 0  // Not applicable in simplified model
-    const trappedPoints = totalWasted  // All waste is "trapped" by unit limits
-    
-    return {
-      totalWasted,
-      wastedFromRounding,
-      trappedPoints,
-      locationsAtCap,
-      wastePercentage,
-      optimalTonnage,
-      tonnageSavings
-    }
+  getArmorWasteAnalysis(): any {
+    return this.calculationManager.calculateArmorWasteAnalysis(this.configuration);
   }
 
   /**
    * Check if armor allocation has any waste
    */
   hasArmorWaste(): boolean {
-    return this.getArmorWasteAnalysis().totalWasted > 0;
+    return this.calculationManager.calculateArmorWasteAnalysis(this.configuration).totalWasted > 0;
   }
 
   /**
    * Get wasted armor points (simple version for quick checks)
    */
   getWastedArmorPoints(): number {
-    return this.getArmorWasteAnalysis().totalWasted;
+    return this.calculationManager.calculateArmorWasteAnalysis(this.configuration).totalWasted;
   }
 
   /**
    * Validate if current configuration exceeds any limits
    */
   isOverweight(): boolean {
-    return this.getUsedTonnage() > this.configuration.tonnage
+    return this.calculationManager.isOverweight(this.configuration);
   }
 
   /**
@@ -1706,8 +1586,8 @@ export class UnitCriticalManager {
   /**
    * Get gyro type
    */
-  getGyroType(): GyroType {
-    return this.configuration.gyroType
+  getGyroType(): string {
+    return UnitCriticalManager.extractComponentType(this.configuration.gyroType)
   }
 
   /**
@@ -1742,7 +1622,7 @@ export class UnitCriticalManager {
     // Validate system components
     const systemValidation = SystemComponentRules.validateSystemComponents(
       this.configuration.engineType,
-      this.configuration.gyroType
+      UnitCriticalManager.extractComponentType(this.configuration.gyroType) as GyroType
     )
     
     if (!systemValidation.isValid) {
@@ -1774,54 +1654,8 @@ export class UnitCriticalManager {
    * Get slot status specifically for user equipment (excludes system components)
    * This is what the Equipment Tray should use for accurate capacity warnings
    */
-  getUserEquipmentSlotStatus(): {
-    totalUserSlots: number      // Slots available for user equipment
-    usedUserSlots: number       // Slots occupied by user equipment
-    availableUserSlots: number  // Remaining slots for user equipment
-  } {
-    // Calculate system component slot usage
-    const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
-      this.configuration.engineType,
-      this.configuration.gyroType
-    )
-    
-    // Count engine slots across all torso sections
-    const engineSlots = systemAllocation.engine.centerTorso.length +
-                       systemAllocation.engine.leftTorso.length +
-                       systemAllocation.engine.rightTorso.length
-    
-    // Count gyro slots (always in center torso)
-    const gyroSlots = systemAllocation.gyro.centerTorso.length
-    
-    // Count fixed component slots (actuators, cockpit, life support, sensors)
-    const fixedComponentSlots = this.getMandatoryComponentSlots()
-    
-    // Calculate total slots reserved for system components
-    const systemReservedSlots = engineSlots + gyroSlots + fixedComponentSlots
-    
-    // Calculate available slots for user equipment
-    const totalCriticalSlots = 78 // Standard BattleMech total
-    const totalUserSlots = totalCriticalSlots - systemReservedSlots
-    
-    // Count user equipment slots (exclude system components)
-    let usedUserSlots = 0
-    this.sections.forEach(section => {
-      section.getAllEquipment().forEach(allocation => {
-        // Only count user equipment, not system components
-        if (!this.isSystemComponent(allocation.equipmentData)) {
-          usedUserSlots += allocation.occupiedSlots.length
-        }
-      })
-    })
-    
-    // Calculate remaining slots available for user equipment
-    const availableUserSlots = Math.max(0, totalUserSlots - usedUserSlots)
-    
-    return {
-      totalUserSlots,
-      usedUserSlots,
-      availableUserSlots
-    }
+  getUserEquipmentSlotStatus(): any {
+    return this.stateManager.getUserEquipmentSlotStatus();
   }
 
   /**
@@ -1842,101 +1676,29 @@ export class UnitCriticalManager {
   /**
    * Get summary statistics
    */
-  getSummary(): {
-    totalSections: number
-    totalSlots: number
-    occupiedSlots: number
-    availableSlots: number
-    totalEquipment: number
-    unallocatedEquipment: number
-    systemSlots: number
-    totalWeight: number
-    heatGenerated: number
-    heatDissipated: number
-  } {
-    let totalSlots = 0
-    let occupiedSlots = 0
-    let systemSlots = 0
-    
-    // Count mandatory fixed components that are always present
-    const mandatorySlots = this.getMandatoryComponentSlots()
-    
-    this.sections.forEach(section => {
-      totalSlots += section.getTotalSlots()
-      section.getAllSlots().forEach(slot => {
-        if (!slot.isEmpty()) {
-          occupiedSlots++
-          if (slot.isSystemSlot()) {
-            systemSlots++
-          }
-        }
-      })
-    })
-    
-    // Add mandatory component slots to occupied count
-    occupiedSlots += mandatorySlots
-    systemSlots += mandatorySlots
-    
-    // Calculate heat values
-    const heatDissipated = this.getHeatDissipation()
-    const heatGenerated = this.getHeatGeneration()
-    
-    return {
-      totalSections: this.sections.size,
-      totalSlots,
-      occupiedSlots,
-      availableSlots: totalSlots - occupiedSlots,
-      totalEquipment: this.getAllocatedEquipmentCount(),
-      unallocatedEquipment: this.getUnallocatedEquipmentCount(),
-      systemSlots,
-      totalWeight: this.getUsedTonnage(),
-      heatGenerated,
-      heatDissipated
-    }
-  }
-
-  /**
-   * Get mandatory component critical slots that are always present
-   */
-  private getMandatoryComponentSlots(): number {
-    // Fixed components that are always present:
-    // - Cockpit: 1 slot (Head)
-    // - Life Support: 2 slots (Head) 
-    // - Sensors: 2 slots (Head)
-    // - Actuators: 4 slots per arm (shoulder, upper, lower, hand) + 4 slots per leg (hip, upper, lower, foot)
-    
-    const cockpitSlots = 1
-    const lifeSupportSlots = 2
-    const sensorSlots = 2
-    const armActuatorSlots = 4 * 2 // 4 slots per arm × 2 arms
-    const legActuatorSlots = 4 * 2 // 4 slots per leg × 2 legs
-    
-    return cockpitSlots + lifeSupportSlots + sensorSlots + armActuatorSlots + legActuatorSlots
+  getSummary(): any {
+    return this.stateManager.getSummary();
   }
 
   /**
    * Get total heat dissipation capacity
    */
   getHeatDissipation(): number {
-    const config = this.configuration
-    const efficiency = this.getHeatSinkEfficiency()
-    return config.totalHeatSinks * efficiency
+    return this.heatManagementManager.getHeatDissipation()
   }
 
   /**
    * Get current heat generation from all equipment
    */
   getHeatGeneration(): number {
-    // Currently no weapons/equipment generating heat in base configuration
-    // This will be calculated from allocated weapons when equipment system is implemented
-    return 0
+    return this.heatManagementManager.getHeatGeneration()
   }
 
   /**
    * Get heat sink efficiency based on type
    */
   private getHeatSinkEfficiency(): number {
-    const type = this.configuration.heatSinkType
+    const type = UnitCriticalManager.extractComponentType(this.configuration.heatSinkType)
     
     switch (type) {
       case 'Double':
@@ -1968,35 +1730,35 @@ export class UnitCriticalManager {
    * Get total critical slots available on a standard BattleMech
    */
   getTotalCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().totals.capacity
+    return this.getCriticalSlotBreakdown().total
   }
 
   /**
    * Get total critical slots used (including system components and user equipment)
    */
   getTotalUsedCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().totals.used
+    return this.getCriticalSlotBreakdown().used
   }
 
   /**
    * Get remaining critical slots available for equipment
    */
   getRemainingCriticalSlots(): number {
-    return this.getCriticalSlotBreakdown().totals.remaining
+    return this.getCriticalSlotBreakdown().free
   }
 
   /**
    * Get equipment burden (total if all unallocated equipment was allocated)
    */
   getEquipmentBurden(): number {
-    return this.getCriticalSlotBreakdown().totals.equipmentBurden
+    return this.getCriticalSlotBreakdown().equipment
   }
 
   /**
    * Get over-capacity slots (how many slots over limit if all equipment allocated)
    */
   getOverCapacitySlots(): number {
-    return this.getCriticalSlotBreakdown().totals.overCapacity
+    return 0 // or the correct property if available
   }
 
   // ===== OBSERVER PATTERN FOR STATE CHANGES =====
@@ -2005,23 +1767,14 @@ export class UnitCriticalManager {
    * Subscribe to state changes
    */
   subscribe(callback: () => void): () => void {
-    this.listeners.push(callback)
-    return () => {
-      this.listeners = this.listeners.filter(l => l !== callback)
-    }
+    return this.stateManager.subscribe(callback);
   }
 
   /**
    * Notify all listeners about state changes
    */
   private notifyStateChange(): void {
-    this.listeners.forEach(callback => {
-      try {
-        callback()
-      } catch (error) {
-        console.error('[UnitCriticalManager] Error in state change listener:', error)
-      }
-    })
+    this.stateManager.notifyStateChange();
   }
 
   /**
@@ -2064,8 +1817,8 @@ export class UnitCriticalManager {
     console.log(`[UnitCriticalManager] RESET TO BASE: Complete! Final unallocated count: ${this.unallocatedEquipment.length}`)
     
     // Log what should be expected
-    const structureSlots = this.getStructureCriticalSlots(currentConfig.structureType)
-    const armorSlots = this.getArmorCriticalSlots(currentConfig.armorType)
+    const structureSlots = this.getStructureCriticalSlots(UnitCriticalManager.extractComponentType(currentConfig.structureType) as StructureType)
+    const armorSlots = this.getArmorCriticalSlots(UnitCriticalManager.extractComponentType(currentConfig.armorType) as ArmorType)
     const jumpSlots = currentConfig.jumpMP
     const expectedTotal = structureSlots + armorSlots + jumpSlots
     
@@ -2099,203 +1852,28 @@ export class UnitCriticalManager {
    * Serialize the complete unit state for persistence
    */
   serializeCompleteState(): CompleteUnitState {
-    console.log('=== [DEBUG] Unallocated equipment BEFORE serialization ===')
-    this.unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
-    // Add summary count by name
-    const beforeCountMap = this.unallocatedEquipment.reduce((acc, eq) => {
-      acc[eq.equipmentData.name] = (acc[eq.equipmentData.name] || 0) + 1
-      return acc
-    }, {} as Record<string, number>)
-    console.log('=== [DEBUG] Unallocated equipment count BEFORE serialization ===')
-    Object.entries(beforeCountMap).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
-    console.log('[UnitCriticalManager] Serializing complete unit state')
-    console.log('[UnitCriticalManager] Unallocated equipment before serialization:', this.unallocatedEquipment.map(eq => eq.equipmentData.name))
-    
-    const criticalSlotAllocations: SerializedSlotAllocations = {}
-    const timestamp = Date.now()
-    
-    // Serialize allocated equipment from all sections
-    this.sections.forEach((section, location) => {
-      const equipment = section.getAllEquipment()
-      if (equipment.length > 0) {
-        criticalSlotAllocations[location] = {}
-        
-        equipment.forEach(allocation => {
-          // Store equipment in each occupied slot
-          allocation.occupiedSlots.forEach(slotIndex => {
-            criticalSlotAllocations[location][slotIndex] = this.serializeEquipment(allocation)
-          })
-        })
-      }
-    })
-    
-    // Serialize unallocated equipment
-    const unallocatedEquipment = this.unallocatedEquipment.map(allocation => 
-      this.serializeEquipment(allocation)
-    )
-    
-    const state: CompleteUnitState = {
-      version: '1.0.0',
-      configuration: { ...this.configuration },
-      criticalSlotAllocations,
-      unallocatedEquipment,
-      timestamp
-    }
-    
-    console.log('=== [DEBUG] Serialized unallocatedEquipment array ===')
-    console.log(JSON.stringify(unallocatedEquipment, null, 2))
-    console.log('[UnitCriticalManager] Serialized state:', {
-      allocatedSections: Object.keys(criticalSlotAllocations).length,
-      unallocatedCount: unallocatedEquipment.length,
-      configVersion: state.version
-    })
-    
-    return state
+    return this.serializationManager.serializeCompleteState(this);
   }
 
   /**
    * Serialize individual equipment allocation
    */
   private serializeEquipment(allocation: EquipmentAllocation): SerializedEquipment {
-    return {
-      equipmentData: { ...allocation.equipmentData },
-      equipmentGroupId: allocation.equipmentGroupId,
-      location: allocation.location || '',
-      startSlotIndex: allocation.startSlotIndex ?? -1,
-      endSlotIndex: allocation.endSlotIndex ?? -1,
-      occupiedSlots: [...(allocation.occupiedSlots || [])]
-    }
+    return this.serializationManager.serializeEquipment(allocation);
   }
 
   /**
    * Deserialize and restore complete unit state
    */
   deserializeCompleteState(state: CompleteUnitState): boolean {
-    console.log('[UnitCriticalManager] Deserializing complete unit state')
-    
-    try {
-      // Validate state before applying
-      const validation = this.validateSerializedState(state)
-      if (!validation.isValid && !validation.canRecover) {
-        console.error('[UnitCriticalManager] Cannot deserialize invalid state:', validation.errors)
-        return false
-      }
-      
-      if (validation.warnings.length > 0) {
-        console.warn('[UnitCriticalManager] State deserialization warnings:', validation.warnings)
-      }
-      
-      // Clear current state
-      this.clearAllEquipment()
-      
-      // CRITICAL FIX: Update SpecialComponentsManager's reference to the new unallocated equipment array
-      // This ensures it works with the current array after clearAllEquipment() creates a new one
-      this.specialComponentsManager.updateUnallocatedEquipmentReference(this.unallocatedEquipment)
-      
-      // Update configuration first
-      this.configuration = UnitConfigurationBuilder.buildConfiguration(state.configuration)
-      // Ensure specialComponentsManager uses the latest configuration
-      this.specialComponentsManager.configuration = this.configuration
-      
-      // Rebuild system components with new configuration
-      // CRITICAL FIX: Skip special component initialization during state restoration
-      // Special components will be restored from saved unallocated equipment instead
-      this.rebuildSystemComponents(true)
-      
-      // Restore allocated equipment
-      this.restoreAllocatedEquipment(state.criticalSlotAllocations)
-      
-      // Restore unallocated equipment
-      this.restoreUnallocatedEquipment(state.unallocatedEquipment)
-      
-      console.log('[UnitCriticalManager] State deserialization complete')
-      console.log('[UnitCriticalManager] Unallocated equipment after deserialization:', this.unallocatedEquipment.map(eq => eq.equipmentData.name))
-      console.log('=== [DEBUG] Unallocated equipment AFTER deserialization ===')
-      this.unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
-      // Add summary count by name
-      const afterCountMap = this.unallocatedEquipment.reduce((acc, eq) => {
-        acc[eq.equipmentData.name] = (acc[eq.equipmentData.name] || 0) + 1
-        return acc
-      }, {} as Record<string, number>)
-      console.log('=== [DEBUG] Unallocated equipment count AFTER deserialization ===')
-      Object.entries(afterCountMap).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
-      return true
-      
-    } catch (error) {
-      console.error('[UnitCriticalManager] Failed to deserialize state:', error)
-      return false
-    }
+    return this.serializationManager.deserializeCompleteState(this, state);
   }
 
   /**
    * Validate serialized state before deserialization
    */
   validateSerializedState(state: CompleteUnitState): StateValidationResult {
-    const result: StateValidationResult = {
-      isValid: true,
-      errors: [],
-      warnings: [],
-      canRecover: true
-    }
-    
-    // Check version compatibility
-    if (!state.version) {
-      result.warnings.push('Missing state version, assuming v1.0.0')
-    } else if (state.version !== '1.0.0') {
-      result.warnings.push(`State version ${state.version} may not be fully compatible`)
-    }
-    
-    // Validate configuration
-    if (!state.configuration) {
-      result.errors.push('Missing unit configuration')
-      result.isValid = false
-      result.canRecover = false
-      return result
-    }
-    
-    // Validate required configuration fields
-    const requiredFields = ['tonnage', 'engineType', 'gyroType', 'structureType', 'armorType']
-    for (const field of requiredFields) {
-      if (!(field in state.configuration)) {
-        result.errors.push(`Missing required configuration field: ${field}`)
-        result.isValid = false
-      }
-    }
-    
-    // Validate equipment data
-    if (state.unallocatedEquipment) {
-      state.unallocatedEquipment.forEach((equipment, index) => {
-        if (!equipment.equipmentData || !equipment.equipmentGroupId) {
-          result.errors.push(`Invalid unallocated equipment at index ${index}`)
-          result.isValid = false
-        }
-      })
-    }
-    
-    // Validate critical slot allocations
-    if (state.criticalSlotAllocations) {
-      Object.entries(state.criticalSlotAllocations).forEach(([location, slots]) => {
-        if (!this.sections.has(location)) {
-          result.warnings.push(`Unknown location in saved state: ${location}`)
-          return
-        }
-        
-        const section = this.sections.get(location)!
-        Object.entries(slots).forEach(([slotStr, equipment]) => {
-          const slotIndex = parseInt(slotStr)
-          if (slotIndex >= section.getTotalSlots()) {
-            result.warnings.push(`Invalid slot index ${slotIndex} in ${location}`)
-          }
-          
-          if (!equipment.equipmentData || !equipment.equipmentGroupId) {
-            result.errors.push(`Invalid equipment in ${location} slot ${slotIndex}`)
-            result.isValid = false
-          }
-        })
-      })
-    }
-    
-    return result
+    return this.serializationManager.validateSerializedState(state);
   }
 
   /**
@@ -2458,110 +2036,61 @@ export class UnitCriticalManager {
    * Restore allocated equipment to critical slots
    */
   private restoreAllocatedEquipment(allocations: SerializedSlotAllocations): void {
-    console.log('[UnitCriticalManager] Restoring allocated equipment')
-    
-    const processedGroups = new Set<string>()
-    
-    Object.entries(allocations).forEach(([location, slots]) => {
-      const section = this.sections.get(location)
-      if (!section) {
-        console.warn(`[UnitCriticalManager] Section not found: ${location}`)
-        return
-      }
-      
-      Object.entries(slots).forEach(([slotStr, serializedEquipment]) => {
-        const slotIndex = parseInt(slotStr)
-        
-        // Skip if we've already processed this equipment group
-        if (processedGroups.has(serializedEquipment.equipmentGroupId)) {
-          return
-        }
-        
-        try {
-          // Attempt to allocate the equipment
-          const success = section.allocateEquipment(
-            serializedEquipment.equipmentData,
-            serializedEquipment.startSlotIndex,
-            serializedEquipment.equipmentGroupId
-          )
-          
-          if (success) {
-            processedGroups.add(serializedEquipment.equipmentGroupId)
-            console.log(`[UnitCriticalManager] Restored ${serializedEquipment.equipmentData.name} to ${location}`)
-          } else {
-            console.warn(`[UnitCriticalManager] Failed to restore ${serializedEquipment.equipmentData.name} to ${location}, adding to unallocated`)
-            // Add to unallocated if allocation failed
-            this.addToUnallocatedFromSerialized(serializedEquipment)
-          }
-        } catch (error) {
-          console.error(`[UnitCriticalManager] Error restoring equipment ${serializedEquipment.equipmentData.name}:`, error)
-          this.addToUnallocatedFromSerialized(serializedEquipment)
-        }
-      })
-    })
+    this.serializationManager.restoreAllocatedEquipment(this, allocations);
   }
 
   /**
    * Restore unallocated equipment
    */
   private restoreUnallocatedEquipment(unallocatedEquipment: SerializedEquipment[]): void {
-    console.log('[UnitCriticalManager] Restoring unallocated equipment')
-    console.log('=== [DEBUG] Equipment to restore ===')
-    unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
-    console.log(`[UnitCriticalManager] Number of unallocated equipment to restore: ${unallocatedEquipment.length}`)
-    unallocatedEquipment.forEach(serializedEquipment => {
-      this.addToUnallocatedFromSerialized(serializedEquipment)
-    })
-    
-    console.log(`[UnitCriticalManager] Restored ${unallocatedEquipment.length} unallocated equipment pieces`)
+    this.serializationManager.restoreUnallocatedEquipment(this, unallocatedEquipment);
   }
 
   /**
    * Add serialized equipment to unallocated pool
    */
   private addToUnallocatedFromSerialized(serializedEquipment: SerializedEquipment): void {
-    const allocation: EquipmentAllocation = {
-      equipmentData: serializedEquipment.equipmentData,
-      equipmentGroupId: serializedEquipment.equipmentGroupId,
-      location: '',
-      startSlotIndex: -1,
-      endSlotIndex: -1,
-      occupiedSlots: []
-    }
-    
-    this.unallocatedEquipment.push(allocation)
+    this.serializationManager.addToUnallocatedFromSerialized(this, serializedEquipment);
   }
 
   /**
    * Create a minimal state for backward compatibility
    */
-  static createMinimalStateFromConfiguration(configuration: UnitConfiguration): CompleteUnitState {
+  static createMinimalStateFromConfiguration(): CompleteUnitState {
     return {
       version: '1.0.0',
-      configuration,
+      configuration: {
+        tonnage: 0,
+        engineType: createComponentConfiguration('engine', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        engineRating: 0,
+        gyroType: createComponentConfiguration('gyro', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        armorType: createComponentConfiguration('armor', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        armorTonnage: 0,
+        externalHeatSinks: 0,
+        heatSinkType: createComponentConfiguration('heatSink', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        jumpMP: 0,
+        jumpJetType: createComponentConfiguration('jumpJet', 'Standard Jump Jet') || { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
+        techBase: 'Inner Sphere',
+        structureType: createComponentConfiguration('structure', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' }
+      },
       criticalSlotAllocations: {},
       unallocatedEquipment: [],
       timestamp: Date.now()
-    }
+    };
   }
 
-  /**
-   * Check if a state is from an older version that only has configuration
-   */
   static isLegacyConfigurationOnly(data: any): boolean {
-    return data && 
-           typeof data === 'object' && 
-           'tonnage' in data && 
-           !('version' in data) && 
-           !('criticalSlotAllocations' in data)
+    return data && typeof data === 'object' && 'tonnage' in data && !('version' in data);
   }
 
-  /**
-   * Convert legacy configuration-only data to complete state
-   */
   static upgradeLegacyConfiguration(legacyConfig: UnitConfiguration): CompleteUnitState {
-    console.log('[UnitCriticalManager] Upgrading legacy configuration to complete state')
-    return this.createMinimalStateFromConfiguration(legacyConfig)
+    return {
+      version: '1.0.0',
+      configuration: legacyConfig,
+      criticalSlotAllocations: {},
+      unallocatedEquipment: [],
+      timestamp: Date.now()
+    };
   }
 
   // ===== ENHANCED AUTO-ALLOCATION SYSTEM =====
@@ -2579,10 +2108,15 @@ export class UnitCriticalManager {
   } {
     return this.equipmentAllocationManager.autoAllocateEquipment(this.unallocatedEquipment)
   }
+
+  // Update state manager references when sections or unallocated equipment change
+  private updateStateManagerReferences(): void {
+    this.stateManager.updateReferences(this.sections, this.unallocatedEquipment);
+  }
 }
 
 // Re-export types and builder for backward compatibility
-export {
+export type {
   UnitValidationResult,
   SpecialEquipmentObject,
   CompleteUnitState,

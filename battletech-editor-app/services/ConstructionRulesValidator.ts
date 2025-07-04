@@ -17,6 +17,10 @@ import { TechLevelRulesValidator } from './validation/TechLevelRulesValidator';
 import { MovementRulesValidator } from './validation/MovementRulesValidator';
 import { ArmorRulesValidator } from './validation/ArmorRulesValidator';
 import { StructureRulesValidator } from './validation/StructureRulesValidator';
+import { EquipmentValidationManager } from './validation/EquipmentValidationManager';
+import { ComponentValidationManager } from './validation/ComponentValidationManager';
+import { ValidationReportingManager } from './validation/ValidationReportingManager';
+import { ValidationCalculations } from './validation/ValidationCalculations';
 
 // Import types from validation services
 import type { 
@@ -83,9 +87,6 @@ export interface ConstructionRulesValidator {
   generateComplianceReport(config: UnitConfiguration, equipment: any[]): ComplianceReport;
   generateValidationSummary(validations: ValidationResult[]): ValidationSummary;
   generateRuleViolationReport(violations: RuleViolation[]): ViolationReport;
-  
-  // Utility methods
-  checkRuleCompliance(rule: BattleTechRule, config: UnitConfiguration, equipment?: any[]): RuleComplianceResult;
   suggestComplianceFixes(violations: RuleViolation[]): ComplianceFix[];
   calculateRuleScore(config: UnitConfiguration, equipment: any[]): RuleScore;
 }
@@ -765,6 +766,10 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     }
   ];
 
+  private readonly equipmentValidationManager = new EquipmentValidationManager();
+  private readonly componentValidationManager = new ComponentValidationManager();
+  private readonly reportingManager = new ValidationReportingManager();
+
   // ===== CORE VALIDATION METHODS =====
   
   validateUnit(config: UnitConfiguration, equipment: any[]): ValidationResult {
@@ -923,12 +928,12 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     
     const armorType = this.extractComponentType(config.armorType);
     const tonnage = config.tonnage || 100;
-    const maxArmor = this.calculateMaxArmor(tonnage);
-    const totalArmor = this.calculateTotalArmorFromAllocation(config.armorAllocation) || 0;
-    const armorWeight = this.calculateArmorWeight(totalArmor, armorType);
+    const maxArmor = ValidationCalculations.calculateMaxArmor(tonnage);
+    const totalArmor = ValidationCalculations.calculateTotalArmorFromAllocation(config.armorAllocation) || 0;
+    const armorWeight = ValidationCalculations.calculateArmorWeight(totalArmor, armorType);
     
     // Check head armor limit
-    const headArmor = this.getLocationArmor(config.armorAllocation, 'head') || 0;
+    const headArmor = ValidationCalculations.getLocationArmor(config.armorAllocation, 'head') || 0;
     if (headArmor > 9) {
       violations.push({
         type: 'location_violation',
@@ -974,11 +979,11 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     
     const structureType = this.extractComponentType(config.structureType);
     const tonnage = config.tonnage || 100;
-    const structureWeight = this.calculateStructureWeight(tonnage, structureType);
-    const internalStructure = this.calculateInternalStructure(tonnage);
+    const structureWeight = ValidationCalculations.calculateStructureWeight(tonnage, structureType);
+    const internalStructure = ValidationCalculations.calculateInternalStructure(tonnage);
     
     // Validate structure type compatibility
-    if (!this.isValidStructureType(structureType)) {
+    if (!ValidationCalculations.isValidStructureType(structureType)) {
       violations.push({
         type: 'invalid_type',
         message: `Invalid structure type: ${structureType}`,
@@ -1004,7 +1009,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     const engineType = config.engineType || 'Standard';
     const engineRating = config.engineRating || 0;
     const tonnage = config.tonnage || 100;
-    const engineWeight = this.calculateEngineWeight(engineRating, engineType);
+    const engineWeight = ValidationCalculations.calculateEngineWeight(engineRating, engineType);
     const walkMP = Math.floor(engineRating / tonnage);
     const maxRating = 400;
     const minRating = 10;
@@ -1046,8 +1051,8 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     
     const gyroType = this.extractComponentType(config.gyroType);
     const engineRating = config.engineRating || 0;
-    const gyroWeight = this.calculateGyroWeight(engineRating, gyroType);
-    const engineCompatible = this.isGyroEngineCompatible(gyroType, config.engineType);
+    const gyroWeight = ValidationCalculations.calculateGyroWeight(engineRating, gyroType);
+    const engineCompatible = ValidationCalculations.isGyroEngineCompatible(gyroType, config.engineType);
     
     if (!engineCompatible) {
       violations.push({
@@ -1073,7 +1078,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     const recommendations: string[] = [];
     
     const cockpitType = 'Standard'; // Simplified - UnitConfiguration doesn't have cockpitType
-    const cockpitWeight = this.calculateCockpitWeight(cockpitType);
+    const cockpitWeight = ValidationCalculations.calculateCockpitWeight(cockpitType);
     
     return {
       isValid: violations.length === 0,
@@ -1118,74 +1123,15 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   validateWeaponRules(equipment: any[], config: UnitConfiguration): WeaponValidation {
-    const violations: WeaponViolation[] = [];
-    const recommendations: string[] = [];
-    
-    const weapons = equipment.filter(item => item.equipmentData?.type?.includes('weapon'));
-    const weaponCount = weapons.length;
-    const totalWeaponWeight = weapons.reduce((total, weapon) => total + (weapon.equipmentData?.tonnage || 0), 0);
-    const heatGeneration = weapons.reduce((total, weapon) => total + (weapon.equipmentData?.heat || 0), 0);
-    
-    // Check for tech level violations
-    for (const weapon of weapons) {
-      const techBase = weapon.equipmentData?.techBase || 'Inner Sphere';
-      if (config.techBase === 'Inner Sphere' && techBase === 'Clan') {
-        violations.push({
-          weapon: weapon.equipmentData?.name || 'Unknown',
-          type: 'tech_level_violation',
-          message: `Clan weapon ${weapon.equipmentData?.name} incompatible with Inner Sphere tech base`,
-          severity: 'major',
-          suggestedFix: 'Use Inner Sphere equivalent or change unit tech base to Mixed'
-        });
-      }
-    }
-    
-    return {
-      isValid: violations.length === 0,
-      weaponCount,
-      totalWeaponWeight,
-      heatGeneration,
-      violations,
-      recommendations
-    };
+    return this.equipmentValidationManager.validateWeaponRules(equipment, config);
   }
   
   validateAmmoRules(equipment: any[], config: UnitConfiguration): AmmoValidation {
-    const violations: AmmoViolation[] = [];
-    const recommendations: string[] = [];
-    
-    const ammunition = equipment.filter(item => item.equipmentData?.type === 'ammunition');
-    const totalAmmoWeight = ammunition.reduce((total, ammo) => total + (ammo.equipmentData?.tonnage || 0), 0);
-    
-    const ammoBalance: AmmoBalanceCheck[] = [];
-    const caseProtection: CASEProtectionCheck = {
-      requiredLocations: [],
-      protectedLocations: [],
-      unprotectedLocations: [],
-      isCompliant: true
-    };
-    
-    return {
-      isValid: violations.length === 0,
-      totalAmmoWeight,
-      ammoBalance,
-      caseProtection,
-      violations,
-      recommendations
-    };
+    return this.equipmentValidationManager.validateAmmoRules(equipment, config);
   }
   
   validateSpecialEquipmentRules(equipment: any[], config: UnitConfiguration): SpecialEquipmentValidation {
-    const violations: SpecialEquipmentViolation[] = [];
-    const recommendations: string[] = [];
-    const specialEquipment: SpecialEquipmentCheck[] = [];
-    
-    return {
-      isValid: violations.length === 0,
-      specialEquipment,
-      violations,
-      recommendations
-    };
+    return this.equipmentValidationManager.validateSpecialEquipmentRules(equipment, config);
   }
   
   validateTechLevel(config: UnitConfiguration, equipment: any[]): TechLevelValidation {
@@ -1313,7 +1259,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     const recommendations: string[] = [];
     
     const totalSlotsAvailable = 78; // Standard bipedal mech
-    const totalSlotsUsed = this.calculateTotalSlotsUsed(config, equipment);
+    const totalSlotsUsed = ValidationCalculations.calculateTotalSlotsUsed(config, equipment);
     const locationUtilization: { [location: string]: SlotUtilization } = {};
     
     const locations = ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
@@ -1447,84 +1393,11 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   generateRuleViolationReport(violations: RuleViolation[]): ViolationReport {
-    const groupedByCategory: { [category: string]: RuleViolation[] } = {};
-    const groupedBySeverity: { [severity: string]: RuleViolation[] } = {};
-    const groupedByComponent: { [component: string]: RuleViolation[] } = {};
-    
-    const summary: ViolationSummary = {
-      totalViolations: violations.length,
-      criticalViolations: 0,
-      majorViolations: 0,
-      minorViolations: 0,
-      violationsByCategory: {},
-      topViolations: violations.slice(0, 5)
-    };
-    
-    const actionPlan: ActionPlan = {
-      immediateActions: [],
-      shortTermActions: [],
-      longTermActions: [],
-      alternativeDesigns: []
-    };
-    
-    return {
-      violations,
-      groupedByCategory,
-      groupedBySeverity,
-      groupedByComponent,
-      summary,
-      actionPlan
-    };
-  }
-  
-  checkRuleCompliance(rule: BattleTechRule, config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
-    let compliant = true;
-    let score = 100;
-    const violations: RuleViolation[] = [];
-    let notes = '';
-    
-    switch (rule.id) {
-      case 'WEIGHT_LIMIT':
-        const weightValidation = this.validateWeightLimits(config, equipment || []);
-        compliant = weightValidation.isValid;
-        score = compliant ? 100 : 0;
-        break;
-      
-      case 'MINIMUM_HEAT_SINKS':
-        const heatValidation = this.validateHeatManagement(config, equipment || []);
-        compliant = heatValidation.actualHeatSinks >= heatValidation.minimumHeatSinks;
-        score = compliant ? 100 : 0;
-        break;
-      
-      default:
-        notes = 'Rule check not implemented';
-        break;
-    }
-    
-    return {
-      rule,
-      compliant,
-      score,
-      violations,
-      notes
-    };
+    return this.reportingManager.generateRuleViolationReport(violations);
   }
   
   suggestComplianceFixes(violations: RuleViolation[]): ComplianceFix[] {
-    return violations.map(violation => ({
-      violation,
-      fixType: 'modify' as const,
-      description: `Fix for ${violation.ruleName}`,
-      steps: [violation.suggestedFix],
-      impact: {
-        weight: 0,
-        cost: 0,
-        complexity: 'moderate',
-        timeEstimate: '15 minutes',
-        sideEffects: []
-      },
-      alternatives: []
-    }));
+    return this.reportingManager.suggestComplianceFixes(violations);
   }
   
   calculateRuleScore(config: UnitConfiguration, equipment: any[]): RuleScore {
@@ -1562,6 +1435,35 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     };
   }
   
+  checkRuleCompliance(rule: BattleTechRule, config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
+    let compliant = true;
+    let score = 100;
+    const violations: RuleViolation[] = [];
+    let notes = '';
+    switch (rule.id) {
+      case 'WEIGHT_LIMIT':
+        const weightValidation = this.validateWeightLimits(config, equipment || []);
+        compliant = weightValidation.isValid;
+        score = compliant ? 100 : 0;
+        break;
+      case 'MINIMUM_HEAT_SINKS':
+        const heatValidation = this.validateHeatManagement(config, equipment || []);
+        compliant = heatValidation.actualHeatSinks >= heatValidation.minimumHeatSinks;
+        score = compliant ? 100 : 0;
+        break;
+      default:
+        notes = 'Rule check not implemented';
+        break;
+    }
+    return {
+      rule,
+      compliant,
+      score,
+      violations,
+      notes
+    };
+  }
+  
   // ===== PRIVATE HELPER METHODS =====
   
   private extractComponentType(component: ComponentConfiguration | string): string {
@@ -1573,13 +1475,13 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     let totalWeight = 0;
     
     // Add structure weight
-    totalWeight += this.calculateStructureWeight(config.tonnage || 100, this.extractComponentType(config.structureType));
+    totalWeight += ValidationCalculations.calculateStructureWeight(config.tonnage || 100, this.extractComponentType(config.structureType));
     
     // Add engine weight
-    totalWeight += this.calculateEngineWeight(config.engineRating || 0, config.engineType || 'Standard');
+    totalWeight += ValidationCalculations.calculateEngineWeight(config.engineRating || 0, config.engineType || 'Standard');
     
     // Add armor weight
-    totalWeight += this.calculateArmorWeight(this.calculateTotalArmorFromAllocation(config.armorAllocation) || 0, this.extractComponentType(config.armorType));
+    totalWeight += ValidationCalculations.calculateArmorWeight(ValidationCalculations.calculateTotalArmorFromAllocation(config.armorAllocation) || 0, this.extractComponentType(config.armorType));
     
     // Add equipment weight
     totalWeight += equipment.reduce((sum, item) => sum + (item.equipmentData?.tonnage || 0), 0);
@@ -1588,9 +1490,9 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   private calculateWeightDistribution(config: UnitConfiguration, equipment: any[]): WeightDistribution {
-    const structure = this.calculateStructureWeight(config.tonnage || 100, this.extractComponentType(config.structureType));
-    const armor = this.calculateArmorWeight(this.calculateTotalArmorFromAllocation(config.armorAllocation) || 0, this.extractComponentType(config.armorType));
-    const engine = this.calculateEngineWeight(config.engineRating || 0, config.engineType || 'Standard');
+    const structure = ValidationCalculations.calculateStructureWeight(config.tonnage || 100, this.extractComponentType(config.structureType));
+    const armor = ValidationCalculations.calculateArmorWeight(ValidationCalculations.calculateTotalArmorFromAllocation(config.armorAllocation) || 0, this.extractComponentType(config.armorType));
+    const engine = ValidationCalculations.calculateEngineWeight(config.engineRating || 0, config.engineType || 'Standard');
     
     const equipmentItems = equipment.filter(item => item.equipmentData?.type !== 'ammunition');
     const ammunitionItems = equipment.filter(item => item.equipmentData?.type === 'ammunition');
@@ -1615,79 +1517,51 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   private getEngineHeatSinks(config: UnitConfiguration): number {
-    const engineRating = config.engineRating || 0;
-    return Math.min(10, Math.floor(engineRating / 25));
+    return ValidationCalculations.getEngineHeatSinks(config);
   }
   
   private getExternalHeatSinks(equipment: any[]): number {
-    return equipment.filter(item => item.equipmentData?.type === 'heat_sink').length;
+    return ValidationCalculations.getExternalHeatSinks(equipment);
   }
   
   private calculateMaxArmor(tonnage: number): number {
-    return tonnage * 2; // Simplified calculation
+    return ValidationCalculations.calculateMaxArmor(tonnage);
   }
   
   private calculateArmorWeight(totalArmor: number, armorType: string): number {
-    const baseWeight = totalArmor / 16; // Simplified calculation
-    if (armorType.includes('Ferro-Fibrous')) return baseWeight * 1.12;
-    return baseWeight;
+    return ValidationCalculations.calculateArmorWeight(totalArmor, armorType);
   }
   
   private isValidStructureType(structureType: string): boolean {
-    const validTypes = ['Standard', 'Endo Steel', 'Endo Steel (Clan)', 'Reinforced', 'Composite'];
-    return validTypes.includes(structureType);
+    return ValidationCalculations.isValidStructureType(structureType);
   }
   
   private calculateStructureWeight(tonnage: number, structureType: string): number {
-    const baseWeight = tonnage * 0.1;
-    if (structureType.includes('Endo Steel')) return baseWeight * 0.5;
-    return baseWeight;
+    return ValidationCalculations.calculateStructureWeight(tonnage, structureType);
   }
   
   private calculateInternalStructure(tonnage: number): number {
-    return Math.ceil(tonnage / 10); // Simplified calculation
+    return ValidationCalculations.calculateInternalStructure(tonnage);
   }
   
   private calculateEngineWeight(engineRating: number, engineType: string): number {
-    // Simplified engine weight calculation
-    const baseWeight = engineRating * 0.05;
-    switch (engineType) {
-      case 'XL': return baseWeight * 0.5;
-      case 'Light': return baseWeight * 0.75;
-      case 'Compact': return baseWeight * 1.5;
-      default: return baseWeight;
-    }
+    return ValidationCalculations.calculateEngineWeight(engineRating, engineType);
   }
   
   private calculateGyroWeight(engineRating: number, gyroType: string): number {
-    const baseWeight = Math.ceil(engineRating / 100);
-    switch (gyroType) {
-      case 'Compact': return baseWeight * 1.5;
-      case 'Heavy Duty': return baseWeight * 2;
-      case 'XL': return baseWeight * 0.5;
-      default: return baseWeight;
-    }
+    return ValidationCalculations.calculateGyroWeight(engineRating, gyroType);
   }
   
   private calculateCockpitWeight(cockpitType: string): number {
-    switch (cockpitType) {
-      case 'Small': return 2;
-      case 'Torso-Mounted': return 4;
-      case 'Industrial': return 5;
-      default: return 3;
-    }
+    return ValidationCalculations.calculateCockpitWeight(cockpitType);
   }
   
   private isGyroEngineCompatible(gyroType: string, engineType?: string): boolean {
-    // Simplified compatibility check
-    if (engineType === 'XL' && gyroType === 'Standard') return true;
-    if (engineType === 'Light' && gyroType === 'XL') return false;
-    return true;
+    return ValidationCalculations.isGyroEngineCompatible(gyroType, engineType);
   }
   
   private calculateTotalSlotsUsed(config: UnitConfiguration, equipment: any[]): number {
-    // Simplified calculation
-    return equipment.reduce((total, item) => total + (item.equipmentData?.criticals || 1), 0);
+    return ValidationCalculations.calculateTotalSlotsUsed(config, equipment);
   }
   
   private generateOverallSummary(validations: any[]): ValidationSummary {

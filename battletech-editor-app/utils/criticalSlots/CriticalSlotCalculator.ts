@@ -1,14 +1,18 @@
 /**
  * CriticalSlotCalculator - Critical slot calculation and allocation management
  * 
- * Extracted from UnitCriticalManager as part of large file refactoring.
- * Handles critical slot calculations, allocations, and optimization for BattleMech construction.
+ * Refactored to use modular managers following SOLID principles.
+ * Delegates responsibilities to specialized managers for better maintainability.
  * 
  * @see IMPLEMENTATION_REFERENCE.md for architectural patterns
  */
 
 import { UnitConfiguration } from './UnitCriticalManager';
 import { ComponentConfiguration, TechBase } from '../../types/componentConfiguration';
+import { SlotCalculationManager, SlotRequirements, AvailableSlots, SlotUtilization } from './SlotCalculationManager';
+import { SlotAllocationManager, AllocationResult, OptimizationResult, SlotConflict, ConflictResolution, ReorganizationSuggestion } from './SlotAllocationManager';
+import { SlotValidationManager, ValidationResult, EfficiencyAnalysis, SlotReport, AvailableSlotLocation, ValidationError, ValidationWarning } from './SlotValidationManager';
+import { SpecialComponentManager, SpecialComponentAllocation, EndoSteelSlotAllocation, FerroFibrousSlotAllocation } from './SpecialComponentManager';
 
 export interface CriticalSlotCalculator {
   // Core slot calculations
@@ -37,71 +41,6 @@ export interface CriticalSlotCalculator {
   findAvailableSlots(config: UnitConfiguration, equipment: any[], requiredSlots: number): AvailableSlotLocation[];
 }
 
-export interface SlotRequirements {
-  total: number;
-  byLocation: {
-    head: number;
-    centerTorso: number;
-    leftTorso: number;
-    rightTorso: number;
-    leftArm: number;
-    rightArm: number;
-    leftLeg: number;
-    rightLeg: number;
-  };
-  byComponent: {
-    systemComponents: number;
-    specialComponents: number;
-    equipment: number;
-    ammunition: number;
-  };
-  critical: boolean; // True if requirements exceed capacity
-}
-
-export interface AvailableSlots {
-  total: number;
-  byLocation: {
-    head: number;
-    centerTorso: number;
-    leftTorso: number;
-    rightTorso: number;
-    leftArm: number;
-    rightArm: number;
-    leftLeg: number;
-    rightLeg: number;
-  };
-  reserved: {
-    systemComponents: number;
-    specialComponents: number;
-  };
-  usable: number; // Total minus reserved
-}
-
-export interface SlotUtilization {
-  percentageUsed: number;
-  totalUsed: number;
-  totalAvailable: number;
-  byLocation: {
-    [location: string]: {
-      used: number;
-      available: number;
-      percentage: number;
-      efficiency: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
-    };
-  };
-  bottlenecks: string[]; // Locations with >90% utilization
-  recommendations: string[];
-}
-
-export interface AllocationResult {
-  success: boolean;
-  allocations: EquipmentAllocation[];
-  unallocated: any[];
-  conflicts: SlotConflict[];
-  warnings: string[];
-  suggestions: string[];
-}
-
 export interface EquipmentAllocation {
   equipment: any;
   location: string;
@@ -110,320 +49,38 @@ export interface EquipmentAllocation {
   conflicts: string[];
 }
 
-export interface OptimizationResult {
-  optimized: boolean;
-  originalAllocations: EquipmentAllocation[];
-  optimizedAllocations: EquipmentAllocation[];
-  improvements: {
-    slotsFreed: number;
-    conflictsResolved: number;
-    efficiencyGain: number;
-  };
-  recommendations: string[];
-}
-
-export interface ValidationResult {
-  isValid: boolean;
-  errors: ValidationError[];
-  warnings: ValidationWarning[];
-  suggestions: string[];
-  locationStatus: {
-    [location: string]: {
-      valid: boolean;
-      used: number;
-      capacity: number;
-      conflicts: string[];
-    };
-  };
-}
-
-export interface ValidationError {
-  type: 'slot_overflow' | 'invalid_location' | 'component_conflict' | 'rule_violation';
-  location: string;
-  component: string;
-  message: string;
-  severity: 'high' | 'medium' | 'low';
-}
-
-export interface ValidationWarning {
-  type: 'inefficient_placement' | 'suboptimal_allocation' | 'potential_conflict';
-  location: string;
-  component: string;
-  message: string;
-  recommendation: string;
-}
-
-export interface SpecialComponentAllocation {
-  endoSteel: {
-    required: number;
-    allocated: EndoSteelSlotAllocation;
-    conflicts: string[];
-  };
-  ferroFibrous: {
-    required: number;
-    allocated: FerroFibrousSlotAllocation;
-    conflicts: string[];
-  };
-  altri: {
-    required: number;
-    allocated: { [location: string]: number[] };
-    conflicts: string[];
-  };
-}
-
-export interface EndoSteelSlotAllocation {
-  total: number;
-  allocations: {
-    [location: string]: {
-      slots: number[];
-      count: number;
-    };
-  };
-  isComplete: boolean;
-  remainingSlots: number;
-}
-
-export interface FerroFibrousSlotAllocation {
-  total: number;
-  allocations: {
-    [location: string]: {
-      slots: number[];
-      count: number;
-    };
-  };
-  isComplete: boolean;
-  remainingSlots: number;
-}
-
-export interface SlotConflict {
-  type: 'overlap' | 'invalid_location' | 'capacity_exceeded' | 'rule_violation';
-  location: string;
-  slot: number;
-  conflictingComponents: string[];
-  severity: 'critical' | 'major' | 'minor';
-  resolvable: boolean;
-  suggestions: string[];
-}
-
-export interface ConflictResolution {
-  resolved: SlotConflict[];
-  unresolved: SlotConflict[];
-  newAllocations: EquipmentAllocation[];
-  success: boolean;
-  explanation: string;
-}
-
-export interface ReorganizationSuggestion {
-  type: 'move_equipment' | 'split_equipment' | 'optimize_special' | 'relocate_system';
-  component: string;
-  fromLocation: string;
-  toLocation: string;
-  benefit: string;
-  impact: 'none' | 'minor' | 'moderate' | 'major';
-  feasible: boolean;
-}
-
-export interface EfficiencyAnalysis {
-  overallEfficiency: number; // 0-100 score
-  locationEfficiency: {
-    [location: string]: {
-      efficiency: number;
-      utilization: number;
-      wastedSlots: number;
-      suggestions: string[];
-    };
-  };
-  bottlenecks: string[];
-  optimizationPotential: number;
-  recommendations: string[];
-}
-
-export interface SlotReport {
-  summary: {
-    totalSlots: number;
-    usedSlots: number;
-    availableSlots: number;
-    utilization: number;
-    efficiency: string;
-  };
-  locationBreakdown: {
-    [location: string]: {
-      capacity: number;
-      used: number;
-      available: number;
-      equipment: string[];
-      specialComponents: string[];
-      conflicts: string[];
-    };
-  };
-  specialComponents: SpecialComponentAllocation;
-  conflicts: SlotConflict[];
-  recommendations: string[];
-}
-
-export interface AvailableSlotLocation {
-  location: string;
-  availableSlots: number[];
-  contiguous: boolean;
-  suitableFor: string[];
-  restrictions: string[];
-}
-
 export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   
-  // Standard slot counts per location for bipedal mechs
-  private readonly STANDARD_SLOT_COUNTS = {
-    head: 6,
-    centerTorso: 12,
-    leftTorso: 12,
-    rightTorso: 12,
-    leftArm: 12,
-    rightArm: 12,
-    leftLeg: 6,
-    rightLeg: 6
-  };
+  private readonly slotCalculationManager: SlotCalculationManager;
+  private readonly slotAllocationManager: SlotAllocationManager;
+  private readonly slotValidationManager: SlotValidationManager;
+  private readonly specialComponentManager: SpecialComponentManager;
+
+  constructor() {
+    this.slotCalculationManager = new SlotCalculationManager();
+    this.slotAllocationManager = new SlotAllocationManager();
+    this.slotValidationManager = new SlotValidationManager();
+    this.specialComponentManager = new SpecialComponentManager();
+  }
 
   // ===== CORE SLOT CALCULATIONS =====
   
   calculateRequiredSlots(config: UnitConfiguration, equipment: any[]): SlotRequirements {
-    const systemSlots = this.calculateSystemComponentSlots(config);
-    const specialSlots = this.calculateSpecialComponentSlots(config);
-    const equipmentSlots = this.calculateEquipmentSlots(equipment);
-    
-    const byLocation = this.distributeSlotsByLocation(config, equipment);
-    
-    const total = systemSlots + specialSlots + equipmentSlots;
-    const totalAvailable = this.getTotalAvailableSlots(config);
-    
-    return {
-      total,
-      byLocation,
-      byComponent: {
-        systemComponents: systemSlots,
-        specialComponents: specialSlots,
-        equipment: equipmentSlots - this.getAmmoSlots(equipment),
-        ammunition: this.getAmmoSlots(equipment)
-      },
-      critical: total > totalAvailable
-    };
+    return this.slotCalculationManager.calculateRequiredSlots(config, equipment);
   }
   
   calculateAvailableSlots(config: UnitConfiguration): AvailableSlots {
-    const baseSlots = { ...this.STANDARD_SLOT_COUNTS };
-    
-    // Adjust for unit type variations
-    if (config.unitType === 'IndustrialMech') {
-      // Industrial mechs have different slot counts
-      baseSlots.head = 4;
-    }
-    
-    const systemSlots = this.calculateSystemComponentSlots(config);
-    const specialSlots = this.calculateSpecialComponentSlots(config);
-    const totalReserved = systemSlots + specialSlots;
-    
-    const total = Object.values(baseSlots).reduce((sum, slots) => sum + slots, 0);
-    
-    return {
-      total,
-      byLocation: baseSlots,
-      reserved: {
-        systemComponents: systemSlots,
-        specialComponents: specialSlots
-      },
-      usable: total - totalReserved
-    };
+    return this.slotCalculationManager.calculateAvailableSlots(config);
   }
   
   calculateSlotUtilization(config: UnitConfiguration, equipment: any[]): SlotUtilization {
-    const available = this.calculateAvailableSlots(config);
-    const required = this.calculateRequiredSlots(config, equipment);
-    
-    const totalUsed = required.total;
-    const totalAvailable = available.total;
-    const percentageUsed = (totalUsed / totalAvailable) * 100;
-    
-    const byLocation: { [location: string]: any } = {};
-    const bottlenecks: string[] = [];
-    
-    Object.keys(available.byLocation).forEach(location => {
-      const used = required.byLocation[location as keyof typeof required.byLocation];
-      const capacity = available.byLocation[location as keyof typeof available.byLocation];
-      const percentage = (used / capacity) * 100;
-      
-      let efficiency: SlotUtilization['byLocation'][string]['efficiency'];
-      if (percentage <= 60) efficiency = 'excellent';
-      else if (percentage <= 75) efficiency = 'good';
-      else if (percentage <= 85) efficiency = 'fair';
-      else if (percentage <= 95) efficiency = 'poor';
-      else efficiency = 'critical';
-      
-      byLocation[location] = {
-        used,
-        available: capacity,
-        percentage,
-        efficiency
-      };
-      
-      if (percentage > 90) {
-        bottlenecks.push(location);
-      }
-    });
-    
-    const recommendations = this.generateUtilizationRecommendations(byLocation, bottlenecks);
-    
-    return {
-      percentageUsed,
-      totalUsed,
-      totalAvailable,
-      byLocation,
-      bottlenecks,
-      recommendations
-    };
+    return this.slotCalculationManager.calculateSlotUtilization(config, equipment);
   }
   
   // ===== ALLOCATION METHODS =====
   
   allocateEquipmentSlots(config: UnitConfiguration, equipment: any[]): AllocationResult {
-    const allocations: EquipmentAllocation[] = [];
-    const unallocated: any[] = [];
-    const conflicts: SlotConflict[] = [];
-    const warnings: string[] = [];
-    const suggestions: string[] = [];
-    
-    // Start with system components
-    const systemAllocations = this.allocateSystemComponents(config);
-    allocations.push(...systemAllocations);
-    
-    // Allocate special components
-    const specialAllocations = this.allocateSpecialComponentsToSlots(config);
-    allocations.push(...specialAllocations.allocations);
-    conflicts.push(...specialAllocations.conflicts);
-    
-    // Allocate equipment
-    for (const item of equipment) {
-      const result = this.allocateSingleEquipment(item, config, allocations);
-      
-      if (result.success && result.allocation) {
-        allocations.push(result.allocation);
-      } else {
-        unallocated.push(item);
-        conflicts.push(...result.conflicts);
-      }
-      
-      warnings.push(...result.warnings);
-    }
-    
-    // Generate suggestions for improvements
-    suggestions.push(...this.generateAllocationSuggestions(config, allocations, unallocated));
-    
-    return {
-      success: unallocated.length === 0 && conflicts.length === 0,
-      allocations,
-      unallocated,
-      conflicts,
-      warnings,
-      suggestions
-    };
+    return this.slotAllocationManager.allocateEquipmentSlots(config, equipment);
   }
   
   optimizeSlotAllocation(config: UnitConfiguration, equipment: any[]): OptimizationResult {

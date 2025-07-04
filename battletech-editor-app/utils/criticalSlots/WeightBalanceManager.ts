@@ -1,0 +1,576 @@
+/**
+ * Weight Balance Manager
+ * Handles all weight calculations, balance validation, and tonnage management
+ * Extracted from UnitCriticalManager.ts for better organization
+ */
+
+import { EquipmentAllocation } from './CriticalSlot'
+import { UnitConfiguration } from './UnitCriticalManagerTypes'
+import { EngineType, GyroType } from './SystemComponentRules'
+import { JumpJetType } from '../jumpJetCalculations'
+import { HeatSinkType } from './UnitCriticalManagerTypes'
+
+export class WeightBalanceManager {
+  private configuration: UnitConfiguration
+  private unallocatedEquipment: EquipmentAllocation[]
+
+  constructor(
+    configuration: UnitConfiguration,
+    unallocatedEquipment: EquipmentAllocation[]
+  ) {
+    this.configuration = configuration
+    this.unallocatedEquipment = unallocatedEquipment
+  }
+
+  /**
+   * Get maximum armor tonnage based on unit configuration
+   */
+  getMaxArmorTonnage(): number {
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const armorType = this.getArmorTypeString()
+    
+    // Calculate armor weight based on type and points
+    switch (armorType) {
+      case 'Standard':
+        return maxArmorPoints / 16
+      case 'Ferro-Fibrous':
+        return maxArmorPoints / 20
+      case 'Ferro-Fibrous (Clan)':
+        return maxArmorPoints / 20
+      case 'Light Ferro-Fibrous':
+        return maxArmorPoints / 18
+      case 'Heavy Ferro-Fibrous':
+        return maxArmorPoints / 24
+      case 'Stealth':
+        return maxArmorPoints / 16
+      case 'Reactive':
+        return maxArmorPoints / 16
+      case 'Reflective':
+        return maxArmorPoints / 16
+      case 'Hardened':
+        return maxArmorPoints / 16
+      default:
+        return maxArmorPoints / 16
+    }
+  }
+
+  /**
+   * Get physical maximum armor tonnage (before rounding)
+   */
+  getPhysicalMaxArmorTonnage(): number {
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const armorType = this.getArmorTypeString()
+    
+    // Calculate armor weight based on type and points
+    switch (armorType) {
+      case 'Standard':
+        return maxArmorPoints / 16
+      case 'Ferro-Fibrous':
+        return maxArmorPoints / 20
+      case 'Ferro-Fibrous (Clan)':
+        return maxArmorPoints / 20
+      case 'Light Ferro-Fibrous':
+        return maxArmorPoints / 18
+      case 'Heavy Ferro-Fibrous':
+        return maxArmorPoints / 24
+      case 'Stealth':
+        return maxArmorPoints / 16
+      case 'Reactive':
+        return maxArmorPoints / 16
+      case 'Reflective':
+        return maxArmorPoints / 16
+      case 'Hardened':
+        return maxArmorPoints / 16
+      default:
+        return maxArmorPoints / 16
+    }
+  }
+
+  /**
+   * Get maximum armor points based on unit configuration
+   */
+  getMaxArmorPoints(): number {
+    const tonnage = this.configuration.tonnage
+    const structureType = this.getStructureTypeString()
+    
+    // Calculate internal structure points based on tonnage
+    let internalStructurePoints = 0
+    if (tonnage <= 20) {
+      internalStructurePoints = 3
+    } else if (tonnage <= 35) {
+      internalStructurePoints = 4
+    } else if (tonnage <= 55) {
+      internalStructurePoints = 5
+    } else if (tonnage <= 75) {
+      internalStructurePoints = 6
+    } else if (tonnage <= 100) {
+      internalStructurePoints = 7
+    } else {
+      internalStructurePoints = 8
+    }
+
+    // Apply structure type modifiers
+    switch (structureType) {
+      case 'Standard':
+        return internalStructurePoints * 2
+      case 'Endo Steel':
+        return internalStructurePoints * 2
+      case 'Endo Steel (Clan)':
+        return internalStructurePoints * 2
+      case 'Composite':
+        return internalStructurePoints * 2
+      case 'Reinforced':
+        return internalStructurePoints * 2
+      case 'Industrial':
+        return internalStructurePoints * 2
+      default:
+        return internalStructurePoints * 2
+    }
+  }
+
+  /**
+   * Get internal structure points for each location
+   */
+  getInternalStructurePoints(): Record<string, number> {
+    const tonnage = this.configuration.tonnage
+    const structureType = this.getStructureTypeString()
+    
+    // Calculate base internal structure points
+    let basePoints = 0
+    if (tonnage <= 20) {
+      basePoints = 3
+    } else if (tonnage <= 35) {
+      basePoints = 4
+    } else if (tonnage <= 55) {
+      basePoints = 5
+    } else if (tonnage <= 75) {
+      basePoints = 6
+    } else if (tonnage <= 100) {
+      basePoints = 7
+    } else {
+      basePoints = 8
+    }
+
+    // Apply structure type modifiers
+    switch (structureType) {
+      case 'Standard':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      case 'Endo Steel':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      case 'Endo Steel (Clan)':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      case 'Composite':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      case 'Reinforced':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      case 'Industrial':
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+      default:
+        return {
+          'Head': basePoints,
+          'Center Torso': basePoints,
+          'Left Torso': basePoints,
+          'Right Torso': basePoints,
+          'Left Arm': basePoints,
+          'Right Arm': basePoints,
+          'Left Leg': basePoints,
+          'Right Leg': basePoints
+        }
+    }
+  }
+
+  /**
+   * Get armor efficiency percentage
+   */
+  getArmorEfficiency(): number {
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const allocatedArmorPoints = this.getAllocatedArmorPoints()
+    return maxArmorPoints > 0 ? (allocatedArmorPoints / maxArmorPoints) * 100 : 0
+  }
+
+  /**
+   * Get maximum armor points for a specific location
+   */
+  getMaxArmorPointsForLocation(location: string): number {
+    const internalStructurePoints = this.getInternalStructurePoints()[location] || 0
+    return internalStructurePoints * 2
+  }
+
+  /**
+   * Get maximum walk MP based on engine rating
+   */
+  getMaxWalkMP(): number {
+    const engineRating = this.configuration.engineRating
+    const tonnage = this.configuration.tonnage
+    return engineRating / tonnage
+  }
+
+  /**
+   * Get remaining tonnage available
+   */
+  getRemainingTonnage(): number {
+    const usedTonnage = this.getUsedTonnage()
+    return this.configuration.tonnage - usedTonnage
+  }
+
+  /**
+   * Get total used tonnage
+   */
+  getUsedTonnage(): number {
+    let totalWeight = 0
+
+    // Engine weight
+    totalWeight += this.getEngineWeight()
+
+    // Gyro weight
+    totalWeight += this.getGyroWeight()
+
+    // Heat sink weight
+    totalWeight += this.getHeatSinkTonnage()
+
+    // Jump jet weight
+    totalWeight += this.getJumpJetWeight()
+
+    // Structure weight
+    const structureType = this.getStructureTypeString()
+    totalWeight += this.getStructureWeight(structureType, this.configuration.tonnage)
+
+    // Armor weight
+    const allocatedArmorPoints = this.getAllocatedArmorPoints()
+    const armorType = this.getArmorTypeString()
+    totalWeight += this.getArmorWeight(armorType, allocatedArmorPoints)
+
+    // Equipment weight
+    this.unallocatedEquipment.forEach(equipment => {
+      totalWeight += equipment.equipmentData.weight || 0
+    })
+
+    return totalWeight
+  }
+
+  /**
+   * Get engine weight
+   */
+  getEngineWeight(): number {
+    const engineRating = this.configuration.engineRating
+    const engineType = this.getEngineTypeString()
+    
+    // Calculate base engine weight
+    let baseWeight = engineRating / 75
+
+    // Apply engine type modifiers
+    switch (engineType) {
+      case 'Standard':
+        return baseWeight
+      case 'XL':
+        return baseWeight * 0.5
+      case 'Light':
+        return baseWeight * 0.75
+      case 'Compact':
+        return baseWeight * 1.5
+      case 'XXL':
+        return baseWeight * 0.25
+      default:
+        return baseWeight
+    }
+  }
+
+  /**
+   * Get gyro weight
+   */
+  getGyroWeight(): number {
+    const engineRating = this.configuration.engineRating
+    const gyroType = this.getGyroTypeString()
+    
+    // Calculate base gyro weight
+    let baseWeight = engineRating / 100
+
+    // Apply gyro type modifiers
+    switch (gyroType) {
+      case 'Standard':
+        return baseWeight
+      case 'XL':
+        return baseWeight * 0.5
+      case 'Compact':
+        return baseWeight * 0.5
+      case 'Heavy-Duty':
+        return baseWeight * 1.5
+      default:
+        return baseWeight
+    }
+  }
+
+  /**
+   * Get heat sink tonnage
+   */
+  getHeatSinkTonnage(): number {
+    const heatSinkType = this.getHeatSinkTypeString()
+    const externalHeatSinks = this.configuration.externalHeatSinks
+    
+    // Calculate heat sink weight
+    switch (heatSinkType) {
+      case 'Single':
+        return externalHeatSinks * 1
+      case 'Double':
+        return externalHeatSinks * 1
+      case 'Compact':
+        return externalHeatSinks * 1.5
+      default:
+        return externalHeatSinks * 1
+    }
+  }
+
+  /**
+   * Get jump jet weight
+   */
+  getJumpJetWeight(): number {
+    const jumpJetType = this.getJumpJetTypeString()
+    const jumpMP = this.configuration.jumpMP
+    const tonnage = this.configuration.tonnage
+    
+    // Calculate jump jet weight
+    switch (jumpJetType) {
+      case 'Standard Jump Jet':
+        return (jumpMP * tonnage) / 100
+      case 'Improved Jump Jet':
+        return (jumpMP * tonnage) / 200
+      case 'Partial Wing':
+        return (jumpMP * tonnage) / 200
+      default:
+        return (jumpMP * tonnage) / 100
+    }
+  }
+
+  /**
+   * Get remaining tonnage available for armor
+   */
+  getRemainingTonnageForArmor(): number {
+    const usedTonnage = this.getUsedTonnage()
+    const maxArmorTonnage = this.getMaxArmorTonnage()
+    const remainingTonnage = this.configuration.tonnage - usedTonnage
+    
+    return Math.min(remainingTonnage, maxArmorTonnage)
+  }
+
+  /**
+   * Get available armor points
+   */
+  getAvailableArmorPoints(): number {
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const allocatedArmorPoints = this.getAllocatedArmorPoints()
+    return maxArmorPoints - allocatedArmorPoints
+  }
+
+  /**
+   * Get allocated armor points
+   */
+  getAllocatedArmorPoints(): number {
+    // This would need to be calculated from the actual armor allocation
+    // For now, return a placeholder
+    return 0
+  }
+
+  /**
+   * Get unallocated armor points
+   */
+  getUnallocatedArmorPoints(): number {
+    const maxArmorPoints = this.getMaxArmorPoints()
+    const allocatedArmorPoints = this.getAllocatedArmorPoints()
+    return Math.max(0, maxArmorPoints - allocatedArmorPoints)
+  }
+
+  /**
+   * Get remaining armor points
+   */
+  getRemainingArmorPoints(): number {
+    return this.getUnallocatedArmorPoints()
+  }
+
+  /**
+   * Check if unit is overweight
+   */
+  isOverweight(): boolean {
+    return this.getUsedTonnage() > this.configuration.tonnage
+  }
+
+  /**
+   * Get weight validation results
+   */
+  getWeightValidation(): { isValid: boolean, overweight: number, warnings: string[] } {
+    const usedTonnage = this.getUsedTonnage()
+    const maxTonnage = this.configuration.tonnage
+    const overweight = Math.max(0, usedTonnage - maxTonnage)
+    const warnings: string[] = []
+
+    if (overweight > 0) {
+      warnings.push(`Unit is ${overweight.toFixed(2)} tons overweight`)
+    }
+
+    if (usedTonnage > maxTonnage * 0.95) {
+      warnings.push('Unit is approaching weight limit')
+    }
+
+    return {
+      isValid: overweight <= 0,
+      overweight,
+      warnings
+    }
+  }
+
+  /**
+   * Get structure weight
+   */
+  private getStructureWeight(structureType: string, tonnage: number): number {
+    switch (structureType) {
+      case 'Standard':
+        return tonnage * 0.1
+      case 'Endo Steel':
+        return tonnage * 0.05
+      case 'Endo Steel (Clan)':
+        return tonnage * 0.05
+      case 'Composite':
+        return tonnage * 0.15
+      case 'Reinforced':
+        return tonnage * 0.2
+      case 'Industrial':
+        return tonnage * 0.1
+      default:
+        return tonnage * 0.1
+    }
+  }
+
+  /**
+   * Get armor weight
+   */
+  private getArmorWeight(armorType: string, armorPoints: number): number {
+    switch (armorType) {
+      case 'Standard':
+        return armorPoints / 16
+      case 'Ferro-Fibrous':
+        return armorPoints / 20
+      case 'Ferro-Fibrous (Clan)':
+        return armorPoints / 20
+      case 'Light Ferro-Fibrous':
+        return armorPoints / 18
+      case 'Heavy Ferro-Fibrous':
+        return armorPoints / 24
+      case 'Stealth':
+        return armorPoints / 16
+      case 'Reactive':
+        return armorPoints / 16
+      case 'Reflective':
+        return armorPoints / 16
+      case 'Hardened':
+        return armorPoints / 16
+      default:
+        return armorPoints / 16
+    }
+  }
+
+  /**
+   * Helper methods to extract component types
+   */
+  private getStructureTypeString(): string {
+    return typeof this.configuration.structureType === 'string' 
+      ? this.configuration.structureType 
+      : (this.configuration.structureType as any).type
+  }
+
+  private getArmorTypeString(): string {
+    return typeof this.configuration.armorType === 'string' 
+      ? this.configuration.armorType 
+      : (this.configuration.armorType as any).type
+  }
+
+  private getEngineTypeString(): EngineType {
+    return typeof this.configuration.engineType === 'string' 
+      ? this.configuration.engineType 
+      : (this.configuration.engineType as any).type
+  }
+
+  private getGyroTypeString(): GyroType {
+    return typeof this.configuration.gyroType === 'string' 
+      ? this.configuration.gyroType 
+      : (this.configuration.gyroType as any).type
+  }
+
+  private getHeatSinkTypeString(): HeatSinkType {
+    return typeof this.configuration.heatSinkType === 'string' 
+      ? this.configuration.heatSinkType 
+      : (this.configuration.heatSinkType as any).type
+  }
+
+  private getJumpJetTypeString(): JumpJetType {
+    return typeof this.configuration.jumpJetType === 'string' 
+      ? this.configuration.jumpJetType 
+      : (this.configuration.jumpJetType as any).type
+  }
+
+  /**
+   * Update configuration reference
+   */
+  updateConfiguration(configuration: UnitConfiguration): void {
+    this.configuration = configuration
+  }
+
+  /**
+   * Update unallocated equipment reference
+   */
+  updateUnallocatedEquipment(unallocatedEquipment: EquipmentAllocation[]): void {
+    this.unallocatedEquipment = unallocatedEquipment
+  }
+} 

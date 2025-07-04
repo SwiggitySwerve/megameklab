@@ -9,6 +9,9 @@
 
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../types/componentConfiguration';
+import { AutoAllocationManager } from './allocation/AutoAllocationManager';
+import { ValidationManager } from './allocation/ValidationManager';
+import { AnalysisManager } from './allocation/AnalysisManager';
 
 export interface EquipmentAllocationService {
   // Core allocation methods
@@ -516,6 +519,10 @@ export class EquipmentAllocationServiceImpl implements EquipmentAllocationServic
     'equipment': ['head', 'centerTorso', 'leftTorso', 'rightTorso']
   };
 
+  private readonly autoAllocationManager = new AutoAllocationManager();
+  private readonly validationManager = new ValidationManager();
+  private readonly analysisManager = new AnalysisManager();
+
   // ===== CORE ALLOCATION METHODS =====
   
   allocateEquipment(config: UnitConfiguration, equipment: any[]): AllocationResult {
@@ -749,351 +756,52 @@ export class EquipmentAllocationServiceImpl implements EquipmentAllocationServic
   // ===== AUTO-ALLOCATION ALGORITHMS =====
   
   autoAllocateWeapons(weapons: any[], config: UnitConfiguration): WeaponAllocationResult {
-    const allocated: EquipmentPlacement[] = [];
-    const unallocated: any[] = [];
-    
-    // Sort weapons by priority (larger weapons first)
-    const sortedWeapons = weapons.sort((a, b) => 
-      (b.equipmentData?.tonnage || 0) - (a.equipmentData?.tonnage || 0)
-    );
-    
-    for (const weapon of sortedWeapons) {
-      const placement = this.findBestWeaponPlacement(weapon, config, allocated);
-      
-      if (placement) {
-        allocated.push(placement);
-      } else {
-        unallocated.push(weapon);
-      }
-    }
-    
-    const strategy = this.determineWeaponStrategy(allocated);
-    const heatEfficiency = this.calculateWeaponHeatEfficiency(allocated);
-    const firepower = this.calculateWeaponFirepower(allocated);
-    const recommendations = this.generateWeaponRecommendations(allocated, unallocated);
-    
-    return {
-      allocated,
-      unallocated,
-      strategy,
-      heatEfficiency,
-      firepower,
-      recommendations
-    };
+    return this.autoAllocationManager.autoAllocateWeapons(weapons, config);
   }
   
   autoAllocateAmmunition(ammunition: any[], config: UnitConfiguration): AmmoAllocationResult {
-    const allocated: EquipmentPlacement[] = [];
-    const unallocated: any[] = [];
-    
-    // Prioritize CASE-protected locations
-    const caseLocations = this.getCASEProtectedLocations(config);
-    
-    for (const ammo of ammunition) {
-      const placement = this.findBestAmmoPlacement(ammo, config, allocated, caseLocations);
-      
-      if (placement) {
-        allocated.push(placement);
-      } else {
-        unallocated.push(ammo);
-      }
-    }
-    
-    const caseProtection = this.analyzeCASEProtection(allocated, config);
-    const ammoBalance = this.analyzeAmmoBalance(allocated, config);
-    const suggestions = this.generateAmmoSuggestions(allocated, unallocated, caseProtection);
-    
-    return {
-      allocated,
-      unallocated,
-      caseProtection,
-      ammoBalance,
-      suggestions
-    };
+    return this.autoAllocationManager.autoAllocateAmmunition(ammunition, config);
   }
   
   autoAllocateHeatSinks(heatSinks: any[], config: UnitConfiguration): HeatSinkAllocationResult {
-    const allocated: EquipmentPlacement[] = [];
-    const engineHeatSinks = config.internalHeatSinks || 0;
-    const externalHeatSinks = heatSinks.length;
-    
-    // Prefer leg locations for external heat sinks
-    const preferredLocations = ['leftLeg', 'rightLeg', 'leftTorso', 'rightTorso'];
-    
-    for (const heatSink of heatSinks) {
-      const placement = this.findBestHeatSinkPlacement(heatSink, config, allocated, preferredLocations);
-      
-      if (placement) {
-        allocated.push(placement);
-      }
-    }
-    
-    const heatDissipation = this.calculateTotalHeatDissipation(engineHeatSinks, externalHeatSinks, config);
-    const heatBalance = this.calculateHeatBalance(config, allocated);
-    const optimization = this.generateHeatSinkOptimization(allocated, heatBalance);
-    
-    return {
-      allocated,
-      engineHeatSinks,
-      externalHeatSinks,
-      heatDissipation,
-      heatBalance,
-      optimization
-    };
+    return this.autoAllocationManager.autoAllocateHeatSinks(heatSinks, config);
   }
   
   autoAllocateJumpJets(jumpJets: any[], config: UnitConfiguration): JumpJetAllocationResult {
-    const allocated: EquipmentPlacement[] = [];
-    
-    // Standard distribution: some in center torso, rest in legs
-    const distribution = this.calculateOptimalJumpJetDistribution(jumpJets.length, config);
-    
-    let centerTorsoCount = 0;
-    let legCount = 0;
-    
-    for (const jumpJet of jumpJets) {
-      let placement: EquipmentPlacement | null = null;
-      
-      if (centerTorsoCount < distribution.centerTorso) {
-        placement = this.placeJumpJetInLocation(jumpJet, 'centerTorso', config, allocated);
-        if (placement) centerTorsoCount++;
-      }
-      
-      if (!placement && legCount < distribution.legs) {
-        const legLocation = legCount % 2 === 0 ? 'leftLeg' : 'rightLeg';
-        placement = this.placeJumpJetInLocation(jumpJet, legLocation, config, allocated);
-        if (placement) legCount++;
-      }
-      
-      if (placement) {
-        allocated.push(placement);
-      }
-    }
-    
-    const validation = this.validateJumpJetAllocation(allocated, config);
-    
-    return {
-      allocated,
-      jumpMP: config.jumpMP || 0,
-      distribution: {
-        centerTorso: centerTorsoCount,
-        legs: legCount,
-        recommended: centerTorsoCount + legCount === jumpJets.length
-      },
-      validation
-    };
+    return this.autoAllocationManager.autoAllocateJumpJets(jumpJets, config);
   }
   
   // ===== VALIDATION AND COMPLIANCE =====
   
   validateEquipmentPlacement(config: UnitConfiguration, allocations: EquipmentPlacement[]): ValidationResult {
-    const errors: ValidationError[] = [];
-    const warnings: ValidationWarning[] = [];
-    const suggestions: string[] = [];
-    
-    for (const allocation of allocations) {
-      // Validate individual placement
-      const validation = this.validatePlacement(allocation.equipment, allocation.location, config);
-      
-      if (!validation.isValid) {
-        validation.errors.forEach(error => {
-          errors.push({
-            equipmentId: allocation.equipmentId,
-            type: error.type,
-            message: error.message,
-            severity: error.severity,
-            location: allocation.location,
-            suggestedFix: error.suggestedFix
-          });
-        });
-      }
-      
-      validation.warnings.forEach(warning => {
-        warnings.push({
-          equipmentId: allocation.equipmentId,
-          type: warning.type,
-          message: warning.message,
-          impact: warning.impact,
-          recommendation: warning.recommendation
-        });
-      });
-    }
-    
-    const compliance = {
-      battleTechRules: true,
-      techLevel: true,
-      mountingRules: true,
-      weightLimits: true
-    };
-    
-    return {
-      isValid: errors.length === 0,
-      errors,
-      warnings,
-      compliance,
-      suggestions
-    };
+    return this.validationManager.validateEquipmentPlacement(config, allocations);
   }
   
   checkBattleTechRules(config: UnitConfiguration, allocations: EquipmentPlacement[]): RuleComplianceResult {
-    const violations: RuleViolation[] = [];
-    const techLevelIssues: TechLevelIssue[] = [];
-    const mountingIssues: MountingIssue[] = [];
-    const suggestions: ComplianceSuggestion[] = [];
-    
-    // Check tech level compliance
-    const equipment = allocations.map(a => a.equipment);
-    const techValidation = this.validateTechLevel(equipment, config);
-    techLevelIssues.push(...techValidation.issues);
-    
-    return {
-      compliant: violations.length === 0 && techLevelIssues.length === 0 && mountingIssues.length === 0,
-      violations,
-      techLevelIssues,
-      mountingIssues,
-      suggestions
-    };
+    return this.validationManager.checkBattleTechRules(config, allocations);
   }
   
   validateTechLevel(equipment: any[], config: UnitConfiguration): TechLevelValidation {
-    const issues: TechLevelIssue[] = [];
-    let innerSphere = 0;
-    let clan = 0;
-    
-    for (const item of equipment) {
-      const techBase = item.equipmentData?.techBase || 'Inner Sphere';
-      
-      if (techBase === 'Inner Sphere') {
-        innerSphere++;
-      } else if (techBase === 'Clan') {
-        clan++;
-      }
-      
-      // Check for tech level mismatches
-      if (config.techBase === 'Inner Sphere' && techBase === 'Clan') {
-        issues.push({
-          equipment: item.equipmentData?.name || 'Unknown',
-          requiredTechLevel: 'Clan',
-          currentTechLevel: 'Inner Sphere',
-          era: 'Current',
-          canBeResolved: false,
-          suggestion: 'Use Inner Sphere equivalent or change unit tech base'
-        });
-      }
-    }
-    
-    return {
-      isValid: issues.length === 0,
-      issues,
-      summary: {
-        innerSphere,
-        clan,
-        mixed: innerSphere > 0 && clan > 0,
-        era: 'Current',
-        techLevel: config.techBase || 'Inner Sphere'
-      },
-      recommendations: issues.length > 0 ? ['Resolve tech level mismatches'] : []
-    };
+    return this.validationManager.validateTechLevel(equipment, config);
   }
   
   validateMountingRestrictions(equipment: any, location: string, config: UnitConfiguration): MountingValidation {
-    const restrictions: MountingRestriction[] = [];
-    const requirements: MountingRequirement[] = [];
-    const alternatives: string[] = [];
-    const warnings: string[] = [];
-    
-    // Check basic location restrictions
-    if (location === 'head' && (equipment.equipmentData?.tonnage || 0) > 1) {
-      restrictions.push({
-        type: 'tonnage',
-        description: 'Head location limited to 1 ton equipment',
-        severity: 'blocking'
-      });
-    }
-    
-    // Check ammunition requirements
-    if (equipment.equipmentData?.type === 'ammunition' && equipment.equipmentData?.explosive) {
-      requirements.push({
-        type: 'case',
-        description: 'Explosive ammunition should have CASE protection',
-        satisfied: false, // Simplified check
-        suggestion: 'Install CASE in this location'
-      });
-    }
-    
-    return {
-      canMount: restrictions.filter(r => r.severity === 'blocking').length === 0,
-      restrictions,
-      requirements,
-      alternatives,
-      warnings
-    };
+    return this.validationManager.validateMountingRestrictions(equipment, location, config);
   }
   
   optimizeEquipmentLayout(config: UnitConfiguration, allocations: EquipmentPlacement[]): OptimizationResult {
-    const originalScore = this.calculateLayoutScore(allocations, config);
-    const optimizedAllocations = this.optimizeAllocations(allocations, config);
-    const optimizedScore = this.calculateLayoutScore(optimizedAllocations, config);
-    
-    const improvements: Improvement[] = [];
-    if (optimizedScore > originalScore) {
-      improvements.push({
-        type: 'efficiency',
-        description: 'Improved equipment placement efficiency',
-        benefit: `${((optimizedScore - originalScore) / originalScore * 100).toFixed(1)}% improvement`
-      });
-    }
-    
-    return {
-      improved: optimizedScore > originalScore,
-      originalScore,
-      optimizedScore,
-      improvements,
-      newAllocations: optimizedAllocations,
-      summary: `Layout optimization ${optimizedScore > originalScore ? 'improved' : 'maintained'} efficiency`
-    };
+    return this.analysisManager.optimizeEquipmentLayout(config, allocations);
   }
   
   analyzeLoadoutEfficiency(config: UnitConfiguration, allocations: EquipmentPlacement[]): EfficiencyAnalysis {
-    const placement = this.analyzePlacementEfficiency(allocations, config);
-    const balance = this.analyzeLoadoutBalance(allocations, config);
-    const protection = this.analyzeProtectionEfficiency(allocations, config);
-    const heat = this.analyzeHeatEfficiency(allocations, config);
-    const firepower = this.analyzeFirepowerEfficiency(allocations, config);
-    
-    const overallScore = (placement + balance + protection + heat + firepower) / 5;
-    
-    return {
-      overallScore,
-      categories: {
-        placement,
-        balance,
-        protection,
-        heat,
-        firepower
-      },
-      bottlenecks: [],
-      recommendations: []
-    };
+    return this.analysisManager.analyzeLoadoutEfficiency(config, allocations);
   }
   
   generateLoadoutReport(config: UnitConfiguration, allocations: EquipmentPlacement[]): LoadoutReport {
-    const summary = this.generateLoadoutSummary(allocations);
-    const weapons = this.generateWeaponSummary(allocations);
-    const ammunition = this.generateAmmoSummary(allocations);
-    const heatManagement = this.generateHeatSummary(allocations);
-    const protection = this.generateProtectionSummary(allocations);
-    
-    return {
-      summary,
-      weapons,
-      ammunition,
-      heatManagement,
-      protection,
-      recommendations: ['Equipment layout is optimized for current configuration']
-    };
+    return this.analysisManager.generateLoadoutReport(config, allocations);
   }
   
+  // Equipment management
   addEquipment(equipment: any, config: UnitConfiguration, preferences: PlacementPreferences): AddEquipmentResult {
     const alternatives = this.suggestAlternativePlacements(equipment, config);
     const impact = this.calculateEquipmentImpact(equipment);
@@ -1152,6 +860,7 @@ export class EquipmentAllocationServiceImpl implements EquipmentAllocationServic
     };
   }
   
+  // Utility methods
   getEquipmentConstraints(equipment: any): EquipmentConstraints {
     const type = equipment.equipmentData?.type || 'equipment';
     const allowedLocations = ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
@@ -1179,105 +888,15 @@ export class EquipmentAllocationServiceImpl implements EquipmentAllocationServic
   }
   
   calculateHeatGeneration(allocations: EquipmentPlacement[]): HeatAnalysis {
-    let totalGeneration = 0;
-    const byLocation: { [location: string]: number } = {};
-    
-    for (const allocation of allocations) {
-      const heat = allocation.equipment.equipmentData?.heat || 0;
-      totalGeneration += heat;
-      
-      if (!byLocation[allocation.location]) {
-        byLocation[allocation.location] = 0;
-      }
-      byLocation[allocation.location] += heat;
-    }
-    
-    return {
-      totalGeneration,
-      byLocation,
-      continuousGeneration: totalGeneration * 0.7, // Estimated
-      alphaStrikeGeneration: totalGeneration,
-      heatScale: {
-        low: totalGeneration * 0.3,
-        medium: totalGeneration * 0.6,
-        high: totalGeneration
-      },
-      recommendations: totalGeneration > 30 ? ['Consider adding more heat sinks'] : []
-    };
+    return this.analysisManager.calculateHeatGeneration(allocations);
   }
   
   calculateFirepower(allocations: EquipmentPlacement[]): FirepowerAnalysis {
-    const totalDamage = { short: 0, medium: 0, long: 0 };
-    const byLocation: { [location: string]: { short: number; medium: number; long: number } } = {};
-    const weaponTypes = { energy: 0, ballistic: 0, missile: 0 };
-    
-    for (const allocation of allocations) {
-      const equipment = allocation.equipment.equipmentData;
-      if (equipment?.type?.includes('weapon')) {
-        const damage = equipment.damage || 0;
-        
-        // Simplified damage calculation by range
-        totalDamage.short += damage;
-        totalDamage.medium += damage * 0.8;
-        totalDamage.long += damage * 0.6;
-        
-        // Track by location
-        if (!byLocation[allocation.location]) {
-          byLocation[allocation.location] = { short: 0, medium: 0, long: 0 };
-        }
-        byLocation[allocation.location].short += damage;
-        byLocation[allocation.location].medium += damage * 0.8;
-        byLocation[allocation.location].long += damage * 0.6;
-        
-        // Track weapon types
-        if (equipment.type.includes('energy')) weaponTypes.energy += damage;
-        else if (equipment.type.includes('ballistic')) weaponTypes.ballistic += damage;
-        else if (equipment.type.includes('missile')) weaponTypes.missile += damage;
-      }
-    }
-    
-    return {
-      totalDamage,
-      byLocation,
-      weaponTypes,
-      alphaStrike: totalDamage.short,
-      sustainedFire: totalDamage.short * 0.7,
-      recommendations: []
-    };
+    return this.analysisManager.calculateFirepower(allocations);
   }
   
   generateEquipmentSummary(allocations: EquipmentPlacement[]): EquipmentSummary {
-    const categories = { weapons: 0, ammunition: 0, heatSinks: 0, jumpJets: 0, equipment: 0 };
-    const distribution: { [location: string]: number } = {};
-    let totalWeight = 0;
-    
-    for (const allocation of allocations) {
-      const equipment = allocation.equipment.equipmentData;
-      const weight = equipment?.tonnage || 0;
-      totalWeight += weight;
-      
-      // Categorize equipment
-      const type = equipment?.type || 'equipment';
-      if (type.includes('weapon')) categories.weapons++;
-      else if (type === 'ammunition') categories.ammunition++;
-      else if (type === 'heat_sink') categories.heatSinks++;
-      else if (type === 'jump_jet') categories.jumpJets++;
-      else categories.equipment++;
-      
-      // Track distribution
-      if (!distribution[allocation.location]) {
-        distribution[allocation.location] = 0;
-      }
-      distribution[allocation.location] += weight;
-    }
-    
-    return {
-      totalItems: allocations.length,
-      totalWeight,
-      categories,
-      distribution,
-      technicalSummary: [`${allocations.length} items, ${totalWeight.toFixed(1)} tons total`]
-    };
+    return this.analysisManager.generateEquipmentSummary(allocations);
   }
   
   // ===== PRIVATE HELPER METHODS =====
@@ -1483,191 +1102,9 @@ export class EquipmentAllocationServiceImpl implements EquipmentAllocationServic
     return []; // Simplified - would check for CASE equipment
   }
   
-  private findBestAmmoPlacement(ammo: any, config: UnitConfiguration, allocated: EquipmentPlacement[], caseLocations: string[]): EquipmentPlacement | null {
-    return this.findBestWeaponPlacement(ammo, config, allocated); // Reuse logic
-  }
+
   
-  private analyzeCASEProtection(allocated: EquipmentPlacement[], config: UnitConfiguration) {
-    return {
-      protected: [] as string[],
-      unprotected: allocated.map(a => a.location),
-      recommendations: ['Consider installing CASE for ammunition protection']
-    };
-  }
-  
-  private analyzeAmmoBalance(allocated: EquipmentPlacement[], config: UnitConfiguration) {
-    return allocated.map(alloc => ({
-      weapon: alloc.equipment.equipmentData?.name || 'Unknown',
-      tons: alloc.equipment.equipmentData?.tonnage || 1,
-      turns: 10, // Simplified
-      adequate: true
-    }));
-  }
-  
-  private generateAmmoSuggestions(allocated: EquipmentPlacement[], unallocated: any[], caseProtection: any): string[] {
-    return ['Ammunition allocation optimized for current loadout'];
-  }
-  
-  private findBestHeatSinkPlacement(heatSink: any, config: UnitConfiguration, allocated: EquipmentPlacement[], preferredLocations: string[]): EquipmentPlacement | null {
-    return this.findBestWeaponPlacement(heatSink, config, allocated); // Reuse logic
-  }
-  
-  private calculateTotalHeatDissipation(engineHeatSinks: number, externalHeatSinks: number, config: UnitConfiguration): number {
-    return engineHeatSinks + externalHeatSinks * 2; // Simplified for double heat sinks
-  }
-  
-  private calculateHeatBalance(config: UnitConfiguration, allocated: EquipmentPlacement[]) {
-    const heatAnalysis = this.calculateHeatGeneration(allocated);
-    const dissipation = (config.totalHeatSinks || 10) * 2;
-    
-    return {
-      generation: heatAnalysis.totalGeneration,
-      dissipation,
-      deficit: Math.max(0, heatAnalysis.totalGeneration - dissipation)
-    };
-  }
-  
-  private generateHeatSinkOptimization(allocated: EquipmentPlacement[], heatBalance: any): string[] {
-    const recommendations: string[] = [];
-    
-    if (heatBalance.deficit > 0) {
-      recommendations.push(`Add ${Math.ceil(heatBalance.deficit / 2)} more heat sinks`);
-    }
-    
-    return recommendations;
-  }
-  
-  private calculateOptimalJumpJetDistribution(jumpJetCount: number, config: UnitConfiguration) {
-    const centerTorso = Math.min(2, jumpJetCount);
-    const legs = jumpJetCount - centerTorso;
-    
-    return { centerTorso, legs };
-  }
-  
-  private placeJumpJetInLocation(jumpJet: any, location: string, config: UnitConfiguration, allocated: EquipmentPlacement[]): EquipmentPlacement | null {
-    return this.findBestWeaponPlacement(jumpJet, config, allocated); // Reuse logic
-  }
-  
-  private validateJumpJetAllocation(allocated: EquipmentPlacement[], config: UnitConfiguration) {
-    return {
-      isValid: true,
-      errors: [] as string[],
-      warnings: [] as string[]
-    };
-  }
-  
-  // Additional analysis methods
-  private calculateLayoutScore(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    return this.calculateAllocationEfficiency(allocations, config);
-  }
-  
-  private optimizeAllocations(allocations: EquipmentPlacement[], config: UnitConfiguration): EquipmentPlacement[] {
-    return allocations; // Simplified
-  }
-  
-  private analyzePlacementEfficiency(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    return 85; // Simplified
-  }
-  
-  private analyzeLoadoutBalance(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    return 80; // Simplified
-  }
-  
-  private analyzeProtectionEfficiency(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    return 75; // Simplified
-  }
-  
-  private analyzeHeatEfficiency(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    const heatAnalysis = this.calculateHeatGeneration(allocations);
-    return Math.max(0, 100 - heatAnalysis.totalGeneration);
-  }
-  
-  private analyzeFirepowerEfficiency(allocations: EquipmentPlacement[], config: UnitConfiguration): number {
-    const firepower = this.calculateFirepower(allocations);
-    return Math.min(100, firepower.totalDamage.short * 2);
-  }
-  
-  private generateLoadoutSummary(allocations: EquipmentPlacement[]) {
-    const summary = this.generateEquipmentSummary(allocations);
-    const distribution: { [location: string]: number } = {};
-    
-    allocations.forEach(alloc => {
-      if (!distribution[alloc.location]) distribution[alloc.location] = 0;
-      distribution[alloc.location]++;
-    });
-    
-    return {
-      totalEquipment: summary.totalItems,
-      totalWeight: summary.totalWeight,
-      distribution,
-      efficiency: 85
-    };
-  }
-  
-  private generateWeaponSummary(allocations: EquipmentPlacement[]): WeaponSummary {
-    const weapons = allocations.filter(a => a.equipment.equipmentData?.type?.includes('weapon'));
-    const firepower = this.calculateFirepower(weapons);
-    const heat = this.calculateHeatGeneration(weapons);
-    
-    return {
-      count: weapons.length,
-      totalWeight: weapons.reduce((sum, w) => sum + (w.equipment.equipmentData?.tonnage || 0), 0),
-      firepower: firepower.totalDamage,
-      heatGeneration: heat.totalGeneration,
-      distribution: heat.byLocation,
-      analysis: ['Weapon loadout optimized for current configuration']
-    };
-  }
-  
-  private generateAmmoSummary(allocations: EquipmentPlacement[]): AmmoSummary {
-    const ammo = allocations.filter(a => a.equipment.equipmentData?.type === 'ammunition');
-    const distribution: { [location: string]: number } = {};
-    
-    ammo.forEach(a => {
-      if (!distribution[a.location]) distribution[a.location] = 0;
-      distribution[a.location] += a.equipment.equipmentData?.tonnage || 1;
-    });
-    
-    return {
-      totalTons: ammo.reduce((sum, a) => sum + (a.equipment.equipmentData?.tonnage || 1), 0),
-      distribution,
-      caseProtected: 0,
-      vulnerableLocations: Object.keys(distribution),
-      ammoBalance: [],
-      recommendations: ['Consider CASE protection for ammunition']
-    };
-  }
-  
-  private generateHeatSummary(allocations: EquipmentPlacement[]): HeatSummary {
-    const heat = this.calculateHeatGeneration(allocations);
-    const heatSinks = allocations.filter(a => a.equipment.equipmentData?.type === 'heat_sink');
-    
-    return {
-      generation: heat.totalGeneration,
-      dissipation: heatSinks.length * 2 + 20, // Simplified
-      efficiency: Math.max(0, 100 - heat.totalGeneration),
-      bottlenecks: [],
-      heatSinkDistribution: heat.byLocation,
-      recommendations: heat.totalGeneration > 30 ? ['Consider additional heat management'] : []
-    };
-  }
-  
-  private generateProtectionSummary(allocations: EquipmentPlacement[]): ProtectionSummary {
-    const criticalEquipment = allocations
-      .filter(a => a.equipment.equipmentData?.critical || a.equipment.equipmentData?.tonnage > 5)
-      .map(a => a.equipment.equipmentData?.name || 'Unknown');
-    
-    const vulnerableLocations = ['head', 'leftArm', 'rightArm'];
-    const protectionScore = 75; // Simplified score
-    
-    return {
-      criticalEquipment,
-      vulnerableLocations,
-      protectionScore,
-      caseRecommendations: ['Install CASE in ammunition locations'],
-      redundancy: []
-    };
-  }
+
   
   private calculateEquipmentImpact(equipment: any): EquipmentImpact {
     const equipmentData = equipment.equipmentData || {};

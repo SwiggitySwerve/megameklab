@@ -1,538 +1,204 @@
 /**
- * Unit State Manager - Central state management without React dependencies
- * Manages unit state and orchestrates system component changes
+ * UnitStateManager
+ * Handles state management, notifications, and observer pattern functionality.
+ * Extracted from UnitCriticalManager for modularity and SOLID compliance.
  */
 
-import { UnitCriticalManager, UnitConfiguration } from './UnitCriticalManager'
-import { MechConstructor, ConstructionResult, ConstructionOptions } from './MechConstructor'
-import { EngineType, GyroType } from './SystemComponentRules'
-import { EquipmentObject } from './CriticalSlot'
+export interface StateChangeListener {
+  (): void;
+}
 
-export interface StateChangeEvent {
-  type: 'unit_updated' | 'system_change' | 'equipment_change' | 'validation_change'
-  timestamp: Date
-  data?: any
+export interface UnitSummary {
+  totalSections: number;
+  totalSlots: number;
+  occupiedSlots: number;
+  availableSlots: number;
+  totalEquipment: number;
+  unallocatedEquipment: number;
+  systemSlots: number;
+  totalWeight: number;
+  heatGenerated: number;
+  heatDissipated: number;
+}
+
+export interface UserEquipmentSlotStatus {
+  totalUserSlots: number;      // Slots available for user equipment
+  usedUserSlots: number;       // Slots occupied by user equipment
+  availableUserSlots: number;  // Remaining slots for user equipment
 }
 
 export class UnitStateManager {
-  private currentUnit: UnitCriticalManager
-  private subscribers: Set<() => void> = new Set()
-  private changeHistory: StateChangeEvent[] = []
+  private listeners: StateChangeListener[] = [];
+  private sections: Map<string, any>; // CriticalSection[]
+  private unallocatedEquipment: any[]; // EquipmentAllocation[]
 
-  constructor(initialConfiguration?: UnitConfiguration) {
-    // Create default unit if no configuration provided
-    const defaultConfig: UnitConfiguration = initialConfiguration || {
-      // Default chassis/model for state manager
-      chassis: 'Custom',
-      model: 'New Design',
-      engineType: 'Standard',
-      gyroType: 'Standard',
-      tonnage: 50,
-      mass: 50,
-      unitType: 'BattleMech',
-      techBase: 'Inner Sphere',
-      walkMP: 4,
-      runMP: 6,
-      engineRating: 200,
-      structureType: 'Standard',
-      armorType: 'Standard',
-      heatSinkType: 'Single',
-      totalHeatSinks: 10,
-      internalHeatSinks: 8,
-      externalHeatSinks: 2,
-      enhancementType: null,
-      jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
-      jumpJetCounts: {},
-      hasPartialWing: false,
-      // Add safe armor defaults to prevent invalid initial state
-      armorTonnage: 5,
-      armorAllocation: {
-        HD: { front: 0, rear: 0 },
-        CT: { front: 0, rear: 0 },
-        LT: { front: 0, rear: 0 },
-        RT: { front: 0, rear: 0 },
-        LA: { front: 0, rear: 0 },
-        RA: { front: 0, rear: 0 },
-        LL: { front: 0, rear: 0 },
-        RL: { front: 0, rear: 0 }
-      }
-    }
-
-    this.currentUnit = new UnitCriticalManager(defaultConfig)
-    this.logChange({
-      type: 'unit_updated',
-      timestamp: new Date(),
-      data: { action: 'initialized', config: defaultConfig }
-    })
-  }
-
-  /**
-   * Get current unit
-   */
-  getCurrentUnit(): UnitCriticalManager {
-    return this.currentUnit
-  }
-
-  /**
-   * Add equipment as unallocated to the unit's pool
-   */
-  addUnallocatedEquipment(equipment: EquipmentObject): void {
-    // Import the v4 function for UUID generation
-    const { v4: uuidv4 } = require('uuid')
-    
-    // Create an EquipmentAllocation for unallocated equipment
-    const allocation: any = {
-      equipmentGroupId: uuidv4(),
-      equipmentData: equipment,
-      location: '',
-      occupiedSlots: [],
-      startSlotIndex: -1,
-      endSlotIndex: -1
-    }
-    
-    this.currentUnit.addUnallocatedEquipment([allocation])
-    this.notifySubscribers()
+  constructor(sections: Map<string, any>, unallocatedEquipment: any[]) {
+    this.sections = sections;
+    this.unallocatedEquipment = unallocatedEquipment;
   }
 
   /**
    * Subscribe to state changes
    */
-  subscribe(callback: () => void): () => void {
-    this.subscribers.add(callback)
-    return () => this.subscribers.delete(callback)
+  subscribe(callback: StateChangeListener): () => void {
+    this.listeners.push(callback);
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== callback);
+    };
   }
 
   /**
-   * Notify all subscribers of state changes
+   * Notify all listeners about state changes
    */
-  private notifySubscribers(): void {
-    this.subscribers.forEach(callback => {
+  notifyStateChange(): void {
+    this.listeners.forEach(callback => {
       try {
-        callback()
+        callback();
       } catch (error) {
-        console.error('Error in state subscriber callback:', error)
+        console.error('[UnitStateManager] Error in state change listener:', error);
       }
-    })
+    });
   }
 
   /**
-   * Log state change event
+   * Get summary statistics
    */
-  private logChange(event: StateChangeEvent): void {
-    this.changeHistory.push(event)
+  getSummary(): UnitSummary {
+    let totalSlots = 0;
+    let occupiedSlots = 0;
+    let systemSlots = 0;
     
-    // Keep only last 100 changes
-    if (this.changeHistory.length > 100) {
-      this.changeHistory.shift()
-    }
-  }
-
-  /**
-   * Update unit and notify subscribers
-   */
-  private updateUnit(newUnit: UnitCriticalManager, changeData?: any): void {
-    this.currentUnit = newUnit
-    this.logChange({
-      type: 'unit_updated',
-      timestamp: new Date(),
-      data: changeData
-    })
-    this.notifySubscribers()
-  }
-
-  /**
-   * Handle engine type change
-   */
-  handleEngineChange(newEngineType: EngineType, options?: ConstructionOptions): ConstructionResult {
-    const oldEngineType = this.currentUnit.getEngineType()
+    // Count mandatory fixed components that are always present
+    const mandatorySlots = this.getMandatoryComponentSlots();
     
-    if (oldEngineType === newEngineType) {
-      // No change needed
-      return {
-        newUnit: this.currentUnit,
-        displacedEquipment: [],
-        migratedEquipment: [],
-        unallocatedEquipment: [],
-        summary: { totalDisplaced: 0, totalMigrated: 0, totalUnallocated: 0 }
-      }
-    }
-
-    console.log(`Engine change: ${oldEngineType} → ${newEngineType}`)
-
-    // Use displacement-only options unless explicitly overridden
-    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
-    const result = MechConstructor.changeEngine(this.currentUnit, newEngineType, options || defaultOptions)
-    
-    this.updateUnit(result.newUnit, {
-      action: 'engine_change',
-      oldType: oldEngineType,
-      newType: newEngineType,
-      summary: result.summary
-    })
-
-    this.logChange({
-      type: 'system_change',
-      timestamp: new Date(),
-      data: {
-        component: 'engine',
-        oldType: oldEngineType,
-        newType: newEngineType,
-        displacedCount: result.summary.totalDisplaced,
-        migratedCount: result.summary.totalMigrated
-      }
-    })
-
-    return result
-  }
-
-  /**
-   * Handle gyro type change
-   */
-  handleGyroChange(newGyroType: GyroType, options?: ConstructionOptions): ConstructionResult {
-    const oldGyroType = this.currentUnit.getGyroType()
-    
-    if (oldGyroType === newGyroType) {
-      // No change needed
-      return {
-        newUnit: this.currentUnit,
-        displacedEquipment: [],
-        migratedEquipment: [],
-        unallocatedEquipment: [],
-        summary: { totalDisplaced: 0, totalMigrated: 0, totalUnallocated: 0 }
-      }
-    }
-
-    console.log(`Gyro change: ${oldGyroType} → ${newGyroType}`)
-
-    // Use displacement-only options unless explicitly overridden
-    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
-    const result = MechConstructor.changeGyro(this.currentUnit, newGyroType, options || defaultOptions)
-    
-    this.updateUnit(result.newUnit, {
-      action: 'gyro_change',
-      oldType: oldGyroType,
-      newType: newGyroType,
-      summary: result.summary
-    })
-
-    this.logChange({
-      type: 'system_change',
-      timestamp: new Date(),
-      data: {
-        component: 'gyro',
-        oldType: oldGyroType,
-        newType: newGyroType,
-        displacedCount: result.summary.totalDisplaced,
-        migratedCount: result.summary.totalMigrated
-      }
-    })
-
-    return result
-  }
-
-  /**
-   * Handle combined engine and gyro change
-   */
-  handleEngineAndGyroChange(
-    newEngineType: EngineType,
-    newGyroType: GyroType,
-    options?: ConstructionOptions
-  ): ConstructionResult {
-    const oldEngineType = this.currentUnit.getEngineType()
-    const oldGyroType = this.currentUnit.getGyroType()
-    
-    if (oldEngineType === newEngineType && oldGyroType === newGyroType) {
-      // No change needed
-      return {
-        newUnit: this.currentUnit,
-        displacedEquipment: [],
-        migratedEquipment: [],
-        unallocatedEquipment: [],
-        summary: { totalDisplaced: 0, totalMigrated: 0, totalUnallocated: 0 }
-      }
-    }
-
-    console.log(`Combined change: Engine ${oldEngineType} → ${newEngineType}, Gyro ${oldGyroType} → ${newGyroType}`)
-
-    // Use displacement-only options unless explicitly overridden
-    const defaultOptions: ConstructionOptions = { attemptMigration: false, preserveLocationPreference: false }
-    const result = MechConstructor.changeEngineAndGyro(this.currentUnit, newEngineType, newGyroType, options || defaultOptions)
-    
-    this.updateUnit(result.newUnit, {
-      action: 'combined_change',
-      oldEngineType,
-      newEngineType,
-      oldGyroType,
-      newGyroType,
-      summary: result.summary
-    })
-
-    this.logChange({
-      type: 'system_change',
-      timestamp: new Date(),
-      data: {
-        component: 'engine_and_gyro',
-        oldEngineType,
-        newEngineType,
-        oldGyroType,
-        newGyroType,
-        displacedCount: result.summary.totalDisplaced,
-        migratedCount: result.summary.totalMigrated
-      }
-    })
-
-    return result
-  }
-
-  /**
-   * Add equipment to unit (testing/demo purposes)
-   */
-  addTestEquipment(equipment: EquipmentObject, location: string, startSlot?: number): boolean {
-    const section = this.currentUnit.getSection(location)
-    if (!section) {
-      console.error(`Invalid location: ${location}`)
-      return false
-    }
-
-    // Find available slot if not specified
-    const targetSlot = startSlot !== undefined ? startSlot : 
-      section.findContiguousAvailableSlots(equipment.requiredSlots)?.[0]
-
-    if (targetSlot === undefined) {
-      console.error(`No available slots for ${equipment.name} in ${location}`)
-      return false
-    }
-
-    const success = section.allocateEquipment(equipment, targetSlot)
-    
-    if (success) {
-      this.logChange({
-        type: 'equipment_change',
-        timestamp: new Date(),
-        data: {
-          action: 'added',
-          equipment: equipment.name,
-          location,
-          slot: targetSlot
+    this.sections.forEach(section => {
+      totalSlots += section.getTotalSlots();
+      section.getAllSlots().forEach((slot: any) => {
+        if (!slot.isEmpty()) {
+          occupiedSlots++;
+          if (slot.isSystemSlot()) {
+            systemSlots++;
+          }
         }
-      })
-      this.notifySubscribers()
-    }
-
-    return success
-  }
-
-  /**
-   * Remove equipment from unit (allocated or unallocated)
-   */
-  removeEquipment(equipmentGroupId: string): boolean {
-    console.log(`[UnitStateManager] removeEquipment called with groupId: ${equipmentGroupId}`)
+      });
+    });
     
-    // First, try to remove from unallocated equipment
-    const removedFromUnallocated = this.currentUnit.removeUnallocatedEquipment(equipmentGroupId)
+    // Add mandatory component slots to occupied count
+    occupiedSlots += mandatorySlots;
+    systemSlots += mandatorySlots;
     
-    if (removedFromUnallocated) {
-      console.log(`[UnitStateManager] Successfully removed equipment from unallocated pool:`, {
-        name: removedFromUnallocated.equipmentData.name,
-        groupId: removedFromUnallocated.equipmentGroupId
-      })
-      
-      this.logChange({
-        type: 'equipment_change',
-        timestamp: new Date(),
-        data: {
-          action: 'removed_from_unallocated',
-          equipmentGroupId,
-          equipmentName: removedFromUnallocated.equipmentData.name
-        }
-      })
-      this.notifySubscribers()
-      return true
-    }
-    
-    // If not found in unallocated, try to displace from allocated slots
-    console.log(`[UnitStateManager] Equipment not found in unallocated, trying to displace from allocated slots`)
-    const displacedFromAllocated = this.currentUnit.displaceEquipment(equipmentGroupId)
-    
-    if (displacedFromAllocated) {
-      console.log(`[UnitStateManager] Successfully displaced equipment from allocated slots`)
-      
-      this.logChange({
-        type: 'equipment_change',
-        timestamp: new Date(),
-        data: {
-          action: 'displaced_to_unallocated',
-          equipmentGroupId
-        }
-      })
-      this.notifySubscribers()
-      return true
-    }
-    
-    console.error(`[UnitStateManager] FAILED: Equipment ${equipmentGroupId} not found in unallocated OR allocated equipment`)
-    return false
-  }
-
-  /**
-   * Get unit summary
-   */
-  getUnitSummary() {
-    const config = this.currentUnit.getConfiguration()
-    const summary = this.currentUnit.getSummary()
-    const validation = this.currentUnit.validate()
-
     return {
-      configuration: config,
-      summary,
-      validation,
-      unallocatedEquipment: this.currentUnit.getUnallocatedEquipment(),
-      equipmentByLocation: this.currentUnit.getEquipmentByLocation()
-    }
+      totalSections: this.sections.size,
+      totalSlots,
+      occupiedSlots,
+      availableSlots: totalSlots - occupiedSlots,
+      totalEquipment: this.getAllocatedEquipmentCount(),
+      unallocatedEquipment: this.getUnallocatedEquipmentCount(),
+      systemSlots,
+      totalWeight: 0, // Will be calculated by UnitCalculationManager
+      heatGenerated: 0, // Will be calculated by HeatManagementManager
+      heatDissipated: 0 // Will be calculated by HeatManagementManager
+    };
   }
 
   /**
-   * Get change history
+   * Get slot status specifically for user equipment (excludes system components)
    */
-  getChangeHistory(): StateChangeEvent[] {
-    return [...this.changeHistory]
-  }
-
-  /**
-   * Get recent changes (last N)
-   */
-  getRecentChanges(count: number = 10): StateChangeEvent[] {
-    return this.changeHistory.slice(-count)
-  }
-
-  /**
-   * Reset unit to clean state
-   */
-  resetUnit(newConfiguration?: UnitConfiguration): void {
-    const config = newConfiguration || {
-      engineType: 'Standard' as EngineType,
-      gyroType: 'Standard' as GyroType,
-      mass: 50,
-      unitType: 'BattleMech' as const
-    }
-
-    this.currentUnit = new UnitCriticalManager(config)
+  getUserEquipmentSlotStatus(): UserEquipmentSlotStatus {
+    // Calculate system component slot usage
+    const systemReservedSlots = this.calculateSystemReservedSlots();
     
-    this.logChange({
-      type: 'unit_updated',
-      timestamp: new Date(),
-      data: { action: 'reset', config }
-    })
-
-    this.notifySubscribers()
-  }
-
-  /**
-   * Get current engine type
-   */
-  getEngineType(): EngineType {
-    return this.currentUnit.getEngineType()
-  }
-
-  /**
-   * Get current gyro type
-   */
-  getGyroType(): GyroType {
-    return this.currentUnit.getGyroType()
-  }
-
-  /**
-   * Get current unit configuration
-   */
-  getConfiguration(): UnitConfiguration {
-    return this.currentUnit.getConfiguration()
-  }
-
-  /**
-   * Get validation status
-   */
-  getValidation() {
-    return this.currentUnit.validate()
-  }
-
-  /**
-   * Handle complete configuration update
-   */
-  handleConfigurationUpdate(newConfiguration: UnitConfiguration): void {
-    const oldConfig = this.currentUnit.getConfiguration()
+    // Calculate available slots for user equipment
+    const totalCriticalSlots = 78; // Standard BattleMech total
+    const totalUserSlots = totalCriticalSlots - systemReservedSlots;
     
-    console.log('[UnitStateManager] Configuration update:', oldConfig, '->', newConfiguration)
+    // Count user equipment slots (exclude system components)
+    let usedUserSlots = 0;
+    this.sections.forEach(section => {
+      section.getAllEquipment().forEach((allocation: any) => {
+        // Only count user equipment, not system components
+        if (!this.isSystemComponent(allocation.equipmentData)) {
+          usedUserSlots += allocation.occupiedSlots.length;
+        }
+      });
+    });
     
-    // Detect significant changes that require complete state persistence
-    const hasSignificantChanges = this.detectSignificantConfigurationChanges(oldConfig, newConfiguration)
+    // Calculate remaining slots available for user equipment
+    const availableUserSlots = Math.max(0, totalUserSlots - usedUserSlots);
     
-    // Update the unit configuration, which will trigger special component handling
-    this.currentUnit.updateConfiguration(newConfiguration)
-    
-    this.logChange({
-      type: 'unit_updated',
-      timestamp: new Date(),
-      data: {
-        action: 'configuration_update',
-        oldConfig,
-        newConfig: newConfiguration,
-        hasSignificantChanges
-      }
-    })
-    
-    console.log(`[UnitStateManager] Configuration update complete, significant changes: ${hasSignificantChanges}`)
-    this.notifySubscribers()
-  }
-
-  /**
-   * Detect if configuration changes require complete state persistence
-   */
-  private detectSignificantConfigurationChanges(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): boolean {
-    // Engine or gyro changes
-    if (oldConfig.engineType !== newConfig.engineType || oldConfig.gyroType !== newConfig.gyroType) {
-      return true
-    }
-    
-    // Structure or armor type changes (affects special components)
-    if (oldConfig.structureType !== newConfig.structureType || oldConfig.armorType !== newConfig.armorType) {
-      return true
-    }
-    
-    // Enhancement changes
-    if (oldConfig.enhancementType !== newConfig.enhancementType) {
-      return true
-    }
-    
-    // Heat sink configuration changes
-    if (oldConfig.heatSinkType !== newConfig.heatSinkType || 
-        oldConfig.totalHeatSinks !== newConfig.totalHeatSinks ||
-        oldConfig.externalHeatSinks !== newConfig.externalHeatSinks) {
-      return true
-    }
-    
-    // Jump jet changes
-    if (oldConfig.jumpMP !== newConfig.jumpMP || oldConfig.jumpJetType !== newConfig.jumpJetType) {
-      return true
-    }
-    
-    // Tonnage changes (affects internal structure, engine rating)
-    if (oldConfig.tonnage !== newConfig.tonnage || oldConfig.walkMP !== newConfig.walkMP) {
-      return true
-    }
-    
-    return false
-  }
-
-  /**
-   * Get debugging information
-   */
-  getDebugInfo() {
     return {
-      subscriberCount: this.subscribers.size,
-      changeHistoryLength: this.changeHistory.length,
-      recentChanges: this.getRecentChanges(5),
-      unitSummary: this.getUnitSummary(),
-      configuration: this.getConfiguration()
-    }
+      totalUserSlots,
+      usedUserSlots,
+      availableUserSlots
+    };
+  }
+
+  /**
+   * Get mandatory component critical slots that are always present
+   */
+  private getMandatoryComponentSlots(): number {
+    // Fixed components that are always present:
+    // - Cockpit: 1 slot (Head)
+    // - Life Support: 2 slots (Head) 
+    // - Sensors: 2 slots (Head)
+    // - Actuators: 4 slots per arm (shoulder, upper, lower, hand) + 4 slots per leg (hip, upper, lower, foot)
+    
+    const cockpitSlots = 1;
+    const lifeSupportSlots = 2;
+    const sensorSlots = 2;
+    const armActuatorSlots = 4 * 2; // 4 slots per arm × 2 arms
+    const legActuatorSlots = 4 * 2; // 4 slots per leg × 2 legs
+    
+    return cockpitSlots + lifeSupportSlots + sensorSlots + armActuatorSlots + legActuatorSlots;
+  }
+
+  /**
+   * Calculate system reserved slots
+   */
+  private calculateSystemReservedSlots(): number {
+    // This would need to be calculated based on the actual system components
+    // For now, return a reasonable estimate
+    return 20; // Engine + Gyro + Fixed components
+  }
+
+  /**
+   * Check if equipment is a system component (engine, gyro, actuators, etc.)
+   */
+  private isSystemComponent(equipment: any): boolean {
+    const name = equipment.name.toLowerCase();
+    
+    // System component patterns
+    const systemPatterns = [
+      'engine', 'gyro', 'actuator', 'cockpit', 'life support', 'sensors',
+      'shoulder', 'upper arm', 'lower arm', 'hand', 'hip', 'upper leg', 'lower leg', 'foot'
+    ];
+    
+    return systemPatterns.some(pattern => name.includes(pattern));
+  }
+
+  /**
+   * Get allocated equipment count
+   */
+  private getAllocatedEquipmentCount(): number {
+    let count = 0;
+    this.sections.forEach(section => {
+      count += section.getAllEquipment().length;
+    });
+    return count;
+  }
+
+  /**
+   * Get unallocated equipment count
+   */
+  private getUnallocatedEquipmentCount(): number {
+    return this.unallocatedEquipment.length;
+  }
+
+  /**
+   * Update internal references when sections or unallocated equipment change
+   */
+  updateReferences(sections: Map<string, any>, unallocatedEquipment: any[]): void {
+    this.sections = sections;
+    this.unallocatedEquipment = unallocatedEquipment;
   }
 }
