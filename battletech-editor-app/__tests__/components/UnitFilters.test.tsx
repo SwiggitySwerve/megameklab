@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import UnitFilters, { UnitFilterState } from '../../components/compendium/UnitFilters';
+import UnitFilters from '../../components/compendium/UnitFilters';
 import * as mockApiService from '../../services/mockApiService';
 
 // Mock the mockApiService

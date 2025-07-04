@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import { EnhancedCriticalSlotsDisplay, useCriticalSlotsToolbarState } from '../../../components/criticalSlots/EnhancedCriticalSlotsDisplay';
 import { useUnit } from '../../../components/multiUnit/MultiUnitProvider';
 

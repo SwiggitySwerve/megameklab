@@ -2,7 +2,7 @@ import { EditableUnit } from '../types/editor';
 import { EQUIPMENT_DATABASE } from './equipmentData';
 import { calculateEngineWeight } from './engineCalculations';
 import { calculateStructureWeight } from './structureCalculations';
-import { calculateInternalHeatSinks } from './heatSinkCalculations';
+import { calculateInternalHeatSinksForEngine } from './heatSinkCalculations';
 import { getArmorType } from './armorTypes';
 
 export interface ArmorAllocation {
@@ -385,7 +385,6 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
 
   // Heat sinks (beyond free engine sinks)
   const totalHeatSinks = unit.data?.heat_sinks?.count || 10;
-      const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
     const engineHeatSinks = calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   const extraHeatSinks = Math.max(0, totalHeatSinks - engineHeatSinks);
   const heatSinkType = unit.data?.heat_sinks?.type || 'single';

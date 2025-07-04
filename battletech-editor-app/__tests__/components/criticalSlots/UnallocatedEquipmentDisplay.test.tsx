@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { UnallocatedEquipmentDisplay } from '../../../components/criticalSlots/UnallocatedEquipmentDisplay';
 import { useUnit } from '../../../components/multiUnit/MultiUnitProvider';
 
@@ -224,9 +224,8 @@ describe('UnallocatedEquipmentDisplay', () => {
       render(<UnallocatedEquipmentDisplay />);
 
       // Should auto-expand and show equipment item - use getAllByText since there are multiple elements
-      await waitFor(() => {
-        expect(screen.getAllByText('Large Laser')[0]).toBeInTheDocument();
-      });
+      await new Promise(resolve => setTimeout(resolve, 0)); // Use act for async rendering
+      expect(screen.getAllByText('Large Laser')[0]).toBeInTheDocument();
     });
 
     test('should toggle category expansion on click', () => {
@@ -272,9 +271,8 @@ describe('UnallocatedEquipmentDisplay', () => {
       render(<UnallocatedEquipmentDisplay />);
 
       // Wait for auto-expansion to complete
-      await waitFor(() => {
-        expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
-      });
+      await new Promise(resolve => setTimeout(resolve, 0)); // Use act for async rendering
+      expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
 
       // Find the group header by looking for the equipment group arrow (mr-1, not category mr-2)
       // The group header has: ▼ Large Laser [count badge]
@@ -289,25 +287,20 @@ describe('UnallocatedEquipmentDisplay', () => {
       // Click to collapse group
       fireEvent.click(groupRow!);
 
-      await waitFor(() => {
-        // Should hide individual items
-        expect(screen.queryAllByText(/2cr • 5t/)).toHaveLength(0);
-      }, { timeout: 3000 });
+      await new Promise(resolve => setTimeout(resolve, 0)); // Use act for async rendering
+      expect(screen.queryAllByText(/2cr • 5t/)).toHaveLength(0);
 
       // Verify the arrow changed to collapsed state
-      await waitFor(() => {
-        expect(screen.getByText('▶')).toBeInTheDocument();
-      });
+      await new Promise(resolve => setTimeout(resolve, 0)); // Use act for async rendering
+      expect(screen.getByText('▶')).toBeInTheDocument();
 
       // Click to expand group again
       const collapsedIcon = screen.getByText('▶');
       const expandGroupRow = collapsedIcon.closest('div[class*="flex items-center cursor-pointer"]');
       fireEvent.click(expandGroupRow!);
 
-      await waitFor(() => {
-        // Should show individual items again
-        expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
-      }, { timeout: 3000 });
+      await new Promise(resolve => setTimeout(resolve, 0)); // Use act for async rendering
+      expect(screen.getAllByText(/2cr • 5t/)).toHaveLength(2);
     });
   });
 

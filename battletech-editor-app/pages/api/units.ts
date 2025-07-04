@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 import { Database } from 'sqlite';
 import { openDatabase, safeJsonParse } from '../../services/db';
-import { withErrorHandling } from '../../middleware/errorMiddleware';
 import { validateUnit } from '../../utils/unitValidation';
 
 interface Unit {

@@ -170,7 +170,7 @@ export class CalculationUtilitiesManager {
    * Calculate weapon ranges
    */
   calculateWeaponRanges(weaponType: string, damage: number): RangeCalculation {
-    let ranges = {
+    const ranges = {
       minRange: 0,
       shortRange: 3,
       mediumRange: 6,

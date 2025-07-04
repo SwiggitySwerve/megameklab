@@ -1,6 +1,6 @@
 import React from 'react';
 // Assuming types are in types/customizer.ts or a shared file
-import { ComparisonResult, CustomVariantDetail, UnitEquipmentItem, CriticalLocation, CriticalsComparisonDifference } from '../../types/customizer';
+import { ComparisonResult, UnitEquipmentItem, CriticalsComparisonDifference } from '../../types/customizer';
 
 interface VariantComparisonDisplayProps {
   comparisonResult: ComparisonResult | null;

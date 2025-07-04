@@ -229,7 +229,7 @@ export class WeightBalanceManager {
     const engineType = this.getEngineTypeString()
     
     // Calculate base engine weight
-    let baseWeight = engineRating / 75
+    const baseWeight = engineRating / 75
 
     // Apply engine type modifiers
     switch (engineType) {

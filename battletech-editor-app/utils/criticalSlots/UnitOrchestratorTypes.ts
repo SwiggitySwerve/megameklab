@@ -7,7 +7,7 @@
  * @patterns Factory, Strategy, Observer, Command, Facade
  */
 
-import { CriticalSection, LocationSlotConfiguration, FixedSystemComponent } from './CriticalSection'
+import { CriticalSection, LocationSlotConfiguration } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
 import { TechBase, ComponentConfiguration } from '../../types/componentConfiguration'

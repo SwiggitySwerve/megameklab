@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { SystemComponentControls } from '../../../components/criticalSlots/SystemComponentControls';
 import { useUnit } from '../../../components/multiUnit/MultiUnitProvider';
 
