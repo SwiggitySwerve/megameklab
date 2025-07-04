@@ -1,8 +1,8 @@
 /**
- * WeightBalanceService - Weight calculation and balance analysis
+ * WeightBalanceService - Refactored facade for weight, balance, and optimization services
  * 
- * Extracted from UnitCriticalManager as part of large file refactoring.
- * Handles weight calculations, balance analysis, and optimization suggestions for BattleMech construction.
+ * Coordinates multiple focused services to provide comprehensive weight management functionality.
+ * This service now acts as a facade pattern, delegating to specialized services.
  * 
  * @see IMPLEMENTATION_REFERENCE.md for architectural patterns
  */
@@ -10,6 +10,48 @@
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../types/componentConfiguration';
 import { calculateGyroWeight } from '../utils/gyroCalculations';
+
+// Import focused service interfaces and types
+import { 
+  WeightCalculationService, 
+  WeightSummary,
+  ComponentWeightBreakdown,
+  TonnageValidation,
+  createWeightCalculationService 
+} from './weight/WeightCalculationService';
+
+import { 
+  WeightOptimizationService,
+  OptimizationSuggestion,
+  WeightReductionOptions,
+  WeightSaving,
+  ArmorEfficiency,
+  WeightPenalty,
+  createWeightOptimizationService 
+} from './weight/WeightOptimizationService';
+
+import { 
+  WeightBalanceAnalysisService,
+  WeightDistribution,
+  CenterOfGravity,
+  StabilityAnalysis,
+  createWeightBalanceAnalysisService 
+} from './weight/WeightBalanceAnalysisService';
+
+// Re-export types for backward compatibility
+export type { 
+  WeightSummary,
+  ComponentWeightBreakdown,
+  WeightDistribution,
+  CenterOfGravity,
+  StabilityAnalysis,
+  OptimizationSuggestion,
+  WeightReductionOptions,
+  WeightSaving,
+  TonnageValidation,
+  ArmorEfficiency,
+  WeightPenalty
+};
 
 export interface WeightBalanceService {
   // Total weight calculations
@@ -38,219 +80,21 @@ export interface WeightBalanceService {
   calculateWeightPenalties(config: UnitConfiguration): WeightPenalty[];
 }
 
-export interface WeightSummary {
-  totalWeight: number;
-  maxTonnage: number;
-  remainingTonnage: number;
-  percentageUsed: number;
-  isOverweight: boolean;
-  breakdown: {
-    structure: number;
-    engine: number;
-    gyro: number;
-    heatSinks: number;
-    armor: number;
-    equipment: number;
-    ammunition: number;
-    jumpJets: number;
-  };
-}
-
-export interface ComponentWeightBreakdown {
-  structure: {
-    weight: number;
-    type: string;
-    efficiency: number;
-  };
-  engine: {
-    weight: number;
-    type: string;
-    rating: number;
-    efficiency: number;
-  };
-  gyro: {
-    weight: number;
-    type: string;
-    efficiency: number;
-  };
-  heatSinks: {
-    internal: number;
-    external: number;
-    total: number;
-    type: string;
-    efficiency: number;
-  };
-  armor: {
-    weight: number;
-    type: string;
-    points: number;
-    efficiency: number;
-  };
-  jumpJets: {
-    weight: number;
-    count: number;
-    type: string;
-    efficiency: number;
-  };
-}
-
-export interface WeightDistribution {
-  frontHeavy: boolean;
-  rearHeavy: boolean;
-  leftHeavy: boolean;
-  rightHeavy: boolean;
-  distribution: {
-    head: number;
-    centerTorso: number;
-    leftTorso: number;
-    rightTorso: number;
-    leftArm: number;
-    rightArm: number;
-    leftLeg: number;
-    rightLeg: number;
-  };
-  balance: {
-    frontToRear: number;
-    leftToRight: number;
-  };
-}
-
-export interface CenterOfGravity {
-  x: number; // Left (-) to Right (+)
-  y: number; // Front (-) to Rear (+)
-  z: number; // Bottom (-) to Top (+)
-  stability: 'excellent' | 'good' | 'acceptable' | 'poor' | 'unstable';
-  recommendations: string[];
-}
-
-export interface StabilityAnalysis {
-  overallStability: number; // 0-100 score
-  balanceScore: number;
-  weightDistributionScore: number;
-  structuralIntegrityScore: number;
-  recommendations: string[];
-  warnings: string[];
-}
-
-export interface OptimizationSuggestion {
-  category: 'engine' | 'armor' | 'structure' | 'equipment' | 'heatsinks' | 'jumpjets';
-  type: 'weight_reduction' | 'efficiency_improvement' | 'cost_reduction';
-  description: string;
-  currentWeight: number;
-  suggestedWeight: number;
-  weightSavings: number;
-  impact: string;
-  difficulty: 'easy' | 'moderate' | 'hard';
-  priority: 'high' | 'medium' | 'low';
-}
-
-export interface WeightReductionOptions {
-  structureUpgrade: {
-    available: boolean;
-    currentWeight: number;
-    newWeight: number;
-    savings: number;
-    cost: string;
-  };
-  engineDowngrade: {
-    available: boolean;
-    options: {
-      rating: number;
-      weight: number;
-      savings: number;
-      walkMP: number;
-    }[];
-  };
-  armorOptimization: {
-    available: boolean;
-    maxReduction: number;
-    recommendations: string[];
-  };
-  equipmentAlternatives: {
-    available: boolean;
-    suggestions: {
-      current: string;
-      alternative: string;
-      weightSavings: number;
-    }[];
-  };
-}
-
-export interface WeightSaving {
-  component: string;
-  currentWeight: number;
-  proposedWeight: number;
-  savings: number;
-  method: string;
-  tradeoffs: string[];
-  feasible: boolean;
-}
-
-export interface TonnageValidation {
-  isValid: boolean;
-  currentWeight: number;
-  maxTonnage: number;
-  overweight: number;
-  errors: string[];
-  warnings: string[];
-  suggestions: string[];
-}
-
-export interface ArmorEfficiency {
-  totalPoints: number;
-  totalWeight: number;
-  pointsPerTon: number;
-  efficiency: 'excellent' | 'good' | 'average' | 'poor';
-  maxPossiblePoints: number;
-  utilizationPercentage: number;
-  recommendations: string[];
-}
-
-export interface WeightPenalty {
-  component: string;
-  reason: string;
-  penalty: number;
-  description: string;
-  canBeAvoided: boolean;
-  suggestion?: string;
-}
-
 export class WeightBalanceServiceImpl implements WeightBalanceService {
+  private readonly weightCalculationService: WeightCalculationService;
+  private readonly weightOptimizationService: WeightOptimizationService;
+  private readonly weightBalanceAnalysisService: WeightBalanceAnalysisService;
+
+  constructor() {
+    this.weightCalculationService = createWeightCalculationService();
+    this.weightOptimizationService = createWeightOptimizationService();
+    this.weightBalanceAnalysisService = createWeightBalanceAnalysisService();
+  }
   
-  // ===== TOTAL WEIGHT CALCULATIONS =====
+  // ===== DELEGATE TO FOCUSED SERVICES =====
   
   calculateTotalWeight(config: UnitConfiguration, equipment: any[]): WeightSummary {
-    const componentWeights = this.calculateComponentWeights(config);
-    const equipmentWeight = this.calculateEquipmentWeight(equipment);
-    
-    const totalWeight = 
-      componentWeights.structure.weight +
-      componentWeights.engine.weight +
-      componentWeights.gyro.weight +
-      componentWeights.heatSinks.total +
-      componentWeights.armor.weight +
-      componentWeights.jumpJets.weight +
-      equipmentWeight;
-    
-    const remainingTonnage = config.tonnage - totalWeight;
-    
-    return {
-      totalWeight,
-      maxTonnage: config.tonnage,
-      remainingTonnage,
-      percentageUsed: (totalWeight / config.tonnage) * 100,
-      isOverweight: totalWeight > config.tonnage,
-      breakdown: {
-        structure: componentWeights.structure.weight,
-        engine: componentWeights.engine.weight,
-        gyro: componentWeights.gyro.weight,
-        heatSinks: componentWeights.heatSinks.total,
-        armor: componentWeights.armor.weight,
-        equipment: this.extractEquipmentWeight(equipment),
-        ammunition: this.extractAmmoWeight(equipment),
-        jumpJets: componentWeights.jumpJets.weight
-      }
-    };
+    return this.weightCalculationService.calculateTotalWeight(config, equipment);
   }
   
   calculateComponentWeights(config: UnitConfiguration): ComponentWeightBreakdown {
@@ -727,10 +571,10 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
   private calculateTotalArmorPoints(armorAllocation: any): number {
     if (!armorAllocation) return 0;
     
-    return Object.values(armorAllocation).reduce((total: number, location: any) => {
+    return (Object.values(armorAllocation) as any[]).reduce((total: number, location: any) => {
       if (!location) return total;
-      const front = location.front || 0;
-      const rear = location.rear || 0;
+      const front = (location as any).front || 0;
+      const rear = (location as any).rear || 0;
       return total + front + rear;
     }, 0);
   }
@@ -793,7 +637,7 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
   }
   
   private calculateWeightDistributionScore(distribution: WeightDistribution): number {
-    const totalWeight = Object.values(distribution.distribution).reduce((sum, w) => sum + w, 0);
+    const totalWeight = Object.values(distribution.distribution).reduce((sum: number, w: any) => sum + (w as number), 0);
     if (totalWeight === 0) return 0;
     
     // Check for reasonable distribution
