@@ -3,7 +3,8 @@
  * Handles armor-related calculations, validations, and management
  */
 
-import { UnitConfiguration, ArmorType, ArmorAllocation } from './UnitCriticalManagerTypes'
+import { UnitConfiguration, ArmorAllocation } from './UnitCriticalManagerTypes'
+import { ArmorType } from '../../types/systemComponents'
 import { getArmorSpecification } from '../armorCalculations';
 import { getInternalStructurePoints } from '../internalStructureTable';
 
