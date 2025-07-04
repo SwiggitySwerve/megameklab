@@ -45,6 +45,11 @@ import { ValidationManager } from './ValidationManager'
 import { UnitSerializationManager } from './UnitSerializationManager'
 import { UnitCalculationManager } from './UnitCalculationManager';
 import { UnitStateManager } from './UnitStateManager';
+import { ConfigurationManager } from './ConfigurationManager';
+import { ComponentTypeManager } from './ComponentTypeManager';
+import { CriticalSlotCalculationManager } from './CriticalSlotCalculationManager';
+import { EquipmentQueryManager } from './EquipmentQueryManager';
+import { EventManager } from './EventManager';
 
 
 
@@ -155,6 +160,9 @@ export class UnitCriticalManager {
   private serializationManager: UnitSerializationManager
   private calculationManager: UnitCalculationManager;
   private stateManager: UnitStateManager;
+  private configurationManager: ConfigurationManager;
+  private equipmentQueryManager: EquipmentQueryManager;
+  private eventManager: EventManager;
 
   // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
 
@@ -270,6 +278,11 @@ export class UnitCriticalManager {
     this.serializationManager = new UnitSerializationManager()
     this.calculationManager = new UnitCalculationManager();
     this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment, this);
+    
+    // Initialize new managers
+    this.configurationManager = new ConfigurationManager(this.configuration);
+    this.equipmentQueryManager = new EquipmentQueryManager(this.sections, this.unallocatedEquipment, this.configuration);
+    this.eventManager = new EventManager();
   }
 
   /**
@@ -393,43 +406,28 @@ export class UnitCriticalManager {
    * Update unit configuration and handle special component changes
    */
   updateConfiguration(newConfiguration: UnitConfiguration): void {
-    const oldConfig = this.configuration
+    // Use ConfigurationManager to handle configuration updates
+    const result = this.configurationManager.updateConfiguration(newConfiguration)
     
-    // Debug: Log input armor allocation
-    if (process.env.NODE_ENV === 'test') {
-      console.log('[DEBUG] updateConfiguration input armorAllocation:', JSON.stringify(newConfiguration.armorAllocation));
-    }
-    // CRITICAL FIX: Force engine rating recalculation if tonnage or walkMP changed
-    const shouldRecalculateEngineRating = 
-      newConfiguration.tonnage !== oldConfig.tonnage || 
-      newConfiguration.walkMP !== oldConfig.walkMP
-    
-    // Remove engineRating from input if we need to recalculate it
-    const configForBuilder = shouldRecalculateEngineRating 
-      ? { ...newConfiguration, engineRating: undefined }
-      : newConfiguration
-    
-    let validatedConfig = UnitConfigurationBuilder.buildConfiguration(configForBuilder)
-    
-    // Enforce BattleTech construction rules
-    validatedConfig = this.enforceConstructionRules(validatedConfig)
-    
-    // Debug: Log output armor allocation
-    if (process.env.NODE_ENV === 'test') {
-      console.log('[DEBUG] enforceConstructionRules output armorAllocation:', JSON.stringify(validatedConfig.armorAllocation));
+    if (result.success) {
+      this.configuration = result.newConfiguration
+      
+      // Handle system component changes
+      if (result.changes.engineChanged || result.changes.gyroChanged) {
+        this.handleSystemComponentChange(result.oldConfiguration, result.newConfiguration)
+      }
+      
+      // Handle special component changes
+      if (result.changes.structureChanged || result.changes.armorChanged) {
+        this.handleSpecialComponentConfigurationChange(result.oldConfiguration, result.newConfiguration)
+      }
+      
+      // Notify state change
+      this.eventManager.notifyStateChange()
+    } else {
+      console.error('[UnitCriticalManager] Configuration update failed:', result.validation.errors)
     }
     
-    // Handle special component changes
-    this.handleSpecialComponentConfigurationChange(oldConfig, validatedConfig)
-    
-    // Handle engine/gyro changes properly with equipment displacement
-    if (oldConfig.engineType !== validatedConfig.engineType || 
-        oldConfig.gyroType !== validatedConfig.gyroType) {
-      this.handleSystemComponentChange(oldConfig, validatedConfig)
-    }
-    
-    // Always update configuration at the end to ensure consistency
-    this.configuration = validatedConfig
     // Ensure system components (heat sinks, jump jets) are updated to match new config
     this.systemComponentsManager.initializeEquipmentComponents()
   }
@@ -1040,56 +1038,17 @@ export class UnitCriticalManager {
    * Get all equipment across entire unit, organized by equipment ID
    */
   getAllEquipment(): Map<string, EquipmentAllocation[]> {
-    const allEquipment = new Map<string, EquipmentAllocation[]>()
-    
-    // Collect from all sections
-    this.sections.forEach(section => {
-      section.getAllEquipment().forEach(allocation => {
-        const equipmentId = allocation.equipmentData.id
-        if (!allEquipment.has(equipmentId)) {
-          allEquipment.set(equipmentId, [])
-        }
-        allEquipment.get(equipmentId)!.push(allocation)
-      })
-    })
-    
-    // Add unallocated equipment
-    this.unallocatedEquipment.forEach(allocation => {
-      const equipmentId = allocation.equipmentData.id
-      if (!allEquipment.has(equipmentId)) {
-        allEquipment.set(equipmentId, [])
-      }
-      allEquipment.get(equipmentId)!.push(allocation)
-    })
-    
-    return allEquipment
+    return this.equipmentQueryManager.getAllEquipment()
   }
 
   /**
    * Get all equipment groups (each allocated instance)
    */
   getAllEquipmentGroups(): Array<{ groupId: string, equipmentReference: EquipmentAllocation }> {
-    const groups: Array<{ groupId: string, equipmentReference: EquipmentAllocation }> = []
-    
-    // Collect from all sections
-    this.sections.forEach(section => {
-      section.getAllEquipment().forEach(allocation => {
-        groups.push({
-          groupId: allocation.equipmentGroupId,
-          equipmentReference: allocation
-        })
-      })
-    })
-    
-    // Add unallocated equipment
-    this.unallocatedEquipment.forEach(allocation => {
-      groups.push({
-        groupId: allocation.equipmentGroupId,
-        equipmentReference: allocation
-      })
-    })
-    
-    return groups
+    return this.equipmentQueryManager.getAllEquipmentGroups().map(group => ({
+      groupId: group.groupId,
+      equipmentReference: group.equipmentReference
+    }))
   }
 
   /**
@@ -1777,7 +1736,7 @@ export class UnitCriticalManager {
    * Notify all listeners about state changes
    */
   private notifyStateChange(): void {
-    this.stateManager.notifyStateChange();
+    this.eventManager.notifyStateChange();
   }
 
   /**

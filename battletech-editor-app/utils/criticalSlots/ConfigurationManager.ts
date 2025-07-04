@@ -1,0 +1,230 @@
+/**
+ * Configuration Manager
+ * Handles unit configuration updates, validation, and construction rule enforcement
+ * Extracted from UnitCriticalManager.ts for better organization
+ */
+
+import { UnitConfiguration, LegacyUnitConfiguration } from './UnitCriticalManagerTypes'
+import { UnitConfigurationBuilder } from './UnitConfigurationBuilder'
+import { SystemComponentRules } from './SystemComponentRules'
+import { getInternalStructurePoints } from '../internalStructureTable'
+
+export interface ConfigurationChangeResult {
+  success: boolean
+  oldConfiguration: UnitConfiguration
+  newConfiguration: UnitConfiguration
+  changes: {
+    tonnageChanged: boolean
+    engineChanged: boolean
+    gyroChanged: boolean
+    structureChanged: boolean
+    armorChanged: boolean
+    heatSinksChanged: boolean
+    jumpJetsChanged: boolean
+  }
+  validation: {
+    isValid: boolean
+    errors: string[]
+    warnings: string[]
+  }
+}
+
+export class ConfigurationManager {
+  private configuration: UnitConfiguration
+
+  constructor(initialConfiguration: UnitConfiguration | LegacyUnitConfiguration) {
+    this.configuration = UnitConfigurationBuilder.buildConfiguration(initialConfiguration)
+  }
+
+  /**
+   * Update unit configuration and handle all related changes
+   */
+  updateConfiguration(newConfiguration: UnitConfiguration): ConfigurationChangeResult {
+    const oldConfig = this.configuration
+    
+    // Detect what changed
+    const changes = this.detectConfigurationChanges(oldConfig, newConfiguration)
+    
+    // Force engine rating recalculation if tonnage or walkMP changed
+    const shouldRecalculateEngineRating = 
+      newConfiguration.tonnage !== oldConfig.tonnage || 
+      newConfiguration.walkMP !== oldConfig.walkMP
+    
+    const configForBuilder = shouldRecalculateEngineRating 
+      ? { ...newConfiguration, engineRating: undefined }
+      : newConfiguration
+    
+    let validatedConfig = UnitConfigurationBuilder.buildConfiguration(configForBuilder)
+    
+    // Enforce BattleTech construction rules
+    validatedConfig = this.enforceConstructionRules(validatedConfig)
+    
+    // Validate the configuration
+    const validation = this.validateConfiguration(validatedConfig)
+    
+    // Update internal configuration
+    this.configuration = validatedConfig
+    
+    return {
+      success: validation.isValid,
+      oldConfiguration: oldConfig,
+      newConfiguration: validatedConfig,
+      changes,
+      validation
+    }
+  }
+
+  /**
+   * Get current configuration
+   */
+  getConfiguration(): UnitConfiguration {
+    return { ...this.configuration }
+  }
+
+  /**
+   * Reset to base configuration
+   */
+  resetToBaseConfiguration(): UnitConfiguration {
+    const baseConfig = UnitConfigurationBuilder.buildConfiguration({
+      tonnage: this.configuration.tonnage,
+      unitType: this.configuration.unitType,
+      techBase: this.configuration.techBase
+    })
+    
+    this.configuration = baseConfig
+    return baseConfig
+  }
+
+  /**
+   * Enforce BattleTech construction rules
+   */
+  private enforceConstructionRules(config: UnitConfiguration): UnitConfiguration {
+    const enforced = { ...config }
+    
+    // Enforce head armor maximum (9 points)
+    if (enforced.armorAllocation.HD.front > 9) {
+      enforced.armorAllocation.HD.front = 9
+    }
+    if (enforced.armorAllocation.HD.rear > 9) {
+      enforced.armorAllocation.HD.rear = 9
+    }
+    
+    // Enforce location armor maximums (2x internal structure)
+    const structurePoints = getInternalStructurePoints(enforced.tonnage)
+    const maxArmorByLocation = {
+      CT: structurePoints.CT * 2,
+      LT: structurePoints.LT * 2,
+      RT: structurePoints.RT * 2,
+      LA: structurePoints.LA * 2,
+      RA: structurePoints.RA * 2,
+      LL: structurePoints.LL * 2,
+      RL: structurePoints.RL * 2
+    }
+    
+    // Apply armor limits
+    Object.entries(maxArmorByLocation).forEach(([location, maxArmor]) => {
+      const loc = location as keyof typeof enforced.armorAllocation
+      if (enforced.armorAllocation[loc].front > maxArmor) {
+        enforced.armorAllocation[loc].front = maxArmor
+      }
+      if (enforced.armorAllocation[loc].rear > maxArmor) {
+        enforced.armorAllocation[loc].rear = maxArmor
+      }
+    })
+    
+    // Enforce minimum heat sinks (10 for BattleMechs)
+    if (enforced.unitType === 'BattleMech' && enforced.totalHeatSinks < 10) {
+      enforced.totalHeatSinks = 10
+      enforced.internalHeatSinks = Math.min(10, enforced.internalHeatSinks)
+      enforced.externalHeatSinks = Math.max(0, 10 - enforced.internalHeatSinks)
+    }
+    
+    return enforced
+  }
+
+  /**
+   * Detect what configuration properties changed
+   */
+  private detectConfigurationChanges(oldConfig: UnitConfiguration, newConfig: UnitConfiguration) {
+    return {
+      tonnageChanged: oldConfig.tonnage !== newConfig.tonnage,
+      engineChanged: oldConfig.engineType !== newConfig.engineType || oldConfig.engineRating !== newConfig.engineRating,
+      gyroChanged: oldConfig.gyroType !== newConfig.gyroType,
+      structureChanged: oldConfig.structureType !== newConfig.structureType,
+      armorChanged: oldConfig.armorType !== newConfig.armorType,
+      heatSinksChanged: oldConfig.heatSinkType !== newConfig.heatSinkType || 
+                       oldConfig.totalHeatSinks !== newConfig.totalHeatSinks,
+      jumpJetsChanged: oldConfig.jumpMP !== newConfig.jumpMP || 
+                      oldConfig.jumpJetType !== newConfig.jumpJetType
+    }
+  }
+
+  /**
+   * Validate configuration for construction rule compliance
+   */
+  private validateConfiguration(config: UnitConfiguration): { isValid: boolean; errors: string[]; warnings: string[] } {
+    const errors: string[] = []
+    const warnings: string[] = []
+    
+    // Validate tonnage
+    if (config.tonnage < 20 || config.tonnage > 100) {
+      errors.push(`Invalid tonnage: ${config.tonnage}. Must be between 20-100 tons.`)
+    }
+    
+    // Validate engine rating
+    const expectedEngineRating = config.tonnage * config.walkMP
+    if (config.engineRating !== expectedEngineRating) {
+      errors.push(`Engine rating ${config.engineRating} doesn't match tonnage × walk MP (${expectedEngineRating})`)
+    }
+    
+    // Validate heat sinks
+    if (config.unitType === 'BattleMech' && config.totalHeatSinks < 10) {
+      errors.push('BattleMechs must have at least 10 heat sinks')
+    }
+    
+    // Validate armor allocation
+    const structurePoints = getInternalStructurePoints(config.tonnage)
+    Object.entries(config.armorAllocation).forEach(([location, armor]) => {
+      const maxArmor = location === 'HD' ? 9 : structurePoints[location as keyof typeof structurePoints] * 2
+      if (armor.front > maxArmor) {
+        errors.push(`${location} front armor (${armor.front}) exceeds maximum (${maxArmor})`)
+      }
+      if (armor.rear > maxArmor) {
+        errors.push(`${location} rear armor (${armor.rear}) exceeds maximum (${maxArmor})`)
+      }
+    })
+    
+    return {
+      isValid: errors.length === 0,
+      errors,
+      warnings
+    }
+  }
+
+  /**
+   * Get maximum walk MP for current tonnage
+   */
+  getMaxWalkMP(): number {
+    return Math.floor(500 / this.configuration.tonnage)
+  }
+
+  /**
+   * Get engine type
+   */
+  getEngineType(): string {
+    const engineType = this.configuration.engineType
+    return typeof engineType === 'string' 
+      ? engineType 
+      : (engineType as any).type || 'Standard'
+  }
+
+  /**
+   * Get gyro type
+   */
+  getGyroType(): string {
+    const gyroType = this.configuration.gyroType
+    return typeof gyroType === 'string' 
+      ? gyroType 
+      : (gyroType as any).type || 'Standard'
+  }
+} 
