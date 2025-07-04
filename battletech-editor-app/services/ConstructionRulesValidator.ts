@@ -14,6 +14,9 @@ import { WeightRulesValidator } from './validation/WeightRulesValidator';
 import { HeatRulesValidator } from './validation/HeatRulesValidator';
 import { CriticalSlotRulesValidator } from './validation/CriticalSlotRulesValidator';
 import { TechLevelRulesValidator } from './validation/TechLevelRulesValidator';
+import { MovementRulesValidator } from './validation/MovementRulesValidator';
+import { ArmorRulesValidator } from './validation/ArmorRulesValidator';
+import { StructureRulesValidator } from './validation/StructureRulesValidator';
 
 // Import types from validation services
 import type { 
