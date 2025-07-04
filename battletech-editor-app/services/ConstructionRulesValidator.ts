@@ -22,7 +22,8 @@ import { ComponentValidationManager } from './validation/ComponentValidationMana
 import { ValidationReportingManager } from './validation/ValidationReportingManager';
 import { ValidationCalculations } from './validation/ValidationCalculations';
 import { RuleManagementManager } from './validation/RuleManagementManager';
-import { ValidationOrchestrationManager } from '../../services/validation/ValidationOrchestrationManagerRefactored';
+import { ValidationOrchestratorFactory } from '../../services/validation/ValidationOrchestrator';
+import { IValidationOrchestrator } from '../../services/validation/interfaces/IValidationOrchestrator';
 import { CalculationUtilitiesManager } from './validation/CalculationUtilitiesManager';
 
 // Import types from validation services
@@ -770,7 +771,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   ];
 
   private readonly ruleManagementManager = new RuleManagementManager();
-  private readonly validationOrchestrationManager = new ValidationOrchestrationManager();
+  private readonly validationOrchestrator = ValidationOrchestratorFactory.createWithDefaults();
   private readonly calculationUtilitiesManager = new CalculationUtilitiesManager();
   private readonly equipmentValidationService = new EquipmentValidationService();
   private readonly componentValidationManager = new ComponentValidationManager();
