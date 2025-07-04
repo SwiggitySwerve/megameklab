@@ -21,6 +21,9 @@ import { EquipmentValidationManager } from './validation/EquipmentValidationMana
 import { ComponentValidationManager } from './validation/ComponentValidationManager';
 import { ValidationReportingManager } from './validation/ValidationReportingManager';
 import { ValidationCalculations } from './validation/ValidationCalculations';
+import { RuleManagementManager } from './validation/RuleManagementManager';
+import { ValidationOrchestrationManager } from './validation/ValidationOrchestrationManager';
+import { CalculationUtilitiesManager } from './validation/CalculationUtilitiesManager';
 
 // Import types from validation services
 import type { 
@@ -766,6 +769,9 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     }
   ];
 
+  private readonly ruleManagementManager = new RuleManagementManager();
+  private readonly validationOrchestrationManager = new ValidationOrchestrationManager();
+  private readonly calculationUtilitiesManager = new CalculationUtilitiesManager();
   private readonly equipmentValidationManager = new EquipmentValidationManager();
   private readonly componentValidationManager = new ComponentValidationManager();
   private readonly reportingManager = new ValidationReportingManager();
@@ -1333,50 +1339,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   generateComplianceReport(config: UnitConfiguration, equipment: any[]): ComplianceReport {
-    const ruleCompliance: RuleComplianceResult[] = [];
-    
-    for (const rule of this.BATTLETECH_RULES) {
-      const result = this.checkRuleCompliance(rule, config, equipment);
-      ruleCompliance.push(result);
-    }
-    
-    const overallCompliance = ruleCompliance.reduce((total, result) => total + result.score, 0) / ruleCompliance.length;
-    
-    const violationSummary: ViolationSummary = {
-      totalViolations: 0,
-      criticalViolations: 0,
-      majorViolations: 0,
-      minorViolations: 0,
-      violationsByCategory: {},
-      topViolations: []
-    };
-    
-    const recommendationSummary: RecommendationSummary = {
-      totalRecommendations: 0,
-      criticalRecommendations: 0,
-      implementationDifficulty: {},
-      estimatedImpact: {},
-      topRecommendations: []
-    };
-    
-    const complianceMetrics: ComplianceMetrics = {
-      validationTime: 0,
-      rulesChecked: this.BATTLETECH_RULES.length,
-      componentsValidated: equipment.length,
-      performance: {
-        averageRuleTime: 0,
-        slowestRule: '',
-        fastestRule: ''
-      }
-    };
-    
-    return {
-      overallCompliance,
-      ruleCompliance,
-      violationSummary,
-      recommendationSummary,
-      complianceMetrics
-    };
+    return this.validationOrchestrationManager.generateComplianceReport(config, equipment);
   }
   
   generateValidationSummary(validations: ValidationResult[]): ValidationSummary {
@@ -1401,38 +1364,7 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   calculateRuleScore(config: UnitConfiguration, equipment: any[]): RuleScore {
-    const categoryScores: { [category: string]: number } = {};
-    const componentScores: { [component: string]: number } = {};
-    const penalties: ScorePenalty[] = [];
-    const bonuses: ScoreBonus[] = [];
-    
-    let overallScore = 100;
-    
-    // Calculate category scores
-    for (const rule of this.BATTLETECH_RULES) {
-      const result = this.checkRuleCompliance(rule, config, equipment);
-      if (!categoryScores[rule.category]) {
-        categoryScores[rule.category] = 0;
-      }
-      categoryScores[rule.category] += result.score;
-      
-      if (!result.compliant) {
-        penalties.push({
-          rule: rule.name,
-          penalty: 100 - result.score,
-          reason: `Rule violation: ${rule.description}`
-        });
-        overallScore -= (100 - result.score) * (rule.severity === 'critical' ? 0.5 : rule.severity === 'major' ? 0.3 : 0.1);
-      }
-    }
-    
-    return {
-      overallScore: Math.max(0, overallScore),
-      categoryScores,
-      componentScores,
-      penalties,
-      bonuses
-    };
+    return this.ruleManagementManager.calculateRuleScore(config, equipment);
   }
   
   checkRuleCompliance(rule: BattleTechRule, config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {

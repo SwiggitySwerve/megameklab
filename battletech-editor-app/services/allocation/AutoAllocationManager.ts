@@ -362,11 +362,11 @@ export class AutoAllocationManager {
     const explosiveAmmo = allocated.filter(p => p.equipment.equipmentData?.explosive);
     const caseLocations = this.getCASEProtectedLocations(config);
     
-    const protected = explosiveAmmo.filter(p => caseLocations.includes(p.location)).map(p => p.location);
+    const protectedLocations = explosiveAmmo.filter(p => caseLocations.includes(p.location)).map(p => p.location);
     const unprotected = explosiveAmmo.filter(p => !caseLocations.includes(p.location)).map(p => p.location);
     
     return {
-      protected,
+      protected: protectedLocations,
       unprotected,
       recommendations: unprotected.length > 0 ? ['Add CASE to locations with explosive ammunition'] : []
     };
