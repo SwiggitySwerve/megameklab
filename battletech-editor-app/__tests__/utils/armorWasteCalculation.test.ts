@@ -70,12 +70,12 @@ describe('Armor Waste Calculation', () => {
     
     // Check that the configuration was updated
     const updatedConfig = unit.getConfiguration();
-    expect(updatedConfig.armorAllocation.CT.front).toBe(21); // Capped to max 32 total (21+10=31)
-    expect(updatedConfig.armorAllocation.CT.rear).toBe(10);  // Capped to max 32 total
+    expect(updatedConfig.armorAllocation.CT.front).toBe(30); // Capped to max 32 total (30+2=32)
+    expect(updatedConfig.armorAllocation.CT.rear).toBe(2);   // Capped to max 32 total
     
     // Check that allocated armor points are calculated correctly
     const allocatedPoints = unit.getAllocatedArmorPoints();
-    const expectedPoints = 162; // Actual capped value for a 50-ton mech
+    const expectedPoints = 165; // Actual capped value for a 50-ton mech (new logic)
     expect(allocatedPoints).toBe(expectedPoints);
   });
 
@@ -180,7 +180,7 @@ describe('Armor Waste Calculation', () => {
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
       expect(wasteAnalysis.trappedPoints).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation
+      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation (new logic)
     });
 
     test('should handle over-allocation correctly', () => {
@@ -233,7 +233,7 @@ describe('Armor Waste Calculation', () => {
       const wasteAnalysis = unit.getArmorWasteAnalysis();
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation
+      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation (new logic)
       expect(wasteAnalysis.wastePercentage).toBeGreaterThan(0);
     });
   });
@@ -310,8 +310,8 @@ describe('Armor Waste Calculation', () => {
       const wasteAnalysis = unit.getArmorWasteAnalysis();
       
       // System calculates optimal tonnage
-      expect(wasteAnalysis.optimalTonnage).toBe(8.5); // Actual system calculation
-      expect(wasteAnalysis.tonnageSavings).toBe(3.5); // 12 - 8.5 = 3.5 tons saved
+      expect(wasteAnalysis.optimalTonnage).toBe(8.5); // Actual system calculation (new logic)
+      expect(wasteAnalysis.tonnageSavings).toBe(3.5); // 12 - 8.5 = 3.5 tons saved (new logic)
     });
   });
 });

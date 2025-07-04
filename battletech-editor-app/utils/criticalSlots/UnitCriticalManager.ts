@@ -50,6 +50,9 @@ import { ComponentTypeManager } from './ComponentTypeManager';
 import { CriticalSlotCalculationManager } from './CriticalSlotCalculationManager';
 import { EquipmentQueryManager } from './EquipmentQueryManager';
 import { EventManager } from './EventManager';
+import { ArmorManagementManager } from './ArmorManagementManager';
+import { SectionManagementManager } from './SectionManagementManager';
+import { WeightCalculationManager } from './WeightCalculationManager';
 
 
 
@@ -163,6 +166,9 @@ export class UnitCriticalManager {
   private configurationManager: ConfigurationManager;
   private equipmentQueryManager: EquipmentQueryManager;
   private eventManager: EventManager;
+  private armorManagementManager: ArmorManagementManager;
+  private sectionManagementManager: SectionManagementManager;
+  private weightCalculationManager: WeightCalculationManager;
 
   // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
 
@@ -198,7 +204,7 @@ export class UnitCriticalManager {
    * Get armor type as string
    */
   private getArmorTypeString(): ArmorType {
-    return UnitCriticalManager.extractComponentType(this.configuration.armorType) as ArmorType
+    return this.armorManagementManager.getArmorTypeString()
   }
 
   /**
@@ -283,29 +289,16 @@ export class UnitCriticalManager {
     this.configurationManager = new ConfigurationManager(this.configuration);
     this.equipmentQueryManager = new EquipmentQueryManager(this.sections, this.unallocatedEquipment, this.configuration);
     this.eventManager = new EventManager();
+    this.armorManagementManager = new ArmorManagementManager(this.configuration);
+    this.sectionManagementManager = new SectionManagementManager(this.configuration);
+    this.weightCalculationManager = new WeightCalculationManager(this.configuration);
   }
 
   /**
    * Get critical slot requirements for armor type
    */
   private getArmorCriticalSlots(armorType: ArmorType): number {
-    try {
-      return getArmorSlots(armorType as any, this.configuration.techBase as any) || 0
-    } catch (error) {
-      // Fallback for armor types not in the armor calculations
-      const armorSlotMap: Record<ArmorType, number> = {
-        'Standard': 0,
-        'Ferro-Fibrous': 14,
-        'Ferro-Fibrous (Clan)': 7,
-        'Light Ferro-Fibrous': 7,
-        'Heavy Ferro-Fibrous': 21,
-        'Stealth': 12,
-        'Reactive': 14,
-        'Reflective': 10,
-        'Hardened': 0  // Key fix - Hardened armor takes 0 slots
-      }
-      return armorSlotMap[armorType] || 0
-    }
+    return this.armorManagementManager.getArmorCriticalSlots(armorType)
   }
 
   /**
@@ -411,6 +404,9 @@ export class UnitCriticalManager {
     
     if (result.success) {
       this.configuration = result.newConfiguration
+      
+      // Update ArmorManagementManager with new configuration
+      this.armorManagementManager.updateConfiguration(result.newConfiguration)
       
       // Handle system component changes
       if (result.changes.engineChanged || result.changes.gyroChanged) {
@@ -1332,22 +1328,14 @@ export class UnitCriticalManager {
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(): number {
-    const { ARMOR_POINTS_PER_TON } = require('../armorCalculations')
-    return ARMOR_POINTS_PER_TON[this.getArmorTypeString()] || 16
+    return this.armorManagementManager.getArmorEfficiency();
   }
 
   /**
    * Get maximum armor points for a specific location
    */
   getMaxArmorPointsForLocation(location: string): number {
-    const internalStructure = this.getInternalStructurePoints()
-    
-    if (location === 'HD') {
-      return 9 // Head max is always 9
-    }
-    
-    const structurePoints = internalStructure[location] || 0
-    return structurePoints * 2
+    return this.armorManagementManager.getMaxArmorPointsForLocation(location);
   }
 
   /**
