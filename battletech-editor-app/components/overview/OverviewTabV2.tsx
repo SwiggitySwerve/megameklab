@@ -39,6 +39,9 @@ import {
   initializeMemorySystem,
   updateMemoryState
 } from '../../utils/memoryPersistence'
+import { isComponentAvailable } from '../../utils/componentDatabaseHelpers'
+import { getArmorType } from '../../utils/armorTypes';
+import { calculateMaxArmorTonnage } from '../../utils/armorAllocation';
 
 // Import extracted components
 import TechProgressionPanel from './TechProgressionPanel'
@@ -59,6 +62,12 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   // Memory system state
   const [memoryState, setMemoryState] = useState<ComponentMemoryState | null>(null)
   
+  // Initialize config with defaults only once
+  const [hasInitialized, setHasInitialized] = useState(false)
+  
+  // Track if memory restoration is pending due to component unavailability
+  const [needsMemoryRestoration, setNeedsMemoryRestoration] = useState(false)
+  
   if (!isConfigLoaded || !unit) {
     return (
       <div className="p-6 text-center text-slate-400">
@@ -69,12 +78,6 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
 
   // Get fresh config every render to ensure we have latest state
   const config = unit.getConfiguration()
-  
-  // Initialize config with defaults only once
-  const [hasInitialized, setHasInitialized] = useState(false)
-  
-  // Track if memory restoration is pending due to component unavailability
-  const [needsMemoryRestoration, setNeedsMemoryRestoration] = useState(false)
   
   // Enhanced configuration - use actual config values directly
   const enhancedConfig = {
@@ -238,17 +241,9 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     
     // 🔥 SIMPLE APPROACH: Try restoration, defer if components not available
     let componentsAvailable = true
-    try {
-      // Use correct import path
-      const { isComponentAvailable } = require('../../utils/componentDatabaseHelpers')
-      
-      // Quick test to see if component system is working
-      const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere')
-      if (testResult === undefined || testResult === null) {
-        componentsAvailable = false
-      }
-    } catch (error: any) {
-      console.log('[OverviewTab] 💾 ⚠️ Component system not ready, deferring restoration:', error.message)
+    // Quick test to see if component system is working
+    const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere')
+    if (testResult === undefined || testResult === null) {
       componentsAvailable = false
     }
     
@@ -451,11 +446,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
           // 🔥 SPECIAL HANDLING FOR ARMOR TONNAGE PRESERVATION
           if (subsystem === 'armor' && 'armorTonnage' in enhancedConfig) {
             try {
-              // Import needed functions directly to avoid circular dependencies
-              const { getArmorType } = require('../../utils/armorTypes');
-              const { calculateMaxArmorTonnage } = require('../../utils/armorAllocation');
-              
-              // Get current armor tonnage
+              // Use imported functions directly
               const currentArmorTonnage = enhancedConfig.armorTonnage || 0;
               console.log(`[OverviewTab] 🛡️ Current armor tonnage: ${currentArmorTonnage}t`);
               
@@ -464,7 +455,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
                 mass: enhancedConfig.tonnage || 50,
                 getMaxArmorTonnage: () => {
                   const armorType = getArmorType(componentToApply);
-                  return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 }, armorType);
+                  return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 } as any, armorType);
                 }
               };
               
@@ -581,11 +572,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
                 // 🔥 SPECIAL HANDLING FOR ARMOR TONNAGE PRESERVATION
                 if (subsystem === 'armor' && 'armorTonnage' in enhancedConfig) {
                   try {
-                    // Import needed functions directly
-                    const { getArmorType } = require('../../utils/armorTypes');
-                    const { calculateMaxArmorTonnage } = require('../../utils/armorAllocation');
-                    
-                    // Get current armor tonnage
+                    // Use imported functions directly
                     const currentArmorTonnage = enhancedConfig.armorTonnage || 0;
                     console.log(`[OverviewTab] 🛡️ Master: Current armor tonnage: ${currentArmorTonnage}t`);
                     
@@ -594,7 +581,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
                       mass: enhancedConfig.tonnage || 50,
                       getMaxArmorTonnage: () => {
                         const armorType = getArmorType(resolution.resolvedComponent);
-                        return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 }, armorType);
+                        return calculateMaxArmorTonnage({ mass: enhancedConfig.tonnage || 50 } as any, armorType);
                       }
                     };
                     

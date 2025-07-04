@@ -16,7 +16,7 @@ import ArmorTonnageControl from '../armor/ArmorTonnageControl';
 import ArmorStatisticsPanel from '../armor/ArmorStatisticsPanel';
 import MechArmorDiagram from '../armor/MechArmorDiagram';
 import ArmorDistributionPresets from '../armor/ArmorDistributionPresets';
-import { maximizeArmor, useRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
+import { maximizeArmor, calculateRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
 import { calculateStructureWeight, calculateEngineWeight, calculateGyroWeight } from '../../../types/systemComponents';
 
 interface ArmorTabWithHooksProps {

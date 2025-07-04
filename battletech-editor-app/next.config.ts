@@ -4,15 +4,10 @@ const nextConfig: NextConfig = {
   // Enable React strict mode for better development experience
   reactStrictMode: true,
   
-  // Enable SWC minification for better performance
-  swcMinify: true,
-  
   // Optimize for production builds
   experimental: {
     // Enable modern output for better tree-shaking
     esmExternals: true,
-    // Optimize server components
-    serverComponentsExternalPackages: [],
   },
 
   // Webpack configuration for bundle optimization
@@ -115,9 +110,6 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 31536000, // 1 year
   },
-
-  // Optimize fonts
-  optimizeFonts: true,
 
   // Enable compression
   compress: true,

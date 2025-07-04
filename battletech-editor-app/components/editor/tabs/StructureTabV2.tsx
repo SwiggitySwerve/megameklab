@@ -59,6 +59,7 @@ import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMov
 // Import structure and armor calculations
 import { calculateStructureWeight, getStructureSlots } from '../../../utils/structureCalculations';
 import { getArmorSlots } from '../../../utils/armorCalculations';
+import { isComponentAvailable } from '../../../utils/componentDatabaseHelpers';
 
 /**
  * Props for StructureTabV2 component
@@ -129,14 +130,8 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     
     // Check if component system is available
     let componentsAvailable = true;
-    try {
-      const { isComponentAvailable } = require('../../../utils/componentDatabaseHelpers');
-      const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere');
-      if (testResult === undefined || testResult === null) {
-        componentsAvailable = false;
-      }
-    } catch (error: any) {
-      console.log('[StructureTab] 💾 ⚠️ Component system not ready, skipping restoration:', error.message);
+    const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere');
+    if (testResult === undefined || testResult === null) {
       componentsAvailable = false;
     }
     

@@ -3,10 +3,11 @@
  * Works with both prop-based and hook-based data models
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { EditableUnit } from '../../../types/editor';
 import StructureTab from './StructureTab';
 import StructureTabWithHooks from './StructureTabWithHooks';
+import { useUnitData } from '../../../hooks/useUnitData';
 
 // Create a context to detect if we're using the unified data model
 const UnitDataContext = React.createContext<boolean>(false);
@@ -19,21 +20,20 @@ interface StructureTabHybridProps {
 }
 
 const StructureTabHybrid: React.FC<StructureTabHybridProps> = (props) => {
-  // Try to detect if we're in a UnitDataProvider context
+  // Try to use the hook at the top level
+  let hasUnitData = false;
   try {
-    // Import the hook dynamically to avoid errors when not in context
-    const { useUnitData } = require('../../../hooks/useUnitData');
-    const context = useUnitData();
-    
-    // If we successfully got the context, use the hooks version
-    if (context) {
-      return <StructureTabWithHooks readOnly={props.readOnly} />;
-    }
-  } catch (e) {
-    // Not in a UnitDataProvider, use prop-based version
+    // This will throw if not in a UnitDataProvider context
+    useUnitData();
+    hasUnitData = true;
+  } catch {
+    // Not in a UnitDataProvider context
+    hasUnitData = false;
   }
   
-  // Fall back to prop-based version
+  if (hasUnitData) {
+    return <StructureTabWithHooks readOnly={props.readOnly} />;
+  }
   return <StructureTab {...props} />;
 };
 

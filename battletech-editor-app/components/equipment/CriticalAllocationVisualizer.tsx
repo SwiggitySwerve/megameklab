@@ -232,10 +232,11 @@ export const CriticalAllocationVisualizer: React.FC<CriticalAllocationVisualizer
             <div className="space-y-1">
               {Array.from(new Set(
                 slots
-                  .filter(s => s?.equipment)
-                  .map(s => s!.equipment!.id)
+                  .filter(s => s?.equipment?.id)
+                  .map(s => s?.equipment?.id)
               )).map(equipmentId => {
-                const equipment = slots.find(s => s?.equipment?.id === equipmentId)?.equipment!;
+                const equipment = slots.find(s => s?.equipment?.id === equipmentId)?.equipment;
+                if (!equipment) return null;
                 const count = slots.filter(s => s?.equipment?.id === equipmentId).length;
                 
                 return (

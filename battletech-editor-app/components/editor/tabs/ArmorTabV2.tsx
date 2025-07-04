@@ -15,7 +15,7 @@ import { ArmorEfficiencyNotification } from '../../armor/ArmorEfficiencyNotifica
 
 // Import armor calculations
 import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../../utils/armorCalculations';
-import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, useRemainingTonnageForArmor } from '../../../utils/armorAllocation';
+import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, calculateRemainingTonnageForArmor } from '../../../utils/armorAllocation';
 
 // Import extracted armor components
 import { ArmorValidationPanel } from '../armor/ArmorValidationPanel';

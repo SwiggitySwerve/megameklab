@@ -391,7 +391,7 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
   return Math.floor(remaining * 2) / 2;
 }
 
-export function useRemainingTonnageForArmor(unit: EditableUnit, armorType?: any): number {
+export function calculateRemainingTonnageForArmor(unit: EditableUnit, armorType?: any): number {
   const remainingTonnage = calculateRemainingTonnage(unit);
   
   // Use provided armor type or default to standard

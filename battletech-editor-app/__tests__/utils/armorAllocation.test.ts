@@ -10,7 +10,7 @@ import {
   maximizeArmor,
   calculateMaxArmorTonnage,
   calculateRemainingTonnage,
-  useRemainingTonnageForArmor,
+  calculateRemainingTonnageForArmor,
   ArmorAllocation
 } from '../../utils/armorAllocation';
 import { EditableUnit } from '../../types/editor';
@@ -580,7 +580,7 @@ describe('armorAllocation', () => {
     });
   });
 
-  describe('useRemainingTonnageForArmor', () => {
+  describe('calculateRemainingTonnageForArmor', () => {
     test('should add remaining tonnage to current armor', () => {
       const unit = createTestUnit({
         mass: 100,
@@ -590,7 +590,7 @@ describe('armorAllocation', () => {
         }
       });
       
-      const newTonnage = useRemainingTonnageForArmor(unit);
+      const newTonnage = calculateRemainingTonnageForArmor(unit);
       const currentTonnage = 100 / 16; // 6.25 tons
       
       // Should be more than current armor tonnage
@@ -606,7 +606,7 @@ describe('armorAllocation', () => {
         }
       });
       
-      const newTonnage = useRemainingTonnageForArmor(unit);
+      const newTonnage = calculateRemainingTonnageForArmor(unit);
       const maxTonnage = calculateMaxArmorTonnage(unit);
       
       // Should not exceed maximum
@@ -627,8 +627,8 @@ describe('armorAllocation', () => {
         }
       });
       
-      const standardTonnage = useRemainingTonnageForArmor(unit);
-      const ferroTonnage = useRemainingTonnageForArmor(unit, ferroFibrousArmor);
+      const standardTonnage = calculateRemainingTonnageForArmor(unit);
+      const ferroTonnage = calculateRemainingTonnageForArmor(unit, ferroFibrousArmor);
       
       // Ferro-fibrous should typically allow for less tonnage but more points
       expect(ferroTonnage).toBeLessThan(standardTonnage);
@@ -647,7 +647,7 @@ describe('armorAllocation', () => {
         }
       });
       
-      const newTonnage = useRemainingTonnageForArmor(unit);
+      const newTonnage = calculateRemainingTonnageForArmor(unit);
       const maxTonnage = calculateMaxArmorTonnage(unit);
       
       // Should equal maximum tonnage when armor is already maxed
@@ -663,7 +663,7 @@ describe('armorAllocation', () => {
         }
       });
       
-      const newTonnage = useRemainingTonnageForArmor(unit);
+      const newTonnage = calculateRemainingTonnageForArmor(unit);
       
       // Should be multiple of 0.5
       expect(newTonnage * 2).toBe(Math.floor(newTonnage * 2));
@@ -736,7 +736,7 @@ describe('armorAllocation', () => {
       
       // Should use fallback values
       expect(() => calculateMaxArmorTonnage(unit)).not.toThrow();
-      expect(() => useRemainingTonnageForArmor(unit)).not.toThrow();
+      expect(() => calculateRemainingTonnageForArmor(unit)).not.toThrow();
     });
   });
 });

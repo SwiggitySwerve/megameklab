@@ -5,7 +5,7 @@ import ArmorTonnageControl from '../armor/ArmorTonnageControl';
 import ArmorStatisticsPanel from '../armor/ArmorStatisticsPanel';
 import MechArmorDiagram from '../armor/MechArmorDiagram';
 import ArmorDistributionPresets from '../armor/ArmorDistributionPresets';
-import { maximizeArmor, useRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
+import { maximizeArmor, calculateRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
 
 interface StructureArmorTabProps {
   unit: EditableUnit;
@@ -132,7 +132,7 @@ const StructureArmorTab: React.FC<StructureArmorTabProps> = ({
   const handleUseRemainingTonnage = useCallback(() => {
     if (readOnly) return;
     
-    const newTonnage = useRemainingTonnageForArmor(unit, selectedArmorType);
+    const newTonnage = calculateRemainingTonnageForArmor(unit, selectedArmorType);
     setArmorTonnage(newTonnage);
     
     // Calculate armor points and auto-allocate

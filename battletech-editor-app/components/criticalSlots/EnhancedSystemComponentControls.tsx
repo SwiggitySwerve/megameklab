@@ -248,9 +248,9 @@ export function EnhancedSystemComponentControls() {
               
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Structure:</label>
-                <select 
-                  value={config.structureType} 
-                  onChange={(e) => updateConfig({ structureType: e.target.value as StructureType })}
+                <select
+                  value={config.structureType.type}
+                  onChange={(e) => updateConfig({ structureType: { ...config.structureType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   {getStructureOptions(enhancedConfig.techBase).map(option => (
@@ -261,9 +261,9 @@ export function EnhancedSystemComponentControls() {
               
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Gyro:</label>
-                <select 
-                  value={config.gyroType} 
-                  onChange={(e) => updateConfig({ gyroType: e.target.value as GyroType })}
+                <select
+                  value={config.gyroType.type}
+                  onChange={(e) => updateConfig({ gyroType: { ...config.gyroType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   <option value="Standard">Standard</option>
@@ -370,8 +370,8 @@ export function EnhancedSystemComponentControls() {
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Type:</label>
                 <select 
-                  value={config.heatSinkType} 
-                  onChange={(e) => updateConfig({ heatSinkType: e.target.value as HeatSinkType })}
+                  value={config.heatSinkType.type}
+                  onChange={(e) => updateConfig({ heatSinkType: { ...config.heatSinkType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   {availableHeatSinkTypes.map(option => (
@@ -423,7 +423,7 @@ export function EnhancedSystemComponentControls() {
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Total Dissipation:</label>
                 <div className="bg-gray-700 p-1 rounded border border-gray-600 text-white text-center text-xs">
-                  {config.heatSinkType.includes('Double') 
+                  {config.heatSinkType.type.includes('Double') 
                     ? config.totalHeatSinks * 2 
                     : config.totalHeatSinks}
                 </div>
@@ -440,9 +440,9 @@ export function EnhancedSystemComponentControls() {
             <div className="space-y-2">
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Type:</label>
-                <select 
-                  value={config.armorType} 
-                  onChange={(e) => updateConfig({ armorType: e.target.value as ArmorType })}
+                <select
+                  value={config.armorType.type}
+                  onChange={(e) => updateConfig({ armorType: { ...config.armorType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   {getArmorOptions(enhancedConfig.techBase).map(option => (
@@ -475,7 +475,7 @@ export function EnhancedSystemComponentControls() {
               </div>
               <div className="grid grid-cols-2 gap-1">
                 <span className="text-cyan-400">Heat Sinks:</span>
-                <span className="text-white">{config.totalHeatSinks} ({config.heatSinkType})</span>
+                <span className="text-white">{config.totalHeatSinks} ({config.heatSinkType.type})</span>
               </div>
               <div className="grid grid-cols-2 gap-1">
                 <span className="text-gray-400">Status:</span>
