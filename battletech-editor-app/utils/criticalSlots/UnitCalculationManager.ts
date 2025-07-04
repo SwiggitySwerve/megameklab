@@ -6,6 +6,8 @@
 
 import { UnitConfiguration } from './UnitCriticalManagerTypes';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { getInternalStructurePoints } from '../internalStructureTable';
+import { calculateGyroWeight } from '../gyroCalculations';
 
 export interface WeightBreakdown {
   structure: number;
@@ -92,18 +94,7 @@ export class UnitCalculationManager {
     const rating = config.engineRating;
     const type = UnitCalculationManager.extractComponentType(config.gyroType);
     
-    const baseWeight = Math.ceil(rating / 100);
-    
-    switch (type) {
-      case 'XL':
-        return baseWeight * 0.5;
-      case 'Compact':
-        return baseWeight * 1.5;
-      case 'Heavy-Duty':
-        return baseWeight * 2.0;
-      default: // Standard
-        return baseWeight;
-    }
+    return calculateGyroWeight(rating, type as any);
   }
 
   /**
@@ -311,44 +302,19 @@ export class UnitCalculationManager {
   calculateInternalStructurePoints(config: UnitConfiguration): Record<string, number> {
     const tonnage = config.tonnage;
     
-    // Standard BattleTech internal structure table
-    if (tonnage <= 20) {
-      return { HD: 3, CT: 6, LT: 5, RT: 5, LA: 4, RA: 4, LL: 4, RL: 4 };
-    } else if (tonnage <= 25) {
-      return { HD: 3, CT: 7, LT: 6, RT: 6, LA: 5, RA: 5, LL: 5, RL: 5 };
-    } else if (tonnage <= 30) {
-      return { HD: 3, CT: 8, LT: 7, RT: 7, LA: 6, RA: 6, LL: 6, RL: 6 };
-    } else if (tonnage <= 35) {
-      return { HD: 3, CT: 9, LT: 8, RT: 8, LA: 7, RA: 7, LL: 7, RL: 7 };
-    } else if (tonnage <= 40) {
-      return { HD: 3, CT: 10, LT: 9, RT: 9, LA: 8, RA: 8, LL: 8, RL: 8 };
-    } else if (tonnage <= 45) {
-      return { HD: 3, CT: 11, LT: 10, RT: 10, LA: 9, RA: 9, LL: 9, RL: 9 };
-    } else if (tonnage <= 50) {
-      // Internal structure for 50-ton mech to give exactly 165 max armor points
-      // 165 = 9 (head) + 156 (rest), so internal structure sum = 156/2 = 78
-      return { HD: 3, CT: 16, LT: 12, RT: 12, LA: 10, RA: 10, LL: 9, RL: 9 };
-    } else if (tonnage <= 55) {
-      return { HD: 3, CT: 13, LT: 12, RT: 12, LA: 11, RA: 11, LL: 11, RL: 11 };
-    } else if (tonnage <= 60) {
-      return { HD: 3, CT: 14, LT: 13, RT: 13, LA: 12, RA: 12, LL: 12, RL: 12 };
-    } else if (tonnage <= 65) {
-      return { HD: 3, CT: 15, LT: 14, RT: 14, LA: 13, RA: 13, LL: 13, RL: 13 };
-    } else if (tonnage <= 70) {
-      return { HD: 3, CT: 16, LT: 15, RT: 15, LA: 14, RA: 14, LL: 14, RL: 14 };
-    } else if (tonnage <= 75) {
-      return { HD: 3, CT: 17, LT: 16, RT: 16, LA: 15, RA: 15, LL: 15, RL: 15 };
-    } else if (tonnage <= 80) {
-      return { HD: 3, CT: 18, LT: 17, RT: 17, LA: 16, RA: 16, LL: 16, RL: 16 };
-    } else if (tonnage <= 85) {
-      return { HD: 3, CT: 19, LT: 18, RT: 18, LA: 17, RA: 17, LL: 17, RL: 17 };
-    } else if (tonnage <= 90) {
-      return { HD: 3, CT: 20, LT: 19, RT: 19, LA: 18, RA: 18, LL: 18, RL: 18 };
-    } else if (tonnage <= 95) {
-      return { HD: 3, CT: 21, LT: 20, RT: 20, LA: 19, RA: 19, LL: 19, RL: 19 };
-    } else {
-      return { HD: 3, CT: 22, LT: 21, RT: 21, LA: 20, RA: 20, LL: 20, RL: 20 };
-    }
+    // Use official BattleTech internal structure table
+    const structure = getInternalStructurePoints(tonnage);
+    
+    return {
+      HD: structure.HD,
+      CT: structure.CT,
+      LT: structure.LT,
+      RT: structure.RT,
+      LA: structure.LA,
+      RA: structure.RA,
+      LL: structure.LL,
+      RL: structure.RL
+    };
   }
 
   /**

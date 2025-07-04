@@ -21,6 +21,7 @@ import {
   TechBase,
   migrateStringToComponentConfiguration
 } from '../types/componentConfiguration'
+import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from './heatSinkCalculations';
 
 /**
  * Legacy unit data structure from existing schemas
@@ -204,7 +205,7 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
   // Extract component types - create ComponentConfiguration objects
   const techBaseType = (legacyData.tech_base.includes('Clan') ? 'Clan' : 'Inner Sphere') as TechBase
   
-  const engineType = parseEngineType(legacyData.engine?.type || 'Standard')
+  const engineTypeString = parseEngineType(legacyData.engine?.type || 'Standard')
   const structureType = migrateStringToComponentConfiguration('structure', parseStructureType(legacyData.structure?.type || 'Standard'), techBaseType)
   const armorType = migrateStringToComponentConfiguration('armor', parseArmorType(legacyData.armor?.type || 'Standard'), techBaseType)
   const gyroType = migrateStringToComponentConfiguration('gyro', parseGyroType('Standard'), techBaseType)
@@ -212,7 +213,7 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
   
   // Calculate heat sinks
   const totalHeatSinks = legacyData.heat_sinks?.count || 10
-  const internalHeatSinks = calculateInternalHeatSinks(engineRating, engineType)
+  const internalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, engineTypeString)
   const externalHeatSinks = Math.max(0, totalHeatSinks - internalHeatSinks)
   
   // Parse armor allocation
@@ -239,7 +240,7 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
     runMP,
     jumpMP,
     engineRating,
-    engineType: migrateStringToComponentConfiguration('engine', engineType, techBaseType),
+    engineType: migrateStringToComponentConfiguration('engine', engineTypeString, techBaseType),
     
     // Jump jets
     jumpJetType: 'Standard Jump Jet',
@@ -370,23 +371,7 @@ function parseEnhancementType(myomerType?: string): string | null {
   return null
 }
 
-/**
- * Calculate internal heat sinks based on engine rating and type
- */
-function calculateInternalHeatSinks(engineRating: number, engineType: string): number {
-  // Non-fusion engines don't provide heat sinks
-  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-    return 0
-  }
-  
-  // Fusion engines include 10 heat sinks for ratings 250+
-  if (engineRating >= 250) {
-    return 10
-  }
-  
-  // Smaller engines get fewer integrated heat sinks
-  return Math.floor(engineRating / 25)
-}
+
 
 /**
  * Parse armor allocation from legacy location data

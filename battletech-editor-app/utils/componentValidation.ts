@@ -12,12 +12,12 @@ import {
   STRUCTURE_SLOT_REQUIREMENTS,
   ARMOR_SLOT_REQUIREMENTS,
   calculateEngineWeight,
-  calculateGyroWeight,
   calculateStructureWeight,
   calculateArmorWeight,
 } from '../types/systemComponents';
 import { initializeSystemComponents } from './componentSync';
 import { initializeCriticalSlots, validateComponentPlacement, generateHeatSinkItems } from './componentRules';
+import { calculateGyroWeight } from './gyroCalculations';
 
 // Validation error types
 export interface ComponentValidationError {

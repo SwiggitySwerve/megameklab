@@ -6,6 +6,7 @@
 
 import { EditableUnit } from '../../types/editor'
 import { calculateHeatGeneration, calculateEquipmentWeight, calculateCriticalSlots, calculateEquipmentBV } from '../equipmentData'
+import { calculateGyroWeight } from '../gyroCalculations';
 
 export interface WeightBreakdown {
   structure: number
@@ -183,14 +184,7 @@ export class UnitCalculationService {
     if (opts.useSystemComponents && unit.systemComponents?.gyro && unit.systemComponents?.engine) {
       const gyro = unit.systemComponents.gyro
       const engineRating = unit.systemComponents.engine.rating
-      const baseWeight = Math.ceil(engineRating / 100)
-      
-      switch (gyro.type) {
-        case 'XL': breakdown.gyro = baseWeight * 0.5; break
-        case 'Compact': breakdown.gyro = baseWeight * 1.5; break
-        case 'Heavy-Duty': breakdown.gyro = baseWeight * 2.0; break
-        default: breakdown.gyro = baseWeight
-      }
+      breakdown.gyro = calculateGyroWeight(engineRating, gyro.type)
     } else {
       breakdown.gyro = 3 // Default 3 tons
     }

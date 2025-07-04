@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface CriticalSlotValidation {
   isValid: boolean;
@@ -983,7 +984,8 @@ export class CriticalSlotRulesValidator {
 
   private static getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    return Math.min(10, Math.floor(engineRating / 25));
+      const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   }
 
   private static findBestRelocationTarget(

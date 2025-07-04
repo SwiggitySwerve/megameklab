@@ -24,10 +24,8 @@ const HeatSinksPanel: React.FC<HeatSinksPanelProps> = ({
   const engineFreeHeatSinks = useMemo(() => {
     // Fusion engines provide free heat sinks based on rating
     const engineType = unit.data?.engine?.type || 'fusion';
-    if (engineType === 'ice' || engineType === 'fuel_cell') return 0;
-    
-    // Engine rating / 25, rounded down, max 10
-    return Math.min(10, Math.floor(engineRating / 25));
+    const { calculateInternalHeatSinksForEngine } = require('../../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }, [engineRating, unit.data?.engine?.type]);
 
   // Get heat sink type and properties

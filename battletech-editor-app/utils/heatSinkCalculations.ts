@@ -1,200 +1,266 @@
 /**
  * Heat Sink Calculations Utility
- * Centralized calculations for all heat sink types with IS/Clan differentiation
+ * Centralized calculations for all heat sink types and engine integration
+ * 
+ * Official BattleTech Rules:
+ * - Fusion engines 250+ rating provide 10 free heat sinks
+ * - Smaller engines provide partial heat sinks (engine rating / 25)
+ * - Maximum of 10 internal heat sinks from engine
+ * - Double heat sinks provide 2 points of dissipation each
+ * - Single heat sinks provide 1 point of dissipation each
  */
 
-import { HeatSinkType } from '../types/systemComponents';
+import { HeatSinkType, EngineType } from '../types/systemComponents';
 
-// Heat sink specifications with IS/Clan differentiation
-export const HEAT_SINK_SPECIFICATIONS: Record<HeatSinkType, {
-  dissipation: number;
-  weight: number;
-  criticalSlots: number;
+export interface HeatSinkSpecification {
+  type: HeatSinkType;
+  pointsPerSink: number;
+  weightPerSink: number;
+  criticalSlotsPerSink: number;
   techBase: 'Inner Sphere' | 'Clan' | 'Both';
   costMultiplier: number;
-}> = {
+}
+
+// Heat sink specifications for all types
+export const HEAT_SINK_SPECIFICATIONS: Record<HeatSinkType, HeatSinkSpecification> = {
   'Single': {
-    dissipation: 1,
-    weight: 1,
-    criticalSlots: 1,
+    type: 'Single',
+    pointsPerSink: 1,
+    weightPerSink: 1.0,
+    criticalSlotsPerSink: 1,
     techBase: 'Both',
     costMultiplier: 1.0
   },
   'Double (IS)': {
-    dissipation: 2,
-    weight: 1,
-    criticalSlots: 3,  // IS Double Heat Sinks use 3 critical slots
+    type: 'Double (IS)',
+    pointsPerSink: 2,
+    weightPerSink: 1.0,
+    criticalSlotsPerSink: 3,
     techBase: 'Inner Sphere',
-    costMultiplier: 6.0
+    costMultiplier: 1.5
   },
   'Double (Clan)': {
-    dissipation: 2,
-    weight: 1,
-    criticalSlots: 2,  // Clan Double Heat Sinks use 2 critical slots
+    type: 'Double (Clan)',
+    pointsPerSink: 2,
+    weightPerSink: 1.0,
+    criticalSlotsPerSink: 2,
     techBase: 'Clan',
-    costMultiplier: 6.0
+    costMultiplier: 1.3
   },
   'Compact': {
-    dissipation: 1,
-    weight: 1,
-    criticalSlots: 1,
-    techBase: 'Both',
-    costMultiplier: 3.0
+    type: 'Compact',
+    pointsPerSink: 1,
+    weightPerSink: 1.5,
+    criticalSlotsPerSink: 1,
+    techBase: 'Inner Sphere',
+    costMultiplier: 2.0
   },
   'Laser': {
-    dissipation: 2,
-    weight: 1,
-    criticalSlots: 2,
-    techBase: 'Both',
-    costMultiplier: 6.0
+    type: 'Laser',
+    pointsPerSink: 1,
+    weightPerSink: 1.0,
+    criticalSlotsPerSink: 1,
+    techBase: 'Inner Sphere',
+    costMultiplier: 1.2
   }
 };
 
-export interface HeatSinkCalculationResult {
-  totalWeight: number;
-  totalSlots: number;
-  totalDissipation: number;
-  engineIntegrated: number;
-  externalRequired: number;
-  externalWeight: number;
-  externalSlots: number;
-}
-
 /**
- * Get heat sink specification
+ * Calculate internal heat sinks provided by engine
+ * @param engineRating Engine rating
+ * @returns Number of internal heat sinks (max 10)
  */
-export function getHeatSinkSpecification(type: HeatSinkType) {
-  return HEAT_SINK_SPECIFICATIONS[type];
-}
-
-/**
- * Calculate integrated heat sinks based on engine rating
- */
-export function calculateIntegratedHeatSinks(engineRating: number): number {
-  // Fusion engines include 10 heat sinks for ratings 250+
+export function calculateInternalHeatSinks(engineRating: number): number {
+  if (engineRating <= 0) return 0;
+  
+  // Fusion engines 250+ provide 10 heat sinks
   if (engineRating >= 250) {
     return 10;
   }
-  // Smaller engines get fewer integrated heat sinks
+  
+  // Smaller engines provide partial heat sinks
   return Math.floor(engineRating / 25);
 }
 
 /**
- * Calculate external heat sink requirements
+ * Calculate internal heat sinks based on engine rating and type
+ * This consolidates all the wrapper functions that were duplicated across the codebase
+ * @param engineRating Engine rating
+ * @param engineType Engine type (optional, defaults to fusion behavior)
+ * @returns Number of internal heat sinks
  */
-export function calculateExternalHeatSinks(
-  totalRequired: number,
-  engineRating: number
-): number {
-  const integrated = calculateIntegratedHeatSinks(engineRating);
-  return Math.max(0, totalRequired - integrated);
+export function calculateInternalHeatSinksForEngine(engineRating: number, engineType?: EngineType | string): number {
+  // Non-fusion engines don't provide heat sinks
+  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
+    return 0;
+  }
+  
+  // Get base internal heat sinks
+  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating);
+  
+  // Apply engine type modifications
+  if (engineType?.includes('XL')) {
+    // XL engines can integrate fewer heat sinks due to side torso location
+    return Math.min(baseInternalHeatSinks, 8);
+  } else if (engineType?.includes('Light')) {
+    // Light engines have reduced heat sink capacity
+    return Math.min(baseInternalHeatSinks, 6);
+  } else if (engineType === 'Compact') {
+    // Compact engines cannot integrate heat sinks
+    return 0;
+  }
+  
+  return baseInternalHeatSinks;
 }
 
 /**
- * Calculate heat sink weight (external only - integrated are free)
+ * Calculate external heat sinks needed
+ * @param totalHeatSinks Total heat sinks required
+ * @param internalHeatSinks Internal heat sinks from engine
+ * @returns Number of external heat sinks needed
  */
-export function calculateHeatSinkWeight(
-  externalCount: number,
-  type: HeatSinkType
-): number {
-  const spec = HEAT_SINK_SPECIFICATIONS[type];
-  return externalCount * spec.weight;
-}
-
-/**
- * Calculate heat sink critical slots (external only)
- */
-export function calculateHeatSinkSlots(
-  externalCount: number,
-  type: HeatSinkType
-): number {
-  const spec = HEAT_SINK_SPECIFICATIONS[type];
-  return externalCount * spec.criticalSlots;
+export function calculateExternalHeatSinks(totalHeatSinks: number, internalHeatSinks: number): number {
+  return Math.max(0, totalHeatSinks - internalHeatSinks);
 }
 
 /**
  * Calculate total heat dissipation
+ * @param heatSinkCount Total number of heat sinks
+ * @param heatSinkType Type of heat sink
+ * @returns Total heat dissipation points
  */
-export function calculateHeatDissipation(
-  totalHeatSinks: number,
-  type: HeatSinkType
-): number {
-  const spec = HEAT_SINK_SPECIFICATIONS[type];
-  return totalHeatSinks * spec.dissipation;
-}
-
-/**
- * Get comprehensive heat sink calculations
- */
-export function getHeatSinkCalculations(
-  totalRequired: number,
-  engineRating: number,
-  type: HeatSinkType
-): HeatSinkCalculationResult {
-  const spec = HEAT_SINK_SPECIFICATIONS[type];
-  const engineIntegrated = calculateIntegratedHeatSinks(engineRating);
-  const externalRequired = Math.max(0, totalRequired - engineIntegrated);
-  
-  return {
-    totalWeight: calculateHeatSinkWeight(externalRequired, type),
-    totalSlots: calculateHeatSinkSlots(externalRequired, type),
-    totalDissipation: calculateHeatDissipation(totalRequired, type),
-    engineIntegrated,
-    externalRequired,
-    externalWeight: externalRequired * spec.weight,
-    externalSlots: externalRequired * spec.criticalSlots
-  };
-}
-
-/**
- * Validate heat sink type compatibility with tech base
- */
-export function validateHeatSinkCompatibility(
-  heatSinkType: HeatSinkType,
-  techBase: 'Inner Sphere' | 'Clan'
-): { isCompatible: boolean; reason?: string } {
+export function calculateHeatDissipation(heatSinkCount: number, heatSinkType: HeatSinkType): number {
   const spec = HEAT_SINK_SPECIFICATIONS[heatSinkType];
-  
-  if (spec.techBase === 'Both') {
-    return { isCompatible: true };
-  }
-  
-  if (spec.techBase === techBase) {
-    return { isCompatible: true };
-  }
-  
-  return {
-    isCompatible: false,
-    reason: `${heatSinkType} heat sinks are ${spec.techBase} technology, incompatible with ${techBase} chassis`
-  };
+  return heatSinkCount * spec.pointsPerSink;
 }
 
 /**
- * Get available heat sink types for tech base
+ * Calculate heat sink weight
+ * @param externalHeatSinks Number of external heat sinks
+ * @param heatSinkType Type of heat sink
+ * @returns Total weight in tons
  */
-export function getAvailableHeatSinkTypes(techBase: 'Inner Sphere' | 'Clan'): HeatSinkType[] {
-  return Object.entries(HEAT_SINK_SPECIFICATIONS)
-    .filter(([_, spec]) => spec.techBase === 'Both' || spec.techBase === techBase)
-    .map(([type, _]) => type as HeatSinkType);
+export function calculateHeatSinkWeight(externalHeatSinks: number, heatSinkType: HeatSinkType): number {
+  const spec = HEAT_SINK_SPECIFICATIONS[heatSinkType];
+  return externalHeatSinks * spec.weightPerSink;
 }
 
 /**
- * Compare heat sink efficiency (dissipation per slot)
+ * Calculate critical slots used by heat sinks
+ * @param externalHeatSinks Number of external heat sinks
+ * @param heatSinkType Type of heat sink
+ * @returns Total critical slots used
  */
-export function compareHeatSinkEfficiency(type1: HeatSinkType, type2: HeatSinkType): {
-  type1Efficiency: number;
-  type2Efficiency: number;
-  betterChoice: HeatSinkType;
+export function calculateHeatSinkCriticalSlots(externalHeatSinks: number, heatSinkType: HeatSinkType): number {
+  const spec = HEAT_SINK_SPECIFICATIONS[heatSinkType];
+  return externalHeatSinks * spec.criticalSlotsPerSink;
+}
+
+/**
+ * Get heat sink specification
+ * @param heatSinkType Type of heat sink
+ * @returns Heat sink specification
+ */
+export function getHeatSinkSpecification(heatSinkType: HeatSinkType): HeatSinkSpecification {
+  return HEAT_SINK_SPECIFICATIONS[heatSinkType];
+}
+
+/**
+ * Calculate minimum heat sinks required for a unit
+ * @param engineRating Engine rating
+ * @param heatGeneration Total heat generation
+ * @returns Minimum heat sinks needed
+ */
+export function calculateMinimumHeatSinks(engineRating: number, heatGeneration: number): number {
+  const internalHeatSinks = calculateInternalHeatSinks(engineRating);
+  const minimumTotal = Math.max(10, heatGeneration); // At least 10 heat sinks
+  return Math.max(minimumTotal, internalHeatSinks);
+}
+
+/**
+ * Validate heat sink configuration
+ * @param totalHeatSinks Total heat sinks
+ * @param internalHeatSinks Internal heat sinks
+ * @param heatGeneration Heat generation
+ * @returns Validation result
+ */
+export function validateHeatSinkConfiguration(
+  totalHeatSinks: number, 
+  internalHeatSinks: number, 
+  heatGeneration: number
+): {
+  isValid: boolean;
+  issues: string[];
+  recommendations: string[];
 } {
-  const spec1 = HEAT_SINK_SPECIFICATIONS[type1];
-  const spec2 = HEAT_SINK_SPECIFICATIONS[type2];
+  const issues: string[] = [];
+  const recommendations: string[] = [];
   
-  const efficiency1 = spec1.dissipation / spec1.criticalSlots;
-  const efficiency2 = spec2.dissipation / spec2.criticalSlots;
+  // Check minimum heat sinks
+  if (totalHeatSinks < 10) {
+    issues.push('Unit must have at least 10 heat sinks');
+  }
+  
+  // Check heat dissipation
+  if (totalHeatSinks < heatGeneration) {
+    issues.push(`Heat sinks (${totalHeatSinks}) insufficient for heat generation (${heatGeneration})`);
+    recommendations.push(`Add ${heatGeneration - totalHeatSinks} more heat sinks`);
+  }
+  
+  // Check internal vs external consistency
+  const expectedInternal = calculateInternalHeatSinks(internalHeatSinks * 25); // Rough estimate
+  if (Math.abs(internalHeatSinks - expectedInternal) > 1) {
+    recommendations.push(`Internal heat sinks should be approximately ${expectedInternal} for this engine`);
+  }
+  
+  const externalHeatSinks = calculateExternalHeatSinks(totalHeatSinks, internalHeatSinks);
+  if (externalHeatSinks < 0) {
+    issues.push('External heat sinks cannot be negative');
+  }
   
   return {
-    type1Efficiency: efficiency1,
-    type2Efficiency: efficiency2,
-    betterChoice: efficiency1 >= efficiency2 ? type1 : type2
+    isValid: issues.length === 0,
+    issues,
+    recommendations
   };
+}
+
+/**
+ * Calculate heat efficiency percentage
+ * @param heatDissipation Total heat dissipation
+ * @param heatGeneration Total heat generation
+ * @returns Efficiency percentage (0-100)
+ */
+export function calculateHeatEfficiency(heatDissipation: number, heatGeneration: number): number {
+  if (heatGeneration === 0) return 100;
+  return Math.min(100, (heatDissipation / heatGeneration) * 100);
+}
+
+/**
+ * Get heat sink recommendations
+ * @param heatGeneration Heat generation
+ * @param currentHeatSinks Current heat sinks
+ * @param heatSinkType Current heat sink type
+ * @returns Array of recommendations
+ */
+export function getHeatSinkRecommendations(
+  heatGeneration: number, 
+  currentHeatSinks: number, 
+  heatSinkType: HeatSinkType
+): string[] {
+  const recommendations: string[] = [];
+  
+  if (currentHeatSinks < heatGeneration) {
+    recommendations.push(`Add ${heatGeneration - currentHeatSinks} more heat sinks to avoid overheating`);
+  }
+  
+  if (heatGeneration > 20 && heatSinkType === 'Single') {
+    recommendations.push('Consider upgrading to Double Heat Sinks for better efficiency');
+  }
+  
+  if (currentHeatSinks > heatGeneration * 1.5) {
+    recommendations.push('Heat sink capacity significantly exceeds needs - consider removing excess');
+  }
+  
+  return recommendations;
 }

@@ -1,5 +1,8 @@
 import { EditableUnit } from '../types/editor';
 import { EQUIPMENT_DATABASE } from './equipmentData';
+import { calculateEngineWeight } from './engineCalculations';
+import { calculateStructureWeight } from './structureCalculations';
+import { calculateInternalHeatSinks } from './heatSinkCalculations';
 import { getArmorType } from './armorTypes';
 
 export interface ArmorAllocation {
@@ -302,36 +305,64 @@ export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): n
   return Math.ceil(armorWeight * 2) / 2;
 }
 
+// Helper functions to map test values to proper case
+function mapStructureType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'endo-steel': 'Endo Steel',
+    'endo-steel (clan)': 'Endo Steel (Clan)',
+    'composite': 'Composite',
+    'reinforced': 'Reinforced',
+    'industrial': 'Industrial'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
+function mapEngineType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'xl': 'XL (IS)',
+    'xl (is)': 'XL (IS)',
+    'xl (clan)': 'XL (Clan)',
+    'light': 'Light',
+    'xxl': 'XXL',
+    'compact': 'Compact',
+    'ice': 'ICE',
+    'fuel cell': 'Fuel Cell',
+    'fission': 'Fission'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
+function mapArmorType(type: string): string {
+  const mapping: Record<string, string> = {
+    'standard': 'Standard',
+    'ferro-fibrous': 'Ferro-Fibrous',
+    'ferro-fibrous (clan)': 'Ferro-Fibrous (Clan)',
+    'light ferro-fibrous': 'Light Ferro-Fibrous',
+    'heavy ferro-fibrous': 'Heavy Ferro-Fibrous',
+    'stealth': 'Stealth',
+    'reactive': 'Reactive',
+    'reflective': 'Reflective',
+    'hardened': 'Hardened'
+  };
+  return mapping[type.toLowerCase()] || type;
+}
+
 export function calculateRemainingTonnage(unit: EditableUnit): number {
   const totalTonnage = unit.mass || 0;
-  
-  // Calculate current used tonnage - this is a simplified version
   let usedTonnage = 0;
-  
+
   // Structure weight
-  const structureType = unit.data?.structure?.type || 'standard';
-  if (structureType === 'standard') {
-    usedTonnage += totalTonnage * 0.1;
-  } else if (structureType === 'endo-steel') {
-    usedTonnage += totalTonnage * 0.05;
-  }
-  
-  // Engine weight (very simplified - should use actual engine tables)
+  const structureType = unit.data?.structure?.type || 'Standard';
+  usedTonnage += calculateStructureWeight(totalTonnage, mapStructureType(structureType) as any);
+
+  // Engine weight
   const engineRating = unit.data?.engine?.rating || 200;
-  const engineType = unit.data?.engine?.type || 'standard';
-  let engineWeight = engineRating / 5.0; // Simplified standard engine weight
-  
-  if (engineType === 'xl') {
-    engineWeight *= 0.5;
-  } else if (engineType === 'light') {
-    engineWeight *= 0.75;
-  } else if (engineType === 'compact') {
-    engineWeight *= 1.5;
-  }
-  
-  usedTonnage += engineWeight;
-  
-  // Gyro (varies by type)
+  const engineType = unit.data?.engine?.type || 'Standard';
+  usedTonnage += calculateEngineWeight(engineRating, totalTonnage, mapEngineType(engineType) as any);
+
+  // Gyro (unchanged for now)
   const gyroType = unit.data?.gyro?.type || 'standard';
   const gyroWeights: { [key: string]: number } = {
     'standard': Math.ceil(engineRating / 100.0),
@@ -341,8 +372,8 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
     'none': 0
   };
   usedTonnage += gyroWeights[gyroType] || Math.ceil(engineRating / 100.0);
-  
-  // Cockpit
+
+  // Cockpit (unchanged for now)
   const cockpitType = unit.data?.cockpit?.type || 'standard';
   const cockpitWeights: { [key: string]: number } = {
     'standard': 3,
@@ -351,41 +382,39 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
     'torso-mounted': 4
   };
   usedTonnage += cockpitWeights[cockpitType] || 3;
-  
+
   // Heat sinks (beyond free engine sinks)
   const totalHeatSinks = unit.data?.heat_sinks?.count || 10;
-  const engineHeatSinks = Math.min(10, Math.floor(engineRating / 25));
+      const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
+    const engineHeatSinks = calculateInternalHeatSinksForEngine(engineRating, 'Standard');
   const extraHeatSinks = Math.max(0, totalHeatSinks - engineHeatSinks);
   const heatSinkType = unit.data?.heat_sinks?.type || 'single';
-  const heatSinkWeight = heatSinkType === 'single' ? 1 : 1;
+  const heatSinkWeight = 1; // Both single and double are 1 ton each
   usedTonnage += extraHeatSinks * heatSinkWeight;
-  
-  // Equipment
+
+  // Equipment (unchanged)
   (unit.data?.weapons_and_equipment || []).forEach(item => {
     const equipment = EQUIPMENT_DATABASE.find(e => e.name === item.item_name);
     if (equipment) {
       usedTonnage += equipment.weight || 0;
     }
   });
-  
+
   // Current armor
   const currentArmorPoints = unit.data?.armor?.total_armor_points || 0;
   const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
   let armorType = getArmorType(armorTypeId);
-  
-  // Fallback if armor type is null
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
+    armorType = { pointsPerTon: 16 } as any;
   }
-  
   const pointsPerTon = armorType.pointsPerTon;
   usedTonnage += currentArmorPoints / pointsPerTon;
-  
-  // Jump jets
+
+  // Jump jets (unchanged)
   const jumpMP = unit.data?.movement?.jump_mp || 0;
   const jumpJetWeight = jumpMP * (totalTonnage <= 55 ? 0.5 : totalTonnage <= 85 ? 1.0 : 2.0);
   usedTonnage += jumpJetWeight;
-  
+
   // Round to nearest half-ton for comparison
   const remaining = totalTonnage - usedTonnage;
   return Math.floor(remaining * 2) / 2;

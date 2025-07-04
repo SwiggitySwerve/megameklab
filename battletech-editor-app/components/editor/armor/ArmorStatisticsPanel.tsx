@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditableUnit, ArmorType, ARMOR_TYPES } from '../../../types/editor';
-import { ARMOR_POINTS_PER_TON } from '../../../utils/armorCalculations';
+import { ARMOR_SPECIFICATIONS } from '../../../utils/armorCalculations';
 import styles from './ArmorStatisticsPanel.module.css';
 
 export interface ArmorStatisticsProps {
@@ -9,6 +9,10 @@ export interface ArmorStatisticsProps {
   onArmorTypeChange?: (armorType: ArmorType) => void;
   onOptimizeArmor?: (newTonnage: number) => void;
   readOnly?: boolean;
+}
+
+function getValidArmorTypeKey(id: string): string {
+  return Object.prototype.hasOwnProperty.call(ARMOR_SPECIFICATIONS, id) ? id : 'Standard';
 }
 
 export const ArmorStatisticsPanel: React.FC<ArmorStatisticsProps> = ({
@@ -42,7 +46,7 @@ export const ArmorStatisticsPanel: React.FC<ArmorStatisticsProps> = ({
       });
     }
     
-    const pointsPerTon = ARMOR_POINTS_PER_TON[currentArmorType.id as keyof typeof ARMOR_POINTS_PER_TON] || currentArmorType.pointsPerTon;
+    const pointsPerTon = (ARMOR_SPECIFICATIONS as Record<string, { pointsPerTon: number }>)[getValidArmorTypeKey(currentArmorType.id)]?.pointsPerTon || currentArmorType.pointsPerTon;
     const totalPoints = Math.floor(totalArmorTonnage * pointsPerTon);
     const unallocated = totalPoints - totalAllocated;
     

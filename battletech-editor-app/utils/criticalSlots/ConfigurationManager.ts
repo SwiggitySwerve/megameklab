@@ -31,9 +31,13 @@ export interface ConfigurationChangeResult {
 
 export class ConfigurationManager {
   private configuration: UnitConfiguration
+  private armorManagementManager: any
 
   constructor(initialConfiguration: UnitConfiguration | LegacyUnitConfiguration) {
     this.configuration = UnitConfigurationBuilder.buildConfiguration(initialConfiguration)
+    // Initialize ArmorManagementManager for armor validation
+    const { ArmorManagementManager } = require('./ArmorManagementManager')
+    this.armorManagementManager = new ArmorManagementManager(this.configuration)
   }
 
   /**
@@ -101,36 +105,11 @@ export class ConfigurationManager {
   private enforceConstructionRules(config: UnitConfiguration): UnitConfiguration {
     const enforced = { ...config }
     
-    // Enforce head armor maximum (9 points)
-    if (enforced.armorAllocation.HD.front > 9) {
-      enforced.armorAllocation.HD.front = 9
-    }
-    if (enforced.armorAllocation.HD.rear > 9) {
-      enforced.armorAllocation.HD.rear = 9
-    }
+    // Update ArmorManagementManager with new configuration
+    this.armorManagementManager.updateConfiguration(enforced)
     
-    // Enforce location armor maximums (2x internal structure)
-    const structurePoints = getInternalStructurePoints(enforced.tonnage)
-    const maxArmorByLocation = {
-      CT: structurePoints.CT * 2,
-      LT: structurePoints.LT * 2,
-      RT: structurePoints.RT * 2,
-      LA: structurePoints.LA * 2,
-      RA: structurePoints.RA * 2,
-      LL: structurePoints.LL * 2,
-      RL: structurePoints.RL * 2
-    }
-    
-    // Apply armor limits
-    Object.entries(maxArmorByLocation).forEach(([location, maxArmor]) => {
-      const loc = location as keyof typeof enforced.armorAllocation
-      if (enforced.armorAllocation[loc].front > maxArmor) {
-        enforced.armorAllocation[loc].front = maxArmor
-      }
-      if (enforced.armorAllocation[loc].rear > maxArmor) {
-        enforced.armorAllocation[loc].rear = maxArmor
-      }
-    })
+    // Use ArmorManagementManager to enforce armor rules
+    enforced.armorAllocation = this.armorManagementManager.enforceArmorRules(enforced.armorAllocation)
     
     // Enforce minimum heat sinks (10 for BattleMechs)
     if (enforced.unitType === 'BattleMech' && enforced.totalHeatSinks < 10) {

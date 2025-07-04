@@ -138,9 +138,9 @@ describe('StructureRulesValidator', () => {
   describe('validateInternalStructure', () => {
     test('should calculate internal structure points correctly', () => {
       const testCases = [
-        { tonnage: 20, expectedIS: 4 },  // ceil(20/10) = 2, but minimum location values
-        { tonnage: 55, expectedIS: 18 }, // Head:3, CT:18, ST:13, Arms:9, Legs:13
-        { tonnage: 100, expectedIS: 31 } // Maximum structure points
+        { tonnage: 20, expectedIS: 38 },  // Official BattleTech: 3+7+5+5+4+4+5+5 = 38
+        { tonnage: 55, expectedIS: 91 },  // Official BattleTech: 3+18+13+13+9+9+13+13 = 91
+        { tonnage: 100, expectedIS: 153 } // Official BattleTech: 3+32+21+21+17+17+21+21 = 153
       ];
       
       testCases.forEach(({ tonnage, expectedIS }) => {
@@ -148,7 +148,7 @@ describe('StructureRulesValidator', () => {
         const result = StructureRulesValidator.validateStructureRules(config);
         
         expect(result.internalStructure).toBeGreaterThan(0);
-        expect(result.internalStructure).toBeLessThanOrEqual(expectedIS + 10); // Allow variance
+        expect(result.internalStructure).toBe(expectedIS); // Use exact official values
       });
     });
   });
@@ -240,12 +240,12 @@ describe('StructureRulesValidator', () => {
 
     test('should handle extreme tonnage values', () => {
       const lightConfig = createTestConfig({
-        tonnage: 10,
+        tonnage: 20, // Minimum valid tonnage
         structureType: { type: 'Endo Steel', techBase: 'Inner Sphere' }
       });
       
       const superHeavyConfig = createTestConfig({
-        tonnage: 200,
+        tonnage: 100, // Maximum valid tonnage
         structureType: { type: 'Standard', techBase: 'Inner Sphere' }
       });
       
@@ -255,7 +255,7 @@ describe('StructureRulesValidator', () => {
       expect(lightResult.isValid).toBe(true);
       expect(heavyResult.isValid).toBe(true);
       expect(lightResult.structureWeight).toBeGreaterThan(0);
-      expect(heavyResult.structureWeight).toBe(20); // 200 * 0.1
+      expect(heavyResult.structureWeight).toBe(10); // 100 * 0.1
     });
 
     test('should handle component configuration object vs string', () => {

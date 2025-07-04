@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { getTotalInternalStructure } from '../../utils/internalStructureTable';
 
 export interface StructureValidation {
   isValid: boolean;
@@ -113,7 +114,7 @@ export class StructureRulesValidator {
    * Calculate internal structure points
    */
   static calculateInternalStructure(tonnage: number): number {
-    return Math.ceil(tonnage / 10); // Standard BattleTech rule
+    return getTotalInternalStructure(tonnage);
   }
   
   /**

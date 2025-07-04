@@ -6,6 +6,10 @@
 
 import { UnitConfiguration, HeatSinkType, StructureType, ArmorType } from '../criticalSlots/UnitCriticalManager'
 import { EngineType, GyroType } from '../criticalSlots/SystemComponentRules'
+import { calculateGyroWeight } from '../gyroCalculations';
+import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { getInternalStructurePoints } from '../internalStructureTable';
+import { ARMOR_SPECIFICATIONS } from '../armorCalculations';
 
 export interface WeightValidationResult {
   isValid: boolean
@@ -54,6 +58,16 @@ export interface IConstructionCalculator {
 export class BattleTechConstructionCalculator implements IConstructionCalculator {
   
   /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component // Legacy compatibility
+    }
+    return component.type
+  }
+  
+  /**
    * Get total tonnage used by all systems and equipment
    */
   getUsedTonnage(config: UnitConfiguration): number {
@@ -64,13 +78,13 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
     const engineWeight = this.getEngineWeight(config.engineType, config.engineRating)
     
     // Gyro weight
-    const gyroWeight = this.getGyroWeight(config.gyroType, config.engineRating)
+    const gyroWeight = this.getGyroWeight(this.extractComponentType(config.gyroType) as GyroType, config.engineRating)
     
     // Cockpit weight (always 3 tons for standard)
     const cockpitWeight = 3.0
     
     // Heat sink weight (external only, internal are part of engine)
-    const heatSinkWeight = config.externalHeatSinks * this.getHeatSinkTonnage(config.heatSinkType)
+    const heatSinkWeight = config.externalHeatSinks * this.getHeatSinkTonnage(this.extractComponentType(config.heatSinkType) as HeatSinkType)
     
     // Jump jet weight
     const jumpJetWeight = this.getJumpJetWeight(config)
@@ -121,18 +135,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get gyro weight based on type and engine rating
    */
   getGyroWeight(gyroType: GyroType, rating: number): number {
-    const baseWeight = Math.ceil(rating / 100)
-    
-    switch (gyroType) {
-      case 'XL':
-        return baseWeight * 0.5
-      case 'Compact':
-        return baseWeight * 1.5
-      case 'Heavy-Duty':
-        return baseWeight * 2.0
-      default: // Standard
-        return baseWeight
-    }
+    return calculateGyroWeight(rating, gyroType);
   }
 
   /**
@@ -176,8 +179,9 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    */
   private getStructureWeight(config: UnitConfiguration): number {
     const baseTonnage = config.tonnage
+    const structureType = this.extractComponentType(config.structureType)
     
-    switch (config.structureType) {
+    switch (structureType) {
       case 'Endo Steel':
       case 'Endo Steel (Clan)':
         return baseTonnage * 0.05 // 50% weight reduction
@@ -214,7 +218,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
   private getPhysicalMaxArmorTonnage(config: UnitConfiguration): number {
     // BattleTech rule: Maximum armor points based on internal structure
     const maxArmorPoints = this.getMaxArmorPoints(config)
-    const armorEfficiency = this.getArmorEfficiency(config.armorType)
+    const armorEfficiency = this.getArmorEfficiency(this.extractComponentType(config.armorType) as ArmorType)
     
     // Convert max armor points to tonnage
     return maxArmorPoints / armorEfficiency
@@ -240,7 +244,6 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get internal structure points for each location using official BattleTech table
    */
   getInternalStructurePoints(tonnage: number): Record<string, number> {
-    const { getInternalStructurePoints } = require('../internalStructureTable')
     const structure = getInternalStructurePoints(tonnage)
     
     return {
@@ -259,8 +262,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(armorType: ArmorType): number {
-    const { ARMOR_POINTS_PER_TON } = require('../armorCalculations')
-    return ARMOR_POINTS_PER_TON[armorType] || 16
+    return ARMOR_SPECIFICATIONS[armorType]?.pointsPerTon || 16;
   }
 
   /**
@@ -293,7 +295,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get comprehensive armor calculation
    */
   getArmorCalculation(config: UnitConfiguration): ArmorCalculationResult {
-    const efficiency = this.getArmorEfficiency(config.armorType)
+    const efficiency = this.getArmorEfficiency(this.extractComponentType(config.armorType) as ArmorType)
     const availableArmorPoints = Math.floor(config.armorTonnage * efficiency)
     
     // Calculate allocated armor points from location assignments
@@ -352,7 +354,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get total heat dissipation capacity
    */
   getHeatDissipation(config: UnitConfiguration): number {
-    const efficiency = this.getHeatSinkEfficiency(config.heatSinkType)
+    const efficiency = this.getHeatSinkEfficiency(this.extractComponentType(config.heatSinkType) as HeatSinkType)
     return config.totalHeatSinks * efficiency
   }
 

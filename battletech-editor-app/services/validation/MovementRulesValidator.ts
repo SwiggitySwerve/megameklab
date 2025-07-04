@@ -8,6 +8,7 @@
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 
 export interface MovementValidation {
   isValid: boolean;
@@ -116,27 +117,8 @@ export class MovementRulesValidator {
    * Calculate engine weight based on rating and type
    */
   static calculateEngineWeight(engineRating: number, engineType: string): number {
-    const baseWeight = engineRating * 0.05;
-    
-    switch (engineType) {
-      case 'XL':
-      case 'Clan XL':
-        return baseWeight * 0.5;
-      case 'Light':
-      case 'Clan Light':
-        return baseWeight * 0.75;
-      case 'XXL':
-        return baseWeight * 0.33;
-      case 'Compact':
-        return baseWeight * 1.5;
-      case 'ICE':
-      case 'Fuel Cell':
-        return baseWeight * 2.0;
-      case 'Fission':
-        return baseWeight * 1.75;
-      default: // Standard
-        return baseWeight;
-    }
+    const { calculateEngineWeight } = require('../../utils/engineCalculations');
+    return calculateEngineWeight(engineRating, 100, engineType as any);
   }
   
   /**
@@ -168,15 +150,8 @@ export class MovementRulesValidator {
    * Get internal heat sinks provided by engine
    */
   static getEngineInternalHeatSinks(engineRating: number, engineType: string): number {
-    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-      return 0; // No internal heat sinks
-    }
-    
-    if (engineRating >= 250) {
-      return 10; // Full 10 heat sinks for 250+ rating
-    }
-    
-    return Math.floor(engineRating / 25); // Partial heat sinks for smaller engines
+    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
+    return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   
   /**

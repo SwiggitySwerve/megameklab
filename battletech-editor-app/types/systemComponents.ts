@@ -3,6 +3,8 @@
  * Unified structure for tracking mech system components and their critical slot allocations
  */
 
+import { calculateInternalHeatSinks } from '../utils/heatSinkCalculations';
+
 // Enhanced engine types with IS/Clan differentiation
 export type EngineType = 'Standard' | 'XL (IS)' | 'XL (Clan)' | 'Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell';
 export type GyroType = 'Standard' | 'XL' | 'Compact' | 'Heavy-Duty';
@@ -152,16 +154,12 @@ export { ENGINE_SLOT_REQUIREMENTS } from '../utils/engineCalculations';
 export { GYRO_SLOT_REQUIREMENTS } from '../utils/gyroCalculations';
 export { COCKPIT_SLOT_REQUIREMENTS } from '../utils/cockpitCalculations';
 export { STRUCTURE_SLOT_REQUIREMENTS } from '../utils/structureCalculations';
-export { ARMOR_SLOT_REQUIREMENTS } from '../utils/armorCalculations';
 
-// Heat sink calculations
+
+// Heat sink calculations - use centralized functions
 export function calculateIntegratedHeatSinks(engineRating: number): number {
-  // Fusion engines include 10 heat sinks, +1 per 25 rating above 250
-  if (engineRating >= 250) {
-    return 10;
-  }
-  // Smaller engines get fewer integrated heat sinks
-  return Math.floor(engineRating / 25);
+  const { calculateInternalHeatSinksForEngine } = require('../utils/heatSinkCalculations');
+  return calculateInternalHeatSinksForEngine(engineRating);
 }
 
 export function calculateExternalHeatSinks(total: number, engineRating: number): number {
