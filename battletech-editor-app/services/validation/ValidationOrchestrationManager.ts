@@ -760,10 +760,10 @@ export class ValidationOrchestrationManager {
    * Generate overall summary
    */
   generateOverallSummary(validations: any[]): ValidationSummary {
-    let totalRules = 0;
-    let passedRules = 0;
-    let failedRules = 0;
-    let warningRules = 0;
+    const totalRules = 0;
+    const passedRules = 0;
+    const failedRules = 0;
+    const warningRules = 0;
     let criticalViolations = 0;
     let majorViolations = 0;
     let minorViolations = 0;
