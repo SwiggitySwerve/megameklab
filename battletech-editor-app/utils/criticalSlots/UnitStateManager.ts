@@ -43,14 +43,18 @@ export class UnitStateManager {
   private unitCriticalManager: UnitCriticalManager;
   private changeHistory: StateChangeEvent[] = [];
 
-  constructor(configurationOrSections?: UnitConfiguration | Map<string, any>, unallocatedEquipment?: any[]) {
+  constructor(configurationOrSections?: UnitConfiguration | Map<string, any>, unallocatedEquipment?: any[], unitManager?: UnitCriticalManager) {
     // Support both constructor signatures for backward compatibility
     if (configurationOrSections instanceof Map) {
-      // Legacy constructor: (sections, unallocatedEquipment)
+      // Legacy constructor: (sections, unallocatedEquipment, unitManager)
       this.sections = configurationOrSections;
       this.unallocatedEquipment = unallocatedEquipment || [];
-      // Create a default unit for legacy usage
-      this.unitCriticalManager = new UnitCriticalManager(this.createDefaultConfiguration());
+      // Use provided unit manager or create a default one (only if no manager provided)
+      if (unitManager) {
+        this.unitCriticalManager = unitManager;
+      } else {
+        this.unitCriticalManager = new UnitCriticalManager(this.createDefaultConfiguration());
+      }
     } else {
       // New constructor: (configuration?)
       const config = configurationOrSections || this.createDefaultConfiguration();
@@ -151,7 +155,7 @@ export class UnitStateManager {
       try {
         callback();
       } catch (error) {
-        console.error('[UnitStateManager] Error in state change listener:', error);
+        console.error('Error in state subscriber callback:', error);
       }
     });
   }
@@ -534,6 +538,50 @@ export class UnitStateManager {
       timestamp: Date.now()
     });
     this.notifyStateChange();
+  }
+
+  // ===== ADDITIONAL TEST COMPATIBILITY METHODS =====
+
+  /**
+   * Get validation status
+   */
+  getValidation(): any {
+    return this.unitCriticalManager.validate();
+  }
+
+  /**
+   * Get engine type
+   */
+  getEngineType(): string {
+    return this.unitCriticalManager.getEngineType();
+  }
+
+  /**
+   * Get gyro type
+   */
+  getGyroType(): string {
+    return this.unitCriticalManager.getGyroType();
+  }
+
+  /**
+   * Get recent changes from history
+   */
+  getRecentChanges(count: number = 10): StateChangeEvent[] {
+    return this.changeHistory.slice(-count);
+  }
+
+  /**
+   * Get debug information about current state
+   */
+  getDebugInfo(): any {
+    return {
+      unallocatedCount: this.unallocatedEquipment.length,
+      changeHistoryLength: this.changeHistory.length,
+      sectionsCount: this.sections.size,
+      equipmentByLocation: this.unitCriticalManager.getEquipmentByLocation(),
+      configuration: this.unitCriticalManager.getConfiguration(),
+      lastChange: this.changeHistory[this.changeHistory.length - 1] || null
+    };
   }
 
   // Static counter for unique equipment IDs
