@@ -19,6 +19,8 @@ import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTo
 
 // Import extracted armor components
 import { ArmorValidationPanel } from '../armor/ArmorValidationPanel';
+import { ArmorConfigurationControls } from '../armor/ArmorConfigurationControls';
+import { ArmorLocationEditor } from '../armor/ArmorLocationEditor';
 
 /**
  * Props for ArmorTabV2 component
@@ -413,87 +415,19 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
-      {/* Compact Top Controls Section */}
-      <div className="bg-slate-800 rounded-lg p-2 mb-4 border border-slate-700">
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Armor Type */}
-          <div className="flex items-center gap-2">
-            <label className="text-slate-300 text-xs font-medium whitespace-nowrap">Armor Type:</label>
-            <select
-              value={typeof config.armorType === 'string' ? config.armorType : (config.armorType as any)?.type || 'Standard'}
-              onChange={(e) => handleArmorTypeChange(e.target.value)}
-              disabled={readOnly}
-              className="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-            >
-              {armorTypeOptions.map(option => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Tonnage Input with Step Controls - Inline */}
-          <div className="flex items-center gap-2">
-            <label className="text-slate-300 text-xs font-medium whitespace-nowrap">Tonnage:</label>
-            <div className="flex items-center gap-1">
-              <input
-                type="number"
-                min={0}
-                max={maxArmorTonnage}
-                step={0.5}
-                value={currentArmorTonnage}
-                onChange={(e) => handleArmorTonnageChange(parseFloat(e.target.value) || 0)}
-                disabled={readOnly}
-                className={`w-24 px-2 py-1 bg-slate-700 border rounded text-slate-100 focus:border-blue-500 text-center text-xs ${currentArmorTonnage >= maxArmorTonnage
-                    ? 'border-yellow-500'
-                    : 'border-slate-600'
-                  }`}
-                placeholder="0.0"
-              />
-              <div className="flex flex-col">
-                <button
-                  onClick={() => handleArmorTonnageChange(currentArmorTonnage + 0.5)}
-                  disabled={readOnly || currentArmorTonnage >= maxArmorTonnage}
-                  className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-t text-xs transition-colors leading-3"
-                  title="Increase by 0.5 tons"
-                >
-                  ▲
-                </button>
-                <button
-                  onClick={() => handleArmorTonnageChange(currentArmorTonnage - 0.5)}
-                  disabled={readOnly || currentArmorTonnage <= 0}
-                  className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-b text-xs transition-colors leading-3"
-                  title="Decrease by 0.5 tons"
-                >
-                  ▼
-                </button>
-              </div>
-              <span className="text-slate-400 text-xs">
-                /{maxArmorTonnage.toFixed(1)}t
-              </span>
-            </div>
-          </div>
-
-          {/* Quick Actions - Stacked */}
-          <div className="flex flex-col gap-1">
-            <button
-              onClick={handleUseRemainingTonnage}
-              disabled={readOnly}
-              className="w-full px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors"
-              title={`Use remaining ${getRemainingTonnage().toFixed(1)} tons`}
-            >
-              Use Remaining Tonnage
-            </button>
-            <button
-              onClick={handleMaximizeArmor}
-              disabled={readOnly}
-              className="w-full px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors"
-            >
-              Maximize Armor
-            </button>
-          </div>
-
-        </div>
-      </div>
+      {/* Armor Configuration Controls */}
+      <ArmorConfigurationControls
+        armorType={typeof config.armorType === 'string' ? config.armorType : (config.armorType as any)?.type || 'Standard'}
+        armorTypeOptions={armorTypeOptions}
+        currentArmorTonnage={currentArmorTonnage}
+        maxArmorTonnage={maxArmorTonnage}
+        remainingTonnage={getRemainingTonnage()}
+        readOnly={readOnly}
+        onArmorTypeChange={handleArmorTypeChange}
+        onArmorTonnageChange={handleArmorTonnageChange}
+        onUseRemainingTonnage={handleUseRemainingTonnage}
+        onMaximizeArmor={handleMaximizeArmor}
+      />
 
       {/* Armor Efficiency Notification */}
       <ArmorEfficiencyNotification
@@ -715,107 +649,25 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
         </div>
 
         {/* Right: Side Panel Editor (1/3 width) */}
-        <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-          <h3 className="text-slate-100 font-medium mb-4">Armor Editor</h3>
-
-          {selectedSection ? (
-            <div className="space-y-4">
-              <div className="bg-slate-700/30 rounded p-3">
-                <h4 className="text-slate-200 font-medium mb-2">Editing: {selectedSection}</h4>
-                <div className="space-y-3">
-                  {/* Front and Rear Armor on same line */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Front Armor */}
-                    <div>
-                      <label className="block text-slate-300 text-xs mb-1">Front</label>
-                      <div className="flex items-center gap-1">
-                        <input
-                          type="number"
-                          min={0}
-                          max={getLocationMaxArmor(selectedSection)}
-                          value={armorAllocation[selectedSection as keyof typeof armorAllocation].front}
-                          onChange={(e) => handleArmorLocationChange(
-                            selectedSection,
-                            parseInt(e.target.value) || 0,
-                            armorAllocation[selectedSection as keyof typeof armorAllocation].rear
-                          )}
-                          disabled={readOnly}
-                          className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-                        />
-                        <span className="text-slate-400 text-xs">/{getLocationMaxArmor(selectedSection)}</span>
-                      </div>
-                    </div>
-
-                    {/* Rear Armor (only for torsos) */}
-                    {['CT', 'LT', 'RT'].includes(selectedSection) ? (
-                      <div>
-                        <label className="block text-slate-300 text-xs mb-1">Rear</label>
-                        <div className="flex items-center gap-1">
-                          <input
-                            type="number"
-                            min={0}
-                            max={Math.floor(getLocationMaxArmor(selectedSection) * 0.5)}
-                            value={armorAllocation[selectedSection as keyof typeof armorAllocation].rear}
-                            onChange={(e) => handleArmorLocationChange(
-                              selectedSection,
-                              armorAllocation[selectedSection as keyof typeof armorAllocation].front,
-                              parseInt(e.target.value) || 0
-                            )}
-                            disabled={readOnly}
-                            className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-slate-100 focus:border-blue-500 text-sm"
-                          />
-                          <span className="text-slate-400 text-xs">/{Math.floor(getLocationMaxArmor(selectedSection) * 0.5)}</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <label className="block text-slate-300 text-xs mb-1">Rear</label>
-                        <div className="flex items-center justify-center h-8 bg-slate-700/50 rounded text-slate-500 text-xs">
-                          N/A
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Quick Actions */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        const maxFront = getLocationMaxArmor(selectedSection);
-                        handleArmorLocationChange(selectedSection, maxFront, armorAllocation[selectedSection as keyof typeof armorAllocation].rear);
-                      }}
-                      disabled={readOnly}
-                      className="flex-1 px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded text-xs transition-colors"
-                    >
-                      Max Front
-                    </button>
-                    <button
-                      onClick={() => handleArmorLocationChange(selectedSection, 0, 0)}
-                      disabled={readOnly}
-                      className="flex-1 px-2 py-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white rounded text-xs transition-colors"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="text-center text-slate-400 py-8">
-              <p>Click an armor section on the diagram to edit its values</p>
-            </div>
-          )}
+        <div className="space-y-6">
+          {/* Armor Location Editor */}
+          <ArmorLocationEditor
+            selectedSection={selectedSection}
+            armorAllocation={armorAllocation}
+            getLocationMaxArmor={getLocationMaxArmor}
+            readOnly={readOnly}
+            onArmorLocationChange={handleArmorLocationChange}
+            onSectionSelect={setSelectedSection}
+          />
 
           {/* Armor Validation Panel */}
-          <div className="mt-6">
-            <ArmorValidationPanel
-              armorAllocation={armorAllocation}
-              getLocationMaxArmor={getLocationMaxArmor}
-              selectedSection={selectedSection}
-              onSectionSelect={setSelectedSection}
-              readOnly={readOnly}
-            />
-          </div>
+          <ArmorValidationPanel
+            armorAllocation={armorAllocation}
+            getLocationMaxArmor={getLocationMaxArmor}
+            selectedSection={selectedSection}
+            onSectionSelect={setSelectedSection}
+            readOnly={readOnly}
+          />
         </div>
       </div>
     </div>
