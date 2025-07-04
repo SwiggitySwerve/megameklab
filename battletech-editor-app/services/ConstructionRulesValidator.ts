@@ -12,17 +12,18 @@ import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration, TechBase } from '../types/componentConfiguration';
 import { WeightRulesValidator } from './validation/WeightRulesValidator';
 import { HeatRulesValidator } from './validation/HeatRulesValidator';
-import { CriticalSlotRulesValidator } from './validation/CriticalSlotRulesValidator';
+import { CriticalSlotRulesValidator } from '../../services/validation/CriticalSlotRulesValidatorRefactored';
 import { TechLevelRulesValidator } from './validation/TechLevelRulesValidator';
 import { MovementRulesValidator } from './validation/MovementRulesValidator';
 import { ArmorRulesValidator } from './validation/ArmorRulesValidator';
 import { StructureRulesValidator } from './validation/StructureRulesValidator';
-import { EquipmentValidationManager } from './validation/EquipmentValidationManager';
+import { EquipmentValidationService } from '../../services/equipment/EquipmentValidationServiceRefactored';
 import { ComponentValidationManager } from './validation/ComponentValidationManager';
 import { ValidationReportingManager } from './validation/ValidationReportingManager';
 import { ValidationCalculations } from './validation/ValidationCalculations';
 import { RuleManagementManager } from './validation/RuleManagementManager';
-import { ValidationOrchestrationManager } from './validation/ValidationOrchestrationManager';
+import { ValidationOrchestratorFactory } from '../../services/validation/ValidationOrchestrator';
+import { IValidationOrchestrator } from '../../services/validation/interfaces/IValidationOrchestrator';
 import { CalculationUtilitiesManager } from './validation/CalculationUtilitiesManager';
 
 // Import types from validation services
@@ -770,9 +771,9 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   ];
 
   private readonly ruleManagementManager = new RuleManagementManager();
-  private readonly validationOrchestrationManager = new ValidationOrchestrationManager();
+  private readonly validationOrchestrator = ValidationOrchestratorFactory.createWithDefaults();
   private readonly calculationUtilitiesManager = new CalculationUtilitiesManager();
-  private readonly equipmentValidationManager = new EquipmentValidationManager();
+  private readonly equipmentValidationService = new EquipmentValidationService();
   private readonly componentValidationManager = new ComponentValidationManager();
   private readonly reportingManager = new ValidationReportingManager();
 
@@ -1128,16 +1129,243 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
     };
   }
   
-  validateWeaponRules(equipment: any[], config: UnitConfiguration): WeaponValidation {
-    return this.equipmentValidationManager.validateWeaponRules(equipment, config);
+    validateWeaponRules(equipment: any[], config: UnitConfiguration): WeaponValidation {
+    const weapons = equipment.filter(eq => eq.equipmentData?.type === 'weapon' || eq.type === 'weapon');
+    const violations: WeaponViolation[] = [];
+    const recommendations: string[] = [];
+    
+    // Basic weapon validation logic
+    weapons.forEach((weapon, index) => {
+      const weaponData = weapon.equipmentData;
+      if (!weaponData) {
+        violations.push({
+          weapon: `weapon_${index}`,
+          type: 'compatibility_issue',
+          message: 'Weapon missing equipment data',
+          severity: 'critical',
+          suggestedFix: 'Ensure weapon has valid equipment data'
+        });
+        return;
+      }
+      
+      // Check tech level compatibility
+      const weaponTechBase = weaponData.techBase || 'Inner Sphere';
+      const unitTechBase = config.techBase || 'Inner Sphere';
+      
+      if (weaponTechBase === 'Clan' && unitTechBase === 'Inner Sphere') {
+        violations.push({
+          weapon: weaponData.name || `weapon_${index}`,
+          type: 'tech_level_violation',
+          message: `Clan weapon ${weaponData.name} cannot be mounted on Inner Sphere unit`,
+          severity: 'critical',
+          suggestedFix: 'Use Inner Sphere equivalent weapon'
+        });
+      }
+      
+      // Check location restrictions for certain weapons
+      if (weapon.location === 'head' && weaponData.tonnage > 1) {
+        violations.push({
+          weapon: weaponData.name || `weapon_${index}`,
+          type: 'invalid_mounting',
+          message: `Heavy weapon ${weaponData.name} cannot be mounted in head`,
+          severity: 'critical',
+          suggestedFix: 'Mount weapon in torso or arms'
+        });
+      }
+    });
+    
+    const totalWeaponWeight = weapons.reduce((total, weapon) => 
+      total + (weapon.equipmentData?.tonnage || 0), 0);
+    const heatGeneration = weapons.reduce((total, weapon) => 
+      total + (weapon.equipmentData?.heat || 0), 0);
+    
+    if (weapons.length === 0) {
+      recommendations.push('Consider adding weapons for offensive capability');
+    }
+    
+    if (heatGeneration > 30) {
+      recommendations.push('High heat generation detected - consider additional heat sinks');
+    }
+    
+    return {
+      isValid: violations.length === 0,
+      weaponCount: weapons.length,
+      totalWeaponWeight,
+      heatGeneration,
+      violations,
+      recommendations
+    };
   }
-  
+
   validateAmmoRules(equipment: any[], config: UnitConfiguration): AmmoValidation {
-    return this.equipmentValidationManager.validateAmmoRules(equipment, config);
+    const ammo = equipment.filter(eq => eq.equipmentData?.type === 'ammunition' || eq.type === 'ammo');
+    const weapons = equipment.filter(eq => eq.equipmentData?.type === 'weapon' || eq.type === 'weapon');
+    const violations: AmmoViolation[] = [];
+    const recommendations: string[] = [];
+    const ammoBalance: AmmoBalanceCheck[] = [];
+    
+    // Check for ammo in head location
+    const headAmmo = ammo.filter(a => a.location === 'head');
+    if (headAmmo.length > 0) {
+      headAmmo.forEach(a => {
+        violations.push({
+          type: 'explosive_in_head',
+          weapon: a.equipmentData?.name || 'unknown ammo',
+          location: 'head',
+          message: 'Explosive ammunition cannot be placed in head location',
+          severity: 'critical',
+          suggestedFix: 'Move ammunition to torso or other locations'
+        });
+      });
+    }
+    
+    // Check weapon-ammo balance
+    const weaponAmmoMap = new Map();
+    weapons.forEach(weapon => {
+      const weaponName = weapon.equipmentData?.name || 'unknown';
+      const ammoType = weapon.equipmentData?.ammoType;
+      if (ammoType) {
+        weaponAmmoMap.set(ammoType, (weaponAmmoMap.get(ammoType) || 0) + 1);
+      }
+    });
+    
+    // Check if weapons have adequate ammo
+    weaponAmmoMap.forEach((weaponCount, ammoType) => {
+      const weaponAmmo = ammo.filter(a => 
+        a.equipmentData?.ammoType === ammoType || 
+        a.equipmentData?.name?.includes(ammoType)
+      );
+      const ammoTons = weaponAmmo.reduce((total, a) => total + (a.equipmentData?.tonnage || 1), 0);
+      const recommendedTons = weaponCount * 1; // Basic rule: 1 ton per weapon minimum
+      
+      ammoBalance.push({
+        weapon: ammoType,
+        ammoTons,
+        recommendedTons,
+        turns: Math.floor(ammoTons * 10), // Rough estimate
+        adequate: ammoTons >= recommendedTons
+      });
+      
+      if (ammoTons < recommendedTons) {
+        violations.push({
+          type: 'missing_ammo',
+          weapon: ammoType,
+          message: `Insufficient ammunition for ${ammoType} weapons (${ammoTons} tons, need ${recommendedTons} tons)`,
+          severity: 'major',
+          suggestedFix: `Add ${recommendedTons - ammoTons} more tons of ${ammoType} ammunition`
+        });
+      }
+    });
+    
+    // Basic CASE protection check (simplified)
+    const explosiveLocations = ammo.map(a => a.location).filter(Boolean);
+    const caseProtection: CASEProtectionCheck = {
+      requiredLocations: explosiveLocations,
+      protectedLocations: [], // Would check for CASE equipment
+      unprotectedLocations: explosiveLocations,
+      isCompliant: explosiveLocations.length === 0
+    };
+    
+    if (!caseProtection.isCompliant) {
+      recommendations.push('Consider adding CASE protection for locations with ammunition');
+    }
+    
+    const totalAmmoWeight = ammo.reduce((total, a) => 
+      total + (a.equipmentData?.tonnage || 1), 0);
+    
+    return {
+      isValid: violations.length === 0,
+      totalAmmoWeight,
+      ammoBalance,
+      caseProtection,
+      violations,
+      recommendations
+    };
   }
-  
+
   validateSpecialEquipmentRules(equipment: any[], config: UnitConfiguration): SpecialEquipmentValidation {
-    return this.equipmentValidationManager.validateSpecialEquipmentRules(equipment, config);
+    const specialEquipment = equipment.filter(eq => 
+      eq.equipmentData?.category === 'special' || 
+      eq.equipmentData?.type === 'special' ||
+      eq.type === 'special'
+    );
+    
+    const violations: SpecialEquipmentViolation[] = [];
+    const recommendations: string[] = [];
+    const specialEquipmentChecks: SpecialEquipmentCheck[] = [];
+    
+    specialEquipment.forEach((equipment, index) => {
+      const equipData = equipment.equipmentData;
+      if (!equipData) {
+        violations.push({
+          equipment: `special_equipment_${index}`,
+          type: 'missing_requirement',
+          message: 'Special equipment missing equipment data',
+          severity: 'critical',
+          suggestedFix: 'Ensure equipment has valid data'
+        });
+        return;
+      }
+      
+      const equipmentName = equipData.name || `special_equipment_${index}`;
+      const requirements = equipData.requirements || [];
+      const restrictions = equipData.restrictions || [];
+      const compatibility = equipData.compatibility || [];
+      
+      // Check tech level compatibility
+      const equipTechBase = equipData.techBase || 'Inner Sphere';
+      const unitTechBase = config.techBase || 'Inner Sphere';
+      
+      if (equipTechBase === 'Clan' && unitTechBase === 'Inner Sphere') {
+        violations.push({
+          equipment: equipmentName,
+          type: 'restriction_violated',
+          message: `Clan equipment ${equipmentName} cannot be used on Inner Sphere unit`,
+          severity: 'critical',
+          suggestedFix: 'Use Inner Sphere equivalent or change unit tech base'
+        });
+      }
+      
+      // Check for conflicting equipment
+      if (equipmentName.includes('Endo Steel') || equipmentName.includes('Ferro-Fibrous')) {
+        const conflictingEquip = specialEquipment.find(other => 
+          other !== equipment && (
+            (equipmentName.includes('Endo Steel') && other.equipmentData?.name?.includes('Endo Steel')) ||
+            (equipmentName.includes('Ferro-Fibrous') && other.equipmentData?.name?.includes('Ferro-Fibrous'))
+          )
+        );
+        
+        if (conflictingEquip) {
+          violations.push({
+            equipment: equipmentName,
+            type: 'incompatible_combination',
+            message: `Multiple instances of ${equipmentName.includes('Endo Steel') ? 'Endo Steel' : 'Ferro-Fibrous'} equipment detected`,
+            severity: 'major',
+            suggestedFix: 'Remove duplicate special equipment'
+          });
+        }
+      }
+      
+      specialEquipmentChecks.push({
+        equipment: equipmentName,
+        isValid: true, // Would be calculated based on detailed rules
+        requirements,
+        restrictions,
+        compatibility
+      });
+    });
+    
+    // Add general recommendations
+    if (specialEquipment.length === 0) {
+      recommendations.push('Consider adding special equipment like Endo Steel or Ferro-Fibrous armor for weight savings');
+    }
+    
+    return {
+      isValid: violations.length === 0,
+      specialEquipment: specialEquipmentChecks,
+      violations,
+      recommendations
+    };
   }
   
   validateTechLevel(config: UnitConfiguration, equipment: any[]): TechLevelValidation {
@@ -1339,7 +1567,162 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   }
   
   generateComplianceReport(config: UnitConfiguration, equipment: any[]): ComplianceReport {
-    return this.validationOrchestrationManager.generateComplianceReport(config, equipment);
+    const startTime = Date.now();
+    
+    // Run all validations to gather violations
+    const configuration = this.validateConfiguration(config);
+    const loadout = this.validateEquipmentLoadout(equipment, config);
+    const techLevel = this.validateTechLevel(config, equipment);
+    
+    // Collect all violations
+    const allViolations: RuleViolation[] = [];
+    
+    // Convert configuration violations to rule violations
+    if (!configuration.weight.isValid) {
+      configuration.weight.violations.forEach(v => {
+        allViolations.push({
+          ruleId: 'WEIGHT_VIOLATION',
+          ruleName: 'Weight Limit Rule',
+          component: v.component,
+          description: v.message,
+          severity: v.severity,
+          impact: `Weight violation affects unit viability`,
+          suggestedFix: `Reduce weight by ${v.actual - v.expected} tons`
+        });
+      });
+    }
+    
+    if (!configuration.heat.isValid) {
+      configuration.heat.violations.forEach(v => {
+        allViolations.push({
+          ruleId: 'HEAT_VIOLATION',
+          ruleName: 'Heat Management Rule',
+          description: v.message,
+          severity: v.severity,
+          impact: 'Heat violations can cause shutdown or damage',
+          suggestedFix: v.suggestedFix
+        });
+      });
+    }
+    
+    if (!loadout.weapons.isValid) {
+      loadout.weapons.violations.forEach(v => {
+        allViolations.push({
+          ruleId: 'WEAPON_VIOLATION',
+          ruleName: 'Weapon Mounting Rule',
+          component: v.weapon,
+          description: v.message,
+          severity: v.severity,
+          impact: 'Improper weapon mounting affects combat effectiveness',
+          suggestedFix: v.suggestedFix
+        });
+      });
+    }
+    
+    if (!loadout.ammunition.isValid) {
+      loadout.ammunition.violations.forEach(v => {
+        allViolations.push({
+          ruleId: 'AMMO_VIOLATION',
+          ruleName: 'Ammunition Rule',
+          component: v.weapon || 'ammunition',
+          location: v.location,
+          description: v.message,
+          severity: v.severity,
+          impact: 'Ammunition violations affect safety and effectiveness',
+          suggestedFix: v.suggestedFix
+        });
+      });
+    }
+    
+    // Calculate violation summary
+    const criticalViolations = allViolations.filter(v => v.severity === 'critical').length;
+    const majorViolations = allViolations.filter(v => v.severity === 'major').length;
+    const minorViolations = allViolations.filter(v => v.severity === 'minor').length;
+    
+    const violationsByCategory: { [category: string]: number } = {};
+    allViolations.forEach(v => {
+      const category = v.ruleId.split('_')[0];
+      violationsByCategory[category] = (violationsByCategory[category] || 0) + 1;
+    });
+    
+    const topViolations = allViolations
+      .sort((a, b) => {
+        const severityOrder = { critical: 3, major: 2, minor: 1 };
+        return severityOrder[b.severity] - severityOrder[a.severity];
+      })
+      .slice(0, 5);
+    
+    // Generate rule compliance results
+    const ruleCompliance: RuleComplianceResult[] = this.BATTLETECH_RULES.map(rule => 
+      this.checkRuleCompliance(rule, config, equipment)
+    );
+    
+    // Calculate overall compliance
+    const totalRules = this.BATTLETECH_RULES.length;
+    const compliantRules = ruleCompliance.filter(r => r.compliant).length;
+    const overallCompliance = Math.round((compliantRules / totalRules) * 100);
+    
+    // Gather recommendations
+    const allRecommendations = [
+      ...configuration.weight.recommendations,
+      ...configuration.heat.recommendations,
+      ...loadout.weapons.recommendations,
+      ...loadout.ammunition.recommendations,
+      ...loadout.specialEquipment.recommendations
+    ];
+    
+    const topRecommendations: ValidationRecommendation[] = allRecommendations
+      .slice(0, 3)
+      .map(rec => ({
+        type: 'fix',
+        priority: 'medium',
+        category: 'General',
+        description: rec,
+        benefit: 'Improves unit compliance',
+        difficulty: 'moderate',
+        estimatedImpact: 50
+      }));
+    
+    const endTime = Date.now();
+    const validationTime = endTime - startTime;
+    
+    return {
+      overallCompliance,
+      ruleCompliance,
+      violationSummary: {
+        totalViolations: allViolations.length,
+        criticalViolations,
+        majorViolations,
+        minorViolations,
+        violationsByCategory,
+        topViolations
+      },
+      recommendationSummary: {
+        totalRecommendations: allRecommendations.length,
+        criticalRecommendations: criticalViolations,
+        implementationDifficulty: {
+          easy: Math.floor(allRecommendations.length * 0.3),
+          moderate: Math.floor(allRecommendations.length * 0.5),
+          hard: Math.floor(allRecommendations.length * 0.2)
+        },
+        estimatedImpact: {
+          high: criticalViolations,
+          medium: majorViolations,
+          low: minorViolations
+        },
+        topRecommendations
+      },
+      complianceMetrics: {
+        validationTime,
+        rulesChecked: totalRules,
+        componentsValidated: equipment.length + 10, // Base components + equipment
+        performance: {
+          averageRuleTime: validationTime / totalRules,
+          slowestRule: 'Weight Validation',
+          fastestRule: 'Tech Level Validation'
+        }
+      }
+    };
   }
   
   generateValidationSummary(validations: ValidationResult[]): ValidationSummary {

@@ -4,7 +4,7 @@
  * Validates critical slot allocation, component placement, and location-specific restrictions.
  */
 
-import { CriticalSlotRulesValidator } from '../../../services/validation/CriticalSlotRulesValidator'
+import { CriticalSlotRulesValidator } from '../../../../services/validation/CriticalSlotRulesValidatorRefactored'
 import { UnitConfiguration } from '../../../utils/criticalSlots/UnitCriticalManager'
 
 // Helper function to create test unit configuration

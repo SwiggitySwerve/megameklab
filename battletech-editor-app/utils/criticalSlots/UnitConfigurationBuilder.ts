@@ -11,7 +11,7 @@ import {
   ArmorType, 
   HeatSinkType 
 } from './UnitCriticalManagerTypes'
-import { calculateInternalHeatSinks } from '../heatSinkCalculations';
+import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations';
 
 /**
  * Utility functions for unit configuration
@@ -181,7 +181,6 @@ export class UnitConfigurationBuilder {
    * Calculate internal heat sinks based on engine rating and type
    */
   private static calculateInternalHeatSinksForEngine(engineRating: number, engineType: EngineType): number {
-    const { calculateInternalHeatSinksForEngine } = require('../heatSinkCalculations');
     return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
   

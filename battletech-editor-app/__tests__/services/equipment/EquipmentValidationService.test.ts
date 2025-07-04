@@ -4,7 +4,8 @@
  * Comprehensive test suite for equipment validation logic and BattleTech rules enforcement
  */
 
-import { EquipmentValidationService, ValidationResult } from '../../../services/equipment/EquipmentValidationService';
+import { EquipmentValidationService } from '../../../../services/equipment/EquipmentValidationServiceRefactored';
+import { ValidationResult } from '../../../../services/equipment/validation/EquipmentValidationTypes';
 import { UnitConfiguration } from '../../../utils/criticalSlots/UnitCriticalManager';
 import { EquipmentPlacement } from '../../../services/equipment/PlacementCalculationService';
 

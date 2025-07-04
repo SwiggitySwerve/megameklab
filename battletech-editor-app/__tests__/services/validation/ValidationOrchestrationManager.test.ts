@@ -3,7 +3,8 @@
  * Tests validation orchestration, workflow management, and reporting functionality.
  */
 
-import { ValidationOrchestrationManager, ValidationOrchestrationResult } from '../../../services/validation/ValidationOrchestrationManager';
+import { ValidationOrchestrationManager } from '../../../../services/validation/ValidationOrchestrationManagerRefactored';
+import { ValidationOrchestrationResult } from '../../../../services/validation/orchestration/ValidationOrchestrationTypes';
 import { UnitConfiguration } from '../../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../../types/componentConfiguration';
 
