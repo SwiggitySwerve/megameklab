@@ -292,7 +292,6 @@ export class RuleManagementManager {
         });
       } else {
         const bonus = this.getComplianceBonus(result.rule.severity);
-        totalScore += bonus;
         bonuses.push({
           feature: result.rule.name,
           bonus,
@@ -704,10 +703,13 @@ export class RuleManagementManager {
    */
   private calculateTotalWeight(config: UnitConfiguration, equipment: any[]): number {
     const structureWeight = this.calculateStructureWeight(config.tonnage, this.extractComponentType(config.structureType));
-    const armorWeight = this.calculateArmorWeight(this.calculateMaxArmor(config.tonnage), this.extractComponentType(config.armorType));
+    
+    // Use actual armor tonnage from config, fallback to calculated if not available
+    const armorWeight = config.armorTonnage || this.calculateArmorWeight(this.calculateTotalArmor(config, equipment), this.extractComponentType(config.armorType));
+    
     const engineWeight = this.calculateEngineWeight(config.engineRating, this.extractComponentType(config.engineType));
     const gyroWeight = this.calculateGyroWeight(config.engineRating, this.extractComponentType(config.gyroType));
-    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType(config.cockpitType));
+    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType(config.cockpitType || 'Standard'));
     const equipmentWeight = equipment.reduce((sum, item) => sum + (item.weight || 0), 0);
 
     return structureWeight + armorWeight + engineWeight + gyroWeight + cockpitWeight + equipmentWeight;
@@ -746,7 +748,17 @@ export class RuleManagementManager {
    * Calculate total armor
    */
   private calculateTotalArmor(config: UnitConfiguration, equipment: any[]): number {
-    // Simplified armor calculation
+    // Calculate armor from config.armorAllocation if available
+    if (config.armorAllocation) {
+      let totalArmor = 0;
+      Object.values(config.armorAllocation).forEach(armor => {
+        totalArmor += armor.front || 0;
+        totalArmor += armor.rear || 0;
+      });
+      return totalArmor;
+    }
+    
+    // Fallback to simplified armor calculation
     return this.calculateMaxArmor(config.tonnage) * 0.8; // Assume 80% armor allocation
   }
 
