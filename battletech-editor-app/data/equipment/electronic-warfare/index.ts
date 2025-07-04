@@ -1,5 +1,5 @@
-import { Equipment } from './types';
-import { TARGETING_COMPUTERS } from './targeting-computers';
+import { Equipment } from '../types';
+import { TARGETING_COMPUTERS } from '../targeting-computers';
 
 export const GUARDIAN_ECM: Equipment = {
   id: 'guardian_ecm',
