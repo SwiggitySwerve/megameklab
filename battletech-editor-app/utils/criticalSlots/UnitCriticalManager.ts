@@ -269,7 +269,7 @@ export class UnitCriticalManager {
     
     this.serializationManager = new UnitSerializationManager()
     this.calculationManager = new UnitCalculationManager();
-    this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment);
+    this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment, this);
   }
 
   /**

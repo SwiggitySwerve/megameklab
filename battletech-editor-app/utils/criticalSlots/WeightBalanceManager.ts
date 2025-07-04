@@ -87,149 +87,67 @@ export class WeightBalanceManager {
   }
 
   /**
-   * Get maximum armor points based on unit configuration
+   * Get maximum armor points based on unit configuration using official BattleTech rules
    */
   getMaxArmorPoints(): number {
     const tonnage = this.configuration.tonnage
-    const structureType = this.getStructureTypeString()
     
-    // Calculate internal structure points based on tonnage
-    let internalStructurePoints = 0
-    if (tonnage <= 20) {
-      internalStructurePoints = 3
-    } else if (tonnage <= 35) {
-      internalStructurePoints = 4
-    } else if (tonnage <= 55) {
-      internalStructurePoints = 5
-    } else if (tonnage <= 75) {
-      internalStructurePoints = 6
-    } else if (tonnage <= 100) {
-      internalStructurePoints = 7
-    } else {
-      internalStructurePoints = 8
-    }
-
-    // Apply structure type modifiers
-    switch (structureType) {
-      case 'Standard':
-        return internalStructurePoints * 2
-      case 'Endo Steel':
-        return internalStructurePoints * 2
-      case 'Endo Steel (Clan)':
-        return internalStructurePoints * 2
-      case 'Composite':
-        return internalStructurePoints * 2
-      case 'Reinforced':
-        return internalStructurePoints * 2
-      case 'Industrial':
-        return internalStructurePoints * 2
-      default:
-        return internalStructurePoints * 2
+    // Use the official BattleTech internal structure calculation
+    const { getMaxArmorPoints } = require('../internalStructureTable')
+    
+    try {
+      return getMaxArmorPoints(tonnage)
+    } catch (error) {
+      // Fallback for invalid tonnages or missing table data
+      console.warn(`[WeightBalanceManager] Could not get max armor points for ${tonnage} tons, using fallback calculation`)
+      
+      // Fallback calculation for non-standard tonnages
+      const baseInternalStructurePoints = Math.max(3, Math.min(8, Math.floor(tonnage / 10)))
+      const headMaxArmor = 9
+      const otherLocationMaxArmor = baseInternalStructurePoints * 2
+      return headMaxArmor + (7 * otherLocationMaxArmor)
     }
   }
 
   /**
-   * Get internal structure points for each location
+   * Get internal structure points for each location using official BattleTech rules
    */
   getInternalStructurePoints(): Record<string, number> {
     const tonnage = this.configuration.tonnage
-    const structureType = this.getStructureTypeString()
     
-    // Calculate base internal structure points
-    let basePoints = 0
-    if (tonnage <= 20) {
-      basePoints = 3
-    } else if (tonnage <= 35) {
-      basePoints = 4
-    } else if (tonnage <= 55) {
-      basePoints = 5
-    } else if (tonnage <= 75) {
-      basePoints = 6
-    } else if (tonnage <= 100) {
-      basePoints = 7
-    } else {
-      basePoints = 8
-    }
-
-    // Apply structure type modifiers
-    switch (structureType) {
-      case 'Standard':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      case 'Endo Steel':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      case 'Endo Steel (Clan)':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      case 'Composite':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      case 'Reinforced':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      case 'Industrial':
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
-      default:
-        return {
-          'Head': basePoints,
-          'Center Torso': basePoints,
-          'Left Torso': basePoints,
-          'Right Torso': basePoints,
-          'Left Arm': basePoints,
-          'Right Arm': basePoints,
-          'Left Leg': basePoints,
-          'Right Leg': basePoints
-        }
+    // Use the official BattleTech internal structure table
+    const { getInternalStructurePoints } = require('../internalStructureTable')
+    
+    try {
+      const structure = getInternalStructurePoints(tonnage)
+      
+      // Convert to the expected format with full location names
+      return {
+        'Head': structure.HD,
+        'Center Torso': structure.CT,
+        'Left Torso': structure.LT,
+        'Right Torso': structure.RT,
+        'Left Arm': structure.LA,
+        'Right Arm': structure.RA,
+        'Left Leg': structure.LL,
+        'Right Leg': structure.RL
+      }
+    } catch (error) {
+      // Fallback for invalid tonnages or missing table data
+      console.warn(`[WeightBalanceManager] Could not get internal structure for ${tonnage} tons, using fallback calculation`)
+      
+      // Fallback calculation for non-standard tonnages
+      const basePoints = Math.max(3, Math.min(8, Math.floor(tonnage / 10)))
+      return {
+        'Head': 3, // Head is always 3 internal structure points
+        'Center Torso': basePoints,
+        'Left Torso': basePoints,
+        'Right Torso': basePoints,
+        'Left Arm': basePoints,
+        'Right Arm': basePoints,
+        'Left Leg': basePoints,
+        'Right Leg': basePoints
+      }
     }
   }
 
