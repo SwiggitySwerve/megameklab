@@ -209,7 +209,8 @@ export class HeatRulesValidator {
     const engineType = config.engineType || 'Standard';
     
     // Engine heat sinks are based on engine rating, max 10
-    let engineHeatSinks = Math.min(10, Math.floor(engineRating / 25));
+    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
+  let engineHeatSinks = calculateInternalHeatSinks(engineRating);
     
     // Some engine types affect heat sink integration
     if (engineType.includes('XL')) {

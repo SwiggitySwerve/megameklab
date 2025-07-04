@@ -27,7 +27,8 @@ const HeatSinksPanel: React.FC<HeatSinksPanelProps> = ({
     if (engineType === 'ice' || engineType === 'fuel_cell') return 0;
     
     // Engine rating / 25, rounded down, max 10
-    return Math.min(10, Math.floor(engineRating / 25));
+    const { calculateInternalHeatSinks } = require('../../../utils/heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
   }, [engineRating, unit.data?.engine?.type]);
 
   // Get heat sink type and properties

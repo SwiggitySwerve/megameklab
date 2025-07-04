@@ -304,7 +304,8 @@ export class CalculationUtilitiesManager {
    */
   private getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating;
-    return Math.floor(engineRating / 25); // 1 heat sink per 25 engine rating
+    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
   }
 
   /**
@@ -362,21 +363,8 @@ export class CalculationUtilitiesManager {
    * Calculate engine weight
    */
   private calculateEngineWeight(engineRating: number, engineType: string): number {
-    const baseWeight = engineRating * 0.0625; // 1/16 ton per rating
-    switch (engineType) {
-      case 'XL':
-      case 'XL (IS)':
-      case 'XL (Clan)':
-        return baseWeight * 0.5;
-      case 'Light':
-        return baseWeight * 0.75;
-      case 'XXL':
-        return baseWeight * 0.25;
-      case 'Compact':
-        return baseWeight * 1.5;
-      default:
-        return baseWeight;
-    }
+    const { calculateEngineWeight } = require('../../utils/engineCalculations');
+    return calculateEngineWeight(engineRating, 100, engineType as any);
   }
 
   /**

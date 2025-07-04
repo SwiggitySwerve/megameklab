@@ -815,7 +815,8 @@ export class AutoAllocationEngine {
 
   private static getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    return Math.min(10, Math.floor(engineRating / 25));
+    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
   }
 
   private static findBestHeatSinkPlacement(

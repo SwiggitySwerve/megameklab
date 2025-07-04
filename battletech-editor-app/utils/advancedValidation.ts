@@ -2,6 +2,10 @@
 import { EditableUnit, ValidationResult, ValidationError } from '../types/editor';
 import { FullEquipment } from '../types/index';
 import { WeaponRangeValidator } from './weaponRangeValidation';
+import { calculateEngineWeight } from './engineCalculations';
+import { calculateStructureWeight } from './structureCalculations';
+import { calculateInternalHeatSinks } from './heatSinkCalculations';
+import { calculateArmorWeight } from './armorCalculations';
 
 export interface ValidationContext {
   strictMode: boolean;           // Enforce tournament legal rules
@@ -388,15 +392,16 @@ function getWeaponMaxRange(weapon: FullEquipment): number {
 }
 
 function estimateUsedTonnage(unit: EditableUnit): number {
-  // Simplified tonnage calculation
   let usedTonnage = 0;
   
-  // Engine weight (approximate)
+  // Engine weight
   const engineRating = unit.data.engine?.rating || 0;
-  usedTonnage += Math.ceil(engineRating / 25);
+  const engineType = unit.data.engine?.type || 'Standard';
+  usedTonnage += calculateEngineWeight(engineRating, unit.mass, engineType as any);
   
-  // Structure weight (approximate)
-  usedTonnage += Math.ceil(unit.mass / 10);
+  // Structure weight
+  const structureType = unit.data.structure?.type || 'Standard';
+  usedTonnage += calculateStructureWeight(unit.mass, structureType as any);
   
   // Equipment weight
   unit.equipmentPlacements?.forEach(eq => {
@@ -404,11 +409,12 @@ function estimateUsedTonnage(unit: EditableUnit): number {
     usedTonnage += Number(weight);
   });
   
-  // Armor weight (approximate)
+  // Armor weight
   const totalArmor = Object.values(unit.armorAllocation || {}).reduce(
     (sum, alloc) => sum + alloc.front + (alloc.rear || 0), 0
   );
-  usedTonnage += Math.ceil(totalArmor / 16); // Standard armor points per ton
+  const armorType = unit.data.armor?.type || 'Standard';
+  usedTonnage += calculateArmorWeight(totalArmor, armorType as any);
   
   return usedTonnage;
 }

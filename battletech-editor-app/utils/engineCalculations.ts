@@ -86,7 +86,8 @@ export function calculateIntegratedHeatSinks(engineRating: number, engineType: E
   }
   
   // Smaller engines get fewer integrated heat sinks
-  return Math.floor(engineRating / 25);
+  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
 }
 
 /**

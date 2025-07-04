@@ -120,9 +120,9 @@ describe('MovementRulesValidator', () => {
   describe('calculateEngineWeight', () => {
     test('should calculate standard engine weights correctly', () => {
       const testCases = [
-        { rating: 100, type: 'Standard', expectedWeight: 5 },
-        { rating: 200, type: 'Standard', expectedWeight: 10 },
-        { rating: 300, type: 'Standard', expectedWeight: 15 }
+        { rating: 100, type: 'Standard', expectedWeight: 10 }, // (100 * 100) / 1000 = 10
+        { rating: 200, type: 'Standard', expectedWeight: 20 }, // (200 * 100) / 1000 = 20
+        { rating: 300, type: 'Standard', expectedWeight: 30 }  // (300 * 100) / 1000 = 30
       ];
       
       testCases.forEach(({ rating, type, expectedWeight }) => {
@@ -133,7 +133,7 @@ describe('MovementRulesValidator', () => {
 
     test('should apply XL engine weight reduction', () => {
       const standardWeight = MovementRulesValidator.calculateEngineWeight(260, 'Standard');
-      const xlWeight = MovementRulesValidator.calculateEngineWeight(260, 'XL');
+      const xlWeight = MovementRulesValidator.calculateEngineWeight(260, 'XL (IS)');
       
       expect(xlWeight).toBe(standardWeight * 0.5);
     });

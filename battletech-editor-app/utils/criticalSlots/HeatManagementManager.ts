@@ -89,7 +89,8 @@ export class HeatManagementManager {
     const engineRating = this.configuration.engineRating
     
     // Standard BattleTech rule: base heat sinks = engine rating / 25
-    const baseInternalHeatSinks = Math.floor(engineRating / 25)
+    const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
+  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating)
     
     // Minimum of 10 internal heat sinks
     return Math.max(10, baseInternalHeatSinks)

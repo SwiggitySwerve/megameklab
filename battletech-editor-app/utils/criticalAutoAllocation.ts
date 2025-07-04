@@ -65,7 +65,8 @@ export const initializeCriticalSlots = (
   const locations: LocationCriticalSlots[] = [];
   
   // Calculate engine slots (varies by rating)
-  const engineSlots = Math.ceil(engineRating / 25);
+  const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
+  const engineSlots = calculateInternalHeatSinks(engineRating);
   
   // Head slots
   const headSlots = Array(slotCounts[MECH_LOCATIONS.HEAD]).fill(null).map((_, index) => ({

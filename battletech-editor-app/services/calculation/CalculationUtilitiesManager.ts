@@ -78,7 +78,8 @@ export class CalculationUtilitiesManager {
    * Calculate internal heat sinks from engine rating
    */
   calculateInternalHeatSinks(engineRating: number): CalculationResult {
-    const internalHeatSinks = Math.floor(engineRating / 25);
+    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
+  const internalHeatSinks = calculateInternalHeatSinks(engineRating);
     
     return {
       value: internalHeatSinks,

@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { getInternalStructurePoints, getMaxArmorPointsForLocation } from '../../utils/internalStructureTable';
 
 export interface ArmorValidation {
   isValid: boolean;
@@ -232,21 +233,23 @@ export class ArmorRulesValidator {
    * Calculate maximum armor for a specific location
    */
   private static calculateLocationMaxArmor(tonnage: number, locationType: string): number {
-    const internalStructure = Math.ceil(tonnage / 10);
+    // Map location types to internal structure table location names
+    const locationMap: Record<string, string> = {
+      'head': 'HD',
+      'centerTorso': 'CT',
+      'sideTorso': 'LT', // Use left torso as reference for side torsos
+      'arm': 'LA', // Use left arm as reference for arms
+      'leg': 'LL' // Use left leg as reference for legs
+    };
     
-    switch (locationType) {
-      case 'head':
-        return 9; // Always 9 for head
-      case 'centerTorso':
-        return internalStructure * 2; // CT gets full armor
-      case 'sideTorso':
-        return Math.ceil(internalStructure * 1.5); // Side torsos get 1.5x IS
-      case 'arm':
-      case 'leg':
-        return internalStructure; // Arms and legs get 1x IS
-      default:
-        return internalStructure;
+    const locationKey = locationMap[locationType];
+    if (!locationKey) {
+      // Fallback for unknown location types
+      const structure = getInternalStructurePoints(tonnage);
+      return structure.CT * 2; // Default to center torso max
     }
+    
+    return getMaxArmorPointsForLocation(tonnage, locationKey);
   }
   
   /**

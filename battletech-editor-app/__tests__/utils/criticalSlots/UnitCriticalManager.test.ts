@@ -30,16 +30,33 @@ jest.mock('../../../utils/armorCalculations', () => ({
 }));
 
 jest.mock('../../../utils/internalStructureTable', () => ({
-  getInternalStructurePoints: jest.fn((tonnage: number) => ({
-    HD: 3,
-    CT: Math.floor(tonnage / 10) * 2,
-    LT: Math.floor(tonnage / 10),
-    RT: Math.floor(tonnage / 10),
-    LA: Math.floor(tonnage / 10),
-    RA: Math.floor(tonnage / 10),
-    LL: Math.floor(tonnage / 10),
-    RL: Math.floor(tonnage / 10)
-  }))
+  getInternalStructurePoints: jest.fn((tonnage: number) => {
+    // Use official BattleTech internal structure values for common test tonnages
+    const structureTable: Record<number, any> = {
+      25: { HD: 3, CT: 8, LT: 6, RT: 6, LA: 4, RA: 4, LL: 6, RL: 6 },
+      50: { HD: 3, CT: 16, LT: 11, RT: 11, LA: 9, RA: 9, LL: 11, RL: 11 },
+      75: { HD: 3, CT: 24, LT: 17, RT: 17, LA: 13, RA: 13, LL: 17, RL: 17 },
+      100: { HD: 3, CT: 32, LT: 21, RT: 21, LA: 17, RA: 17, LL: 21, RL: 21 }
+    };
+    
+    // Return official values if available, otherwise use a reasonable fallback
+    if (structureTable[tonnage]) {
+      return structureTable[tonnage];
+    }
+    
+    // Fallback for other tonnages (simplified but reasonable)
+    const basePoints = Math.max(3, Math.min(8, Math.floor(tonnage / 10)));
+    return {
+      HD: 3,
+      CT: basePoints * 2,
+      LT: basePoints,
+      RT: basePoints,
+      LA: basePoints,
+      RA: basePoints,
+      LL: basePoints,
+      RL: basePoints
+    };
+  })
 }));
 
 jest.mock('../../../utils/jumpJetCalculations', () => ({

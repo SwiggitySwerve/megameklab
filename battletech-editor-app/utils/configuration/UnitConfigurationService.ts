@@ -4,6 +4,8 @@
  * Following SOLID principles - Single Responsibility for configuration management
  */
 
+import { getInternalStructurePoints } from '../internalStructureTable';
+
 // Import types from the existing UnitCriticalManager
 export type EngineType = 'Standard' | 'XL' | 'Clan XL' | 'Light' | 'Clan Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell';
 export type GyroType = 'Standard' | 'XL' | 'Compact' | 'Heavy-Duty';
@@ -504,12 +506,8 @@ export class UnitConfigurationService {
     }
     
     // Fusion engines include 10 heat sinks for ratings 250+
-    if (engineRating >= 250) {
-      return 10;
-    }
-    
-    // Smaller engines get fewer integrated heat sinks
-    return Math.floor(engineRating / 25);
+    const { calculateInternalHeatSinks } = require('../heatSinkCalculations');
+    return calculateInternalHeatSinks(engineRating);
   }
   
   private calculateArmorValues(config: UnitConfiguration): {
@@ -570,21 +568,18 @@ export class UnitConfigurationService {
   }
   
   private getInternalStructurePoints(tonnage: number): Record<string, number> {
-    // Simplified internal structure calculation
-    // In a real implementation, this would use the official BattleTech table
-    const baseCT = Math.floor(tonnage / 10) + 3;
-    const baseSide = Math.floor(baseCT * 0.8);
-    const baseLimb = Math.floor(baseCT * 0.6);
+    // Use official BattleTech internal structure table
+    const structure = getInternalStructurePoints(tonnage);
     
     return {
-      HD: 3,
-      CT: baseCT,
-      LT: baseSide,
-      RT: baseSide,
-      LA: baseLimb,
-      RA: baseLimb,
-      LL: baseLimb,
-      RL: baseLimb
+      HD: structure.HD,
+      CT: structure.CT,
+      LT: structure.LT,
+      RT: structure.RT,
+      LA: structure.LA,
+      RA: structure.RA,
+      LL: structure.LL,
+      RL: structure.RL
     };
   }
   

@@ -1,17 +1,18 @@
 import { EditableUnit, ArmorType } from '../types/editor';
+import { getMaxArmorPointsForLocation } from './internalStructureTable';
 
-// Maximum armor formulas based on location and tonnage
+// Maximum armor formulas based on official BattleTech internal structure table
 export const ARMOR_MAX_FORMULAS = {
   head: () => 9, // Always 9 for head
-  center_torso: (tonnage: number) => Math.floor(tonnage * 2 * 0.32), // 32% of max armor
-  left_torso: (tonnage: number) => Math.floor(tonnage * 2 * 0.24), // 24% of max armor
-  right_torso: (tonnage: number) => Math.floor(tonnage * 2 * 0.24), // 24% of max armor
-  left_arm: (tonnage: number) => Math.floor(tonnage * 2 * 0.16), // 16% of max armor
-  right_arm: (tonnage: number) => Math.floor(tonnage * 2 * 0.16), // 16% of max armor
-  left_leg: (tonnage: number) => Math.floor(tonnage * 2 * 0.24), // 24% of max armor
-  right_leg: (tonnage: number) => Math.floor(tonnage * 2 * 0.24), // 24% of max armor
+  center_torso: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'CT'),
+  left_torso: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'LT'),
+  right_torso: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'RT'),
+  left_arm: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'LA'),
+  right_arm: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'RA'),
+  left_leg: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'LL'),
+  right_leg: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'RL'),
   // Special locations for non-biped mechs
-  center_leg: (tonnage: number) => Math.floor(tonnage * 2 * 0.24), // For tripods
+  center_leg: (tonnage: number) => getMaxArmorPointsForLocation(tonnage, 'LL'), // Use leg as reference for tripods
 };
 
 // Get maximum armor points for a location

@@ -380,12 +380,8 @@ function calculateInternalHeatSinks(engineRating: number, engineType: string): n
   }
   
   // Fusion engines include 10 heat sinks for ratings 250+
-  if (engineRating >= 250) {
-    return 10
-  }
-  
-  // Smaller engines get fewer integrated heat sinks
-  return Math.floor(engineRating / 25)
+  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating)
 }
 
 /**

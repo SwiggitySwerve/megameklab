@@ -157,11 +157,8 @@ export { ARMOR_SLOT_REQUIREMENTS } from '../utils/armorCalculations';
 // Heat sink calculations
 export function calculateIntegratedHeatSinks(engineRating: number): number {
   // Fusion engines include 10 heat sinks, +1 per 25 rating above 250
-  if (engineRating >= 250) {
-    return 10;
-  }
-  // Smaller engines get fewer integrated heat sinks
-  return Math.floor(engineRating / 25);
+  const { calculateInternalHeatSinks } = require('../utils/heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
 }
 
 export function calculateExternalHeatSinks(total: number, engineRating: number): number {

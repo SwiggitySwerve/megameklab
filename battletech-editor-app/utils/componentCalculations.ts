@@ -290,7 +290,8 @@ export function calculateComponentCrits(unit: any): ComponentCrits {
   }
   
   // Heat sink crits (only for extras beyond engine capacity)
-  const engineCapacity = Math.floor(engineRating / 25);
+  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
+  const engineCapacity = calculateInternalHeatSinks(engineRating);
   const externalHeatSinks = Math.max(0, heatSinkCount - engineCapacity);
   crits.heatSinks = heatSinkType === 'Double' ? externalHeatSinks * 3 : externalHeatSinks;
   
@@ -329,7 +330,8 @@ export function calculateEngineFreeHeatSinks(engineRating: number, engineType: s
   }
   
   // Fusion engines provide heat sinks equal to rating/25
-  return Math.floor(engineRating / 25);
+  const { calculateInternalHeatSinks } = require('./heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
 }
 
 // Get availability code for a component

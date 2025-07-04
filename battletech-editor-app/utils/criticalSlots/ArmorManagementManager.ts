@@ -4,7 +4,6 @@
  */
 
 import { UnitConfiguration, ArmorType, ArmorAllocation } from './UnitCriticalManagerTypes'
-import { getArmorSlots } from '../armorCalculations'
 
 export class ArmorManagementManager {
   private configuration: UnitConfiguration
@@ -34,33 +33,18 @@ export class ArmorManagementManager {
    * Get critical slot requirements for armor type
    */
   getArmorCriticalSlots(armorType: ArmorType): number {
-    // Try to get from armor calculations first
-    const calculatedSlots = getArmorSlots(armorType as any, this.configuration.techBase as any)
-    if (calculatedSlots !== undefined) {
-      return calculatedSlots
-    }
-
-    // Fallback for armor types not in the armor calculations
-    const armorSlotMap: Partial<Record<ArmorType, number>> = {
-      'Standard': 0,
-      'Ferro-Fibrous': 14,
-      'Ferro-Fibrous (Clan)': 7,
-      'Light Ferro-Fibrous': 7,
-      'Heavy Ferro-Fibrous': 21,
-      'Stealth': 12,
-      'Reactive': 12,
-      'Reflective': 12,
-      'Hardened': 0  // Key fix - Hardened armor takes 0 slots
-    }
-    return armorSlotMap[armorType] || 0
+    const { getArmorSpecification } = require('../armorCalculations')
+    const spec = getArmorSpecification(armorType)
+    return spec.criticalSlots
   }
 
   /**
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(): number {
-    const { ARMOR_POINTS_PER_TON } = require('../armorCalculations')
-    return ARMOR_POINTS_PER_TON[this.getArmorTypeString()] || 16
+    const { getArmorSpecification } = require('../armorCalculations')
+    const spec = getArmorSpecification(this.getArmorTypeString())
+    return spec.pointsPerTon
   }
 
   /**

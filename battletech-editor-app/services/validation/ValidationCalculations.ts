@@ -6,6 +6,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
+import { getTotalInternalStructure } from '../../utils/internalStructureTable';
 
 export const ValidationCalculations = {
   extractComponentType(component: ComponentConfiguration | string): string {
@@ -40,7 +41,8 @@ export const ValidationCalculations = {
 
   getEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    return Math.min(10, Math.floor(engineRating / 25));
+    const { calculateInternalHeatSinks } = require('../../utils/heatSinkCalculations');
+  return calculateInternalHeatSinks(engineRating);
   },
 
   getExternalHeatSinks(equipment: any[]): number {
@@ -69,17 +71,12 @@ export const ValidationCalculations = {
   },
 
   calculateInternalStructure(tonnage: number): number {
-    return Math.ceil(tonnage / 10);
+    return getTotalInternalStructure(tonnage);
   },
 
   calculateEngineWeight(engineRating: number, engineType: string): number {
-    const baseWeight = engineRating * 0.05;
-    switch (engineType) {
-      case 'XL': return baseWeight * 0.5;
-      case 'Light': return baseWeight * 0.75;
-      case 'Compact': return baseWeight * 1.5;
-      default: return baseWeight;
-    }
+    const { calculateEngineWeight } = require('../../utils/engineCalculations');
+    return calculateEngineWeight(engineRating, 100, engineType as any);
   },
 
   calculateGyroWeight(engineRating: number, gyroType: string): number {
