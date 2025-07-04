@@ -18,377 +18,30 @@ import {
   getComponentTypeNames
 } from '../../types/componentConfiguration'
 
-export interface UnitValidationResult {
-  isValid: boolean
-  errors: string[]
-  warnings: string[]
-  sectionResults: Array<{
-    location: string
-    result: any
-  }>
-}
+// Import types and builder from extracted files
+import {
+  UnitValidationResult,
+  SpecialEquipmentObject,
+  CompleteUnitState,
+  SerializedEquipment,
+  SerializedSlotAllocations,
+  StateValidationResult,
+  ArmorAllocation,
+  UnitConfiguration,
+  StructureType,
+  ArmorType,
+  HeatSinkType,
+  LegacyUnitConfiguration
+} from './UnitCriticalManagerTypes'
 
-// Extended equipment interface for special components
-export interface SpecialEquipmentObject extends EquipmentObject {
-  componentType?: 'structure' | 'armor'
-}
+import { UnitConfigurationBuilder } from './UnitConfigurationBuilder'
+import { SpecialComponentsManager } from './SpecialComponentsManager'
+import { SystemComponentsManager } from './SystemComponentsManager'
+import { EquipmentAllocationManager } from './EquipmentAllocationManager'
 
-// ===== ENHANCED STATE SERIALIZATION INTERFACES =====
 
-/**
- * Complete unit state for persistence - includes everything needed to restore unit exactly
- */
-export interface CompleteUnitState {
-  version: string                                // Version for future compatibility
-  configuration: UnitConfiguration               // Basic unit configuration
-  criticalSlotAllocations: SerializedSlotAllocations  // Equipment in specific slots
-  unallocatedEquipment: SerializedEquipment[]    // Equipment not yet placed
-  timestamp: number                              // When state was saved
-}
 
-/**
- * Serialized equipment data for persistence
- */
-export interface SerializedEquipment {
-  equipmentData: EquipmentObject
-  equipmentGroupId: string
-  location: string                               // Empty string if unallocated
-  startSlotIndex: number                         // -1 if unallocated
-  endSlotIndex: number                           // -1 if unallocated
-  occupiedSlots: number[]                        // Empty array if unallocated
-}
 
-/**
- * Critical slot allocations organized by location
- */
-export interface SerializedSlotAllocations {
-  [location: string]: {
-    [slotIndex: number]: SerializedEquipment
-  }
-}
-
-/**
- * Validation result for state deserialization
- */
-export interface StateValidationResult {
-  isValid: boolean
-  errors: string[]
-  warnings: string[]
-  canRecover: boolean                            // Can we recover from errors automatically?
-}
-
-export interface ArmorAllocation {
-  HD: { front: number; rear: number };
-  CT: { front: number; rear: number };
-  LT: { front: number; rear: number };
-  RT: { front: number; rear: number };
-  LA: { front: number; rear: number };
-  RA: { front: number; rear: number };
-  LL: { front: number; rear: number };
-  RL: { front: number; rear: number };
-}
-
-export interface UnitConfiguration {
-  // Primary identification
-  chassis: string                    // "Annihilator", "Atlas", etc.
-  model: string                      // "ANH-1E", "AS7-D", etc.
-  
-  // Core mech properties
-  tonnage: number                    // 20-100 tons in 5-ton increments
-  unitType: 'BattleMech' | 'IndustrialMech'
-  techBase: 'Inner Sphere' | 'Clan'  // Determines available tech options
-  
-  // Movement and engine
-  walkMP: number                     // 1-20+ movement points
-  engineRating: number               // Auto-calculated from tonnage × walkMP, max 400
-  runMP: number                      // Auto-calculated (walkMP × 1.5, rounded down)
-  engineType: EngineType
-  
-  // Jump jets
-  jumpMP: number                     // Jump movement points
-  jumpJetType: ComponentConfiguration // Type of jump jets with tech base
-  jumpJetCounts: Partial<Record<JumpJetType, number>>  // Count of each jump jet type
-  hasPartialWing: boolean            // Whether unit has partial wing
-  
-  // System components - with explicit tech base
-  gyroType: ComponentConfiguration
-  structureType: ComponentConfiguration
-  armorType: ComponentConfiguration
-  
-  // Armor allocation - Single Source of Truth approach
-  armorAllocation: ArmorAllocation   // User input - what's actually allocated to locations
-  armorTonnage: number              // User input - tonnage invested in armor
-  // NOTE: All other armor values (available, allocated, remaining) are computed on-demand
-  
-  // Heat management
-  heatSinkType: ComponentConfiguration
-  totalHeatSinks: number             // User configurable, minimum 10
-  internalHeatSinks: number          // Auto-calculated from engine rating
-  externalHeatSinks: number          // Auto-calculated (total - internal)
-  
-  // Enhancement systems
-  enhancementType: ComponentConfiguration | null  // Movement enhancement systems (MASC, TSM, etc.)
-  
-  // Legacy compatibility
-  mass: number                       // Alias for tonnage
-  
-  // Legacy type compatibility - deprecated, will be migrated to ComponentConfiguration
-  legacyStructureType?: StructureType
-  legacyArmorType?: ArmorType
-  legacyHeatSinkType?: HeatSinkType
-  legacyJumpJetType?: JumpJetType
-}
-
-// Legacy types for backwards compatibility during migration
-export type StructureType = 'Standard' | 'Endo Steel' | 'Endo Steel (Clan)' | 'Composite' | 'Reinforced' | 'Industrial'
-export type ArmorType = 'Standard' | 'Ferro-Fibrous' | 'Ferro-Fibrous (Clan)' | 'Light Ferro-Fibrous' | 'Heavy Ferro-Fibrous' | 'Stealth' | 'Reactive' | 'Reflective' | 'Hardened'
-export type HeatSinkType = 'Single' | 'Double' | 'Double (Clan)' | 'Compact' | 'Laser'
-
-/**
- * Legacy configuration interface for backwards compatibility
- */
-export interface LegacyUnitConfiguration {
-  engineType: EngineType
-  gyroType: GyroType
-  mass: number
-  unitType: 'BattleMech' | 'IndustrialMech'
-}
-
-/**
- * Utility functions for unit configuration
- */
-export class UnitConfigurationBuilder {
-  /**
-   * Create a complete UnitConfiguration from legacy or partial configuration
-   */
-  static buildConfiguration(input: Partial<UnitConfiguration> | LegacyUnitConfiguration): UnitConfiguration {
-    // Handle legacy configuration
-    if ('mass' in input && !('tonnage' in input)) {
-      return this.fromLegacyConfiguration(input as LegacyUnitConfiguration)
-    }
-    
-    // Handle partial configuration
-    const defaults = this.getDefaultConfiguration()
-    const config = { ...defaults, ...input } as UnitConfiguration
-    
-    // Calculate dependent values
-    return this.calculateDependentValues(config)
-  }
-  
-  /**
-   * Convert legacy configuration to new format
-   */
-  private static fromLegacyConfiguration(legacy: LegacyUnitConfiguration): UnitConfiguration {
-    const tonnage = legacy.mass
-    const walkMP = 4 // Default reasonable walk speed
-    
-    return this.calculateDependentValues({
-      // Default chassis/model for legacy units
-      chassis: 'Unknown',
-      model: 'Legacy',
-      tonnage,
-      unitType: legacy.unitType,
-      techBase: 'Inner Sphere',
-      walkMP,
-      engineRating: tonnage * walkMP,
-      runMP: Math.floor(walkMP * 1.5),
-      engineType: legacy.engineType,
-      gyroType: { type: legacy.gyroType, techBase: 'Inner Sphere' },
-      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
-      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
-      // Default armor allocation (minimal)
-      armorAllocation: {
-        HD: { front: 9, rear: 0 },
-        CT: { front: 15, rear: 5 },
-        LT: { front: 12, rear: 4 },
-        RT: { front: 12, rear: 4 },
-        LA: { front: 10, rear: 0 },
-        RA: { front: 10, rear: 0 },
-        LL: { front: 15, rear: 0 },
-        RL: { front: 15, rear: 0 }
-      },
-      armorTonnage: 0, // Will be calculated
-      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
-      totalHeatSinks: 10,
-      internalHeatSinks: 0,
-      externalHeatSinks: 0,
-      // Enhancement systems
-      enhancementType: null,
-      // Jump jet defaults
-      jumpMP: 0,
-      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
-      jumpJetCounts: {},
-      hasPartialWing: false,
-      mass: tonnage // Legacy compatibility
-    })
-  }
-  
-  /**
-   * Get default configuration
-   */
-  private static getDefaultConfiguration(): UnitConfiguration {
-    return {
-      // Default chassis/model for new units
-      chassis: 'Custom',
-      model: 'New Design',
-      tonnage: 50,
-      unitType: 'BattleMech',
-      techBase: 'Inner Sphere',
-      walkMP: 4,
-      engineRating: 200,
-      runMP: 6,
-      engineType: 'Standard',
-      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
-      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
-      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
-      // Default armor allocation (reasonable distribution)
-      armorAllocation: {
-        HD: { front: 9, rear: 0 },
-        CT: { front: 30, rear: 10 },
-        LT: { front: 24, rear: 8 },
-        RT: { front: 24, rear: 8 },
-        LA: { front: 20, rear: 0 },
-        RA: { front: 20, rear: 0 },
-        LL: { front: 30, rear: 0 },
-        RL: { front: 30, rear: 0 }
-      },
-      armorTonnage: 0, // User input
-      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
-      totalHeatSinks: 10,
-      internalHeatSinks: 0,
-      externalHeatSinks: 0,
-      // Enhancement systems
-      enhancementType: null,
-      // Jump jet defaults
-      jumpMP: 0,
-      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
-      jumpJetCounts: {},
-      hasPartialWing: false,
-      mass: 50
-    }
-  }
-  
-  /**
-   * Calculate dependent values (engine rating, run speed, heat sinks, armor)
-   */
-  private static calculateDependentValues(config: UnitConfiguration): UnitConfiguration {
-    // Calculate engine rating from tonnage and walk MP
-    const calculatedEngineRating = config.tonnage * config.walkMP
-    const engineRating = Math.min(calculatedEngineRating, 400) // Cap at 400
-    
-    // Adjust walk MP if engine rating was capped
-    const actualWalkMP = Math.floor(engineRating / config.tonnage)
-    
-    // Calculate standard run MP
-    const runMP = Math.floor(actualWalkMP * 1.5)
-    
-    // Note: Enhancement effects (MASC, TSM) are handled at display level
-    // to show bracketed notation for conditional/activated bonuses
-    
-    // Calculate heat sinks
-    const internalHeatSinks = this.calculateInternalHeatSinks(engineRating, config.engineType)
-    const minHeatSinks = Math.max(10, config.totalHeatSinks)
-    
-    // CRITICAL FIX: Respect user-provided externalHeatSinks when explicitly set
-    let externalHeatSinks: number
-    if (config.externalHeatSinks !== undefined && config.externalHeatSinks >= 0) {
-      // User explicitly set external heat sinks - respect their value
-      externalHeatSinks = config.externalHeatSinks
-    } else {
-      // Calculate external heat sinks from total - internal
-      externalHeatSinks = Math.max(0, minHeatSinks - internalHeatSinks)
-    }
-    
-    // Calculate armor values
-    const armorValues = this.calculateArmorValues(config)
-    
-    return {
-      ...config,
-      walkMP: actualWalkMP,
-      engineRating,
-      runMP,
-      totalHeatSinks: minHeatSinks,
-      internalHeatSinks,
-      externalHeatSinks,
-      armorTonnage: armorValues.armorTonnage,
-      mass: config.tonnage // Keep legacy compatibility
-    }
-  }
-  
-  /**
-   * Calculate internal heat sinks from engine rating
-   */
-  private static calculateInternalHeatSinks(engineRating: number, engineType: EngineType): number {
-    // Non-fusion engines don't provide heat sinks
-    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
-      return 0
-    }
-    
-    // Fusion engines include 10 heat sinks for ratings 250+
-    if (engineRating >= 250) {
-      return 10
-    }
-    
-    // Smaller engines get fewer integrated heat sinks
-    return Math.floor(engineRating / 25)
-  }
-  
-  /**
-   * Calculate armor values from configuration
-   */
-  private static calculateArmorValues(config: UnitConfiguration): {
-    totalArmorPoints: number;
-    armorTonnage: number;
-    maxArmorPoints: number;
-  } {
-    // Import armor calculations
-    const { ARMOR_POINTS_PER_TON, calculateArmorWeight } = require('../armorCalculations')
-    
-    // Calculate total armor points from allocation
-    const totalArmorPoints = Object.values(config.armorAllocation).reduce((total, location) => {
-      return total + location.front + location.rear
-    }, 0)
-    
-    // Use the armor tonnage from config if provided, otherwise calculate from points
-    const pointsPerTon = ARMOR_POINTS_PER_TON[config.armorType] || 16
-    const armorTonnage = config.armorTonnage !== undefined 
-      ? config.armorTonnage  // Use provided armor tonnage
-      : Math.ceil((totalArmorPoints / pointsPerTon) * 2) / 2  // Calculate from points and round
-    
-    // Calculate maximum possible armor points (tonnage * 2 * points per ton for max armor)
-    const maxArmorTonnage = config.tonnage * 0.5 // 50% of unit tonnage max
-    const maxArmorPoints = Math.floor(maxArmorTonnage * pointsPerTon)
-    
-    return {
-      totalArmorPoints,
-      armorTonnage,
-      maxArmorPoints
-    }
-  }
-  
-  /**
-   * Validate engine rating constraints
-   */
-  static validateEngineRating(tonnage: number, walkMP: number): { isValid: boolean, maxWalkMP: number, errors: string[] } {
-    const requiredRating = tonnage * walkMP
-    const errors: string[] = []
-    let isValid = true
-    
-    if (requiredRating > 400) {
-      errors.push(`Engine rating ${requiredRating} exceeds maximum of 400`)
-      isValid = false
-    }
-    
-    if (walkMP < 1) {
-      errors.push('Walk MP must be at least 1')
-      isValid = false
-    }
-    
-    const maxWalkMP = Math.floor(400 / tonnage)
-    
-    return { isValid, maxWalkMP, errors }
-  }
-}
 
 // Standard mech location configurations
 const MECH_LOCATION_CONFIGS: LocationSlotConfiguration[] = [
@@ -481,11 +134,14 @@ export const TOTAL_CRITICAL_SLOTS = 78; // Standard BattleMech total
 
 export class UnitCriticalManager {
   private sections: Map<string, CriticalSection>
-  private unallocatedEquipment: EquipmentAllocation[]
-  private configuration: UnitConfiguration
+  public unallocatedEquipment: EquipmentAllocation[]
+  public configuration: UnitConfiguration
   private listeners: (() => void)[] = []
   private specialComponentsInitialized: boolean = false // Track if special components created
   private static globalComponentCounter: number = 0 // CRITICAL FIX: Global counter for absolutely unique IDs
+  private specialComponentsManager: SpecialComponentsManager
+  private systemComponentsManager: SystemComponentsManager
+  private equipmentAllocationManager: EquipmentAllocationManager
 
   // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
 
@@ -552,10 +208,32 @@ export class UnitCriticalManager {
     this.unallocatedEquipment = []
     
     this.initializeSections()
+    
+    // Initialize special components manager
+    this.specialComponentsManager = new SpecialComponentsManager(
+      this.sections,
+      this.unallocatedEquipment,
+      this.configuration
+    )
+    
+    // Initialize system components manager
+    this.systemComponentsManager = new SystemComponentsManager(
+      this,
+      this.sections
+    )
+    
+    // Allocate system components after managers are initialized
     this.allocateSystemComponents()
     
     // CRITICAL FIX: Create special components for initial configuration
     this.initializeSpecialComponents()
+    
+    // Initialize equipment allocation manager
+    this.equipmentAllocationManager = new EquipmentAllocationManager(
+      this,
+      this.sections,
+      this.configuration
+    )
   }
 
   /**
@@ -610,16 +288,7 @@ export class UnitCriticalManager {
    * Allocate system components (engine, gyro) to appropriate slots
    */
   private allocateSystemComponents(): void {
-    const systemAllocation = SystemComponentRules.getCompleteSystemAllocation(
-      this.configuration.engineType,
-      this.getGyroTypeString()
-    )
-
-    // Allocate engine slots
-    this.allocateEngineSlots(systemAllocation.engine)
-    
-    // Allocate gyro slots
-    this.allocateGyroSlots(systemAllocation.gyro)
+    this.systemComponentsManager.allocateSystemComponents()
   }
 
   /**
@@ -672,36 +341,14 @@ export class UnitCriticalManager {
       return
     }
 
-    // Create structure components if needed
-    const structureSlots = this.getStructureCriticalSlots(this.getStructureTypeString())
-    if (structureSlots > 0) {
-      this.addSpecialComponents(this.getStructureTypeString(), 'structure', structureSlots)
-    }
+    // CRITICAL FIX: Ensure SpecialComponentsManager uses current configuration
+    this.specialComponentsManager.configuration = this.configuration
+
+    // Use SpecialComponentsManager for structure and armor components
+    this.specialComponentsManager.initializeSpecialComponents()
     
-    // Create armor components if needed
-    const armorSlots = this.getArmorCriticalSlots(this.getArmorTypeString())
-    if (armorSlots > 0) {
-      this.addSpecialComponents(this.getArmorTypeString(), 'armor', armorSlots)
-    }
-    
-    // Create jump jet components if needed
-    if (this.configuration.jumpMP > 0) {
-      this.addJumpJetEquipment(
-        this.getJumpJetTypeString(), 
-        this.configuration.jumpMP, 
-        this.configuration.tonnage, 
-        this.configuration.techBase
-      )
-    }
-    
-    // Create external heat sink components if needed
-    if (this.configuration.externalHeatSinks > 0) {
-      this.addHeatSinkEquipment(
-        this.getHeatSinkTypeString(),
-        this.configuration.externalHeatSinks,
-        this.configuration.techBase
-      )
-    }
+    // Use SystemComponentsManager for heat sink and jump jet components
+    this.systemComponentsManager.initializeEquipmentComponents()
     
     this.specialComponentsInitialized = true
   }
@@ -711,7 +358,18 @@ export class UnitCriticalManager {
    */
   updateConfiguration(newConfiguration: UnitConfiguration): void {
     const oldConfig = this.configuration
-    let validatedConfig = UnitConfigurationBuilder.buildConfiguration(newConfiguration)
+    
+    // CRITICAL FIX: Force engine rating recalculation if tonnage or walkMP changed
+    const shouldRecalculateEngineRating = 
+      newConfiguration.tonnage !== oldConfig.tonnage || 
+      newConfiguration.walkMP !== oldConfig.walkMP
+    
+    // Remove engineRating from input if we need to recalculate it
+    const configForBuilder = shouldRecalculateEngineRating 
+      ? { ...newConfiguration, engineRating: undefined }
+      : newConfiguration
+    
+    let validatedConfig = UnitConfigurationBuilder.buildConfiguration(configForBuilder)
     
     // Enforce BattleTech construction rules
     validatedConfig = this.enforceConstructionRules(validatedConfig)
@@ -727,6 +385,8 @@ export class UnitCriticalManager {
     
     // Always update configuration at the end to ensure consistency
     this.configuration = validatedConfig
+    // Ensure system components (heat sinks, jump jets) are updated to match new config
+    this.systemComponentsManager.initializeEquipmentComponents()
   }
 
   /**
@@ -784,42 +444,8 @@ export class UnitCriticalManager {
    * CRITICAL FIX: Don't rebuild special components here - they're handled separately
    */
   private handleSystemComponentChange(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): void {
-    const allDisplacedEquipment: EquipmentAllocation[] = []
-    
-    // Clear old system reservations and collect displaced equipment
-    this.sections.forEach(section => {
-      const engineDisplaced = section.clearSystemReservations('engine')
-      const gyroDisplaced = section.clearSystemReservations('gyro')
-      allDisplacedEquipment.push(...engineDisplaced, ...gyroDisplaced)
-    })
-    
-    // Get displacement impact to identify conflicting equipment
-    const displacementImpact = SystemComponentRules.getDisplacementImpact(
-      oldConfig.engineType,
-      oldConfig.gyroType,
-      newConfig.engineType,
-      newConfig.gyroType
-    )
-    
-    // Find equipment that conflicts with new system slots
-    displacementImpact.affectedLocations.forEach(location => {
-      const section = this.sections.get(location)
-      if (section) {
-        const conflictSlots = displacementImpact.conflictSlots[location] || []
-        const conflictingEquipment = section.findConflictingEquipment(conflictSlots)
-        
-        conflictingEquipment.forEach(equipment => {
-          const removed = section.removeEquipmentGroup(equipment.equipmentGroupId)
-          if (removed) {
-            allDisplacedEquipment.push(removed)
-          }
-        })
-      }
-    })
-    
-    // CRITICAL FIX: Only allocate system components (engine/gyro), not special components
-    // Special components are handled separately by updateSpecialComponents()
-    this.allocateSystemComponentsOnly(newConfig)
+    // Use SystemComponentsManager to handle system component changes
+    const allDisplacedEquipment = this.systemComponentsManager.handleSystemComponentChange(oldConfig, newConfig)
     
     // Add all displaced equipment to unallocated pool
     if (allDisplacedEquipment.length > 0) {
@@ -870,37 +496,11 @@ export class UnitCriticalManager {
     oldConfig: UnitConfiguration, 
     newConfig: UnitConfiguration
   ): void {
-    // Clear ALL special components first to ensure clean slate
-    this.clearAllSpecialComponents()
+    // Use SpecialComponentsManager for structure and armor components
+    this.specialComponentsManager.handleSpecialComponentConfigurationChange(oldConfig, newConfig)
     
-    // CRITICAL FIX: Also clear heat sinks separately since they're not considered "special components"
-    this.removeHeatSinkEquipment()
-    
-    // Now recreate exactly what's needed for the new configuration
-    
-    // Create structure components if needed
-    const structureSlots = this.getStructureCriticalSlots(this.getStructureTypeString())
-    if (structureSlots > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${structureSlots} structure components for ${this.getStructureTypeString()}`)
-      this.addSpecialComponents(this.getStructureTypeString(), 'structure', structureSlots)
-    }
-    
-    // Create armor components if needed
-    const armorSlots = this.getArmorCriticalSlots(this.getArmorTypeString())
-    if (armorSlots > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${armorSlots} armor components for ${this.getArmorTypeString()}`)
-      this.addSpecialComponents(this.getArmorTypeString(), 'armor', armorSlots)
-    }
-    
-    // Handle jump jets - clear existing and add new
-    console.log('[UnitCriticalManager] ULTIMATE FIX: Updating jump jet equipment')
-    this.updateJumpJetEquipment(oldConfig, newConfig)
-    
-    // Handle external heat sinks - add exactly what's needed
-    if (newConfig.externalHeatSinks > 0) {
-      console.log(`[UnitCriticalManager] ULTIMATE FIX: Creating ${newConfig.externalHeatSinks} external heat sink components`)
-      this.addHeatSinkEquipment(this.getHeatSinkTypeString(), newConfig.externalHeatSinks, newConfig.techBase)
-    }
+    // Use SystemComponentsManager for heat sink and jump jet components
+    this.systemComponentsManager.updateJumpJetEquipment(oldConfig, newConfig)
     
     console.log(`[UnitCriticalManager] ULTIMATE FIX: Special component update complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
   }
@@ -1834,7 +1434,20 @@ export class UnitCriticalManager {
     // Current armor weight
     const armorWeight = config.armorTonnage
     
-    return structureWeight + engineWeight + gyroWeight + cockpitWeight + heatSinkWeight + jumpJetWeight + armorWeight
+    const total = structureWeight + engineWeight + gyroWeight + cockpitWeight + heatSinkWeight + jumpJetWeight + armorWeight
+    
+    // DEBUG: Log individual components for troubleshooting
+    console.log(`[getUsedTonnage] Breakdown:`)
+    console.log(`  Structure (${structureTypeString}): ${structureWeight}`)
+    console.log(`  Engine (${config.engineType}): ${engineWeight}`)
+    console.log(`  Gyro (${config.gyroType}): ${gyroWeight}`)
+    console.log(`  Cockpit: ${cockpitWeight}`)
+    console.log(`  Heat Sinks (${config.externalHeatSinks} external): ${heatSinkWeight}`)
+    console.log(`  Jump Jets (${config.jumpMP || 0}): ${jumpJetWeight}`)
+    console.log(`  Armor: ${armorWeight}`)
+    console.log(`  TOTAL: ${total}`)
+    
+    return total
   }
 
   /**
@@ -1875,7 +1488,7 @@ export class UnitCriticalManager {
     const rating = this.configuration.engineRating
     const type = this.configuration.gyroType
     
-    let baseWeight = Math.ceil(rating / 100)
+    const baseWeight = Math.ceil(rating / 100)
     
     switch (type) {
       case 'XL':
@@ -2486,7 +2099,17 @@ export class UnitCriticalManager {
    * Serialize the complete unit state for persistence
    */
   serializeCompleteState(): CompleteUnitState {
+    console.log('=== [DEBUG] Unallocated equipment BEFORE serialization ===')
+    this.unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
+    // Add summary count by name
+    const beforeCountMap = this.unallocatedEquipment.reduce((acc, eq) => {
+      acc[eq.equipmentData.name] = (acc[eq.equipmentData.name] || 0) + 1
+      return acc
+    }, {} as Record<string, number>)
+    console.log('=== [DEBUG] Unallocated equipment count BEFORE serialization ===')
+    Object.entries(beforeCountMap).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
     console.log('[UnitCriticalManager] Serializing complete unit state')
+    console.log('[UnitCriticalManager] Unallocated equipment before serialization:', this.unallocatedEquipment.map(eq => eq.equipmentData.name))
     
     const criticalSlotAllocations: SerializedSlotAllocations = {}
     const timestamp = Date.now()
@@ -2519,6 +2142,8 @@ export class UnitCriticalManager {
       timestamp
     }
     
+    console.log('=== [DEBUG] Serialized unallocatedEquipment array ===')
+    console.log(JSON.stringify(unallocatedEquipment, null, 2))
     console.log('[UnitCriticalManager] Serialized state:', {
       allocatedSections: Object.keys(criticalSlotAllocations).length,
       unallocatedCount: unallocatedEquipment.length,
@@ -2563,8 +2188,14 @@ export class UnitCriticalManager {
       // Clear current state
       this.clearAllEquipment()
       
+      // CRITICAL FIX: Update SpecialComponentsManager's reference to the new unallocated equipment array
+      // This ensures it works with the current array after clearAllEquipment() creates a new one
+      this.specialComponentsManager.updateUnallocatedEquipmentReference(this.unallocatedEquipment)
+      
       // Update configuration first
       this.configuration = UnitConfigurationBuilder.buildConfiguration(state.configuration)
+      // Ensure specialComponentsManager uses the latest configuration
+      this.specialComponentsManager.configuration = this.configuration
       
       // Rebuild system components with new configuration
       // CRITICAL FIX: Skip special component initialization during state restoration
@@ -2578,6 +2209,16 @@ export class UnitCriticalManager {
       this.restoreUnallocatedEquipment(state.unallocatedEquipment)
       
       console.log('[UnitCriticalManager] State deserialization complete')
+      console.log('[UnitCriticalManager] Unallocated equipment after deserialization:', this.unallocatedEquipment.map(eq => eq.equipmentData.name))
+      console.log('=== [DEBUG] Unallocated equipment AFTER deserialization ===')
+      this.unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
+      // Add summary count by name
+      const afterCountMap = this.unallocatedEquipment.reduce((acc, eq) => {
+        acc[eq.equipmentData.name] = (acc[eq.equipmentData.name] || 0) + 1
+        return acc
+      }, {} as Record<string, number>)
+      console.log('=== [DEBUG] Unallocated equipment count AFTER deserialization ===')
+      Object.entries(afterCountMap).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
       return true
       
     } catch (error) {
@@ -2717,36 +2358,13 @@ export class UnitCriticalManager {
    * ULTIMATE FIX: Clear from BOTH unallocated AND allocated slots using comprehensive detection
    */
   clearAllSpecialComponents(): void {
-    console.log('[ULTIMATE FIX] Clearing ALL special components using comprehensive detection')
+    console.log('[ULTIMATE FIX] Clearing ALL special components using SpecialComponentsManager')
     
-    const beforeUnallocated = this.unallocatedEquipment.length
+    // Use SpecialComponentsManager to clear structure and armor components
+    this.specialComponentsManager.clearAllSpecialComponents()
     
-    // ULTIMATE FIX: Remove ALL special components using comprehensive detection
-    this.unallocatedEquipment = this.unallocatedEquipment.filter(eq => {
-      return !this.isSpecialComponent(eq.equipmentData)
-    })
-    
-    const afterUnallocated = this.unallocatedEquipment.length
-    
-    // ULTIMATE FIX: Remove ALL special components from ALLOCATED slots across all sections
-    let removedFromSlots = 0
-    this.sections.forEach(section => {
-      const equipmentToRemove = section.getAllEquipment().filter(eq => {
-        return this.isSpecialComponent(eq.equipmentData)
-      })
-      
-      equipmentToRemove.forEach(eq => {
-        const removed = section.removeEquipmentGroup(eq.equipmentGroupId)
-        if (removed) {
-          removedFromSlots++
-        }
-      })
-    })
-    
-    console.log(`[ULTIMATE FIX] Cleared ALL special components:`)
-    console.log(`  - From unallocated: ${beforeUnallocated - afterUnallocated} (${beforeUnallocated} → ${afterUnallocated})`)
-    console.log(`  - From allocated slots: ${removedFromSlots}`)
-    console.log(`  - Total cleared: ${(beforeUnallocated - afterUnallocated) + removedFromSlots}`)
+    // Also clear jump jet components (not handled by SpecialComponentsManager)
+    this.removeJumpJetEquipment()
   }
 
   /**
@@ -2888,7 +2506,9 @@ export class UnitCriticalManager {
    */
   private restoreUnallocatedEquipment(unallocatedEquipment: SerializedEquipment[]): void {
     console.log('[UnitCriticalManager] Restoring unallocated equipment')
-    
+    console.log('=== [DEBUG] Equipment to restore ===')
+    unallocatedEquipment.forEach(eq => console.log('  -', eq.equipmentData.name))
+    console.log(`[UnitCriticalManager] Number of unallocated equipment to restore: ${unallocatedEquipment.length}`)
     unallocatedEquipment.forEach(serializedEquipment => {
       this.addToUnallocatedFromSerialized(serializedEquipment)
     })
@@ -2947,8 +2567,7 @@ export class UnitCriticalManager {
   // ===== ENHANCED AUTO-ALLOCATION SYSTEM =====
 
   /**
-   * Auto-allocate all unallocated equipment using intelligent priority-based placement
-   * Implements the enhanced fill algorithm with slots-first priority and BattleTech compliance
+   * Auto-allocate all unallocated equipment using EquipmentAllocationManager
    */
   autoAllocateEquipment(): {
     success: boolean
@@ -2958,300 +2577,24 @@ export class UnitCriticalManager {
     failedEquipment: number
     failureReasons: string[]
   } {
-    console.log('[UnitCriticalManager] Starting enhanced auto-allocation')
-    
-    const startingCount = this.unallocatedEquipment.length
-    const failureReasons: string[] = []
-    let placedCount = 0
-    
-    if (startingCount === 0) {
-      return {
-        success: true,
-        message: 'No unallocated equipment to place',
-        slotsModified: 0,
-        placedEquipment: 0,
-        failedEquipment: 0,
-        failureReasons: []
-      }
-    }
-    
-    // Step 1: Sort equipment by priority (slots desc, then type priority)
-    const sortedEquipment = this.sortEquipmentByPriority([...this.unallocatedEquipment])
-    console.log('[UnitCriticalManager] Sorted equipment for placement:', 
-      sortedEquipment.map(eq => ({ 
-        name: eq.equipmentData.name, 
-        slots: eq.equipmentData.requiredSlots,
-        type: this.getEquipmentTypePriority(eq.equipmentData)
-      }))
-    )
-    
-    // Step 2: Attempt to place each equipment item
-    for (const equipment of sortedEquipment) {
-      const placementResult = this.findAndAllocateEquipment(equipment)
-      
-      if (placementResult.success) {
-        placedCount++
-        console.log(`[UnitCriticalManager] Successfully placed: ${equipment.equipmentData.name} in ${placementResult.location}`)
-      } else {
-        failureReasons.push(`${equipment.equipmentData.name}: ${placementResult.reason}`)
-        console.log(`[UnitCriticalManager] Failed to place: ${equipment.equipmentData.name} - ${placementResult.reason}`)
-      }
-    }
-    
-    const failedCount = startingCount - placedCount
-    
-    // Notify listeners about state changes
-    if (placedCount > 0) {
-      this.notifyStateChange()
-    }
-    
-    const result = {
-      success: true, // Operation itself succeeded, individual failures are reported separately
-      message: placedCount > 0
-        ? `Placed ${placedCount} of ${startingCount} equipment items` + 
-          (failedCount > 0 ? `, ${failedCount} items could not be placed` : '')
-        : `Could not place any of ${startingCount} equipment items`,
-      slotsModified: placedCount,
-      placedEquipment: placedCount,
-      failedEquipment: failedCount,
-      failureReasons
-    }
-    
-    console.log('[UnitCriticalManager] Auto-allocation complete:', result)
-    return result
-  }
-
-  /**
-   * Sort equipment by priority: Critical slots (desc) → Equipment type → Name
-   */
-  private sortEquipmentByPriority(equipment: EquipmentAllocation[]): EquipmentAllocation[] {
-    return equipment.sort((a, b) => {
-      // Primary: Slots required (descending - largest first)
-      const slotsA = a.equipmentData.requiredSlots || 1
-      const slotsB = b.equipmentData.requiredSlots || 1
-      if (slotsA !== slotsB) {
-        return slotsB - slotsA
-      }
-      
-      // Secondary: Equipment type priority
-      const priorityA = this.getEquipmentTypePriority(a.equipmentData)
-      const priorityB = this.getEquipmentTypePriority(b.equipmentData)
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB
-      }
-      
-      // Tertiary: Name (alphabetical)
-      return a.equipmentData.name.localeCompare(b.equipmentData.name)
-    })
-  }
-
-  /**
-   * Get equipment type priority (lower numbers = higher priority)
-   */
-  private getEquipmentTypePriority(equipment: EquipmentObject): number {
-    // Check if it's an unhittable component first (highest priority)
-    if (this.isUnhittableEquipment(equipment)) {
-      return 1 // Unhittables (Ferro-Fibrous, Endo Steel)
-    }
-    
-    // Check by equipment type
-    switch (equipment.type) {
-      case 'weapon':
-        return 2 // Weapons
-      case 'ammo':
-        return 3 // Ammunition
-      case 'heat_sink':
-        return 4 // Heat Sinks
-      case 'equipment':
-      default:
-        return 5 // Other Equipment
-    }
-  }
-
-  /**
-   * Check if equipment is an unhittable component (structure/armor pieces)
-   */
-  private isUnhittableEquipment(equipment: EquipmentObject): boolean {
-    const specialEq = equipment as SpecialEquipmentObject
-    const name = equipment.name.toLowerCase()
-    
-    // Check by componentType field (preferred method)
-    if (specialEq.componentType === 'structure' || specialEq.componentType === 'armor') {
-      return true
-    }
-    
-    // Check by name patterns for unhittable components
-    const unhittablePatterns = [
-      'endo steel', 'endosteel', 'endo_steel',
-      'ferro-fibrous', 'ferrofibrous', 'ferro_fibrous',
-      'ferro fibrous', 'light ferro', 'heavy ferro',
-      'stealth armor', 'reactive armor', 'reflective armor'
-    ]
-    
-    return unhittablePatterns.some(pattern => name.includes(pattern))
-  }
-
-  /**
-   * Find the best placement for equipment and allocate it
-   */
-  private findAndAllocateEquipment(equipment: EquipmentAllocation): {
-    success: boolean
-    location?: string
-    startSlot?: number
-    reason?: string
-  } {
-    const equipmentData = equipment.equipmentData
-    const requiredSlots = equipmentData.requiredSlots || 1
-    
-    // Get all available placement options
-    const availablePlacements = this.findAvailablePlacements(equipmentData, requiredSlots)
-    
-    if (availablePlacements.length === 0) {
-      return {
-        success: false,
-        reason: `No available ${requiredSlots}-slot space in allowed locations`
-      }
-    }
-    
-    // Choose the best placement using location preference
-    const bestPlacement = this.selectBestPlacement(availablePlacements, equipmentData)
-    
-    // Attempt to allocate the equipment
-    const success = this.allocateEquipmentFromPool(
-      equipment.equipmentGroupId,
-      bestPlacement.location,
-      bestPlacement.startSlot
-    )
-    
-    if (success) {
-      return {
-        success: true,
-        location: bestPlacement.location,
-        startSlot: bestPlacement.startSlot
-      }
-    } else {
-      return {
-        success: false,
-        reason: 'Allocation failed due to slot conflict'
-      }
-    }
-  }
-
-  /**
-   * Find all available placements for equipment across all valid locations
-   */
-  private findAvailablePlacements(equipment: EquipmentObject, requiredSlots: number): Array<{
-    location: string
-    startSlot: number
-    availableSlots: number
-  }> {
-    const placements: Array<{ location: string; startSlot: number; availableSlots: number }> = []
-    
-    // Get all location names in priority order
-    const locationNames = this.getLocationPriorityOrder()
-    
-    for (const locationName of locationNames) {
-      // Check if equipment is allowed in this location
-      if (!this.canPlaceEquipmentInLocation(equipment, locationName)) {
-        continue
-      }
-      
-      const section = this.getSection(locationName)
-      if (!section) continue
-      
-      // Find consecutive empty slots in this location
-      const consecutiveSlots = this.findConsecutiveEmptySlots(section, requiredSlots)
-      
-      consecutiveSlots.forEach(placement => {
-        placements.push({
-          location: locationName,
-          startSlot: placement.startSlot,
-          availableSlots: placement.consecutiveSlots
-        })
-      })
-    }
-    
-    return placements
-  }
-
-  /**
-   * Get location names in priority order for equipment placement
-   */
-  private getLocationPriorityOrder(): string[] {
-    // Standard BattleTech placement preference:
-    // 1. Torso locations (better protection, more space)
-    // 2. Arms (moderate protection, good for weapons)
-    // 3. Legs (good protection, limited space)
-    // 4. Head (best protection, very limited space)
-    return [
-      'Center Torso',
-      'Left Torso', 
-      'Right Torso',
-      'Left Arm',
-      'Right Arm', 
-      'Left Leg',
-      'Right Leg',
-      'Head'
-    ]
-  }
-
-  /**
-   * Find consecutive empty slots in a critical section
-   */
-  private findConsecutiveEmptySlots(section: CriticalSection, requiredSlots: number): Array<{
-    startSlot: number
-    consecutiveSlots: number
-  }> {
-    const placements: Array<{ startSlot: number; consecutiveSlots: number }> = []
-    const slots = section.getAllSlots()
-    
-    let consecutiveCount = 0
-    let currentStart = -1
-    
-    for (let i = 0; i < slots.length; i++) {
-      const slot = slots[i]
-      
-      if (slot.isEmpty() && !slot.isSystemSlot()) {
-        // This slot is available
-        if (consecutiveCount === 0) {
-          currentStart = i
-        }
-        consecutiveCount++
-        
-        // If we have enough consecutive slots, record this placement
-        if (consecutiveCount >= requiredSlots) {
-          placements.push({
-            startSlot: currentStart,
-            consecutiveSlots: consecutiveCount
-          })
-        }
-      } else {
-        // Slot is occupied or reserved, reset consecutive count
-        consecutiveCount = 0
-        currentStart = -1
-      }
-    }
-    
-    // Filter to only include placements with enough consecutive slots
-    return placements.filter(p => p.consecutiveSlots >= requiredSlots)
-  }
-
-  /**
-   * Select the best placement from available options
-   */
-  private selectBestPlacement(
-    placements: Array<{ location: string; startSlot: number; availableSlots: number }>,
-    equipment: EquipmentObject
-  ): { location: string; startSlot: number } {
-    // For now, use simple first-available strategy
-    // Future enhancement: could implement more sophisticated placement logic
-    // - Group weapons with ammo
-    // - Spread heat sinks for thermal management
-    // - Consider critical hit vulnerability
-    
-    return {
-      location: placements[0].location,
-      startSlot: placements[0].startSlot
-    }
+    return this.equipmentAllocationManager.autoAllocateEquipment(this.unallocatedEquipment)
   }
 }
+
+// Re-export types and builder for backward compatibility
+export {
+  UnitValidationResult,
+  SpecialEquipmentObject,
+  CompleteUnitState,
+  SerializedEquipment,
+  SerializedSlotAllocations,
+  StateValidationResult,
+  ArmorAllocation,
+  UnitConfiguration,
+  StructureType,
+  ArmorType,
+  HeatSinkType,
+  LegacyUnitConfiguration
+} from './UnitCriticalManagerTypes'
+
+export { UnitConfigurationBuilder } from './UnitConfigurationBuilder'

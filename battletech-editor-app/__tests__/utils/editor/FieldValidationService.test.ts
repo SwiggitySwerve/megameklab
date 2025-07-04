@@ -211,7 +211,7 @@ describe('FieldValidationService', () => {
     });
 
     it('should enforce standard engine ratings in strict mode', () => {
-      const result = FieldValidationService.validateEngineRatingField(299, 75, 3.99, strictContext);
+      const result = FieldValidationService.validateEngineRatingField(301, 301, 1, strictContext);
       expect(result.isValid).toBe(false);
       expect(result.error?.id).toBe('non-standard-engine-rating');
     });

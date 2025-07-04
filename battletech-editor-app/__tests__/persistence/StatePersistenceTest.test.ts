@@ -50,7 +50,12 @@ describe('State Persistence Tests', () => {
       
       // Step 1: Create unit with Standard engine
       const initialConfig: UnitConfiguration = createTestConfiguration({
-        engineType: 'Standard'
+        engineType: 'Standard',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' },
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(initialConfig)
@@ -83,7 +88,14 @@ describe('State Persistence Tests', () => {
       const engineTypes = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'] as const
       
       engineTypes.forEach((engineType, index) => {
-        const config = createTestConfiguration({ engineType })
+        const config = createTestConfiguration({
+          engineType,
+          gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+          structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+          armorType: { type: 'Standard', techBase: 'Inner Sphere' },
+          jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
+          heatSinkType: { type: 'Single', techBase: 'Inner Sphere' }
+        })
         const unitManager = new UnitCriticalManager(config)
         
         const serializedState = unitManager.serializeCompleteState()
@@ -109,7 +121,7 @@ describe('State Persistence Tests', () => {
       console.log('🧪 Testing Endo Steel Persistence')
       
       const config = createTestConfiguration({
-        structureType: 'Endo Steel'
+        structureType: { type: 'Endo Steel', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(config)
@@ -117,7 +129,7 @@ describe('State Persistence Tests', () => {
       // Verify Endo Steel components were created
       const unallocatedEquipment = unitManager.getUnallocatedEquipment()
       const endoSteelComponents = unallocatedEquipment.filter(eq => 
-        eq.equipmentData.name === 'Endo Steel'
+        eq.equipmentData.name === 'Endo Steel Structure'
       )
       
       expect(endoSteelComponents.length).toBe(14) // Endo Steel requires 14 slots
@@ -131,11 +143,11 @@ describe('State Persistence Tests', () => {
       newUnitManager.deserializeCompleteState(restoredState!)
       
       // Verify structure type and components persisted
-      expect(newUnitManager.getConfiguration().structureType).toBe('Endo Steel')
+      expect(newUnitManager.getConfiguration().structureType.type).toBe('Endo Steel')
       
       const restoredUnallocated = newUnitManager.getUnallocatedEquipment()
       const restoredEndoSteel = restoredUnallocated.filter(eq => 
-        eq.equipmentData.name === 'Endo Steel'
+        eq.equipmentData.name === 'Endo Steel Structure'
       )
       
       expect(restoredEndoSteel.length).toBe(14)
@@ -147,7 +159,7 @@ describe('State Persistence Tests', () => {
       console.log('🧪 Testing Ferro-Fibrous Persistence')
       
       const config = createTestConfiguration({
-        armorType: 'Ferro-Fibrous'
+        armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(config)
@@ -155,7 +167,7 @@ describe('State Persistence Tests', () => {
       // Verify Ferro-Fibrous components were created
       const unallocatedEquipment = unitManager.getUnallocatedEquipment()
       const ferroFibrousComponents = unallocatedEquipment.filter(eq => 
-        eq.equipmentData.name === 'Ferro-Fibrous'
+        eq.equipmentData.name === 'Ferro-Fibrous Armor'
       )
       
       expect(ferroFibrousComponents.length).toBe(14) // Ferro-Fibrous requires 14 slots
@@ -169,11 +181,11 @@ describe('State Persistence Tests', () => {
       newUnitManager.deserializeCompleteState(restoredState!)
       
       // Verify armor type and components persisted
-      expect(newUnitManager.getConfiguration().armorType).toBe('Ferro-Fibrous')
+      expect(newUnitManager.getConfiguration().armorType.type).toBe('Ferro-Fibrous')
       
       const restoredUnallocated = newUnitManager.getUnallocatedEquipment()
       const restoredFerroFibrous = restoredUnallocated.filter(eq => 
-        eq.equipmentData.name === 'Ferro-Fibrous'
+        eq.equipmentData.name === 'Ferro-Fibrous Armor'
       )
       
       expect(restoredFerroFibrous.length).toBe(14)
@@ -190,7 +202,12 @@ describe('State Persistence Tests', () => {
       console.log('🧪 Testing MASC Enhancement Persistence')
       
       const config = createTestConfiguration({
-        enhancementType: 'MASC'
+        enhancementType: 'MASC',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' },
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(config)
@@ -210,7 +227,12 @@ describe('State Persistence Tests', () => {
 
     test('Triple Strength Myomer enhancement persists correctly', () => {
       const config = createTestConfiguration({
-        enhancementType: 'Triple Strength Myomer'
+        enhancementType: 'Triple Strength Myomer',
+        gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+        structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+        armorType: { type: 'Standard', techBase: 'Inner Sphere' },
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
+        heatSinkType: { type: 'Single', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(config)
@@ -237,14 +259,14 @@ describe('State Persistence Tests', () => {
       
       const config = createTestConfiguration({
         engineType: 'XL',
-        gyroType: 'Compact',
-        structureType: 'Endo Steel',
-        armorType: 'Ferro-Fibrous',
+        gyroType: { type: 'Compact', techBase: 'Inner Sphere' },
+        structureType: { type: 'Endo Steel', techBase: 'Inner Sphere' },
+        armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' },
         enhancementType: 'MASC',
-        heatSinkType: 'Double',
+        heatSinkType: { type: 'Double', techBase: 'Inner Sphere' },
         externalHeatSinks: 5,
         jumpMP: 3,
-        jumpJetType: 'Standard Jump Jet'
+        jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' }
       })
       
       const unitManager = new UnitCriticalManager(config)
@@ -257,9 +279,24 @@ describe('State Persistence Tests', () => {
       
       // Serialize and restore
       const serializedState = unitManager.serializeCompleteState()
-      saveCompleteStateToMockStorage('complex-test', serializedState)
+      // Add concise summary log
+      const summary = serializedState.unallocatedEquipment.reduce((acc, eq) => {
+        const name = eq.equipmentData.name
+        acc[name] = (acc[name] || 0) + 1
+        return acc
+      }, {} as Record<string, number>)
+      console.log('=== [TEST SUMMARY] Serialized unallocatedEquipment count:', serializedState.unallocatedEquipment.length)
+      Object.entries(summary).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
       
-      const restoredState = loadCompleteStateFromMockStorage('complex-test')
+      // Force error if serialized count is less than expected to show summary in error output
+      if (serializedState.unallocatedEquipment.length < 36) {
+        const summaryText = Object.entries(summary).map(([name, count]) => `${name}: ${count}`).join(', ')
+        throw new Error(`Serialized unallocatedEquipment count (${serializedState.unallocatedEquipment.length}) is less than expected (36). Summary: ${summaryText}`)
+      }
+      const tabId = `complex-special-components-test`
+      saveCompleteStateToMockStorage(tabId, serializedState)
+      
+      const restoredState = loadCompleteStateFromMockStorage(tabId)
       const newUnitManager = new UnitCriticalManager(restoredState!.configuration)
       const restoreSuccess = newUnitManager.deserializeCompleteState(restoredState!)
       
@@ -268,16 +305,24 @@ describe('State Persistence Tests', () => {
       // Verify all configuration values persisted
       const restoredConfig = newUnitManager.getConfiguration()
       expect(restoredConfig.engineType).toBe('XL')
-      expect(restoredConfig.gyroType).toBe('Compact')
-      expect(restoredConfig.structureType).toBe('Endo Steel')
-      expect(restoredConfig.armorType).toBe('Ferro-Fibrous')
+      expect(restoredConfig.gyroType.type).toBe('Compact')
+      expect(restoredConfig.structureType.type).toBe('Endo Steel')
+      expect(restoredConfig.armorType.type).toBe('Ferro-Fibrous')
       expect(restoredConfig.enhancementType).toBe('MASC')
-      expect(restoredConfig.heatSinkType).toBe('Double')
+      expect(restoredConfig.heatSinkType.type).toBe('Double')
       expect(restoredConfig.externalHeatSinks).toBe(5)
       expect(restoredConfig.jumpMP).toBe(3)
       
       // Verify special components persisted
       const restoredUnallocated = newUnitManager.getUnallocatedEquipment()
+      // Add debug log for restored unallocated equipment
+      const restoredSummary = restoredUnallocated.reduce((acc, eq) => {
+        const name = eq.equipmentData.name
+        acc[name] = (acc[name] || 0) + 1
+        return acc
+      }, {} as Record<string, number>)
+      console.log('=== [TEST SUMMARY] Restored unallocatedEquipment count:', restoredUnallocated.length)
+      Object.entries(restoredSummary).forEach(([name, count]) => console.log(`  ${name}: ${count}`))
       expect(restoredUnallocated.length).toBeGreaterThanOrEqual(36)
       
       console.log('✅ Complex configuration persistence test passed')
@@ -342,7 +387,28 @@ describe('State Persistence Tests', () => {
 // Helper Functions
 
 function createTestConfiguration(overrides: Partial<UnitConfiguration> = {}): UnitConfiguration {
-  return {
+  // Ensure all relevant fields are always objects with type/techBase
+  let structureType = overrides.structureType
+  if (typeof structureType === 'string') {
+    structureType = { type: structureType, techBase: 'Inner Sphere' }
+  }
+  let armorType = overrides.armorType
+  if (typeof armorType === 'string') {
+    armorType = { type: armorType, techBase: 'Inner Sphere' }
+  }
+  let gyroType = overrides.gyroType
+  if (typeof gyroType === 'string') {
+    gyroType = { type: gyroType, techBase: 'Inner Sphere' }
+  }
+  let jumpJetType = overrides.jumpJetType
+  if (typeof jumpJetType === 'string') {
+    jumpJetType = { type: jumpJetType, techBase: 'Inner Sphere' }
+  }
+  let heatSinkType = overrides.heatSinkType
+  if (typeof heatSinkType === 'string') {
+    heatSinkType = { type: heatSinkType, techBase: 'Inner Sphere' }
+  }
+  const config = {
     chassis: 'Test Mech',
     model: 'TEST-1',
     tonnage: 50,
@@ -352,9 +418,9 @@ function createTestConfiguration(overrides: Partial<UnitConfiguration> = {}): Un
     engineRating: 200,
     runMP: 6,
     engineType: 'Standard',
-    gyroType: 'Standard',
-    structureType: 'Standard',
-    armorType: 'Standard',
+    gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+    structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+    armorType: { type: 'Standard', techBase: 'Inner Sphere' },
     armorAllocation: {
       HD: { front: 9, rear: 0 },
       CT: { front: 30, rear: 10 },
@@ -366,18 +432,25 @@ function createTestConfiguration(overrides: Partial<UnitConfiguration> = {}): Un
       RL: { front: 30, rear: 0 }
     },
     armorTonnage: 8.0,
-    heatSinkType: 'Single',
+    heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
     totalHeatSinks: 10,
     internalHeatSinks: 8,
     externalHeatSinks: 2,
     enhancementType: null,
     jumpMP: 0,
-    jumpJetType: 'Standard Jump Jet',
+    jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
     jumpJetCounts: {},
     hasPartialWing: false,
     mass: 50,
-    ...overrides
+    ...overrides,
   }
+  // After spread, ensure all are objects
+  if (typeof config.structureType === 'string') config.structureType = { type: config.structureType, techBase: 'Inner Sphere' }
+  if (typeof config.armorType === 'string') config.armorType = { type: config.armorType, techBase: 'Inner Sphere' }
+  if (typeof config.gyroType === 'string') config.gyroType = { type: config.gyroType, techBase: 'Inner Sphere' }
+  if (typeof config.jumpJetType === 'string') config.jumpJetType = { type: config.jumpJetType, techBase: 'Inner Sphere' }
+  if (typeof config.heatSinkType === 'string') config.heatSinkType = { type: config.heatSinkType, techBase: 'Inner Sphere' }
+  return config as UnitConfiguration
 }
 
 function saveCompleteStateToMockStorage(tabId: string, state: CompleteUnitState): void {

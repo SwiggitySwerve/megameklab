@@ -328,7 +328,7 @@ function unitReducer(state: UnitState, action: UnitAction): UnitState {
 
     case UnitActionType.UPDATE_EQUIPMENT: {
       const { action: equipAction, equipment, index, location } = action.payload;
-      let weapons_and_equipment = [...(state.unit.data?.weapons_and_equipment || [])];
+      const weapons_and_equipment = [...(state.unit.data?.weapons_and_equipment || [])];
       
       switch (equipAction) {
         case 'add':

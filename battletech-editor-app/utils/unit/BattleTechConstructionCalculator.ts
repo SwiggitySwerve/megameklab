@@ -121,7 +121,7 @@ export class BattleTechConstructionCalculator implements IConstructionCalculator
    * Get gyro weight based on type and engine rating
    */
   getGyroWeight(gyroType: GyroType, rating: number): number {
-    let baseWeight = Math.ceil(rating / 100)
+    const baseWeight = Math.ceil(rating / 100)
     
     switch (gyroType) {
       case 'XL':

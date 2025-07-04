@@ -117,7 +117,7 @@ export class UnitManager implements IUnitManager {
     console.log('[UnitManager] Updating configuration:', newConfig)
     
     const oldConfig = this.configuration
-    let validatedConfig = UnitConfigurationBuilder.buildConfiguration({
+    const validatedConfig = UnitConfigurationBuilder.buildConfiguration({
       ...this.configuration,
       ...newConfig
     })

@@ -360,7 +360,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   const handleConfigUpdate = (updates: any) => {
     console.log('[OverviewTab] Updating configuration:', updates)
     
-    let newConfig = { ...enhancedConfig, ...updates }
+    const newConfig = { ...enhancedConfig, ...updates }
     
     // Auto-update tech rating when year or progression changes
     if ('introductionYear' in updates || 'techProgression' in updates) {

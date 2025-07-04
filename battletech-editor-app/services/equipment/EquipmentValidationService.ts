@@ -412,6 +412,42 @@ export class EquipmentValidationService {
     const mountingIssues: MountingIssue[] = [];
     const suggestions: ComplianceSuggestion[] = [];
 
+    // Check for missing required equipment
+    const equipmentTypes = allocations.map(a => a.equipment.equipmentData?.type || 'equipment');
+    const hasEngine = equipmentTypes.includes('engine');
+    const hasGyro = equipmentTypes.includes('gyro');
+    const hasCockpit = equipmentTypes.includes('cockpit');
+
+    if (!hasEngine) {
+      violations.push({
+        rule: 'Required Equipment',
+        description: 'Engine is required for all mechs',
+        affectedEquipment: ['Engine'],
+        severity: 'critical',
+        resolution: 'Add engine to center torso'
+      });
+    }
+
+    if (!hasGyro) {
+      violations.push({
+        rule: 'Required Equipment',
+        description: 'Gyro is required for all mechs',
+        affectedEquipment: ['Gyro'],
+        severity: 'critical',
+        resolution: 'Add gyro to center torso'
+      });
+    }
+
+    if (!hasCockpit) {
+      violations.push({
+        rule: 'Required Equipment',
+        description: 'Cockpit is required for all mechs',
+        affectedEquipment: ['Cockpit'],
+        severity: 'critical',
+        resolution: 'Add cockpit to head'
+      });
+    }
+
     // Check engine rating limits
     const engineRating = config.engineRating || 0;
     if (engineRating > this.CONSTRUCTION_RULES.maxEngineRating) {
@@ -685,7 +721,7 @@ export class EquipmentValidationService {
     if (tonnage > locationRules.maxTonnage) {
       return {
         isValid: false,
-        message: `Equipment weighs ${tonnage} tons, location limit is ${locationRules.maxTonnage} tons`
+        message: `Equipment weight (${tonnage} tons) exceeds location tonnage limit (${locationRules.maxTonnage} tons)`
       };
     }
 

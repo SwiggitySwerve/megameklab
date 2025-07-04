@@ -203,7 +203,7 @@ export class UnitAnalyzer {
   ): EquipmentSummary {
     let totalEquipmentTonnage = 0;
     const equipmentByCategory: { [key: string]: { count: number; tonnage: number; items: string[] } } = {};
-    let weaponCounts = {
+    const weaponCounts = {
       totalWeapons: 0,
       energyWeapons: 0,
       ballisticWeapons: 0,

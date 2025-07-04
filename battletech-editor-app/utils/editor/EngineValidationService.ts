@@ -360,7 +360,7 @@ export class EngineValidationService {
     const runSpeed = Math.floor(walkSpeed * 1.5)
     
     // Engine weight calculation based on type
-    let engineWeight = this.calculateEngineWeight(engineRating, engineType)
+    const engineWeight = this.calculateEngineWeight(engineRating, engineType)
     const weightEfficiency = engineRating / engineWeight
     const powerToWeightRatio = engineRating / unitMass
     
@@ -438,7 +438,7 @@ export class EngineValidationService {
    */
   static calculateEngineWeight(engineRating: number, engineType: string): number {
     // Base weight calculation (simplified)
-    let baseWeight = Math.ceil(engineRating / 25)
+    const baseWeight = Math.ceil(engineRating / 25)
     
     // Type-specific modifiers
     switch (engineType) {

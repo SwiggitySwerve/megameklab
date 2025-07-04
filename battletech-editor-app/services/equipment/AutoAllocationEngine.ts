@@ -124,6 +124,24 @@ export class AutoAllocationEngine {
     config: UnitConfiguration, 
     equipment: any[]
   ): AutoAllocationResult {
+    // Handle empty equipment list
+    if (!equipment || equipment.length === 0) {
+      return {
+        success: true,
+        strategy: 'balanced',
+        allocations: [],
+        unallocated: [],
+        metrics: {
+          successRate: 100,
+          efficiencyScore: 100,
+          balanceScore: 100,
+          utilization: 0
+        },
+        improvements: [],
+        warnings: []
+      };
+    }
+
     const strategies = [
       { name: 'balanced', fn: this.balancedAllocationStrategy },
       { name: 'front_loaded', fn: this.frontLoadedStrategy },
@@ -144,6 +162,17 @@ export class AutoAllocationEngine {
         bestStrategy = strategy.name;
         bestScore = score;
       }
+    }
+
+    // Ensure bestResult is initialized
+    if (!bestResult) {
+      bestResult = {
+        success: false,
+        allocations: [],
+        unallocated: equipment,
+        warnings: []
+      };
+      bestStrategy = 'balanced';
     }
 
     const metrics = this.calculateAllocationMetrics(bestResult, config);
@@ -167,6 +196,18 @@ export class AutoAllocationEngine {
     weapons: any[], 
     config: UnitConfiguration
   ): WeaponAllocationResult {
+    // Handle null/undefined input
+    if (!weapons || !Array.isArray(weapons)) {
+      return {
+        allocated: [],
+        unallocated: [],
+        strategy: 'balanced',
+        heatEfficiency: 100,
+        firepower: { short: 0, medium: 0, long: 0 },
+        recommendations: []
+      };
+    }
+
     const allocated: EquipmentPlacement[] = [];
     const unallocated: any[] = [];
 
@@ -205,6 +246,17 @@ export class AutoAllocationEngine {
     ammunition: any[], 
     config: UnitConfiguration
   ): AmmoAllocationResult {
+    // Handle null/undefined input
+    if (!ammunition || !Array.isArray(ammunition)) {
+      return {
+        allocated: [],
+        unallocated: [],
+        caseProtection: { protected: [], unprotected: [], recommendations: [] },
+        ammoBalance: [],
+        suggestions: []
+      };
+    }
+
     const allocated: EquipmentPlacement[] = [];
     const unallocated: any[] = [];
 
@@ -548,6 +600,11 @@ export class AutoAllocationEngine {
   // ===== HELPER METHODS =====
 
   private static sortWeaponsByPriority(weapons: any[]): any[] {
+    // Handle null/undefined input
+    if (!weapons || !Array.isArray(weapons)) {
+      return [];
+    }
+    
     return weapons.sort((a, b) => {
       const weightA = a.equipmentData?.tonnage || 0;
       const weightB = b.equipmentData?.tonnage || 0;

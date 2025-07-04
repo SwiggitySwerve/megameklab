@@ -169,7 +169,7 @@ export function syncEngineChange(
   displacedEquipment = [...displacedEquipment, ...gyroResult.displacedEquipment];
   
   // Update equipment locations for displaced items
-  let updatedEquipment = updateDisplacedEquipment(
+  const updatedEquipment = updateDisplacedEquipment(
     unit.data?.weapons_and_equipment || [],
     displacedEquipment
   );

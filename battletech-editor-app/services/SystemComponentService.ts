@@ -102,7 +102,7 @@ export class SystemComponentServiceImpl implements SystemComponentService {
   calculateEngineWeight(rating: number, engineType: EngineType): number {
     if (rating <= 0) return 0;
     
-    let baseWeight = rating / 25; // Standard engine weight formula
+    const baseWeight = rating / 25; // Standard engine weight formula
     
     // Apply engine type multipliers
     switch (engineType) {

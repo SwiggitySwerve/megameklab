@@ -24,9 +24,8 @@ describe('Heat Sink Generation', () => {
       engineRating: 200, // 200 rating = 8 internal heat sinks
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 20, rear: 6 },
@@ -38,15 +37,17 @@ describe('Heat Sink Generation', () => {
         RL: { front: 16, rear: 0 }
       },
       armorTonnage: 8.0,
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 12,        // Total heat sinks
       internalHeatSinks: 8,      // Internal (from 200-rated engine)
       externalHeatSinks: 4,      // External (12 - 8 = 4)
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
-      mass: 50
+      mass: 50,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      enhancementType: null
     }
 
     console.log('=== TEST: Creating UnitCriticalManager with configuration ===')
@@ -95,9 +96,8 @@ describe('Heat Sink Generation', () => {
       engineRating: 300, // 300 rating = 10 internal heat sinks
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 25, rear: 8 },
@@ -109,15 +109,17 @@ describe('Heat Sink Generation', () => {
         RL: { front: 20, rear: 0 }
       },
       armorTonnage: 12.0,
-      heatSinkType: 'Double',
+      heatSinkType: { type: 'Double', techBase: 'Inner Sphere' },
       totalHeatSinks: 15,        // Total heat sinks
       internalHeatSinks: 10,     // Internal (from 300-rated engine)
       externalHeatSinks: 5,      // External (15 - 10 = 5)
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
-      mass: 75
+      mass: 75,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      enhancementType: null
     }
 
     console.log('=== TEST: Double Heat Sinks ===')
@@ -152,9 +154,8 @@ describe('Heat Sink Generation', () => {
       engineRating: 200,
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 20, rear: 6 },
@@ -166,15 +167,17 @@ describe('Heat Sink Generation', () => {
         RL: { front: 16, rear: 0 }
       },
       armorTonnage: 8.0,
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 12,
       internalHeatSinks: 8,
       externalHeatSinks: 4,
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
-      mass: 50
+      mass: 50,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      enhancementType: null
     }
 
     console.log('=== TEST: Configuration Changes ===')
@@ -191,10 +194,11 @@ describe('Heat Sink Generation', () => {
     console.log('Initial heat sinks:', heatSinks.length)
     expect(heatSinks.length).toBe(4)
     
-    // Change to 15 total heat sinks (should be 7 external now)
+    // Change to 15 total heat sinks with 8 internal (should be 7 external now)
     const newConfig = {
       ...config,
       totalHeatSinks: 15,
+      internalHeatSinks: 8, // Explicitly set to match test expectation
       externalHeatSinks: 7
     }
     
@@ -214,7 +218,7 @@ describe('Heat Sink Generation', () => {
     // Change heat sink type to Double
     const doubleConfig = {
       ...newConfig,
-      heatSinkType: 'Double' as const
+      heatSinkType: { type: 'Double', techBase: 'Inner Sphere' } as const
     }
     
     console.log('Changing to Double heat sinks...')
@@ -231,7 +235,7 @@ describe('Heat Sink Generation', () => {
     console.log('Heat sink names:', heatSinks.map(hs => hs.equipmentData.name))
     
     expect(heatSinks.length).toBe(7) // Should still be exactly 7
-    expect(heatSinks[0].equipmentData.name).toBe('Single Heat Sink') // System is generating single heat sinks
+    expect(heatSinks[0].equipmentData.name).toBe('Double (IS) Heat Sink') // System is generating double heat sinks
   })
 
   test('should not generate heat sinks when externalHeatSinks is 0', () => {
@@ -245,9 +249,8 @@ describe('Heat Sink Generation', () => {
       engineRating: 160,
       runMP: 12,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorAllocation: {
         HD: { front: 9, rear: 0 },
         CT: { front: 12, rear: 4 },
@@ -259,15 +262,17 @@ describe('Heat Sink Generation', () => {
         RL: { front: 8, rear: 0 }
       },
       armorTonnage: 4.0,
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,        // Only minimum 10
       internalHeatSinks: 10,     // All internal (160 rating provides 6, but minimum 10)
       externalHeatSinks: 0,      // No external heat sinks needed
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
-      mass: 20
+      mass: 20,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      enhancementType: null
     }
 
     console.log('=== TEST: No External Heat Sinks ===')

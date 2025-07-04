@@ -114,7 +114,7 @@ export class CriticalSection {
     
     for (let start = 0; start <= available.length - requiredSlots; start++) {
       const candidateSlots = []
-      let currentSlot = available[start]
+      const currentSlot = available[start]
       
       // Check if we have enough contiguous slots
       for (let i = 0; i < requiredSlots; i++) {
@@ -256,12 +256,14 @@ export class CriticalSection {
     
     // Validate slot range
     if (endSlot >= this.slots.length) {
+      console.error(`[CriticalSection] Allocation failed: endSlot ${endSlot} >= section length ${this.slots.length}`)
       return false
     }
     
     // Check if all required slots are available
     for (let i = startSlot; i <= endSlot; i++) {
       if (!this.slots[i].isEmpty()) {
+        console.error(`[CriticalSection] Allocation failed: slot ${i} in ${this.location} is not empty. Slot content:`, this.slots[i])
         return false
       }
     }

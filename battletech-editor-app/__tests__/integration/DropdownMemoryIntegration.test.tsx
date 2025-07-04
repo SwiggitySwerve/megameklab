@@ -255,7 +255,7 @@ describe('Dropdown Memory Integration', () => {
     });
     
     // Track useEffect executions by monitoring update calls over time
-    let callCountSnapshots: number[] = [];
+    const callCountSnapshots: number[] = [];
     
     render(
       <MultiUnitProvider>

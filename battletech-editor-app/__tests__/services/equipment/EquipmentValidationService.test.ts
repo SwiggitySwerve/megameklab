@@ -66,8 +66,9 @@ describe('EquipmentValidationService', () => {
         },
         conflicts: []
       },
-      {
-        equipmentId: 'heat-sink-1',
+      // Add 10 heat sinks
+      ...Array.from({ length: 10 }, (_, i) => ({
+        equipmentId: `heat-sink-${i+1}`,
         equipment: {
           equipmentData: {
             name: 'Heat Sink',
@@ -78,12 +79,96 @@ describe('EquipmentValidationService', () => {
             techBase: 'Inner Sphere'
           }
         },
-        location: 'leftLeg',
-        slots: [1],
+        location: i < 5 ? 'leftLeg' : 'rightLeg',
+        slots: [i % 6 + 1],
         isFixed: false,
         isValid: true,
         constraints: {
           allowedLocations: ['leftLeg', 'rightLeg', 'leftTorso', 'rightTorso'],
+          forbiddenLocations: [],
+          requiresCASE: false,
+          requiresArtemis: false,
+          minTonnageLocation: 0,
+          maxTonnageLocation: 100,
+          heatGeneration: 0,
+          specialRules: []
+        },
+        conflicts: []
+      })),
+      // Add required engine
+      {
+        equipmentId: 'engine-1',
+        equipment: {
+          equipmentData: {
+            name: 'Fusion Engine',
+            type: 'engine',
+            tonnage: 19,
+            criticals: 6,
+            techBase: 'Inner Sphere'
+          }
+        },
+        location: 'centerTorso',
+        slots: [1, 2, 3, 4, 5, 6],
+        isFixed: false,
+        isValid: true,
+        constraints: {
+          allowedLocations: ['centerTorso'],
+          forbiddenLocations: [],
+          requiresCASE: false,
+          requiresArtemis: false,
+          minTonnageLocation: 0,
+          maxTonnageLocation: 100,
+          heatGeneration: 0,
+          specialRules: []
+        },
+        conflicts: []
+      },
+      // Add required gyro
+      {
+        equipmentId: 'gyro-1',
+        equipment: {
+          equipmentData: {
+            name: 'Standard Gyro',
+            type: 'gyro',
+            tonnage: 3,
+            criticals: 4,
+            techBase: 'Inner Sphere'
+          }
+        },
+        location: 'centerTorso',
+        slots: [7, 8, 9, 10],
+        isFixed: false,
+        isValid: true,
+        constraints: {
+          allowedLocations: ['centerTorso'],
+          forbiddenLocations: [],
+          requiresCASE: false,
+          requiresArtemis: false,
+          minTonnageLocation: 0,
+          maxTonnageLocation: 100,
+          heatGeneration: 0,
+          specialRules: []
+        },
+        conflicts: []
+      },
+      // Add required cockpit
+      {
+        equipmentId: 'cockpit-1',
+        equipment: {
+          equipmentData: {
+            name: 'Standard Cockpit',
+            type: 'cockpit',
+            tonnage: 1,
+            criticals: 1,
+            techBase: 'Inner Sphere'
+          }
+        },
+        location: 'head',
+        slots: [1],
+        isFixed: false,
+        isValid: true,
+        constraints: {
+          allowedLocations: ['head'],
           forbiddenLocations: [],
           requiresCASE: false,
           requiresArtemis: false,
@@ -101,6 +186,10 @@ describe('EquipmentValidationService', () => {
     it('should validate valid equipment placement configuration', () => {
       const result: ValidationResult = EquipmentValidationService.validateEquipmentPlacement(mockConfig, mockAllocations);
 
+      if (!result.isValid) {
+        // eslint-disable-next-line no-console
+        console.log('Validation errors:', result.errors);
+      }
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.warnings).toBeInstanceOf(Array);
@@ -320,9 +409,9 @@ describe('EquipmentValidationService', () => {
 
       expect(result.compliant).toBe(false);
       expect(result.violations.length).toBeGreaterThan(0);
-      expect(result.violations.some(v => v.description.includes('engine'))).toBe(true);
-      expect(result.violations.some(v => v.description.includes('gyro'))).toBe(true);
-      expect(result.violations.some(v => v.description.includes('cockpit'))).toBe(true);
+      expect(result.violations.some(v => v.description.toLowerCase().includes('engine'))).toBe(true);
+      expect(result.violations.some(v => v.description.toLowerCase().includes('gyro'))).toBe(true);
+      expect(result.violations.some(v => v.description.toLowerCase().includes('cockpit'))).toBe(true);
     });
 
     it('should validate jump jet limits', () => {

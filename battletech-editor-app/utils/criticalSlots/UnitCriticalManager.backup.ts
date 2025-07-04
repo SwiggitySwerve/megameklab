@@ -1875,7 +1875,7 @@ export class UnitCriticalManager {
     const rating = this.configuration.engineRating
     const type = this.configuration.gyroType
     
-    let baseWeight = Math.ceil(rating / 100)
+    const baseWeight = Math.ceil(rating / 100)
     
     switch (type) {
       case 'XL':

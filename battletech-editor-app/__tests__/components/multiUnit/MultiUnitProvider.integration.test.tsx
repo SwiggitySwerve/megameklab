@@ -312,7 +312,7 @@ describe('MultiUnitProvider Integration Tests', () => {
 
   describe('Context Value Stability', () => {
     test('should provide stable context reference', async () => {
-      let contextReferences: any[] = [];
+      const contextReferences: any[] = [];
       
       function ContextCapture() {
         const context = useMultiUnit();

@@ -123,7 +123,7 @@ export class UnitCalculationService {
     options: Partial<UnitCalculationOptions> = {}
   ): WeightBreakdown {
     const opts = { ...this.defaultOptions, ...options }
-    let breakdown: WeightBreakdown = {
+    const breakdown: WeightBreakdown = {
       structure: 0,
       engine: 0,
       gyro: 0,
@@ -176,7 +176,7 @@ export class UnitCalculationService {
     if (opts.useSystemComponents && unit.systemComponents?.gyro && unit.systemComponents?.engine) {
       const gyro = unit.systemComponents.gyro
       const engineRating = unit.systemComponents.engine.rating
-      let baseWeight = Math.ceil(engineRating / 100)
+      const baseWeight = Math.ceil(engineRating / 100)
       
       switch (gyro.type) {
         case 'XL': breakdown.gyro = baseWeight * 0.5; break

@@ -233,8 +233,8 @@ export class CriticalSlotsManagementService {
 
   private static compactSlots(slots: CriticalSlot[]): {slots: CriticalSlot[], modified: boolean, moveCount: number} {
     const result = [...slots]
-    let modified = false
-    let moveCount = 0
+    const modified = false
+    const moveCount = 0
 
     // Find all non-empty slots
     const nonEmptySlots = result.filter(slot => !slot.isEmpty())

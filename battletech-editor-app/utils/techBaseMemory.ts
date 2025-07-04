@@ -173,7 +173,7 @@ export function validateAndCleanMemory(
   memory: TechBaseMemory,
   rulesLevel?: RulesLevel
 ): TechBaseMemory {
-  let cleanedMemory = { ...memory };
+  const cleanedMemory = { ...memory };
   let hasChanges = false;
   
   for (const category of COMPONENT_CATEGORIES) {

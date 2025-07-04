@@ -62,7 +62,7 @@ export class PlacementCalculationService {
   
   // Location preferences for different equipment types
   private static readonly EQUIPMENT_PREFERENCES = {
-    'energy_weapon': ['leftArm', 'rightArm', 'leftTorso', 'rightTorso'],
+    'energy_weapon': ['leftArm', 'rightArm', 'leftTorso', 'rightTorso', 'centerTorso', 'head'],
     'ballistic_weapon': ['leftTorso', 'rightTorso', 'leftArm', 'rightArm'],
     'missile_weapon': ['leftTorso', 'rightTorso'],
     'ammunition': ['leftTorso', 'rightTorso', 'leftLeg', 'rightLeg'],
@@ -103,6 +103,11 @@ export class PlacementCalculationService {
     config: UnitConfiguration, 
     existingAllocations: EquipmentPlacement[]
   ): PlacementSuggestion[] {
+    // Handle null/undefined equipment
+    if (!equipment) {
+      return [];
+    }
+
     const constraints = this.getEquipmentConstraints(equipment);
     const suggestions: PlacementSuggestion[] = [];
     
@@ -138,6 +143,12 @@ export class PlacementCalculationService {
     config: UnitConfiguration,
     existingAllocations: EquipmentPlacement[]
   ): number {
+    // Check if placement is valid according to constraints
+    const constraints = this.getEquipmentConstraints(equipment);
+    if (!constraints.allowedLocations.includes(location)) {
+      return 0; // Invalid placement
+    }
+    
     let score = 50; // Base score
     
     // Type preference bonus
@@ -202,11 +213,27 @@ export class PlacementCalculationService {
    * Get equipment constraints based on type and specifications
    */
   static getEquipmentConstraints(equipment: any): EquipmentConstraints {
+    // Handle null/undefined input
+    if (!equipment) {
+      return {
+        allowedLocations: ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'],
+        forbiddenLocations: [],
+        requiresCASE: false,
+        requiresArtemis: false,
+        minTonnageLocation: 0,
+        maxTonnageLocation: 100,
+        heatGeneration: 0,
+        specialRules: []
+      };
+    }
+
     const type = equipment.equipmentData?.type || 'equipment';
     const tonnage = equipment.equipmentData?.tonnage || 0;
     const heat = equipment.equipmentData?.heat || 0;
     
-    let allowedLocations = ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
+    // Start with preferred locations for the equipment type
+    let allowedLocations = this.EQUIPMENT_PREFERENCES[type as keyof typeof this.EQUIPMENT_PREFERENCES] || 
+                          ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
     const forbiddenLocations: string[] = [];
     
     // Weight restrictions
@@ -255,6 +282,16 @@ export class PlacementCalculationService {
     existingAllocations: EquipmentPlacement[],
     config: UnitConfiguration
   ): number[] {
+    // Handle null/undefined equipment
+    if (!equipment) {
+      return [];
+    }
+
+    // Check if location is valid
+    if (!(location in this.LOCATION_SLOTS)) {
+      return [];
+    }
+
     const maxSlots = this.LOCATION_SLOTS[location as keyof typeof this.LOCATION_SLOTS] || 12;
     const slotsNeeded = equipment.equipmentData?.criticals || 1;
     
@@ -266,27 +303,43 @@ export class PlacementCalculationService {
         alloc.slots.forEach(slot => occupiedSlots.add(slot));
       });
     
-    // Find contiguous available slots
+    // Find all available slots
     const availableSlots: number[] = [];
-    let consecutiveSlots = 0;
     
     for (let slot = 1; slot <= maxSlots; slot++) {
       if (!occupiedSlots.has(slot)) {
         availableSlots.push(slot);
-        consecutiveSlots++;
-        
-        if (consecutiveSlots >= slotsNeeded) {
-          break; // Found enough contiguous slots
-        }
-      } else {
-        consecutiveSlots = 0;
-        // Reset available slots if we need contiguous placement
-        if (slotsNeeded > 1) {
-          availableSlots.length = 0;
-        }
       }
     }
     
+    // For equipment that requires contiguous slots, find the best contiguous block
+    if (slotsNeeded > 1) {
+      let bestContiguousSlots: number[] = [];
+      let maxContiguousLength = 0;
+      
+      for (let i = 0; i <= availableSlots.length - slotsNeeded; i++) {
+        const contiguousSlots = availableSlots.slice(i, i + slotsNeeded);
+        if (contiguousSlots.length === slotsNeeded) {
+          // Check if they are actually contiguous
+          let isContiguous = true;
+          for (let j = 1; j < contiguousSlots.length; j++) {
+            if (contiguousSlots[j] !== contiguousSlots[j-1] + 1) {
+              isContiguous = false;
+              break;
+            }
+          }
+          
+          if (isContiguous && contiguousSlots.length > maxContiguousLength) {
+            bestContiguousSlots = contiguousSlots;
+            maxContiguousLength = contiguousSlots.length;
+          }
+        }
+      }
+      
+      return bestContiguousSlots;
+    }
+    
+    // For single-slot equipment, return all available slots
     return availableSlots;
   }
 

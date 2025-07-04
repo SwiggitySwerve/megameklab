@@ -564,7 +564,7 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
 
   // Filter and sort equipment
   const filteredEquipment = useMemo(() => {
-    let filtered = SAMPLE_EQUIPMENT.filter(equipment => {
+    const filtered = SAMPLE_EQUIPMENT.filter(equipment => {
       // Tech availability filter
       if (!showUnavailable) {
         // Map equipment ID to tech progression ID
