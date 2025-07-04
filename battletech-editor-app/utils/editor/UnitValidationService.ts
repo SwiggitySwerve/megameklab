@@ -9,6 +9,7 @@ import { UnitCalculationService } from './UnitCalculationService'
 import { EngineValidationService } from './EngineValidationService'
 import { WeaponValidationService } from './WeaponValidationService'
 import { StructureValidationService } from './StructureValidationService'
+import { FieldValidationService, FieldValidationResult } from './FieldValidationService'
 
 export interface ValidationContext {
   strictMode: boolean
@@ -32,11 +33,6 @@ export interface ValidationResult {
   summary: string
 }
 
-export interface FieldValidationResult {
-  isValid: boolean
-  error?: ValidationError
-  suggestions?: string[]
-}
 
 export class UnitValidationService {
   private static defaultContext: ValidationContext = {
@@ -593,7 +589,7 @@ export class UnitValidationService {
   }
 
   /**
-   * Validate specific field
+   * Validate specific field - delegated to FieldValidationService
    */
   static validateField(
     unit: EditableUnit,
@@ -605,120 +601,48 @@ export class UnitValidationService {
 
     switch (fieldName) {
       case 'chassis':
-        return this.validateChassisField(value, ctx)
+        return FieldValidationService.validateChassisField(value, ctx)
       case 'model':
-        return this.validateModelField(value, ctx)
+        return FieldValidationService.validateModelField(value, ctx)
       case 'mass':
-        return this.validateMassField(value, ctx)
+        return FieldValidationService.validateMassField(value, ctx)
       case 'tech_base':
-        return this.validateTechBaseField(value, ctx)
+        return FieldValidationService.validateTechBaseField(value, ctx)
+      case 'era':
+        return FieldValidationService.validateEraField(value, ctx)
+      case 'walkSpeed':
+        return FieldValidationService.validateWalkSpeedField(value, ctx)
+      case 'engineRating':
+        // Engine rating validation requires mass and walk speed for cross-validation
+        // For now, delegate to basic validation since walkSpeed isn't easily accessible
+        const mass = unit.mass || 0
+        const walkSpeed = 0 // TODO: Extract walk speed from unit configuration
+        return FieldValidationService.validateEngineRatingField(value, mass, walkSpeed, ctx)
       default:
         return { isValid: true }
     }
   }
 
   /**
-   * Validate chassis field
+   * Validate multiple fields with cross-field validation - delegated to FieldValidationService
    */
-  private static validateChassisField(value: string, context: ValidationContext): FieldValidationResult {
-    if (!value || value.trim() === '') {
-      return {
-        isValid: false,
-        error: {
-          id: 'invalid-chassis',
-          category: 'error',
-          message: 'Chassis name is required',
-          field: 'chassis',
-        }
-      }
-    }
-
-    if (value.length > 50) {
-      return {
-        isValid: false,
-        error: {
-          id: 'chassis-too-long',
-          category: 'error',
-          message: 'Chassis name should not exceed 50 characters',
-          field: 'chassis',
-        }
-      }
-    }
-
-    return { isValid: true }
+  static validateFieldsCrossReference(
+    fields: Record<string, any>,
+    context: Partial<ValidationContext> = {}
+  ): { isValid: boolean; errors: ValidationError[]; suggestions: string[] } {
+    const ctx = { ...this.defaultContext, ...context }
+    return FieldValidationService.validateFieldsCrossReference(fields, ctx)
   }
 
   /**
-   * Validate model field
+   * Get field validation rules for UI display - delegated to FieldValidationService
    */
-  private static validateModelField(value: string, context: ValidationContext): FieldValidationResult {
-    if (!value || value.trim() === '') {
-      return {
-        isValid: false,
-        error: {
-          id: 'invalid-model',
-          category: 'error',
-          message: 'Model designation is required',
-          field: 'model',
-        }
-      }
-    }
-
-    return { isValid: true }
-  }
-
-  /**
-   * Validate mass field
-   */
-  private static validateMassField(value: number, context: ValidationContext): FieldValidationResult {
-    if (!value || value <= 0) {
-      return {
-        isValid: false,
-        error: {
-          id: 'invalid-mass',
-          category: 'error',
-          message: 'Unit mass must be greater than 0',
-          field: 'mass',
-        }
-      }
-    }
-
-    if (value % 5 !== 0 && context.strictMode) {
-      return {
-        isValid: false,
-        error: {
-          id: 'invalid-tonnage-increment',
-          category: 'error',
-          message: 'Unit mass must be in 5-ton increments',
-          field: 'mass',
-        },
-        suggestions: ['Use standard tonnage increments: 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100']
-      }
-    }
-
-    return { isValid: true }
-  }
-
-  /**
-   * Validate tech base field
-   */
-  private static validateTechBaseField(value: string, context: ValidationContext): FieldValidationResult {
-    const validTechBases = ['Inner Sphere', 'Clan', 'Mixed (IS Chassis)', 'Mixed (Clan Chassis)']
-    
-    if (!validTechBases.includes(value)) {
-      return {
-        isValid: false,
-        error: {
-          id: 'invalid-tech-base',
-          category: 'error',
-          message: 'Invalid tech base selection',
-          field: 'tech_base',
-        },
-        suggestions: validTechBases
-      }
-    }
-
-    return { isValid: true }
+  static getFieldValidationRules(): Record<string, Array<{
+    name: string;
+    description: string;
+    severity: 'error' | 'warning' | 'info';
+  }>> {
+    return FieldValidationService.getFieldValidationRules()
   }
 
   /**
