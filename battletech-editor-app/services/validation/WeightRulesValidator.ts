@@ -249,18 +249,14 @@ export class WeightRulesValidator {
       const structureType = this.extractComponentType(config.structureType);
       if (structureType === 'Standard') {
         const endoSteelSavings = distribution.structure * 0.5;
-        if (endoSteelSavings > 0.1) { // Suggest if savings are meaningful
-          suggestions.push(`• Switch to Endo Steel structure (saves ${endoSteelSavings.toFixed(2)} tons)`);
-        }
+        suggestions.push(`• Switch to Endo Steel structure (saves ${endoSteelSavings.toFixed(2)} tons)`);
       }
       
       // Suggest engine optimizations
       const engineType = config.engineType || 'Standard';
       if (engineType === 'Standard') {
         const xlEngineSavings = distribution.engine * 0.5;
-        if (xlEngineSavings > 0.1) { // Suggest if savings are meaningful
-          suggestions.push(`• Switch to XL Engine (saves ${xlEngineSavings.toFixed(2)} tons)`);
-        }
+        suggestions.push(`• Switch to XL Engine (saves ${xlEngineSavings.toFixed(2)} tons)`);
       }
       
       // Suggest armor reductions

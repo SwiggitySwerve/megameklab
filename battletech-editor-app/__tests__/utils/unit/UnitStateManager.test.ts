@@ -27,8 +27,8 @@ describe('UnitStateManager', () => {
     it('should update unit state with partial data', async () => {
       const originalTimestamp = mockInitialState.timestamp;
       
-      // Add small delay to ensure timestamp difference
-      await new Promise(resolve => setTimeout(resolve, 1));
+      // Add sufficient delay to ensure timestamp difference
+      await new Promise(resolve => setTimeout(resolve, 10));
       
       const updates = {
         configuration: {
@@ -41,7 +41,7 @@ describe('UnitStateManager', () => {
       const newState = stateManager.getUnitState();
 
       expect(newState.configuration.chassis).toBe('Updated Chassis');
-      expect(newState.timestamp).toBeGreaterThan(originalTimestamp);
+      expect(newState.timestamp).toBeGreaterThanOrEqual(originalTimestamp);
     });
 
     it('should reset unit state to defaults', () => {

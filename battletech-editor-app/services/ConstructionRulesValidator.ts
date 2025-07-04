@@ -10,6 +10,36 @@
 
 import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration, TechBase } from '../types/componentConfiguration';
+import { WeightRulesValidator } from './validation/WeightRulesValidator';
+import { HeatRulesValidator } from './validation/HeatRulesValidator';
+import { CriticalSlotRulesValidator } from './validation/CriticalSlotRulesValidator';
+import { TechLevelRulesValidator } from './validation/TechLevelRulesValidator';
+
+// Import types from validation services
+import type { 
+  WeightValidation as WeightRulesValidation, 
+  WeightViolation as WeightRulesViolation, 
+  WeightDistribution as WeightRulesDistribution 
+} from './validation/WeightRulesValidator';
+import type { 
+  HeatValidation as HeatRulesValidation, 
+  HeatViolation as HeatRulesViolation 
+} from './validation/HeatRulesValidator';
+import type { 
+  CriticalSlotValidation as CriticalSlotRulesValidation, 
+  CriticalSlotViolation as CriticalSlotRulesViolation, 
+  SlotUtilization as SlotRulesUtilization 
+} from './validation/CriticalSlotRulesValidator';
+import type { 
+  TechLevelValidation as TechLevelRulesValidation, 
+  TechLevelViolation as TechLevelRulesViolation, 
+  MixedTechValidation as MixedTechRulesValidation, 
+  EraValidation as EraRulesValidation, 
+  AvailabilityValidation as AvailabilityRulesValidation, 
+  ComponentAvailability as ComponentRulesAvailability, 
+  AvailabilityViolation as AvailabilityRulesViolation, 
+  EraViolation as EraRulesViolation 
+} from './validation/TechLevelRulesValidator';
 
 export interface ConstructionRulesValidator {
   // Core validation methods
@@ -145,7 +175,7 @@ export interface HeatValidation {
 }
 
 export interface HeatViolation {
-  type: 'insufficient_heat_sinks' | 'invalid_heat_sink_type' | 'heat_overflow' | 'engine_heat_sink_violation';
+  type: 'insufficient_heat_sinks' | 'invalid_heat_sink_type' | 'heat_overflow' | 'engine_heat_sink_violation' | 'heat_sink_compatibility';
   message: string;
   severity: 'critical' | 'major' | 'minor';
   suggestedFix: string;
@@ -827,84 +857,11 @@ export class ConstructionRulesValidatorImpl implements ConstructionRulesValidato
   // ===== BATTLETECH RULE CHECKING METHODS =====
   
   validateWeightLimits(config: UnitConfiguration, equipment: any[]): WeightValidation {
-    const violations: WeightViolation[] = [];
-    const recommendations: string[] = [];
-    
-    const maxWeight = config.tonnage || 100;
-    const totalWeight = this.calculateTotalWeight(config, equipment);
-    const overweight = Math.max(0, totalWeight - maxWeight);
-    const underweight = Math.max(0, maxWeight - totalWeight);
-    
-    if (overweight > 0) {
-      violations.push({
-        type: 'overweight',
-        component: 'Unit',
-        actual: totalWeight,
-        expected: maxWeight,
-        severity: 'critical',
-        message: `Unit is ${overweight.toFixed(2)} tons overweight`
-      });
-      recommendations.push('Remove equipment or use lighter alternatives');
-    }
-    
-    if (underweight > maxWeight * 0.1) {
-      recommendations.push('Consider adding more equipment to utilize available tonnage');
-    }
-    
-    const distribution = this.calculateWeightDistribution(config, equipment);
-    
-    return {
-      isValid: violations.length === 0,
-      totalWeight,
-      maxWeight,
-      overweight,
-      underweight,
-      distribution,
-      violations,
-      recommendations
-    };
+    return WeightRulesValidator.validateWeightLimits(config, equipment);
   }
   
   validateHeatManagement(config: UnitConfiguration, equipment: any[]): HeatValidation {
-    const violations: HeatViolation[] = [];
-    const recommendations: string[] = [];
-    
-    const heatGeneration = this.calculateHeatGeneration(equipment);
-    const engineHeatSinks = this.getEngineHeatSinks(config);
-    const externalHeatSinks = this.getExternalHeatSinks(equipment);
-    const actualHeatSinks = engineHeatSinks + externalHeatSinks;
-    const minimumHeatSinks = 10;
-    
-    // Check minimum heat sinks rule
-    if (actualHeatSinks < minimumHeatSinks) {
-      violations.push({
-        type: 'insufficient_heat_sinks',
-        message: `Unit has ${actualHeatSinks} heat sinks but requires minimum ${minimumHeatSinks}`,
-        severity: 'critical',
-        suggestedFix: `Add ${minimumHeatSinks - actualHeatSinks} more heat sinks`
-      });
-    }
-    
-    const heatDissipation = actualHeatSinks * 2; // Simplified for double heat sinks
-    const heatDeficit = Math.max(0, heatGeneration - heatDissipation);
-    
-    if (heatDeficit > 0) {
-      recommendations.push(`Heat generation exceeds dissipation by ${heatDeficit} points`);
-      recommendations.push('Consider adding more heat sinks or reducing heat-generating equipment');
-    }
-    
-    return {
-      isValid: violations.length === 0,
-      heatGeneration,
-      heatDissipation,
-      heatDeficit,
-      minimumHeatSinks,
-      actualHeatSinks,
-      engineHeatSinks,
-      externalHeatSinks,
-      violations,
-      recommendations
-    };
+    return HeatRulesValidator.validateHeatManagement(config, equipment);
   }
   
   validateMovementRules(config: UnitConfiguration): MovementValidation {

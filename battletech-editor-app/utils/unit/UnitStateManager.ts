@@ -75,8 +75,16 @@ export class UnitStateManagerImpl implements UnitStateManager {
       timestamp: newTimestamp
     };
     
-    // Push current state to undo stack before updating (if it's different)
-    if (!this.deepEqual(this.currentState, newState)) {
+    // Compare states excluding timestamp for meaningful changes
+    const currentStateWithoutTimestamp = { ...this.currentState };
+    delete (currentStateWithoutTimestamp as any).timestamp;
+    const newStateWithoutTimestamp = { ...newState };
+    delete (newStateWithoutTimestamp as any).timestamp;
+    
+    const hasActualChanges = !this.deepEqual(currentStateWithoutTimestamp, newStateWithoutTimestamp);
+    
+    // Push current state to undo stack before updating (if meaningful content changed)
+    if (hasActualChanges) {
       this.undoRedoState.undoStack.push({ ...this.currentState });
       
       // Limit stack size
