@@ -7,7 +7,7 @@ import { UnitConfiguration } from '../criticalSlots/UnitCriticalManagerTypes';
 import { ComponentConfiguration, TechBase } from '../../types/componentConfiguration';
 import { EquipmentIDMappingService, EquipmentMapping } from './EquipmentIDMapping';
 import { ArmorLocation } from '../../types';
-import { ArmorType, ARMOR_TYPES } from '../../types/editor';
+import { ArmorType, ARMOR_TYPES, CriticalSlotAssignment, EquipmentPlacement } from '../../types/editor';
 
 // Field name mapping from JSON snake_case to TypeScript camelCase
 const FIELD_MAPPING: Record<string, string> = {
@@ -66,15 +66,32 @@ export interface ArmorMigrationData {
   totalArmorPoints: number;
 }
 
+export interface CriticalSlotMigrationData {
+  criticalSlots: CriticalSlotAssignment[];
+  equipmentPlacements: EquipmentPlacement[];
+  systemComponents: SystemComponentMapping[];
+  unallocatedEquipment: string[];
+}
+
+export interface SystemComponentMapping {
+  type: 'engine' | 'gyro' | 'cockpit' | 'lifesupport' | 'sensors' | 'actuator';
+  name: string;
+  location: string;
+  slotIndex: number;
+  isFixed: boolean;
+}
+
 export interface MigrationResult {
   success: boolean;
   unitConfiguration?: Partial<UnitConfiguration>;
   equipment?: EquipmentAllocationData[];
   armor?: ArmorMigrationData;
+  criticalSlots?: CriticalSlotMigrationData;
   errors: string[];
   warnings: string[];
   equipmentMappingIssues?: string[];
   armorMappingIssues?: string[];
+  criticalSlotMappingIssues?: string[];
 }
 
 export interface MigrationValidation {
@@ -100,6 +117,7 @@ export class UnitJSONMigrationService {
     const warnings: string[] = [];
     const equipmentMappingIssues: string[] = [];
     const armorMappingIssues: string[] = [];
+    const criticalSlotMappingIssues: string[] = [];
     
     try {
       // Step 1: Basic field normalization
@@ -120,6 +138,9 @@ export class UnitJSONMigrationService {
       // Step 6: Convert armor
       const armor = this.convertArmor(jsonUnit, baseConfig.techBase || 'Inner Sphere', armorMappingIssues, warnings);
       
+      // Step 7: Convert critical slots
+      const criticalSlots = this.convertCriticalSlots(jsonUnit, equipment || [], baseConfig.techBase || 'Inner Sphere', criticalSlotMappingIssues, warnings);
+      
       // Combine all configurations
       const unitConfiguration: Partial<UnitConfiguration> = {
         ...baseConfig,
@@ -132,10 +153,12 @@ export class UnitJSONMigrationService {
         unitConfiguration,
         equipment,
         armor,
+        criticalSlots,
         errors,
         warnings,
         equipmentMappingIssues,
-        armorMappingIssues
+        armorMappingIssues,
+        criticalSlotMappingIssues
       };
       
     } catch (error) {
@@ -145,7 +168,8 @@ export class UnitJSONMigrationService {
         errors,
         warnings,
         equipmentMappingIssues,
-        armorMappingIssues
+        armorMappingIssues,
+        criticalSlotMappingIssues
       };
     }
   }
@@ -627,6 +651,232 @@ export class UnitJSONMigrationService {
         mappingIssues.push(`${location}: Location should not have rear armor`);
       }
     });
+  }
+  
+  /**
+   * Convert critical slots from JSON format to our critical slot system
+   */
+  private convertCriticalSlots(
+    jsonUnit: any,
+    equipment: EquipmentAllocationData[],
+    unitTechBase: TechBase,
+    mappingIssues: string[],
+    warnings: string[]
+  ): CriticalSlotMigrationData {
+    const result: CriticalSlotMigrationData = {
+      criticalSlots: [],
+      equipmentPlacements: [],
+      systemComponents: [],
+      unallocatedEquipment: []
+    };
+    
+    if (!jsonUnit.criticals || !Array.isArray(jsonUnit.criticals)) {
+      warnings.push('No critical slots data found');
+      return result;
+    }
+    
+    // Process each location's critical slots
+    jsonUnit.criticals.forEach((location: any, locationIndex: number) => {
+      try {
+        if (!location.location || !Array.isArray(location.slots)) {
+          mappingIssues.push(`Critical location ${locationIndex}: Missing location or slots data`);
+          return;
+        }
+        
+        const locationName = this.normalizeLocation(location.location);
+        
+        // Process each slot in the location
+        location.slots.forEach((slotName: string, slotIndex: number) => {
+          try {
+            if (!slotName || slotName === '-Empty-') {
+              // Empty slot
+              result.criticalSlots.push({
+                location: locationName,
+                slotIndex,
+                isFixed: false,
+                isEmpty: true
+              });
+              return;
+            }
+            
+            // Determine slot type and content
+            const slotMapping = this.mapCriticalSlot(slotName, locationName, slotIndex, equipment);
+            
+            if (slotMapping.type === 'system') {
+              // Core system component
+              result.criticalSlots.push({
+                location: locationName,
+                slotIndex,
+                systemType: slotMapping.systemType,
+                isFixed: true,
+                isEmpty: false
+              });
+              
+              result.systemComponents.push({
+                type: slotMapping.systemType!,
+                name: slotName,
+                location: locationName,
+                slotIndex,
+                isFixed: true
+              });
+              
+            } else if (slotMapping.type === 'special') {
+              // Special component (heat sinks, ferro-fibrous, endo steel)
+              result.criticalSlots.push({
+                location: locationName,
+                slotIndex,
+                // No systemType for special components
+                isFixed: slotMapping.specialType === 'ferro-fibrous' || slotMapping.specialType === 'endo-steel',
+                isEmpty: false
+              });
+              
+              // Note: Special components are tracked differently than core systems
+              // They might be handled as equipment in some systems
+              
+            } else if (slotMapping.type === 'equipment') {
+              // Equipment
+              result.criticalSlots.push({
+                location: locationName,
+                slotIndex,
+                equipment: slotMapping.equipment,
+                isFixed: false,
+                isEmpty: false
+              });
+              
+              // Create equipment placement if not already exists
+              const existingPlacement = result.equipmentPlacements.find(p => 
+                p.equipment?.id === slotMapping.equipment?.id && p.location === locationName
+              );
+              
+              if (!existingPlacement) {
+                result.equipmentPlacements.push({
+                  id: `${slotMapping.equipment?.id}_${locationName}`,
+                  equipment: slotMapping.equipment!,
+                  location: locationName,
+                  criticalSlots: [slotIndex]
+                });
+              } else {
+                existingPlacement.criticalSlots.push(slotIndex);
+              }
+              
+            } else {
+              // Unknown slot type
+              mappingIssues.push(`${locationName} slot ${slotIndex}: Unknown slot type '${slotName}'`);
+              result.criticalSlots.push({
+                location: locationName,
+                slotIndex,
+                isFixed: false,
+                isEmpty: true
+              });
+            }
+            
+          } catch (error) {
+            mappingIssues.push(`${locationName} slot ${slotIndex}: Error processing - ${error instanceof Error ? error.message : 'Unknown error'}`);
+          }
+        });
+        
+      } catch (error) {
+        mappingIssues.push(`Critical location ${locationIndex}: Error processing - ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
+    });
+    
+    // Find equipment that wasn't placed in critical slots
+    equipment.forEach(eq => {
+      const isPlaced = result.equipmentPlacements.some(p => p.equipment?.name === eq.name);
+      if (!isPlaced) {
+        result.unallocatedEquipment.push(eq.equipmentId);
+      }
+    });
+    
+    return result;
+  }
+  
+  /**
+   * Map a critical slot name to its type and content
+   */
+  private mapCriticalSlot(
+    slotName: string,
+    location: string,
+    slotIndex: number,
+    equipment: EquipmentAllocationData[]
+  ): {
+    type: 'system' | 'equipment' | 'special' | 'unknown';
+    systemType?: 'engine' | 'gyro' | 'cockpit' | 'lifesupport' | 'sensors' | 'actuator';
+    specialType?: 'heat-sink' | 'ferro-fibrous' | 'endo-steel';
+    equipment?: any;
+  } {
+    // Core system component mappings (for systemType)
+    const systemMappings: Record<string, 'engine' | 'gyro' | 'cockpit' | 'lifesupport' | 'sensors' | 'actuator'> = {
+      'Engine': 'engine',
+      'Fusion Engine': 'engine',
+      'Light Engine': 'engine',
+      'XL Engine': 'engine',
+      'XXL Engine': 'engine',
+      'Compact Engine': 'engine',
+      'ICE Engine': 'engine',
+      'Fuel Cell Engine': 'engine',
+      'Fission Engine': 'engine',
+      'Gyro': 'gyro',
+      'Standard Gyro': 'gyro',
+      'Compact Gyro': 'gyro',
+      'Heavy Duty Gyro': 'gyro',
+      'XL Gyro': 'gyro',
+      'Cockpit': 'cockpit',
+      'Standard Cockpit': 'cockpit',
+      'Small Cockpit': 'cockpit',
+      'Command Console': 'cockpit',
+      'Life Support': 'lifesupport',
+      'Sensors': 'sensors',
+      'Shoulder': 'actuator',
+      'Upper Arm Actuator': 'actuator',
+      'Lower Arm Actuator': 'actuator',
+      'Hand Actuator': 'actuator',
+      'Hip': 'actuator',
+      'Upper Leg Actuator': 'actuator',
+      'Lower Leg Actuator': 'actuator',
+      'Foot Actuator': 'actuator'
+    };
+    
+    // Special components that don't fit the standard system types
+    const specialMappings: Record<string, 'heat-sink' | 'ferro-fibrous' | 'endo-steel'> = {
+      'Heat Sink': 'heat-sink',
+      'Double Heat Sink': 'heat-sink',
+      'Single Heat Sink': 'heat-sink',
+      'Ferro-Fibrous': 'ferro-fibrous',
+      'Endo Steel': 'endo-steel',
+      'Endo-Steel': 'endo-steel'
+    };
+    
+    // Check if it's a core system component
+    if (systemMappings[slotName]) {
+      return {
+        type: 'system',
+        systemType: systemMappings[slotName]
+      };
+    }
+    
+    // Check if it's a special component
+    if (specialMappings[slotName]) {
+      return {
+        type: 'special',
+        specialType: specialMappings[slotName]
+      };
+    }
+    
+    // Check if it's equipment by name matching
+    const matchingEquipment = equipment.find(eq => 
+      eq.name.includes(slotName) || slotName.includes(eq.name) ||
+      eq.databaseId.includes(slotName.toLowerCase().replace(/\s+/g, '_'))
+    );
+    
+    if (matchingEquipment) {
+      return {
+        type: 'equipment',
+        equipment: matchingEquipment
+      };
+    }
+    
+    return { type: 'unknown' };
   }
   
   /**
