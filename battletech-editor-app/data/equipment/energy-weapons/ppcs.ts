@@ -1,4 +1,4 @@
-import { Equipment } from './types';
+import { Equipment } from '../types';
 
 export const CLAN_ERPPC: Equipment = {
   id: 'clan_erppc',

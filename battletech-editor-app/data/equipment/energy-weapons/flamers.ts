@@ -1,4 +1,4 @@
-import { Equipment } from './types';
+import { Equipment } from '../types';
 
 export const FLAMER: Equipment = {
   id: 'flamer',
