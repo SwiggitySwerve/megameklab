@@ -249,7 +249,8 @@ export class LocalStorageService implements IService {
 
         return Result.success(data);
       } catch (fileError) {
-        if ((fileError as any).code === 'ENOENT') {
+        // Type-safe error handling
+        if (this.isFileNotFoundError(fileError)) {
           return Result.success(null);
         }
         throw fileError;
@@ -280,7 +281,7 @@ export class LocalStorageService implements IService {
         
         return Result.success(true);
       } catch (error) {
-        if ((error as any).code === 'ENOENT') {
+        if (this.isFileNotFoundError(error)) {
           return Result.success(false);
         }
         throw error;
@@ -531,6 +532,15 @@ export class LocalStorageService implements IService {
     } catch (error) {
       console.error('Failed to save metadata:', error);
     }
+  }
+
+  /**
+   * Type-safe error checking for file operations
+   */
+  private isFileNotFoundError(error: unknown): boolean {
+    return error instanceof Error && 
+           'code' in error && 
+           (error as NodeJS.ErrnoException).code === 'ENOENT';
   }
 }
 

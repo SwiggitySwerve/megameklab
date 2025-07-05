@@ -835,20 +835,45 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
   }
 
   private extractUnitConfiguration(unitState: ICompleteUnitState): IUnitConfiguration {
-    // Extract unit configuration from complete state
+    // Extract unit configuration from complete state using safe accessors
     return {
-      chassisName: (unitState as any).chassisName || 'Unknown',
-      model: (unitState as any).model || 'Unknown',
-      tonnage: (unitState as any).tonnage || 50,
-      techBase: (unitState as any).techBase || 'Inner Sphere',
-      rulesLevel: (unitState as any).rulesLevel || 'Standard',
-      engineRating: (unitState as any).engineRating || 200
+      chassisName: this.safeGetString(unitState, 'chassisName', 'Unknown'),
+      model: this.safeGetString(unitState, 'model', 'Unknown'),
+      tonnage: this.safeGetNumber(unitState, 'tonnage', 50),
+      techBase: this.safeGetString(unitState, 'techBase', 'Inner Sphere') as any,
+      rulesLevel: this.safeGetString(unitState, 'rulesLevel', 'Standard') as any,
+      engineRating: this.safeGetNumber(unitState, 'engineRating', 200)
     };
   }
 
   private extractEquipmentAllocations(unitState: ICompleteUnitState): IEquipmentAllocation[] {
-    // Extract equipment allocations from complete state
-    return (unitState as any).equipment || [];
+    // Extract equipment allocations from complete state using safe accessor
+    return this.safeGetArray(unitState, 'equipment', []);
+  }
+
+  // Helper methods for safe property access
+  private safeGetString(obj: unknown, key: string, defaultValue: string): string {
+    if (typeof obj === 'object' && obj !== null && key in obj) {
+      const value = (obj as any)[key];
+      return typeof value === 'string' ? value : defaultValue;
+    }
+    return defaultValue;
+  }
+
+  private safeGetNumber(obj: unknown, key: string, defaultValue: number): number {
+    if (typeof obj === 'object' && obj !== null && key in obj) {
+      const value = (obj as any)[key];
+      return typeof value === 'number' ? value : defaultValue;
+    }
+    return defaultValue;
+  }
+
+  private safeGetArray<T>(obj: unknown, key: string, defaultValue: T[]): T[] {
+    if (typeof obj === 'object' && obj !== null && key in obj) {
+      const value = (obj as any)[key];
+      return Array.isArray(value) ? value : defaultValue;
+    }
+    return defaultValue;
   }
 
   private async updateUnitWithEquipment(unitId: EntityId, allocation: IEquipmentAllocation): Promise<void> {

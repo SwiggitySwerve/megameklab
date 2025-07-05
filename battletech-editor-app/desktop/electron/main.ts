@@ -450,8 +450,37 @@ class BattleTechEditorApp {
           throw new Error('Service orchestrator not initialized');
         }
 
-        // Call the service method
-        const result = await (this.serviceOrchestrator as any)[method](...args);
+        // Type-safe service method calls
+        const orchestrator = this.serviceOrchestrator;
+        let result: any;
+
+        // Define allowed service methods for type safety
+        switch (method) {
+          case 'loadUnit':
+            result = await orchestrator.loadUnit(args[0]);
+            break;
+          case 'saveUnit':
+            result = await orchestrator.saveUnit(args[0]);
+            break;
+          case 'addEquipment':
+            result = await orchestrator.addEquipment(args[0], args[1], args[2]);
+            break;
+          case 'removeEquipment':
+            result = await orchestrator.removeEquipment(args[0], args[1]);
+            break;
+          case 'validateUnit':
+            result = await orchestrator.validateUnit(args[0]);
+            break;
+          case 'calculateWeight':
+            result = await orchestrator.calculateWeight(args[0]);
+            break;
+          case 'calculateHeat':
+            result = await orchestrator.calculateHeat(args[0]);
+            break;
+          default:
+            throw new Error(`Unknown service method: ${method}`);
+        }
+
         return { success: true, data: result };
       } catch (error) {
         console.error(`Service call failed (${method}):`, error);

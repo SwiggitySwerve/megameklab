@@ -455,3 +455,180 @@ export function isSuccess<T, E>(result: Result<T, E>): result is { success: true
 export function isFailure<T, E>(result: Result<T, E>): result is { success: false; error: E } {
   return !result.success;
 }
+
+/**
+ * Type Guards for Runtime Type Checking
+ * 
+ * These functions provide type-safe alternatives to "as any" casting
+ * by performing runtime type checking with proper TypeScript type guards.
+ */
+
+/**
+ * Type guard for unit state validation
+ */
+export function isValidUnitState(state: unknown): state is any {
+  return (
+    typeof state === 'object' &&
+    state !== null &&
+    'configurations' in state &&
+    'allocations' in state &&
+    'instances' in state &&
+    'criticalSlots' in state &&
+    'timestamp' in state
+  );
+}
+
+/**
+ * Type guard for unit configuration validation
+ */
+export function isValidUnitConfiguration(config: unknown): config is any {
+  return (
+    typeof config === 'object' &&
+    config !== null &&
+    'chassisName' in config &&
+    'model' in config &&
+    'tonnage' in config &&
+    'techBase' in config &&
+    'rulesLevel' in config &&
+    typeof (config as any).chassisName === 'string' &&
+    typeof (config as any).model === 'string' &&
+    typeof (config as any).tonnage === 'number'
+  );
+}
+
+/**
+ * Type guard for equipment allocation validation
+ */
+export function isValidEquipmentAllocation(allocation: unknown): allocation is any {
+  return (
+    typeof allocation === 'object' &&
+    allocation !== null &&
+    'id' in allocation &&
+    'equipmentId' in allocation &&
+    'location' in allocation &&
+    'quantity' in allocation &&
+    typeof (allocation as any).id === 'string' &&
+    typeof (allocation as any).equipmentId === 'string' &&
+    typeof (allocation as any).location === 'string' &&
+    typeof (allocation as any).quantity === 'number'
+  );
+}
+
+/**
+ * Type guard for validation result validation
+ */
+export function isValidationResult(result: unknown): result is IValidationResult {
+  return (
+    typeof result === 'object' &&
+    result !== null &&
+    'isValid' in result &&
+    'violations' in result &&
+    'warnings' in result &&
+    'timestamp' in result &&
+    typeof (result as any).isValid === 'boolean' &&
+    Array.isArray((result as any).violations) &&
+    Array.isArray((result as any).warnings)
+  );
+}
+
+/**
+ * Type guard for calculation result validation
+ */
+export function isCalculationResult(result: unknown): result is ICalculationResult {
+  return (
+    typeof result === 'object' &&
+    result !== null &&
+    'calculationMethod' in result &&
+    'timestamp' in result &&
+    'metadata' in result &&
+    typeof (result as any).calculationMethod === 'string'
+  );
+}
+
+/**
+ * Type guard for service validation
+ */
+export function isService(service: unknown): service is IService {
+  return (
+    typeof service === 'object' &&
+    service !== null &&
+    'initialize' in service &&
+    'cleanup' in service &&
+    typeof (service as any).initialize === 'function' &&
+    typeof (service as any).cleanup === 'function'
+  );
+}
+
+/**
+ * Type guard for Node.js error validation
+ */
+export function isNodeError(error: unknown): error is Error & { code?: string } {
+  return (
+    error instanceof Error &&
+    'code' in error &&
+    typeof (error as any).code === 'string'
+  );
+}
+
+/**
+ * Type guard for tech base validation
+ */
+export function isValidTechBase(techBase: unknown): techBase is TechBase {
+  return (
+    typeof techBase === 'string' &&
+    Object.values(TechBase).includes(techBase as TechBase)
+  );
+}
+
+/**
+ * Type guard for rules level validation
+ */
+export function isValidRulesLevel(rulesLevel: unknown): rulesLevel is RulesLevel {
+  return (
+    typeof rulesLevel === 'string' &&
+    Object.values(RulesLevel).includes(rulesLevel as RulesLevel)
+  );
+}
+
+/**
+ * Safe property accessor with type checking
+ */
+export function safeGet<T>(obj: unknown, key: string, defaultValue: T): T {
+  if (typeof obj === 'object' && obj !== null && key in obj) {
+    const value = (obj as any)[key];
+    return value !== undefined ? value : defaultValue;
+  }
+  return defaultValue;
+}
+
+/**
+ * Safe property accessor for strings
+ */
+export function safeGetString(obj: unknown, key: string, defaultValue: string = ''): string {
+  const value = safeGet(obj, key, defaultValue);
+  return typeof value === 'string' ? value : defaultValue;
+}
+
+/**
+ * Safe property accessor for numbers
+ */
+export function safeGetNumber(obj: unknown, key: string, defaultValue: number = 0): number {
+  const value = safeGet(obj, key, defaultValue);
+  return typeof value === 'number' ? value : defaultValue;
+}
+
+/**
+ * Safe property accessor for booleans
+ */
+export function safeGetBoolean(obj: unknown, key: string, defaultValue: boolean = false): boolean {
+  const value = safeGet(obj, key, defaultValue);
+  return typeof value === 'boolean' ? value : defaultValue;
+}
+
+/**
+ * Safe array accessor
+ */
+export function safeGetArray<T>(obj: unknown, key: string, defaultValue: T[] = []): T[] {
+  const value = safeGet(obj, key, defaultValue);
+  return Array.isArray(value) ? value : defaultValue;
+}
