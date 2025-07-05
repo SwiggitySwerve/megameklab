@@ -2,89 +2,31 @@
  * WeightCalculationService - Focused service for weight calculations
  * 
  * Extracted from WeightBalanceService to handle specific weight calculation concerns
+ * Implements SOLID principles with proper type safety and dependency injection support
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { 
+  IWeightCalculationService, 
+  WeightSummary, 
+  ComponentWeightBreakdown, 
+  TonnageValidation, 
+  EquipmentItem,
+  isValidUnitConfiguration,
+  isValidEquipmentArray
+} from './IWeightCalculationService';
 
-export interface WeightSummary {
-  totalWeight: number;
-  maxTonnage: number;
-  remainingTonnage: number;
-  percentageUsed: number;
-  isOverweight: boolean;
-  breakdown: {
-    structure: number;
-    engine: number;
-    gyro: number;
-    heatSinks: number;
-    armor: number;
-    equipment: number;
-    ammunition: number;
-    jumpJets: number;
-  };
-}
-
-export interface ComponentWeightBreakdown {
-  structure: {
-    weight: number;
-    type: string;
-    efficiency: number;
-  };
-  engine: {
-    weight: number;
-    type: string;
-    rating: number;
-    efficiency: number;
-  };
-  gyro: {
-    weight: number;
-    type: string;
-    efficiency: number;
-  };
-  heatSinks: {
-    internal: number;
-    external: number;
-    total: number;
-    type: string;
-    efficiency: number;
-  };
-  armor: {
-    weight: number;
-    type: string;
-    points: number;
-    efficiency: number;
-  };
-  jumpJets: {
-    weight: number;
-    count: number;
-    type: string;
-    efficiency: number;
-  };
-}
-
-export interface TonnageValidation {
-  isValid: boolean;
-  currentWeight: number;
-  maxTonnage: number;
-  overweight: number;
-  errors: string[];
-  warnings: string[];
-  suggestions: string[];
-}
-
-export interface WeightCalculationService {
-  calculateTotalWeight(config: UnitConfiguration, equipment: any[]): WeightSummary;
-  calculateComponentWeights(config: UnitConfiguration): ComponentWeightBreakdown;
-  calculateEquipmentWeight(equipment: any[]): number;
-  validateTonnageLimit(config: UnitConfiguration, equipment: any[]): TonnageValidation;
-  calculateRemainingTonnage(config: UnitConfiguration, equipment: any[]): number;
-  isWithinTonnageLimit(config: UnitConfiguration, equipment: any[]): boolean;
-  calculateJumpJetWeight(config: UnitConfiguration): number;
-}
-
-export class WeightCalculationServiceImpl implements WeightCalculationService {
+export class WeightCalculationService implements IWeightCalculationService {
   
-  calculateTotalWeight(config: UnitConfiguration, equipment: any[]): WeightSummary {
+  calculateTotalWeight(config: UnitConfiguration, equipment: EquipmentItem[]): WeightSummary {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+    
     const componentWeights = this.calculateComponentWeights(config);
     const equipmentWeight = this.calculateEquipmentWeight(equipment);
     
@@ -129,14 +71,25 @@ export class WeightCalculationServiceImpl implements WeightCalculationService {
     };
   }
   
-  calculateEquipmentWeight(equipment: any[]): number {
+  calculateEquipmentWeight(equipment: EquipmentItem[]): number {
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+    
     return equipment.reduce((total, item) => {
       if (!item || !item.equipmentData) return total;
       return total + (item.equipmentData.tonnage || 0) * (item.quantity || 1);
     }, 0);
   }
   
-  validateTonnageLimit(config: UnitConfiguration, equipment: any[]): TonnageValidation {
+  validateTonnageLimit(config: UnitConfiguration, equipment: EquipmentItem[]): TonnageValidation {
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+    
     const totalWeight = this.calculateTotalWeight(config, equipment);
     const overweight = Math.max(0, totalWeight.totalWeight - config.tonnage);
     
@@ -165,12 +118,26 @@ export class WeightCalculationServiceImpl implements WeightCalculationService {
     };
   }
   
-  calculateRemainingTonnage(config: UnitConfiguration, equipment: any[]): number {
+  calculateRemainingTonnage(config: UnitConfiguration, equipment: EquipmentItem[]): number {
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+    
     const totalWeight = this.calculateTotalWeight(config, equipment);
     return Math.max(0, config.tonnage - totalWeight.totalWeight);
   }
   
-  isWithinTonnageLimit(config: UnitConfiguration, equipment: any[]): boolean {
+  isWithinTonnageLimit(config: UnitConfiguration, equipment: EquipmentItem[]): boolean {
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+    
     const totalWeight = this.calculateTotalWeight(config, equipment);
     return totalWeight.totalWeight <= config.tonnage;
   }
@@ -388,21 +355,21 @@ export class WeightCalculationServiceImpl implements WeightCalculationService {
     }, 0);
   }
   
-  private extractEquipmentWeight(equipment: any[]): number {
+  private extractEquipmentWeight(equipment: EquipmentItem[]): number {
     return equipment.reduce((total, item) => {
       if (!item?.equipmentData || item.equipmentData.type === 'ammunition') return total;
       return total + (item.equipmentData.tonnage || 0) * (item.quantity || 1);
     }, 0);
   }
   
-  private extractAmmoWeight(equipment: any[]): number {
+  private extractAmmoWeight(equipment: EquipmentItem[]): number {
     return equipment.reduce((total, item) => {
       if (!item?.equipmentData || item.equipmentData.type !== 'ammunition') return total;
       return total + (item.equipmentData.tonnage || 0) * (item.quantity || 1);
     }, 0);
   }
   
-  private extractComponentType(component: any): string {
+  private extractComponentType(component: string | { type?: string; name?: string } | null | undefined): string {
     if (typeof component === 'string') return component;
     if (component && typeof component === 'object') {
       return component.type || component.name || 'Standard';
@@ -429,6 +396,6 @@ export class WeightCalculationServiceImpl implements WeightCalculationService {
   }
 }
 
-export const createWeightCalculationService = (): WeightCalculationService => {
-  return new WeightCalculationServiceImpl();
+export const createWeightCalculationService = (): IWeightCalculationService => {
+  return new WeightCalculationService();
 };

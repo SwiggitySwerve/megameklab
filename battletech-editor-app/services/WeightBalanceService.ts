@@ -13,12 +13,11 @@ import { calculateGyroWeight } from '../utils/gyroCalculations';
 
 // Import focused service interfaces and types
 import { 
-  WeightCalculationService, 
+  IWeightCalculationService,
   WeightSummary,
   ComponentWeightBreakdown,
-  TonnageValidation,
-  createWeightCalculationService 
-} from './weight/WeightCalculationService';
+  TonnageValidation
+} from './weight/IWeightCalculationService';
 
 import { 
   WeightOptimizationService,
@@ -37,6 +36,8 @@ import {
   StabilityAnalysis,
   createWeightBalanceAnalysisService 
 } from './weight/WeightBalanceAnalysisService';
+
+import { createWeightCalculationService } from './weight/WeightCalculationServiceFactory';
 
 // Re-export types for backward compatibility
 export type { 
@@ -81,14 +82,18 @@ export interface WeightBalanceService {
 }
 
 export class WeightBalanceServiceImpl implements WeightBalanceService {
-  private readonly weightCalculationService: WeightCalculationService;
+  private readonly weightCalculationService: IWeightCalculationService;
   private readonly weightOptimizationService: WeightOptimizationService;
   private readonly weightBalanceAnalysisService: WeightBalanceAnalysisService;
 
-  constructor() {
-    this.weightCalculationService = createWeightCalculationService();
-    this.weightOptimizationService = createWeightOptimizationService();
-    this.weightBalanceAnalysisService = createWeightBalanceAnalysisService();
+  constructor(
+    weightCalculationService?: IWeightCalculationService,
+    weightOptimizationService?: WeightOptimizationService,
+    weightBalanceAnalysisService?: WeightBalanceAnalysisService
+  ) {
+    this.weightCalculationService = weightCalculationService || createWeightCalculationService();
+    this.weightOptimizationService = weightOptimizationService || createWeightOptimizationService();
+    this.weightBalanceAnalysisService = weightBalanceAnalysisService || createWeightBalanceAnalysisService();
   }
   
   // ===== DELEGATE TO FOCUSED SERVICES =====
@@ -466,7 +471,18 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
   
   private calculateGyroWeight(config: UnitConfiguration): ComponentWeightBreakdown['gyro'] {
     const gyroType = this.extractComponentType(config.gyroType);
-    const weight = calculateGyroWeight(config.engineRating, gyroType as any);
+    
+    // Type-safe gyro weight calculation with proper type conversion
+    const validGyroTypes = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+    const safeGyroType = validGyroTypes.includes(gyroType) ? gyroType : 'Standard';
+    
+    let weight: number;
+    try {
+      weight = calculateGyroWeight(config.engineRating, safeGyroType as any);
+    } catch (error) {
+      // Fallback to standard calculation if function fails
+      weight = Math.ceil(config.engineRating / 100);
+    }
     
     let efficiency: number;
     
