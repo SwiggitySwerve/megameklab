@@ -159,12 +159,12 @@ export class CriticalSlotValidationFacade {
     const strategy = this.getStrategy(strategyName || this.defaultStrategy)
     const context = strategy.getContext()
 
-    // Initialize validation result
+    // Initialize validation result with proper structure
     const result: CriticalSlotValidation = {
       isValid: true,
       totalSlotsUsed: 0,
       totalSlotsAvailable: 78, // Standard BattleMech total
-      locationUtilization: {},
+      locationUtilization: {}, // Will be populated by validation chain
       specialComponentSlots: {
         endoSteel: { required: 0, allocated: 0, locations: [], isCompliant: true },
         ferroFibrous: { required: 0, allocated: 0, locations: [], isCompliant: true },
@@ -185,10 +185,10 @@ export class CriticalSlotValidationFacade {
       result
     }
 
-    // Execute validation chain
+    // Execute validation chain - this should populate locationUtilization
     this.validationChain.handle(request)
 
-    // Calculate totals
+    // Calculate totals after validation chain has run
     this.calculateTotals(result)
 
     return result

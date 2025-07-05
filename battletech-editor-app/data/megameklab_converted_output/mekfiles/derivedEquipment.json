@@ -1,0 +1,162 @@
+[
+  {
+    "internal_id": "ac10",
+    "name": "Autocannon/10",
+    "type": "Ballistic",
+    "category": "Weapon",
+    "tech_base": "IS",
+    "era": "Age of War",
+    "tonnage": 12,
+    "criticals": 7,
+    "cost": 200000,
+    "damage": 10,
+    "heat": 3,
+    "range": {
+      "short": 5,
+      "medium": 10,
+      "long": 15
+    },
+    "ammo_per_ton": 10
+  },
+  {
+    "internal_id": "er_large_laser_clan",
+    "name": "ER Large Laser",
+    "type": "Energy",
+    "category": "Weapon",
+    "tech_base": "Clan",
+    "era": "Clan Invasion",
+    "tonnage": 4,
+    "criticals": 1,
+    "cost": 200000,
+    "damage": 10,
+    "heat": 12,
+    "range": {
+      "short": 7,
+      "medium": 14,
+      "long": 19
+    }
+  },
+  {
+    "internal_id": "lrm20",
+    "name": "LRM 20",
+    "type": "Missile",
+    "category": "Weapon",
+    "tech_base": "IS",
+    "era": "Age of War",
+    "tonnage": 10,
+    "criticals": 5,
+    "cost": 250000,
+    "damage": 20,
+    "heat": 6,
+    "range": {
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "ammo_per_ton": 6
+  },
+  {
+    "internal_id": "gauss_rifle",
+    "name": "Gauss Rifle",
+    "type": "Ballistic",
+    "category": "Weapon",
+    "tech_base": "IS",
+    "era": "Succession Wars",
+    "tonnage": 15,
+    "criticals": 7,
+    "cost": 300000,
+    "damage": 15,
+    "heat": 1,
+    "range": {
+      "short": 7,
+      "medium": 15,
+      "long": 22
+    },
+    "ammo_per_ton": 8
+  },
+  {
+    "internal_id": "medium_pulse_laser",
+    "name": "Medium Pulse Laser",
+    "type": "Energy",
+    "category": "Weapon",
+    "tech_base": "IS",
+    "era": "Succession Wars",
+    "tonnage": 2,
+    "criticals": 1,
+    "cost": 60000,
+    "damage": 6,
+    "heat": 4,
+    "range": {
+      "short": 2,
+      "medium": 4,
+      "long": 6
+    }
+  },
+  {
+    "internal_id": "ultra_ac5_clan",
+    "name": "Ultra AC/5",
+    "type": "Ballistic",
+    "category": "Weapon",
+    "tech_base": "Clan",
+    "era": "Clan Invasion",
+    "tonnage": 7,
+    "criticals": 3,
+    "cost": 200000,
+    "damage": 5,
+    "heat": 1,
+    "range": {
+      "short": 6,
+      "medium": 12,
+      "long": 18
+    },
+    "ammo_per_ton": 20
+  },
+  {
+    "internal_id": "double_heat_sink",
+    "name": "Double Heat Sink",
+    "type": "Heat Management",
+    "category": "Equipment",
+    "tech_base": "IS",
+    "era": "Succession Wars",
+    "tonnage": 1,
+    "criticals": 3,
+    "cost": 6000,
+    "heat_dissipation": 2
+  },
+  {
+    "internal_id": "clan_double_heat_sink",
+    "name": "Clan Double Heat Sink",
+    "type": "Heat Management",
+    "category": "Equipment",
+    "tech_base": "Clan",
+    "era": "Clan Invasion",
+    "tonnage": 1,
+    "criticals": 2,
+    "cost": 6000,
+    "heat_dissipation": 2
+  },
+  {
+    "internal_id": "case",
+    "name": "CASE",
+    "type": "Defensive",
+    "category": "Equipment",
+    "tech_base": "IS",
+    "era": "Succession Wars",
+    "tonnage": 0.5,
+    "criticals": 1,
+    "cost": 50000,
+    "description": "Cellular Ammunition Storage Equipment"
+  },
+  {
+    "internal_id": "artemis_iv_fcs",
+    "name": "Artemis IV FCS",
+    "type": "Targeting",
+    "category": "Equipment",
+    "tech_base": "IS",
+    "era": "Succession Wars",
+    "tonnage": 1,
+    "criticals": 1,
+    "cost": 100000,
+    "description": "Fire Control System for LRM and SRM"
+  }
+]
