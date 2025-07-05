@@ -219,7 +219,7 @@ describe('Engine Calculations - BattleTech Rules', () => {
       expect(result.weight).toBe(11.5); // (300 * 75) / 1000 * 0.5 = 11.25, rounded to 11.5
       expect(result.totalSlots).toBe(12);
       expect(result.slotDistribution).toEqual({ centerTorso: 6, leftTorso: 3, rightTorso: 3 });
-      expect(result.integratedHeatSinks).toBe(10); // 300 ÷ 25 = 12, but capped at 10 for 250+
+      expect(result.integratedHeatSinks).toBe(12); // 300 ÷ 25 = 12 (official BattleTech rule)
     });
 
     it('should provide complete engine calculations for XXL engines', () => {
@@ -228,7 +228,7 @@ describe('Engine Calculations - BattleTech Rules', () => {
       expect(result.weight).toBe(13.5); // (400 * 100) / 1000 * 0.33 = 13.2, rounded to 13.5
       expect(result.totalSlots).toBe(18);
       expect(result.slotDistribution).toEqual({ centerTorso: 6, leftTorso: 6, rightTorso: 6 });
-      expect(result.integratedHeatSinks).toBe(10); // 400 ÷ 25 = 16, but capped at 10 for 250+
+      expect(result.integratedHeatSinks).toBe(16); // 400 ÷ 25 = 16 (official BattleTech rule)
     });
 
     it('should provide complete engine calculations for ICE engines', () => {
