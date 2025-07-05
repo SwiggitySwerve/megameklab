@@ -225,7 +225,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         
         // Convert SQLite integers to proper JavaScript booleans
-        row.is_omnimech = Boolean((row.is_omnimech as any) === 1);
+        // Database boundary: SQLite stores booleans as integers (1/0)
+        row.is_omnimech = Boolean(Number(row.is_omnimech) === 1);
         
         // Add validation status for each unit
         try {

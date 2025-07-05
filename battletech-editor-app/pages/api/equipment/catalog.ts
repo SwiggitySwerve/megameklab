@@ -111,12 +111,25 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       };
       
       if (categoryMapping[category]) {
-        searchParams.category = categoryMapping[category] as any;
+        // API boundary: Validate and safely cast external input to internal types
+        const mappedCategory = categoryMapping[category];
+        const validCategories = ['Energy Weapons', 'Ballistic Weapons', 'Missile Weapons', 'Artillery Weapons', 'Equipment', 'Ammunition'];
+        
+        if (validCategories.includes(mappedCategory)) {
+          // Safe cast after validation - API boundary exception
+          searchParams.category = mappedCategory as any;
+        }
       }
     }
 
     if (rules_level) {
-      searchParams.rulesLevel = rules_level as any;
+      // API boundary: Validate and safely cast external input to internal types
+      const validRulesLevels = ['Introductory', 'Standard', 'Advanced', 'Experimental'];
+      
+      if (validRulesLevels.includes(rules_level)) {
+        // Safe cast after validation - API boundary exception
+        searchParams.rulesLevel = rules_level as any;
+      }
     }
 
     // Get equipment data from file-based service

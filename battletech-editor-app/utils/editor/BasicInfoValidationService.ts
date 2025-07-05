@@ -100,9 +100,13 @@ export class BasicInfoValidationService {
     }
 
     // Unit type validation (optional) - check if property exists
-    if (ctx.validateOptionalFields && (unit as any).unit_type) {
-      const typeWarnings = this.validateUnitType((unit as any).unit_type, ctx)
-      warnings.push(...typeWarnings)
+    if (ctx.validateOptionalFields) {
+      // Type-safe access to optional unit_type property
+      const unitWithType = unit as EditableUnit & { unit_type?: string }
+      if (unitWithType.unit_type) {
+        const typeWarnings = this.validateUnitType(unitWithType.unit_type, ctx)
+        warnings.push(...typeWarnings)
+      }
     }
 
     return {
