@@ -5,6 +5,7 @@
 
 import { UnitConfiguration } from '../criticalSlots/UnitCriticalManagerTypes';
 import { ComponentConfiguration, TechBase } from '../../types/componentConfiguration';
+import { EquipmentIDMappingService, EquipmentMapping } from './EquipmentIDMapping';
 
 // Field name mapping from JSON snake_case to TypeScript camelCase
 const FIELD_MAPPING: Record<string, string> = {
@@ -35,11 +36,25 @@ const ENGINE_TYPE_MAPPING: Record<string, string> = {
   'Fuel Cell Engine': 'Fuel Cell'
 };
 
+export interface EquipmentAllocationData {
+  equipmentId: string;
+  databaseId: string;
+  name: string;
+  location: string;
+  techBase: TechBase;
+  category: string;
+  isWeapon: boolean;
+  requiresAmmo?: boolean;
+  isOmnipod?: boolean;
+}
+
 export interface MigrationResult {
   success: boolean;
   unitConfiguration?: Partial<UnitConfiguration>;
+  equipment?: EquipmentAllocationData[];
   errors: string[];
   warnings: string[];
+  equipmentMappingIssues?: string[];
 }
 
 export interface MigrationValidation {
@@ -51,6 +66,11 @@ export interface MigrationValidation {
 }
 
 export class UnitJSONMigrationService {
+  private equipmentMappingService: EquipmentIDMappingService;
+  
+  constructor() {
+    this.equipmentMappingService = new EquipmentIDMappingService();
+  }
   
   /**
    * Migrate a JSON unit to UnitConfiguration format
@@ -58,6 +78,7 @@ export class UnitJSONMigrationService {
   migrateUnit(jsonUnit: any): MigrationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
+    const equipmentMappingIssues: string[] = [];
     
     try {
       // Step 1: Basic field normalization
@@ -72,6 +93,9 @@ export class UnitJSONMigrationService {
       // Step 4: Convert component configurations (basic for now)
       const componentConfig = this.convertBasicComponents(jsonUnit, baseConfig.techBase || 'Inner Sphere', errors, warnings);
       
+      // Step 5: Convert equipment
+      const equipment = this.convertEquipment(jsonUnit, baseConfig.techBase || 'Inner Sphere', equipmentMappingIssues, warnings);
+      
       // Combine all configurations
       const unitConfiguration: Partial<UnitConfiguration> = {
         ...baseConfig,
@@ -82,8 +106,10 @@ export class UnitJSONMigrationService {
       return {
         success: errors.length === 0,
         unitConfiguration,
+        equipment,
         errors,
-        warnings
+        warnings,
+        equipmentMappingIssues
       };
       
     } catch (error) {
@@ -91,7 +117,8 @@ export class UnitJSONMigrationService {
       return {
         success: false,
         errors,
-        warnings
+        warnings,
+        equipmentMappingIssues
       };
     }
   }
@@ -275,6 +302,107 @@ export class UnitJSONMigrationService {
       type,
       techBase
     };
+  }
+  
+  /**
+   * Convert equipment from JSON weapons_and_equipment array
+   */
+  private convertEquipment(
+    jsonUnit: any,
+    unitTechBase: TechBase,
+    mappingIssues: string[],
+    warnings: string[]
+  ): EquipmentAllocationData[] {
+    const equipment: EquipmentAllocationData[] = [];
+    
+    if (!jsonUnit.weapons_and_equipment || !Array.isArray(jsonUnit.weapons_and_equipment)) {
+      warnings.push('No weapons_and_equipment array found');
+      return equipment;
+    }
+    
+    jsonUnit.weapons_and_equipment.forEach((item: any, index: number) => {
+      try {
+        if (!item.item_type) {
+          mappingIssues.push(`Equipment ${index}: Missing item_type`);
+          return;
+        }
+        
+        // Get equipment mapping
+        const mappingResult = this.equipmentMappingService.getMapping(item.item_type);
+        
+        if (!mappingResult.found) {
+          mappingIssues.push(`Equipment ${index}: No mapping found for '${item.item_type}'${mappingResult.suggestions ? ` (suggestions: ${mappingResult.suggestions.join(', ')})` : ''}`);
+          return;
+        }
+        
+        const mapping = mappingResult.mapping!;
+        
+        // Determine tech base for this equipment
+        let equipmentTechBase: TechBase;
+        if (mapping.techBase) {
+          equipmentTechBase = mapping.techBase;
+        } else if (item.tech_base) {
+          // Map JSON tech base values
+          if (item.tech_base === 'IS') {
+            equipmentTechBase = 'Inner Sphere';
+          } else if (item.tech_base === 'Clan') {
+            equipmentTechBase = 'Clan';
+          } else {
+            equipmentTechBase = unitTechBase;
+          }
+        } else {
+          // Infer from equipment name
+          equipmentTechBase = this.equipmentMappingService.inferTechBase(item.item_type, unitTechBase);
+        }
+        
+        // Create equipment allocation data
+        const equipmentData: EquipmentAllocationData = {
+          equipmentId: `${mapping.databaseId}_${equipment.length}`, // Unique ID for this instance
+          databaseId: mapping.databaseId,
+          name: item.item_name || mapping.databaseId,
+          location: this.normalizeLocation(item.location || ''),
+          techBase: equipmentTechBase,
+          category: mapping.category,
+          isWeapon: mapping.isWeapon,
+          requiresAmmo: mapping.requiresAmmo,
+          isOmnipod: item.is_omnipod || false
+        };
+        
+        equipment.push(equipmentData);
+        
+      } catch (error) {
+        mappingIssues.push(`Equipment ${index}: Error processing - ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
+    });
+    
+    return equipment;
+  }
+  
+  /**
+   * Normalize location names from JSON to our format
+   */
+  private normalizeLocation(location: string): string {
+    const locationMapping: Record<string, string> = {
+      'Head': 'Head',
+      'Center Torso': 'Center Torso',
+      'Left Torso': 'Left Torso',
+      'Right Torso': 'Right Torso',
+      'Left Arm': 'Left Arm',
+      'Right Arm': 'Right Arm',
+      'Left Leg': 'Left Leg',
+      'Right Leg': 'Right Leg',
+      // Handle abbreviations
+      'HD': 'Head',
+      'CT': 'Center Torso',
+      'LT': 'Left Torso',
+      'RT': 'Right Torso',
+      'LA': 'Left Arm',
+      'RA': 'Right Arm',
+      'LL': 'Left Leg',
+      'RL': 'Right Leg'
+    };
+    
+    return locationMapping[location] || location;
   }
   
   /**
