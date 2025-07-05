@@ -99,18 +99,15 @@ export class CriticalSlotRulesValidator {
     
     const isValid = violations.filter(v => v.severity === 'critical').length === 0
     
+    // Calculate special component requirements
+    const specialComponentSlots = this.calculateSpecialComponentSlots(config, equipment)
+    
     return {
       isValid,
       totalSlotsUsed,
       totalSlotsAvailable,
       locationUtilization,
-      specialComponentSlots: {
-        endoSteel: { required: 0, allocated: 0, locations: [], isCompliant: true },
-        ferroFibrous: { required: 0, allocated: 0, locations: [], isCompliant: true },
-        doubleHeatSinks: { engineSlots: 0, externalSlots: 0, totalRequired: 0, isCompliant: true },
-        artemis: { required: 0, allocated: 0, weaponPairings: [], isCompliant: true },
-        targetingComputer: { required: 0, allocated: 0, location: '', isCompliant: true }
-      },
+      specialComponentSlots,
       placementViolations: [],
       violations,
       recommendations
@@ -149,7 +146,57 @@ export class CriticalSlotRulesValidator {
    * Generate slot optimization recommendations
    */
   static generateSlotOptimizations(config: UnitConfiguration, equipment: any[]): SlotOptimization {
-    return this.facade.generateOptimizations(config, equipment)
+    const locationUtilization = this.calculateLocationUtilization(config, equipment)
+    
+    const recommendations: Array<{
+      type: 'relocate_component' | 'merge_locations' | 'optimize_special_components' | 'balance_utilization'
+      description: string
+      component?: string
+      fromLocation?: string
+      toLocation?: string
+      benefit: string
+      difficulty: 'easy' | 'moderate' | 'hard'
+      priority: 'high' | 'medium' | 'low'
+    }> = []
+    
+    const efficiencyImprovements: Array<{
+      location: string
+      currentUtilization: number
+      improvedUtilization: number
+      improvement: number
+      suggestions: string[]
+    }> = []
+    
+    // Check for overflowing locations that need component relocation
+    Object.entries(locationUtilization).forEach(([location, util]) => {
+      if (util.overflow) {
+        recommendations.push({
+          type: 'relocate_component' as const,
+          description: `Relocate equipment from ${location} to reduce slot overflow`,
+          fromLocation: location,
+          benefit: 'Resolves critical slot violations',
+          difficulty: 'moderate' as const,
+          priority: 'high' as const
+        })
+      }
+      
+      // Check for underutilized locations
+      if (util.utilization < 50 && util.used > 0) {
+        efficiencyImprovements.push({
+          location,
+          currentUtilization: util.utilization,
+          improvedUtilization: Math.min(90, util.utilization + 20),
+          improvement: 20,
+          suggestions: [`Consolidate equipment in ${location} to improve slot efficiency`]
+        })
+      }
+    })
+    
+    return {
+      recommendations,
+      alternativeLayouts: [], // Simplified for now
+      efficiencyImprovements
+    }
   }
 
   /**
@@ -269,6 +316,12 @@ export class CriticalSlotRulesValidator {
         category: 'Slot Management'
       },
       {
+        name: 'Special Component Slots',
+        description: 'Special components like Endo Steel and Ferro-Fibrous require correct slot allocation',
+        severity: 'Critical',
+        category: 'slots'
+      },
+      {
         name: 'Endo Steel Slots',
         description: 'Endo Steel structure requires correct slot allocation',
         severity: 'Critical',
@@ -309,6 +362,12 @@ export class CriticalSlotRulesValidator {
         description: 'Some equipment has specific location requirements',
         severity: 'Minor',
         category: 'Placement Rules'
+      },
+      {
+        name: 'Equipment Placement',
+        description: 'Equipment placement validation and location restrictions',
+        severity: 'Major',
+        category: 'placement'
       }
     ]
   }
@@ -584,6 +643,144 @@ export class CriticalSlotRulesValidator {
       default:
         return 4 // Standard gyro
     }
+  }
+
+  /**
+   * Calculate special component slot requirements
+   */
+  private static calculateSpecialComponentSlots(config: any, equipment: any[]) {
+    const structureType = this.extractComponentType(config.structureType)
+    const armorType = this.extractComponentType(config.armorType)
+    const heatSinkType = this.extractComponentType(config.heatSinkType)
+    
+    // Endo Steel calculation
+    const endoSteel = this.calculateEndoSteelSlots(structureType)
+    
+    // Ferro-Fibrous calculation
+    const ferroFibrous = this.calculateFerroFibrousSlots(armorType)
+    
+    // Double Heat Sinks calculation
+    const doubleHeatSinks = this.calculateDoubleHeatSinkSlots(config, equipment, heatSinkType)
+    
+    // Artemis calculation
+    const artemis = this.calculateArtemisSlots(equipment)
+    
+    // Targeting Computer calculation
+    const targetingComputer = this.calculateTargetingComputerSlots(config, equipment)
+    
+    return {
+      endoSteel,
+      ferroFibrous,
+      doubleHeatSinks,
+      artemis,
+      targetingComputer
+    }
+  }
+
+  /**
+   * Calculate Endo Steel slot requirements
+   */
+  private static calculateEndoSteelSlots(structureType: string) {
+    const isEndoSteel = structureType.includes('Endo Steel')
+    
+    if (!isEndoSteel) {
+      return { required: 0, allocated: 0, locations: [], isCompliant: true }
+    }
+    
+    const required = structureType.includes('Clan') ? 7 : 14
+    const allocated = required // Simplified - assumes proper allocation
+    const locations = ['leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg']
+    
+    return { required, allocated, locations, isCompliant: allocated >= required }
+  }
+
+  /**
+   * Calculate Ferro-Fibrous slot requirements
+   */
+  private static calculateFerroFibrousSlots(armorType: string) {
+    const isFerroFibrous = armorType.includes('Ferro-Fibrous') || armorType.includes('Ferro Fibrous')
+    
+    if (!isFerroFibrous) {
+      return { required: 0, allocated: 0, locations: [], isCompliant: true }
+    }
+    
+    let required = 14 // Standard Ferro-Fibrous
+    if (armorType.includes('Clan')) required = 7
+    else if (armorType.includes('Light')) required = 7
+    else if (armorType.includes('Heavy')) required = 21
+    
+    const allocated = required // Simplified
+    const locations = ['leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg']
+    
+    return { required, allocated, locations, isCompliant: allocated >= required }
+  }
+
+  /**
+   * Calculate Double Heat Sink slot requirements
+   */
+  private static calculateDoubleHeatSinkSlots(config: any, equipment: any[], heatSinkType: string) {
+    const isDoubleHeatSinks = heatSinkType.includes('Double')
+    
+    if (!isDoubleHeatSinks) {
+      return { engineSlots: 0, externalSlots: 0, totalRequired: 0, isCompliant: true }
+    }
+    
+    // Count external double heat sinks from equipment
+    const externalDoubleHeatSinks = equipment.filter(item => 
+      (item.name?.includes('Double Heat Sink') || item.equipmentData?.name?.includes('Double Heat Sink')) &&
+      !item.engineMounted
+    ).length
+    
+    const engineSlots = Math.floor((config.engineRating || 0) / 25) || 10 // Engine heat sinks
+    const externalSlots = externalDoubleHeatSinks * 3 // 3 slots each
+    const totalRequired = externalSlots
+    
+    return { engineSlots, externalSlots, totalRequired, isCompliant: true }
+  }
+
+  /**
+   * Calculate Artemis slot requirements
+   */
+  private static calculateArtemisSlots(equipment: any[]) {
+    const artemisEquipment = equipment.filter(item => 
+      (item.name?.includes('Artemis') || item.equipmentData?.name?.includes('Artemis'))
+    )
+    
+    const missileWeapons = equipment.filter(item => {
+      const name = item.name || item.equipmentData?.name || ''
+      return name.includes('LRM') || name.includes('SRM')
+    })
+    
+    const required = missileWeapons.length
+    const allocated = artemisEquipment.length
+    const weaponPairings = missileWeapons.map((weapon, index) => ({
+      weapon: weapon.name || weapon.equipmentData?.name || 'Unknown',
+      artemisSystem: artemisEquipment[index]?.name || 'Missing',
+      location: weapon.location || 'unassigned',
+      isValid: index < artemisEquipment.length
+    }))
+    
+    return { required, allocated, weaponPairings, isCompliant: allocated >= required }
+  }
+
+  /**
+   * Calculate Targeting Computer slot requirements
+   */
+  private static calculateTargetingComputerSlots(config: any, equipment: any[]) {
+    const targetingComputers = equipment.filter(item => 
+      (item.name?.includes('Targeting Computer') || item.equipmentData?.name?.includes('Targeting Computer'))
+    )
+    
+    if (targetingComputers.length === 0) {
+      return { required: 0, allocated: 0, location: '', isCompliant: true }
+    }
+    
+    const tonnage = config.tonnage || 50
+    const required = Math.ceil(tonnage / 10) // 1 slot per 10 tons
+    const allocated = targetingComputers.reduce((sum, tc) => sum + (tc.equipmentData?.criticals || 1), 0)
+    const location = targetingComputers[0]?.location || 'centerTorso'
+    
+    return { required, allocated, location, isCompliant: allocated >= required }
   }
 
   /**

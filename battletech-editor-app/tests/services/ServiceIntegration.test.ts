@@ -36,9 +36,8 @@ interface MockExpectation {
   rejects: MockExpectation;
 }
 
-// Mock the testing framework
-declare const TestFramework: MockTestFramework;
-const { describe, it, beforeEach, afterEach, expect } = TestFramework;
+// Use Jest testing framework directly
+// No need to mock the testing framework - Jest provides these globally
 
 // Import services and types for testing
 import { ServiceOrchestrator } from '../../services/integration/ServiceOrchestrator';
