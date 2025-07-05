@@ -6,6 +6,7 @@ import { calculateEngineWeight } from './engineCalculations';
 import { calculateStructureWeight } from './structureCalculations';
 import { calculateInternalHeatSinks } from './heatSinkCalculations';
 import { calculateArmorWeight } from './armorCalculations';
+import { StructureType, EngineType, ArmorType } from '../types/systemComponents';
 
 export interface ValidationContext {
   strictMode: boolean;           // Enforce tournament legal rules
@@ -39,6 +40,49 @@ export interface RuleViolation {
   description: string;
   violationType: 'construction' | 'equipment' | 'era' | 'tech-base';
   canContinue: boolean;        // Can still play with this violation
+}
+
+// Type-safe casting functions for component enums
+function castToStructureType(structureType: string): StructureType {
+  const validTypes: StructureType[] = ['Standard', 'Endo Steel', 'Endo Steel (Clan)', 'Composite', 'Reinforced', 'Industrial'];
+  return validTypes.includes(structureType as StructureType) ? structureType as StructureType : 'Standard';
+}
+
+function castToEngineType(engineType: string): EngineType {
+  const validTypes: EngineType[] = ['Standard', 'XL (IS)', 'XL (Clan)', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  return validTypes.includes(engineType as EngineType) ? engineType as EngineType : 'Standard';
+}
+
+function castToArmorType(armorType: string): ArmorType {
+  const validTypes: ArmorType[] = ['Standard', 'Ferro-Fibrous', 'Ferro-Fibrous (Clan)', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous', 'Stealth', 'Reactive', 'Reflective', 'Hardened'];
+  return validTypes.includes(armorType as ArmorType) ? armorType as ArmorType : 'Standard';
+}
+
+// Type-safe range extraction for weapons
+interface WeaponRange {
+  short?: number;
+  medium?: number;
+  long?: number;
+}
+
+function safeGetWeaponRange(weapon: FullEquipment): WeaponRange {
+  if (weapon.range && typeof weapon.range === 'object') {
+    const range = weapon.range as Record<string, unknown>;
+    return {
+      short: typeof range.short === 'number' ? range.short : undefined,
+      medium: typeof range.medium === 'number' ? range.medium : undefined,
+      long: typeof range.long === 'number' ? range.long : undefined
+    };
+  }
+  if (weapon.data?.range && typeof weapon.data.range === 'object') {
+    const range = weapon.data.range as Record<string, unknown>;
+    return {
+      short: typeof range.short === 'number' ? range.short : undefined,
+      medium: typeof range.medium === 'number' ? range.medium : undefined,
+      long: typeof range.long === 'number' ? range.long : undefined
+    };
+  }
+  return {};
 }
 
 /**
@@ -380,15 +424,8 @@ function isWeaponEquipment(equipment: FullEquipment): boolean {
 }
 
 function getWeaponMaxRange(weapon: FullEquipment): number {
-  if (weapon.range && typeof weapon.range === 'object') {
-    const range = weapon.range as any;
-    return range.long || range.medium || range.short || 0;
-  }
-  if (weapon.data?.range && typeof weapon.data.range === 'object') {
-    const range = weapon.data.range as any;
-    return range.long || range.medium || range.short || 0;
-  }
-  return 0;
+  const range = safeGetWeaponRange(weapon);
+  return range.long || range.medium || range.short || 0;
 }
 
 function estimateUsedTonnage(unit: EditableUnit): number {
@@ -397,11 +434,11 @@ function estimateUsedTonnage(unit: EditableUnit): number {
   // Engine weight
   const engineRating = unit.data.engine?.rating || 0;
   const engineType = unit.data.engine?.type || 'Standard';
-  usedTonnage += calculateEngineWeight(engineRating, unit.mass, engineType as any);
+  usedTonnage += calculateEngineWeight(engineRating, unit.mass, castToEngineType(engineType));
   
   // Structure weight
   const structureType = unit.data.structure?.type || 'Standard';
-  usedTonnage += calculateStructureWeight(unit.mass, structureType as any);
+  usedTonnage += calculateStructureWeight(unit.mass, castToStructureType(structureType));
   
   // Equipment weight
   unit.equipmentPlacements?.forEach(eq => {
@@ -414,7 +451,7 @@ function estimateUsedTonnage(unit: EditableUnit): number {
     (sum, alloc) => sum + alloc.front + (alloc.rear || 0), 0
   );
   const armorType = unit.data.armor?.type || 'Standard';
-  usedTonnage += calculateArmorWeight(totalArmor, armorType as any);
+  usedTonnage += calculateArmorWeight(totalArmor, castToArmorType(armorType));
   
   return usedTonnage;
 }
