@@ -364,7 +364,10 @@ export class CalculationUtilitiesManager {
    */
   private calculateEngineWeight(engineRating: number, engineType: string): number {
     const { calculateEngineWeight } = require('../../utils/engineCalculations');
-    return calculateEngineWeight(engineRating, 100, engineType as any);
+    // Type-safe engine type validation with fallback
+    const validEngineTypes = ['Standard', 'XL', 'Light', 'Compact', 'XXL', 'ICE', 'Fuel Cell'];
+    const safeEngineType = validEngineTypes.includes(engineType) ? engineType : 'Standard';
+    return calculateEngineWeight(engineRating, 100, safeEngineType);
   }
 
   /**

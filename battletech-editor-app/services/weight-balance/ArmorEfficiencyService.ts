@@ -150,7 +150,9 @@ export class ArmorEfficiencyService {
     let totalMaxCoverage = 0;
     
     Object.entries(maxArmorByLocation).forEach(([location, maxArmor]) => {
-      const current = this.getLocationArmorPoints((allocation as any)[location] || {});
+      // Type-safe allocation access using unknown conversion
+      const allocationRecord = allocation as unknown as Record<string, unknown>;
+      const current = this.getLocationArmorPoints(allocationRecord[location] || {});
       const percentage = (current / maxArmor) * 100;
       const priority = locationPriorities[location] || 'medium';
       

@@ -338,15 +338,23 @@ export function importFromBLK(blkString: string): EditableUnit {
   const [chassis, ...modelParts] = name.split(' ');
   const model = modelParts.join(' ') || getTagValue(blkString, 'model');
   
+  // Type-safe value parsing with fallbacks
+  const rawTechBase = getTagValue(blkString, 'type') || 'Inner Sphere';
+  const techBase = ['Inner Sphere', 'Clan'].includes(rawTechBase) ? rawTechBase : 'Inner Sphere';
+  
+  const rawConfig = getTagValue(blkString, 'UnitType') || 'Vehicle';
+  const validConfigs = ['Vehicle', 'BattleMech', 'AeroSpaceFighter', 'Jumpship', 'WarShip', 'SpaceStation'];
+  const config = validConfigs.includes(rawConfig) ? rawConfig : 'Vehicle';
+
   const unitData: UnitData = {
     chassis: chassis,
     model: model,
     mass: parseInt(getTagValue(blkString, 'tonnage')) || 25,
-    tech_base: (getTagValue(blkString, 'type') || 'Inner Sphere') as any,
+    tech_base: techBase,
     era: getTagValue(blkString, 'year') || '3025',
     source: 'BLK Import',
     rules_level: 'Standard',
-    config: (getTagValue(blkString, 'UnitType') || 'Vehicle') as any,
+    config: config,
     movement: {
       walk_mp: parseInt(getTagValue(blkString, 'cruiseMP')) || 4,
       jump_mp: 0,
@@ -512,11 +520,16 @@ export function importFromMTF(mtfString: string): EditableUnit {
           unitData.mul_id = value;
           break;
         case 'config':
-          unitData.config = value as any;
+          // Type-safe config assignment with explicit typing
+          const validConfigValues = ['Vehicle', 'BattleMech', 'AeroSpaceFighter', 'Jumpship', 'WarShip', 'SpaceStation'] as const;
+          unitData.config = validConfigValues.includes(value as any) ? value as any : 'Vehicle';
           break;
         case 'techbase':
-          unit.tech_base = value;
-          unitData.tech_base = value as any;
+          // Type-safe tech base assignment with explicit typing
+          const validTechBases = ['Inner Sphere', 'Clan'] as const;
+          const safeTechBase = validTechBases.includes(value as any) ? value as any : 'Inner Sphere';
+          unit.tech_base = safeTechBase;
+          unitData.tech_base = safeTechBase;
           break;
         case 'era':
           unit.era = value;

@@ -100,7 +100,10 @@ export function validateGyroType(
   if (!restrictions) return false;
   
   const validTechBase = restrictions.techBase.includes(techBase) || restrictions.techBase.includes('Both');
-  const validRulesLevel = restrictions.rulesLevel.includes(rulesLevel as any);
+  // Type-safe rules level validation
+  const validRulesLevels = ['Standard', 'Tournament', 'Advanced', 'Experimental'] as const;
+  const safeRulesLevel = validRulesLevels.includes(rulesLevel as any) ? rulesLevel as 'Standard' | 'Tournament' | 'Advanced' | 'Experimental' : 'Standard';
+  const validRulesLevel = restrictions.rulesLevel.includes(safeRulesLevel);
   
   return validTechBase && validRulesLevel;
 }
