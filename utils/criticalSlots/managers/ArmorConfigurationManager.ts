@@ -6,6 +6,15 @@
 import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../../armorCalculations'
 import { UnitConfiguration, StructureType, ArmorType } from '../UnitCriticalManagerTypes'
 
+// Type-safe conversion functions
+function armorTypeToString(armorType: ArmorType): string {
+  return String(armorType);
+}
+
+function techBaseToString(techBase: string | undefined): string {
+  return techBase || 'Inner Sphere';
+}
+
 export class ArmorConfigurationManager {
   private configuration: UnitConfiguration
 
@@ -18,7 +27,7 @@ export class ArmorConfigurationManager {
    */
   getArmorCriticalSlots(armorType: ArmorType): number {
     try {
-      return getArmorSlots(armorType as any, this.configuration.techBase as any) || 0
+      return getArmorSlots(armorTypeToString(armorType), techBaseToString(this.configuration.techBase)) || 0
     } catch (error) {
       // Fallback for armor types not in the armor calculations
       const armorSlotMap: Record<ArmorType, number> = {

@@ -22,6 +22,29 @@ import {
   EquipmentPlacement 
 } from './validation/EquipmentValidationTypes'
 
+// Type guard for legacy allocation format with slots array
+interface LegacyEquipmentPlacement extends EquipmentPlacement {
+  slots?: number[];
+}
+
+function hasLegacySlotsArray(allocation: EquipmentPlacement): allocation is LegacyEquipmentPlacement {
+  return 'slots' in allocation && Array.isArray((allocation as LegacyEquipmentPlacement).slots);
+}
+
+function extractSlots(allocation: EquipmentPlacement): number[] {
+  if (hasLegacySlotsArray(allocation)) {
+    return allocation.slots || [];
+  }
+  
+  const startSlot = allocation.startSlot || 1;
+  const endSlot = allocation.endSlot || startSlot;
+  const slots: number[] = [];
+  for (let slot = startSlot; slot <= endSlot; slot++) {
+    slots.push(slot);
+  }
+  return slots;
+}
+
 /**
  * Refactored Equipment Validation Service
  * Uses the new pipeline pattern to coordinate all validation operations
@@ -124,16 +147,7 @@ export class EquipmentValidationService {
       const location = allocation.location
       
       // Handle both old format (slots array) and new format (startSlot/endSlot)
-      let slotsToCheck: number[] = []
-      if ((allocation as any).slots && Array.isArray((allocation as any).slots)) {
-        slotsToCheck = (allocation as any).slots
-      } else {
-        const startSlot = allocation.startSlot || 1
-        const endSlot = allocation.endSlot || startSlot
-        for (let slot = startSlot; slot <= endSlot; slot++) {
-          slotsToCheck.push(slot)
-        }
-      }
+      const slotsToCheck = extractSlots(allocation)
       
       if (!slotMap.has(location)) {
         slotMap.set(location, [])
