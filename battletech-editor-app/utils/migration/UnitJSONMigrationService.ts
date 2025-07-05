@@ -6,6 +6,8 @@
 import { UnitConfiguration } from '../criticalSlots/UnitCriticalManagerTypes';
 import { ComponentConfiguration, TechBase } from '../../types/componentConfiguration';
 import { EquipmentIDMappingService, EquipmentMapping } from './EquipmentIDMapping';
+import { ArmorLocation } from '../../types';
+import { ArmorType, ARMOR_TYPES } from '../../types/editor';
 
 // Field name mapping from JSON snake_case to TypeScript camelCase
 const FIELD_MAPPING: Record<string, string> = {
@@ -48,13 +50,31 @@ export interface EquipmentAllocationData {
   isOmnipod?: boolean;
 }
 
+export interface ArmorAllocationData {
+  [location: string]: {
+    front: number;
+    rear?: number;
+    maxArmor: number;
+    type: ArmorType;
+  };
+}
+
+export interface ArmorMigrationData {
+  armorAllocation: ArmorAllocationData;
+  armorLocations: ArmorLocation[];
+  armorType: ArmorType;
+  totalArmorPoints: number;
+}
+
 export interface MigrationResult {
   success: boolean;
   unitConfiguration?: Partial<UnitConfiguration>;
   equipment?: EquipmentAllocationData[];
+  armor?: ArmorMigrationData;
   errors: string[];
   warnings: string[];
   equipmentMappingIssues?: string[];
+  armorMappingIssues?: string[];
 }
 
 export interface MigrationValidation {
@@ -79,6 +99,7 @@ export class UnitJSONMigrationService {
     const errors: string[] = [];
     const warnings: string[] = [];
     const equipmentMappingIssues: string[] = [];
+    const armorMappingIssues: string[] = [];
     
     try {
       // Step 1: Basic field normalization
@@ -96,6 +117,9 @@ export class UnitJSONMigrationService {
       // Step 5: Convert equipment
       const equipment = this.convertEquipment(jsonUnit, baseConfig.techBase || 'Inner Sphere', equipmentMappingIssues, warnings);
       
+      // Step 6: Convert armor
+      const armor = this.convertArmor(jsonUnit, baseConfig.techBase || 'Inner Sphere', armorMappingIssues, warnings);
+      
       // Combine all configurations
       const unitConfiguration: Partial<UnitConfiguration> = {
         ...baseConfig,
@@ -107,9 +131,11 @@ export class UnitJSONMigrationService {
         success: errors.length === 0,
         unitConfiguration,
         equipment,
+        armor,
         errors,
         warnings,
-        equipmentMappingIssues
+        equipmentMappingIssues,
+        armorMappingIssues
       };
       
     } catch (error) {
@@ -118,7 +144,8 @@ export class UnitJSONMigrationService {
         success: false,
         errors,
         warnings,
-        equipmentMappingIssues
+        equipmentMappingIssues,
+        armorMappingIssues
       };
     }
   }
@@ -403,6 +430,203 @@ export class UnitJSONMigrationService {
     };
     
     return locationMapping[location] || location;
+  }
+  
+  /**
+   * Convert armor from JSON format to our armor allocation format
+   */
+  private convertArmor(
+    jsonUnit: any,
+    unitTechBase: TechBase,
+    mappingIssues: string[],
+    warnings: string[]
+  ): ArmorMigrationData {
+    // Default armor type
+    const defaultArmorType = ARMOR_TYPES.find(t => t.id === 'standard') || ARMOR_TYPES[0];
+    
+    // Initialize result
+    const result: ArmorMigrationData = {
+      armorAllocation: {},
+      armorLocations: [],
+      armorType: defaultArmorType,
+      totalArmorPoints: 0
+    };
+    
+    if (!jsonUnit.armor) {
+      warnings.push('No armor data found');
+      return result;
+    }
+    
+    // Get armor type
+    const armorType = this.getArmorType(jsonUnit.armor.type, unitTechBase);
+    result.armorType = armorType;
+    
+    // Get unit mass for max armor calculations
+    const unitMass = jsonUnit.mass || 50;
+    
+    // Process armor locations
+    if (jsonUnit.armor.locations && Array.isArray(jsonUnit.armor.locations)) {
+      // Create location mapping for abbreviations to full names
+      const locationMapping: Record<string, string> = {
+        'HD': 'Head',
+        'CT': 'Center Torso',
+        'LT': 'Left Torso',
+        'RT': 'Right Torso',
+        'LA': 'Left Arm',
+        'RA': 'Right Arm',
+        'LL': 'Left Leg',
+        'RL': 'Right Leg',
+        'Left Torso (Rear)': 'Left Torso',
+        'Right Torso (Rear)': 'Right Torso',
+        'Center Torso (Rear)': 'Center Torso'
+      };
+      
+      // Process each armor location
+      jsonUnit.armor.locations.forEach((loc: any, index: number) => {
+        try {
+          if (!loc.location) {
+            mappingIssues.push(`Armor location ${index}: Missing location field`);
+            return;
+          }
+          
+          const locationName = locationMapping[loc.location] || loc.location;
+          const armorPoints = loc.armor_points || 0;
+          
+          // Determine if this is rear armor
+          const isRearArmor = loc.location.includes('(Rear)');
+          
+          // Initialize location in armor allocation if not exists
+          if (!result.armorAllocation[locationName]) {
+            result.armorAllocation[locationName] = {
+              front: 0,
+              rear: 0,
+              maxArmor: this.getMaxArmorForLocation(locationName, unitMass),
+              type: armorType
+            };
+          }
+          
+          // Set armor points
+          if (isRearArmor) {
+            result.armorAllocation[locationName].rear = armorPoints;
+          } else {
+            result.armorAllocation[locationName].front = armorPoints;
+          }
+          
+          // Add to armor locations array (for compatibility with existing systems)
+          result.armorLocations.push({
+            location: locationName,
+            armor_points: armorPoints,
+            rear_armor_points: isRearArmor ? armorPoints : (loc.rear_armor_points || 0)
+          });
+          
+        } catch (error) {
+          mappingIssues.push(`Armor location ${index}: Error processing - ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      });
+      
+      // Calculate total armor points
+      result.totalArmorPoints = Object.values(result.armorAllocation).reduce((total, loc) => {
+        return total + loc.front + (loc.rear || 0);
+      }, 0);
+      
+      // Validate armor allocation
+      this.validateArmorAllocation(result.armorAllocation, mappingIssues);
+      
+    } else {
+      warnings.push('No armor locations found in armor data');
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Get armor type from JSON armor type string
+   */
+  private getArmorType(armorTypeName: string, unitTechBase: TechBase): ArmorType {
+    if (!armorTypeName) {
+      return ARMOR_TYPES.find(t => t.id === 'standard') || ARMOR_TYPES[0];
+    }
+    
+    // Normalize armor type name
+    const normalizedName = armorTypeName.toLowerCase().replace(/[\s\-]/g, '_');
+    
+    // Mapping from JSON armor type names to our armor type IDs
+    const armorTypeMapping: Record<string, string> = {
+      'standard': 'standard',
+      'ferro_fibrous': unitTechBase === 'Clan' ? 'ferro_fibrous_clan' : 'ferro_fibrous',
+      'ferro-fibrous': unitTechBase === 'Clan' ? 'ferro_fibrous_clan' : 'ferro_fibrous',
+      'ferrofibrous': unitTechBase === 'Clan' ? 'ferro_fibrous_clan' : 'ferro_fibrous',
+      'stealth': 'stealth',
+      'light_ferro_fibrous': 'light_ferro_fibrous',
+      'light_ferro-fibrous': 'light_ferro_fibrous',
+      'heavy_ferro_fibrous': 'heavy_ferro_fibrous',
+      'heavy_ferro-fibrous': 'heavy_ferro_fibrous',
+      'ferro_lamellor': 'ferro_lamellor',
+      'ferro-lamellor': 'ferro_lamellor',
+      'hardened': 'hardened',
+      'reactive': 'reactive',
+      'reflective': 'reflective'
+    };
+    
+    const armorTypeId = armorTypeMapping[normalizedName];
+    if (armorTypeId) {
+      const armorType = ARMOR_TYPES.find(t => t.id === armorTypeId);
+      if (armorType) {
+        return armorType;
+      }
+    }
+    
+    // If not found, return standard armor
+    return ARMOR_TYPES.find(t => t.id === 'standard') || ARMOR_TYPES[0];
+  }
+  
+  /**
+   * Get maximum armor for a location based on unit mass
+   */
+  private getMaxArmorForLocation(location: string, mass: number): number {
+    switch (location) {
+      case 'Head':
+        return mass > 100 ? 12 : 9;
+      case 'Center Torso':
+        return Math.floor(mass * 2 * 0.4);
+      case 'Left Torso':
+      case 'Right Torso':
+        return Math.floor(mass * 2 * 0.3);
+      case 'Left Arm':
+      case 'Right Arm':
+      case 'Left Leg':
+      case 'Right Leg':
+        return Math.floor(mass * 2 * 0.25);
+      default:
+        return Math.floor(mass * 2 * 0.2);
+    }
+  }
+  
+  /**
+   * Validate armor allocation for errors
+   */
+  private validateArmorAllocation(armorAllocation: ArmorAllocationData, mappingIssues: string[]): void {
+    Object.entries(armorAllocation).forEach(([location, armor]) => {
+      const totalArmor = armor.front + (armor.rear || 0);
+      
+      if (totalArmor > armor.maxArmor) {
+        mappingIssues.push(`${location}: Armor total (${totalArmor}) exceeds maximum (${armor.maxArmor})`);
+      }
+      
+      if (armor.front < 0) {
+        mappingIssues.push(`${location}: Front armor cannot be negative`);
+      }
+      
+      if (armor.rear && armor.rear < 0) {
+        mappingIssues.push(`${location}: Rear armor cannot be negative`);
+      }
+      
+      // Check if location should have rear armor
+      const hasRearArmor = ['Center Torso', 'Left Torso', 'Right Torso'].includes(location);
+      if (!hasRearArmor && armor.rear && armor.rear > 0) {
+        mappingIssues.push(`${location}: Location should not have rear armor`);
+      }
+    });
   }
   
   /**
