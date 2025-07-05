@@ -131,7 +131,8 @@ describe('HeatRulesValidator', () => {
 
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
-      expect(engineHeatSinks).toBeLessThanOrEqual(8) // XL engines limited to 8
+      // XL engines follow same rule as standard engines - only rating matters
+      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
       expect(engineHeatSinks).toBeGreaterThan(0)
     })
 
@@ -217,7 +218,8 @@ describe('HeatRulesValidator', () => {
 
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
-      expect(engineHeatSinks).toBeLessThanOrEqual(8)
+      // XL engines follow same rule as standard engines - only rating matters
+      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
     })
 
     it('should handle Light engine limitations', () => {
@@ -228,7 +230,8 @@ describe('HeatRulesValidator', () => {
 
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
-      expect(engineHeatSinks).toBeLessThanOrEqual(6)
+      // Light engines follow same rule as standard engines - only rating matters
+      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
     })
 
     it('should handle Compact engine (no heat sinks)', () => {
