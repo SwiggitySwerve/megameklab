@@ -633,7 +633,12 @@ export class SpecialComponentManager {
    */
   getArmorCriticalSlots(armorType: ArmorType, techBase: string): number {
     try {
-      return getArmorSlots(armorType as any, techBase as any) || 0;
+      // Type-safe tech base validation
+      const validTechBases = ['Inner Sphere', 'Clan', 'Both'];
+      const safeTechBase = validTechBases.includes(techBase) ? techBase : 'Inner Sphere';
+      
+      // Call external function with validated parameters
+      return getArmorSlots(armorType, safeTechBase) || 0;
     } catch (error) {
       // Fallback for armor types not in the armor calculations
       const armorSlotMap: Record<ArmorType, number> = {

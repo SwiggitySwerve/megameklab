@@ -196,19 +196,21 @@ export class WeaponValidationService {
       allEquipment.forEach((item, index) => {
         if (!item) return
         
-        // Check if this is a weapon using any casting for flexibility
-        const itemAny = item as any
+        // Type-safe property access for equipment validation
+        const itemRecord = item as unknown as Record<string, unknown>
+        
+        // Check if this is a weapon using type-safe property access
         const isWeapon = this.WEAPON_CATEGORIES.some(category => 
-          itemAny.category?.includes(category)
+          String(itemRecord.category || '').includes(category)
         ) || 
-        itemAny.item_type === 'weapon' ||
-        itemAny.type?.includes('weapon') ||
+        itemRecord.item_type === 'weapon' ||
+        String(itemRecord.type || '').includes('weapon') ||
         item.item_name?.match(/\b(Laser|PPC|AC\/|LRM|SRM|Gauss|Pulse)\b/i)
 
         // Also check for weapon-like properties even if not explicitly categorized
-        const hasWeaponProperties = itemAny.heat !== undefined || 
-                                    itemAny.damage !== undefined ||
-                                    (itemAny.tonnage !== undefined && itemAny.criticals !== undefined)
+        const hasWeaponProperties = itemRecord.heat !== undefined || 
+                                    itemRecord.damage !== undefined ||
+                                    (itemRecord.tonnage !== undefined && itemRecord.criticals !== undefined)
 
         if (isWeapon || hasWeaponProperties) {
           // Validate weapon data integrity
@@ -222,7 +224,7 @@ export class WeaponValidationService {
           }
 
           // Validate weapon tonnage (check for negative values)
-          if (itemAny.tonnage !== undefined && itemAny.tonnage < 0) {
+          if (itemRecord.tonnage !== undefined && Number(itemRecord.tonnage) < 0) {
             errors.push({
               id: `weapon-negative-tonnage-${index}`,
               category: 'error',
@@ -232,7 +234,7 @@ export class WeaponValidationService {
           }
 
           // Validate weapon heat generation (check for negative values)
-          if (itemAny.heat !== undefined && itemAny.heat < 0) {
+          if (itemRecord.heat !== undefined && Number(itemRecord.heat) < 0) {
             errors.push({
               id: `weapon-negative-heat-${index}`,
               category: 'error',
@@ -242,7 +244,7 @@ export class WeaponValidationService {
           }
 
           // Validate weapon critical slots
-          if (itemAny.criticals !== undefined && itemAny.criticals <= 0) {
+          if (itemRecord.criticals !== undefined && Number(itemRecord.criticals) <= 0) {
             errors.push({
               id: `weapon-invalid-criticals-${index}`,
               category: 'error',
@@ -253,8 +255,8 @@ export class WeaponValidationService {
         }
 
         // Check for weapon placement restrictions
-        if (itemAny.location && (isWeapon || hasWeaponProperties)) {
-          const placementResult = this.validateWeaponPlacement(itemAny, unit)
+        if (itemRecord.location && (isWeapon || hasWeaponProperties)) {
+          const placementResult = this.validateWeaponPlacement(item, unit)
           if (!placementResult.isValid) {
             errors.push({
               id: `weapon-placement-invalid-${index}`,
@@ -266,11 +268,11 @@ export class WeaponValidationService {
         }
 
         // Check for excessive heat generation
-        if (itemAny.heat && itemAny.heat > 20 && (isWeapon || hasWeaponProperties)) {
+        if (itemRecord.heat && Number(itemRecord.heat) > 20 && (isWeapon || hasWeaponProperties)) {
           warnings.push({
             id: `weapon-high-heat-${index}`,
             category: 'warning',
-            message: `${item.item_name}: Generates ${itemAny.heat} heat - consider heat management`,
+            message: `${item.item_name}: Generates ${itemRecord.heat} heat - consider heat management`,
             field: `weapons_and_equipment[${index}].heat`,
           })
         }
