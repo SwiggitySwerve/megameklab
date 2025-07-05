@@ -1,33 +1,40 @@
 /**
- * ValidationManager
+ * ValidationManager - Comprehensive validation service for BattleTech units
+ * 
  * Handles validation logic, error handling, and compliance checking for BattleTech units.
+ * Implements SOLID principles with proper type safety and dependency injection support.
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { 
+  IValidationManager,
+  ValidationResult,
+  ValidationError,
+  WeightValidationResult,
+  HeatValidationResult,
+  MovementValidationResult,
+  EquipmentValidationResult,
+  WeaponValidationResult,
+  AmmoValidationResult,
+  CriticalSlotValidationResult,
+  TechLevelValidationResult,
+  MixedTechValidationResult,
+  EraValidationResult,
+  WeightDistributionResult,
+  HeatBalanceResult,
+  EquipmentCompatibilityResult,
+  ComplianceReport,
+  ComplianceScore,
+  ValidationSummary,
+  EquipmentItem,
+  AmmoBalanceCheck,
+  WeightDistribution,
+  MixedTechCheck,
+  isValidUnitConfiguration,
+  isValidEquipmentArray
+} from './IValidationManager';
 
-export interface ValidationResult {
-  isValid: boolean;
-  errors: ValidationError[];
-  warnings: ValidationError[];
-  score: number;
-}
-
-export interface ValidationError {
-  type: string;
-  message: string;
-  severity: 'error' | 'warning' | 'info';
-  field: string;
-}
-
-export interface ComplianceReport {
-  overallCompliance: number;
-  ruleCompliance: any[];
-  violationSummary: any[];
-  recommendationSummary: any[];
-  complianceMetrics: any;
-}
-
-export class ValidationManager {
+export class ValidationManager implements IValidationManager {
   constructor() {}
 
   /**
@@ -82,7 +89,15 @@ export class ValidationManager {
   /**
    * Validate weight limits
    */
-  validateWeightLimits(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateWeightLimits(config: UnitConfiguration, equipment: EquipmentItem[]): WeightValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -130,13 +145,21 @@ export class ValidationManager {
       totalWeight,
       maxWeight,
       overweight
-    } as any;
+    };
   }
 
   /**
    * Validate heat management
    */
-  validateHeatManagement(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateHeatManagement(config: UnitConfiguration, equipment: EquipmentItem[]): HeatValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -173,7 +196,7 @@ export class ValidationManager {
       heatGeneration,
       heatDissipation,
       heatDeficit
-    } as any;
+    };
   }
 
   /**
