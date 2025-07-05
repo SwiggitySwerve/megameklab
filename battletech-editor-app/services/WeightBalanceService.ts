@@ -7,9 +7,10 @@
  * @see IMPLEMENTATION_REFERENCE.md for architectural patterns
  */
 
-import { UnitConfiguration } from '../utils/criticalSlots/UnitCriticalManager';
+import { UnitConfiguration, ArmorAllocation } from '../utils/criticalSlots/UnitCriticalManagerTypes';
 import { ComponentConfiguration } from '../types/componentConfiguration';
 import { calculateGyroWeight } from '../utils/gyroCalculations';
+import { GyroType } from '../utils/criticalSlots/SystemComponentRules';
 
 // Import focused service interfaces and types
 import { 
@@ -395,6 +396,34 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
     if (typeof component === 'string') return component;
     return component.type;
   }
+
+  /**
+   * Type-safe armor location property accessor
+   */
+  private static getLocationArmorPoints(location: { front?: number; rear?: number }): { front: number; rear: number } {
+    return {
+      front: location?.front || 0,
+      rear: location?.rear || 0
+    };
+  }
+
+  /**
+   * Type-safe calculation of total armor points from armor allocation
+   */
+  private static calculateTotalArmorPointsSafe(armorAllocation: ArmorAllocation | any): number {
+    if (!armorAllocation) return 0;
+
+    // Type-safe approach using known armor allocation structure
+    const locations = ['HD', 'CT', 'LT', 'RT', 'LA', 'RA', 'LL', 'RL'] as const;
+    
+    return locations.reduce((total, locationKey) => {
+      const location = armorAllocation[locationKey];
+      if (!location || typeof location !== 'object') return total;
+      
+      const armorPoints = WeightBalanceServiceImpl.getLocationArmorPoints(location);
+      return total + armorPoints.front + armorPoints.rear;
+    }, 0);
+  }
   
   private calculateStructureWeight(config: UnitConfiguration): ComponentWeightBreakdown['structure'] {
     const structureType = this.extractComponentType(config.structureType);
@@ -478,7 +507,7 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
     
     let weight: number;
     try {
-      weight = calculateGyroWeight(config.engineRating, safeGyroType as any);
+      weight = calculateGyroWeight(config.engineRating, safeGyroType as GyroType);
     } catch (error) {
       // Fallback to standard calculation if function fails
       weight = Math.ceil(config.engineRating / 100);
@@ -584,15 +613,8 @@ export class WeightBalanceServiceImpl implements WeightBalanceService {
     return baseWeights;
   }
   
-  private calculateTotalArmorPoints(armorAllocation: any): number {
-    if (!armorAllocation) return 0;
-    
-    return (Object.values(armorAllocation) as any[]).reduce((total: number, location: any) => {
-      if (!location) return total;
-      const front = (location as any).front || 0;
-      const rear = (location as any).rear || 0;
-      return total + front + rear;
-    }, 0);
+  private calculateTotalArmorPoints(armorAllocation: ArmorAllocation | any): number {
+    return WeightBalanceServiceImpl.calculateTotalArmorPointsSafe(armorAllocation);
   }
   
   private extractEquipmentWeight(equipment: any[]): number {
