@@ -343,7 +343,7 @@ describe('EquipmentService', () => {
     // Assert
     expect(result.success).toBeTruthy();
     expect(result.data.success).toBeTruthy();
-    expect(result.data.allocations).toContain({
+    expect(result.data.allocations[0]).toMatchObject({
       equipmentId: 'AC/20',
       location: 'Right Torso',
       quantity: 1
