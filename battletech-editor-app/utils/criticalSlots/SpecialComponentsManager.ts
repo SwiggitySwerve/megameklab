@@ -31,6 +31,20 @@ export class SpecialComponentsManager {
   }
 
   /**
+   * Type guard to safely access componentType property on equipment
+   */
+  private static hasComponentType(equipment: EquipmentObject): equipment is EquipmentObject & { componentType: string } {
+    return 'componentType' in equipment && typeof (equipment as EquipmentObject & { componentType: unknown }).componentType === 'string'
+  }
+
+  /**
+   * Safely get componentType from equipment
+   */
+  private static getComponentType(equipment: EquipmentObject): string | undefined {
+    return SpecialComponentsManager.hasComponentType(equipment) ? equipment.componentType : undefined
+  }
+
+  /**
    * Get critical slots required for armor type
    */
   private getArmorCriticalSlots(armorType: ArmorType): number {
@@ -92,7 +106,9 @@ export class SpecialComponentsManager {
 
     // Add structure components if missing
     const structureSlots = this.getStructureCriticalSlots(structureType)
-    const currentStructureCount = this.unallocatedEquipment.filter(eq => (eq.equipmentData as any).componentType === 'structure').length
+    const currentStructureCount = this.unallocatedEquipment.filter(eq => 
+      SpecialComponentsManager.getComponentType(eq.equipmentData) === 'structure'
+    ).length
     console.log('  Structure: required', structureSlots, 'present', currentStructureCount)
     if (structureSlots > 0 && currentStructureCount < structureSlots) {
       console.log('  Adding', structureSlots - currentStructureCount, 'structure components')
@@ -101,7 +117,9 @@ export class SpecialComponentsManager {
 
     // Add armor components if missing
     const armorSlots = this.getArmorCriticalSlots(armorType)
-    const currentArmorCount = this.unallocatedEquipment.filter(eq => (eq.equipmentData as any).componentType === 'armor').length
+    const currentArmorCount = this.unallocatedEquipment.filter(eq => 
+      SpecialComponentsManager.getComponentType(eq.equipmentData) === 'armor'
+    ).length
     console.log('  Armor: required', armorSlots, 'present', currentArmorCount)
     if (armorSlots > 0 && currentArmorCount < armorSlots) {
       console.log('  Adding', armorSlots - currentArmorCount, 'armor components')

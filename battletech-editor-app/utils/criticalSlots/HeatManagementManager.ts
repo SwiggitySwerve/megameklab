@@ -7,7 +7,8 @@
 import { EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { JumpJetType } from '../jumpJetCalculations'
-import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations';
+import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export class HeatManagementManager {
   private configuration: UnitConfiguration
@@ -19,6 +20,16 @@ export class HeatManagementManager {
   ) {
     this.configuration = configuration
     this.unallocatedEquipment = unallocatedEquipment
+  }
+
+  /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private static extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component
+    }
+    return component.type
   }
 
   /**
@@ -88,9 +99,7 @@ export class HeatManagementManager {
    */
   private getBaseHeatSinksFromEngine(engineRating: number): number {
     // Standard BattleTech rule: base heat sinks = engine rating / 25
-    const engineType = typeof this.configuration.engineType === 'string' 
-      ? this.configuration.engineType 
-      : (this.configuration.engineType as any).type;
+    const engineType = HeatManagementManager.extractComponentType(this.configuration.engineType)
     
     // Use dynamic import to avoid module resolution issues
     const heatSinkModule = require('../heatSinkCalculations');
@@ -104,18 +113,14 @@ export class HeatManagementManager {
    * Get heat sink type as string
    */
   private getHeatSinkTypeString(): HeatSinkType {
-    return typeof this.configuration.heatSinkType === 'string' 
-      ? this.configuration.heatSinkType 
-      : (this.configuration.heatSinkType as any).type
+    return HeatManagementManager.extractComponentType(this.configuration.heatSinkType) as HeatSinkType
   }
 
   /**
    * Get jump jet type as string
    */
   private getJumpJetTypeString(): JumpJetType {
-    return typeof this.configuration.jumpJetType === 'string' 
-      ? this.configuration.jumpJetType 
-      : (this.configuration.jumpJetType as any).type
+    return HeatManagementManager.extractComponentType(this.configuration.jumpJetType) as JumpJetType
   }
 
   /**

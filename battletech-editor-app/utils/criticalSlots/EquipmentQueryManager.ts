@@ -44,6 +44,20 @@ export class EquipmentQueryManager {
   }
 
   /**
+   * Type guard to safely access componentType property on equipment
+   */
+  private static hasComponentType(equipment: EquipmentObject): equipment is EquipmentObject & { componentType: string } {
+    return 'componentType' in equipment && typeof (equipment as EquipmentObject & { componentType: unknown }).componentType === 'string'
+  }
+
+  /**
+   * Safely get componentType from equipment
+   */
+  private static getComponentType(equipment: EquipmentObject): string | undefined {
+    return EquipmentQueryManager.hasComponentType(equipment) ? equipment.componentType : undefined
+  }
+
+  /**
    * Get all equipment across entire unit, organized by equipment ID
    */
   getAllEquipment(): Map<string, EquipmentAllocation[]> {
@@ -242,8 +256,9 @@ export class EquipmentQueryManager {
       'engine', 'gyro', 'cockpit', 'life_support', 'sensors', 'actuator'
     ]
     
+    const componentType = EquipmentQueryManager.getComponentType(equipment)
     return systemComponentTypes.some(type => 
-      (equipment as any).componentType === type || 
+      componentType === type || 
       equipment.name.toLowerCase().includes(type)
     )
   }
@@ -254,8 +269,9 @@ export class EquipmentQueryManager {
   private isSpecialComponent(equipment: EquipmentObject): boolean {
     const specialComponentTypes = ['structure', 'armor']
     
+    const componentType = EquipmentQueryManager.getComponentType(equipment)
     return specialComponentTypes.some(type => 
-      (equipment as any).componentType === type
+      componentType === type
     )
   }
 
@@ -323,7 +339,8 @@ export class EquipmentQueryManager {
     // Search allocated equipment
     this.sections.forEach(section => {
       section.getAllEquipment().forEach(allocation => {
-        if ((allocation.equipmentData as any).componentType === componentType) {
+        const equipmentComponentType = EquipmentQueryManager.getComponentType(allocation.equipmentData)
+        if (equipmentComponentType === componentType) {
           results.push(allocation)
         }
       })
@@ -331,7 +348,8 @@ export class EquipmentQueryManager {
     
     // Search unallocated equipment
     this.unallocatedEquipment.forEach(allocation => {
-      if ((allocation.equipmentData as any).componentType === componentType) {
+      const equipmentComponentType = EquipmentQueryManager.getComponentType(allocation.equipmentData)
+      if (equipmentComponentType === componentType) {
         results.push(allocation)
       }
     })
