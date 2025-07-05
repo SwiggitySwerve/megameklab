@@ -36,9 +36,8 @@ interface MockExpectation {
   rejects: MockExpectation;
 }
 
-// Mock the testing framework
-declare const TestFramework: MockTestFramework;
-const { describe, it, beforeEach, afterEach, expect } = TestFramework;
+// Use Jest testing framework directly
+// No need to mock the testing framework - Jest provides these globally
 
 // Import services and types for testing
 import { ServiceOrchestrator } from '../../services/integration/ServiceOrchestrator';
@@ -344,7 +343,7 @@ describe('EquipmentService', () => {
     // Assert
     expect(result.success).toBeTruthy();
     expect(result.data.success).toBeTruthy();
-    expect(result.data.allocations).toContain({
+    expect(result.data.allocations[0]).toMatchObject({
       equipmentId: 'AC/20',
       location: 'Right Torso',
       quantity: 1
