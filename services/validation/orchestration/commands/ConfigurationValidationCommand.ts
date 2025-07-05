@@ -181,7 +181,7 @@ export class ConfigurationValidationCommand extends BaseValidationCommand {
     const heatGeneration = equipment.reduce((sum, eq) => sum + (eq.equipmentData?.heat || 0), 0)
     
     // Calculate heat sinks
-    const engineHeatSinks = Math.min(10, Math.floor(engineRating / 25))
+    const engineHeatSinks = Math.floor(engineRating / 25)
     const externalHeatSinks = equipment.filter(eq => 
       eq.equipmentData?.type === 'heat_sink' && !eq.engineMounted
     ).length

@@ -428,7 +428,7 @@ export class AutoAllocationManager {
    */
   private calculateEngineHeatSinks(config: UnitConfiguration): number {
     const engineRating = config.engineRating || 0;
-    return Math.min(10, Math.floor(engineRating / 25));
+    return Math.floor(engineRating / 25);
   }
   
   /**

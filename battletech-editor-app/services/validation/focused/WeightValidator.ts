@@ -319,29 +319,11 @@ export class WeightValidator implements IWeightValidator {
     const totalArmor = this.calculateTotalArmorPoints(config);
     const armorType = this.extractComponentType(config.armorType);
     
-    let armorWeight = totalArmor / 16; // Standard armor: 16 points per ton
+    // Import official BattleTech construction rules
+    const { calculateArmorWeight } = require('../../../constants/BattleTechConstructionRules');
     
-    // Adjust for armor type
-    switch (armorType) {
-      case 'Ferro-Fibrous':
-        armorWeight = totalArmor / 17.6; // FF armor: 17.6 points per ton
-        break;
-      case 'Light Ferro-Fibrous':
-        armorWeight = totalArmor / 19.2; // Light FF: 19.2 points per ton
-        break;
-      case 'Heavy Ferro-Fibrous':
-        armorWeight = totalArmor / 16.8; // Heavy FF: 16.8 points per ton
-        break;
-      case 'Stealth':
-        armorWeight = totalArmor / 16; // Same as standard but requires stealth equipment
-        break;
-      case 'Reactive':
-        armorWeight = totalArmor / 14; // Reactive: 14 points per ton
-        break;
-      default:
-        // Standard armor remains at base calculation
-        break;
-    }
+    // Use official armor weight calculation
+    const armorWeight = calculateArmorWeight(totalArmor, armorType);
 
     return Math.round(armorWeight * 100) / 100;
   }

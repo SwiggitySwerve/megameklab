@@ -285,7 +285,7 @@ export class StandardHeatCalculationStrategy implements IHeatCalculationStrategy
       const heatSinkData = StandardHeatCalculationStrategy.getHeatSinkData(config);
 
       // Calculate engine heat sinks (free with engine)
-      const maxEngineHeatSinks = Math.min(10, Math.floor(engineRating / 25));
+      const maxEngineHeatSinks = Math.floor(engineRating / 25);
       const engineHeatSinks = {
         count: maxEngineHeatSinks,
         type: heatSinkData.heatSinkType,

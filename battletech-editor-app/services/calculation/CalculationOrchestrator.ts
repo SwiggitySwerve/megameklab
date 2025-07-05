@@ -813,7 +813,7 @@ export class CalculationOrchestrator implements ICalculationOrchestrator {
   }
 
   private createBasicHeatResult(config: IUnitConfiguration, equipment: IEquipmentAllocation[]): IHeatCalculationResult {
-    const engineHeatSinks = Math.min(10, Math.floor(config.engineRating / 25));
+    const engineHeatSinks = Math.floor(config.engineRating / 25);
     const heatGeneration = equipment.length * 2; // Rough heat generation
     
     return {

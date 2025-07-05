@@ -68,17 +68,12 @@ export const HEAT_SINK_SPECIFICATIONS: Record<HeatSinkType, HeatSinkSpecificatio
 /**
  * Calculate internal heat sinks provided by engine
  * @param engineRating Engine rating
- * @returns Number of internal heat sinks (max 10)
+ * @returns Number of internal heat sinks (no artificial minimum)
  */
 export function calculateInternalHeatSinks(engineRating: number): number {
   if (engineRating <= 0) return 0;
   
-  // Fusion engines 250+ provide 10 heat sinks
-  if (engineRating >= 250) {
-    return 10;
-  }
-  
-  // Smaller engines provide partial heat sinks
+  // Official BattleTech rule: Engine Rating ÷ 25 (rounded down), NO MINIMUM
   return Math.floor(engineRating / 25);
 }
 
@@ -101,8 +96,8 @@ export function calculateInternalHeatSinksForEngine(engineRating: number, engine
   }
   
   // All fusion engines follow the same basic rule - only engine rating matters
-  // There are no engine type limitations for internal heat sink capacity
-  return calculateInternalHeatSinks(engineRating);
+  // Official BattleTech rule: Engine Rating ÷ 25 (rounded down), NO MINIMUM
+  return Math.floor(engineRating / 25);
 }
 
 /**

@@ -536,10 +536,8 @@ export class UnitConfigurationService {
   private getArmorEfficiency(armorType: ArmorType): number {
     const armorPointsPerTon: Record<ArmorType, number> = {
       'Standard': 16,
-      'Ferro-Fibrous': 17.92,
-      'Ferro-Fibrous (Clan)': 17.92,
-      'Light Ferro-Fibrous': 16.8,
-      'Heavy Ferro-Fibrous': 19.2,
+          // Import from centralized constants
+    ...require('../../constants/BattleTechConstructionRules').ARMOR_POINTS_PER_TON,
       'Stealth': 16,
       'Reactive': 16,
       'Reflective': 16,

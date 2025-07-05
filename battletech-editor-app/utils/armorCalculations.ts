@@ -41,11 +41,11 @@ export const ARMOR_SPECIFICATIONS: Record<ArmorType, ArmorSpecification> = {
   },
   'Ferro-Fibrous (Clan)': {
     type: 'Ferro-Fibrous (Clan)',
-    pointsPerTon: 19.2, // 20% more than standard
+    pointsPerTon: 17.92, // Official TechManual value (same as IS)
     criticalSlots: 7,
     techBase: 'Clan',
     costMultiplier: 1.3,
-    description: 'Clan Ferro-Fibrous armor provides 19.2 points per ton, requires 7 critical slots'
+    description: 'Clan Ferro-Fibrous armor provides 17.92 points per ton, requires 7 critical slots'
   },
   'Light Ferro-Fibrous': {
     type: 'Light Ferro-Fibrous',
@@ -73,19 +73,19 @@ export const ARMOR_SPECIFICATIONS: Record<ArmorType, ArmorSpecification> = {
   },
   'Reactive': {
     type: 'Reactive',
-    pointsPerTon: 14.4, // 10% less than standard
+    pointsPerTon: 14, // Official TechManual value
     criticalSlots: 0,
     techBase: 'Inner Sphere',
     costMultiplier: 2.5,
-    description: 'Reactive armor provides 14.4 points per ton, provides missile protection'
+    description: 'Reactive armor provides 14 points per ton, provides missile protection'
   },
   'Reflective': {
     type: 'Reflective',
-    pointsPerTon: 14.4, // 10% less than standard
+    pointsPerTon: 16, // Official TechManual value (same as standard)
     criticalSlots: 0,
     techBase: 'Inner Sphere',
     costMultiplier: 2.5,
-    description: 'Reflective armor provides 14.4 points per ton, provides energy weapon protection'
+    description: 'Reflective armor provides 16 points per ton, provides energy weapon protection'
   },
   'Hardened': {
     type: 'Hardened',

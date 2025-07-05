@@ -33,7 +33,7 @@ export class RuleComplianceValidator extends BaseEquipmentValidator {
       return Math.max(10, Math.ceil(engineRating / 25))
     },
     getFreeEngineSinks: (engineRating: number): number => {
-      return Math.min(10, Math.floor(engineRating / 25))
+      return Math.floor(engineRating / 25)
     }
   }
 
