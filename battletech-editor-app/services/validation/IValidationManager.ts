@@ -252,11 +252,14 @@ export interface IValidationManager {
  * Type guard to check if an object is a valid UnitConfiguration
  */
 export function isValidUnitConfiguration(config: unknown): config is UnitConfiguration {
-  return typeof config === 'object' && 
-         config !== null && 
-         'tonnage' in config && 
-         typeof (config as any).tonnage === 'number' &&
-         (config as any).tonnage > 0;
+  if (typeof config !== 'object' || config === null) {
+    return false;
+  }
+  
+  const configObj = config as Record<string, unknown>;
+  return 'tonnage' in configObj && 
+         typeof configObj.tonnage === 'number' &&
+         configObj.tonnage > 0;
 }
 
 /**

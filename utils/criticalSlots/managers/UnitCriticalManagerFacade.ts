@@ -83,7 +83,18 @@ class EquipmentAllocationCommand implements UnitCommand {
   }
 }
 
-export class UnitCriticalManagerFacade {
+// Interface that makes facade compatible with manager expectations
+interface IUnitManagerCompatible {
+  unallocatedEquipment: EquipmentAllocation[]
+  configuration: UnitConfiguration
+  getConfiguration(): UnitConfiguration
+  addUnallocatedEquipment(equipment: EquipmentAllocation[]): void
+  removeUnallocatedEquipment(equipmentGroupId: string): EquipmentAllocation | null
+  displaceEquipment(equipmentGroupId: string): boolean
+  getSection(location: string): CriticalSection | null
+}
+
+export class UnitCriticalManagerFacade implements IUnitManagerCompatible {
   public sections: Map<string, CriticalSection>
   public unallocatedEquipment: EquipmentAllocation[]
   public configuration: UnitConfiguration
@@ -129,12 +140,12 @@ export class UnitCriticalManagerFacade {
     )
     
     this.systemComponentsManager = new SystemComponentsManager(
-      this as any, // Type compatibility
+      this, // Type-safe: facade now implements IUnitManagerCompatible
       this.sections
     )
     
     this.equipmentAllocationManager = new EquipmentAllocationManager(
-      this as any, // Type compatibility
+      this, // Type-safe: facade now implements IUnitManagerCompatible
       this.sections,
       this.configuration
     )
@@ -157,7 +168,7 @@ export class UnitCriticalManagerFacade {
     
     this.serializationManager = new UnitSerializationManager()
     this.calculationManager = new UnitCalculationManager()
-    this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment, this as any)
+    this.stateManager = new UnitStateManager(this.sections, this.unallocatedEquipment, this)
     this.configurationManager = new ConfigurationManager(this.configuration)
     this.equipmentQueryManager = new EquipmentQueryManager(this.sections, this.unallocatedEquipment, this.configuration)
   }
@@ -265,6 +276,37 @@ export class UnitCriticalManagerFacade {
   addUnallocatedEquipment(equipment: EquipmentAllocation[]): void {
     this.unallocatedEquipment.push(...equipment)
     this.eventManager.notifyStateChange()
+  }
+
+  /**
+   * Remove unallocated equipment - required by IUnitManagerCompatible
+   */
+  removeUnallocatedEquipment(equipmentGroupId: string): EquipmentAllocation | null {
+    const index = this.unallocatedEquipment.findIndex(eq => eq.equipmentGroupId === equipmentGroupId)
+    if (index >= 0) {
+      const removed = this.unallocatedEquipment[index]
+      this.unallocatedEquipment.splice(index, 1)
+      this.eventManager.notifyStateChange()
+      return removed
+    }
+    return null
+  }
+
+  /**
+   * Displace equipment - required by IUnitManagerCompatible
+   */
+  displaceEquipment(equipmentGroupId: string): boolean {
+    for (const section of this.sections.values()) {
+      const allocation = section.getAllEquipment().find(eq => eq.equipmentGroupId === equipmentGroupId)
+      if (allocation) {
+        const removed = section.removeEquipmentGroup(equipmentGroupId)
+        if (removed) {
+          this.addUnallocatedEquipment([removed])
+          return true
+        }
+      }
+    }
+    return false
   }
 
   /**

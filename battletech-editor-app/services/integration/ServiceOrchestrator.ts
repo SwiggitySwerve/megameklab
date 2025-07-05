@@ -25,6 +25,7 @@ import {
   failure,
   EntityId
 } from '../../types/core';
+import { TechBase, RulesLevel, isValidTechBase, isValidRulesLevel } from '../../types/core/BaseTypes';
 
 import { ServiceRegistry } from '../core/ServiceRegistry';
 import { EquipmentService } from '../equipment/EquipmentService';
@@ -904,14 +905,27 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
     return defaultValue;
   }
 
-  private safeGetTechBase(obj: unknown, key: string, defaultValue: string): any {
+  private safeGetTechBase(obj: unknown, key: string, defaultValue: string): TechBase {
     const techBaseValue = this.safeGetString(obj, key, defaultValue);
-    return techBaseValue as any; // Proper enum casting would require importing the TechBase enum
+    // Use type guard to ensure valid enum value
+    if (isValidTechBase(techBaseValue)) {
+      return techBaseValue;
+    }
+    // Return a valid enum value as fallback
+    return defaultValue === 'Clan' ? TechBase.CLAN : TechBase.INNER_SPHERE;
   }
 
-  private safeGetRulesLevel(obj: unknown, key: string, defaultValue: string): any {
+  private safeGetRulesLevel(obj: unknown, key: string, defaultValue: string): RulesLevel {
     const rulesLevelValue = this.safeGetString(obj, key, defaultValue);
-    return rulesLevelValue as any; // Proper enum casting would require importing the RulesLevel enum
+    // Use type guard to ensure valid enum value
+    if (isValidRulesLevel(rulesLevelValue)) {
+      return rulesLevelValue;
+    }
+    // Return a valid enum value as fallback
+    return defaultValue === 'Advanced' ? RulesLevel.ADVANCED : 
+           defaultValue === 'Experimental' ? RulesLevel.EXPERIMENTAL :
+           defaultValue === 'Introductory' ? RulesLevel.INTRODUCTORY :
+           RulesLevel.STANDARD;
   }
 
   private safeGetArmorAllocation(obj: unknown, key: string): any {
