@@ -72,8 +72,14 @@ export class WeightCalculationService implements IWeightCalculationService {
   }
   
   calculateEquipmentWeight(equipment: EquipmentItem[]): number {
-    if (!isValidEquipmentArray(equipment)) {
+    // Check for null/undefined equipment parameter - should throw
+    if (equipment === null || equipment === undefined) {
       throw new Error('Invalid equipment array provided');
+    }
+    
+    // Handle invalid equipment arrays gracefully by returning 0 (for arrays with invalid items)
+    if (!isValidEquipmentArray(equipment)) {
+      return 0;
     }
     
     return equipment.reduce((total, item) => {

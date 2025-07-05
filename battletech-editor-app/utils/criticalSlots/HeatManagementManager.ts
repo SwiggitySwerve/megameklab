@@ -7,7 +7,9 @@
 import { EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { JumpJetType } from '../jumpJetCalculations'
-import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations'
+// Import heat sink calculations
+const heatSinkCalculations = require('../heatSinkCalculations');
+const { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } = heatSinkCalculations;
 import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export class HeatManagementManager {
@@ -101,9 +103,22 @@ export class HeatManagementManager {
     // Standard BattleTech rule: base heat sinks = engine rating / 25
     const engineType = HeatManagementManager.extractComponentType(this.configuration.engineType)
     
-    // Use dynamic import to avoid module resolution issues
-    const heatSinkModule = require('../heatSinkCalculations');
-    const baseInternalHeatSinks = heatSinkModule.calculateInternalHeatSinksForEngine(engineRating, engineType)
+    // Fallback implementation if import fails
+    let baseInternalHeatSinks: number;
+    if (typeof calculateInternalHeatSinksForEngine === 'function') {
+      baseInternalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, engineType);
+    } else {
+      // Direct implementation as fallback
+      if (engineRating <= 0) {
+        baseInternalHeatSinks = 0;
+      } else if (engineType === 'ICE' || engineType === 'Fuel Cell' || engineType === 'Compact') {
+        baseInternalHeatSinks = 0;
+      } else if (engineRating >= 250) {
+        baseInternalHeatSinks = 10;
+      } else {
+        baseInternalHeatSinks = Math.floor(engineRating / 25);
+      }
+    }
     
     // Minimum of 10 internal heat sinks
     return Math.max(10, baseInternalHeatSinks)

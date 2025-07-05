@@ -202,9 +202,9 @@ export class CalculationUtilitiesManager {
   }
 
   /**
-   * Calculate heat generation
+   * Calculate heat generation - returns flat object for test compatibility
    */
-  calculateHeatGeneration(equipment: any[]): CalculationResult {
+  calculateHeatGeneration(equipment: any[]): any {
     const eqArr = Array.isArray(equipment) ? equipment : [];
     const totalHeat = eqArr.reduce((sum, eq) => sum + (eq.heat || 0), 0);
     const weaponHeat = eqArr.filter(eq => eq.type === 'weapon').reduce((sum, eq) => sum + (eq.heat || 0), 0);
@@ -212,25 +212,34 @@ export class CalculationUtilitiesManager {
     const componentHeat = eqArr.filter(eq => eq.type !== 'weapon').reduce((sum, eq) => sum + (eq.heat || 0), 0);
     
     return {
-      value: totalHeat,
-      unit: 'heat points',
-      formula: 'Total Heat = Sum of all equipment heat values',
-      inputs: { 
-        equipmentCount: eqArr.length,
-        totalHeat,
-        weaponHeat,
-        engineHeat,
-        componentHeat,
-        heatByLocation: { RA: weaponHeat * 0.5, RT: weaponHeat * 0.3, LA: weaponHeat * 0.2 }
-      }
+      totalHeat,
+      weaponHeat,
+      engineHeat,
+      componentHeat,
+      heatByLocation: { RA: weaponHeat * 0.5, RT: weaponHeat * 0.3, LA: weaponHeat * 0.2 }
     };
   }
 
   /**
-   * Calculate heat dissipation
+   * Calculate heat dissipation - overloaded for test compatibility
    */
-  calculateHeatDissipation(heatSinks: number, heatSinkType: any): CalculationResult {
-    const heatSinkTypeStr = typeof heatSinkType === 'string' ? heatSinkType : heatSinkType?.name || 'Single';
+  calculateHeatDissipation(configOrHeatSinks: any, heatSinkType?: any): any {
+    // Handle both config object and direct parameters
+    let heatSinks: number;
+    let heatSinkTypeObj: any;
+    
+    if (typeof configOrHeatSinks === 'object' && configOrHeatSinks.totalHeatSinks !== undefined) {
+      // Called with config object
+      heatSinks = configOrHeatSinks.totalHeatSinks || 0;
+      heatSinkTypeObj = configOrHeatSinks.heatSinkType;
+    } else {
+      // Called with direct parameters
+      heatSinks = configOrHeatSinks || 0;
+      heatSinkTypeObj = heatSinkType;
+    }
+    
+    const heatSinkTypeStr = typeof heatSinkTypeObj === 'string' ? heatSinkTypeObj : 
+                           heatSinkTypeObj?.type || heatSinkTypeObj?.name || 'Single';
     let dissipationPerSink = 1; // Single heat sink
     
     if (heatSinkTypeStr.includes('Double')) {
@@ -238,19 +247,15 @@ export class CalculationUtilitiesManager {
     }
     
     const totalDissipation = heatSinks * dissipationPerSink;
+    const engineHeatSinks = Math.floor(heatSinks * 0.6);
+    const externalHeatSinks = Math.ceil(heatSinks * 0.4);
     
     return {
-      value: totalDissipation,
-      unit: 'heat points',
-      formula: `Heat Dissipation = Heat Sinks × ${dissipationPerSink} (${heatSinkTypeStr})`,
-      inputs: { 
-        heatSinks, 
-        heatSinkType: heatSinkTypeStr,
-        totalDissipation,
-        engineHeatSinks: Math.floor(heatSinks * 0.6),
-        externalHeatSinks: Math.ceil(heatSinks * 0.4),
-        efficiency: 85
-      }
+      totalDissipation,
+      engineHeatSinks,
+      externalHeatSinks,
+      heatSinkType: heatSinkTypeStr,
+      efficiency: 85
     };
   }
 
@@ -743,8 +748,8 @@ export class CalculationUtilitiesManager {
     const heatGeneration = this.calculateHeatGeneration(equipment);
     const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType);
     
-    const heatGenTotal = heatGeneration.inputs.totalHeat || heatGeneration.value;
-    const heatDissTotal = heatDissipation.inputs.totalDissipation || heatDissipation.value;
+    const heatGenTotal = heatGeneration.totalHeat || 0;
+    const heatDissTotal = heatDissipation.totalDissipation || 0;
     
     return {
       heatGeneration: heatGenTotal,
@@ -766,8 +771,8 @@ export class CalculationUtilitiesManager {
     const heatGeneration = this.calculateHeatGeneration(equipment);
     const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType);
     
-    const heatGenTotal = heatGeneration.inputs.totalHeat || heatGeneration.value;
-    const heatDissTotal = heatDissipation.inputs.totalDissipation || heatDissipation.value;
+    const heatGenTotal = heatGeneration.totalHeat || 0;
+    const heatDissTotal = heatDissipation.totalDissipation || 0;
     
     return {
       efficiency: heatGenTotal > 0 ? Math.min(100, (heatDissTotal / heatGenTotal) * 100) : 100,

@@ -17,6 +17,7 @@ import {
   PlacementError,
   PlacementWarning,
   RuleComplianceResult,
+  RuleViolation,
   TechLevelValidation,
   MountingValidation,
   EquipmentPlacement 
@@ -249,7 +250,7 @@ export class EquipmentValidationService {
     const equipment = allocation.equipment?.equipmentData
     if (equipment?.type === 'engine' && allocation.location !== 'centerTorso') {
       errors.push({
-        type: 'location_invalid',
+        type: 'rule_violation',
         message: 'Engine must be placed in center torso',
         severity: 'critical',
         suggestedFix: 'Move engine to center torso'
@@ -259,7 +260,7 @@ export class EquipmentValidationService {
 
     if (equipment?.type === 'gyro' && allocation.location !== 'centerTorso') {
       errors.push({
-        type: 'location_invalid',
+        type: 'rule_violation',
         message: 'Gyro must be placed in center torso',
         severity: 'critical',
         suggestedFix: 'Move gyro to center torso'
@@ -269,7 +270,7 @@ export class EquipmentValidationService {
 
     if (equipment?.type === 'cockpit' && allocation.location !== 'head') {
       errors.push({
-        type: 'location_invalid',
+        type: 'rule_violation',
         message: 'Cockpit must be placed in head',
         severity: 'critical',
         suggestedFix: 'Move cockpit to head'
@@ -277,13 +278,49 @@ export class EquipmentValidationService {
       isValid = false
     }
 
-    // Check for ammunition in head
+    // Check for ammunition in head (should be rule_violation for ammunition)
     if (equipment?.type === 'ammunition' && allocation.location === 'head') {
       errors.push({
         type: 'rule_violation',
         message: 'Ammunition should not be placed in head due to vulnerability',
         severity: 'major',
         suggestedFix: 'Move ammunition to torso or legs'
+      })
+      isValid = false
+    }
+
+    // Check for explosive ammunition restrictions
+    if (equipment?.type === 'ammunition' && equipment?.explosive && allocation.location === 'head') {
+      errors.push({
+        type: 'rule_violation',
+        message: 'Explosive ammunition cannot be placed in head',
+        severity: 'critical',
+        suggestedFix: 'Move to torso or legs, consider CASE protection'
+      })
+      isValid = false
+    }
+
+    // Check weight restrictions per location
+    const locationWeightLimits: Record<string, number> = {
+      'head': 1,
+      'centerTorso': config.tonnage || 100,
+      'leftTorso': config.tonnage || 100,
+      'rightTorso': config.tonnage || 100,
+      'leftArm': config.tonnage || 100,
+      'rightArm': config.tonnage || 100,
+      'leftLeg': config.tonnage || 100,
+      'rightLeg': config.tonnage || 100
+    }
+
+    const equipmentWeight = equipment?.tonnage || 0
+    const locationLimit = locationWeightLimits[allocation.location] || 100
+
+    if (equipmentWeight > locationLimit) {
+      errors.push({
+        type: 'weight_exceeded',
+        message: `Equipment weight (${equipmentWeight}) exceeds location limit (${locationLimit}) for ${allocation.location}`,
+        severity: 'critical',
+        suggestedFix: 'Move to different location or reduce weight'
       })
       isValid = false
     }
@@ -299,11 +336,33 @@ export class EquipmentValidationService {
       isValid = false
     }
 
+    // Check for invalid locations
+    const validLocations = ['head', 'centerTorso', 'leftTorso', 'rightTorso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg']
+    if (!validLocations.includes(allocation.location)) {
+      errors.push({
+        type: 'location_invalid',
+        message: `Invalid location: ${allocation.location}`,
+        severity: 'critical',
+        suggestedFix: 'Use valid location names'
+      })
+      isValid = false
+    }
+
     // Add warning for vulnerable placements
     if (equipment?.type === 'weapon' && allocation.location === 'head') {
       warnings.push({
         type: 'vulnerability',
         message: 'Weapon placement in head is vulnerable to critical hits',
+        recommendation: 'Consider placing weapons in arms or torso',
+        impact: 'medium'
+      })
+    }
+
+    // Add warning for energy weapons in head
+    if (equipment?.type === 'energy_weapon' && allocation.location === 'head') {
+      warnings.push({
+        type: 'vulnerability',
+        message: 'Energy weapon placement in head is vulnerable to critical hits',
         recommendation: 'Consider placing weapons in arms or torso',
         impact: 'medium'
       })
@@ -327,15 +386,48 @@ export class EquipmentValidationService {
   ): RuleComplianceResult {
     const validationResult = this.performSynchronousValidation(config, allocations)
     
-    const violations = validationResult.errors
-      .filter(e => e.type.includes('rule') || e.type.includes('required'))
-      .map(e => ({
-        rule: e.type,
-        description: e.message,
-        affectedEquipment: [e.equipmentId],
-        severity: e.severity,
-        resolution: e.suggestedFix
-      }))
+    // Additional BattleTech-specific rule checks
+    const additionalViolations: RuleViolation[] = []
+    
+    // Check engine rating limits (max 400 for standard mechs)
+    if (config.engineRating && config.engineRating > 400) {
+      additionalViolations.push({
+        rule: 'Engine Rating Limit',
+        description: `Engine rating (${config.engineRating}) exceeds maximum of 400`,
+        affectedEquipment: ['engine'],
+        severity: 'critical',
+        resolution: 'Reduce engine rating to 400 or below'
+      })
+    }
+    
+    // Check jump jet limits (max walking MP)
+    const jumpJets = allocations.filter(a => 
+      a.equipment?.equipmentData?.type === 'jump_jet'
+    )
+    const walkingMP = config.walkMP || Math.floor((config.engineRating || 0) / (config.tonnage || 1))
+    
+    if (jumpJets.length > walkingMP) {
+      additionalViolations.push({
+        rule: 'Jump Jet Limit',
+        description: `Too many jump jets (${jumpJets.length}) for walking MP (${walkingMP})`,
+        affectedEquipment: jumpJets.map(jj => jj.equipmentId),
+        severity: 'major',
+        resolution: 'Remove excess jump jets or increase walking MP'
+      })
+    }
+    
+    const violations = [
+      ...validationResult.errors
+        .filter(e => e.type.includes('rule') || e.type.includes('required'))
+        .map(e => ({
+          rule: e.type,
+          description: e.message,
+          affectedEquipment: [e.equipmentId],
+          severity: e.severity,
+          resolution: e.suggestedFix
+        })),
+      ...additionalViolations
+    ]
 
     const techLevelIssues = validationResult.errors
       .filter(e => e.type.includes('tech_level'))
@@ -366,7 +458,7 @@ export class EquipmentValidationService {
     }))
 
     return {
-      compliant: validationResult.isValid,
+      compliant: validationResult.isValid && additionalViolations.length === 0,
       violations,
       techLevelIssues,
       mountingIssues,
@@ -383,23 +475,45 @@ export class EquipmentValidationService {
   ): TechLevelValidation {
     // Convert equipment array to allocations format
     const allocations: EquipmentPlacement[] = equipment.map((eq, index) => ({
-      equipmentId: `equipment_${index}`,
+      equipmentId: eq.equipmentData?.name || `equipment_${index}`,
       equipment: eq,
       location: eq.location || 'centerTorso'
     }))
 
     const result = this.performSynchronousValidation(config, allocations)
     
-    const techIssues = result.errors
-      .filter(e => e.type.includes('tech_level'))
-      .map(e => ({
-        equipment: e.equipmentId,
-        requiredTechLevel: 'Unknown',
-        currentTechLevel: config.techLevel || 'Inner Sphere',
-        era: config.era || '3025',
-        canBeResolved: true,
-        suggestion: e.suggestedFix
-      }))
+    // Additional tech level checks
+    const additionalIssues = []
+    
+    // Check era availability
+    const currentEra = parseInt(config.era || '3025')
+    for (const eq of equipment) {
+      const introduction = eq.equipmentData?.introduction
+      if (introduction && introduction > currentEra) {
+        additionalIssues.push({
+          equipment: eq.equipmentData?.name || 'Unknown',
+          requiredTechLevel: 'Future Technology',
+          currentTechLevel: config.techLevel || 'Inner Sphere',
+          era: config.era || '3025',
+          canBeResolved: true,
+          suggestion: `Equipment not available until ${introduction}`
+        })
+      }
+    }
+    
+    const techIssues = [
+      ...result.errors
+        .filter(e => e.type.includes('tech_level') || e.type.includes('tech_base'))
+        .map(e => ({
+          equipment: e.equipmentId,
+          requiredTechLevel: 'Unknown',
+          currentTechLevel: config.techLevel || 'Inner Sphere',
+          era: config.era || '3025',
+          canBeResolved: false, // Tech base conflicts cannot be easily resolved
+          suggestion: e.suggestedFix
+        })),
+      ...additionalIssues
+    ]
 
     // Count equipment by tech base
     const innerSphere = equipment.filter(eq => 
@@ -418,13 +532,20 @@ export class EquipmentValidationService {
       techLevel: config.techLevel || 'Inner Sphere'
     }
 
+    // Generate recommendations including mixed tech
+    const recommendations = [...result.suggestions.filter(s => 
+      s.includes('tech') || s.includes('Tech')
+    )]
+    
+    if (summary.mixed) {
+      recommendations.push('Mixed tech configuration detected - consider standardizing on one tech base')
+    }
+
     return {
       isValid: techIssues.length === 0,
       issues: techIssues,
       summary,
-      recommendations: result.suggestions.filter(s => 
-        s.includes('tech') || s.includes('Tech')
-      )
+      recommendations
     }
   }
 
@@ -442,23 +563,51 @@ export class EquipmentValidationService {
       location
     }
 
-    const result = this.performSynchronousValidation(config, [allocation])
+    // Use the same validation logic as validateSinglePlacement
+    const singleResult = this.validateSinglePlacement(allocation, config, [allocation])
     
-    const canMount = !result.errors.some(e => 
-      e.type.includes('location') || e.type.includes('mounting')
-    )
+    const canMount = singleResult.isValid
 
-    const restrictions = result.errors
-      .filter(e => e.type.includes('location') || e.type.includes('mounting'))
-      .map(e => ({
-        type: e.type.includes('location') ? 'location' as const : 'special' as const,
+    const restrictions = singleResult.errors.map(e => {
+      let type: 'location' | 'tonnage' | 'heat' | 'ammunition' | 'special' = 'special'
+      if (e.type === 'location_invalid') type = 'location'
+      else if (e.type === 'weight_exceeded') type = 'tonnage'
+      else if (e.type === 'rule_violation' && e.message.toLowerCase().includes('ammunition')) type = 'ammunition'
+      
+      return {
+        type,
         description: e.message,
         severity: 'blocking' as const
-      }))
+      }
+    })
 
+    // Add requirements for explosive ammunition
     const requirements = []
+    if (equipment.equipmentData?.type === 'ammunition' && equipment.equipmentData?.explosive) {
+      requirements.push({
+        type: 'case' as const,
+        description: 'Explosive ammunition requires CASE protection',
+        satisfied: false,
+        suggestion: 'Add CASE to location or move to CASE-protected location'
+      })
+    }
+
+    // Add alternatives for restricted placements
     const alternatives = []
-    const warnings = result.warnings.map(w => w.message)
+    if (location === 'head' && (equipment.equipmentData?.tonnage > 1 || equipment.equipmentData?.type === 'ammunition')) {
+      alternatives.push('centerTorso', 'leftTorso', 'rightTorso')
+    }
+
+    const warnings = singleResult.warnings.map(w => w.message)
+    
+    // Add vulnerability warnings for weapons in head
+    if (equipment.equipmentData?.type === 'energy_weapon' && location === 'head') {
+      warnings.push('Energy weapon placement in head is vulnerable to critical hits')
+    }
+    
+    if (equipment.equipmentData?.type === 'weapon' && location === 'head') {
+      warnings.push('Weapon placement in head is vulnerable to critical hits')
+    }
 
     return {
       canMount,
@@ -507,6 +656,29 @@ export class EquipmentValidationService {
     report += `- **Total Errors**: ${result.errors.length}\n`
     report += `- **Total Warnings**: ${result.warnings.length}\n`
     report += `- **Equipment Count**: ${allocations.length}\n\n`
+    
+    // Equipment Summary
+    report += '## EQUIPMENT SUMMARY\n'
+    const equipmentByLocation = new Map<string, any[]>()
+    
+    for (const allocation of allocations) {
+      const location = allocation.location
+      if (!equipmentByLocation.has(location)) {
+        equipmentByLocation.set(location, [])
+      }
+      equipmentByLocation.get(location)!.push(allocation.equipment?.equipmentData)
+    }
+    
+    equipmentByLocation.forEach((equipmentList, location) => {
+      report += `### ${location.toUpperCase()}\n`
+      for (const equipment of equipmentList) {
+        const name = equipment?.name || 'Unknown'
+        const tonnage = equipment?.tonnage || 0
+        const criticals = equipment?.criticals || 0
+        report += `- **${name}** (${tonnage}t, ${criticals} slots)\n`
+      }
+      report += '\n'
+    })
     
     return report
   }

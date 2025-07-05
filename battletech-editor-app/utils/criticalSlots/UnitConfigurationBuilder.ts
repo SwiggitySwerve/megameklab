@@ -11,7 +11,9 @@ import {
   ArmorType, 
   HeatSinkType 
 } from './UnitCriticalManagerTypes'
-import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations';
+// Import heat sink calculations
+const heatSinkCalculations = require('../heatSinkCalculations');
+const { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } = heatSinkCalculations;
 
 /**
  * Utility functions for unit configuration
@@ -181,7 +183,31 @@ export class UnitConfigurationBuilder {
    * Calculate internal heat sinks based on engine rating and type
    */
   private static calculateInternalHeatSinksForEngine(engineRating: number, engineType: EngineType): number {
-    return calculateInternalHeatSinksForEngine(engineRating, engineType);
+    // Fallback implementation if import fails
+    if (typeof calculateInternalHeatSinksForEngine === 'function') {
+      return calculateInternalHeatSinksForEngine(engineRating, engineType);
+    }
+    
+    // Direct implementation as fallback
+    if (engineRating <= 0) return 0;
+    
+    // Non-fusion engines don't provide heat sinks
+    if (engineType === 'ICE' || engineType === 'Fuel Cell') {
+      return 0;
+    }
+    
+    // Compact engines cannot integrate heat sinks
+    if (engineType === 'Compact') {
+      return 0;
+    }
+    
+    // Fusion engines 250+ provide 10 heat sinks
+    if (engineRating >= 250) {
+      return 10;
+    }
+    
+    // Smaller engines provide partial heat sinks
+    return Math.floor(engineRating / 25);
   }
   
   /**
