@@ -145,9 +145,52 @@ export class StandardHeatCalculationStrategy implements IHeatCalculationStrategy
    * Generic calculation method for strategy interface
    */
   async calculate(context: ICalculationContext): Promise<any> {
-    const config = (context as any).config || context;
-    const equipment = (context as any).equipment || [];
-    return this.calculateHeatBalance(config, equipment);
+    const calculationData = this.extractCalculationData(context);
+    return this.calculateHeatBalance(calculationData.config, calculationData.equipment);
+  }
+
+  /**
+   * Type-safe extraction of calculation data from context
+   */
+  private extractCalculationData(context: ICalculationContext): {
+    config: IUnitConfiguration;
+    equipment: IEquipmentAllocation[];
+  } {
+    const contextWithData = context as {
+      config?: IUnitConfiguration;
+      equipment?: IEquipmentAllocation[];
+    };
+
+    return {
+      config: contextWithData.config || (context as unknown as IUnitConfiguration),
+      equipment: contextWithData.equipment || []
+    };
+  }
+
+  /**
+   * Type-safe accessor for equipment name
+   */
+  private static getEquipmentName(item: IEquipmentAllocation): string {
+    const equipmentWithName = item as { equipmentName?: string };
+    return equipmentWithName.equipmentName || item.equipmentId;
+  }
+
+  /**
+   * Type-safe accessor for heat sink configuration
+   */
+  private static getHeatSinkData(config: IUnitConfiguration): {
+    heatSinkType: string;
+    externalHeatSinks: number;
+  } {
+    const configWithHeatSinks = config as {
+      heatSinkType?: string;
+      externalHeatSinks?: number;
+    };
+
+    return {
+      heatSinkType: configWithHeatSinks.heatSinkType || 'Single',
+      externalHeatSinks: configWithHeatSinks.externalHeatSinks || 0
+    };
   }
 
   /**
@@ -171,7 +214,7 @@ export class StandardHeatCalculationStrategy implements IHeatCalculationStrategy
 
       // Calculate weapon heat
       for (const item of equipment) {
-        const equipmentName = (item as any).equipmentName || item.equipmentId;
+        const equipmentName = StandardHeatCalculationStrategy.getEquipmentName(item);
         const quantity = item.quantity || 1;
         
         if (this.isWeapon(equipmentName)) {
@@ -239,28 +282,27 @@ export class StandardHeatCalculationStrategy implements IHeatCalculationStrategy
       this.log('debug', 'Calculating heat dissipation capacity');
 
       const engineRating = config.engineRating;
-      const heatSinkType = (config as any).heatSinkType || 'Single';
-      const externalHeatSinks = (config as any).externalHeatSinks || 0;
+      const heatSinkData = StandardHeatCalculationStrategy.getHeatSinkData(config);
 
       // Calculate engine heat sinks (free with engine)
       const maxEngineHeatSinks = Math.min(10, Math.floor(engineRating / 25));
       const engineHeatSinks = {
         count: maxEngineHeatSinks,
-        type: heatSinkType,
-        dissipationPerSink: HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkType) || 1.0,
-        totalDissipation: maxEngineHeatSinks * (HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkType) || 1.0),
+        type: heatSinkData.heatSinkType,
+        dissipationPerSink: HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkData.heatSinkType) || 1.0,
+        totalDissipation: maxEngineHeatSinks * (HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkData.heatSinkType) || 1.0),
         engineRating,
         maxEngineHeatSinks
       };
 
       // Calculate external heat sinks
       const externalHeatSinkDetails = [{
-        type: heatSinkType,
-        count: externalHeatSinks,
-        dissipationPerSink: HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkType) || 1.0,
-        totalDissipation: externalHeatSinks * (HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkType) || 1.0),
+        type: heatSinkData.heatSinkType,
+        count: heatSinkData.externalHeatSinks,
+        dissipationPerSink: HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkData.heatSinkType) || 1.0,
+        totalDissipation: heatSinkData.externalHeatSinks * (HeatTables.HEAT_SINK_DISSIPATION.get(heatSinkData.heatSinkType) || 1.0),
         location: 'Various', // External heat sinks can be placed in various locations
-        weight: externalHeatSinks * 1.0 // Standard weight for heat sinks
+        weight: heatSinkData.externalHeatSinks * 1.0 // Standard weight for heat sinks
       }];
 
       const totalDissipation = engineHeatSinks.totalDissipation + externalHeatSinkDetails[0].totalDissipation;
