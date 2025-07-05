@@ -36,7 +36,8 @@ export class ArmorManagementManager {
    * Get critical slot requirements for armor type
    */
   getArmorCriticalSlots(armorType: ArmorType): number {
-    const spec = getArmorSpecification(armorType)
+    const armorModule = require('../armorCalculations');
+    const spec = armorModule.getArmorSpecification(armorType)
     return spec.criticalSlots
   }
 
@@ -44,7 +45,9 @@ export class ArmorManagementManager {
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(): number {
-    const spec = getArmorSpecification(this.getArmorTypeString())
+    // Use dynamic import to avoid module resolution issues
+    const armorModule = require('../armorCalculations');
+    const spec = armorModule.getArmorSpecification(this.getArmorTypeString())
     return spec.pointsPerTon
   }
 

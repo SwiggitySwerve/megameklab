@@ -91,7 +91,10 @@ export class HeatManagementManager {
     const engineType = typeof this.configuration.engineType === 'string' 
       ? this.configuration.engineType 
       : (this.configuration.engineType as any).type;
-    const baseInternalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, engineType)
+    
+    // Use dynamic import to avoid module resolution issues
+    const heatSinkModule = require('../heatSinkCalculations');
+    const baseInternalHeatSinks = heatSinkModule.calculateInternalHeatSinksForEngine(engineRating, engineType)
     
     // Minimum of 10 internal heat sinks
     return Math.max(10, baseInternalHeatSinks)

@@ -81,7 +81,7 @@ describe('EquipmentValidationService', () => {
           }
         },
         location: i < 5 ? 'leftLeg' : 'rightLeg',
-        slots: [i % 6 + 1],
+        slots: [i < 5 ? i + 1 : (i - 5) + 1],
         isFixed: false,
         isValid: true,
         constraints: {

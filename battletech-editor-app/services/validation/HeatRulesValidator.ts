@@ -9,7 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
-import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
+import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../../utils/heatSinkCalculations';
 
 export interface HeatValidation {
   isValid: boolean;
@@ -209,7 +209,6 @@ export class HeatRulesValidator {
     const engineRating = config.engineRating || 0;
     const engineType = config.engineType || 'Standard';
     
-    const { calculateInternalHeatSinksForEngine } = require('../../utils/heatSinkCalculations');
     return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }
 

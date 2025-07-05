@@ -29,13 +29,13 @@ describe('WeightCalculationService', () => {
       armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       armorAllocation: {
         HD: { front: 9, rear: 0 },
-        CT: { front: 20, rear: 6 },
-        LT: { front: 15, rear: 4 },
-        RT: { front: 15, rear: 4 },
-        LA: { front: 12, rear: 0 },
-        RA: { front: 12, rear: 0 },
-        LL: { front: 15, rear: 0 },
-        RL: { front: 15, rear: 0 }
+        CT: { front: 15, rear: 4 },
+        LT: { front: 12, rear: 3 },
+        RT: { front: 12, rear: 3 },
+        LA: { front: 10, rear: 0 },
+        RA: { front: 10, rear: 0 },
+        LL: { front: 10, rear: 0 },
+        RL: { front: 10, rear: 0 }
       },
       armorTonnage: 6.5,
       heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },

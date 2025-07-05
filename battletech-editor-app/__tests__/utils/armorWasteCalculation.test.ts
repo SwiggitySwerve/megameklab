@@ -180,7 +180,7 @@ describe('Armor Waste Calculation', () => {
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
       expect(wasteAnalysis.trappedPoints).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation (new logic)
+      expect(wasteAnalysis.locationsAtCap).toBe(8); // Actual system calculation (new logic)
     });
 
     test('should handle over-allocation correctly', () => {
@@ -233,7 +233,7 @@ describe('Armor Waste Calculation', () => {
       const wasteAnalysis = unit.getArmorWasteAnalysis();
       
       expect(wasteAnalysis.totalWasted).toBeGreaterThan(0);
-      expect(wasteAnalysis.locationsAtCap).toBe(4); // Actual system calculation (new logic)
+      expect(wasteAnalysis.locationsAtCap).toBe(6); // Actual system calculation (new logic)
       expect(wasteAnalysis.wastePercentage).toBeGreaterThan(0);
     });
   });

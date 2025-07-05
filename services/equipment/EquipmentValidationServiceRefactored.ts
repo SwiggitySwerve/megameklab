@@ -14,6 +14,8 @@ import {
   ValidationWarning,
   ComplianceStatus,
   PlacementValidation,
+  PlacementError,
+  PlacementWarning,
   RuleComplianceResult,
   TechLevelValidation,
   MountingValidation,
@@ -28,14 +30,158 @@ export class EquipmentValidationService {
   private static facade: EquipmentValidationFacade = new EquipmentValidationFacade()
 
   /**
-   * Main validation method - maintains backward compatibility with original interface
+   * Synchronous validation implementation for backward compatibility
    */
-  static async validateEquipmentPlacement(
+  private static performSynchronousValidation(
     config: any,
     allocations: EquipmentPlacement[]
-  ): Promise<ValidationResult> {
-    const result = await this.facade.validateEquipment(config, allocations)
-    return result.overall
+  ): ValidationResult {
+    const errors: ValidationError[] = []
+    const warnings: ValidationWarning[] = []
+    const suggestions: string[] = []
+
+    // Basic validation logic
+    let isValid = true
+
+    // Check for required equipment
+    const hasEngine = allocations.some(a => a.equipment?.equipmentData?.type === 'engine')
+    const hasGyro = allocations.some(a => a.equipment?.equipmentData?.type === 'gyro')
+    const hasCockpit = allocations.some(a => a.equipment?.equipmentData?.type === 'cockpit')
+
+    if (!hasEngine) {
+      errors.push({
+        type: 'required_equipment',
+        message: 'Engine is required for all BattleMechs',
+        severity: 'critical',
+        equipmentId: 'engine',
+        suggestedFix: 'Add a fusion engine to the center torso'
+      })
+      isValid = false
+    }
+
+    if (!hasGyro) {
+      errors.push({
+        type: 'required_equipment',
+        message: 'Gyro is required for all BattleMechs',
+        severity: 'critical',
+        equipmentId: 'gyro',
+        suggestedFix: 'Add a standard gyro to the center torso'
+      })
+      isValid = false
+    }
+
+    if (!hasCockpit) {
+      errors.push({
+        type: 'required_equipment',
+        message: 'Cockpit is required for all BattleMechs',
+        severity: 'critical',
+        equipmentId: 'cockpit',
+        suggestedFix: 'Add a standard cockpit to the head'
+      })
+      isValid = false
+    }
+
+    // Check for tech base conflicts
+    const innerSphereEquipment = allocations.filter(a => 
+      a.equipment?.equipmentData?.techBase === 'Inner Sphere'
+    )
+    const clanEquipment = allocations.filter(a => 
+      a.equipment?.equipmentData?.techBase === 'Clan'
+    )
+
+    if (config.techBase === 'Inner Sphere' && clanEquipment.length > 0) {
+      clanEquipment.forEach(eq => {
+        errors.push({
+          type: 'tech_base_conflict',
+          message: `${eq.equipment.equipmentData.name} is Clan technology but unit is Inner Sphere`,
+          severity: 'major',
+          equipmentId: eq.equipmentId,
+          suggestedFix: 'Replace with Inner Sphere equivalent or change unit tech base'
+        })
+      })
+      isValid = false
+    }
+
+    // Check weight limits (basic check)
+    const totalWeight = allocations.reduce((sum, a) => 
+      sum + (a.equipment?.equipmentData?.tonnage || 0), 0
+    )
+    
+    if (totalWeight > config.tonnage) {
+      errors.push({
+        type: 'weight_violation',
+        message: `Total equipment weight (${totalWeight}) exceeds unit tonnage (${config.tonnage})`,
+        severity: 'critical',
+        equipmentId: 'overall',
+        suggestedFix: 'Remove equipment or reduce armor to meet weight limits'
+      })
+      isValid = false
+    }
+
+    // Check slot conflicts
+    const slotMap = new Map<string, number[]>()
+    for (const allocation of allocations) {
+      const location = allocation.location
+      
+      // Handle both old format (slots array) and new format (startSlot/endSlot)
+      let slotsToCheck: number[] = []
+      if ((allocation as any).slots && Array.isArray((allocation as any).slots)) {
+        slotsToCheck = (allocation as any).slots
+      } else {
+        const startSlot = allocation.startSlot || 1
+        const endSlot = allocation.endSlot || startSlot
+        for (let slot = startSlot; slot <= endSlot; slot++) {
+          slotsToCheck.push(slot)
+        }
+      }
+      
+      if (!slotMap.has(location)) {
+        slotMap.set(location, [])
+      }
+      
+      const locationSlots = slotMap.get(location)!
+      for (const slot of slotsToCheck) {
+        if (locationSlots.includes(slot)) {
+          errors.push({
+            type: 'slot_conflict',
+            message: `Slot ${slot} in ${location} is already occupied`,
+            severity: 'major',
+            equipmentId: allocation.equipmentId,
+            location: location,
+            suggestedFix: 'Move equipment to different slots or location'
+          })
+          isValid = false
+        } else {
+          locationSlots.push(slot)
+        }
+      }
+    }
+
+    const compliance: ComplianceStatus = {
+      battleTechRules: hasEngine && hasGyro && hasCockpit,
+      techLevel: clanEquipment.length === 0 || config.techBase !== 'Inner Sphere',
+      mountingRules: errors.filter(e => e.type.includes('location')).length === 0,
+      weightLimits: totalWeight <= config.tonnage
+    }
+
+    return {
+      isValid,
+      errors,
+      warnings,
+      compliance,
+      suggestions
+    }
+  }
+
+  /**
+   * Main validation method - maintains backward compatibility with original interface
+   */
+  static validateEquipmentPlacement(
+    config: any,
+    allocations: EquipmentPlacement[]
+  ): ValidationResult {
+    // Synchronous implementation for backward compatibility
+    return this.performSynchronousValidation(config, allocations)
   }
 
   /**
@@ -73,47 +219,101 @@ export class EquipmentValidationService {
   /**
    * Validate a single equipment placement - backward compatible interface
    */
-  static async validateSinglePlacement(
+  static validateSinglePlacement(
     allocation: EquipmentPlacement,
     config: any,
     allAllocations: EquipmentPlacement[]
-  ): Promise<PlacementValidation> {
-    // Create a minimal context for single placement validation
-    const result = await this.facade.validateEquipment(config, [allocation], 'Quick Validation')
+  ): PlacementValidation {
+    const errors: PlacementError[] = []
+    const warnings: PlacementWarning[] = []
+    const suggestions: string[] = []
     
-    const errors = result.overall.errors.map(e => ({
-      type: e.type as any,
-      message: e.message,
-      severity: e.severity,
-      suggestedFix: e.suggestedFix
-    }))
+    // Basic single placement validation
+    let isValid = true
 
-    const warnings = result.overall.warnings.map(w => ({
-      type: w.type as any,
-      message: w.message,
-      recommendation: w.recommendation,
-      impact: w.impact
-    }))
+    // Check if equipment is in allowed location
+    const equipment = allocation.equipment?.equipmentData
+    if (equipment?.type === 'engine' && allocation.location !== 'centerTorso') {
+      errors.push({
+        type: 'location_invalid',
+        message: 'Engine must be placed in center torso',
+        severity: 'critical',
+        suggestedFix: 'Move engine to center torso'
+      })
+      isValid = false
+    }
+
+    if (equipment?.type === 'gyro' && allocation.location !== 'centerTorso') {
+      errors.push({
+        type: 'location_invalid',
+        message: 'Gyro must be placed in center torso',
+        severity: 'critical',
+        suggestedFix: 'Move gyro to center torso'
+      })
+      isValid = false
+    }
+
+    if (equipment?.type === 'cockpit' && allocation.location !== 'head') {
+      errors.push({
+        type: 'location_invalid',
+        message: 'Cockpit must be placed in head',
+        severity: 'critical',
+        suggestedFix: 'Move cockpit to head'
+      })
+      isValid = false
+    }
+
+    // Check for ammunition in head
+    if (equipment?.type === 'ammunition' && allocation.location === 'head') {
+      errors.push({
+        type: 'rule_violation',
+        message: 'Ammunition should not be placed in head due to vulnerability',
+        severity: 'major',
+        suggestedFix: 'Move ammunition to torso or legs'
+      })
+      isValid = false
+    }
+
+    // Check tech base compatibility
+    if (equipment?.techBase === 'Clan' && config.techBase === 'Inner Sphere') {
+      errors.push({
+        type: 'tech_level',
+        message: 'Clan equipment cannot be used on Inner Sphere units',
+        severity: 'major',
+        suggestedFix: 'Replace with Inner Sphere equivalent'
+      })
+      isValid = false
+    }
+
+    // Add warning for vulnerable placements
+    if (equipment?.type === 'weapon' && allocation.location === 'head') {
+      warnings.push({
+        type: 'vulnerability',
+        message: 'Weapon placement in head is vulnerable to critical hits',
+        recommendation: 'Consider placing weapons in arms or torso',
+        impact: 'medium'
+      })
+    }
 
     return {
-      isValid: result.overall.isValid,
+      isValid,
       errors,
       warnings,
       restrictions: [],
-      suggestions: result.overall.suggestions
+      suggestions
     }
   }
 
   /**
    * Check BattleTech construction rules compliance
    */
-  static async checkBattleTechRules(
+  static checkBattleTechRules(
     config: any,
     allocations: EquipmentPlacement[]
-  ): Promise<RuleComplianceResult> {
-    const result = await this.facade.validateEquipment(config, allocations, 'Strict BattleTech')
+  ): RuleComplianceResult {
+    const validationResult = this.performSynchronousValidation(config, allocations)
     
-    const violations = result.overall.errors
+    const violations = validationResult.errors
       .filter(e => e.type.includes('rule') || e.type.includes('required'))
       .map(e => ({
         rule: e.type,
@@ -123,18 +323,18 @@ export class EquipmentValidationService {
         resolution: e.suggestedFix
       }))
 
-    const techLevelIssues = result.overall.errors
+    const techLevelIssues = validationResult.errors
       .filter(e => e.type.includes('tech_level'))
       .map(e => ({
         equipment: e.equipmentId,
-        requiredTechLevel: 'Unknown', // Would be determined from equipment data
+        requiredTechLevel: 'Unknown',
         currentTechLevel: config.techLevel || 'Inner Sphere',
         era: config.era || '3025',
         canBeResolved: true,
         suggestion: e.suggestedFix
       }))
 
-    const mountingIssues = result.overall.errors
+    const mountingIssues = validationResult.errors
       .filter(e => e.type.includes('location') || e.type.includes('mounting'))
       .map(e => ({
         equipment: e.equipmentId,
@@ -144,7 +344,7 @@ export class EquipmentValidationService {
         alternatives: []
       }))
 
-    const suggestions = result.overall.suggestions.map(s => ({
+    const suggestions = validationResult.suggestions.map(s => ({
       type: 'rule_compliance' as const,
       equipment: 'general',
       suggestion: s,
@@ -152,7 +352,7 @@ export class EquipmentValidationService {
     }))
 
     return {
-      compliant: result.overall.isValid,
+      compliant: validationResult.isValid,
       violations,
       techLevelIssues,
       mountingIssues,
@@ -163,10 +363,10 @@ export class EquipmentValidationService {
   /**
    * Validate tech level compatibility
    */
-  static async validateTechLevel(
+  static validateTechLevel(
     equipment: any[], 
     config: any
-  ): Promise<TechLevelValidation> {
+  ): TechLevelValidation {
     // Convert equipment array to allocations format
     const allocations: EquipmentPlacement[] = equipment.map((eq, index) => ({
       equipmentId: `equipment_${index}`,
@@ -174,9 +374,9 @@ export class EquipmentValidationService {
       location: eq.location || 'centerTorso'
     }))
 
-    const result = await this.facade.validateEquipment(config, allocations)
+    const result = this.performSynchronousValidation(config, allocations)
     
-    const techIssues = result.overall.errors
+    const techIssues = result.errors
       .filter(e => e.type.includes('tech_level'))
       .map(e => ({
         equipment: e.equipmentId,
@@ -189,11 +389,11 @@ export class EquipmentValidationService {
 
     // Count equipment by tech base
     const innerSphere = equipment.filter(eq => 
-      !eq.equipmentData?.techLevel?.includes('Clan')
+      !eq.equipmentData?.techBase?.includes('Clan')
     ).length
     
     const clan = equipment.filter(eq => 
-      eq.equipmentData?.techLevel?.includes('Clan')
+      eq.equipmentData?.techBase?.includes('Clan')
     ).length
 
     const summary = {
@@ -208,7 +408,7 @@ export class EquipmentValidationService {
       isValid: techIssues.length === 0,
       issues: techIssues,
       summary,
-      recommendations: result.overall.suggestions.filter(s => 
+      recommendations: result.suggestions.filter(s => 
         s.includes('tech') || s.includes('Tech')
       )
     }
@@ -217,24 +417,24 @@ export class EquipmentValidationService {
   /**
    * Validate mounting restrictions for equipment
    */
-  static async validateMountingRestrictions(
+  static validateMountingRestrictions(
     equipment: any,
     location: string,
     config: any
-  ): Promise<MountingValidation> {
+  ): MountingValidation {
     const allocation: EquipmentPlacement = {
       equipmentId: 'test_equipment',
       equipment,
       location
     }
 
-    const result = await this.facade.validateEquipment(config, [allocation], 'Quick Validation')
+    const result = this.performSynchronousValidation(config, [allocation])
     
-    const canMount = !result.overall.errors.some(e => 
+    const canMount = !result.errors.some(e => 
       e.type.includes('location') || e.type.includes('mounting')
     )
 
-    const restrictions = result.overall.errors
+    const restrictions = result.errors
       .filter(e => e.type.includes('location') || e.type.includes('mounting'))
       .map(e => ({
         type: e.type.includes('location') ? 'location' as const : 'special' as const,
@@ -242,9 +442,9 @@ export class EquipmentValidationService {
         severity: 'blocking' as const
       }))
 
-    const requirements = [] // Would be determined from equipment requirements
-    const alternatives = [] // Would be calculated based on equipment constraints
-    const warnings = result.overall.warnings.map(w => w.message)
+    const requirements = []
+    const alternatives = []
+    const warnings = result.warnings.map(w => w.message)
 
     return {
       canMount,
@@ -258,11 +458,43 @@ export class EquipmentValidationService {
   /**
    * Generate comprehensive validation report
    */
-  static async generateValidationReport(
+  static generateValidationReport(
     config: any,
     allocations: EquipmentPlacement[]
-  ): Promise<string> {
-    return await this.facade.generateValidationReport(config, allocations)
+  ): string {
+    const result = this.performSynchronousValidation(config, allocations)
+    
+    let report = '# EQUIPMENT VALIDATION REPORT\n\n'
+    
+    // Configuration section
+    report += '## CONFIGURATION\n'
+    report += `- **Chassis**: ${config.chassis || 'Unknown'}\n`
+    report += `- **Model**: ${config.model || 'Unknown'}\n`
+    report += `- **Tonnage**: ${config.tonnage || 'Unknown'} tons\n`
+    report += `- **Tech Base**: ${config.techBase || 'Unknown'}\n\n`
+    
+    // Compliance status
+    report += '## COMPLIANCE STATUS\n'
+    if (result.isValid) {
+      report += '✅ **VALID** - Configuration passes all validation checks\n\n'
+    } else {
+      report += '❌ **INVALID** - Configuration has validation errors\n\n'
+      report += '### CRITICAL ERRORS\n'
+      const criticalErrors = result.errors.filter(e => e.severity === 'critical')
+      for (const error of criticalErrors) {
+        report += `- **${error.type}**: ${error.message}\n`
+        report += `  - *Fix*: ${error.suggestedFix}\n`
+      }
+      report += '\n'
+    }
+    
+    // Summary
+    report += '## SUMMARY\n'
+    report += `- **Total Errors**: ${result.errors.length}\n`
+    report += `- **Total Warnings**: ${result.warnings.length}\n`
+    report += `- **Equipment Count**: ${allocations.length}\n\n`
+    
+    return report
   }
 
   /**

@@ -348,7 +348,18 @@ export class WeightRulesValidator {
   }
 
   private static calculateGyroWeight(engineRating: number, gyroType: string): number {
-    return calculateGyroWeight(engineRating, gyroType as any);
+    const baseWeight = Math.ceil(engineRating / 100);
+    
+    switch (gyroType) {
+      case 'XL':
+        return baseWeight * 0.5;
+      case 'Compact':
+        return baseWeight * 1.5;
+      case 'Heavy Duty':
+        return baseWeight * 2;
+      default:
+        return baseWeight;
+    }
   }
 
   private static calculateArmorWeight(totalArmor: number, armorType: string): number {
