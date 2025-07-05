@@ -100,7 +100,7 @@ rm /tmp/file_analysis.txt
 
 echo ""
 echo "📖 For detailed refactoring plan, see:"
-echo "     docs/LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md"
+echo "     ../docs/refactoring/LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md"
 
 # Exit with error code if critical files exist
 if [ $critical_count -gt 0 ]; then
