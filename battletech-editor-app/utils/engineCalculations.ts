@@ -74,10 +74,16 @@ export function getEngineSlotDistribution(type: EngineType) {
 
 /**
  * Calculate integrated heat sinks based on engine rating
+ * This represents the theoretical heat sink capacity without engine type limitations
  */
 export function calculateIntegratedHeatSinks(engineRating: number, engineType: EngineType): number {
-  const { calculateInternalHeatSinksForEngine } = require('./heatSinkCalculations');
-  return calculateInternalHeatSinksForEngine(engineRating, engineType);
+  // Non-fusion engines don't provide heat sinks
+  if (engineType === 'ICE' || engineType === 'Fuel Cell') {
+    return 0;
+  }
+  
+  // All fusion engines follow the basic rule: rating ÷ 25, capped at 10
+  return calculateInternalHeatSinks(engineRating);
 }
 
 /**
