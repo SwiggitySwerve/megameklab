@@ -63,6 +63,7 @@ export const ArmorLocationEditor: React.FC<ArmorLocationEditorProps> = ({
                       type="number"
                       min={0}
                       max={getLocationMaxArmor(selectedSection)}
+                      step={1}
                       value={armorAllocation[selectedSection as keyof typeof armorAllocation].front}
                       onChange={(e) => onArmorLocationChange(
                         selectedSection,
@@ -89,6 +90,7 @@ export const ArmorLocationEditor: React.FC<ArmorLocationEditorProps> = ({
                         type="number"
                         min={0}
                         max={Math.floor(getLocationMaxArmor(selectedSection) * 0.5)}
+                        step={1}
                         value={armorAllocation[selectedSection as keyof typeof armorAllocation].rear}
                         onChange={(e) => onArmorLocationChange(
                           selectedSection,

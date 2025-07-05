@@ -119,32 +119,27 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   // Calculate max tonnage based on armor type (can't exceed physical limits)
   const maxTonnage = useMemo(() => {
     const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
-    const maxTonnageByType = Math.ceil(maxPossibleArmorPoints / selectedArmorType.pointsPerTon);
+    const weightMultiplier = selectedArmorType.weightMultiplier || 1.0;
+    const maxTonnageByType = Math.ceil((maxPossibleArmorPoints / (selectedArmorType.pointsPerTon * weightMultiplier)) * 2) / 2;
     
     // Different practical limits based on armor type
     let practicalLimit = unit.mass;
     
     // Hardened armor has much lower efficiency, so it needs more tonnage
     if (selectedArmorType.id === 'hardened') {
-      // Hardened armor (8 pts/ton) can theoretically use up to 77% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.77);
     } else if (selectedArmorType.id === 'standard' || 
                selectedArmorType.id === 'stealth' || 
                selectedArmorType.id === 'reactive' || 
                selectedArmorType.id === 'reflective') {
-      // Standard efficiency armors (16 pts/ton) typically max out around 39% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.39);
     } else if (selectedArmorType.id === 'light_ferro_fibrous') {
-      // Light FF (16.8 pts/ton) maxes around 37% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.37);
     } else if (selectedArmorType.id === 'ferro_fibrous' || selectedArmorType.id === 'ferro_fibrous_clan') {
-      // Ferro-Fibrous (17.6 pts/ton) maxes around 35% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.35);
     } else if (selectedArmorType.id === 'heavy_ferro_fibrous') {
-      // Heavy FF (19.2 pts/ton) maxes around 32% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.32);
     } else if (selectedArmorType.id === 'ferro_lamellor') {
-      // Ferro-Lamellor (20.48 pts/ton) maxes around 30% of mech tonnage
       practicalLimit = Math.floor(unit.mass * 0.30);
     }
     
@@ -216,7 +211,8 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     
     // Calculate new max tonnage for the selected armor type
     const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
-    const maxTonnageByType = Math.ceil(maxPossibleArmorPoints / armorType.pointsPerTon);
+    const weightMultiplier = armorType.weightMultiplier || 1.0;
+    const maxTonnageByType = Math.ceil((maxPossibleArmorPoints / (armorType.pointsPerTon * weightMultiplier)) * 2) / 2;
     
     // Calculate practical limit based on armor type
     let practicalLimit = unit.mass;
@@ -249,7 +245,9 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   // Handle armor tonnage change
   const handleArmorTonnageChange = useCallback((tonnage: number) => {
     if (readOnly) return;
-    setArmorTonnage(tonnage);
+    // Always round to nearest 0.5
+    const rounded = Math.round(tonnage * 2) / 2;
+    setArmorTonnage(rounded);
   }, [readOnly]);
   
   // Handle armor location change
@@ -287,11 +285,11 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   // Handle maximize armor
   const handleMaximizeArmor = useCallback(() => {
     if (readOnly) return;
-    
     try {
-      const maxTonnage = maximizeArmor(unit, selectedArmorType);
+      let maxTonnage = maximizeArmor(unit, selectedArmorType);
+      // Always round to nearest 0.5
+      maxTonnage = Math.round(maxTonnage * 2) / 2;
       setArmorTonnage(maxTonnage);
-      
       // Calculate armor points and auto-allocate
       const totalPoints = Math.floor(maxTonnage * selectedArmorType.pointsPerTon);
       const updatedUnit = {
@@ -305,7 +303,6 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
           }
         }
       };
-      
       const allocation = autoAllocateArmor(updatedUnit);
       handleApplyDistribution(allocation);
     } catch (error) {
@@ -387,7 +384,7 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
-                Tonnage: {armorTonnage} / {maxTonnage} tons
+                Tonnage: {armorTonnage.toFixed(1)} / {maxTonnage.toFixed(1)} tons
               </label>
               <input
                 type="range"

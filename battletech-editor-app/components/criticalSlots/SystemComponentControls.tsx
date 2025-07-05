@@ -33,7 +33,7 @@ export function SystemComponentControls() {
   
   // Calculate jump jet validation
   const jumpJetValidation = validateJumpJetConfiguration(
-    { [selectedJumpJetType]: jumpMP },
+    { [selectedJumpJetType as string]: jumpMP },
     jumpMP,
     config.walkMP,
     config.runMP,

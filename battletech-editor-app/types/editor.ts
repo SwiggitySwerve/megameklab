@@ -118,6 +118,7 @@ export interface ArmorType {
   isClan: boolean;
   isInner: boolean;
   description?: string;
+  weightMultiplier?: number;
 }
 
 // Equipment Placement

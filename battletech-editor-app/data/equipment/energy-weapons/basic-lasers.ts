@@ -1,4 +1,4 @@
-import { Equipment } from './types';
+import { Equipment } from '../types';
 
 export const ER_LARGE_LASER: Equipment = {
   id: 'er_large_laser',

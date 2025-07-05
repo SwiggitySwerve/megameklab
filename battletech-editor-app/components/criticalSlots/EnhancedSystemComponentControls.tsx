@@ -165,7 +165,7 @@ export function EnhancedSystemComponentControls() {
     if (!spec) return null
     
     return {
-      slotsPerUnit: spec.criticalSlots,
+      slotsPerUnit: spec.criticalSlotsPerSink,
       techBase: spec.techBase,
       efficiency: getHeatSinkEfficiency(heatSinkType)
     }

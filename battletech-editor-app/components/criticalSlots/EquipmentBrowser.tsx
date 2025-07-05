@@ -142,11 +142,14 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
             return;
           }
 
+          // Type assertion for variant
+          const typedVariant = variant as any;
+
           // Validate required variant fields
-          if (typeof variant.weight !== 'number' || typeof variant.crits !== 'number') {
+          if (typeof typedVariant.weight !== 'number' || typeof typedVariant.crits !== 'number') {
             console.warn(`EquipmentBrowser: Missing weight/crits for ${equipment.id} ${techBase}:`, {
-              weight: variant.weight,
-              crits: variant.crits
+              weight: typedVariant.weight,
+              crits: typedVariant.crits
             });
             return;
           }
@@ -156,18 +159,18 @@ function flattenLocalEquipment(): LocalEquipmentVariant[] {
             name: equipment.name,
             category: equipment.category,
             techBase: techBase as TechBase,
-            weight: variant.weight,
-            crits: variant.crits,
-            damage: variant.damage || null,
-            heat: variant.heat || null,
-            minRange: variant.minRange || null,
-            rangeShort: variant.rangeShort || null,
-            rangeMedium: variant.rangeMedium || null,
-            rangeLong: variant.rangeLong || null,
-            rangeExtreme: variant.rangeExtreme || null,
-            ammoPerTon: variant.ammoPerTon || null,
-            cost: variant.cost || null,
-            battleValue: variant.battleValue || null,
+            weight: typedVariant.weight,
+            crits: typedVariant.crits,
+            damage: typedVariant.damage || null,
+            heat: typedVariant.heat || null,
+            minRange: typedVariant.minRange || null,
+            rangeShort: typedVariant.rangeShort || null,
+            rangeMedium: typedVariant.rangeMedium || null,
+            rangeLong: typedVariant.rangeLong || null,
+            rangeExtreme: typedVariant.rangeExtreme || null,
+            ammoPerTon: typedVariant.ammoPerTon || null,
+            cost: typedVariant.cost || null,
+            battleValue: typedVariant.battleValue || null,
             requiresAmmo: equipment.requiresAmmo || false,
             introductionYear: equipment.introductionYear || 3025,
             rulesLevel: equipment.rulesLevel || 'Standard',

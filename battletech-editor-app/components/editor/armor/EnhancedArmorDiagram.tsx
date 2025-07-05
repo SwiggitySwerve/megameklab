@@ -105,6 +105,7 @@ const ArmorValue: React.FC<{
         autoFocus
         min={0}
         max={maxValue}
+        step={1}
       />
     );
   }
