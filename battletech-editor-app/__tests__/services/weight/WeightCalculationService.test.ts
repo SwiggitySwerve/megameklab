@@ -4,12 +4,13 @@
 
 import {
   WeightCalculationService,
-  WeightCalculationServiceImpl,
-  createWeightCalculationService,
+  createWeightCalculationService
+} from '../../../services/weight/WeightCalculationService';
+import {
   WeightSummary,
   ComponentWeightBreakdown,
   TonnageValidation
-} from '../../../services/weight/WeightCalculationService';
+} from '../../../services/weight/IWeightCalculationService';
 import { UnitConfiguration } from '../../../utils/criticalSlots/UnitCriticalManager';
 
 describe('WeightCalculationService', () => {
@@ -21,26 +22,39 @@ describe('WeightCalculationService', () => {
     service = createWeightCalculationService();
     
     mockConfig = {
+      chassis: 'Test Mech',
+      model: 'TST-1',
       tonnage: 75,
-      engineType: 'Standard',
+      unitType: 'BattleMech',
+      techBase: 'Inner Sphere',
+      walkMP: 4,
       engineRating: 300,
-      structureType: 'Standard',
-      armorType: 'Standard',
-      armorTonnage: 12,
-      heatSinkType: 'Single',
+      runMP: 6,
+      engineType: 'Standard' as any,
       jumpMP: 0,
-      gyroType: 'Standard',
-      jumpJetType: 'Standard',
+      jumpJetType: { type: 'Standard', techBase: 'Inner Sphere' } as any,
+      jumpJetCounts: {},
+      hasPartialWing: false,
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' } as any,
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' } as any,
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' } as any,
       armorAllocation: {
-        head: { front: 9, rear: 0 },
-        centerTorso: { front: 23, rear: 12 },
-        leftTorso: { front: 16, rear: 8 },
-        rightTorso: { front: 16, rear: 8 },
-        leftArm: { front: 12, rear: 0 },
-        rightArm: { front: 12, rear: 0 },
-        leftLeg: { front: 16, rear: 0 },
-        rightLeg: { front: 16, rear: 0 }
-      }
+        HD: { front: 9, rear: 0 },
+        CT: { front: 23, rear: 12 },
+        LT: { front: 16, rear: 8 },
+        RT: { front: 16, rear: 8 },
+        LA: { front: 12, rear: 0 },
+        RA: { front: 12, rear: 0 },
+        LL: { front: 16, rear: 0 },
+        RL: { front: 16, rear: 0 }
+      },
+      armorTonnage: 12,
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' } as any,
+      totalHeatSinks: 10,
+      internalHeatSinks: 10,
+      externalHeatSinks: 0,
+      enhancementType: null,
+      mass: 75
     };
 
     mockEquipment = [
@@ -67,7 +81,7 @@ describe('WeightCalculationService', () => {
     it('should create WeightCalculationService instance', () => {
       const service = createWeightCalculationService();
       expect(service).toBeDefined();
-      expect(service).toBeInstanceOf(WeightCalculationServiceImpl);
+      expect(service).toBeInstanceOf(WeightCalculationService);
     });
   });
 
