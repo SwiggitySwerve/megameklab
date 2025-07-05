@@ -144,8 +144,8 @@ export class UnitConfigurationBuilder {
       hasPartialWing: false,
       heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
-      internalHeatSinks: 10,
-      externalHeatSinks: 0,
+      internalHeatSinks: 8, // 200 rating ÷ 25 = 8 heat sinks
+      externalHeatSinks: 2, // 10 total - 8 internal = 2 external
       enhancementType: null,
       mass: 50
     }
@@ -201,12 +201,7 @@ export class UnitConfigurationBuilder {
       return 0;
     }
     
-    // Fusion engines 250+ provide 10 heat sinks
-    if (engineRating >= 250) {
-      return 10;
-    }
-    
-    // Smaller engines provide partial heat sinks
+    // Official BattleTech rule: Engine Rating ÷ 25 (rounded down), NO MINIMUM for engine heat sinks
     return Math.floor(engineRating / 25);
   }
   

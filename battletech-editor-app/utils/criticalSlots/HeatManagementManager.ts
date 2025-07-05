@@ -100,28 +100,9 @@ export class HeatManagementManager {
    * Get base heat sinks from engine rating
    */
   private getBaseHeatSinksFromEngine(engineRating: number): number {
-    // Standard BattleTech rule: base heat sinks = engine rating / 25
-    const engineType = HeatManagementManager.extractComponentType(this.configuration.engineType)
-    
-    // Fallback implementation if import fails
-    let baseInternalHeatSinks: number;
-    if (typeof calculateInternalHeatSinksForEngine === 'function') {
-      baseInternalHeatSinks = calculateInternalHeatSinksForEngine(engineRating, engineType);
-    } else {
-      // Direct implementation as fallback
-      if (engineRating <= 0) {
-        baseInternalHeatSinks = 0;
-      } else if (engineType === 'ICE' || engineType === 'Fuel Cell' || engineType === 'Compact') {
-        baseInternalHeatSinks = 0;
-      } else if (engineRating >= 250) {
-        baseInternalHeatSinks = 10;
-      } else {
-        baseInternalHeatSinks = Math.floor(engineRating / 25);
-      }
-    }
-    
-    // Minimum of 10 internal heat sinks
-    return Math.max(10, baseInternalHeatSinks)
+    // Use the configuration's internal heat sinks value directly
+    // This should already be calculated correctly by the UnitConfigurationBuilder
+    return this.configuration.internalHeatSinks
   }
 
   /**

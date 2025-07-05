@@ -690,7 +690,7 @@ export class ValidationService implements IValidationService {
       heatGeneration: 0,
       heatDissipation: 10,
       heatDeficit: 0,
-      minimumHeatSinks: 10,
+      minimumHeatSinks: 10, // This is minimum TOTAL heat sinks for the mech, not engine heat sinks
       actualHeatSinks: 10,
       engineHeatSinks: 10,
       externalHeatSinks: 0,

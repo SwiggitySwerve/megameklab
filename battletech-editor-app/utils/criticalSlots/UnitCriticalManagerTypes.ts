@@ -119,7 +119,7 @@ export interface UnitConfiguration {
   
   // Heat management
   heatSinkType: ComponentConfiguration
-  totalHeatSinks: number             // User configurable, minimum 10
+  totalHeatSinks: number             // User configurable, minimum 10 total for the mech
   internalHeatSinks: number          // Auto-calculated from engine rating
   externalHeatSinks: number          // Auto-calculated (total - internal)
   

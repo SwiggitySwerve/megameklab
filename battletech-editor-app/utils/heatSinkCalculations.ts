@@ -160,7 +160,7 @@ export function getHeatSinkSpecification(heatSinkType: HeatSinkType): HeatSinkSp
  */
 export function calculateMinimumHeatSinks(engineRating: number, heatGeneration: number): number {
   const internalHeatSinks = calculateInternalHeatSinks(engineRating);
-  const minimumTotal = Math.max(10, heatGeneration); // At least 10 heat sinks
+  const minimumTotal = Math.max(10, heatGeneration); // At least 10 TOTAL heat sinks for the mech
   return Math.max(minimumTotal, internalHeatSinks);
 }
 

@@ -124,7 +124,7 @@ export function validateSystemComponents(
         id: 'insufficient-heat-sinks',
         category: 'error',
         component: 'heatSinks',
-        message: 'Minimum 10 heat sinks required',
+        message: 'Minimum 10 total heat sinks required', // This is minimum TOTAL heat sinks for the mech
         field: 'total',
       });
     }

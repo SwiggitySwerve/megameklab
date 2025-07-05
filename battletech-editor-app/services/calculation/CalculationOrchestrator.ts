@@ -821,7 +821,7 @@ export class CalculationOrchestrator implements ICalculationOrchestrator {
       heatDissipation: engineHeatSinks * 1,
       heatBalance: engineHeatSinks - heatGeneration,
       heatEfficiency: Math.max(0, 100 - Math.max(0, heatGeneration - engineHeatSinks) * 10),
-      minimumHeatSinks: 10,
+      minimumHeatSinks: 10, // This is minimum TOTAL heat sinks for the mech, not engine heat sinks
       optimalHeatSinks: Math.max(10, heatGeneration),
       heatSinkBreakdown: {
         engine: engineHeatSinks,

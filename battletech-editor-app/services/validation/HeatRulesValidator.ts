@@ -104,7 +104,7 @@ export class HeatRulesValidator {
     environmentalHeat: 0
   };
 
-  private static readonly MINIMUM_HEAT_SINKS = 10;
+  private static readonly MINIMUM_TOTAL_HEAT_SINKS = 10; // This is minimum TOTAL heat sinks for the mech, not engine heat sinks
   private static readonly HEAT_SINK_DISSIPATION_RATES = {
     'Single': 1,
     'Double': 2,
@@ -139,12 +139,12 @@ export class HeatRulesValidator {
     const heatEfficiency = heatDissipation > 0 ? (heatDissipation / Math.max(heatGeneration, 1)) * 100 : 100;
     
     // Validate minimum heat sinks rule
-    if (ctx.enforceMinimumHeatSinks && actualHeatSinks < this.MINIMUM_HEAT_SINKS) {
+    if (ctx.enforceMinimumHeatSinks && actualHeatSinks < this.MINIMUM_TOTAL_HEAT_SINKS) {
       violations.push({
         type: 'insufficient_heat_sinks',
-        message: `Unit has ${actualHeatSinks} heat sinks but requires minimum ${this.MINIMUM_HEAT_SINKS}`,
+        message: `Unit has ${actualHeatSinks} heat sinks but requires minimum ${this.MINIMUM_TOTAL_HEAT_SINKS}`,
         severity: 'critical',
-        suggestedFix: `Add ${this.MINIMUM_HEAT_SINKS - actualHeatSinks} more heat sinks`
+        suggestedFix: `Add ${this.MINIMUM_TOTAL_HEAT_SINKS - actualHeatSinks} more heat sinks`
       });
     }
     
@@ -179,7 +179,7 @@ export class HeatRulesValidator {
       heatGeneration,
       heatDissipation,
       heatDeficit,
-      minimumHeatSinks: this.MINIMUM_HEAT_SINKS,
+      minimumHeatSinks: this.MINIMUM_TOTAL_HEAT_SINKS,
       actualHeatSinks,
       engineHeatSinks,
       externalHeatSinks,
@@ -461,8 +461,8 @@ export class HeatRulesValidator {
     }
     
     // Penalize insufficient heat sinks
-    if (actualHeatSinks < this.MINIMUM_HEAT_SINKS) {
-      const shortfallPenalty = (this.MINIMUM_HEAT_SINKS - actualHeatSinks) * 10;
+    if (actualHeatSinks < this.MINIMUM_TOTAL_HEAT_SINKS) {
+      const shortfallPenalty = (this.MINIMUM_TOTAL_HEAT_SINKS - actualHeatSinks) * 10;
       efficiency -= shortfallPenalty;
     }
     
