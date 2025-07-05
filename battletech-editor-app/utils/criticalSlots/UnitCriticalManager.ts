@@ -183,6 +183,20 @@ export class UnitCriticalManager {
   }
 
   /**
+   * Type guard to safely access componentType property on equipment
+   */
+  private static hasComponentType(equipment: EquipmentObject): equipment is EquipmentObject & { componentType: string } {
+    return 'componentType' in equipment && typeof (equipment as EquipmentObject & { componentType: unknown }).componentType === 'string'
+  }
+
+  /**
+   * Safely get componentType from equipment
+   */
+  private static getComponentType(equipment: EquipmentObject): string | undefined {
+    return UnitCriticalManager.hasComponentType(equipment) ? equipment.componentType : undefined
+  }
+
+  /**
    * Extract tech base from ComponentConfiguration or infer from string
    */
   private static extractTechBase(component: ComponentConfiguration | string, fallback: TechBase = 'Inner Sphere'): TechBase {
@@ -959,7 +973,7 @@ export class UnitCriticalManager {
       calculationHeatSinkType = techBase === 'Clan' ? 'Double (Clan)' : 'Double (IS)'
     }
     
-    const heatSinkSpec = getHeatSinkSpecification(calculationHeatSinkType as any)
+    const heatSinkSpec = getHeatSinkSpecification(calculationHeatSinkType as HeatSinkType)
     if (!heatSinkSpec) {
       console.error(`[UnitCriticalManager] No specification found for heat sink type: ${calculationHeatSinkType} (original: ${heatSinkType})`)
       return
@@ -1120,7 +1134,7 @@ export class UnitCriticalManager {
     console.log(`[UnitCriticalManager] Current unallocated equipment:`, this.unallocatedEquipment.map(eq => ({
       name: eq.equipmentData.name,
       groupId: eq.equipmentGroupId,
-      componentType: (eq.equipmentData as any).componentType
+      componentType: UnitCriticalManager.getComponentType(eq.equipmentData)
     })))
     
     const index = this.unallocatedEquipment.findIndex(eq => eq.equipmentGroupId === equipmentGroupId)
@@ -1135,7 +1149,7 @@ export class UnitCriticalManager {
       console.log(`[UnitCriticalManager] Successfully removed equipment:`, {
         name: removed.equipmentData.name,
         groupId: removed.equipmentGroupId,
-        componentType: (removed.equipmentData as any).componentType
+        componentType: UnitCriticalManager.getComponentType(removed.equipmentData)
       })
       console.log(`[UnitCriticalManager] Remaining unallocated count: ${this.unallocatedEquipment.length}`)
       
@@ -1250,7 +1264,7 @@ export class UnitCriticalManager {
     console.log(`[UnitCriticalManager] Successfully removed equipment from unallocated pool:`, {
       name: equipment.equipmentData.name,
       groupId: equipment.equipmentGroupId,
-      componentType: (equipment.equipmentData as any).componentType
+      componentType: UnitCriticalManager.getComponentType(equipment.equipmentData)
     })
     
     // Check location restrictions
