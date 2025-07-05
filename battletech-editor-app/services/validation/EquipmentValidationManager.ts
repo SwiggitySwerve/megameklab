@@ -130,15 +130,16 @@ export class EquipmentValidationManager {
       }
       
       // Check era restrictions
-      if (weapon.introductionYear && (config as any).era) {
+      const unitEra = this.getUnitEra(config)
+      if (weapon.introductionYear && unitEra) {
         const weaponEra = this.getEraFromYear(weapon.introductionYear)
-        if (!this.isEraCompatible(weaponEra, (config as any).era)) {
+        if (!this.isEraCompatible(weaponEra, unitEra)) {
           violations.push({
             weapon: weapon.name,
             type: 'era_restriction',
-            message: `${weapon.name} is not available in ${(config as any).era} era`,
+            message: `${weapon.name} is not available in ${unitEra} era`,
             severity: 'minor',
-            suggestedFix: `Use weapon available in ${(config as any).era} era`
+            suggestedFix: `Use weapon available in ${unitEra} era`
           })
         }
       }
@@ -431,6 +432,14 @@ export class EquipmentValidationManager {
     return Math.floor(totalShots / shotsPerTurn)
   }
   
+  /**
+   * Type-safe accessor for unit era
+   */
+  private getUnitEra(config: UnitConfiguration): string | undefined {
+    const configWithEra = config as { era?: string };
+    return configWithEra.era;
+  }
+
   /**
    * Get era from introduction year
    */
