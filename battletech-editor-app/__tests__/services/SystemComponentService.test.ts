@@ -207,7 +207,7 @@ describe('SystemComponentService', () => {
     describe('calculateInternalHeatSinks', () => {
       it('should calculate internal heat sinks for fusion engines', () => {
         expect(service.calculateInternalHeatSinks(250, 'Standard')).toBe(10);
-        expect(service.calculateInternalHeatSinks(300, 'XL')).toBe(10); // XL engines follow same rule as standard - only rating matters
+        expect(service.calculateInternalHeatSinks(300, 'XL')).toBe(12); // XL engines follow same rule as standard - only rating matters
         expect(service.calculateInternalHeatSinks(200, 'Standard')).toBe(8);
         expect(service.calculateInternalHeatSinks(100, 'Standard')).toBe(4);
       });
@@ -460,9 +460,9 @@ describe('SystemComponentService', () => {
     });
 
     it('should calculate internal heat sinks according to BattleTech rules', () => {
-      // Engines 250+ get 10 heat sinks
+      // Official BattleTech rule: Engine Rating ÷ 25 (rounded down), NO MINIMUM
       expect(service.calculateInternalHeatSinks(250, 'Standard')).toBe(10);
-      expect(service.calculateInternalHeatSinks(400, 'XL')).toBe(10); // XL engines follow same rule as standard - only rating matters
+      expect(service.calculateInternalHeatSinks(400, 'XL')).toBe(16); // XL engines follow same rule as standard - only rating matters
       
       // Smaller engines get rating/25 heat sinks
       expect(service.calculateInternalHeatSinks(200, 'Standard')).toBe(8);

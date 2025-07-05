@@ -137,9 +137,9 @@ describe('Engine Calculations - BattleTech Rules', () => {
     it('should calculate integrated heat sinks for fusion engines', () => {
       expect(calculateIntegratedHeatSinks(100, 'Standard')).toBe(4);  // 100 ÷ 25 = 4
       expect(calculateIntegratedHeatSinks(200, 'Standard')).toBe(8);  // 200 ÷ 25 = 8
-      expect(calculateIntegratedHeatSinks(250, 'Standard')).toBe(10); // 250 ÷ 25 = 10 (full capacity)
-      expect(calculateIntegratedHeatSinks(300, 'Standard')).toBe(10); // 300 ÷ 25 = 12, but capped at 10 for 250+
-      expect(calculateIntegratedHeatSinks(400, 'Standard')).toBe(10); // 400 ÷ 25 = 16, but capped at 10 for 250+
+      expect(calculateIntegratedHeatSinks(250, 'Standard')).toBe(10); // 250 ÷ 25 = 10
+      expect(calculateIntegratedHeatSinks(300, 'Standard')).toBe(12); // 300 ÷ 25 = 12 (official BattleTech rule)
+      expect(calculateIntegratedHeatSinks(400, 'Standard')).toBe(16); // 400 ÷ 25 = 16 (official BattleTech rule)
     });
 
     it('should return 0 heat sinks for non-fusion engines', () => {

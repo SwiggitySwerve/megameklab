@@ -52,25 +52,25 @@ export class ArmorManagementManager {
       return spec.pointsPerTon
     }
     
-    // Direct implementation as fallback - using test-expected values
+    // Direct implementation using official BattleTech TechManual values
     const armorType = this.getArmorTypeString();
     switch (armorType) {
       case 'Standard':
         return 16;
       case 'Ferro-Fibrous':
-        return 20; // Test expects 20, not 17.92
+        return 17.92; // Official TechManual value
       case 'Ferro-Fibrous (Clan)':
-        return 19.2;
+        return 17.92; // Official TechManual value (same as IS)
       case 'Light Ferro-Fibrous':
-        return 18; // Test expects 18, not 16.8
+        return 16.8; // Official TechManual value
       case 'Heavy Ferro-Fibrous':
         return 19.2;
       case 'Stealth':
         return 16;
       case 'Reactive':
-        return 14.4;
+        return 14; // Official TechManual value
       case 'Reflective':
-        return 14.4;
+        return 16; // Official TechManual value (same as standard)
       case 'Hardened':
         return 8;
       default:
