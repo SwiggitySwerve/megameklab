@@ -26,7 +26,7 @@ The comprehensive analysis and planning phase for breaking down large files (>50
 ## 📋 **Deliverables Created**
 
 ### 1. **Comprehensive Analysis Document**
-**File**: `docs/LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md`
+**File**: `LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md`
 - Detailed breakdown strategy for all 86 large files
 - 25-day phased implementation plan
 - Service extraction templates and patterns
@@ -192,10 +192,10 @@ The large file analysis and breakdown planning task is **100% complete**. We hav
 ---
 
 ### **Key Files Created/Updated:**
-- 📄 `docs/LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md` - Comprehensive plan
-- 🔧 `scripts/monitor-file-sizes.sh` - Monitoring automation  
-- 📦 `package.json` - Enhanced build scripts
-- 📊 `docs/LARGE_FILE_REFACTORING_TASK_SUMMARY.md` - This summary
+- 📄 `LARGE_FILE_ANALYSIS_AND_BREAKDOWN_PLAN.md` - Comprehensive plan
+- 🔧 `../battletech-editor-app/scripts/monitor-file-sizes.sh` - Monitoring automation  
+- 📦 `../battletech-editor-app/package.json` - Enhanced build scripts
+- 📊 `LARGE_FILE_REFACTORING_TASK_SUMMARY.md` - This summary
 
 ### **Recommended Next Steps:**
 1. Review and approve the implementation plan

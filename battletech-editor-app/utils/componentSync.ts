@@ -202,7 +202,7 @@ export function syncGyroChange(
   const systemComponents = unit.systemComponents || initializeSystemComponents(unit);
   
   // XL Gyro is incompatible with standard engine layouts
-  // See docs/xl-gyro-incompatibility.md for details
+  // See ../docs/battletech/battletech_critical_slots.md for details
   if (newGyroType === 'XL') {
     const engineType = systemComponents.engine.type;
     // Standard, ICE, Fuel Cell, and Compact engines use the split CT layout (0-2, 7-9)

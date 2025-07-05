@@ -13,7 +13,7 @@
 
 ## 🎯 **Correct BattleTech Rules**
 
-According to the project's construction documentation (`docs/battletech_construction_guide.md` and `docs/battletech_validation_rules.md`):
+According to the project's construction documentation (`../battletech/battletech_construction_guide.md` and `../battletech/battletech_validation_rules.md`):
 
 ### **Engine Heat Sink Capacity Formula**
 ```
@@ -100,13 +100,13 @@ return calculateInternalHeatSinks(engineRating);
 
 The correction was validated against the project's own construction rules documentation:
 
-**From `docs/battletech_validation_rules.md`**:
+**From `../battletech/battletech_validation_rules.md`**:
 ```
 Engine Capacity: MIN(10, engine_rating ÷ 25) free heat sinks
 External Requirement: total_heat_sinks - engine_capacity
 ```
 
-**From `docs/battletech_critical_slots.md`**:
+**From `../battletech/battletech_critical_slots.md`**:
 ```
 | Double Heat Sink (IS)  | 3 slots | 2 heat/turn | 1 ton | 10 free in engine |
 | Double Heat Sink (Clan)| 2 slots | 2 heat/turn | 1 ton | 10 free in engine |

@@ -347,7 +347,7 @@ function validateMaintainabilityMetrics() {
   }
   
   // Documentation analysis
-  const docFiles = scanDirectory('./docs/');
+  const docFiles = scanDirectory('../docs/');
   log(`  Documentation files: ${docFiles.length}`);
   
   if (docFiles.length >= 10) {
@@ -506,7 +506,7 @@ function main() {
     const summary = generateMetricsReport(results);
     
     // Save report
-    const reportPath = 'docs/METRICS_VALIDATION_REPORT.md';
+    const reportPath = '../docs/testing/METRICS_VALIDATION_REPORT.md';
     const reportContent = `# Refactoring Metrics Validation Report
 
 Generated: ${new Date().toISOString()}
