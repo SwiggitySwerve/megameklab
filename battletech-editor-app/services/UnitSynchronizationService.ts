@@ -39,9 +39,20 @@ export interface SynchronizationOptions {
   autoSaveChanges: boolean
 }
 
+/**
+ * Extended interface for save manager with optional methods
+ */
+interface ExtendedSaveManager extends MultiTabDebouncedSaveManager {
+  cancelPendingSave?: (tabId: string) => void;
+  flushAllPendingSaves?: () => void;
+  getPendingSaveCount?: () => number;
+  hasPendingSave?: (tabId: string) => boolean;
+  cancelAllPendingSaves?: () => void;
+}
+
 export class UnitSynchronizationService {
   private stateService: MultiUnitStateService
-  private saveManager: MultiTabDebouncedSaveManager
+  private saveManager: ExtendedSaveManager
   private options: SynchronizationOptions
   private eventHistory: SynchronizationEvent[] = []
   private unitObservers: Map<string, () => void> = new Map()
@@ -49,7 +60,7 @@ export class UnitSynchronizationService {
 
   constructor(
     stateService: MultiUnitStateService,
-    saveManager: MultiTabDebouncedSaveManager,
+    saveManager: ExtendedSaveManager,
     options: Partial<SynchronizationOptions> = {}
   ) {
     this.stateService = stateService
@@ -134,8 +145,8 @@ export class UnitSynchronizationService {
 
     // Cancel any pending saves for this tab (if method exists)
     try {
-      if ('cancelPendingSave' in this.saveManager) {
-        (this.saveManager as any).cancelPendingSave(tabId)
+      if (this.saveManager.cancelPendingSave) {
+        this.saveManager.cancelPendingSave(tabId)
       }
     } catch (error) {
       console.warn('Could not cancel pending save:', error)
@@ -405,8 +416,8 @@ export class UnitSynchronizationService {
   forceSaveAll(): void {
     console.log('[UnitSynchronizationService] Force saving all pending changes')
     try {
-      if ('flushAllPendingSaves' in this.saveManager) {
-        (this.saveManager as any).flushAllPendingSaves()
+      if (this.saveManager.flushAllPendingSaves) {
+        this.saveManager.flushAllPendingSaves()
       }
     } catch (error) {
       console.warn('Could not flush pending saves:', error)
@@ -424,8 +435,8 @@ export class UnitSynchronizationService {
   } {
     let pendingSaves = 0
     try {
-      if ('getPendingSaveCount' in this.saveManager) {
-        pendingSaves = (this.saveManager as any).getPendingSaveCount()
+      if (this.saveManager.getPendingSaveCount) {
+        pendingSaves = this.saveManager.getPendingSaveCount()
       }
     } catch (error) {
       console.warn('Could not get pending save count:', error)
@@ -467,8 +478,8 @@ export class UnitSynchronizationService {
    */
   hasPendingSaves(tabId: string): boolean {
     try {
-      if ('hasPendingSave' in this.saveManager) {
-        return (this.saveManager as any).hasPendingSave(tabId)
+      if (this.saveManager.hasPendingSave) {
+        return this.saveManager.hasPendingSave(tabId)
       }
     } catch (error) {
       console.warn('Could not check pending saves:', error)
@@ -481,8 +492,8 @@ export class UnitSynchronizationService {
    */
   cancelPendingSaves(tabId: string): void {
     try {
-      if ('cancelPendingSave' in this.saveManager) {
-        (this.saveManager as any).cancelPendingSave(tabId)
+      if (this.saveManager.cancelPendingSave) {
+        this.saveManager.cancelPendingSave(tabId)
         console.log(`[UnitSynchronizationService] Cancelled pending saves for tab ${tabId}`)
       }
     } catch (error) {
@@ -609,8 +620,8 @@ export class UnitSynchronizationService {
 
     // Cancel all pending saves (if method exists)
     try {
-      if ('cancelAllPendingSaves' in this.saveManager) {
-        (this.saveManager as any).cancelAllPendingSaves()
+      if (this.saveManager.cancelAllPendingSaves) {
+        this.saveManager.cancelAllPendingSaves()
       }
     } catch (error) {
       console.warn('Could not cancel all pending saves:', error)

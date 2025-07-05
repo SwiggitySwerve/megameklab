@@ -6,6 +6,7 @@
 
 import {
   WeaponValidationHandler,
+  WeaponValidationHandlerResult,
   WeaponValidationContext,
   WeaponValidationResult,
   WeaponValidationObserver,
@@ -506,12 +507,30 @@ export class WeaponValidationChain {
   }
 
   /**
-   * Notify all observers
+   * Notify all observers using type-safe method calls
    */
   private notifyObservers(method: keyof WeaponValidationObserver, ...args: any[]): void {
     this.observers.forEach(observer => {
       try {
-        (observer[method] as any)(...args)
+        switch (method) {
+          case 'onValidationStart':
+            observer.onValidationStart(args[0] as WeaponValidationContext)
+            break
+          case 'onHandlerStart':
+            observer.onHandlerStart(args[0] as string)
+            break
+          case 'onHandlerComplete':
+            observer.onHandlerComplete(args[0] as string, args[1] as WeaponValidationHandlerResult)
+            break
+          case 'onValidationComplete':
+            observer.onValidationComplete(args[0] as WeaponValidationResult)
+            break
+          case 'onValidationError':
+            observer.onValidationError(args[0] as Error)
+            break
+          default:
+            console.warn(`Unknown observer method: ${method}`)
+        }
       } catch (error) {
         console.warn('Observer notification failed:', error)
       }

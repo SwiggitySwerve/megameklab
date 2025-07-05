@@ -332,11 +332,22 @@ export class UnitStatePersistence implements IUnitStatePersistence {
     
     // Add metadata if provided
     if (metadata) {
-      (snapshot as any).metadata = {
+      // Type-safe metadata attachment using intersection type
+      const snapshotWithMetadata = snapshot as CompleteUnitState & {
+        metadata?: {
+          name: string;
+          description: string;
+          createdAt: string;
+        }
+      };
+      
+      snapshotWithMetadata.metadata = {
         name: metadata.name || 'Unnamed Snapshot',
         description: metadata.description || '',
         createdAt: new Date().toISOString()
-      }
+      };
+      
+      return snapshotWithMetadata;
     }
     
     return snapshot

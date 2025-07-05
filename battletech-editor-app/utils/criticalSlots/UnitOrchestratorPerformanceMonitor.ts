@@ -274,7 +274,7 @@ export class UnitOrchestratorPerformanceMonitor implements PerformanceMonitor {
       throw new Error(`${String(methodName)} is not a method`)
     }
 
-    target[methodName] = this.createDecorator(finalOperationName, originalMethod.bind(target)) as any
+    target[methodName] = this.createDecorator(finalOperationName, originalMethod.bind(target)) as T[keyof T]
     
     return target
   }

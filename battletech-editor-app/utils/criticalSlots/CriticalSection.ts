@@ -179,14 +179,14 @@ export class CriticalSection {
   /**
    * Reserve slots for system components (engine, gyro)
    */
-  reserveSystemSlots(componentType: string, slots: number[]): EquipmentAllocation[] {
+  reserveSystemSlots(componentType: 'engine' | 'gyro' | 'actuator' | 'life_support' | 'sensors' | 'cockpit', slots: number[]): EquipmentAllocation[] {
     // First, identify and remove conflicting equipment
     const displacedEquipment = this.clearConflictingEquipment(slots)
     
     // Then reserve the slots
     slots.forEach(slotIndex => {
       const slot = this.getSlot(slotIndex)
-      slot.reserveForSystem(componentType as any)
+      slot.reserveForSystem(componentType)
     })
     
     // Track the reservation

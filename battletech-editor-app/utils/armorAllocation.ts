@@ -3,7 +3,8 @@ import { EQUIPMENT_DATABASE } from './equipmentData';
 import { calculateEngineWeight } from './engineCalculations';
 import { calculateStructureWeight } from './structureCalculations';
 import { calculateInternalHeatSinksForEngine } from './heatSinkCalculations';
-import { getArmorType } from './armorTypes';
+import { getArmorType, ArmorType } from './armorTypes';
+import { StructureType, EngineType } from '../types/systemComponents';
 
 export interface ArmorAllocation {
   [location: string]: {
@@ -14,6 +15,22 @@ export interface ArmorAllocation {
 
 // Use official BattleTech internal structure table
 import { getInternalStructurePoints as getOfficialStructure } from './internalStructureTable';
+
+// Type-safe casting functions for component enums
+function castToStructureType(structureType: string): StructureType {
+  const validTypes: StructureType[] = ['Standard', 'Endo Steel', 'Endo Steel (Clan)', 'Composite', 'Reinforced', 'Industrial'];
+  return validTypes.includes(structureType as StructureType) ? structureType as StructureType : 'Standard';
+}
+
+function castToEngineType(engineType: string): EngineType {
+  const validTypes: EngineType[] = ['Standard', 'XL (IS)', 'XL (Clan)', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  return validTypes.includes(engineType as EngineType) ? engineType as EngineType : 'Standard';
+}
+
+// Helper function to get standard armor type as fallback
+function getStandardArmorType(): ArmorType {
+  return getArmorType('standard');
+}
 
 export function calculateMaxArmorPoints(unit: EditableUnit): number {
   let maxArmor = 0;
@@ -295,7 +312,7 @@ export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): n
   
   // Fallback if armor type is still null
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
+    armorType = getStandardArmorType(); // Standard armor fallback
   }
   
   const pointsPerTon = armorType.pointsPerTon;
@@ -355,12 +372,12 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
 
   // Structure weight
   const structureType = unit.data?.structure?.type || 'Standard';
-  usedTonnage += calculateStructureWeight(totalTonnage, mapStructureType(structureType) as any);
+  usedTonnage += calculateStructureWeight(totalTonnage, castToStructureType(mapStructureType(structureType)));
 
   // Engine weight
   const engineRating = unit.data?.engine?.rating || 200;
   const engineType = unit.data?.engine?.type || 'Standard';
-  usedTonnage += calculateEngineWeight(engineRating, totalTonnage, mapEngineType(engineType) as any);
+  usedTonnage += calculateEngineWeight(engineRating, totalTonnage, castToEngineType(mapEngineType(engineType)));
 
   // Gyro (unchanged for now)
   const gyroType = unit.data?.gyro?.type || 'standard';
@@ -404,7 +421,7 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
   const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
   let armorType = getArmorType(armorTypeId);
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = { pointsPerTon: 16 } as any;
+    armorType = getStandardArmorType();
   }
   const pointsPerTon = armorType.pointsPerTon;
   usedTonnage += currentArmorPoints / pointsPerTon;
@@ -429,7 +446,7 @@ export function calculateRemainingTonnageForArmor(unit: EditableUnit, armorType?
   
   // Fallback if armor type is still null
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = { pointsPerTon: 16 } as any; // Standard armor fallback
+    armorType = getStandardArmorType(); // Standard armor fallback
   }
   
   // Get current armor tonnage

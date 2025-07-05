@@ -25,6 +25,20 @@ export class EquipmentAllocationManager {
     this.configuration = configuration
   }
 
+  /**
+   * Type guard to safely access componentType property on equipment
+   */
+  private static hasComponentType(equipment: EquipmentObject): equipment is EquipmentObject & { componentType: string } {
+    return 'componentType' in equipment && typeof (equipment as EquipmentObject & { componentType: unknown }).componentType === 'string'
+  }
+
+  /**
+   * Safely get componentType from equipment
+   */
+  private static getComponentType(equipment: EquipmentObject): string | undefined {
+    return EquipmentAllocationManager.hasComponentType(equipment) ? equipment.componentType : undefined
+  }
+
   getAllEquipmentGroups(): Array<{ groupId: string, equipmentReference: EquipmentAllocation }> {
     const groups: Array<{ groupId: string, equipmentReference: EquipmentAllocation }> = []
     this.sections.forEach(section => {
@@ -210,9 +224,15 @@ export class EquipmentAllocationManager {
         failureReasons: []
       }
     }
-    const specialStructure = allEquipment.filter(eq => (eq.equipmentData as any).componentType === 'structure')
-    const specialArmor = allEquipment.filter(eq => (eq.equipmentData as any).componentType === 'armor')
-    const normalEquipment = allEquipment.filter(eq => !(eq.equipmentData as any).componentType)
+    const specialStructure = allEquipment.filter(eq => 
+      EquipmentAllocationManager.getComponentType(eq.equipmentData) === 'structure'
+    )
+    const specialArmor = allEquipment.filter(eq => 
+      EquipmentAllocationManager.getComponentType(eq.equipmentData) === 'armor'
+    )
+    const normalEquipment = allEquipment.filter(eq => 
+      !EquipmentAllocationManager.getComponentType(eq.equipmentData)
+    )
     let placedCount = 0
     let failureReasons: string[] = []
 
@@ -282,9 +302,9 @@ export class EquipmentAllocationManager {
   }
 
   private isUnhittableEquipment(equipment: EquipmentObject): boolean {
-    const specialEq = equipment as any
+    const componentType = EquipmentAllocationManager.getComponentType(equipment)
     const name = equipment.name.toLowerCase()
-    if (specialEq.componentType === 'structure' || specialEq.componentType === 'armor') {
+    if (componentType === 'structure' || componentType === 'armor') {
       return true
     }
     const unhittablePatterns = [

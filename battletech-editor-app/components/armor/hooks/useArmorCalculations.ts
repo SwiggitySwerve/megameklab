@@ -122,11 +122,14 @@ export function getMaxArmorForLocation(location: string, mass: number): number {
 
 // Helper function to determine if location has rear armor
 export function hasRearArmor(location: string): boolean {
-  return [
+  // Type-safe location checking for rear armor locations
+  const rearArmorLocations = [
     MECH_LOCATIONS.CENTER_TORSO,
     MECH_LOCATIONS.LEFT_TORSO,
     MECH_LOCATIONS.RIGHT_TORSO,
-  ].includes(location as any);
+  ] as string[];
+  
+  return rearArmorLocations.includes(location);
 }
 
 // Helper function to get location abbreviation

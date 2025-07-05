@@ -593,14 +593,13 @@ export class UnitEditorController {
       }
     }
 
-    // Direct assignment for other properties
-    Object.keys(updates).forEach(key => {
-      if (key !== 'systemComponents' && key !== 'data' && key !== 'armorAllocation') {
-        (merged as any)[key] = (updates as any)[key]
-      }
-    })
+    // Type-safe assignment for other properties
+    const remainingUpdates = { ...updates }
+    delete remainingUpdates.systemComponents
+    delete remainingUpdates.data
+    delete remainingUpdates.armorAllocation
 
-    return merged
+    return { ...merged, ...remainingUpdates }
   }
 
   /**

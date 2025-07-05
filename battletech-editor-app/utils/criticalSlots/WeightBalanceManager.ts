@@ -8,8 +8,9 @@ import { EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration } from './UnitCriticalManagerTypes'
 import { EngineType, GyroType } from './SystemComponentRules'
 import { JumpJetType } from '../jumpJetCalculations'
-import { HeatSinkType } from './UnitCriticalManagerTypes'
-import { calculateGyroWeight } from '../gyroCalculations';
+import { HeatSinkType, StructureType, ArmorType } from './UnitCriticalManagerTypes'
+import { calculateGyroWeight } from '../gyroCalculations'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export class WeightBalanceManager {
   private configuration: UnitConfiguration
@@ -21,6 +22,16 @@ export class WeightBalanceManager {
   ) {
     this.configuration = configuration
     this.unallocatedEquipment = unallocatedEquipment
+  }
+
+  /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private static extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component
+    }
+    return component.type
   }
 
   /**
@@ -255,7 +266,7 @@ export class WeightBalanceManager {
     const engineRating = this.configuration.engineRating
     const gyroType = this.getGyroTypeString()
     
-    return calculateGyroWeight(engineRating, gyroType as any);
+    return calculateGyroWeight(engineRating, gyroType as GyroType);
   }
 
   /**
@@ -428,40 +439,28 @@ export class WeightBalanceManager {
   /**
    * Helper methods to extract component types
    */
-  private getStructureTypeString(): string {
-    return typeof this.configuration.structureType === 'string' 
-      ? this.configuration.structureType 
-      : (this.configuration.structureType as any).type
+  private getStructureTypeString(): StructureType {
+    return WeightBalanceManager.extractComponentType(this.configuration.structureType) as StructureType
   }
 
-  private getArmorTypeString(): string {
-    return typeof this.configuration.armorType === 'string' 
-      ? this.configuration.armorType 
-      : (this.configuration.armorType as any).type
+  private getArmorTypeString(): ArmorType {
+    return WeightBalanceManager.extractComponentType(this.configuration.armorType) as ArmorType
   }
 
   private getEngineTypeString(): EngineType {
-    return typeof this.configuration.engineType === 'string' 
-      ? this.configuration.engineType 
-      : (this.configuration.engineType as any).type
+    return WeightBalanceManager.extractComponentType(this.configuration.engineType) as EngineType
   }
 
   private getGyroTypeString(): GyroType {
-    return typeof this.configuration.gyroType === 'string' 
-      ? this.configuration.gyroType 
-      : (this.configuration.gyroType as any).type
+    return WeightBalanceManager.extractComponentType(this.configuration.gyroType) as GyroType
   }
 
   private getHeatSinkTypeString(): HeatSinkType {
-    return typeof this.configuration.heatSinkType === 'string' 
-      ? this.configuration.heatSinkType 
-      : (this.configuration.heatSinkType as any).type
+    return WeightBalanceManager.extractComponentType(this.configuration.heatSinkType) as HeatSinkType
   }
 
   private getJumpJetTypeString(): JumpJetType {
-    return typeof this.configuration.jumpJetType === 'string' 
-      ? this.configuration.jumpJetType 
-      : (this.configuration.jumpJetType as any).type
+    return WeightBalanceManager.extractComponentType(this.configuration.jumpJetType) as JumpJetType
   }
 
   /**

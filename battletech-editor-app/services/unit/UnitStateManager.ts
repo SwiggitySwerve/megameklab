@@ -285,7 +285,7 @@ export class UnitStateManager implements IUnitStateManager {
    */
   async saveUnitState(unitState: ICompleteUnitState): Promise<Result<boolean>> {
     try {
-      const unitId = (unitState as any).unitId || 'unknown';
+      const unitId = this.extractUnitId(unitState);
       this.log('debug', `Saving unit state: ${unitId}`);
 
       // Validate state before saving
@@ -463,7 +463,7 @@ export class UnitStateManager implements IUnitStateManager {
    */
   async validateUnitIntegrity(unitState: ICompleteUnitState): Promise<Result<IIntegrityValidationResult>> {
     try {
-      const unitId = (unitState as any).unitId || 'unknown';
+      const unitId = this.extractUnitId(unitState);
       this.log('debug', `Validating unit integrity for ${unitId}`);
 
       const violations: IIntegrityViolation[] = [];
@@ -548,6 +548,23 @@ export class UnitStateManager implements IUnitStateManager {
 
   // ===== PRIVATE HELPER METHODS =====
 
+  /**
+   * Extract unit ID from unit state in a type-safe manner
+   */
+  private extractUnitId(unitState: ICompleteUnitState): string {
+    return unitState.configuration.id || 'unknown';
+  }
+
+  /**
+   * Create timestamped state for history
+   */
+  private createTimestampedState(unitState: ICompleteUnitState): ICompleteUnitState & { timestamp: Date } {
+    return {
+      ...unitState,
+      timestamp: new Date()
+    };
+  }
+
   private emitEvent(event: IServiceEvent): void {
     this.listeners.forEach(listener => {
       try {
@@ -594,7 +611,7 @@ export class UnitStateManager implements IUnitStateManager {
     }
 
     const history = this.stateHistory.get(unitId)!;
-    history.push({ ...unitState, timestamp: new Date() } as any);
+    history.push(this.createTimestampedState(unitState));
 
     // Enforce history limit
     if (history.length > this.config.maxStateHistory) {

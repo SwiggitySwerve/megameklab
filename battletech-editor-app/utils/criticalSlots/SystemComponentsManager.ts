@@ -6,10 +6,11 @@
 
 import { CriticalSection } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
-import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
+import { UnitConfiguration, HeatSinkType as ConfigHeatSinkType } from './UnitCriticalManagerTypes'
 import { EngineType, GyroType } from './SystemComponentRules'
 import { JumpJetType, calculateJumpJetWeight, calculateJumpJetCriticalSlots, JUMP_JET_VARIANTS } from '../jumpJetCalculations'
 import { TechBase, ComponentConfiguration } from '../../types/componentConfiguration'
+import { HeatSinkType } from '../../types/systemComponents'
 import { SystemComponentRules } from './SystemComponentRules'
 import { UnitCriticalManager } from './UnitCriticalManager'
 import { getHeatSinkSpecification } from '../heatSinkCalculations';
@@ -341,7 +342,7 @@ export class SystemComponentsManager {
       calculationHeatSinkType = techBase === 'Clan' ? 'Double (Clan)' : 'Double (IS)'
     }
     
-    const heatSinkSpec = getHeatSinkSpecification(calculationHeatSinkType as any)
+    const heatSinkSpec = getHeatSinkSpecification(calculationHeatSinkType as HeatSinkType)
     if (!heatSinkSpec) {
       console.error(`[SystemComponentsManager] No specification found for heat sink type: ${calculationHeatSinkType} (original: ${heatSinkType})`)
       return
@@ -438,8 +439,8 @@ export class SystemComponentsManager {
     return typeof jumpJetType === 'string' ? jumpJetType : jumpJetType.type as JumpJetType
   }
 
-  private getHeatSinkTypeString(): HeatSinkType {
+  private getHeatSinkTypeString(): ConfigHeatSinkType {
     const heatSinkType = this.unitManager.configuration.heatSinkType
-    return typeof heatSinkType === 'string' ? heatSinkType : heatSinkType.type as HeatSinkType
+    return typeof heatSinkType === 'string' ? heatSinkType : heatSinkType.type as ConfigHeatSinkType
   }
 } 

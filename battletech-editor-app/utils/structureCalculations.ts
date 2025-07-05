@@ -116,7 +116,10 @@ export function validateStructureType(
   
   // Check if the tech base is directly allowed
   const validTechBase = restrictions.techBase.includes(techBase);
-  const validRulesLevel = restrictions.rulesLevel.includes(rulesLevel as any);
+  // Type-safe rules level validation
+  const validRulesLevels = ['Standard', 'Tournament', 'Advanced', 'Experimental'] as const;
+  const safeRulesLevel = validRulesLevels.includes(rulesLevel as any) ? rulesLevel as 'Standard' | 'Tournament' | 'Advanced' | 'Experimental' : 'Standard';
+  const validRulesLevel = restrictions.rulesLevel.includes(safeRulesLevel);
   
   return validTechBase && validRulesLevel;
 }

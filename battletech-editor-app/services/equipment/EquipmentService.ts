@@ -29,7 +29,8 @@ import {
   failure,
   EntityId,
   TechBase,
-  RulesLevel
+  RulesLevel,
+  Severity
 } from '../../types/core';
 
 import { IObservableService, IService } from '../../types/core/BaseTypes';
@@ -494,7 +495,7 @@ export class EquipmentService implements IEquipmentService {
             protectedLocations: [],
             unprotectedLocations: [],
             isCompliant: true,
-            riskLevel: 'low' as any
+            riskLevel: Severity.WARNING
           },
           explosiveRisks: []
         },
@@ -617,7 +618,7 @@ export class EquipmentService implements IEquipmentService {
       const criteria: IEquipmentSearchCriteria = {
         techBase: [unitConfig.techBase],
         rulesLevel: [unitConfig.rulesLevel],
-        availableAfter: (unitConfig as any).era ? new Date((unitConfig as any).era) : undefined,
+        availableAfter: ('era' in unitConfig && unitConfig.era) ? new Date(unitConfig.era as string) : undefined,
         ...(location && { allowedLocations: [location] })
       };
 

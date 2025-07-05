@@ -36,7 +36,7 @@ import {
   EntityId
 } from '../../types/core';
 
-import { IObservableService, IService } from '../../types/core/BaseTypes';
+import { IObservableService, IService, Severity } from '../../types/core/BaseTypes';
 
 /**
  * Validation event types
@@ -114,6 +114,17 @@ export class ValidationService implements IValidationService {
       bottlenecks: [],
       optimizationSuggestions: []
     };
+  }
+
+  /**
+   * Type-safe era property accessor
+   */
+  private static getConfigEra(config: IUnitConfiguration): string {
+    // Since era is not in the IUnitConfiguration interface, safely access it if present
+    const configWithEra = config as { era?: string };
+    return (configWithEra.era && typeof configWithEra.era === 'string') 
+      ? configWithEra.era 
+      : 'Succession Wars';
   }
 
   /**
@@ -349,7 +360,7 @@ export class ValidationService implements IValidationService {
             protectedLocations: [],
             unprotectedLocations: [],
             isCompliant: true,
-            riskLevel: 'warning' as any
+            riskLevel: Severity.WARNING
           },
           explosiveRisks: []
         },
@@ -416,7 +427,7 @@ export class ValidationService implements IValidationService {
           timestamp: new Date(),
           unitTechLevel: config.rulesLevel,
           unitTechBase: config.techBase,
-          era: (config as any).era || 'Succession Wars',
+          era: ValidationService.getConfigEra(config),
           mixedTech: {
             isMixed: false,
             innerSphereComponents: 0,
@@ -700,7 +711,7 @@ export class ValidationService implements IValidationService {
       tonnage: 0,
       engineType: 'Standard',
       movementProfile: {
-        classification: 'moderate' as any,
+        classification: 'moderate',
         walkRatio: 1,
         runRatio: 1.5,
         jumpRatio: 0

@@ -482,17 +482,20 @@ export function isValidUnitState(state: unknown): state is any {
  * Type guard for unit configuration validation
  */
 export function isValidUnitConfiguration(config: unknown): config is any {
+  if (typeof config !== 'object' || config === null) {
+    return false;
+  }
+
+  const configObj = config as Record<string, unknown>;
   return (
-    typeof config === 'object' &&
-    config !== null &&
     'chassisName' in config &&
     'model' in config &&
     'tonnage' in config &&
     'techBase' in config &&
     'rulesLevel' in config &&
-    typeof (config as any).chassisName === 'string' &&
-    typeof (config as any).model === 'string' &&
-    typeof (config as any).tonnage === 'number'
+    typeof configObj.chassisName === 'string' &&
+    typeof configObj.model === 'string' &&
+    typeof configObj.tonnage === 'number'
   );
 }
 
@@ -500,17 +503,20 @@ export function isValidUnitConfiguration(config: unknown): config is any {
  * Type guard for equipment allocation validation
  */
 export function isValidEquipmentAllocation(allocation: unknown): allocation is any {
+  if (typeof allocation !== 'object' || allocation === null) {
+    return false;
+  }
+
+  const allocationObj = allocation as Record<string, unknown>;
   return (
-    typeof allocation === 'object' &&
-    allocation !== null &&
     'id' in allocation &&
     'equipmentId' in allocation &&
     'location' in allocation &&
     'quantity' in allocation &&
-    typeof (allocation as any).id === 'string' &&
-    typeof (allocation as any).equipmentId === 'string' &&
-    typeof (allocation as any).location === 'string' &&
-    typeof (allocation as any).quantity === 'number'
+    typeof allocationObj.id === 'string' &&
+    typeof allocationObj.equipmentId === 'string' &&
+    typeof allocationObj.location === 'string' &&
+    typeof allocationObj.quantity === 'number'
   );
 }
 
@@ -518,16 +524,19 @@ export function isValidEquipmentAllocation(allocation: unknown): allocation is a
  * Type guard for validation result validation
  */
 export function isValidationResult(result: unknown): result is IValidationResult {
+  if (typeof result !== 'object' || result === null) {
+    return false;
+  }
+
+  const resultObj = result as Record<string, unknown>;
   return (
-    typeof result === 'object' &&
-    result !== null &&
     'isValid' in result &&
     'violations' in result &&
     'warnings' in result &&
     'timestamp' in result &&
-    typeof (result as any).isValid === 'boolean' &&
-    Array.isArray((result as any).violations) &&
-    Array.isArray((result as any).warnings)
+    typeof resultObj.isValid === 'boolean' &&
+    Array.isArray(resultObj.violations) &&
+    Array.isArray(resultObj.warnings)
   );
 }
 
@@ -535,13 +544,15 @@ export function isValidationResult(result: unknown): result is IValidationResult
  * Type guard for calculation result validation
  */
 export function isCalculationResult(result: unknown): result is ICalculationResult {
+  if (typeof result !== 'object' || result === null) {
+    return false;
+  }
+
+  const resultObj = result as Record<string, unknown>;
   return (
-    typeof result === 'object' &&
-    result !== null &&
     'calculationMethod' in result &&
     'timestamp' in result &&
-    'metadata' in result &&
-    typeof (result as any).calculationMethod === 'string'
+    typeof resultObj.calculationMethod === 'string'
   );
 }
 
@@ -549,13 +560,16 @@ export function isCalculationResult(result: unknown): result is ICalculationResu
  * Type guard for service validation
  */
 export function isService(service: unknown): service is IService {
+  if (typeof service !== 'object' || service === null) {
+    return false;
+  }
+
+  const serviceObj = service as Record<string, unknown>;
   return (
-    typeof service === 'object' &&
-    service !== null &&
     'initialize' in service &&
     'cleanup' in service &&
-    typeof (service as any).initialize === 'function' &&
-    typeof (service as any).cleanup === 'function'
+    typeof serviceObj.initialize === 'function' &&
+    typeof serviceObj.cleanup === 'function'
   );
 }
 
@@ -563,11 +577,12 @@ export function isService(service: unknown): service is IService {
  * Type guard for Node.js error validation
  */
 export function isNodeError(error: unknown): error is Error & { code?: string } {
-  return (
-    error instanceof Error &&
-    'code' in error &&
-    typeof (error as any).code === 'string'
-  );
+  if (!(error instanceof Error) || !('code' in error)) {
+    return false;
+  }
+
+  const errorObj = error as Record<string, unknown>;
+  return typeof errorObj.code === 'string';
 }
 
 /**
@@ -595,8 +610,9 @@ export function isValidRulesLevel(rulesLevel: unknown): rulesLevel is RulesLevel
  */
 export function safeGet<T>(obj: unknown, key: string, defaultValue: T): T {
   if (typeof obj === 'object' && obj !== null && key in obj) {
-    const value = (obj as any)[key];
-    return value !== undefined ? value : defaultValue;
+    const objRecord = obj as Record<string, unknown>;
+    const value = objRecord[key];
+    return value !== undefined ? (value as T) : defaultValue;
   }
   return defaultValue;
 }

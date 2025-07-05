@@ -176,7 +176,10 @@ export class BattleTechComponentFactory implements IComponentFactory {
   getArmorCriticalSlots(armorType: ArmorType, techBase: string): number {
     try {
       const { getArmorSlots } = require('../armorCalculations')
-      return getArmorSlots(armorType as any, techBase as any) || 0
+      // Type-safe function call with proper parameter handling
+      const validTechBases = ['Inner Sphere', 'Clan', 'Both']
+      const safeTechBase = validTechBases.includes(techBase) ? techBase : 'Inner Sphere'
+      return getArmorSlots(armorType, safeTechBase) || 0
     } catch (error) {
       // Fallback for armor types not in the armor calculations
       const armorSlotMap: Record<ArmorType, number> = {

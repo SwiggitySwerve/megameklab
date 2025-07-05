@@ -357,5 +357,11 @@ export const MemoryDebug = {
 
 // Expose debug utilities in development (only in browser)
 if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-  (window as any).MemoryDebug = MemoryDebug;
+  // Type-safe window attachment for development debugging
+  interface WindowWithDebug extends Window {
+    MemoryDebug?: typeof MemoryDebug;
+  }
+  
+  const debugWindow = window as WindowWithDebug;
+  debugWindow.MemoryDebug = MemoryDebug;
 }

@@ -159,9 +159,13 @@ export function useEquipmentFiltering(
       // Tech base filter
       if (filters.techBase.length > 0) {
         const techBase = item.tech_base;
+        // Type-safe tech base matching
+        const validTechBases: Array<'Inner Sphere' | 'Clan' | 'Both'> = ['Inner Sphere', 'Clan', 'Both'];
+        const safeTechBase = validTechBases.includes(techBase as any) ? techBase as 'Inner Sphere' | 'Clan' | 'Both' : 'Inner Sphere';
+        
         const matchesTechBase = 
-          filters.techBase.includes(techBase as any) ||
-          (filters.techBase.includes('Both') && (techBase === 'Inner Sphere' || techBase === 'Clan'));
+          filters.techBase.includes(safeTechBase) ||
+          (filters.techBase.includes('Both') && (safeTechBase === 'Inner Sphere' || safeTechBase === 'Clan'));
         
         if (!matchesTechBase) return false;
       }

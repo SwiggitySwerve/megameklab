@@ -219,10 +219,9 @@ export class CriticalSlotsManagementService {
         // Create special component content
         slotInfo.slot.content = {
           type: 'system',
-          systemComponentType: component.type.toLowerCase().replace(/[^a-z]/g, '_'),
-          name: component.type,
-          isSpecialComponent: true
-        } as any
+          isSystemReserved: true,
+          systemComponentName: component.type
+        }
         
         allocated++
       }

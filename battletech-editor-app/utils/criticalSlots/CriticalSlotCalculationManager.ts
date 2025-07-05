@@ -4,11 +4,14 @@
  * Extracted from UnitCriticalManager.ts for better organization
  */
 
-import { UnitConfiguration } from './UnitCriticalManagerTypes'
+import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { ComponentTypeManager } from './ComponentTypeManager'
 import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
 import { getInternalStructurePoints } from '../internalStructureTable'
 import { CriticalSlotBreakdown } from '../editor/UnitCalculationService'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
+import { GyroType } from './SystemComponentRules'
+import { JumpJetType } from '../jumpJetCalculations'
 
 export interface SlotRequirementAnalysis {
   totalRequired: number
@@ -29,6 +32,16 @@ export interface SlotRequirementAnalysis {
 }
 
 export class CriticalSlotCalculationManager {
+  /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private static extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component
+    }
+    return component.type
+  }
+
   /**
    * Get critical slot requirements for armor type
    */
@@ -127,7 +140,9 @@ export class CriticalSlotCalculationManager {
     }
     
     // Gyro slots (varies by gyro type)
-    const gyroType = ComponentTypeManager.getGyroTypeString(config.gyroType as any)
+    const gyroType = ComponentTypeManager.getGyroTypeString(
+      CriticalSlotCalculationManager.extractComponentType(config.gyroType) as GyroType
+    )
     if (gyroType === 'XL') {
       totalSlots += 6 // XL gyros take 6 slots
     } else if (gyroType === 'Compact') {
@@ -138,14 +153,18 @@ export class CriticalSlotCalculationManager {
     
     // Heat sink slots (external heat sinks)
     if (config.externalHeatSinks > 0) {
-      const heatSinkType = ComponentTypeManager.getHeatSinkTypeString(config.heatSinkType as any)
+      const heatSinkType = ComponentTypeManager.getHeatSinkTypeString(
+        CriticalSlotCalculationManager.extractComponentType(config.heatSinkType) as HeatSinkType
+      )
       const slotsPerHeatSink = heatSinkType.includes('Double') ? 2 : 1
       totalSlots += config.externalHeatSinks * slotsPerHeatSink
     }
     
     // Jump jet slots
     if (config.jumpMP > 0) {
-      const jumpJetType = ComponentTypeManager.getJumpJetTypeString(config.jumpJetType as any)
+      const jumpJetType = ComponentTypeManager.getJumpJetTypeString(
+        CriticalSlotCalculationManager.extractComponentType(config.jumpJetType) as JumpJetType
+      )
       const slotsPerJumpJet = jumpJetType.includes('Improved') ? 2 : 1
       totalSlots += config.jumpMP * slotsPerJumpJet
     }

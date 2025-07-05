@@ -5,6 +5,7 @@ import { calculateStructureWeight } from './structureCalculations';
 import { calculateInternalHeatSinks } from './heatSinkCalculations';
 import { calculateArmorWeight } from './armorCalculations';
 import { calculateGyroWeight as calculateGyroWeightCentralized } from './gyroCalculations';
+import { GyroType, StructureType, EngineType, ArmorType } from '../types/systemComponents';
 
 export interface ComponentWeights {
   structure: number;
@@ -28,6 +29,27 @@ export interface ComponentCrits {
   jumpJets: number;
   enhancement: number;
   total: number;
+}
+
+// Type-safe casting functions for component enums
+function castToGyroType(gyroType: string): GyroType {
+  const validTypes: GyroType[] = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+  return validTypes.includes(gyroType as GyroType) ? gyroType as GyroType : 'Standard';
+}
+
+function castToStructureType(structureType: string): StructureType {
+  const validTypes: StructureType[] = ['Standard', 'Endo Steel', 'Endo Steel (Clan)', 'Composite', 'Reinforced', 'Industrial'];
+  return validTypes.includes(structureType as StructureType) ? structureType as StructureType : 'Standard';
+}
+
+function castToEngineType(engineType: string): EngineType {
+  const validTypes: EngineType[] = ['Standard', 'XL (IS)', 'XL (Clan)', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  return validTypes.includes(engineType as EngineType) ? engineType as EngineType : 'Standard';
+}
+
+function castToArmorType(armorType: string): ArmorType {
+  const validTypes: ArmorType[] = ['Standard', 'Ferro-Fibrous', 'Ferro-Fibrous (Clan)', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous', 'Stealth', 'Reactive', 'Reflective', 'Hardened'];
+  return validTypes.includes(armorType as ArmorType) ? armorType as ArmorType : 'Standard';
 }
 
 // Legacy structure weight calculation - now using centralized module
@@ -72,7 +94,7 @@ export interface ComponentCrits {
 
 // Calculate gyro weight based on engine rating and type
 export function calculateGyroWeight(engineRating: number, gyroType: string = 'Standard'): number {
-  return calculateGyroWeightCentralized(engineRating, gyroType as any);
+  return calculateGyroWeightCentralized(engineRating, castToGyroType(gyroType));
 }
 
 // Calculate cockpit weight based on type
@@ -167,12 +189,12 @@ export function calculateComponentWeights(unit: any): ComponentWeights {
   const enhancementType = unit.data?.myomer?.type;
   
   const weights = {
-    structure: calculateStructureWeight(tonnage, structureType as any),
-    engine: calculateEngineWeight(engineRating, tonnage, engineType as any),
+    structure: calculateStructureWeight(tonnage, castToStructureType(structureType)),
+    engine: calculateEngineWeight(engineRating, tonnage, castToEngineType(engineType)),
     gyro: calculateGyroWeight(engineRating, gyroType),
     cockpit: calculateCockpitWeight(cockpitType),
     heatSinks: calculateHeatSinkWeight(heatSinkCount, heatSinkType),
-    armor: calculateArmorWeight(armorPoints, armorType as any),
+    armor: calculateArmorWeight(armorPoints, castToArmorType(armorType)),
     jumpJets: calculateJumpJetWeight(jumpMP, tonnage, jumpType),
     enhancement: calculateEnhancementWeight(tonnage, enhancementType),
     total: 0

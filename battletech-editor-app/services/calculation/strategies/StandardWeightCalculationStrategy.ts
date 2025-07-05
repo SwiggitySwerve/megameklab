@@ -96,11 +96,94 @@ export class StandardWeightCalculationStrategy implements IWeightCalculationStra
   public readonly description = 'Standard BattleTech weight calculation strategy using official rules';
 
   async calculate(context: ICalculationContext): Promise<any> {
-    // Generic calculation method implementation
-    // Since ICalculationContext properties are unknown, provide fallback
-    const config = (context as any).config || context;
-    const equipment = (context as any).equipment || [];
-    return this.calculateTotalWeight(config, equipment);
+    // Type-safe context extraction with fallbacks
+    const calculationData = this.extractCalculationData(context);
+    return this.calculateTotalWeight(calculationData.config, calculationData.equipment);
+  }
+
+  /**
+   * Type-safe extraction of calculation data from context
+   */
+  private extractCalculationData(context: ICalculationContext): {
+    config: IUnitConfiguration;
+    equipment: IEquipmentAllocation[];
+  } {
+    const contextWithData = context as {
+      config?: IUnitConfiguration;
+      equipment?: IEquipmentAllocation[];
+    };
+
+    return {
+      config: contextWithData.config || (context as unknown as IUnitConfiguration),
+      equipment: contextWithData.equipment || []
+    };
+  }
+
+  /**
+   * Type-safe accessor for armor allocation data
+   */
+  private static getTotalArmorPoints(config: IUnitConfiguration): number {
+    const configWithArmor = config as { totalArmor?: number; armorAllocation?: any };
+    
+    if (configWithArmor.totalArmor && typeof configWithArmor.totalArmor === 'number') {
+      return configWithArmor.totalArmor;
+    }
+
+    // Calculate from armor allocation if available
+    if (configWithArmor.armorAllocation && typeof configWithArmor.armorAllocation === 'object') {
+      return Object.values(configWithArmor.armorAllocation).reduce((total: number, location: any) => {
+        if (location && typeof location === 'object') {
+          const front = (location.front || 0);
+          const rear = (location.rear || 0);
+          return total + front + rear;
+        }
+        return total;
+      }, 0);
+    }
+
+    return 0;
+  }
+
+  /**
+   * Type-safe accessor for heat sink configuration
+   */
+  private static getHeatSinkData(config: IUnitConfiguration): {
+    heatSinkType: string;
+    externalHeatSinks: number;
+  } {
+    const configWithHeatSinks = config as {
+      heatSinkType?: string;
+      externalHeatSinks?: number;
+    };
+
+    return {
+      heatSinkType: configWithHeatSinks.heatSinkType || 'Single',
+      externalHeatSinks: configWithHeatSinks.externalHeatSinks || 0
+    };
+  }
+
+  /**
+   * Type-safe accessor for jump jet data
+   */
+  private static getJumpJetCount(config: IUnitConfiguration): number {
+    const configWithJumpJets = config as { jumpJets?: number; jumpMP?: number };
+    return configWithJumpJets.jumpJets || configWithJumpJets.jumpMP || 0;
+  }
+
+  /**
+   * Type-safe accessor for equipment weight
+   */
+  private static getEquipmentWeight(item: IEquipmentAllocation): number {
+    const equipmentWithWeight = item as { weight?: number };
+    return equipmentWithWeight.weight || 1.0;
+  }
+
+  /**
+   * Type-safe accessor for equipment type
+   */
+  private static getEquipmentType(item: IEquipmentAllocation): string {
+    const equipmentWithType = item as { equipmentType?: string };
+    return equipmentWithType.equipmentType || 'Unknown';
   }
 
   private config: IWeightCalculationConfig;
@@ -386,7 +469,7 @@ export class StandardWeightCalculationStrategy implements IWeightCalculationStra
 
   private calculateArmorWeight(config: IUnitConfiguration): number {
     const armorType = config.armorType || 'Standard';
-    const armorPoints = (config as any).totalArmor || 0;
+    const armorPoints = StandardWeightCalculationStrategy.getTotalArmorPoints(config);
     const weightPerPoint = (WeightTables.ARMOR_WEIGHTS.get(armorType) || 1.0) / 16;
     return armorPoints * weightPerPoint;
   }
@@ -417,14 +500,13 @@ export class StandardWeightCalculationStrategy implements IWeightCalculationStra
   }
 
   private calculateHeatSinkWeight(config: IUnitConfiguration): number {
-    const heatSinkType = (config as any).heatSinkType || 'Single';
-    const heatSinkCount = (config as any).externalHeatSinks || 0;
-    const weightPerHeatSink = WeightTables.HEAT_SINK_WEIGHTS.get(heatSinkType) || 1.0;
-    return heatSinkCount * weightPerHeatSink;
+    const heatSinkData = StandardWeightCalculationStrategy.getHeatSinkData(config);
+    const weightPerHeatSink = WeightTables.HEAT_SINK_WEIGHTS.get(heatSinkData.heatSinkType) || 1.0;
+    return heatSinkData.externalHeatSinks * weightPerHeatSink;
   }
 
   private calculateJumpJetWeight(config: IUnitConfiguration): number {
-    const jumpJetCount = (config as any).jumpJets || 0;
+    const jumpJetCount = StandardWeightCalculationStrategy.getJumpJetCount(config);
     const tonnage = config.tonnage;
     
     // Jump jet weight depends on 'Mech tonnage
@@ -444,7 +526,7 @@ export class StandardWeightCalculationStrategy implements IWeightCalculationStra
     return equipment.reduce((total, item) => {
       // This would normally look up equipment weights from a database
       // For now, using placeholder values
-      const baseWeight = (item as any).weight || 1.0;
+      const baseWeight = StandardWeightCalculationStrategy.getEquipmentWeight(item);
       const quantity = item.quantity || 1;
       return total + (baseWeight * quantity);
     }, 0);
@@ -452,9 +534,9 @@ export class StandardWeightCalculationStrategy implements IWeightCalculationStra
 
   private calculateAmmunitionWeight(equipment: IEquipmentAllocation[]): number {
     return equipment
-      .filter(item => (item as any).equipmentType === 'Ammunition')
+      .filter(item => StandardWeightCalculationStrategy.getEquipmentType(item) === 'Ammunition')
       .reduce((total, ammo) => {
-        const weight = (ammo as any).weight || 1.0;
+        const weight = StandardWeightCalculationStrategy.getEquipmentWeight(ammo);
         const quantity = ammo.quantity || 1;
         return total + (weight * quantity);
       }, 0);

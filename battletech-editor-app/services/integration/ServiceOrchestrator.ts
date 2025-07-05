@@ -25,6 +25,7 @@ import {
   failure,
   EntityId
 } from '../../types/core';
+import { TechBase, RulesLevel, isValidTechBase, isValidRulesLevel } from '../../types/core/BaseTypes';
 
 import { ServiceRegistry } from '../core/ServiceRegistry';
 import { EquipmentService } from '../equipment/EquipmentService';
@@ -279,7 +280,7 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
    * Save unit with validation and calculation updates
    */
   async saveUnit(unitState: ICompleteUnitState): Promise<Result<boolean>> {
-    const unitId = (unitState as any).unitId || 'unknown';
+    const unitId = this.extractUnitId(unitState);
     this.log('debug', `Saving unit: ${unitId}`);
     
     try {
@@ -718,6 +719,25 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
 
   // ===== PRIVATE HELPER METHODS =====
 
+  /**
+   * Type-safe extraction of unit ID from unit state
+   */
+  private extractUnitId(unitState: ICompleteUnitState): EntityId {
+    const unitStateWithId = unitState as { unitId?: EntityId };
+    return unitStateWithId.unitId || 'unknown';
+  }
+
+  /**
+   * Type-safe extraction of unit ID from event data
+   */
+  private extractUnitIdFromEvent(event: IServiceEvent): EntityId | undefined {
+    if (event.data && typeof event.data === 'object') {
+      const eventData = event.data as { unitId?: EntityId };
+      return eventData.unitId;
+    }
+    return undefined;
+  }
+
   private async registerServices(): Promise<void> {
     // Register services with dependency injection
     this.serviceRegistry.register('EquipmentService', () => new EquipmentService());
@@ -763,7 +783,7 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
     
     // Handle events that require cross-service updates
     if (event.type.includes('equipment') && this.config.enableAutoCalculation) {
-      const unitId = (event.data as any)?.unitId;
+      const unitId = this.extractUnitIdFromEvent(event);
       if (unitId) {
         this.scheduleCalculationUpdate(unitId);
       }
@@ -837,12 +857,21 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
   private extractUnitConfiguration(unitState: ICompleteUnitState): IUnitConfiguration {
     // Extract unit configuration from complete state using safe accessors
     return {
+      id: this.safeGetString(unitState, 'id', 'unknown'),
       chassisName: this.safeGetString(unitState, 'chassisName', 'Unknown'),
       model: this.safeGetString(unitState, 'model', 'Unknown'),
       tonnage: this.safeGetNumber(unitState, 'tonnage', 50),
-      techBase: this.safeGetString(unitState, 'techBase', 'Inner Sphere') as any,
-      rulesLevel: this.safeGetString(unitState, 'rulesLevel', 'Standard') as any,
-      engineRating: this.safeGetNumber(unitState, 'engineRating', 200)
+      techBase: this.safeGetTechBase(unitState, 'techBase', 'Inner Sphere'),
+      rulesLevel: this.safeGetRulesLevel(unitState, 'rulesLevel', 'Standard'),
+      engineRating: this.safeGetNumber(unitState, 'engineRating', 200),
+      engineType: this.safeGetString(unitState, 'engineType', 'Standard'),
+      gyroType: this.safeGetString(unitState, 'gyroType', 'Standard'),
+      cockpitType: this.safeGetString(unitState, 'cockpitType', 'Standard'),
+      structureType: this.safeGetString(unitState, 'structureType', 'Standard'),
+      armorType: this.safeGetString(unitState, 'armorType', 'Standard'),
+      heatSinkType: this.safeGetString(unitState, 'heatSinkType', 'Single'),
+      jumpJetType: this.safeGetString(unitState, 'jumpJetType', 'Standard'),
+      armorAllocation: this.safeGetArmorAllocation(unitState, 'armorAllocation')
     };
   }
 
@@ -854,7 +883,7 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
   // Helper methods for safe property access
   private safeGetString(obj: unknown, key: string, defaultValue: string): string {
     if (typeof obj === 'object' && obj !== null && key in obj) {
-      const value = (obj as any)[key];
+      const value = (obj as Record<string, unknown>)[key];
       return typeof value === 'string' ? value : defaultValue;
     }
     return defaultValue;
@@ -862,7 +891,7 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
 
   private safeGetNumber(obj: unknown, key: string, defaultValue: number): number {
     if (typeof obj === 'object' && obj !== null && key in obj) {
-      const value = (obj as any)[key];
+      const value = (obj as Record<string, unknown>)[key];
       return typeof value === 'number' ? value : defaultValue;
     }
     return defaultValue;
@@ -870,10 +899,41 @@ export class ServiceOrchestrator implements IServiceOrchestrator {
 
   private safeGetArray<T>(obj: unknown, key: string, defaultValue: T[]): T[] {
     if (typeof obj === 'object' && obj !== null && key in obj) {
-      const value = (obj as any)[key];
+      const value = (obj as Record<string, unknown>)[key];
       return Array.isArray(value) ? value : defaultValue;
     }
     return defaultValue;
+  }
+
+  private safeGetTechBase(obj: unknown, key: string, defaultValue: string): TechBase {
+    const techBaseValue = this.safeGetString(obj, key, defaultValue);
+    // Use type guard to ensure valid enum value
+    if (isValidTechBase(techBaseValue)) {
+      return techBaseValue;
+    }
+    // Return a valid enum value as fallback
+    return defaultValue === 'Clan' ? TechBase.CLAN : TechBase.INNER_SPHERE;
+  }
+
+  private safeGetRulesLevel(obj: unknown, key: string, defaultValue: string): RulesLevel {
+    const rulesLevelValue = this.safeGetString(obj, key, defaultValue);
+    // Use type guard to ensure valid enum value
+    if (isValidRulesLevel(rulesLevelValue)) {
+      return rulesLevelValue;
+    }
+    // Return a valid enum value as fallback
+    return defaultValue === 'Advanced' ? RulesLevel.ADVANCED : 
+           defaultValue === 'Experimental' ? RulesLevel.EXPERIMENTAL :
+           defaultValue === 'Introductory' ? RulesLevel.INTRODUCTORY :
+           RulesLevel.STANDARD;
+  }
+
+  private safeGetArmorAllocation(obj: unknown, key: string): any {
+    if (typeof obj === 'object' && obj !== null && key in obj) {
+      const value = (obj as Record<string, unknown>)[key];
+      return value || {};
+    }
+    return {};
   }
 
   private async updateUnitWithEquipment(unitId: EntityId, allocation: IEquipmentAllocation): Promise<void> {

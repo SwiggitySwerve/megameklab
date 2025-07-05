@@ -215,13 +215,15 @@ export class CalculationUtilitiesManager {
       value: totalHeat,
       unit: 'heat points',
       formula: 'Total Heat = Sum of all equipment heat values',
-      inputs: { equipmentCount: eqArr.length },
-      totalHeat,
-      weaponHeat,
-      engineHeat,
-      componentHeat,
-      heatByLocation: { RA: weaponHeat * 0.5, RT: weaponHeat * 0.3, LA: weaponHeat * 0.2 }
-    } as any;
+      inputs: { 
+        equipmentCount: eqArr.length,
+        totalHeat,
+        weaponHeat,
+        engineHeat,
+        componentHeat,
+        heatByLocation: { RA: weaponHeat * 0.5, RT: weaponHeat * 0.3, LA: weaponHeat * 0.2 }
+      }
+    };
   }
 
   /**
@@ -241,13 +243,15 @@ export class CalculationUtilitiesManager {
       value: totalDissipation,
       unit: 'heat points',
       formula: `Heat Dissipation = Heat Sinks × ${dissipationPerSink} (${heatSinkTypeStr})`,
-      inputs: { heatSinks, heatSinkType: heatSinkTypeStr },
-      totalDissipation,
-      engineHeatSinks: Math.floor(heatSinks * 0.6),
-      externalHeatSinks: Math.ceil(heatSinks * 0.4),
-      heatSinkType: heatSinkTypeStr,
-      efficiency: 85
-    } as any;
+      inputs: { 
+        heatSinks, 
+        heatSinkType: heatSinkTypeStr,
+        totalDissipation,
+        engineHeatSinks: Math.floor(heatSinks * 0.6),
+        externalHeatSinks: Math.ceil(heatSinks * 0.4),
+        efficiency: 85
+      }
+    };
   }
 
   /**
@@ -736,18 +740,21 @@ export class CalculationUtilitiesManager {
    * Analyze heat management (stub for test compatibility)
    */
   analyzeHeatManagement(config: UnitConfiguration, equipment: any[]): any {
-    const heatGeneration = this.calculateHeatGeneration(equipment) as any;
-    const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType) as any;
+    const heatGeneration = this.calculateHeatGeneration(equipment);
+    const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType);
+    
+    const heatGenTotal = heatGeneration.inputs.totalHeat || heatGeneration.value;
+    const heatDissTotal = heatDissipation.inputs.totalDissipation || heatDissipation.value;
     
     return {
-      heatGeneration: heatGeneration.totalHeat,
-      heatDissipation: heatDissipation.totalDissipation,
-      heatBalance: heatDissipation.totalDissipation - heatGeneration.totalHeat,
-      heatDeficit: Math.max(0, heatGeneration.totalHeat - heatDissipation.totalDissipation),
-      heatSurplus: Math.max(0, heatDissipation.totalDissipation - heatGeneration.totalHeat),
-      minimumHeatSinks: Math.ceil(heatGeneration.totalHeat / 1),
+      heatGeneration: heatGenTotal,
+      heatDissipation: heatDissTotal,
+      heatBalance: heatDissTotal - heatGenTotal,
+      heatDeficit: Math.max(0, heatGenTotal - heatDissTotal),
+      heatSurplus: Math.max(0, heatDissTotal - heatGenTotal),
+      minimumHeatSinks: Math.ceil(heatGenTotal / 1),
       actualHeatSinks: config.totalHeatSinks,
-      efficiency: heatGeneration.totalHeat > 0 ? Math.min(100, (heatDissipation.totalDissipation / heatGeneration.totalHeat) * 100) : 100,
+      efficiency: heatGenTotal > 0 ? Math.min(100, (heatDissTotal / heatGenTotal) * 100) : 100,
       recommendations: ['Optimize heat management']
     };
   }
@@ -756,15 +763,18 @@ export class CalculationUtilitiesManager {
    * Calculate heat efficiency (stub for test compatibility)
    */
   calculateHeatEfficiency(config: UnitConfiguration, equipment: any[]): any {
-    const heatGeneration = this.calculateHeatGeneration(equipment) as any;
-    const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType) as any;
+    const heatGeneration = this.calculateHeatGeneration(equipment);
+    const heatDissipation = this.calculateHeatDissipation(config.totalHeatSinks, config.heatSinkType);
+    
+    const heatGenTotal = heatGeneration.inputs.totalHeat || heatGeneration.value;
+    const heatDissTotal = heatDissipation.inputs.totalDissipation || heatDissipation.value;
     
     return {
-      efficiency: heatGeneration.totalHeat > 0 ? Math.min(100, (heatDissipation.totalDissipation / heatGeneration.totalHeat) * 100) : 100,
-      heatGeneration: heatGeneration.totalHeat,
-      heatDissipation: heatDissipation.totalDissipation,
-      heatBalance: heatDissipation.totalDissipation - heatGeneration.totalHeat,
-      waste: Math.max(0, heatDissipation.totalDissipation - heatGeneration.totalHeat),
+      efficiency: heatGenTotal > 0 ? Math.min(100, (heatDissTotal / heatGenTotal) * 100) : 100,
+      heatGeneration: heatGenTotal,
+      heatDissipation: heatDissTotal,
+      heatBalance: heatDissTotal - heatGenTotal,
+      waste: Math.max(0, heatDissTotal - heatGenTotal),
       optimization: 10,
       recommendations: ['Optimize heat management']
     };

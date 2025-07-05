@@ -347,8 +347,22 @@ export class ArmorRulesValidator {
       
       // Calculate front/rear distribution (simplified)
       if (location.includes('Torso') && config.armorAllocation) {
-        const locationArmor = (config.armorAllocation as any)[location];
-        if (locationArmor && typeof locationArmor === 'object') {
+        // Type-safe access to armor allocation using known location keys
+        let locationArmor: { front: number; rear: number } | undefined;
+        
+        switch (location) {
+          case 'centerTorso':
+            locationArmor = config.armorAllocation.CT;
+            break;
+          case 'leftTorso':
+            locationArmor = config.armorAllocation.LT;
+            break;
+          case 'rightTorso':
+            locationArmor = config.armorAllocation.RT;
+            break;
+        }
+        
+        if (locationArmor) {
           frontArmor += locationArmor.front || 0;
           rearArmor += locationArmor.rear || 0;
         } else {

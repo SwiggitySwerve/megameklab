@@ -641,10 +641,16 @@ export class UnitConfigurationService {
   }
   
   private validateTechBaseConsistency(config: UnitConfiguration, result: ConfigurationValidationResult): void {
-    // Check for tech base consistency
-    const clanTech = ['Clan XL', 'Clan Light'].includes(config.engineType) ||
-                    ['Ferro-Fibrous (Clan)', 'Endo Steel (Clan)'].includes(config.structureType as any) ||
-                    ['Double (Clan)'].includes(config.heatSinkType);
+    // Check for tech base consistency with type-safe validation
+    const clanEngineTypes: EngineType[] = ['Clan XL', 'Clan Light'];
+    const clanStructureTypes: StructureType[] = ['Endo Steel (Clan)'];
+    const clanArmorTypes: ArmorType[] = ['Ferro-Fibrous (Clan)'];
+    const clanHeatSinkTypes: HeatSinkType[] = ['Double (Clan)'];
+    
+    const clanTech = clanEngineTypes.includes(config.engineType) ||
+                    clanStructureTypes.includes(config.structureType) ||
+                    clanArmorTypes.includes(config.armorType) ||
+                    clanHeatSinkTypes.includes(config.heatSinkType);
     
     if (clanTech && config.techBase !== 'Clan') {
       result.warnings.push('Unit uses Clan technology but tech base is Inner Sphere');

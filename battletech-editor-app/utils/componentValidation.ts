@@ -269,27 +269,29 @@ export function migrateUnitToSystemComponents(
       const locationSlots = criticalAllocations[location];
       if (!locationSlots) return;
       
-      (slots as any[]).forEach((slot, index) => {
-        if (locationSlots[index]) {
-          // Handle both old and new formats
-          const slotName = slot.name || slot.content || '-Empty-';
-          const slotType = slot.type || slot.contentType || 'empty';
-          
-          // Convert empty indicators to standard format
-          if (slotName === '-Empty-' || slotName === '- Empty -' || slotName === '' || slotName === null) {
-            locationSlots[index].name = '-Empty-';
-            locationSlots[index].type = 'empty';
-          } else if (slotName && locationSlots[index].type === 'empty') {
-            // Preserve non-empty content
-            locationSlots[index] = {
-              ...locationSlots[index],
-              name: slotName,
-              type: slotType === 'empty' ? 'equipment' : slotType,
-              isFixed: slot.isFixed || false,
-              isManuallyPlaced: slot.isManuallyPlaced !== undefined ? slot.isManuallyPlaced : true
-            };
+      // Type-safe array iteration
+      const slotsArray = Array.isArray(slots) ? slots : [];
+      slotsArray.forEach((slot, index) => {
+                            if (locationSlots[index]) {
+            // Handle both old and new formats with type-safe property access
+            const slotRecord = slot as unknown as Record<string, unknown>;
+            const slotName = String(slotRecord.name || slotRecord.content || '-Empty-');
+            
+            // Convert empty indicators to standard format
+            if (slotName === '-Empty-' || slotName === '- Empty -' || slotName === '' || slotName === 'null') {
+              locationSlots[index].name = '-Empty-';
+              locationSlots[index].type = 'empty';
+            } else if (slotName && locationSlots[index].type === 'empty') {
+              // Preserve non-empty content - use safe defaults
+              locationSlots[index] = {
+                ...locationSlots[index],
+                name: slotName,
+                type: 'equipment', // Safe default type
+                isFixed: Boolean(slotRecord.isFixed) || false,
+                isManuallyPlaced: slotRecord.isManuallyPlaced !== undefined ? Boolean(slotRecord.isManuallyPlaced) : true
+              };
+            }
           }
-        }
       });
     });
   }

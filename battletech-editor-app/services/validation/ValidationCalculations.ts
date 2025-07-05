@@ -9,6 +9,18 @@ import { ComponentConfiguration } from '../../types/componentConfiguration';
 import { getTotalInternalStructure } from '../../utils/internalStructureTable';
 import { calculateGyroWeight } from '../../utils/gyroCalculations';
 import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
+import { EngineType, GyroType } from '../../types/systemComponents';
+
+// Type-safe casting functions
+function castToEngineType(engineType: string): EngineType {
+  const validTypes: EngineType[] = ['Standard', 'XL (IS)', 'XL (Clan)', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell'];
+  return validTypes.includes(engineType as EngineType) ? engineType as EngineType : 'Standard';
+}
+
+function castToGyroType(gyroType: string): GyroType {
+  const validTypes: GyroType[] = ['Standard', 'XL', 'Compact', 'Heavy-Duty'];
+  return validTypes.includes(gyroType as GyroType) ? gyroType as GyroType : 'Standard';
+}
 
 export const ValidationCalculations = {
   extractComponentType(component: ComponentConfiguration | string): string {
@@ -79,11 +91,11 @@ export const ValidationCalculations = {
 
   calculateEngineWeight(engineRating: number, engineType: string): number {
     const { calculateEngineWeight } = require('../../utils/engineCalculations');
-    return calculateEngineWeight(engineRating, 100, engineType as any);
+    return calculateEngineWeight(engineRating, 100, castToEngineType(engineType));
   },
 
   calculateGyroWeight(engineRating: number, gyroType: string): number {
-    return calculateGyroWeight(engineRating, gyroType as any);
+    return calculateGyroWeight(engineRating, castToGyroType(gyroType));
   },
 
   calculateCockpitWeight(cockpitType: string): number {

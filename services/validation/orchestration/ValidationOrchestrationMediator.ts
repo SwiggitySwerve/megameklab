@@ -457,7 +457,20 @@ export class ValidationOrchestrationMediator implements ValidationMediator {
   private notifyObservers(method: keyof ValidationObserver, ...args: any[]): void {
     this.observers.forEach(observer => {
       try {
-        (observer[method] as any)(...args)
+        // Type-safe observer method invocation
+        switch (method) {
+          case 'onValidationStart':
+            observer.onValidationStart(args[0] as string)
+            break
+          case 'onValidationComplete':
+            observer.onValidationComplete(args[0] as string, args[1] as ValidationResult)
+            break
+          case 'onValidationError':
+            observer.onValidationError(args[0] as string, args[1] as Error)
+            break
+          default:
+            console.warn('Unknown observer method:', method)
+        }
       } catch (error) {
         console.warn('Observer notification failed:', error)
       }

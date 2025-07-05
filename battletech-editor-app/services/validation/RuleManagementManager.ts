@@ -680,8 +680,9 @@ export class RuleManagementManager {
    */
   private validateEraRestrictions(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
     equipment = equipment || [];
-    // Simplified era validation
-    const era = (config as any).era || 'Succession Wars';
+    // Simplified era validation - type-safe era property access
+    const configWithEra = config as UnitConfiguration & { era?: string };
+    const era = configWithEra.era || 'Succession Wars';
     const hasAdvancedEquipment = equipment.some(item => item.era && item.era !== 'Succession Wars');
     const compliant = !hasAdvancedEquipment || era !== 'Succession Wars';
 
@@ -753,7 +754,9 @@ export class RuleManagementManager {
     const armorWeight = this.calculateArmorWeight(this.calculateMaxArmor(config.tonnage), this.extractComponentType(config.armorType));
     const engineWeight = this.calculateEngineWeight(config.engineRating, this.extractComponentType(config.engineType));
     const gyroWeight = this.calculateGyroWeight(config.engineRating, this.extractComponentType(config.gyroType));
-    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType((config as any).cockpitType || 'Standard'));
+    // Type-safe cockpit type access
+    const configWithCockpit = config as UnitConfiguration & { cockpitType?: string };
+    const cockpitWeight = this.calculateCockpitWeight(this.extractComponentType(configWithCockpit.cockpitType || 'Standard'));
     const equipmentWeight = equipment.reduce((sum, item) => sum + (item.weight || 0), 0);
     const total = structureWeight + armorWeight + engineWeight + gyroWeight + cockpitWeight + equipmentWeight;
     return total;
@@ -824,7 +827,10 @@ export class RuleManagementManager {
    */
   private calculateEngineWeight(engineRating: number, engineType: string): number {
     const { calculateEngineWeight } = require('../../utils/engineCalculations');
-    return calculateEngineWeight(engineRating, 100, engineType as any);
+    // Type-safe engine type validation with fallback
+    const validEngineTypes = ['Standard', 'XL', 'Light', 'Compact', 'XXL', 'ICE', 'Fuel Cell'];
+    const safeEngineType = validEngineTypes.includes(engineType) ? engineType : 'Standard';
+    return calculateEngineWeight(engineRating, 100, safeEngineType);
   }
 
   /**

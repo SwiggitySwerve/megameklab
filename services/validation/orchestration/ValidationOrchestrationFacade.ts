@@ -269,6 +269,13 @@ export class ValidationOrchestrationFacade {
   // ===== PRIVATE HELPER METHODS =====
 
   /**
+   * Type-safe dictionary lookup with fallback
+   */
+  private safeLookup<T>(dictionary: Record<string, T>, key: string, defaultValue: T): T {
+    return dictionary[key] !== undefined ? dictionary[key] : defaultValue;
+  }
+
+  /**
    * Create validation recommendation from string
    */
   private createRecommendation(
@@ -310,13 +317,13 @@ export class ValidationOrchestrationFacade {
    * Estimate impact based on priority and category
    */
   private estimateImpact(priority: string, category: string): number {
-    const priorityMultiplier = {
+    const priorityMultiplier: Record<string, number> = {
       'high': 80,
       'medium': 50,
       'low': 20
     }
 
-    const categoryMultiplier = {
+    const categoryMultiplier: Record<string, number> = {
       'weight': 1.0,
       'heat': 1.0,
       'critical_slots': 0.9,
@@ -328,8 +335,8 @@ export class ValidationOrchestrationFacade {
       'tech_level': 0.3
     }
 
-    const basePriority = (priorityMultiplier as any)[priority] || 50
-    const categoryFactor = (categoryMultiplier as any)[category] || 0.5
+    const basePriority = this.safeLookup(priorityMultiplier, priority, 50)
+    const categoryFactor = this.safeLookup(categoryMultiplier, category, 0.5)
 
     return Math.round(basePriority * categoryFactor)
   }
@@ -354,7 +361,7 @@ export class ValidationOrchestrationFacade {
    * Generate benefit description
    */
   private generateBenefit(category: string, description: string): string {
-    const benefits = {
+    const benefits: Record<string, string> = {
       'weight': 'Improves weight efficiency and component allocation',
       'heat': 'Enhances thermal management and sustained performance',
       'movement': 'Optimizes mobility and tactical options',
@@ -366,7 +373,7 @@ export class ValidationOrchestrationFacade {
       'tech_level': 'Ensures era compliance and availability'
     }
 
-    return (benefits as any)[category] || 'Improves overall configuration quality'
+    return this.safeLookup(benefits, category, 'Improves overall configuration quality')
   }
 }
 

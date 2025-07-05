@@ -1,33 +1,40 @@
 /**
- * ValidationManager
+ * ValidationManager - Comprehensive validation service for BattleTech units
+ * 
  * Handles validation logic, error handling, and compliance checking for BattleTech units.
+ * Implements SOLID principles with proper type safety and dependency injection support.
  */
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
+import { 
+  IValidationManager,
+  ValidationResult,
+  ValidationError,
+  WeightValidationResult,
+  HeatValidationResult,
+  MovementValidationResult,
+  EquipmentValidationResult,
+  WeaponValidationResult,
+  AmmoValidationResult,
+  CriticalSlotValidationResult,
+  TechLevelValidationResult,
+  MixedTechValidationResult,
+  EraValidationResult,
+  WeightDistributionResult,
+  HeatBalanceResult,
+  EquipmentCompatibilityResult,
+  ComplianceReport,
+  ComplianceScore,
+  ValidationSummary,
+  EquipmentItem,
+  AmmoBalanceCheck,
+  WeightDistribution,
+  MixedTechCheck,
+  isValidUnitConfiguration,
+  isValidEquipmentArray
+} from './IValidationManager';
 
-export interface ValidationResult {
-  isValid: boolean;
-  errors: ValidationError[];
-  warnings: ValidationError[];
-  score: number;
-}
-
-export interface ValidationError {
-  type: string;
-  message: string;
-  severity: 'error' | 'warning' | 'info';
-  field: string;
-}
-
-export interface ComplianceReport {
-  overallCompliance: number;
-  ruleCompliance: any[];
-  violationSummary: any[];
-  recommendationSummary: any[];
-  complianceMetrics: any;
-}
-
-export class ValidationManager {
+export class ValidationManager implements IValidationManager {
   constructor() {}
 
   /**
@@ -82,7 +89,15 @@ export class ValidationManager {
   /**
    * Validate weight limits
    */
-  validateWeightLimits(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateWeightLimits(config: UnitConfiguration, equipment: EquipmentItem[]): WeightValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -130,13 +145,21 @@ export class ValidationManager {
       totalWeight,
       maxWeight,
       overweight
-    } as any;
+    };
   }
 
   /**
    * Validate heat management
    */
-  validateHeatManagement(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateHeatManagement(config: UnitConfiguration, equipment: EquipmentItem[]): HeatValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -173,13 +196,18 @@ export class ValidationManager {
       heatGeneration,
       heatDissipation,
       heatDeficit
-    } as any;
+    };
   }
 
   /**
    * Validate movement rules
    */
-  validateMovementRules(config: UnitConfiguration): ValidationResult {
+  validateMovementRules(config: UnitConfiguration): MovementValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -226,13 +254,21 @@ export class ValidationManager {
       walkMP,
       runMP,
       jumpMP
-    } as any;
+    };
   }
 
   /**
    * Validate equipment loadout
    */
-  validateEquipmentLoadout(equipment: any[], config: UnitConfiguration): ValidationResult {
+  validateEquipmentLoadout(equipment: EquipmentItem[], config: UnitConfiguration): EquipmentValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -269,13 +305,21 @@ export class ValidationManager {
       weapons,
       ammunition,
       heatSinks
-    } as any;
+    };
   }
 
   /**
    * Validate weapon rules
    */
-  validateWeaponRules(equipment: any[], config: UnitConfiguration): ValidationResult {
+  validateWeaponRules(equipment: EquipmentItem[], config: UnitConfiguration): WeaponValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -313,13 +357,21 @@ export class ValidationManager {
       weaponCount,
       totalWeaponWeight,
       heatGeneration
-    } as any;
+    };
   }
 
   /**
    * Validate ammunition rules
    */
-  validateAmmoRules(equipment: any[], config: UnitConfiguration): ValidationResult {
+  validateAmmoRules(equipment: EquipmentItem[], config: UnitConfiguration): AmmoValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -332,7 +384,7 @@ export class ValidationManager {
       turns: 10,
       adequate: true
     }));
-    const caseProtection = ammunition.filter(ammo => ammo.explosive).map(ammo => ammo.location);
+    const caseProtection = ammunition.filter(ammo => ammo.explosive).map(ammo => ammo.location || 'Unknown');
 
     if (totalAmmoWeight > config.tonnage * 0.1) {
       warnings.push({
@@ -352,13 +404,21 @@ export class ValidationManager {
       totalAmmoWeight,
       ammoBalance,
       caseProtection
-    } as any;
+    };
   }
 
   /**
    * Validate critical slot rules
    */
-  validateCriticalSlotRules(equipment: any[], config: UnitConfiguration): ValidationResult {
+  validateCriticalSlotRules(equipment: EquipmentItem[], config: UnitConfiguration): CriticalSlotValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -395,13 +455,21 @@ export class ValidationManager {
       usedSlots,
       availableSlots,
       slotDeficit
-    } as any;
+    };
   }
 
   /**
    * Validate tech level
    */
-  validateTechLevel(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateTechLevel(config: UnitConfiguration, equipment: EquipmentItem[]): TechLevelValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -429,13 +497,21 @@ export class ValidationManager {
       unitTechLevel,
       unitTechBase,
       era
-    } as any;
+    };
   }
 
   /**
    * Validate mixed tech
    */
-  validateMixedTech(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateMixedTech(config: UnitConfiguration, equipment: EquipmentItem[]): MixedTechValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -465,13 +541,21 @@ export class ValidationManager {
       innerSphereComponents,
       clanComponents,
       allowedMixed
-    } as any;
+    };
   }
 
   /**
    * Validate era restrictions
    */
-  validateEraRestrictions(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateEraRestrictions(config: UnitConfiguration, equipment: EquipmentItem[]): EraValidationResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -496,7 +580,7 @@ export class ValidationManager {
       score: Math.max(0, score),
       era,
       invalidComponents
-    } as any;
+    };
   }
 
   /**
@@ -618,7 +702,15 @@ export class ValidationManager {
   /**
    * Validate weight distribution
    */
-  validateWeightDistribution(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateWeightDistribution(config: UnitConfiguration, equipment: EquipmentItem[]): WeightDistributionResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -643,13 +735,21 @@ export class ValidationManager {
       score: Math.max(0, score),
       distribution,
       balance
-    } as any;
+    };
   }
 
   /**
    * Validate heat balance
    */
-  validateHeatBalance(config: UnitConfiguration, equipment: any[]): ValidationResult {
+  validateHeatBalance(config: UnitConfiguration, equipment: EquipmentItem[]): HeatBalanceResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
@@ -676,48 +776,56 @@ export class ValidationManager {
       heatGeneration,
       heatDissipation,
       balance
-    } as any;
+    };
   }
 
   /**
    * Validate equipment compatibility
    */
-  validateEquipmentCompatibility(equipment: any[], config: UnitConfiguration): ValidationResult {
+  validateEquipmentCompatibility(equipment: EquipmentItem[], config: UnitConfiguration): EquipmentCompatibilityResult {
+    // Type safety validation
+    if (!isValidUnitConfiguration(config)) {
+      throw new Error('Invalid unit configuration provided');
+    }
+    if (!isValidEquipmentArray(equipment)) {
+      throw new Error('Invalid equipment array provided');
+    }
+
     const errors: ValidationError[] = [];
     const warnings: ValidationError[] = [];
     let score = 100;
 
-    const compatibleEquipment = equipment.filter(eq => this.isCompatible(eq, config));
-    const incompatibleEquipment = equipment.filter(eq => !this.isCompatible(eq, config));
+    const compatibleItems = equipment.filter(eq => this.isCompatible(eq, config));
+    const incompatibleItems = equipment.filter(eq => !this.isCompatible(eq, config));
 
-    if (incompatibleEquipment.length > 0) {
+    if (incompatibleItems.length > 0) {
       errors.push({
         type: 'compatibility',
-        message: `${incompatibleEquipment.length} incompatible components`,
+        message: `${incompatibleItems.length} incompatible components`,
         severity: 'error',
         field: 'compatibility'
       });
-      score -= incompatibleEquipment.length * 5;
+      score -= incompatibleItems.length * 5;
     }
 
     return {
-      isValid: incompatibleEquipment.length === 0,
+      isValid: incompatibleItems.length === 0,
       errors,
       warnings,
       score: Math.max(0, score),
-      compatibleEquipment,
-      incompatibleEquipment
-    } as any;
+      compatibleItems,
+      incompatibleItems
+    };
   }
 
   // Helper methods
-  private calculateTotalWeight(config: UnitConfiguration, equipment: any[]): number {
+  private calculateTotalWeight(config: UnitConfiguration, equipment: EquipmentItem[]): number {
     const componentWeight = config.tonnage * 0.6; // Simplified
     const equipmentWeight = equipment.reduce((sum, eq) => sum + (eq.weight || 0), 0);
     return componentWeight + equipmentWeight;
   }
 
-  private calculateHeatGeneration(equipment: any[]): number {
+  private calculateHeatGeneration(equipment: EquipmentItem[]): number {
     return equipment.reduce((sum, eq) => sum + (eq.heat || 0), 0);
   }
 
@@ -729,7 +837,7 @@ export class ValidationManager {
     return config.tonnage * 2; // Simplified calculation
   }
 
-  private checkMixedTech(equipment: any[]): any {
+  private checkMixedTech(equipment: EquipmentItem[]): MixedTechInfo {
     const innerSphereComponents = equipment.filter(eq => eq.techBase === 'Inner Sphere').length;
     const clanComponents = equipment.filter(eq => eq.techBase === 'Clan').length;
     const isMixed = innerSphereComponents > 0 && clanComponents > 0;
@@ -743,7 +851,7 @@ export class ValidationManager {
     };
   }
 
-  private calculateWeightDistribution(config: UnitConfiguration, equipment: any[]): any {
+  private calculateWeightDistribution(config: UnitConfiguration, equipment: EquipmentItem[]): WeightDistribution {
     return {
       engine: config.tonnage * 0.3,
       structure: config.tonnage * 0.1,
@@ -752,12 +860,12 @@ export class ValidationManager {
     };
   }
 
-  private calculateWeightBalance(distribution: any): number {
-    const total = Object.values(distribution).reduce((sum: number, val: any) => sum + val, 0);
-    return total > 0 ? Math.min(...Object.values(distribution) as number[]) / total : 0;
+  private calculateWeightBalance(distribution: WeightDistribution): number {
+    const total = Object.values(distribution).reduce((sum: number, val: number) => sum + val, 0);
+    return total > 0 ? Math.min(...Object.values(distribution)) / total : 0;
   }
 
-  private isCompatible(equipment: any, config: UnitConfiguration): boolean {
+  private isCompatible(equipment: EquipmentItem, config: UnitConfiguration): boolean {
     return equipment.techBase === config.techBase || !equipment.techBase;
   }
 } 

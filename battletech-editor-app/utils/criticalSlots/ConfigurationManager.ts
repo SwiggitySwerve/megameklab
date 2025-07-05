@@ -8,6 +8,7 @@ import { UnitConfiguration, LegacyUnitConfiguration } from './UnitCriticalManage
 import { UnitConfigurationBuilder } from './UnitConfigurationBuilder'
 import { SystemComponentRules } from './SystemComponentRules'
 import { getInternalStructurePoints } from '../internalStructureTable'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export interface ConfigurationChangeResult {
   success: boolean
@@ -38,6 +39,16 @@ export class ConfigurationManager {
     // Initialize ArmorManagementManager for armor validation
     const { ArmorManagementManager } = require('./ArmorManagementManager')
     this.armorManagementManager = new ArmorManagementManager(this.configuration)
+  }
+
+  /**
+   * Extract type string from ComponentConfiguration or return string as-is
+   */
+  private static extractComponentType(component: ComponentConfiguration | string): string {
+    if (typeof component === 'string') {
+      return component
+    }
+    return component.type
   }
 
   /**
@@ -191,19 +202,13 @@ export class ConfigurationManager {
    * Get engine type
    */
   getEngineType(): string {
-    const engineType = this.configuration.engineType
-    return typeof engineType === 'string' 
-      ? engineType 
-      : (engineType as any).type || 'Standard'
+    return ConfigurationManager.extractComponentType(this.configuration.engineType) || 'Standard'
   }
 
   /**
    * Get gyro type
    */
   getGyroType(): string {
-    const gyroType = this.configuration.gyroType
-    return typeof gyroType === 'string' 
-      ? gyroType 
-      : (gyroType as any).type || 'Standard'
+    return ConfigurationManager.extractComponentType(this.configuration.gyroType) || 'Standard'
   }
 } 

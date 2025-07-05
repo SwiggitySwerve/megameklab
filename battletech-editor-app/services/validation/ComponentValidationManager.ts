@@ -7,6 +7,7 @@
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
 import { ComponentConfiguration } from '../../types/componentConfiguration'
 import { calculateGyroWeight } from '../../utils/gyroCalculations';
+import { GyroType } from '../../types/systemComponents';
 
 export interface EngineValidation {
   isValid: boolean
@@ -439,7 +440,13 @@ export class ComponentValidationManager {
    * Calculate gyro weight based on engine rating and type
    */
   private calculateGyroWeight(engineRating: number, gyroType: string): number {
-    return calculateGyroWeight(engineRating, gyroType as any);
+    // Validate gyro type and provide safe fallback
+    const validGyroTypes: GyroType[] = ['Standard', 'Compact', 'Heavy-Duty', 'XL'];
+    const safeGyroType = validGyroTypes.includes(gyroType as GyroType) 
+      ? gyroType as GyroType 
+      : 'Standard';
+    
+    return calculateGyroWeight(engineRating, safeGyroType);
   }
   
   /**

@@ -77,9 +77,12 @@ export class UnitStateManagerImpl implements UnitStateManager {
     
     // Compare states excluding timestamp for meaningful changes
     const currentStateWithoutTimestamp = { ...this.currentState };
-    delete (currentStateWithoutTimestamp as any).timestamp;
+    const currentWithoutTimestamp = currentStateWithoutTimestamp as Omit<UnitData, 'timestamp'> & { timestamp?: number };
+    delete currentWithoutTimestamp.timestamp;
+    
     const newStateWithoutTimestamp = { ...newState };
-    delete (newStateWithoutTimestamp as any).timestamp;
+    const newWithoutTimestamp = newStateWithoutTimestamp as Omit<UnitData, 'timestamp'> & { timestamp?: number };
+    delete newWithoutTimestamp.timestamp;
     
     const hasActualChanges = !this.deepEqual(currentStateWithoutTimestamp, newStateWithoutTimestamp);
     
@@ -292,9 +295,11 @@ export class UnitStateManagerImpl implements UnitStateManager {
     }
     
     // Validate required configuration fields
-    const requiredFields = ['tonnage', 'engineType', 'gyroType', 'structureType', 'armorType'];
+    const requiredFields = ['tonnage', 'engineType', 'gyroType', 'structureType', 'armorType'] as const;
     for (const field of requiredFields) {
-      const value = (state.configuration as any)[field];
+      // Type-safe property access using proper conversion
+      const config = state.configuration as unknown as Record<string, unknown>;
+      const value = config[field];
       if (value === undefined || value === null) {
         result.errors.push(`Missing required configuration field: ${field}`);
         result.isValid = false;

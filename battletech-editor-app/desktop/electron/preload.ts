@@ -204,10 +204,18 @@ declare global {
   }
 }
 
-// Remove Node.js globals from the window object
-delete (window as any).global;
-delete (window as any).process;
-delete (window as any).Buffer;
+// Security hardening: Remove Node.js globals from the window object
+// Type-safe window cleanup for Electron security
+interface NodeWindow extends Window {
+  global?: any;
+  process?: any;
+  Buffer?: any;
+}
+
+const nodeWindow = window as NodeWindow;
+delete nodeWindow.global;
+delete nodeWindow.process;
+delete nodeWindow.Buffer;
 
 // Log preload script loaded
 console.log('🔌 BattleTech Editor preload script loaded');

@@ -223,8 +223,9 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
   const armorTypeString = typeof armorType === 'object' ? armorType.type : armorType
   const armorTonnage = calculateArmorTonnageFromAllocation(armorAllocation, armorTypeString)
   
-  // Determine tech base string
-  const techBase = legacyData.tech_base || 'Inner Sphere'
+  // Determine tech base with type safety
+  const rawTechBase = legacyData.tech_base || 'Inner Sphere'
+  const techBase: 'Inner Sphere' | 'Clan' = rawTechBase.includes('Clan') ? 'Clan' : 'Inner Sphere'
   
   // Build configuration
   const config: UnitConfiguration = {
@@ -233,7 +234,7 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
     model,
     tonnage,
     unitType: 'BattleMech',
-    techBase: techBase as any,
+    techBase: techBase,
     
     // Movement
     walkMP,
@@ -417,10 +418,13 @@ function parseArmorAllocation(locations?: any[], tonnage: number = 50): any {
       const isRear = location.location.includes('(Rear)')
       const armorPoints = location.armor_points || 0
       
+      // Type-safe armor allocation access
+      const locationData = allocation[locationKey as keyof typeof allocation]
+      
       if (isRear) {
-        (allocation as any)[locationKey].rear = armorPoints
+        locationData.rear = armorPoints
       } else {
-        (allocation as any)[locationKey].front = armorPoints
+        locationData.front = armorPoints
       }
     }
   })
