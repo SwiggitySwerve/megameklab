@@ -101,10 +101,11 @@ export const HEAT_SINK_CRITICAL_SLOTS = {
 export const HEAT_SINK_WEIGHT = 1;
 
 /**
- * Minimum heat sink requirements
- * Rule: Minimum = 10 OR number of heat-generating weapons, whichever is higher
+ * Minimum heat sink requirements for total mech heat sinks
+ * Rule: Minimum = 10 total heat sinks OR number of heat-generating weapons, whichever is higher
+ * NOTE: This is different from engine heat sinks which have NO minimum
  */
-export function calculateMinimumHeatSinks(heatGeneratingWeapons: number): number {
+export function calculateMinimumTotalHeatSinks(heatGeneratingWeapons: number): number {
   return Math.max(10, heatGeneratingWeapons);
 }
 

@@ -179,8 +179,9 @@ export class ConfigurationValidationCommand extends BaseValidationCommand {
     
     // Calculate heat generation from equipment
     const heatGeneration = equipment.reduce((sum, eq) => sum + (eq.equipmentData?.heat || 0), 0)
+    const heatGeneratingWeapons = equipment.filter(eq => (eq.equipmentData?.heat || 0) > 0).length
     
-    // Calculate heat sinks
+    // Calculate heat sinks - Official BattleTech rule: Engine Rating ÷ 25 (rounded down), NO MINIMUM
     const engineHeatSinks = Math.floor(engineRating / 25)
     const externalHeatSinks = equipment.filter(eq => 
       eq.equipmentData?.type === 'heat_sink' && !eq.engineMounted
@@ -188,16 +189,18 @@ export class ConfigurationValidationCommand extends BaseValidationCommand {
     
     const totalHeatSinks = engineHeatSinks + externalHeatSinks
     const heatDissipation = heatSinkType.includes('Double') ? totalHeatSinks * 2 : totalHeatSinks
-    const minimumHeatSinks = Math.max(10, Math.ceil(engineRating / 25))
+    
+    // Minimum total heat sinks for the entire mech (different from engine heat sinks)
+    const minimumTotalHeatSinks = Math.max(10, heatGeneratingWeapons)
     
     const heatDeficit = Math.max(0, heatGeneration - heatDissipation)
     const heatViolations: HeatViolation[] = []
 
-    if (totalHeatSinks < minimumHeatSinks) {
-      const shortage = minimumHeatSinks - totalHeatSinks
+    if (totalHeatSinks < minimumTotalHeatSinks) {
+      const shortage = minimumTotalHeatSinks - totalHeatSinks
       errors.push(this.createError(
         'insufficient_heat_sinks',
-        `Only ${totalHeatSinks} heat sinks, minimum required is ${minimumHeatSinks}`,
+        `Only ${totalHeatSinks} heat sinks, minimum required is ${minimumTotalHeatSinks}`,
         'critical',
         `Add ${shortage} more heat sinks`
       ))
@@ -224,7 +227,7 @@ export class ConfigurationValidationCommand extends BaseValidationCommand {
       heatGeneration,
       heatDissipation,
       heatDeficit,
-      minimumHeatSinks,
+      minimumHeatSinks: minimumTotalHeatSinks,
       actualHeatSinks: totalHeatSinks,
       engineHeatSinks,
       externalHeatSinks,
