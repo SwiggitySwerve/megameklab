@@ -100,8 +100,8 @@ export class ConstructionRulesEngine {
         available: isCompatible,
         reason: isCompatible ? undefined : `Incompatible with ${techBase}`,
         details: {
-          weight: spec.weight,
-          criticalSlots: spec.criticalSlots,
+          weight: spec.weightPerSink,
+          criticalSlots: spec.criticalSlotsPerSink,
           cost: 2000 * spec.costMultiplier, // Base heat sink cost
           techLevel: 'Standard',
           introductionYear: 2470 // Default introduction year
@@ -128,10 +128,14 @@ export class ConstructionRulesEngine {
     };
 
     // Engine slots
-    const engineSlots = ENGINE_SLOT_REQUIREMENTS[components.engine.type];
-    requirements['Center Torso'] += engineSlots.centerTorso;
-    requirements['Left Torso'] += engineSlots.leftTorso;
-    requirements['Right Torso'] += engineSlots.rightTorso;
+    if (components.engine && components.engine.type) {
+      const engineSlots = ENGINE_SLOT_REQUIREMENTS[components.engine.type];
+      if (engineSlots) {
+        requirements['Center Torso'] += engineSlots.centerTorso;
+        requirements['Left Torso'] += engineSlots.leftTorso;
+        requirements['Right Torso'] += engineSlots.rightTorso;
+      }
+    }
 
     // Gyro slots (typically 4 in center torso)
     requirements['Center Torso'] += 4;
@@ -140,15 +144,19 @@ export class ConstructionRulesEngine {
     requirements['Head'] += 1;
 
     // External heat sink slots
-    const externalHeatSinks = Math.max(0, components.heatSinks.total - components.heatSinks.engineIntegrated);
-    const heatSinkSpec = HEAT_SINK_SPECIFICATIONS[components.heatSinks.type];
-    const heatSinkSlots = externalHeatSinks * heatSinkSpec.criticalSlots;
-    
-    // Heat sinks can be placed in various locations - for now, assume distributed
-    const slotsPerLocation = Math.ceil(heatSinkSlots / 8); // Distribute across 8 locations
-    Object.keys(requirements).forEach(location => {
-      requirements[location] += Math.min(slotsPerLocation, heatSinkSlots);
-    });
+    if (components.heatSinks && components.heatSinks.type && components.heatSinks.total) {
+      const externalHeatSinks = Math.max(0, components.heatSinks.total - (components.heatSinks.engineIntegrated || 0));
+      const heatSinkSpec = HEAT_SINK_SPECIFICATIONS[components.heatSinks.type];
+      if (heatSinkSpec) {
+        const totalHeatSinkSlots = externalHeatSinks * heatSinkSpec.criticalSlotsPerSink;
+        
+        // Heat sinks can be placed in various locations - for now, assume distributed
+        const slotsPerLocation = Math.ceil(totalHeatSinkSlots / 8); // Distribute across 8 locations
+        Object.keys(requirements).forEach(location => {
+          requirements[location] += Math.min(slotsPerLocation, totalHeatSinkSlots / 8);
+        });
+      }
+    }
 
     return requirements;
   }

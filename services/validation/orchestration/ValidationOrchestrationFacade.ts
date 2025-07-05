@@ -94,38 +94,56 @@ export class ValidationOrchestrationFacade {
     // Aggregate recommendations from all validation results
     const recommendations: ValidationRecommendation[] = []
     
-    // Add configuration recommendations
-    configuration.weight.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('weight', rec, 'high'))
-    })
-    configuration.heat.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('heat', rec, 'high'))
-    })
-    configuration.movement.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('movement', rec, 'medium'))
-    })
-    configuration.armor.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('armor', rec, 'medium'))
-    })
+    // Add configuration recommendations with null checks
+    if (configuration.weight?.recommendations) {
+      configuration.weight.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('weight', rec, 'high'))
+      })
+    }
+    if (configuration.heat?.recommendations) {
+      configuration.heat.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('heat', rec, 'high'))
+      })
+    }
+    if (configuration.movement?.recommendations) {
+      configuration.movement.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('movement', rec, 'medium'))
+      })
+    }
+    if (configuration.armor?.recommendations) {
+      configuration.armor.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('armor', rec, 'medium'))
+      })
+    }
 
-    // Add loadout recommendations
-    loadout.weapons.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('weapons', rec, 'medium'))
-    })
-    loadout.ammunition.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('ammunition', rec, 'medium'))
-    })
-    loadout.criticalSlots.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('critical_slots', rec, 'high'))
-    })
-    loadout.efficiency.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('efficiency', rec, 'low'))
-    })
+    // Add loadout recommendations with null checks
+    if (loadout.weapons?.recommendations) {
+      loadout.weapons.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('weapons', rec, 'medium'))
+      })
+    }
+    if (loadout.ammunition?.recommendations) {
+      loadout.ammunition.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('ammunition', rec, 'medium'))
+      })
+    }
+    if (loadout.criticalSlots?.recommendations) {
+      loadout.criticalSlots.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('critical_slots', rec, 'high'))
+      })
+    }
+    if (loadout.efficiency?.recommendations) {
+      loadout.efficiency.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('efficiency', rec, 'low'))
+      })
+    }
 
-    // Add tech level recommendations
-    techLevel.recommendations.forEach(rec => {
-      recommendations.push(this.createRecommendation('tech_level', rec, 'medium'))
-    })
+    // Add tech level recommendations with null checks
+    if (techLevel.recommendations) {
+      techLevel.recommendations.forEach(rec => {
+        recommendations.push(this.createRecommendation('tech_level', rec, 'medium'))
+      })
+    }
 
     return recommendations.slice(0, 20) // Limit to top 20 recommendations
   }

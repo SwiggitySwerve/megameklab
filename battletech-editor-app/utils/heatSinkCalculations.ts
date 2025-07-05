@@ -95,22 +95,8 @@ export function calculateInternalHeatSinksForEngine(engineRating: number, engine
     return 0;
   }
   
-  // Get base internal heat sinks
-  const baseInternalHeatSinks = calculateInternalHeatSinks(engineRating);
-  
-  // Apply engine type modifications
-  if (engineType?.includes('XL')) {
-    // XL engines can integrate fewer heat sinks due to side torso location
-    return Math.min(baseInternalHeatSinks, 8);
-  } else if (engineType?.includes('Light')) {
-    // Light engines have reduced heat sink capacity
-    return Math.min(baseInternalHeatSinks, 6);
-  } else if (engineType === 'Compact') {
-    // Compact engines cannot integrate heat sinks
-    return 0;
-  }
-  
-  return baseInternalHeatSinks;
+  // All fusion engines (including Compact) follow the same basic rule
+  return calculateInternalHeatSinks(engineRating);
 }
 
 /**
