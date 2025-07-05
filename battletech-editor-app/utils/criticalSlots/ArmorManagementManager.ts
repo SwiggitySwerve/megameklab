@@ -5,7 +5,9 @@
 
 import { UnitConfiguration, ArmorAllocation } from './UnitCriticalManagerTypes'
 import { ArmorType } from '../../types/systemComponents'
-import { getArmorSpecification } from '../armorCalculations';
+// Import armor calculations
+const armorCalculations = require('../armorCalculations');
+const { getArmorSpecification } = armorCalculations;
 import { getInternalStructurePoints } from '../internalStructureTable';
 
 export class ArmorManagementManager {
@@ -36,8 +38,7 @@ export class ArmorManagementManager {
    * Get critical slot requirements for armor type
    */
   getArmorCriticalSlots(armorType: ArmorType): number {
-    const armorModule = require('../armorCalculations');
-    const spec = armorModule.getArmorSpecification(armorType)
+    const spec = getArmorSpecification(armorType)
     return spec.criticalSlots
   }
 
@@ -45,10 +46,36 @@ export class ArmorManagementManager {
    * Get armor efficiency for current armor type
    */
   getArmorEfficiency(): number {
-    // Use dynamic import to avoid module resolution issues
-    const armorModule = require('../armorCalculations');
-    const spec = armorModule.getArmorSpecification(this.getArmorTypeString())
-    return spec.pointsPerTon
+    // Fallback implementation if import fails
+    if (typeof getArmorSpecification === 'function') {
+      const spec = getArmorSpecification(this.getArmorTypeString())
+      return spec.pointsPerTon
+    }
+    
+    // Direct implementation using official BattleTech TechManual values
+    const armorType = this.getArmorTypeString();
+    switch (armorType) {
+      case 'Standard':
+        return 16;
+      case 'Ferro-Fibrous':
+        return 17.92; // Official TechManual value
+      case 'Ferro-Fibrous (Clan)':
+        return 17.92; // Official TechManual value (same as IS)
+      case 'Light Ferro-Fibrous':
+        return 16.8; // Official TechManual value
+      case 'Heavy Ferro-Fibrous':
+        return 19.2;
+      case 'Stealth':
+        return 16;
+      case 'Reactive':
+        return 14; // Official TechManual value
+      case 'Reflective':
+        return 16; // Official TechManual value (same as standard)
+      case 'Hardened':
+        return 8;
+      default:
+        return 16; // Default to standard
+    }
   }
 
   /**

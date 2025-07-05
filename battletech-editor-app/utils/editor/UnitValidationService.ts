@@ -668,7 +668,7 @@ export class UnitValidationService {
           { name: 'Weight Limit', description: 'Total weight cannot exceed unit tonnage', severity: 'error' },
           { name: 'Heat Balance', description: 'Heat generation should not exceed dissipation', severity: 'error' },
           { name: 'Critical Slots', description: 'Equipment must fit in available critical slots', severity: 'error' },
-          { name: 'Minimum Heat Sinks', description: 'Unit must have at least 10 heat sinks', severity: 'error' },
+          { name: 'Minimum Heat Sinks', description: 'Unit must have at least 10 total heat sinks', severity: 'error' }, // This is minimum TOTAL heat sinks for the mech
         ]
       },
       {

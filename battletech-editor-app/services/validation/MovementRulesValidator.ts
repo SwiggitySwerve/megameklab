@@ -117,11 +117,30 @@ export class MovementRulesValidator {
    * Calculate engine weight based on rating and type
    */
   static calculateEngineWeight(engineRating: number, engineType: string): number {
-    const { calculateEngineWeight } = require('../../utils/engineCalculations');
-    // Type-safe engine type validation with fallback
-    const validEngineTypes = ['Standard', 'XL', 'Light', 'Compact', 'XXL', 'ICE', 'Fuel Cell'];
-    const safeEngineType = validEngineTypes.includes(engineType) ? engineType : 'Standard';
-    return calculateEngineWeight(engineRating, 100, safeEngineType);
+    // Normalize engine type to match engineCalculations format
+    let normalizedType = engineType;
+    if (engineType === 'XL (IS)' || engineType === 'XL') {
+      normalizedType = 'XL (IS)';
+    } else if (engineType === 'XL (Clan)') {
+      normalizedType = 'XL (Clan)';
+    }
+    
+    // Use BattleTech engine weight formula: rating / 25 * 2.5 for standard
+    const baseWeight = (engineRating / 25) * 2.5;
+    const multipliers: Record<string, number> = {
+      'Standard': 1.0,
+      'XL (IS)': 0.5,
+      'XL (Clan)': 0.5,
+      'XL': 0.5,
+      'Light': 0.75,
+      'XXL': 0.33,
+      'Compact': 1.5,
+      'ICE': 2.0,
+      'Fuel Cell': 1.5
+    };
+    
+    const multiplier = multipliers[normalizedType] || 1.0;
+    return Math.ceil(baseWeight * multiplier * 2) / 2; // Round to nearest 0.5 ton
   }
   
   /**

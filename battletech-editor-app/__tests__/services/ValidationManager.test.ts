@@ -406,13 +406,13 @@ describe('ValidationManager', () => {
       
       expect(result).toBeDefined();
       expect(result).toHaveProperty('isValid');
-      expect(result).toHaveProperty('compatibleEquipment');
-      expect(result).toHaveProperty('incompatibleEquipment');
+      expect(result).toHaveProperty('compatibleItems');
+      expect(result).toHaveProperty('incompatibleItems');
       expect(result).toHaveProperty('errors');
       
       expect(typeof result.isValid).toBe('boolean');
-      expect(Array.isArray(result.compatibleEquipment)).toBe(true);
-      expect(Array.isArray(result.incompatibleEquipment)).toBe(true);
+      expect(Array.isArray(result.compatibleItems)).toBe(true);
+      expect(Array.isArray(result.incompatibleItems)).toBe(true);
       expect(Array.isArray(result.errors)).toBe(true);
     });
   });

@@ -312,8 +312,8 @@ export class SpecialComponentValidator extends BaseSlotValidator {
 
   private getEngineHeatSinks(config: any): number {
     const engineRating = config.engineRating || 0
-    // Standard formula: free heat sinks = engine rating / 25 (rounded down), minimum 10
-    return Math.max(10, Math.floor(engineRating / 25))
+    // Official BattleTech rule: free heat sinks = engine rating / 25 (rounded down), NO MINIMUM
+    return Math.floor(engineRating / 25)
   }
 
   private createArtemisPairings(weapons: any[], artemisSystems: any[]) {

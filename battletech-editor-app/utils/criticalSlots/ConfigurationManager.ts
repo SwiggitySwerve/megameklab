@@ -122,7 +122,7 @@ export class ConfigurationManager {
     // Use ArmorManagementManager to enforce armor rules
     enforced.armorAllocation = this.armorManagementManager.enforceArmorRules(enforced.armorAllocation)
     
-    // Enforce minimum heat sinks (10 for BattleMechs)
+    // Enforce minimum TOTAL heat sinks (10 for BattleMechs) - different from engine heat sinks
     if (enforced.unitType === 'BattleMech' && enforced.totalHeatSinks < 10) {
       enforced.totalHeatSinks = 10
       enforced.internalHeatSinks = Math.min(10, enforced.internalHeatSinks)

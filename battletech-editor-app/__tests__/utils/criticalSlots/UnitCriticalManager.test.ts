@@ -518,8 +518,8 @@ describe('UnitCriticalManager', () => {
     test('calculates armor efficiency based on type', () => {
       const armorTypes = [
         { type: 'Standard', expectedEfficiency: 16 },
-        { type: 'Ferro-Fibrous', expectedEfficiency: 20 },
-        { type: 'Light Ferro-Fibrous', expectedEfficiency: 18 }
+        { type: 'Ferro-Fibrous', expectedEfficiency: 17.92 }, // Official TechManual value
+        { type: 'Light Ferro-Fibrous', expectedEfficiency: 16.8 } // Official TechManual value
       ];
 
       armorTypes.forEach(({ type, expectedEfficiency }) => {

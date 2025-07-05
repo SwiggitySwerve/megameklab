@@ -460,7 +460,7 @@ export class AnalysisManager {
     }, 0);
     
     const heatSinks = allocations.filter(p => p.equipment.equipmentData?.type === 'heat_sink').length;
-    const engineHeatSinks = Math.min(10, Math.floor((config.engineRating || 0) / 25));
+    const engineHeatSinks = Math.floor((config.engineRating || 0) / 25);
     const totalHeatSinks = engineHeatSinks + heatSinks;
     
     if (heatGeneration <= totalHeatSinks) return 100;

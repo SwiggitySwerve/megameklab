@@ -82,7 +82,7 @@ export function calculateIntegratedHeatSinks(engineRating: number, engineType: E
     return 0;
   }
   
-  // All fusion engines follow the basic rule: rating ÷ 25, capped at 10
+  // All fusion engines follow the basic rule: rating ÷ 25, NO ARTIFICIAL MINIMUM
   return calculateInternalHeatSinks(engineRating);
 }
 

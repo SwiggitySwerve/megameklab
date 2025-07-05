@@ -132,7 +132,7 @@ describe('HeatRulesValidator', () => {
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
       // XL engines follow same rule as standard engines - only rating matters
-      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
+      expect(engineHeatSinks).toBe(12) // 300/25 = 12 (official BattleTech rule)
       expect(engineHeatSinks).toBeGreaterThan(0)
     })
 
@@ -202,12 +202,12 @@ describe('HeatRulesValidator', () => {
       expect(engineHeatSinks).toBe(10) // 250/25 = 10, capped at 10
     })
 
-    it('should cap engine heat sinks at 10', () => {
+    it('should calculate engine heat sinks using official formula', () => {
       const config = createTestConfig({ engineRating: 400 })
 
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
-      expect(engineHeatSinks).toBe(10)
+      expect(engineHeatSinks).toBe(16) // 400/25 = 16 (official BattleTech rule)
     })
 
     it('should handle XL engine limitations', () => {
@@ -219,7 +219,7 @@ describe('HeatRulesValidator', () => {
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
       // XL engines follow same rule as standard engines - only rating matters
-      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
+      expect(engineHeatSinks).toBe(12) // 300/25 = 12 (official BattleTech rule)
     })
 
     it('should handle Light engine limitations', () => {
@@ -231,7 +231,7 @@ describe('HeatRulesValidator', () => {
       const engineHeatSinks = HeatRulesValidator.getEngineHeatSinks(config)
 
       // Light engines follow same rule as standard engines - only rating matters
-      expect(engineHeatSinks).toBe(10) // 300/25 = 12, capped at 10
+      expect(engineHeatSinks).toBe(12) // 300/25 = 12 (official BattleTech rule)
     })
 
     it('should handle Compact engine (no heat sinks)', () => {

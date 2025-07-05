@@ -7,7 +7,9 @@
 import { EquipmentAllocation } from './CriticalSlot'
 import { UnitConfiguration, HeatSinkType } from './UnitCriticalManagerTypes'
 import { JumpJetType } from '../jumpJetCalculations'
-import { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } from '../heatSinkCalculations'
+// Import heat sink calculations
+const heatSinkCalculations = require('../heatSinkCalculations');
+const { calculateInternalHeatSinks, calculateInternalHeatSinksForEngine } = heatSinkCalculations;
 import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export class HeatManagementManager {
@@ -98,15 +100,9 @@ export class HeatManagementManager {
    * Get base heat sinks from engine rating
    */
   private getBaseHeatSinksFromEngine(engineRating: number): number {
-    // Standard BattleTech rule: base heat sinks = engine rating / 25
-    const engineType = HeatManagementManager.extractComponentType(this.configuration.engineType)
-    
-    // Use dynamic import to avoid module resolution issues
-    const heatSinkModule = require('../heatSinkCalculations');
-    const baseInternalHeatSinks = heatSinkModule.calculateInternalHeatSinksForEngine(engineRating, engineType)
-    
-    // Minimum of 10 internal heat sinks
-    return Math.max(10, baseInternalHeatSinks)
+    // Use the configuration's internal heat sinks value directly
+    // This should already be calculated correctly by the UnitConfigurationBuilder
+    return this.configuration.internalHeatSinks
   }
 
   /**

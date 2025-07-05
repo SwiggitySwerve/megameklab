@@ -167,7 +167,7 @@ class MockHeatValidator implements IHeatValidator {
       heatGeneration: 20,
       heatDissipation: 30,
       heatDeficit: 0,
-      minimumHeatSinks: 10,
+      minimumHeatSinks: 10, // This is minimum TOTAL heat sinks for the mech, not engine heat sinks
       actualHeatSinks: 15,
       engineHeatSinks: 10,
       externalHeatSinks: 5,

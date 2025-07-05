@@ -310,12 +310,17 @@ export function calculateMaxArmorTonnage(unit: EditableUnit, armorType?: any): n
     armorType = getArmorType('standard');
   }
   
-  // Fallback if armor type is still null
+  // Fallback if armor type is still null or missing pointsPerTon
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = getStandardArmorType(); // Standard armor fallback
+    // Hard fallback to standard armor specs
+    armorType = {
+      pointsPerTon: 16,
+      criticalSlots: 0,
+      techBase: 'Both'
+    };
   }
   
-  const pointsPerTon = armorType.pointsPerTon;
+  const pointsPerTon = armorType.pointsPerTon || 16; // Extra safety check
   
   // Calculate weight and round to nearest half-ton
   const armorWeight = maxPoints / pointsPerTon;
@@ -421,9 +426,14 @@ export function calculateRemainingTonnage(unit: EditableUnit): number {
   const armorTypeId = unit.armorAllocation?.['Center Torso']?.type?.id || 'standard';
   let armorType = getArmorType(armorTypeId);
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = getStandardArmorType();
+    // Hard fallback to standard armor specs
+    armorType = {
+      pointsPerTon: 16,
+      criticalSlots: 0,
+      techBase: 'Both'
+    } as any;
   }
-  const pointsPerTon = armorType.pointsPerTon;
+  const pointsPerTon = armorType.pointsPerTon || 16; // Extra safety check
   usedTonnage += currentArmorPoints / pointsPerTon;
 
   // Jump jets (unchanged)
@@ -444,14 +454,19 @@ export function calculateRemainingTonnageForArmor(unit: EditableUnit, armorType?
     armorType = getArmorType('standard');
   }
   
-  // Fallback if armor type is still null
+  // Fallback if armor type is still null or missing pointsPerTon
   if (!armorType || !armorType.pointsPerTon) {
-    armorType = getStandardArmorType(); // Standard armor fallback
+    // Hard fallback to standard armor specs
+    armorType = {
+      pointsPerTon: 16,
+      criticalSlots: 0,
+      techBase: 'Both'
+    };
   }
   
   // Get current armor tonnage
   const currentArmorPoints = unit.data?.armor?.total_armor_points || 0;
-  const pointsPerTon = armorType.pointsPerTon;
+  const pointsPerTon = armorType.pointsPerTon || 16; // Extra safety check
   const currentArmorTonnage = currentArmorPoints / pointsPerTon;
   
   // Add remaining tonnage to current armor tonnage
