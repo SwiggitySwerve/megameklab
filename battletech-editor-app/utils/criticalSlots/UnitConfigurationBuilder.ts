@@ -55,7 +55,12 @@ export class UnitConfigurationBuilder {
     if (!Object.prototype.hasOwnProperty.call(input, 'engineRating')) {
       config.engineRating = config.tonnage * config.walkMP
     }
-    
+
+    // Ensure enhancements is always an array
+    if (!Array.isArray(config.enhancements)) {
+      config.enhancements = [];
+    }
+
     // Calculate dependent values
     const result = this.calculateDependentValues(config)
     if (process.env.NODE_ENV === 'test') {

@@ -45,12 +45,13 @@ describe('Movement Calculations', () => {
 
       const result = calculateEnhancedMovement(config);
 
+      // TSM: walk 4 + 1 = 5, run ceil(5 * 1.5) = 8
       expect(result.walkDisplay).toBe('4 [5]');
-      expect(result.runDisplay).toBe('6 [7]');
+      expect(result.runDisplay).toBe('6 [8]');
       expect(result.jumpDisplay).toBe('0');
-      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [8] / 0');
       expect(result.walkValue).toBe(5);
-      expect(result.runValue).toBe(7);
+      expect(result.runValue).toBe(8);
       expect(result.jumpValue).toBe(0);
     });
 
@@ -69,7 +70,7 @@ describe('Movement Calculations', () => {
       expect(result.jumpDisplay).toBe('0');
       expect(result.combinedDisplay).toBe('4 / 6 [8] / 0');
       expect(result.walkValue).toBe(4);
-      expect(result.runValue).toBe(6); // Base run value, MASC shown in display brackets
+      expect(result.runValue).toBe(8); // MASC provides 2× multiplier: 4 × 2 = 8
       expect(result.jumpValue).toBe(0);
     });
 
@@ -87,12 +88,36 @@ describe('Movement Calculations', () => {
       const result = calculateEnhancedMovement(config);
 
       // TSM takes precedence due to mutual exclusion - MASC is filtered out
+      // TSM: walk 4 + 1 = 5, run ceil(5 * 1.5) = 8
       expect(result.walkDisplay).toBe('4 [5]');
-      expect(result.runDisplay).toBe('6 [7]');
+      expect(result.runDisplay).toBe('6 [8]');
       expect(result.jumpDisplay).toBe('0');
-      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [8] / 0');
       expect(result.walkValue).toBe(5);
-      expect(result.runValue).toBe(7);
+      expect(result.runValue).toBe(8);
+      expect(result.jumpValue).toBe(0);
+    });
+
+    test('should calculate movement with TSM + Supercharger combination', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Triple Strength Myomer' },
+          { type: 'Supercharger' }
+        ]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      // TSM: walk 4 + 1 = 5, Supercharger: run = 5 * 2 = 10
+      expect(result.walkDisplay).toBe('4 [5]');
+      expect(result.runDisplay).toBe('6 [10]');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [10] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(10);
       expect(result.jumpValue).toBe(0);
     });
 
@@ -111,13 +136,13 @@ describe('Movement Calculations', () => {
       const result = calculateEnhancedMovement(config);
 
       // TSM and Supercharger apply, MASC is filtered out due to mutual exclusion
-      // TSM affects walk and run, Supercharger doesn't affect display since TSM already set bracketed run
+      // TSM: walk 4 + 1 = 5, Supercharger: run = 5 * 2 = 10
       expect(result.walkDisplay).toBe('4 [5]');
-      expect(result.runDisplay).toBe('6 [7]'); // TSM's recalculated run
+      expect(result.runDisplay).toBe('6 [10]');
       expect(result.jumpDisplay).toBe('0');
-      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [10] / 0');
       expect(result.walkValue).toBe(5);
-      expect(result.runValue).toBe(7);
+      expect(result.runValue).toBe(10);
       expect(result.jumpValue).toBe(0);
     });
 
@@ -140,7 +165,75 @@ describe('Movement Calculations', () => {
       expect(result.jumpDisplay).toBe('0');
       expect(result.combinedDisplay).toBe('4 / 6 [10] / 0');
       expect(result.walkValue).toBe(4);
-      expect(result.runValue).toBe(6);
+      expect(result.runValue).toBe(10); // Enhanced run value should be 10, not 6
+      expect(result.jumpValue).toBe(0);
+    });
+
+    test('should calculate movement with Supercharger only (2× multiplier)', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [{ type: 'Supercharger' }]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      // Supercharger: 2× multiplier to run speed
+      expect(result.walkDisplay).toBe('4');
+      expect(result.runDisplay).toBe('6 [8]'); // 4 × 2 = 8
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 / 6 [8] / 0');
+      expect(result.walkValue).toBe(4);
+      expect(result.runValue).toBe(8); // Enhanced run value should be 8
+      expect(result.jumpValue).toBe(0);
+    });
+
+    test('should handle TSM + Supercharger + MASC correctly (TSM and Supercharger only)', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Triple Strength Myomer' },
+          { type: 'Supercharger' },
+          { type: 'MASC' }
+        ]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      // TSM and Supercharger apply, MASC is filtered out due to mutual exclusion
+      // TSM: walk 4 + 1 = 5, Supercharger: run = 5 * 2 = 10
+      expect(result.walkDisplay).toBe('4 [5]');
+      expect(result.runDisplay).toBe('6 [10]');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [10] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(10);
+      expect(result.jumpValue).toBe(0);
+    });
+
+    test('should handle edge case with odd walk MP and Supercharger + MASC', () => {
+      const config = {
+        walkMP: 5,
+        runMP: 7,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Supercharger' },
+          { type: 'MASC' }
+        ]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      // Supercharger + MASC: 2.5× multiplier to run speed
+      // 5 × 2.5 = 12.5, Math.floor(12.5) = 12
+      expect(result.walkDisplay).toBe('5');
+      expect(result.runDisplay).toBe('7 [12]');
+      expect(result.combinedDisplay).toBe('5 / 7 [12] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(12);
       expect(result.jumpValue).toBe(0);
     });
 
@@ -226,7 +319,7 @@ describe('Movement Calculations', () => {
       });
       expect(result.enhanced).toEqual({
         walk: 5, // 4 + 1
-        run: 7,  // floor(5 × 1.5) = 7
+        run: 8,  // ceil(5 × 1.5) = 8
         jump: 0
       });
     });
@@ -248,7 +341,7 @@ describe('Movement Calculations', () => {
       });
       expect(result.enhanced).toEqual({
         walk: 5,  // No change to walk
-        run: 7,  // recalculated run, not MASC run
+        run: 10,  // MASC provides 2× multiplier: 5 × 2 = 10
         jump: 3
       });
     });
@@ -306,8 +399,8 @@ describe('Movement Calculations', () => {
         const result = formatCondensedMovement(config, tonnage);
         
         // Enhanced walk: 4 + 1 = 5
-        // Enhanced run: floor(5 × 1.5) = 7
-        expect(result).toBe('4 [5] / 6 [7] / 2');
+        // Enhanced run: ceil(5 × 1.5) = 8
+        expect(result).toBe('4 [5] / 6 [8] / 2');
       });
 
       test('formats TSM with zero jump', () => {
@@ -413,13 +506,13 @@ describe('Movement Calculations', () => {
       const tsmResult = calculateEnhancedMovement(configTSM);
       const mascResult = calculateEnhancedMovement(configMASC);
 
-      // TSM: walk 4 + 1 = 5, run floor(5 * 1.5) = 7
+      // TSM: walk 4 + 1 = 5, run ceil(5 * 1.5) = 8
       expect(tsmResult.walkValue).toBe(5);
-      expect(tsmResult.runValue).toBe(7);
+      expect(tsmResult.runValue).toBe(8);
       
       // MASC: walk 4, run 4 * 1.5 = 6 (base), MASC run shown in display brackets
       expect(mascResult.walkValue).toBe(4);
-      expect(mascResult.runValue).toBe(6);
+      expect(mascResult.runValue).toBe(8);
     });
   });
 
@@ -469,24 +562,24 @@ describe('getFullMovementSummary', () => {
     const result = getFullMovementSummary(config, 50);
 
     // TSM takes precedence due to mutual exclusion - MASC is filtered out
-    expect(result).toBe('4 [5] / 6 [7] / 0 (TSM+1)');
+    expect(result).toBe('4 [5] / 6 [8] / 0 (TSM+1)');
   });
 
-  it('should return summary with Supercharger + MASC combination', () => {
+  it('should return summary with TSM + Supercharger combination', () => {
     const config = {
       walkMP: 4,
       runMP: 6,
       jumpMP: 0,
       enhancements: [
-        { type: 'Supercharger' },
-        { type: 'MASC' }
+        { type: 'Triple Strength Myomer' },
+        { type: 'Supercharger' }
       ]
     };
 
     const result = getFullMovementSummary(config, 50);
 
-    // Supercharger + MASC: 2.5× multiplier
-    expect(result).toBe('4 / 6 [10] / 0 (Supercharger+MASC+2.5)');
+    // TSM: walk 4 + 1 = 5, Supercharger: run = 5 * 2 = 10
+    expect(result).toBe('4 [5] / 6 [10] / 0 (TSM+1, Supercharger+2)');
   });
 
   it('should return summary without notes when no enhancements', () => {

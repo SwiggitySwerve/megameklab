@@ -69,10 +69,11 @@ export const MOVEMENT_ENHANCEMENTS: Record<string, MovementEnhancement> = {
 };
 
 /**
- * Filter enhancements to enforce mutual exclusion between TSM and MASC (both myomer components)
- * Supercharger is an engine component and can be used with either TSM or MASC
+ * Filter out mutually exclusive movement enhancements
+ * TSM and MASC cannot be used together - TSM takes precedence
  */
 export function filterMutuallyExclusiveEnhancements(enhancements: { type: string }[]): { type: string }[] {
+  if (!Array.isArray(enhancements)) return [];
   let hasTSM = enhancements.some(e => e.type === 'Triple Strength Myomer');
   let hasMASC = enhancements.some(e => e.type === 'MASC');
   if (hasTSM && hasMASC) {
@@ -115,6 +116,7 @@ export function calculateEnhancedMovement(config: UnitConfiguration): MovementDi
   // Check for Supercharger + MASC combination (both affect run speed)
   const hasSupercharger = activeEnhancements.some(e => e.type === 'Supercharger');
   const hasMASC = activeEnhancements.some(e => e.type === 'MASC');
+  const hasTSM = activeEnhancements.some(e => e.type === 'Triple Strength Myomer');
   const hasBothRunEnhancements = hasSupercharger && hasMASC;
 
   for (const enhancement of activeEnhancements) {
@@ -126,15 +128,20 @@ export function calculateEnhancedMovement(config: UnitConfiguration): MovementDi
       if (enhancement.runModifier === 'multiplier') {
         if (hasBothRunEnhancements) {
           // Both Supercharger and MASC: 2.5× multiplier
-          bracketedRun = Math.floor(walkValue * 2.5);
+          const enhancedRun = Math.floor(walkValue * 2.5);
+          bracketedRun = enhancedRun;
+          runValue = enhancedRun; // Update runValue to match enhanced value
           bracketedLabel = 'Supercharger+MASC';
         } else {
           // Single run enhancement: 2× multiplier
-          bracketedRun = walkValue * 2;
+          const enhancedRun = walkValue * 2;
+          bracketedRun = enhancedRun;
+          runValue = enhancedRun; // Update runValue to match enhanced value
           bracketedLabel = enhancement.name;
         }
       } else if (enhancement.runModifier === 'recalculate') {
-        runValue = Math.floor(walkValue * 1.5);
+        // TSM uses Math.ceil for run calculations
+        runValue = Math.ceil(walkValue * 1.5);
         bracketedRun = runValue;
         bracketedLabel = enhancement.name;
       } else if (typeof enhancement.runModifier === 'number') {
@@ -145,7 +152,8 @@ export function calculateEnhancedMovement(config: UnitConfiguration): MovementDi
     } else {
       // Only the first (highest-priority) enhancement affecting run is bracketed
       if (enhancement.runModifier === 'recalculate') {
-        runValue = Math.floor(walkValue * 1.5);
+        // TSM uses Math.ceil for run calculations
+        runValue = Math.ceil(walkValue * 1.5);
       } else if (typeof enhancement.runModifier === 'number') {
         runValue += enhancement.runModifier;
       }
@@ -168,6 +176,15 @@ export function calculateEnhancedMovement(config: UnitConfiguration): MovementDi
         enhancementNotes.push(`${enhancement.name}+2`);
       }
     }
+  }
+
+  // Special case: If TSM and Supercharger are both active (without MASC), Supercharger should use TSM-boosted walk
+  if (hasTSM && hasSupercharger && !hasMASC) {
+    // TSM has already been applied to walkValue, so Supercharger uses that
+    // Override any existing bracketed run value with Supercharger's calculation
+    bracketedRun = walkValue * 2;
+    runValue = walkValue * 2;
+    bracketedLabel = 'Supercharger';
   }
 
   // Display formatting

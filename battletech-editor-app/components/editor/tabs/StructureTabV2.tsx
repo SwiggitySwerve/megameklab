@@ -54,7 +54,7 @@ import {
 } from '../../../types/componentConfiguration';
 
 // Import movement calculations
-import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement, getAvailableMovementEnhancements } from '../../../utils/movementCalculations';
+import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement, getAvailableMovementEnhancements, MOVEMENT_ENHANCEMENTS } from '../../../utils/movementCalculations';
 import { TechProgression } from '../../../utils/techProgression';
 
 // Import structure and armor calculations
@@ -350,10 +350,33 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     console.log(`[StructureTab] ✅ Heat sink type updated successfully`);
   };
 
+  const handleEnhancementChange = (newValue: string) => {
+    console.log(`[StructureTab] 🔧 Enhancement change: ${enhancements.map(e => e.type).join(', ')} → ${newValue}`);
+    
+    if (readOnly) {
+      console.log('[StructureTab] Skipping update - readonly mode');
+      return;
+    }
+
+    let newEnhancements: { type: string; techBase: 'Inner Sphere' | 'Clan' }[] = [];
+    if (newValue !== 'None') {
+      newEnhancements = [{ type: newValue, techBase: config.techBase as 'Inner Sphere' | 'Clan' }];
+    }
+    
+    updateConfig({ enhancements: newEnhancements });
+    console.log(`[StructureTab] ✅ Enhancement updated successfully`);
+  };
+
   // Handle walk MP change with validation
   const handleWalkMPChange = (value: number) => {
     const clampedValue = Math.min(Math.max(value, 1), maxWalkMP);
     updateConfig({ walkMP: clampedValue });
+  };
+
+  // Get current enhancement selection for dropdown
+  const getCurrentEnhancement = (): string => {
+    if (enhancements.length === 0) return 'None';
+    return enhancements[0].type; // Return first enhancement type
   };
 
   return (
@@ -495,53 +518,23 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
               </div>
             </div>
 
-            {/* Myomer Enhancements (TSM and MASC only) */}
+            {/* Myomer Enhancement Dropdown */}
             <div>
-              <label className="text-slate-300 text-xs block mb-1">Myomer Enhancements:</label>
-              {ENHANCEMENT_OPTIONS.filter(opt => opt.type === 'Triple Strength Myomer' || opt.type === 'MASC').map(opt => {
-                const isChecked = enhancements.some(e => e.type === opt.type);
-                const isTSM = opt.type === 'Triple Strength Myomer';
-                const isMASC = opt.type === 'MASC';
-                const hasTSM = enhancements.some(e => e.type === 'Triple Strength Myomer');
-                const hasMASC = enhancements.some(e => e.type === 'MASC');
-                
-                // Disable MASC if TSM is selected, and vice versa (both are myomer components)
-                const isDisabled = (isTSM && hasMASC) || (isMASC && hasTSM);
-                
-                return (
-                  <label key={opt.type} className={`flex items-center mb-2 text-sm ${isDisabled ? 'opacity-50' : ''}`}>
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      disabled={readOnly || isDisabled}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          // If selecting TSM, remove MASC; if selecting MASC, remove TSM
-                          let newEnhancements = enhancements.filter(enh => enh.type !== opt.type);
-                          if (isTSM) {
-                            newEnhancements = newEnhancements.filter(enh => enh.type !== 'MASC');
-                          } else if (isMASC) {
-                            newEnhancements = newEnhancements.filter(enh => enh.type !== 'Triple Strength Myomer');
-                          }
-                          newEnhancements.push({ type: opt.type, techBase: config.techBase as 'Inner Sphere' | 'Clan' });
-                          updateConfig({ enhancements: newEnhancements });
-                        } else {
-                          const newEnhancements = enhancements.filter(enh => enh.type !== opt.type);
-                          updateConfig({ enhancements: newEnhancements });
-                        }
-                      }}
-                      className="mr-2"
-                    />
-                    <span className={`text-slate-200 ${isDisabled ? 'line-through' : ''}`}>{opt.label}</span>
-                    {opt.description && opt.description !== opt.label && (
-                      <span className="text-slate-400 text-xs ml-1">({opt.description})</span>
-                    )}
-                    {isDisabled && (
-                      <span className="text-orange-400 text-xs ml-1">(Mutually exclusive)</span>
-                    )}
-                  </label>
-                );
-              })}
+              <label className="text-slate-300 text-xs block mb-1">Myomer Enhancement:</label>
+              {isConfigLoaded ? (
+                <select
+                  value={getCurrentEnhancement()}
+                  onChange={(e) => handleEnhancementChange(e.target.value)}
+                  disabled={readOnly}
+                  className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
+                >
+                  <option value="None">None</option>
+                  <option value="Triple Strength Myomer">Triple Strength Myomer</option>
+                  <option value="MASC">MASC</option>
+                </select>
+              ) : (
+                <SkeletonSelect />
+              )}
             </div>
 
             {/* Enhancement Details - Conditional Full Width */}
@@ -627,27 +620,58 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div>
                 <label className="text-slate-300 text-xs font-medium block mb-2">Walk MP</label>
-                <input
-                  type="number"
-                  value={config.walkMP}
-                  onChange={(e) => handleWalkMPChange(parseInt(e.target.value) || 1)}
-                  disabled={readOnly}
-                  min={1}
-                  max={maxWalkMP}
-                  className="w-full px-3 py-2 bg-slate-700/80 border border-slate-600/50 rounded-md text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-center transition-all duration-200 hover:border-slate-500"
-                  aria-label="Walk movement points"
-                />
+                <div className="grid grid-cols-2 gap-1">
+                  <input
+                    type="number"
+                    value={config.walkMP}
+                    onChange={(e) => handleWalkMPChange(parseInt(e.target.value) || 1)}
+                    disabled={readOnly}
+                    min={1}
+                    max={maxWalkMP}
+                    className="w-full px-2 py-2 bg-slate-700/80 border border-slate-600/50 rounded-md text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-center transition-all duration-200 hover:border-slate-500"
+                    aria-label="Walk movement points"
+                  />
+                  {enhancedMovement.walkValue !== config.walkMP ? (
+                    <div className="bg-slate-700/50 border border-slate-600/50 rounded-md px-2 py-2 text-sm text-slate-100 text-center font-medium">
+                      [{enhancedMovement.walkValue}]
+                    </div>
+                  ) : (
+                    <div className="bg-slate-700/30 border border-slate-600/30 rounded-md px-2 py-2 text-sm text-slate-500 text-center">
+                      —
+                    </div>
+                  )}
+                </div>
                 <div className="text-xs text-slate-400 text-center mt-1.5">
-                  Max: {maxWalkMP}
+                  Max for {config.tonnage}t: {maxWalkMP}
                 </div>
               </div>
               <div>
                 <label className="text-slate-300 text-xs font-medium block mb-2">Run MP</label>
-                <div className="bg-slate-700/50 border border-slate-600/50 rounded-md px-3 py-2 text-sm text-slate-100 text-center font-medium">
-                  {enhancedMovement.runDisplay}
+                <div className="grid grid-cols-2 gap-1">
+                  <div className="bg-slate-700/50 border border-slate-600/50 rounded-md px-2 py-2 text-sm text-slate-100 text-center font-medium">
+                    {Math.floor(config.walkMP * 1.5)}
+                  </div>
+                  {enhancedMovement.runValue !== Math.floor(config.walkMP * 1.5) ? (
+                    <div className="bg-slate-700/50 border border-slate-600/50 rounded-md px-2 py-2 text-sm text-slate-100 text-center font-medium">
+                      [{enhancedMovement.runValue}]
+                    </div>
+                  ) : (
+                    <div className="bg-slate-700/30 border border-slate-600/30 rounded-md px-2 py-2 text-center">
+                      <span className="text-xs text-slate-500">Base</span>
+                    </div>
+                  )}
                 </div>
                 <div className="text-xs text-slate-400 text-center mt-1.5">
-                  Auto-calc {typedEnhancementType !== null ? `(${typedEnhancementType})` : ''}
+                  {enhancements.length > 0 ? (
+                    <span className="text-blue-400">
+                      {enhancements.some((e: any) => e.type === 'Triple Strength Myomer') ? `Walk ${enhancedMovement.walkValue} × 1.5` : 
+                       enhancements.some((e: any) => e.type === 'Supercharger') && enhancements.some((e: any) => e.type === 'MASC') ? `Walk ${config.walkMP} × 2.5` :
+                       enhancements.some((e: any) => e.type === 'Supercharger') ? `Walk ${enhancedMovement.walkValue} × 2` :
+                       enhancements.some((e: any) => e.type === 'MASC') ? `Walk ${config.walkMP} × 2` : 'Enhanced'}
+                    </span>
+                  ) : (
+                    'Walk × 1.5'
+                  )}
                 </div>
               </div>
               <div>
@@ -667,6 +691,28 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
                 </div>
               </div>
             </div>
+            
+            {/* Enhancement Details - Compact */}
+            {enhancements.length > 0 && (
+              <div className="mt-3 p-2 bg-slate-700/30 rounded-md border border-slate-600/30">
+                <div className="text-xs text-slate-300">
+                  <span className="font-medium text-slate-200">Active:</span>
+                  {enhancements.map((enh, index) => {
+                    const enhancement = MOVEMENT_ENHANCEMENTS[enh.type];
+                    if (!enhancement) return null;
+                    
+                    return (
+                      <span key={index} className="ml-2 text-slate-100">
+                        {enhancement.name}
+                        {enhancement.condition && <span className="text-slate-400">({enhancement.condition})</span>}
+                        {index < enhancements.length - 1 && <span className="text-slate-400">, </span>}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="mt-4 text-xs text-slate-300 text-center bg-slate-700/40 rounded-md px-3 py-2 border border-slate-600/30">
               <span className="font-medium">Engine Rating:</span> {config.tonnage} × {config.walkMP} = {config.engineRating}
               {config.engineRating >= 400 && <span className="text-orange-400 ml-2 font-medium">(Capped at 400)</span>}
