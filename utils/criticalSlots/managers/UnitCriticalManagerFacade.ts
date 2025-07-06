@@ -2,6 +2,7 @@
  * Unit Critical Manager Facade
  * Coordinates all managers and provides a unified interface
  * Uses Command pattern for complex operations
+ * ENHANCED: Added memory-first component resolution and tech progression integration
  */
 
 import { CriticalSection } from '../CriticalSection'
@@ -21,6 +22,12 @@ import { ConfigurationManager } from '../ConfigurationManager'
 import { EquipmentQueryManager } from '../EquipmentQueryManager'
 import { EventManager } from '../EventManager'
 
+// NEW: Memory-first component resolution types
+import { ComponentMemoryState, TechBaseMemory } from '../../types/componentDatabase'
+import { TechProgression } from '../../utils/techProgression'
+import { validateAndResolveComponentWithMemory, updateMemoryState } from '../../utils/memoryPersistence'
+import { resolveComponentForTechBase } from '../../utils/componentResolution'
+
 // Command interface for complex operations
 interface UnitCommand {
   execute(): boolean
@@ -28,37 +35,104 @@ interface UnitCommand {
   description: string
 }
 
-// Configuration update command
-class ConfigurationUpdateCommand implements UnitCommand {
-  description = 'Update unit configuration'
+// NEW: Memory-aware configuration update command
+class MemoryAwareConfigurationUpdateCommand implements UnitCommand {
+  description = 'Update configuration with memory-first component resolution'
   
   constructor(
     private facade: UnitCriticalManagerFacade,
     private newConfiguration: UnitConfiguration,
-    private oldConfiguration: UnitConfiguration
+    private oldConfiguration: UnitConfiguration,
+    private memoryState: ComponentMemoryState
   ) {}
 
   execute(): boolean {
-    try {
-      this.facade.configuration = this.newConfiguration
-      this.facade.handleConfigurationChange(this.oldConfiguration, this.newConfiguration)
-      this.facade.eventManager.notifyStateChange()
-      return true
-    } catch (error) {
-      console.error('[ConfigurationUpdateCommand] Failed to execute:', error)
-      return false
+    // NEW: Memory-first component resolution for tech progression changes
+    if (this.hasTechProgressionChanges()) {
+      const resolvedConfig = this.resolveComponentsWithMemory()
+      return this.facade.handleConfigurationChange(this.oldConfiguration, resolvedConfig)
     }
+    
+    // Standard configuration update
+    return this.facade.handleConfigurationChange(this.oldConfiguration, this.newConfiguration)
   }
 
-  undo(): boolean {
-    try {
-      this.facade.configuration = this.oldConfiguration
-      this.facade.handleConfigurationChange(this.newConfiguration, this.oldConfiguration)
-      this.facade.eventManager.notifyStateChange()
-      return true
-    } catch (error) {
-      console.error('[ConfigurationUpdateCommand] Failed to undo:', error)
-      return false
+  private hasTechProgressionChanges(): boolean {
+    const oldProg = this.oldConfiguration.techProgression
+    const newProg = this.newConfiguration.techProgression
+    
+    if (!oldProg || !newProg) return false
+    
+    return Object.keys(oldProg).some(key => 
+      oldProg[key as keyof TechProgression] !== newProg[key as keyof TechProgression]
+    )
+  }
+
+  private resolveComponentsWithMemory(): UnitConfiguration {
+    const resolvedConfig = { ...this.newConfiguration }
+    const oldProg = this.oldConfiguration.techProgression
+    const newProg = this.newConfiguration.techProgression
+    
+    if (!oldProg || !newProg) return resolvedConfig
+
+    // Resolve each subsystem with memory
+    Object.keys(newProg).forEach(subsystem => {
+      const oldTechBase = oldProg[subsystem as keyof TechProgression]
+      const newTechBase = newProg[subsystem as keyof TechProgression]
+      
+      if (oldTechBase !== newTechBase) {
+        const currentComponent = this.getCurrentComponentForSubsystem(subsystem)
+        const resolution = validateAndResolveComponentWithMemory(
+          currentComponent,
+          subsystem,
+          oldTechBase,
+          newTechBase,
+          this.memoryState
+        )
+        
+        // Update the component in configuration
+        this.updateComponentInConfig(resolvedConfig, subsystem, resolution.resolvedComponent)
+        
+        // Update memory state
+        updateMemoryState(this.memoryState, subsystem, newTechBase, resolution.resolvedComponent)
+      }
+    })
+    
+    return resolvedConfig
+  }
+
+  private getCurrentComponentForSubsystem(subsystem: string): string {
+    // Map subsystem to configuration property
+    const configMap: Record<string, keyof UnitConfiguration> = {
+      engine: 'engineType',
+      gyro: 'gyroType',
+      structure: 'structureType',
+      armor: 'armorType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      targeting: 'targetingType',
+      movement: 'jumpJetType'
+    }
+    
+    const configKey = configMap[subsystem]
+    return configKey ? String(this.oldConfiguration[configKey] || 'Standard') : 'Standard'
+  }
+
+  private updateComponentInConfig(config: UnitConfiguration, subsystem: string, component: string): void {
+    const configMap: Record<string, keyof UnitConfiguration> = {
+      engine: 'engineType',
+      gyro: 'gyroType',
+      structure: 'structureType',
+      armor: 'armorType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      targeting: 'targetingType',
+      movement: 'jumpJetType'
+    }
+    
+    const configKey = configMap[subsystem]
+    if (configKey) {
+      (config as any)[configKey] = component
     }
   }
 }
@@ -116,6 +190,9 @@ export class UnitCriticalManagerFacade implements IUnitManagerCompatible {
 
   private commandHistory: UnitCommand[] = []
   private specialComponentsInitialized: boolean = false
+  
+  // NEW: Memory state for component resolution
+  private memoryState: ComponentMemoryState | null = null
 
   constructor(configuration: UnitConfiguration) {
     this.configuration = UnitConfigurationBuilder.buildConfiguration(configuration)
@@ -195,13 +272,28 @@ export class UnitCriticalManagerFacade implements IUnitManagerCompatible {
   }
 
   /**
-   * Update configuration using Command pattern
+   * NEW: Set memory state for component resolution
+   */
+  setMemoryState(memoryState: ComponentMemoryState): void {
+    this.memoryState = memoryState
+  }
+
+  /**
+   * NEW: Get memory state
+   */
+  getMemoryState(): ComponentMemoryState | null {
+    return this.memoryState
+  }
+
+  /**
+   * Update configuration using Command pattern with memory-first resolution
    */
   updateConfiguration(newConfiguration: UnitConfiguration): boolean {
-    const command = new ConfigurationUpdateCommand(
+    const command = new MemoryAwareConfigurationUpdateCommand(
       this,
       newConfiguration,
-      this.configuration
+      this.configuration,
+      this.memoryState || this.createDefaultMemoryState()
     )
     
     const success = command.execute()
@@ -213,14 +305,34 @@ export class UnitCriticalManagerFacade implements IUnitManagerCompatible {
   }
 
   /**
-   * Handle configuration changes
+   * NEW: Create default memory state if none exists
+   */
+  private createDefaultMemoryState(): ComponentMemoryState {
+    return {
+      techBaseMemory: {
+        chassis: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        engine: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        gyro: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        heatsink: { 'Inner Sphere': 'Single', 'Clan': 'Double (Clan)' },
+        armor: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        myomer: { 'Inner Sphere': 'None', 'Clan': 'None' },
+        targeting: { 'Inner Sphere': 'None', 'Clan': 'None' },
+        movement: { 'Inner Sphere': 'None', 'Clan': 'None' }
+      },
+      lastUpdated: Date.now(),
+      version: '1.0.0'
+    }
+  }
+
+  /**
+   * Handle configuration changes with enhanced component synchronization
    */
   handleConfigurationChange(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): void {
     // Use ConfigurationManager to handle configuration updates
     const result = this.configurationManager.updateConfiguration(newConfig)
     
     if (result.success) {
-      // Handle system component changes
+      // Handle system component changes with smart slot updates
       if (result.changes.engineChanged || result.changes.gyroChanged) {
         const allDisplacedEquipment = this.systemComponentsManager.handleSystemComponentChange(oldConfig, newConfig)
         if (allDisplacedEquipment.length > 0) {
@@ -236,6 +348,9 @@ export class UnitCriticalManagerFacade implements IUnitManagerCompatible {
       
       // Update all manager configurations
       this.updateManagerConfigurations(newConfig)
+      
+      // NEW: Notify state change for UI updates
+      this.eventManager.notifyStateChange()
     }
   }
 

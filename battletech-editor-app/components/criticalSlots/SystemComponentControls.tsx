@@ -57,7 +57,7 @@ export function SystemComponentControls() {
   const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight({ [jumpJetTypeName]: jumpMP }, config.tonnage, false) : 0
   const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits({ [jumpJetTypeName]: jumpMP }, config.tonnage) : 0
   const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat({ [jumpJetTypeName]: jumpMP }, jumpMP) : 0
-  const maxAllowedJumpMP = getMaxAllowedJumpMP(jumpJetTypeName, config.walkMP, config.runMP)
+  const maxAllowedJumpMP = getMaxAllowedJumpMP(jumpJetTypeName as JumpJetType, config.walkMP, config.runMP)
   
   // Generate tonnage options (20-100 in 5-ton increments)
   const tonnageOptions = Array.from({ length: 17 }, (_, i) => 20 + (i * 5))

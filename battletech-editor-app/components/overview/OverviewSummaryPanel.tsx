@@ -39,11 +39,18 @@ export const OverviewSummaryPanel: React.FC<OverviewSummaryPanelProps> = ({
   onRulesLevelChange
 }) => {
   
+  console.log(`[OverviewSummaryPanel] 🔥 Rendered with readOnly: ${readOnly}`)
+  console.log(`[OverviewSummaryPanel] 🔥 Rules level: ${rulesLevel}`)
+  
   // Calculate current era for display
   const currentEra = getEraForYear(introductionYear)
 
   const handleRulesLevelClick = (level: string) => {
-    onRulesLevelChange(level)
+    console.log(`[OverviewSummaryPanel] 🔥 Rules level clicked: ${level}`)
+    console.log(`[OverviewSummaryPanel] 🔥 ReadOnly state: ${readOnly}`)
+    if (!readOnly) {
+      onRulesLevelChange(level)
+    }
   }
 
   return (

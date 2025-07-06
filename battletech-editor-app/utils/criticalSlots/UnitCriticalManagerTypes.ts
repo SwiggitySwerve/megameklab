@@ -14,6 +14,7 @@ import {
   migrateStringToComponentConfiguration,
   getComponentTypeNames
 } from '../../types/componentConfiguration'
+import { TechProgression } from '../techProgression'
 
 export interface UnitValidationResult {
   isValid: boolean
@@ -125,6 +126,9 @@ export interface UnitConfiguration {
   
   // Enhancement systems
   enhancementType: ComponentConfiguration | null  // Movement enhancement systems (MASC, TSM, etc.)
+  
+  // NEW: Tech progression for memory-first component resolution
+  techProgression?: TechProgression  // Granular tech progression per subsystem
   
   // Legacy compatibility
   mass: number                       // Alias for tonnage

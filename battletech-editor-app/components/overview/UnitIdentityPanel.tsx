@@ -36,18 +36,28 @@ export const UnitIdentityPanel: React.FC<UnitIdentityPanelProps> = ({
   onIntroductionYearChange
 }) => {
   
+  console.log(`[UnitIdentityPanel] 🔥 Rendered with readOnly: ${readOnly}`)
+  console.log(`[UnitIdentityPanel] 🔥 Tech base: ${techBase}, Year: ${introductionYear}`)
+  
   // Calculate current era for display
   const currentEra = getEraForYear(introductionYear)
   const isMixedTechEnabled = techBase === 'Mixed'
 
   const handleTechBaseDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(`[UnitIdentityPanel] DROPDOWN CHANGE EVENT: ${e.target.value}`)
-    onTechBaseChange(e.target.value)
+    console.log(`[UnitIdentityPanel] 🔥 DROPDOWN CHANGE EVENT: ${e.target.value}`)
+    console.log(`[UnitIdentityPanel] 🔥 ReadOnly state: ${readOnly}`)
+    if (!readOnly) {
+      onTechBaseChange(e.target.value)
+    }
   }
 
   const handleYearInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const year = parseInt(e.target.value) || 3025
-    onIntroductionYearChange(year)
+    console.log(`[UnitIdentityPanel] 🔥 Year input change: ${year}`)
+    console.log(`[UnitIdentityPanel] 🔥 ReadOnly state: ${readOnly}`)
+    if (!readOnly) {
+      onIntroductionYearChange(year)
+    }
   }
 
   return (

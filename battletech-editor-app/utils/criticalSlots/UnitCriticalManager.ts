@@ -1,23 +1,24 @@
 /**
  * Unit Critical Manager - Unit-level equipment tracking and management
  * Aggregates all critical sections and manages equipment allocation across the entire unit
+ * ENHANCED: Added memory-first component resolution and tech progression integration
  */
 
 import { CriticalSection, LocationSlotConfiguration, FixedSystemComponent } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
-import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
+
 import { JumpJetType } from '../jumpJetCalculations'
 import { CriticalSlotCalculator } from './CriticalSlotCalculator'
 import { CriticalSlotBreakdown } from '../editor/UnitCalculationService'
 import { 
   ComponentConfiguration, 
   TechBase, 
-  ComponentCategory, 
   createComponentConfiguration,
   migrateStringToComponentConfiguration,
   getComponentTypeNames
 } from '../../types/componentConfiguration'
+import { ComponentCategory } from '../../types/componentDatabase'
 
 // Import types and builder from extracted files
 import {
@@ -54,9 +55,11 @@ import { ArmorManagementManager } from './ArmorManagementManager';
 import { SectionManagementManager } from './SectionManagementManager';
 import { WeightCalculationManager } from './WeightCalculationManager';
 
-
-
-
+// NEW: Memory-first component resolution imports
+import { ComponentMemoryState, TechBaseMemory } from '../../types/componentDatabase'
+import { TechProgression } from '../techProgression'
+import { validateAndResolveComponentWithMemory } from '../techBaseMemory'
+import { resolveComponentForTechBase } from '../componentResolution'
 
 // Standard mech location configurations
 const MECH_LOCATION_CONFIGS: LocationSlotConfiguration[] = [
@@ -169,6 +172,9 @@ export class UnitCriticalManager {
   private armorManagementManager: ArmorManagementManager;
   private sectionManagementManager: SectionManagementManager;
   private weightCalculationManager: WeightCalculationManager;
+  
+  // NEW: Memory state for component resolution
+  private memoryState: ComponentMemoryState | null = null
 
   // ===== HELPER METHODS FOR COMPONENT CONFIGURATION =====
 
@@ -410,11 +416,50 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Update unit configuration and handle special component changes
+   * NEW: Set memory state for component resolution
+   */
+  setMemoryState(memoryState: ComponentMemoryState): void {
+    this.memoryState = memoryState
+  }
+
+  /**
+   * NEW: Get memory state
+   */
+  getMemoryState(): ComponentMemoryState | null {
+    return this.memoryState
+  }
+
+  /**
+   * NEW: Create default memory state if none exists
+   */
+  private createDefaultMemoryState(): ComponentMemoryState {
+    return {
+      techBaseMemory: {
+        chassis: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        engine: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        gyro: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        heatsink: { 'Inner Sphere': 'Single', 'Clan': 'Double (Clan)' },
+        armor: { 'Inner Sphere': 'Standard', 'Clan': 'Standard' },
+        myomer: { 'Inner Sphere': 'None', 'Clan': 'None' },
+        targeting: { 'Inner Sphere': 'None', 'Clan': 'None' },
+        movement: { 'Inner Sphere': 'None', 'Clan': 'None' }
+      },
+      lastUpdated: Date.now(),
+      version: '1.0.0'
+    }
+  }
+
+  /**
+   * Update unit configuration and handle special component changes with memory-first resolution
    */
   updateConfiguration(newConfiguration: UnitConfiguration): void {
+    console.log('[UnitCriticalManager] Updating configuration with memory-first resolution')
+    
+    // NEW: Memory-first component resolution for tech progression changes
+    const resolvedConfiguration = this.resolveConfigurationWithMemory(this.configuration, newConfiguration)
+    
     // Use ConfigurationManager to handle configuration updates
-    const result = this.configurationManager.updateConfiguration(newConfiguration)
+    const result = this.configurationManager.updateConfiguration(resolvedConfiguration)
     
     if (result.success) {
       this.configuration = result.newConfiguration
@@ -440,6 +485,99 @@ export class UnitCriticalManager {
     
     // Ensure system components (heat sinks, jump jets) are updated to match new config
     this.systemComponentsManager.initializeEquipmentComponents()
+  }
+
+  /**
+   * NEW: Memory-first configuration resolution
+   */
+  private resolveConfigurationWithMemory(oldConfig: UnitConfiguration, newConfig: UnitConfiguration): UnitConfiguration {
+    const resolvedConfig = { ...newConfig }
+    const memoryState = this.memoryState || this.createDefaultMemoryState()
+    
+    // Check for tech progression changes
+    if (oldConfig.techProgression && newConfig.techProgression) {
+      Object.keys(newConfig.techProgression).forEach(subsystem => {
+        const oldTechBase = oldConfig.techProgression![subsystem as keyof TechProgression]
+        const newTechBase = newConfig.techProgression![subsystem as keyof TechProgression]
+        
+        if (oldTechBase !== newTechBase) {
+          const currentComponent = this.getCurrentComponentForSubsystem(subsystem, oldConfig)
+          // Map subsystem to ComponentCategory from componentDatabase.ts
+          const componentCategory = this.mapSubsystemToComponentCategory(subsystem)
+          const resolution = validateAndResolveComponentWithMemory(
+            currentComponent,
+            componentCategory,
+            oldTechBase,
+            newTechBase,
+            memoryState.techBaseMemory
+          )
+          
+          // Update the component in configuration
+          this.updateComponentInConfig(resolvedConfig, subsystem, resolution.resolvedComponent)
+          
+          // Update memory state
+          memoryState.techBaseMemory = resolution.updatedMemory
+        }
+      })
+    }
+    
+    return resolvedConfig
+  }
+
+  /**
+   * NEW: Map subsystem to ComponentCategory
+   */
+  private mapSubsystemToComponentCategory(subsystem: string): ComponentCategory {
+    const mapping: Record<string, ComponentCategory> = {
+      chassis: 'chassis',
+      engine: 'engine',
+      gyro: 'gyro',
+      heatsink: 'heatsink',
+      armor: 'armor',
+      myomer: 'myomer',
+      targeting: 'targeting',
+      movement: 'movement'
+    }
+    
+    return mapping[subsystem] || 'chassis'
+  }
+
+  /**
+   * NEW: Get current component for subsystem
+   */
+  private getCurrentComponentForSubsystem(subsystem: string, config: UnitConfiguration): string {
+    const configMap: Record<string, keyof UnitConfiguration> = {
+      engine: 'engineType',
+      gyro: 'gyroType',
+      structure: 'structureType',
+      armor: 'armorType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      movement: 'jumpJetType'
+    }
+    
+    const configKey = configMap[subsystem]
+    return configKey ? String(config[configKey] || 'Standard') : 'Standard'
+  }
+
+  /**
+   * NEW: Update component in configuration
+   */
+  private updateComponentInConfig(config: UnitConfiguration, subsystem: string, component: string): void {
+    const configMap: Record<string, keyof UnitConfiguration> = {
+      engine: 'engineType',
+      gyro: 'gyroType',
+      structure: 'structureType',
+      armor: 'armorType',
+      heatsink: 'heatSinkType',
+      myomer: 'enhancementType',
+      movement: 'jumpJetType'
+    }
+    
+    const configKey = configMap[subsystem]
+    if (configKey) {
+      (config as any)[configKey] = component
+    }
   }
 
   /**
