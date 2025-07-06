@@ -38,7 +38,8 @@ import {
 import {
   initializeMemorySystem,
   updateMemoryState,
-  saveMemoryToStorage
+  saveMemoryToStorage,
+  loadMemoryFromStorage
 } from '../../utils/memoryPersistence'
 import { isComponentAvailable } from '../../utils/componentDatabaseHelpers'
 import { getArmorType } from '../../utils/armorTypes';
@@ -55,185 +56,17 @@ export interface OverviewTabV2Props {
 }
 
 export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }) => {
-  const { unit, isConfigLoaded, updateConfiguration, unitVersion } = useUnit()
-  
-  const config = useMemo(() => {
-    console.log('[OverviewTabV2] useMemo triggered - unit reference changed:', {
-      unitId: unit?.constructor.name,
-      hasUnit: !!unit,
-      unitVersion
-    })
-    return unit?.getConfiguration()
-  }, [unit, unitVersion]);
-  
-  // State management
-  const [hasInitialized, setHasInitialized] = useState(false)
+  const { unit, updateConfiguration } = useUnit()
+  const [renderKey, setRenderKey] = useState(0)
   const [memoryState, setMemoryState] = useState<ComponentMemoryState | null>(null)
-  const [needsMemoryRestoration, setNeedsMemoryRestoration] = useState(false)
-  const [renderKey, setRenderKey] = useState(0) // Add back renderKey for TechProgressionPanel
-  
-  // Enhanced configuration - use actual config values directly
-  const enhancedConfig = {
-    ...config,
-    introductionYear: (config as any).introductionYear || 3068,
-    rulesLevel: (config as any).rulesLevel || 'Standard',
-    techBase: (config.techBase as 'Inner Sphere' | 'Clan' | 'Mixed') || 'Inner Sphere',
-    techProgression: (config as any).techProgression || {
-      chassis: 'Inner Sphere',
-      gyro: 'Inner Sphere',
-      engine: 'Inner Sphere',
-      heatsink: 'Inner Sphere',
-      targeting: 'Inner Sphere',
-      myomer: 'Inner Sphere',
-      movement: 'Inner Sphere',
-      armor: 'Inner Sphere'
-    },
-    techRating: (config as any).techRating || {
-      era2100_2800: 'D' as const,
-      era2801_3050: 'D' as const,
-      era3051_3082: 'D' as const,
-      era3083_Now: 'D' as const
-    }
-  }
-  
-  // === DIAGNOSTIC CODE START ===
-  useEffect(() => {
-    // Test component database availability
-    try {
-      const testResult = isComponentAvailable('Standard', 'engine', 'Inner Sphere')
-      console.log('[DIAGNOSTIC] Component database test (engine, IS, Standard):', testResult)
-    } catch (error) {
-      console.error('[DIAGNOSTIC] Component database error:', error)
-    }
-    // Log memory state and initialization
-    console.log('[DIAGNOSTIC] Memory state:', memoryState)
-    console.log('[DIAGNOSTIC] Has initialized:', hasInitialized)
-    console.log('[DIAGNOSTIC] Needs memory restoration:', needsMemoryRestoration)
-    // Log config and progression
-    console.log('[DIAGNOSTIC] Config:', config)
-    console.log('[DIAGNOSTIC] Enhanced config:', enhancedConfig)
-  }, [memoryState, hasInitialized, needsMemoryRestoration, config, enhancedConfig])
-  // === DIAGNOSTIC CODE END ===
-  
-  // Move all useEffect hooks to the top level, before any conditional logic
-  // Initialize enhanced fields and memory system on first load
-  useEffect(() => {
-    if (!hasInitialized && isConfigLoaded && unit) {
-      console.log('[OverviewTab] 💾 🚀 ONE-TIME INITIALIZATION - Enhanced config fields and memory system')
-      
-      // Get fresh config at initialization time
-      const currentConfig = unit.getConfiguration()
-      const updates: any = {}
-      
-      // Only set defaults if fields don't exist
-      if (!(currentConfig as any).introductionYear) {
-        updates.introductionYear = 3068
-      }
-      if (!(currentConfig as any).rulesLevel) {
-        updates.rulesLevel = 'Standard'
-      }
-      if (!(currentConfig as any).techProgression) {
-        updates.techProgression = {
-          chassis: 'Inner Sphere',
-          gyro: 'Inner Sphere',
-          engine: 'Inner Sphere',
-          heatsink: 'Inner Sphere',
-          targeting: 'Inner Sphere', // Start with Inner Sphere for consistency
-          myomer: 'Inner Sphere',
-          movement: 'Inner Sphere',
-          armor: 'Inner Sphere'
-        }
-      }
-      if (!(currentConfig as any).techRating) {
-        updates.techRating = {
-          era2100_2800: 'D' as const,
-          era2801_3050: 'D' as const,
-          era3051_3082: 'D' as const,
-          era3083_Now: 'D' as const
-        }
-      }
-      
-      // Initialize memory system FIRST
-      console.log('[OverviewTab] 💾 Initializing memory system')
-      const initialMemoryState = initializeMemorySystem()
-      setMemoryState(initialMemoryState)
-      
-      // 🔥 FIXED: Only apply memory restoration during true initialization
-      console.log('[OverviewTab] 💾 ⚠️ ONE-TIME MEMORY RESTORATION - This should only happen once')
-      const restorationUpdates = applyMemoryRestoration(currentConfig, initialMemoryState)
-      
-      // Check if restoration was deferred
-      if (restorationUpdates._needsMemoryRestoration) {
-        console.log('[OverviewTab] 💾 ⏳ Memory restoration deferred, will retry when components are available')
-        setNeedsMemoryRestoration(true)
-        delete restorationUpdates._needsMemoryRestoration // Remove flag before applying
-      }
-      
-      Object.assign(updates, restorationUpdates)
-      
-      // Only update if we have changes
-      if (Object.keys(updates).length > 0) {
-        console.log('[OverviewTab] 🚀 ONE-TIME CONFIG UPDATE (including memory restoration):', updates)
-        updateConfiguration({ ...currentConfig, ...updates })
-      }
-      
-      setHasInitialized(true)
-      console.log('[OverviewTab] ✅ INITIALIZATION COMPLETE - No more automatic restoration')
-    }
-  }, [isConfigLoaded, hasInitialized, unit, updateConfiguration])
-  
-  // Retry restoration when components become available
-  useEffect(() => {
-    if (needsMemoryRestoration && memoryState && isConfigLoaded && unit) {
-      console.log('[OverviewTab] 💾 🔄 Setting up retry mechanism...')
-      
-      // Use interval to periodically check for component availability
-      const retryInterval = setInterval(() => {
-        console.log('[OverviewTab] 💾 🔄 Checking component availability for retry...')
-        
-        const currentConfig = unit.getConfiguration()
-        const restorationUpdates = applyMemoryRestoration(currentConfig, memoryState)
-        
-        // Check if restoration succeeded this time
-        if (!restorationUpdates._needsMemoryRestoration) {
-          console.log('[OverviewTab] 💾 ✅ Retry restoration successful!')
-          
-          // Clear the retry flag
-          setNeedsMemoryRestoration(false)
-          
-          // Apply the restoration updates
-          delete restorationUpdates._needsMemoryRestoration
-          if (Object.keys(restorationUpdates).length > 0) {
-            console.log('[OverviewTab] 💾 🚀 Applying deferred restoration updates:', restorationUpdates)
-            updateConfiguration({ ...currentConfig, ...restorationUpdates })
-          }
-          
-          // Clear the interval since we succeeded
-          clearInterval(retryInterval)
-        } else {
-          console.log('[OverviewTab] 💾 ⏳ Components still not available, will retry again in 500ms')
-        }
-      }, 500) // Check every 500ms
-      
-      // Clean up interval after 10 seconds max to prevent infinite retries
-      const timeout = setTimeout(() => {
-        console.log('[OverviewTab] 💾 ⏰ Retry timeout reached, giving up on restoration')
-        clearInterval(retryInterval)
-        setNeedsMemoryRestoration(false)
-      }, 10000)
-      
-      // Cleanup function
-      return () => {
-        clearInterval(retryInterval)
-        clearTimeout(timeout)
-      }
-    }
-  }, [needsMemoryRestoration, memoryState, isConfigLoaded, unit, updateConfiguration])
-  
-  // Update memory only when user makes changes, not on every render
-  const updateMemoryFromConfig = useCallback(() => {
-    if (memoryState && isConfigLoaded && config) {
-      const currentProgression = (config as any).techProgression || {
+
+  // Memoize enhanced configuration to prevent unnecessary re-renders
+  const enhancedConfig = useMemo(() => {
+    if (!unit) return {} as any
+    const config = unit.getConfiguration()
+    return {
+      ...config,
+      techProgression: (config as any).techProgression || {
         chassis: 'Inner Sphere',
         gyro: 'Inner Sphere',
         engine: 'Inner Sphere',
@@ -243,160 +76,72 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
         movement: 'Inner Sphere',
         armor: 'Inner Sphere'
       }
-      
-      const currentComponents = {
-        chassis: getCurrentComponentForSubsystem('chassis', config),
-        engine: getCurrentComponentForSubsystem('engine', config),
-        gyro: getCurrentComponentForSubsystem('gyro', config),
-        heatsink: getCurrentComponentForSubsystem('heatsink', config),
-        armor: getCurrentComponentForSubsystem('armor', config),
-        myomer: getCurrentComponentForSubsystem('myomer', config),
-        targeting: getCurrentComponentForSubsystem('targeting', config),
-        movement: getCurrentComponentForSubsystem('movement', config)
-      }
-      
-      const updatedTechBaseMemory = initializeMemoryFromConfiguration(
-        currentProgression,
-        currentComponents
-      )
-      
-      // Create proper ComponentMemoryState object
-      const updatedMemory: ComponentMemoryState = {
-        techBaseMemory: updatedTechBaseMemory,
-        lastUpdated: Date.now(),
-        version: '1.0'
-      }
-      
-      setMemoryState(updatedMemory)
-      saveMemoryToStorage(updatedMemory)
     }
-  }, [memoryState, isConfigLoaded, config])
-  
-  // Early return after all hooks are defined
-  if (!isConfigLoaded || !config) {
-    return (
-      <div className="p-4">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-700 rounded w-1/4 mb-4"></div>
-          <div className="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
-          <div className="h-4 bg-gray-700 rounded w-3/4"></div>
-        </div>
-      </div>
-    )
-  }
-  
-  // 🔥 SIMPLIFIED: Clean memory restoration function with proper imports
-  const applyMemoryRestoration = (config: any, memoryState: ComponentMemoryState): any => {
-    if (!memoryState || !memoryState.techBaseMemory) {
-      console.log('[OverviewTab] 💾 No memory state available for restoration')
-      return {}
+  }, [unit, renderKey])
+
+  // Memoize property map to prevent recreation on every render
+  const propertyMap = useMemo(() => ({
+    chassis: 'structureType',
+    gyro: 'gyroType',
+    engine: 'engineType',
+    heatsink: 'heatSinkType',
+    targeting: 'targetingSystem',
+    myomer: 'enhancementType',
+    movement: 'mascType',
+    armor: 'armorType'
+  }), [])
+
+  // Helper function to get current component for a subsystem
+  const getCurrentComponentForSubsystem = useCallback((subsystem: keyof TechProgression, config: any): string => {
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      const value = config.enhancementType || 'Standard'
+      return value
     }
     
-    console.log('[OverviewTab] 💾 Attempting memory restoration from saved state')
-    const restorationUpdates: any = {}
+    const property = propertyMap[subsystem as keyof typeof propertyMap]
+    if (!property) return 'Standard'
     
-    // Get current tech progression (or use defaults)
-    const techProgression = config.techProgression || {
-      chassis: 'Inner Sphere',
-      gyro: 'Inner Sphere',
-      engine: 'Inner Sphere',
-      heatsink: 'Inner Sphere',
-      targeting: 'Inner Sphere',
-      myomer: 'Inner Sphere',
-      movement: 'Inner Sphere',
-      armor: 'Inner Sphere'
+    const value = config[property]
+    return value || 'Standard'
+  }, [propertyMap])
+
+  // Helper function to get config property for subsystem
+  const getConfigPropertyForSubsystem = useCallback((subsystem: keyof TechProgression): string | null => {
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      return 'enhancementType'
     }
     
-    // 🔥 SIMPLE APPROACH: Try restoration, defer if components not available
-    let componentsAvailable = true
-    // Quick test to see if component system is working
-    const testResult = isComponentAvailable('None', 'myomer', 'Inner Sphere')
-    if (testResult === undefined || testResult === null) {
-      componentsAvailable = false
-    }
+    return propertyMap[subsystem as keyof typeof propertyMap] || null
+  }, [propertyMap])
+
+  // Handle configuration updates with auto-calculation
+  const handleConfigUpdate = useCallback((updates: any) => {
+    console.log('[OverviewTab] Updating configuration:', updates)
+    const newConfig = { ...enhancedConfig, ...updates }
+    updateConfiguration(newConfig)
+  }, [enhancedConfig, updateConfiguration])
+
+  // Memory restoration function
+  const applyMemoryRestoration = useCallback((config: any, memoryState: ComponentMemoryState): any => {
+    if (!memoryState || !memoryState.techBaseMemory) return config
     
-    if (!componentsAvailable) {
-      console.log('[OverviewTab] 💾 🚫 Skipping restoration - will retry when components are available')
-      return { _needsMemoryRestoration: true }
-    }
+    const restoredConfig = { ...config }
+    const techBaseMemory = memoryState.techBaseMemory
     
-    console.log('[OverviewTab] 💾 ✅ Components available, proceeding with restoration')
-    
-    // For each subsystem, restore component from memory if available
-    Object.entries(techProgression).forEach(([subsystem, techBase]) => {
-      const savedComponent = memoryState.techBaseMemory[subsystem as keyof typeof memoryState.techBaseMemory]?.[techBase as 'Inner Sphere' | 'Clan']
-      
-      if (savedComponent && savedComponent !== 'None' && savedComponent !== 'Standard') {
+    // Restore components based on memory
+    Object.entries(techBaseMemory).forEach(([subsystem, memory]) => {
+      if (memory.preferredComponent && memory.lastTechBase) {
         const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression)
         if (configProperty) {
-          restorationUpdates[configProperty] = savedComponent
-          console.log(`[OverviewTab] 💾 ✅ Restored ${subsystem} (${techBase}) → ${savedComponent}`)
+          restoredConfig[configProperty] = memory.preferredComponent
         }
       }
     })
     
-    console.log(`[OverviewTab] 💾 🎯 Restoration completed with ${Object.keys(restorationUpdates).length} updates`)
-    return restorationUpdates
-  }
-  
-  // Fix property map to exclude myomer since it's now an array
-  const propertyMap = {
-    chassis: 'structureType',
-    gyro: 'gyroType', 
-    engine: 'engineType',
-    heatsink: 'heatSinkType',
-    armor: 'armorType',
-    targeting: 'targetingType',
-    movement: 'movementType'
-    // myomer removed - now handled as enhancements array
-  };
-
-  // Helper function to get current component for a subsystem
-  const getCurrentComponentForSubsystem = (subsystem: keyof TechProgression, config: any): string => {
-    // Special case for myomer/enhancements
-    if (subsystem === 'myomer') {
-      if (Array.isArray(config.enhancements) && config.enhancements.length > 0) {
-        return config.enhancements[0].type; // Return first enhancement type
-      }
-      return 'Standard';
-    }
-    
-    const property = propertyMap[subsystem as keyof typeof propertyMap];
-    if (!property) return 'Standard';
-    const value = config[property];
-    if (value && typeof value === 'object' && 'type' in value) {
-      return value.type;
-    }
-    return value || 'Standard';
-  }
-
-  // Helper function to get config property for subsystem
-  const getConfigPropertyForSubsystem = (subsystem: keyof TechProgression): string | null => {
-    // Special case for myomer/enhancements
-    if (subsystem === 'myomer') {
-      return 'enhancements';
-    }
-    
-    return propertyMap[subsystem as keyof typeof propertyMap] || null;
-  }
-
-  // Handle configuration updates with auto-calculation
-  const handleConfigUpdate = (updates: any) => {
-    console.log('[OverviewTab] Updating configuration:', updates)
-    const newConfig = { ...enhancedConfig, ...updates }
-    if ('introductionYear' in updates || 'techProgression' in updates) {
-      const year = updates.introductionYear || enhancedConfig.introductionYear
-      const progression = updates.techProgression || enhancedConfig.techProgression
-      newConfig.techRating = autoUpdateTechRating(year, progression, newConfig)
-      console.log('[OverviewTab] Auto-updated tech rating:', newConfig.techRating)
-    }
-    if ('techProgression' in updates && !('techBase' in updates) && (enhancedConfig.techBase as string) !== 'Mixed') {
-      const progression = updates.techProgression
-      newConfig.techBase = generateTechBaseString(progression)
-      console.log('[OverviewTab] Updated tech base string:', newConfig.techBase)
-    }
-    updateConfiguration(newConfig)
-  }
+    return restoredConfig
+  }, [getConfigPropertyForSubsystem])
 
   // Handle tech progression changes with memory-first component resolution
   const handleTechProgressionChange = useCallback((
@@ -503,7 +248,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     } catch (error) {
       console.error('[OverviewTab] Error updating tech progression:', error)
     }
-  }, [unit, memoryState, updateConfiguration, readOnly])
+  }, [unit, memoryState, updateConfiguration, readOnly, getCurrentComponentForSubsystem, getConfigPropertyForSubsystem])
 
   // Handle master tech base change with memory-aware component resolution
   const handleMasterTechBaseChange = useCallback((newTechBase: string) => {
@@ -519,7 +264,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
         return
       }
       let newProgression: TechProgression
-      let componentUpdates: any = {}
+      const componentUpdates: any = {}
       if (newTechBase === 'Mixed') {
         const currentProgression = (currentConfig as any).techProgression || {
           chassis: 'Inner Sphere',
@@ -571,15 +316,77 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     }
   }, [unit, memoryState, updateConfiguration, readOnly])
 
+  // Handle component changes with memory preservation
+  const handleComponentChange = useCallback((subsystem: keyof TechProgression, newComponent: string) => {
+    console.log(`[OverviewTab] Component change: ${subsystem} → ${newComponent}`)
+    if (readOnly) {
+      console.log('[OverviewTab] Skipping - readonly mode')
+      return
+    }
+    try {
+      const currentConfig = unit?.getConfiguration()
+      if (!currentConfig) {
+        console.error('[OverviewTab] No current configuration available')
+        return
+      }
+      const configProperty = getConfigPropertyForSubsystem(subsystem)
+      if (!configProperty) {
+        console.error(`[OverviewTab] No config property found for subsystem: ${subsystem}`)
+        return
+      }
+      const finalConfig = {
+        ...currentConfig,
+        [configProperty]: newComponent
+      }
+      console.log(`[OverviewTab] 🚀 Applying component configuration:`, {
+        subsystem,
+        configProperty,
+        newComponent
+      })
+      updateConfiguration(finalConfig)
+      setRenderKey(prev => prev + 1)
+      console.log(`[OverviewTab] ✅ Component update completed`)
+    } catch (error) {
+      console.error('[OverviewTab] Error updating component:', error)
+    }
+  }, [unit, updateConfiguration, readOnly, getConfigPropertyForSubsystem])
+
+  // Load memory state on mount
+  useEffect(() => {
+    const loadMemory = () => {
+      try {
+        const savedMemory = loadMemoryFromStorage()
+        if (savedMemory) {
+          setMemoryState(savedMemory)
+          console.log('[OverviewTab] Loaded memory state from storage')
+        }
+      } catch (error) {
+        console.error('[OverviewTab] Error loading memory state:', error)
+      }
+    }
+    loadMemory()
+  }, [])
+
+  // Apply memory restoration when config changes
+  useEffect(() => {
+    if (memoryState && enhancedConfig && Object.keys(enhancedConfig).length > 0) {
+      const restoredConfig = applyMemoryRestoration(enhancedConfig, memoryState)
+      if (JSON.stringify(restoredConfig) !== JSON.stringify(enhancedConfig)) {
+        console.log('[OverviewTab] Applying memory restoration')
+        updateConfiguration(restoredConfig)
+      }
+    }
+  }, [memoryState, enhancedConfig, applyMemoryRestoration, updateConfiguration])
+
   // Calculate current era and determine tech base status
   const currentEra = getEraForYear(enhancedConfig.introductionYear)
   const isMixedTechEnabled = (enhancedConfig.techBase as string) === 'Mixed'
   const primaryTechBase = enhancedConfig.techBase // Use the actual tech base setting
   // Fix: isMixed should be true if master tech base is Mixed
-  const isMixed = enhancedConfig.techBase === 'Mixed' as const;
+  const isMixed = enhancedConfig.techBase === 'Mixed' as const
 
   // Debug log for isMixed and techProgression
-  console.log('[OverviewTabV2] isMixed:', isMixed, 'techProgression:', enhancedConfig.techProgression);
+  console.log('[OverviewTabV2] isMixed:', isMixed, 'techProgression:', enhancedConfig.techProgression)
 
   console.log('[DEBUG] Render OverviewTabV2', {
     techBase: enhancedConfig.techBase,
@@ -599,59 +406,136 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
               </p>
             </div>
             <div className="text-right">
-              <div className="text-slate-300 font-medium">{config.chassis} {config.model}</div>
-              <div className="text-slate-400 text-sm">{config.tonnage}-ton {config.unitType}</div>
+              <div className="text-sm text-slate-400">Tech Rating</div>
+              <div className="text-lg font-bold text-slate-100">
+                {enhancedConfig.techRating || 'D'}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Content Area - Scrollable */}
-      <div className="flex-1 min-h-0 px-4 pb-4">
-        <div className="h-full overflow-y-auto">
-          {/* Two-column layout */}
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            {/* Left Column: Tech Base & Introduction (2/3 width) */}
-            <div className="xl:col-span-2 space-y-6">
-          
-          {/* Unit Identity Panel - Tech Base & Introduction Year */}
-          <UnitIdentityPanel
-            techBase={enhancedConfig.techBase}
-            introductionYear={enhancedConfig.introductionYear}
-            readOnly={readOnly}
-            onTechBaseChange={handleMasterTechBaseChange}
-            onIntroductionYearChange={(year) => handleConfigUpdate({ introductionYear: year })}
-          />
-
-          {/* Tech Progression Panel */}
-          <TechProgressionPanel
-            techProgression={enhancedConfig.techProgression}
-            currentConfig={enhancedConfig}
-            readOnly={readOnly}
-            renderKey={renderKey}
-            onTechProgressionChange={handleTechProgressionChange}
-            isMixed={isMixed}
-          />
-            </div>
-
-            {/* Right Column: Tech Rating Timeline (1/3 width) */}
-            <div className="space-y-6">
-              {/* Tech Rating Panel */}
-              <TechRatingPanel
-                techRating={enhancedConfig.techRating}
-                introductionYear={enhancedConfig.introductionYear}
-              />
-
-              {/* Overview Summary Panel */}
-              <OverviewSummaryPanel
-                rulesLevel={enhancedConfig.rulesLevel}
-                techBase={enhancedConfig.techBase}
-                introductionYear={enhancedConfig.introductionYear}
-                unitConfig={config}
-                readOnly={readOnly}
-                onRulesLevelChange={(rulesLevel) => handleConfigUpdate({ rulesLevel })}
+      {/* Main content area */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-6">
+        {/* Basic Information Section */}
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
+          <h3 className="text-lg font-semibold text-slate-100 mb-4">Basic Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Introduction Year
+              </label>
+              <input
+                type="number"
+                value={enhancedConfig.introductionYear || 3025}
+                onChange={(e) => handleConfigUpdate({ introductionYear: parseInt(e.target.value) || 3025 })}
+                disabled={readOnly}
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                min="2500"
+                max="3150"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Rules Level
+              </label>
+              <select
+                value={enhancedConfig.rulesLevel || 'Standard'}
+                onChange={(e) => handleConfigUpdate({ rulesLevel: e.target.value })}
+                disabled={readOnly}
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+              >
+                <option value="Introductory">Introductory</option>
+                <option value="Standard">Standard</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Experimental">Experimental</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Master Tech Base Section */}
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
+          <h3 className="text-lg font-semibold text-slate-100 mb-4">Master Tech Base</h3>
+          <div className="flex flex-wrap gap-3">
+            {(['Inner Sphere', 'Clan', 'Mixed'] as const).map((techBase) => (
+              <button
+                key={techBase}
+                onClick={() => handleMasterTechBaseChange(techBase)}
+                disabled={readOnly}
+                className={`px-4 py-2 rounded-md font-medium transition-colors ${
+                  enhancedConfig.techBase === techBase
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                {techBase}
+              </button>
+            ))}
+          </div>
+          <p className="text-sm text-slate-400 mt-2">
+            {isMixed 
+              ? 'Mixed tech allows different subsystems to use different tech bases'
+              : `${enhancedConfig.techBase} tech base applied to all subsystems`
+            }
+          </p>
+        </div>
+
+        {/* Tech Progression Section */}
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
+          <h3 className="text-lg font-semibold text-slate-100 mb-4">Technology Progression</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(['chassis', 'gyro', 'engine', 'heatsink', 'targeting', 'myomer', 'movement', 'armor'] as const).map((subsystem) => (
+              <div key={subsystem} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-md">
+                <span className="text-slate-300 capitalize">{subsystem}</span>
+                <div className="flex gap-2">
+                  {(['Inner Sphere', 'Clan'] as const).map((techBase) => (
+                    <button
+                      key={techBase}
+                      onClick={() => handleTechProgressionChange(subsystem, techBase)}
+                      disabled={readOnly || !isMixed}
+                      className={`px-3 py-1 text-xs rounded transition-colors ${
+                        enhancedConfig.techProgression?.[subsystem] === techBase
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-slate-600 text-slate-300 hover:bg-slate-500'
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      {techBase === 'Inner Sphere' ? 'IS' : 'Clan'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {!isMixed && (
+            <p className="text-sm text-slate-400 mt-2">
+              Enable Mixed tech base to configure individual subsystems
+            </p>
+          )}
+        </div>
+
+        {/* Component Configuration Section */}
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
+          <h3 className="text-lg font-semibold text-slate-100 mb-4">Component Configuration</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(['chassis', 'gyro', 'engine', 'heatsink', 'targeting', 'myomer', 'movement', 'armor'] as const).map((subsystem) => {
+              const currentComponent = getCurrentComponentForSubsystem(subsystem, enhancedConfig)
+              const configProperty = getConfigPropertyForSubsystem(subsystem)
+              
+              return (
+                <div key={subsystem} className="p-3 bg-slate-700/50 rounded-md">
+                  <label className="block text-sm font-medium text-slate-300 mb-2 capitalize">
+                    {subsystem}
+                  </label>
+                  <div className="text-sm text-slate-400 mb-2">
+                    Current: {currentComponent}
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    Property: {configProperty || 'N/A'}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

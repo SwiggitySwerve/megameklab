@@ -158,26 +158,15 @@ export class SpecialComponentsManager {
     newType: StructureType | ArmorType,
     componentType: 'structure' | 'armor'
   ): void {
-    const oldSlots = componentType === 'structure' 
-      ? this.getStructureCriticalSlots(oldType as StructureType)
-      : this.getArmorCriticalSlots(oldType as ArmorType)
-    
+    // Always clear all special components of this type before adding new ones
+    this.clearSpecialComponentsByType(componentType);
+
     const newSlots = componentType === 'structure'
       ? this.getStructureCriticalSlots(newType as StructureType)
       : this.getArmorCriticalSlots(newType as ArmorType)
 
-    if (oldSlots === newSlots) {
-      // Same number of slots, just update properties
-      this.updateComponentProperties(oldType, newType, componentType)
-    } else if (newSlots === 0) {
-      // Removing special components
-      this.removeSpecialComponents(oldType, componentType)
-    } else if (oldSlots === 0) {
-      // Adding special components
+    if (newSlots > 0) {
       this.addSpecialComponents(newType, componentType, newSlots)
-    } else {
-      // Different number of slots, transfer existing components
-      this.transferSpecialComponents(oldType, newType, componentType, oldSlots, newSlots)
     }
   }
 

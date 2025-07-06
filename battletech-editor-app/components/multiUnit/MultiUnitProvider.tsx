@@ -81,21 +81,21 @@ interface MultiUnitContextValue {
 
 const MultiUnitContext = createContext<MultiUnitContextValue | null>(null)
 
-// Default unit configuration for new units
+// Standard BattleTech default configuration for new units
 const createDefaultConfiguration = (): UnitConfiguration => ({
-  // Default chassis/model for new multi-unit tabs
-  chassis: 'Custom',
-  model: 'New Design',
+  // Standard BattleTech defaults - 50-ton mech with standard components
+  chassis: 'Standard',
+  model: '50-ton BattleMech',
   tonnage: 50,
   unitType: 'BattleMech',
   techBase: 'Inner Sphere',
   walkMP: 4,
   engineRating: 200,
   runMP: 6,
-  engineType: 'Standard' as EngineType,
-  gyroType: createDefaultComponentConfiguration('gyro', 'Inner Sphere'),
-  structureType: createDefaultComponentConfiguration('structure', 'Inner Sphere'),
-  armorType: createDefaultComponentConfiguration('armor', 'Inner Sphere'),
+  engineType: 'Standard',
+  gyroType: createComponentConfiguration('gyro', 'Standard')!,
+  structureType: createComponentConfiguration('structure', 'Standard')!,
+  armorType: createComponentConfiguration('armor', 'Standard')!,
   armorAllocation: {
     HD: { front: 9, rear: 0 },
     CT: { front: 20, rear: 6 },
@@ -107,15 +107,15 @@ const createDefaultConfiguration = (): UnitConfiguration => ({
     RL: { front: 20, rear: 0 }
   },
   armorTonnage: 8.0,
-  heatSinkType: createDefaultComponentConfiguration('heatSink', 'Inner Sphere'),
+  externalHeatSinks: 2,
+  heatSinkType: createComponentConfiguration('heatSink', 'Single')!,
   totalHeatSinks: 10,
-      internalHeatSinks: 8,
-    externalHeatSinks: 2,
-    enhancements: [],
-    jumpMP: 0,
-  jumpJetType: createDefaultComponentConfiguration('jumpJet', 'Inner Sphere'),
+  internalHeatSinks: 8,
+  jumpMP: 0,
+  jumpJetType: createComponentConfiguration('jumpJet', 'Standard Jump Jet')!,
   jumpJetCounts: {},
   hasPartialWing: false,
+  enhancements: [],
   mass: 50
 })
 
@@ -327,69 +327,57 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
           tabs.push(tab)
         }
         
-        if (tabs.length > 0) {
-          dispatch({
-            type: 'INITIALIZE_TABS',
-            payload: {
-              tabs,
-              activeTabId: metadata.activeTabId || tabs[0].id,
-              nextTabNumber: metadata.nextTabNumber
-            }
-          })
-          setIsInitialized(true)
-          return
-        }
-      }
-      
-      // Check for legacy single unit config
-      const legacyConfigStr = localStorage.getItem(LEGACY_CONFIG_KEY)
-      let initialConfig = createDefaultConfiguration()
-      let tabName = 'New Mech'
-      
-      if (legacyConfigStr) {
-        try {
-          const legacyConfig = JSON.parse(legacyConfigStr)
-          initialConfig = { ...initialConfig, ...legacyConfig }
-          tabName = `${initialConfig.tonnage}t Mech`
-          
-          // Remove legacy config after migration
-          localStorage.removeItem(LEGACY_CONFIG_KEY)
-        } catch (error) {
-          console.warn('Failed to migrate legacy configuration:', error)
-        }
-      }
-      
-      // Create first tab
-      const firstTab = createTabFromData('tab-1', tabName, initialConfig)
-      dispatch({
-        type: 'INITIALIZE_TABS',
-        payload: {
-          tabs: [firstTab],
-          activeTabId: firstTab.id,
+        // Update state with loaded tabs
+        dispatch({
+          type: 'INITIALIZE_TABS',
+          payload: {
+            tabs,
+            activeTabId: metadata.activeTabId,
+            nextTabNumber: metadata.nextTabNumber
+          }
+        })
+        
+        console.log(`[MultiUnitProvider] Loaded ${tabs.length} existing tabs from storage`)
+      } else {
+        // No existing tabs, create a new one with standard configuration
+        console.log('[MultiUnitProvider] No existing tabs found, creating new tab with standard configuration')
+        
+        const standardConfig = createDefaultConfiguration()
+        const newTab = createTabFromDataEnhanced('tab-1', 'Standard BattleMech', standardConfig)
+        
+        // Set as the only tab
+        const metadata: TabsMetadata = {
+          tabOrder: [newTab.id],
+          tabNames: { [newTab.id]: 'Standard BattleMech' },
+          activeTabId: newTab.id,
           nextTabNumber: 2
         }
-      })
-      
-      // Save initial state
-      saveTabsMetadata({
-        activeTabId: firstTab.id,
-        nextTabNumber: 2,
-        tabOrder: [firstTab.id],
-        tabNames: { [firstTab.id]: tabName }
-      })
-      
-      saveTabData(firstTab.id, initialConfig)
-      
+        
+        // Save to storage
+        localStorage.setItem(TABS_METADATA_KEY, JSON.stringify(metadata))
+        saveTabData(newTab.id, standardConfig)
+        
+        // Update state
+        dispatch({
+          type: 'INITIALIZE_TABS',
+          payload: {
+            tabs: [newTab],
+            activeTabId: newTab.id,
+            nextTabNumber: 2
+          }
+        })
+        
+        console.log('[MultiUnitProvider] Initialized with new standard BattleMech configuration')
+      }
     } catch (error) {
-      console.error('Failed to initialize tabs:', error)
-      
-      // Fallback: create default tab
-      const defaultTab = createTabFromData('tab-1', 'New Mech', createDefaultConfiguration())
+      console.error('[MultiUnitProvider] Error initializing tabs:', error)
+      // Fallback: create minimal tab
+      const fallbackTab = createTabFromDataEnhanced('tab-1', 'Fallback Mech', createDefaultConfiguration())
       dispatch({
         type: 'INITIALIZE_TABS',
         payload: {
-          tabs: [defaultTab],
-          activeTabId: defaultTab.id,
+          tabs: [fallbackTab],
+          activeTabId: fallbackTab.id,
           nextTabNumber: 2
         }
       })
@@ -406,10 +394,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     const stateManager = new UnitStateManager(config)
     const unitManager = stateManager.getCurrentUnit()
     
-    // Subscribe to unit state changes
+    // Subscribe to unit state changes and trigger saves
     const unsubscribe = unitManager.subscribe(() => {
-      console.log(`[MultiUnitProvider] Unit state changed for tab ${id}, forcing re-render`)
+      console.log(`[MultiUnitProvider] Unit state changed for tab ${id}, forcing re-render and saving state`)
       forceUpdate()
+      
+      // CRITICAL FIX: Save state whenever unit changes
+      saveCompleteState(id, unitManager)
     })
     
     // Store unsubscribe function on the unit manager for cleanup
@@ -456,59 +447,59 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   }
 
   /**
-   * Save complete unit state with debounced saving
+   * Save complete unit state directly to localStorage
    */
   const saveCompleteState = (tabId: string, unitManager: UnitCriticalManager) => {
-    const saveHandler = (completeState: CompleteUnitState) => {
-      if (typeof window === 'undefined') return
-      try {
-        const tabData: EnhancedTabData = {
-          completeState,
-          config: completeState.configuration, // Keep legacy config for compatibility
-          modified: new Date().toISOString(),
-          version: '2.0.0' // New version with complete state
-        }
-        localStorage.setItem(`${COMPLETE_STATE_PREFIX}${tabId}`, JSON.stringify(tabData))
-        console.log(`[MultiUnitProvider] Saved complete state for tab ${tabId}`)
-      } catch (error) {
-        console.error('Failed to save complete state:', error)
+    if (typeof window === 'undefined') return
+    
+    try {
+      console.log(`[MultiUnitProvider] Starting to save complete state for tab ${tabId}`)
+      const completeState = unitManager.serializeCompleteState()
+      console.log(`[MultiUnitProvider] Serialized state for tab ${tabId}:`, completeState)
+      
+      const tabData: EnhancedTabData = {
+        completeState,
+        config: completeState.configuration, // Keep legacy config for compatibility
+        modified: new Date().toISOString(),
+        version: '2.0.0' // New version with complete state
       }
+      
+      const key = `${COMPLETE_STATE_PREFIX}${tabId}`
+      const dataString = JSON.stringify(tabData)
+      localStorage.setItem(key, dataString)
+      
+      // Verify the save worked
+      const savedData = localStorage.getItem(key)
+      if (savedData) {
+        console.log(`[MultiUnitProvider] Successfully saved complete state for tab ${tabId}`)
+        console.log(`[MultiUnitProvider] Saved data size: ${savedData.length} characters`)
+      } else {
+        console.error(`[MultiUnitProvider] Failed to save complete state for tab ${tabId} - data not found in localStorage`)
+      }
+    } catch (error) {
+      console.error('Failed to save complete state:', error)
     }
-
-    const getStateCallback = () => {
-      return unitManager.serializeCompleteState()
-    }
-
-    // Use debounced saving
-    saveManager.scheduleSaveForTab(tabId, saveHandler, getStateCallback)
   }
 
   /**
    * Save complete state immediately (for critical operations)
    */
   const saveCompleteStateImmediately = (tabId: string, unitManager: UnitCriticalManager) => {
-    const saveHandler = (completeState: CompleteUnitState) => {
-      if (typeof window === 'undefined') return
-      try {
-        const tabData: EnhancedTabData = {
-          completeState,
-          config: completeState.configuration,
-          modified: new Date().toISOString(),
-          version: '2.0.0'
-        }
-        localStorage.setItem(`${COMPLETE_STATE_PREFIX}${tabId}`, JSON.stringify(tabData))
-        console.log(`[MultiUnitProvider] Saved complete state immediately for tab ${tabId}`)
-      } catch (error) {
-        console.error('Failed to save complete state immediately:', error)
+    if (typeof window === 'undefined') return
+    
+    try {
+      const completeState = unitManager.serializeCompleteState()
+      const tabData: EnhancedTabData = {
+        completeState,
+        config: completeState.configuration,
+        modified: new Date().toISOString(),
+        version: '2.0.0'
       }
+      localStorage.setItem(`${COMPLETE_STATE_PREFIX}${tabId}`, JSON.stringify(tabData))
+      console.log(`[MultiUnitProvider] Saved complete state immediately for tab ${tabId}`)
+    } catch (error) {
+      console.error('Failed to save complete state immediately:', error)
     }
-
-    const getStateCallback = () => {
-      return unitManager.serializeCompleteState()
-    }
-
-    // Use immediate saving
-    saveManager.saveTabImmediately(tabId, saveHandler, getStateCallback)
   }
 
   /**
@@ -519,47 +510,88 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       return { config: createDefaultConfiguration(), hasCompleteState: false }
     }
 
+    console.log(`[MultiUnitProvider] Loading tab data for ${tabId}`)
+
     try {
       // Try to load complete state first
-      const completeStateStr = localStorage.getItem(`${COMPLETE_STATE_PREFIX}${tabId}`)
+      const completeStateKey = `${COMPLETE_STATE_PREFIX}${tabId}`
+      const completeStateStr = localStorage.getItem(completeStateKey)
+      console.log(`[MultiUnitProvider] Complete state key: ${completeStateKey}`)
+      console.log(`[MultiUnitProvider] Complete state found: ${!!completeStateStr}`)
+      
       if (completeStateStr) {
-        const tabData: EnhancedTabData = JSON.parse(completeStateStr)
-        if (tabData.completeState) {
-          console.log(`[MultiUnitProvider] Loaded complete state for tab ${tabId}`)
-          return { 
-            config: tabData.completeState.configuration, 
-            hasCompleteState: true
+        try {
+          const tabData: EnhancedTabData = JSON.parse(completeStateStr)
+          console.log(`[MultiUnitProvider] Parsed tab data for ${tabId}:`, tabData)
+          
+          if (tabData.completeState && tabData.completeState.configuration) {
+            console.log(`[MultiUnitProvider] Loaded complete state for tab ${tabId}`)
+            console.log(`[MultiUnitProvider] Configuration from complete state:`, tabData.completeState.configuration)
+            return { 
+              config: tabData.completeState.configuration, 
+              hasCompleteState: true
+            }
+          } else {
+            console.warn(`[MultiUnitProvider] Complete state for tab ${tabId} is missing configuration, falling back to legacy`)
           }
+        } catch (parseError) {
+          console.error(`[MultiUnitProvider] Failed to parse complete state for tab ${tabId}:`, parseError)
+          // Remove corrupted data
+          localStorage.removeItem(completeStateKey)
         }
       }
 
       // Fallback to legacy configuration format
-      const legacyDataStr = localStorage.getItem(`${TAB_DATA_PREFIX}${tabId}`)
+      const legacyKey = `${TAB_DATA_PREFIX}${tabId}`
+      const legacyDataStr = localStorage.getItem(legacyKey)
+      console.log(`[MultiUnitProvider] Legacy key: ${legacyKey}`)
+      console.log(`[MultiUnitProvider] Legacy data found: ${!!legacyDataStr}`)
+      
       if (legacyDataStr) {
-        const legacyData = JSON.parse(legacyDataStr)
-        console.log(`[MultiUnitProvider] Loaded legacy config for tab ${tabId}`)
-        return { 
-          config: legacyData.config || createDefaultConfiguration(), 
-          hasCompleteState: false
+        try {
+          const legacyData = JSON.parse(legacyDataStr)
+          if (legacyData.config) {
+            console.log(`[MultiUnitProvider] Loaded legacy config for tab ${tabId}`)
+            console.log(`[MultiUnitProvider] Legacy configuration:`, legacyData.config)
+            return { 
+              config: legacyData.config, 
+              hasCompleteState: false
+            }
+          } else {
+            console.warn(`[MultiUnitProvider] Legacy data for tab ${tabId} is missing config`)
+          }
+        } catch (parseError) {
+          console.error(`[MultiUnitProvider] Failed to parse legacy data for tab ${tabId}:`, parseError)
+          // Remove corrupted data
+          localStorage.removeItem(legacyKey)
         }
       }
 
     } catch (error) {
-      console.error(`Failed to load tab data for ${tabId}:`, error)
+      console.error(`[MultiUnitProvider] Failed to load tab data for ${tabId}:`, error)
     }
 
-    return { config: createDefaultConfiguration(), hasCompleteState: false }
+    console.log(`[MultiUnitProvider] No saved state found for tab ${tabId}, using default configuration`)
+    const defaultConfig = createDefaultConfiguration()
+    console.log(`[MultiUnitProvider] Default configuration:`, defaultConfig)
+    return { config: defaultConfig, hasCompleteState: false }
   }
 
   /**
    * Create tab from data with complete state restoration
    */
   const createTabFromDataEnhanced = (id: string, name: string, config: UnitConfiguration): TabUnit => {
-    const stateManager = new UnitStateManager(config)
+    // CRITICAL FIX: Always load the actual saved data instead of using the passed config
+    const { config: savedConfig, hasCompleteState } = loadTabData(id)
+    
+    // Use the saved configuration if available, otherwise fall back to the passed config
+    const actualConfig = savedConfig || config
+    console.log(`[MultiUnitProvider] Creating tab ${id} with config:`, actualConfig)
+    
+    const stateManager = new UnitStateManager(actualConfig)
     const unitManager = stateManager.getCurrentUnit()
     
     // Check if we have complete state to restore
-    const { hasCompleteState } = loadTabData(id)
     if (hasCompleteState) {
       try {
         const completeStateStr = localStorage.getItem(`${COMPLETE_STATE_PREFIX}${id}`)
@@ -570,6 +602,7 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
             const success = unitManager.deserializeCompleteState(tabData.completeState)
             if (success) {
               console.log(`[MultiUnitProvider] Successfully restored complete state for tab ${id}`)
+              console.log(`[MultiUnitProvider] Restored configuration:`, unitManager.getConfiguration())
             } else {
               console.warn(`[MultiUnitProvider] Failed to restore complete state for tab ${id}, using config only`)
             }
@@ -578,7 +611,21 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       } catch (error) {
         console.error(`[MultiUnitProvider] Error restoring complete state for tab ${id}:`, error)
       }
+    } else {
+      console.log(`[MultiUnitProvider] No complete state found for tab ${id}, using configuration only`)
     }
+
+    // CRITICAL FIX: Subscribe to unit state changes and trigger saves
+    const unsubscribe = unitManager.subscribe(() => {
+      console.log(`[MultiUnitProvider] Unit state changed for tab ${id}, forcing re-render and saving state`)
+      forceUpdate()
+      
+      // Save state whenever unit changes
+      saveCompleteState(id, unitManager)
+    })
+    
+    // Store unsubscribe function on the unit manager for cleanup
+    ;(unitManager as any)._unsubscribe = unsubscribe
 
     return {
       id,
@@ -597,7 +644,7 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     const tabName = name || `New Mech ${state.nextTabNumber === 1 ? '' : state.nextTabNumber}`.trim()
     const tabConfig = config || createDefaultConfiguration()
     
-    const newTab = createTabFromData(tabId, tabName, tabConfig)
+    const newTab = createTabFromDataEnhanced(tabId, tabName, tabConfig)
     
     const newTabs = [...state.tabs, newTab]
     
@@ -779,6 +826,14 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     }
   }, [activeTab?.unitManager]) // Re-subscribe when active tab's unit manager changes
 
+  // CRITICAL FIX: Save initial state when component mounts
+  useEffect(() => {
+    if (activeTab && isInitialized) {
+      console.log('[MultiUnitProvider] Component initialized, saving initial state for active tab')
+      saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
+    }
+  }, [isInitialized, activeTab])
+  
   // Proxy functions for active tab's unit operations
   const updateActiveTabConfiguration = useCallback((config: UnitConfiguration) => {
     if (!activeTab) return
@@ -811,6 +866,30 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     console.log('[MultiUnitProvider] Configuration update complete with full state persistence')
   }, [activeTab])
   
+  // Debug function to check localStorage contents
+  const debugLocalStorage = () => {
+    if (typeof window === 'undefined') return {}
+    
+    const debug: any = {}
+    const keys = Object.keys(localStorage)
+    
+    keys.forEach(key => {
+      if (key.startsWith('tabs_metadata') || key.startsWith('complete_state_') || key.startsWith('tab_data_')) {
+        try {
+          const value = localStorage.getItem(key)
+          if (value) {
+            debug[key] = JSON.parse(value)
+          }
+        } catch (error) {
+          debug[key] = `Error parsing: ${error}`
+        }
+      }
+    })
+    
+    console.log('[MultiUnitProvider] localStorage debug:', debug)
+    return debug
+  }
+
   // Context value
   const contextValue: MultiUnitContextValue = {
     // State
@@ -999,14 +1078,28 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         
         // Save complete state with debouncing
         saveCompleteState(activeTab.id, activeTab.unitManager)
-      } else {
-        console.error(`[MultiUnitProvider] Equipment allocation failed for ${selectedEquipmentId} to ${location} slot ${slotIndex}`)
+        
+        return true
       }
       
-      return success
+      return false
     },
     getDebugInfo: () => {
-      return activeTab?.stateManager.getDebugInfo() || null
+      return {
+        localStorage: debugLocalStorage(),
+        activeTab: activeTab ? {
+          id: activeTab.id,
+          name: activeTab.name,
+          config: activeTab.unitManager.getConfiguration(),
+          isModified: activeTab.isModified,
+          modified: activeTab.modified
+        } : null,
+        tabs: state.tabs.map(tab => ({
+          id: tab.id,
+          name: tab.name,
+          isModified: tab.isModified
+        }))
+      }
     }
   }
   

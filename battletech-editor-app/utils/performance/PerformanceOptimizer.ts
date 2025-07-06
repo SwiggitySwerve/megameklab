@@ -405,7 +405,7 @@ export function PerformanceMonitor({
     }
   }, [metrics.renderTime, componentName])
 
-  return <>{children}</>
+  return React.createElement(React.Fragment, null, children)
 }
 
 // CRITICAL: Performance utilities are already exported individually above 

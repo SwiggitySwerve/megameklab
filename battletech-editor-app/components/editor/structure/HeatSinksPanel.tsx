@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { EditableUnit } from '../../../types/editor';
+import { calculateInternalHeatSinksForEngine } from '../../../utils/heatSinkCalculations';
 
 interface HeatSinksPanelProps {
   unit: EditableUnit;
@@ -24,7 +25,6 @@ const HeatSinksPanel: React.FC<HeatSinksPanelProps> = ({
   const engineFreeHeatSinks = useMemo(() => {
     // Fusion engines provide free heat sinks based on rating
     const engineType = unit.data?.engine?.type || 'fusion';
-    const { calculateInternalHeatSinksForEngine } = require('../../../utils/heatSinkCalculations');
     return calculateInternalHeatSinksForEngine(engineRating, engineType);
   }, [engineRating, unit.data?.engine?.type]);
 

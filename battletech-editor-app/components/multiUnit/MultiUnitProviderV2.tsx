@@ -294,10 +294,10 @@ export function MultiUnitProvider({ children, syncOptions }: MultiUnitProviderPr
     renameTab,
     duplicateTab,
     
-    // Active tab unit data (fresh data from unit each render)
+    // Active tab unit data (proxy to active tab's unit)
     unit: activeTab?.unitManager || null,
     engineType: activeTab?.unitManager.getEngineType() || null,
-    gyroType: activeTab?.unitManager.getGyroType() || null,
+    gyroType: (activeTab?.unitManager.getGyroType() as GyroType) || null,
     unallocatedEquipment: activeTab?.unitManager.getUnallocatedEquipment() || [],
     validation: activeTab?.stateManager.getUnitSummary().validation || null,
     summary: activeTab?.stateManager.getUnitSummary().summary || null,

@@ -83,8 +83,8 @@ export class UnitStateManager {
    */
   private createDefaultConfiguration(): UnitConfiguration {
     return {
-      chassis: 'Custom',
-      model: 'New Design',
+      chassis: 'Standard',
+      model: '50-ton BattleMech',
       tonnage: 50,
       unitType: 'BattleMech',
       techBase: 'Inner Sphere',

@@ -167,7 +167,7 @@ export function UnitProvider({ children, initialConfiguration }: UnitProviderPro
     return {
       unit,
       engineType: unit.getEngineType(),
-      gyroType: unit.getGyroType(),
+      gyroType: unit.getGyroType() as GyroType,
       unallocatedEquipment: unit.getUnallocatedEquipment(),
       validation: summary.validation,
       summary: summary.summary,

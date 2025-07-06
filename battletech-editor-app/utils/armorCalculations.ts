@@ -12,6 +12,9 @@
 import { ArmorType } from '../types/systemComponents';
 import { getInternalStructurePoints, getMaxArmorPoints, getMaxArmorPointsForLocation } from './internalStructureTable';
 
+// Export the standard armor points per ton for backward compatibility
+export const ARMOR_POINTS_PER_TON = 16;
+
 export interface ArmorSpecification {
   type: ArmorType;
   pointsPerTon: number;

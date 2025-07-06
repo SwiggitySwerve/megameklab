@@ -699,9 +699,8 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
       <div className="equipment-list max-h-96 overflow-y-auto space-y-2">
         {filteredEquipment.map(equipment => {
           const techId = equipment.id.replace(/_/g, '_');
-          const isAvailable = isEquipmentAvailable(techId, currentYear, faction);
-          const availabilityRating = getAvailabilityRating(techId, currentYear, faction);
-          const techData = EQUIPMENT_TECH_DATA[techId];
+          const isAvailable = isEquipmentAvailable(equipment, currentYear, faction);
+          const availabilityRating = getAvailabilityRating(equipment, currentYear, faction);
           
           return (
             <div
@@ -723,9 +722,9 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
                   <h4 className={`font-medium text-sm ${!isAvailable ? 'text-gray-500' : 'text-gray-900'}`}>
                     {equipment.name}
                   </h4>
-                  {!isAvailable && techData && (
+                  {!isAvailable && (
                     <span className="text-xs text-red-600">
-                      ({techData.extinctionYear ? 'Extinct' : 'Not Yet Available'})
+                      (Not Available)
                     </span>
                   )}
                 </div>
@@ -804,18 +803,6 @@ const EquipmentDatabase: React.FC<EquipmentDatabaseProps> = ({
                     )}
                     {equipment.data?.specials && (
                       <div><strong>Special Rules:</strong> {Array.isArray(equipment.data.specials) ? equipment.data.specials.join(', ') : equipment.data.specials}</div>
-                    )}
-                    {techData && (
-                      <>
-                        <div><strong>Introduction Year:</strong> {techData.introductionYear}</div>
-                        {techData.extinctionYear && (
-                          <div><strong>Extinction Year:</strong> {techData.extinctionYear}</div>
-                        )}
-                        {techData.reintroductionYear && (
-                          <div><strong>Reintroduction Year:</strong> {techData.reintroductionYear}</div>
-                        )}
-                        <div><strong>Rules Level:</strong> {techData.rulesLevel}</div>
-                      </>
                     )}
                   </div>
                 </div>

@@ -14,7 +14,7 @@ import { useUnit } from '../../multiUnit/MultiUnitProvider';
 import { ArmorEfficiencyNotification } from '../../armor/ArmorEfficiencyNotification';
 
 // Import armor calculations
-import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../../utils/armorCalculations';
+import { ARMOR_POINTS_PER_TON, calculateArmorWeight } from '../../../utils/armorCalculations';
 import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, calculateRemainingTonnageForArmor } from '../../../utils/armorAllocation';
 import { getAvailableArmorTypes } from '../../../utils/componentOptionFiltering';
 

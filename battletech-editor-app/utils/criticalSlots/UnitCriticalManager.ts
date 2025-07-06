@@ -6,8 +6,6 @@
 import { CriticalSection, LocationSlotConfiguration, FixedSystemComponent } from './CriticalSection'
 import { EquipmentObject, EquipmentAllocation } from './CriticalSlot'
 import { EngineType, GyroType, SystemComponentRules } from './SystemComponentRules'
-import { ARMOR_SLOT_REQUIREMENTS, getArmorSlots } from '../armorCalculations'
-import { JumpJetType } from '../jumpJetCalculations'
 import { CriticalSlotCalculator } from './CriticalSlotCalculator'
 import { CriticalSlotBreakdown } from '../editor/UnitCalculationService'
 import { 
@@ -226,13 +224,6 @@ export class UnitCriticalManager {
    */
   private getHeatSinkTypeString(): HeatSinkType {
     return UnitCriticalManager.extractComponentType(this.configuration.heatSinkType) as HeatSinkType
-  }
-
-  /**
-   * Get jump jet type as string
-   */
-  private getJumpJetTypeString(): JumpJetType {
-    return UnitCriticalManager.extractComponentType(this.configuration.jumpJetType) as JumpJetType
   }
 
   /**
@@ -545,10 +536,12 @@ export class UnitCriticalManager {
   ): void {
     // Use SpecialComponentsManager for structure and armor components
     this.specialComponentsManager.handleSpecialComponentConfigurationChange(oldConfig, newConfig)
-    
+    // Ensure manager reference is up to date
+    this.specialComponentsManager.updateUnallocatedEquipmentReference(this.unallocatedEquipment)
     // Use SystemComponentsManager for heat sink and jump jet components
     this.systemComponentsManager.updateJumpJetEquipment(oldConfig, newConfig)
-    
+    // Notify state change so UI updates
+    this.eventManager.notifyStateChange()
     console.log(`[UnitCriticalManager] ULTIMATE FIX: Special component update complete. Final unallocated count: ${this.unallocatedEquipment.length}`)
   }
 
@@ -593,6 +586,8 @@ export class UnitCriticalManager {
       const specialEq = eq.equipmentData as SpecialEquipmentObject
       return !(specialEq.componentType === componentType)
     })
+    // Force new array reference for React reactivity
+    this.unallocatedEquipment = [...this.unallocatedEquipment]
     
     // Remove from allocated slots across all sections
     let removedFromSlots = 0
@@ -2025,17 +2020,39 @@ export class UnitCriticalManager {
       version: '1.0.0',
       configuration: {
         tonnage: 0,
-        engineType: createComponentConfiguration('engine', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        engineType: 'Standard',
         engineRating: 0,
         gyroType: createComponentConfiguration('gyro', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
         armorType: createComponentConfiguration('armor', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
         armorTonnage: 0,
         externalHeatSinks: 0,
-        heatSinkType: createComponentConfiguration('heatSink', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        heatSinkType: createComponentConfiguration('heatSink', 'Single') || { type: 'Single', techBase: 'Inner Sphere' },
         jumpMP: 0,
         jumpJetType: createComponentConfiguration('jumpJet', 'Standard Jump Jet') || { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
         techBase: 'Inner Sphere',
-        structureType: createComponentConfiguration('structure', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' }
+        structureType: createComponentConfiguration('structure', 'Standard') || { type: 'Standard', techBase: 'Inner Sphere' },
+        // Add required fields with default values
+        chassis: '',
+        model: '',
+        unitType: 'BattleMech',
+        walkMP: 0,
+        runMP: 0,
+        armorAllocation: {
+          HD: { front: 0, rear: 0 },
+          CT: { front: 0, rear: 0 },
+          LT: { front: 0, rear: 0 },
+          RT: { front: 0, rear: 0 },
+          LA: { front: 0, rear: 0 },
+          RA: { front: 0, rear: 0 },
+          LL: { front: 0, rear: 0 },
+          RL: { front: 0, rear: 0 }
+        },
+        totalHeatSinks: 10,
+        internalHeatSinks: 10,
+        jumpJetCounts: {},
+        hasPartialWing: false,
+        enhancements: [],
+        mass: 0
       },
       criticalSlotAllocations: {},
       unallocatedEquipment: [],

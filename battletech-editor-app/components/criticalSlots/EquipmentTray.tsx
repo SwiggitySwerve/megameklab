@@ -134,17 +134,33 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
     const actualEquipment = equipment.equipmentData || equipment;
     const name = actualEquipment.name?.toLowerCase() || '';
     
-    // Check for structure/armor components via componentType field
+    // Check for configuration components via componentType field
     const specialEq = actualEquipment as any;
-    const isStructureOrArmor = specialEq.componentType === 'structure' || specialEq.componentType === 'armor';
+    const isConfigComponent = specialEq.componentType === 'structure' || 
+                             specialEq.componentType === 'armor' ||
+                             specialEq.componentType === 'heatSink' ||
+                             specialEq.componentType === 'engine' ||
+                             specialEq.componentType === 'gyro' ||
+                             specialEq.componentType === 'jumpJet';
     
-    // Check for jump jets - these should only be managed via movement configuration
+    // Additional name-based checks for legacy equipment or components without componentType
+    const isHeatSink = name.includes('heat') && name.includes('sink');
+    const isEndoSteel = name.includes('endo') || name.includes('steel');
+    const isFerroFibrous = name.includes('ferro') || name.includes('fibrous');
     const isJumpJet = name.includes('jump') || name.includes('umu') || name.includes('booster');
+    const isMASC = name.includes('masc');
+    const isEngine = name.includes('engine') || name.includes('power plant');
+    const isGyro = name.includes('gyro');
+    const isCockpit = name.includes('cockpit') || name.includes('life support') || name.includes('sensors');
+    const isActuator = name.includes('actuator') || name.includes('shoulder') || name.includes('hip');
+    const isCASE = name.includes('case');
+    const isTSM = name.includes('tsm') || name.includes('triple strength');
+    const isPartialWing = name.includes('partial wing');
+    const isMechTorso = name.includes('torso') || name.includes('shoulder') || name.includes('hip');
     
-    const isConfigComponent = isStructureOrArmor || isJumpJet;
-    
-    
-    return isConfigComponent;
+    return isConfigComponent || isHeatSink || isEndoSteel || isFerroFibrous || 
+           isJumpJet || isMASC || isEngine || isGyro || isCockpit || isActuator ||
+           isCASE || isTSM || isPartialWing || isMechTorso;
   };
 
   // Handle single click for testing
@@ -182,7 +198,41 @@ function EquipmentTrayItem({ equipment, index, onRemove, readOnly = false }: Equ
     if (readOnly) return equipmentData.name;
     
     if (isConfigurationComponent(equipmentAny)) {
-      return `${equipmentData.name} (Configuration component - modify via Structure tab)`;
+      const componentType = (equipmentAny as any).componentType;
+      const name = equipmentData.name.toLowerCase();
+      let tabName = 'Structure';
+      let reason = 'Configuration component';
+      
+      // Determine which tab manages this component and provide specific reason
+      if (componentType === 'heatSink' || name.includes('heat sink')) {
+        tabName = 'Structure';
+        reason = 'Heat sink - modify via Structure tab';
+      } else if (componentType === 'engine' || name.includes('engine')) {
+        tabName = 'Structure';
+        reason = 'Engine - modify via Structure tab';
+      } else if (componentType === 'gyro' || name.includes('gyro')) {
+        tabName = 'Structure';
+        reason = 'Gyro - modify via Structure tab';
+      } else if (componentType === 'jumpJet' || name.includes('jump')) {
+        tabName = 'Movement';
+        reason = 'Jump jet - modify via Movement tab';
+      } else if (componentType === 'armor' || name.includes('ferro') || name.includes('endo')) {
+        tabName = 'Armor';
+        reason = 'Armor/Structure - modify via Armor tab';
+      } else if (name.includes('masc')) {
+        tabName = 'Movement';
+        reason = 'MASC - modify via Movement tab';
+      } else if (name.includes('case')) {
+        tabName = 'Equipment';
+        reason = 'CASE - modify via Equipment tab';
+      } else if (name.includes('tsm')) {
+        tabName = 'Equipment';
+        reason = 'TSM - modify via Equipment tab';
+      } else {
+        reason = `Configuration component - modify via ${tabName} tab`;
+      }
+      
+      return `${equipmentData.name} (${reason})`;
     }
     
     return 'Double-click to remove';

@@ -353,3 +353,52 @@ export function validateTechProgression(progression: TechProgression): {
     errors
   }
 }
+
+// Equipment availability functions
+export function isEquipmentAvailable(
+  equipment: any, 
+  year: number = 3025, 
+  faction?: string
+): boolean {
+  // Simple availability check based on year
+  const introYear = equipment.introductionYear || 2000;
+  return year >= introYear;
+}
+
+export function getAvailabilityRating(
+  equipment: any, 
+  year: number = 3025, 
+  faction?: string
+): string {
+  // Simple availability rating based on year
+  const introYear = equipment.introductionYear || 2000;
+  const yearsSinceIntro = year - introYear;
+  
+  if (yearsSinceIntro < 0) return 'X'; // Not available
+  if (yearsSinceIntro < 50) return 'F'; // Very rare
+  if (yearsSinceIntro < 100) return 'E'; // Rare
+  if (yearsSinceIntro < 200) return 'D'; // Uncommon
+  if (yearsSinceIntro < 300) return 'C'; // Common
+  if (yearsSinceIntro < 400) return 'B'; // Very common
+  return 'A'; // Ubiquitous
+}
+
+export function getEraFromYear(year: number): string {
+  if (year < 2100) return 'Age of War';
+  if (year < 2800) return 'Star League';
+  if (year < 3050) return 'Succession Wars';
+  if (year < 3082) return 'Clan Invasion';
+  return 'Dark Age';
+}
+
+// Equipment tech data constants
+export const EQUIPMENT_TECH_DATA = {
+  eras: {
+    'Age of War': { start: 2100, end: 2800 },
+    'Star League': { start: 2100, end: 2800 },
+    'Succession Wars': { start: 2801, end: 3050 },
+    'Clan Invasion': { start: 3051, end: 3082 },
+    'Dark Age': { start: 3083, end: 3150 }
+  },
+  availabilityRatings: ['A', 'B', 'C', 'D', 'E', 'F', 'X'] as const
+};
