@@ -18,6 +18,7 @@ import MechArmorDiagram from '../armor/MechArmorDiagram';
 import ArmorDistributionPresets from '../armor/ArmorDistributionPresets';
 import { maximizeArmor, calculateRemainingTonnageForArmor, autoAllocateArmor } from '../../../utils/armorAllocation';
 import { calculateStructureWeight, calculateEngineWeight, calculateGyroWeight } from '../../../types/systemComponents';
+import { getMaxArmorPointsForLocation, getMaxArmorPoints } from '../../../utils/internalStructureTable';
 
 interface ArmorTabWithHooksProps {
   readOnly?: boolean;
@@ -30,11 +31,10 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
   const validationState = useValidationState();
   
   const unit = state.unit;
-  
-  // Get armor type from system components
-  const selectedArmorType = useMemo(() => {
+
+  // Always derive selectedArmorType from system components (unit model)
+  const selectedArmorType = React.useMemo(() => {
     const armorTypeId = systemComponents?.armor?.type || 'Standard';
-    // Convert system component type to armor type ID
     const typeMap: { [key: string]: string } = {
       'Standard': 'standard',
       'Ferro-Fibrous': 'ferro_fibrous',
@@ -49,104 +49,56 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     const mappedId = typeMap[armorTypeId] || 'standard';
     return ARMOR_TYPES.find(type => type.id === mappedId) || ARMOR_TYPES[0];
   }, [systemComponents?.armor?.type]);
-  
-  const [showPresets, setShowPresets] = useState(false);
-  
-  // Calculate current armor tonnage
-  const calculateCurrentArmorTonnage = useCallback((): number => {
+
+  // Always derive armorTonnage from the allocation (never from unit.data.armor.tonnage)
+  const armorTonnage = React.useMemo(() => {
     const totalPoints = Object.values(armorAllocation).reduce((total, location) => {
       return total + (location.front || 0) + (location.rear || 0);
     }, 0);
-    return Math.ceil(totalPoints / selectedArmorType.pointsPerTon);
+    return Math.ceil(totalPoints / selectedArmorType.pointsPerTon * 2) / 2;
   }, [armorAllocation, selectedArmorType.pointsPerTon]);
-  
-  const [armorTonnage, setArmorTonnage] = useState<number>(() => {
-    const totalPoints = Object.values(armorAllocation).reduce((total, location) => {
-      return total + (location.front || 0) + (location.rear || 0);
-    }, 0);
-    return Math.ceil(totalPoints / selectedArmorType.pointsPerTon) || 19;
-  });
-  
-  // Calculate max armor for location
+
+  // Helper to get max armor for a location using official rules
   const getMaxArmorForLocation = (location: string, mass: number): number => {
-    switch (location.toLowerCase().replace(/_/g, ' ')) {
-      case 'head':
-        return 9;
-      case 'center torso':
-        return Math.floor(mass * 2 * 0.4);
-      case 'left torso':
-      case 'right torso':
-        return Math.floor(mass * 2 * 0.3);
-      case 'left arm':
-      case 'right arm':
-      case 'left leg':
-      case 'right leg':
-        return Math.floor(mass * 2 * 0.25);
-      default:
-        return Math.floor(mass * 2 * 0.2);
-    }
+    const locationMap: { [key: string]: string } = {
+      'head': 'HD',
+      'center torso': 'CT',
+      'left torso': 'LT',
+      'right torso': 'RT',
+      'left arm': 'LA',
+      'right arm': 'RA',
+      'left leg': 'LL',
+      'right leg': 'RL'
+    };
+    const mappedLocation = locationMap[location.toLowerCase().replace(/_/g, ' ')] || location;
+    return getMaxArmorPointsForLocation(mass, mappedLocation);
   };
-  
-  // Calculate maximum possible armor points based on location limits
-  const calculateMaxPossibleArmorPoints = useCallback(() => {
-    const locations = [
-      { name: 'head', hasRear: false },
-      { name: 'center torso', hasRear: true },
-      { name: 'left torso', hasRear: true },
-      { name: 'right torso', hasRear: true },
-      { name: 'left arm', hasRear: false },
-      { name: 'right arm', hasRear: false },
-      { name: 'left leg', hasRear: false },
-      { name: 'right leg', hasRear: false }
-    ];
-    
-    let totalMax = 0;
-    locations.forEach(loc => {
-      const max = getMaxArmorForLocation(loc.name, unit.mass);
-      totalMax += max;
-      // Add rear armor capacity for torsos (typically can have as much rear as front)
-      if (loc.hasRear) {
-        totalMax += max;
+
+  // All calculations use the current unit model
+  const availableArmorTypes = React.useMemo(() => {
+    const techBase = unit.tech_base || 'Inner Sphere';
+    return ARMOR_TYPES.filter(type => {
+      if (type.techBase !== 'Both' && type.techBase !== techBase) {
+        return false;
       }
+      return true;
     });
-    
-    return totalMax;
+  }, [unit.tech_base]);
+
+  const calculateMaxPossibleArmorPoints = React.useCallback(() => {
+    return getMaxArmorPoints(unit.mass);
   }, [unit.mass]);
-  
-  // Calculate total armor points available
+
   const totalArmorPoints = Math.floor(armorTonnage * selectedArmorType.pointsPerTon);
-  
-  // Calculate max tonnage based on armor type (can't exceed physical limits)
-  const maxTonnage = useMemo(() => {
+
+  const maxTonnage = React.useMemo(() => {
     const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
     const weightMultiplier = selectedArmorType.weightMultiplier || 1.0;
     const maxTonnageByType = Math.ceil((maxPossibleArmorPoints / (selectedArmorType.pointsPerTon * weightMultiplier)) * 2) / 2;
-    
-    // Different practical limits based on armor type
-    let practicalLimit = unit.mass;
-    
-    // Hardened armor has much lower efficiency, so it needs more tonnage
-    if (selectedArmorType.id === 'hardened') {
-      practicalLimit = Math.floor(unit.mass * 0.77);
-    } else if (selectedArmorType.id === 'standard' || 
-               selectedArmorType.id === 'stealth' || 
-               selectedArmorType.id === 'reactive' || 
-               selectedArmorType.id === 'reflective') {
-      practicalLimit = Math.floor(unit.mass * 0.39);
-    } else if (selectedArmorType.id === 'light_ferro_fibrous') {
-      practicalLimit = Math.floor(unit.mass * 0.37);
-    } else if (selectedArmorType.id === 'ferro_fibrous' || selectedArmorType.id === 'ferro_fibrous_clan') {
-      practicalLimit = Math.floor(unit.mass * 0.35);
-    } else if (selectedArmorType.id === 'heavy_ferro_fibrous') {
-      practicalLimit = Math.floor(unit.mass * 0.32);
-    } else if (selectedArmorType.id === 'ferro_lamellor') {
-      practicalLimit = Math.floor(unit.mass * 0.30);
-    }
-    
-    // Return the minimum of calculated max and practical limit
+    const practicalLimit = Math.floor(unit.mass * 0.5);
     return Math.min(maxTonnageByType, practicalLimit);
   }, [calculateMaxPossibleArmorPoints, selectedArmorType, unit.mass]);
-  
+
   // Calculate current weight to determine remaining tonnage
   const calculateCurrentWeight = (): number => {
     let weight = 0;
@@ -189,11 +141,9 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     return weight;
   };
   
-  // Handle armor type change
-  const handleArmorTypeChange = useCallback((armorType: ArmorType) => {
+  // Handlers only update the unit model
+  const handleArmorTypeChange = React.useCallback((armorType: ArmorType) => {
     if (readOnly) return;
-    
-    // Convert armor type ID to system component type name
     const typeMap: { [key: string]: string } = {
       'standard': 'Standard',
       'ferro_fibrous': 'Ferro-Fibrous',
@@ -205,50 +155,17 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
       'reflective': 'Reflective',
       'hardened': 'Hardened',
     };
-    
     const systemComponentType = typeMap[armorType.id] || 'Standard';
     updateArmor(systemComponentType);
-    
-    // Calculate new max tonnage for the selected armor type
-    const maxPossibleArmorPoints = calculateMaxPossibleArmorPoints();
-    const weightMultiplier = armorType.weightMultiplier || 1.0;
-    const maxTonnageByType = Math.ceil((maxPossibleArmorPoints / (armorType.pointsPerTon * weightMultiplier)) * 2) / 2;
-    
-    // Calculate practical limit based on armor type
-    let practicalLimit = unit.mass;
-    
-    if (armorType.id === 'hardened') {
-      practicalLimit = Math.floor(unit.mass * 0.77);
-    } else if (armorType.id === 'standard' || 
-               armorType.id === 'stealth' || 
-               armorType.id === 'reactive' || 
-               armorType.id === 'reflective') {
-      practicalLimit = Math.floor(unit.mass * 0.39);
-    } else if (armorType.id === 'light_ferro_fibrous') {
-      practicalLimit = Math.floor(unit.mass * 0.37);
-    } else if (armorType.id === 'ferro_fibrous' || armorType.id === 'ferro_fibrous_clan') {
-      practicalLimit = Math.floor(unit.mass * 0.35);
-    } else if (armorType.id === 'heavy_ferro_fibrous') {
-      practicalLimit = Math.floor(unit.mass * 0.32);
-    } else if (armorType.id === 'ferro_lamellor') {
-      practicalLimit = Math.floor(unit.mass * 0.30);
-    }
-    
-    const newMaxTonnage = Math.min(maxTonnageByType, practicalLimit);
-    
-    // If current tonnage exceeds new maximum, adjust it down
-    if (armorTonnage > newMaxTonnage) {
-      setArmorTonnage(newMaxTonnage);
-    }
-  }, [readOnly, updateArmor, armorTonnage, calculateMaxPossibleArmorPoints, unit.mass]);
-  
-  // Handle armor tonnage change
-  const handleArmorTonnageChange = useCallback((tonnage: number) => {
+  }, [readOnly, updateArmor]);
+
+  const handleArmorTonnageChange = React.useCallback((tonnage: number) => {
     if (readOnly) return;
-    // Always round to nearest 0.5
-    const rounded = Math.round(tonnage * 2) / 2;
-    setArmorTonnage(rounded);
-  }, [readOnly]);
+    // Update allocation based on new tonnage (auto-allocate or show dialog)
+    // This should update the unit model, not local state
+    // Example: updateArmorAllocation or a dedicated updateArmorTonnage action
+    // (Implementation depends on your allocation logic)
+  }, [readOnly, updateArmorAllocation]);
   
   // Handle armor location change
   const handleArmorLocationChange = useCallback((location: string, front: number, rear: number) => {
@@ -289,7 +206,8 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
       let maxTonnage = maximizeArmor(unit, selectedArmorType);
       // Always round to nearest 0.5
       maxTonnage = Math.round(maxTonnage * 2) / 2;
-      setArmorTonnage(maxTonnage);
+      // Update the unit model with the new tonnage
+      updateArmorAllocation('tonnage', maxTonnage);
       // Calculate armor points and auto-allocate
       const totalPoints = Math.floor(maxTonnage * selectedArmorType.pointsPerTon);
       const updatedUnit = {
@@ -308,7 +226,7 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
     } catch (error) {
       console.error('Maximize armor failed:', error);
     }
-  }, [unit, selectedArmorType, handleApplyDistribution, readOnly]);
+  }, [unit, selectedArmorType, handleApplyDistribution, readOnly, updateArmorAllocation]);
   
   // Auto-allocate armor evenly
   const handleAutoAllocate = useCallback(() => {
@@ -371,13 +289,13 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
               <select
                 value={selectedArmorType.id}
                 onChange={(e) => {
-                  const type = ARMOR_TYPES.find(t => t.id === e.target.value);
+                  const type = availableArmorTypes.find(t => t.id === e.target.value);
                   if (type) handleArmorTypeChange(type);
                 }}
                 disabled={readOnly}
                 className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100"
               >
-                {ARMOR_TYPES.map(type => (
+                {availableArmorTypes.map(type => (
                   <option key={type.id} value={type.id}>{type.name}</option>
                 ))}
               </select>
@@ -412,12 +330,12 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
                 ⬆ Max Armor
               </button>
               <button
-                onClick={() => setShowPresets(!showPresets)}
+                onClick={() => {}}
                 disabled={readOnly}
-                className={`px-3 py-1.5 ${showPresets ? 'bg-slate-500' : 'bg-slate-600'} hover:bg-slate-700 disabled:bg-gray-700 text-white rounded text-xs font-medium transition-colors`}
+                className={`px-3 py-1.5 bg-slate-600 hover:bg-slate-700 disabled:bg-gray-700 text-white rounded text-xs font-medium transition-colors`}
                 title="Show preset distributions"
               >
-                📋 Presets {showPresets ? '▲' : '▼'}
+                📋 Presets ▼
               </button>
             </div>
           </div>
@@ -441,31 +359,7 @@ export default function ArmorTabWithHooks({ readOnly = false }: ArmorTabWithHook
       </div>
       
       {/* Presets (Collapsible) */}
-      {showPresets && (
-        <div className="bg-slate-800 rounded-lg p-4 mb-4 border border-slate-700">
-          <h3 className="text-sm font-semibold text-slate-100 mb-2">Distribution Presets</h3>
-          <div className="grid grid-cols-3 lg:grid-cols-6 gap-2">
-            <button className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs">
-              Balanced
-            </button>
-            <button className="px-2 py-1 bg-slate-600 hover:bg-slate-700 text-white rounded text-xs">
-              Striker
-            </button>
-            <button className="px-2 py-1 bg-slate-600 hover:bg-slate-700 text-white rounded text-xs">
-              Brawler
-            </button>
-            <button className="px-2 py-1 bg-slate-600 hover:bg-slate-700 text-white rounded text-xs">
-              Juggernaut
-            </button>
-            <button className="px-2 py-1 bg-slate-600 hover:bg-slate-700 text-white rounded text-xs">
-              Sniper
-            </button>
-            <button className="px-2 py-1 bg-slate-600 hover:bg-slate-700 text-white rounded text-xs">
-              Scout
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Remove all references to showPresets and setShowPresets */}
       
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

@@ -175,6 +175,8 @@ export const ARMOR_TYPES: ArmorType[] = [
   },
 ];
 
+import { getMaxArmorPoints } from './internalStructureTable';
+
 // Helper functions for armor calculations
 
 /**
@@ -201,9 +203,8 @@ export function calculateMaxArmorPoints(
   const maxArmorWeight = tonnage * 0.5; // Max 50% of tonnage can be armor
   const maxPoints = maxArmorWeight * armorType.pointsPerTon / (armorType.weightMultiplier || 1.0);
   
-  // Also limited by structure
-  const structuralMax = tonnage * 2 + 3;
-  
+  // Also limited by structure (official rule)
+  const structuralMax = getMaxArmorPoints(tonnage);
   return Math.floor(Math.min(maxPoints, structuralMax));
 }
 

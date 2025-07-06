@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { EditableUnit } from '../../../types/editor';
+import { getMaxArmorPoints, getMaxArmorPointsForLocation } from '../../../utils/internalStructureTable';
 
 interface ChassisConfig {
   tonnage: number;
@@ -105,14 +106,21 @@ const ChassisConfigPanel: React.FC<ChassisConfigPanelProps> = ({
     
     // Update max armor calculations for all locations
     const newArmorAllocation = { ...unit.armorAllocation };
-    const maxArmorPoints = tonnage * 2 + 3; // Total max armor formula
-    
+    // Use official BattleTech rule for max armor points
+    const maxArmorPoints = getMaxArmorPoints(tonnage);
     // Update max armor for each location based on tonnage
     Object.keys(newArmorAllocation).forEach(location => {
-      const locationMaxMultiplier = getLocationMaxMultiplier(location, unit.data?.config);
+      // Use official per-location max
+      let maxArmor = 0;
+      try {
+        maxArmor = getMaxArmorPointsForLocation(tonnage, location);
+      } catch (e) {
+        // fallback for unknown locations
+        maxArmor = 0;
+      }
       newArmorAllocation[location] = {
         ...newArmorAllocation[location],
-        maxArmor: Math.floor(maxArmorPoints * locationMaxMultiplier),
+        maxArmor,
       };
     });
     

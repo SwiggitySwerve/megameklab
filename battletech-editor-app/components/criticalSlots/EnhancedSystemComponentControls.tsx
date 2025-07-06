@@ -19,6 +19,10 @@ import {
 import { ConstructionRulesEngine } from '../../utils/constructionRules/ConstructionRulesEngine'
 import { HEAT_SINK_SPECIFICATIONS } from '../../utils/heatSinkCalculations'
 import { ENGINE_SLOT_REQUIREMENTS } from '../../utils/engineCalculations'
+import { 
+  getAvailableStructureTypes, 
+  getAvailableArmorTypes 
+} from '../../utils/componentOptionFiltering'
 
 export function EnhancedSystemComponentControls() {
   const { unit, validation, updateConfiguration } = useUnit()
@@ -116,23 +120,9 @@ export function EnhancedSystemComponentControls() {
     return constructionEngine.validateConfiguration(mockComponents, constructionContext)
   }, [constructionEngine, config, enhancedConfig, constructionContext, convertLegacyEngineType, convertLegacyHeatSinkType])
   
-  // Get structure options based on tech base
-  const getStructureOptions = (techBase: TechBase): StructureType[] => {
-    const common: StructureType[] = ['Standard', 'Composite', 'Reinforced', 'Industrial']
-    if (techBase === 'Clan' || techBase === 'Mixed (Clan Chassis)') {
-      return [...common, 'Endo Steel (Clan)']
-    }
-    return [...common, 'Endo Steel']
-  }
-  
-  // Get armor options based on tech base
-  const getArmorOptions = (techBase: TechBase): ArmorType[] => {
-    const common: ArmorType[] = ['Standard', 'Stealth', 'Reactive', 'Reflective', 'Hardened']
-    if (techBase === 'Clan' || techBase === 'Mixed (Clan Chassis)') {
-      return [...common, 'Ferro-Fibrous (Clan)']
-    }
-    return [...common, 'Ferro-Fibrous', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous']
-  }
+  // Remove local filtering functions and use central utility
+  const structureOptions = getAvailableStructureTypes(config)
+  const armorOptions = getAvailableArmorTypes(config)
   
   // Update configuration with enhanced validation
   const updateConfig = useCallback((updates: any) => {
@@ -253,8 +243,8 @@ export function EnhancedSystemComponentControls() {
                   onChange={(e) => updateConfig({ structureType: { ...config.structureType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
-                  {getStructureOptions(enhancedConfig.techBase).map(option => (
-                    <option key={option} value={option}>{option}</option>
+                  {structureOptions.map(option => (
+                    <option key={option.type} value={option.type}>{option.type}</option>
                   ))}
                 </select>
               </div>
@@ -445,8 +435,8 @@ export function EnhancedSystemComponentControls() {
                   onChange={(e) => updateConfig({ armorType: { ...config.armorType, type: e.target.value } })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
-                  {getArmorOptions(enhancedConfig.techBase).map(option => (
-                    <option key={option} value={option}>{option}</option>
+                  {armorOptions.map(option => (
+                    <option key={option.type} value={option.type}>{option.type}</option>
                   ))}
                 </select>
               </div>

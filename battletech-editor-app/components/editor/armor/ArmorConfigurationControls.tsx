@@ -52,6 +52,26 @@ export const ArmorConfigurationControls: React.FC<ArmorConfigurationControlsProp
   onUseRemainingTonnage,
   onMaximizeArmor
 }) => {
+  // Utility to round to nearest 0.5
+  const roundHalf = (value: number) => Math.round(value * 2) / 2;
+
+  // Always use rounded values for input and max
+  const roundedTonnage = roundHalf(currentArmorTonnage);
+  const roundedMax = roundHalf(maxArmorTonnage);
+
+  // Wrap the tonnage change handler to always round to nearest 0.5
+  const handleTonnageChange = (value: number) => {
+    const rounded = roundHalf(value);
+    onArmorTonnageChange(rounded);
+  };
+
+  // If the value is not a valid 0.5 increment, auto-correct it
+  React.useEffect(() => {
+    if (currentArmorTonnage !== roundedTonnage) {
+      onArmorTonnageChange(roundedTonnage);
+    }
+  }, [currentArmorTonnage]);
+
   return (
     <div className="bg-slate-800 rounded-lg p-2 mb-4 border border-slate-700">
       <div className="flex items-center gap-3 flex-wrap">
@@ -83,42 +103,40 @@ export const ArmorConfigurationControls: React.FC<ArmorConfigurationControlsProp
             <input
               type="number"
               min={0}
-              max={maxArmorTonnage}
+              max={roundedMax}
               step={0.5}
-              value={currentArmorTonnage}
-              onChange={(e) => onArmorTonnageChange(parseFloat(e.target.value) || 0)}
+              value={roundedTonnage.toFixed(1)}
+              onChange={(e) => handleTonnageChange(parseFloat(e.target.value) || 0)}
               disabled={readOnly}
               className={`w-24 px-2 py-1 bg-slate-700 border rounded text-slate-100 focus:border-blue-500 text-center text-xs ${
-                currentArmorTonnage >= maxArmorTonnage
+                roundedTonnage >= roundedMax
                   ? 'border-yellow-500'
                   : 'border-slate-600'
               }`}
               placeholder="0.0"
             />
-            
             {/* Step Control Buttons */}
             <div className="flex flex-col">
               <button
-                onClick={() => onArmorTonnageChange(currentArmorTonnage + 0.5)}
-                disabled={readOnly || currentArmorTonnage >= maxArmorTonnage}
+                onClick={() => handleTonnageChange(roundedTonnage + 0.5)}
+                disabled={readOnly || roundedTonnage >= roundedMax}
                 className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-t text-xs transition-colors leading-3"
                 title="Increase by 0.5 tons"
               >
                 ▲
               </button>
               <button
-                onClick={() => onArmorTonnageChange(currentArmorTonnage - 0.5)}
-                disabled={readOnly || currentArmorTonnage <= 0}
+                onClick={() => handleTonnageChange(roundedTonnage - 0.5)}
+                disabled={readOnly || roundedTonnage <= 0}
                 className="px-0.5 py-0 bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 disabled:text-slate-500 text-slate-100 rounded-b text-xs transition-colors leading-3"
                 title="Decrease by 0.5 tons"
               >
                 ▼
               </button>
             </div>
-            
             {/* Maximum Tonnage Display */}
             <span className="text-slate-400 text-xs">
-              /{maxArmorTonnage.toFixed(1)}t
+              /{roundedMax.toFixed(1)}t
             </span>
           </div>
         </div>
@@ -129,7 +147,7 @@ export const ArmorConfigurationControls: React.FC<ArmorConfigurationControlsProp
             onClick={onUseRemainingTonnage}
             disabled={readOnly}
             className="w-full px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded text-xs font-medium transition-colors"
-            title={`Use remaining ${remainingTonnage.toFixed(1)} tons`}
+            title={`Use remaining ${roundHalf(remainingTonnage).toFixed(1)} tons`}
           >
             Use Remaining Tonnage
           </button>

@@ -4,6 +4,11 @@
  */
 
 import { TechProgression } from './techProgression'
+import { 
+  getAvailableStructureTypes, 
+  getAvailableArmorTypes, 
+  getAvailableEngineTypes 
+} from './componentOptionFiltering';
 
 /**
  * Component option mappings based on tech progression settings
@@ -75,13 +80,19 @@ export interface FilteredComponentOptions {
 }
 
 export function getFilteredComponentOptions(techProgression: TechProgression): FilteredComponentOptions {
+  // Create a mock config object with the tech progression for the central utility
+  const mockConfig = {
+    techBase: techProgression.chassis, // Use chassis tech base as primary
+    techProgression
+  } as any;
+
   return {
-    structure: getStructureOptions(techProgression.chassis),
+    structure: getAvailableStructureTypes(mockConfig).map(option => option.type),
     gyro: getGyroOptions(techProgression.gyro),
-    engine: getEngineOptions(techProgression.engine),
+    engine: getAvailableEngineTypes(mockConfig).map(option => option.type),
     heatSink: getHeatSinkOptions(techProgression.heatsink),
     enhancement: getEnhancementOptions(techProgression.myomer),
-    armor: getArmorOptions(techProgression.armor),
+    armor: getAvailableArmorTypes(mockConfig).map(option => option.type),
     jumpJet: getJumpJetOptions(techProgression.movement)
   }
 }

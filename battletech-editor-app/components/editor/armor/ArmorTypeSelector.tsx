@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
-import { ArmorType, ARMOR_TYPES } from '../../../types/editor';
+import { ArmorType } from '../../../types/editor';
+import { getAvailableArmorTypes } from '../../../utils/componentOptionFiltering';
 
 interface ArmorTypeSelectorProps {
   currentType: ArmorType;
+  config?: any; // Unit configuration for filtering
   availableTypes?: ArmorType[];
   techLevel?: string;
   techBase?: string;
@@ -13,32 +15,48 @@ interface ArmorTypeSelectorProps {
 
 const ArmorTypeSelector: React.FC<ArmorTypeSelectorProps> = ({
   currentType,
-  availableTypes = ARMOR_TYPES,
+  config,
+  availableTypes,
   techLevel = 'Standard',
   techBase = 'Inner Sphere',
   onChange,
   disabled = false,
   showDetails = true,
 }) => {
-  // Filter armor types by tech level and base
+  // Use central utility for filtering if config is provided, otherwise use local filtering
   const filteredTypes = useMemo(() => {
-    return availableTypes.filter(type => {
-      // Basic tech level filtering
-      if (techLevel === 'Introductory' && type.techLevel !== 'Introductory') {
-        return false;
-      }
-      if (techLevel === 'Standard' && ['Advanced', 'Experimental'].includes(type.techLevel || '')) {
-        return false;
-      }
-      
-      // Tech base filtering
-      if (type.techBase && type.techBase !== 'Both' && type.techBase !== techBase) {
-        return false;
-      }
-      
-      return true;
-    });
-  }, [availableTypes, techLevel, techBase]);
+    if (config) {
+      // Use central utility
+      return getAvailableArmorTypes(config).map(option => ({
+        id: option.type,
+        name: option.type,
+        pointsPerTon: 16, // Default - could be enhanced to get from armor type data
+        techBase: option.techBase,
+        techLevel: 'Standard', // Default - could be enhanced
+        criticalSlots: 0, // Default - could be enhanced
+        isClan: option.techBase === 'Clan',
+        isInner: option.techBase === 'Inner Sphere',
+      }));
+    } else {
+      // Fallback to local filtering
+      return availableTypes?.filter(type => {
+        // Basic tech level filtering
+        if (techLevel === 'Introductory' && type.techLevel !== 'Introductory') {
+          return false;
+        }
+        if (techLevel === 'Standard' && ['Advanced', 'Experimental'].includes(type.techLevel || '')) {
+          return false;
+        }
+        
+        // Tech base filtering
+        if (type.techBase && type.techBase !== 'Both' && type.techBase !== techBase) {
+          return false;
+        }
+        
+        return true;
+      }) || [];
+    }
+  }, [config, availableTypes, techLevel, techBase]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedType = filteredTypes.find(type => type.id === e.target.value);

@@ -16,6 +16,7 @@ import { ArmorEfficiencyNotification } from '../../armor/ArmorEfficiencyNotifica
 // Import armor calculations
 import { ARMOR_POINTS_PER_TON, calculateArmorWeight, getArmorSlots } from '../../../utils/armorCalculations';
 import { calculateMaxArmorPoints, calculateMaxArmorTonnage, calculateRemainingTonnage, calculateRemainingTonnageForArmor } from '../../../utils/armorAllocation';
+import { getAvailableArmorTypes } from '../../../utils/componentOptionFiltering';
 
 // Import extracted armor components
 import { ArmorValidationPanel } from '../armor/ArmorValidationPanel';
@@ -48,18 +49,8 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   // Selection state for side panel editing
   const [selectedSection, setSelectedSection] = React.useState<string | null>(null);
 
-  // Armor type options based on tech base
-  const getArmorTypeOptions = (techBase: string) => {
-    const baseOptions = ['Standard', 'Ferro-Fibrous'];
-    if (techBase === 'Clan') {
-      return [...baseOptions, 'Ferro-Fibrous (Clan)'];
-    } else if (techBase === 'Mixed') {
-      return [...baseOptions, 'Ferro-Fibrous (Clan)', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous'];
-    }
-    return [...baseOptions, 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous'];
-  };
-
-  const armorTypeOptions = getArmorTypeOptions(config.techBase);
+  // Armor type options based on tech base - use central utility
+  const armorTypeOptions = getAvailableArmorTypes(config).map(option => option.type);
 
   // ===== USE DATA MODEL ONLY - NO MANUAL CALCULATIONS =====
   // All calculations come from the data model to ensure consistency

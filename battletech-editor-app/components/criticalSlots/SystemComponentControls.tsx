@@ -6,7 +6,19 @@
 import React, { useState, useCallback } from 'react'
 import { useUnit } from '../multiUnit/MultiUnitProvider'
 import { EngineType, GyroType } from '../../utils/criticalSlots/SystemComponentRules'
-import { StructureType, ArmorType, HeatSinkType, UnitConfigurationBuilder, UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager'
+import { 
+  StructureType, 
+  ArmorType, 
+  HeatSinkType, 
+  UnitConfigurationBuilder, 
+  UnitConfiguration 
+} from '../../utils/criticalSlots/UnitCriticalManager'
+import { 
+  getAvailableStructureTypes, 
+  getAvailableArmorTypes, 
+  getAvailableEngineTypes,
+  getAvailableHeatSinkTypes
+} from '../../utils/componentOptionFiltering'
 import { 
   JumpJetType, 
   getAvailableJumpJetTypes, 
@@ -26,14 +38,15 @@ export function SystemComponentControls() {
   
   // Use configuration values directly
   const jumpMP = config.jumpMP || 0
-  const selectedJumpJetType = config.jumpJetType || 'Standard Jump Jet'
+  const selectedJumpJetType = config.jumpJetType || { type: 'Standard Jump Jet', techBase: 'Inner Sphere' }
+  const jumpJetTypeName = selectedJumpJetType.type || 'Standard Jump Jet'
   
   // Get available jump jet types for current tech base
   const availableJumpJetTypes = getAvailableJumpJetTypes(config.techBase, 'Advanced')
   
   // Calculate jump jet validation
   const jumpJetValidation = validateJumpJetConfiguration(
-    { [selectedJumpJetType as string]: jumpMP },
+    { [jumpJetTypeName]: jumpMP },
     jumpMP,
     config.walkMP,
     config.runMP,
@@ -41,10 +54,10 @@ export function SystemComponentControls() {
   )
   
   // Calculate jump jet stats
-  const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight({ [selectedJumpJetType]: jumpMP }, config.tonnage, false) : 0
-  const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits({ [selectedJumpJetType]: jumpMP }, config.tonnage) : 0
-  const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat({ [selectedJumpJetType]: jumpMP }, jumpMP) : 0
-  const maxAllowedJumpMP = getMaxAllowedJumpMP(selectedJumpJetType, config.walkMP, config.runMP)
+  const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight({ [jumpJetTypeName]: jumpMP }, config.tonnage, false) : 0
+  const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits({ [jumpJetTypeName]: jumpMP }, config.tonnage) : 0
+  const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat({ [jumpJetTypeName]: jumpMP }, jumpMP) : 0
+  const maxAllowedJumpMP = getMaxAllowedJumpMP(jumpJetTypeName, config.walkMP, config.runMP)
   
   // Generate tonnage options (20-100 in 5-ton increments)
   const tonnageOptions = Array.from({ length: 17 }, (_, i) => 20 + (i * 5))
@@ -52,30 +65,16 @@ export function SystemComponentControls() {
   // Calculate maximum walk MP for current tonnage
   const maxWalkMP = Math.floor(400 / config.tonnage)
   
-  // Tech base dependent options
-  const engineOptions: EngineType[] = ['Standard', 'XL', 'Light', 'XXL', 'Compact', 'ICE', 'Fuel Cell']
+  // Tech base dependent options - use central utility
+  const engineOptions = getAvailableEngineTypes(config)
   const gyroOptions: GyroType[] = ['Standard', 'XL', 'Compact', 'Heavy-Duty']
   
-  const getStructureOptions = (techBase: string): StructureType[] => {
-    const common: StructureType[] = ['Standard', 'Composite', 'Reinforced', 'Industrial']
-    return techBase === 'Clan' 
-      ? [...common, 'Endo Steel (Clan)']
-      : [...common, 'Endo Steel']
-  }
+  // Remove local filtering functions and use central utility
+  const structureOptions = getAvailableStructureTypes(config)
+  const armorOptions = getAvailableArmorTypes(config)
+  const heatSinkOptions = getAvailableHeatSinkTypes(config)
   
-  const getArmorOptions = (techBase: string): ArmorType[] => {
-    const common: ArmorType[] = ['Standard', 'Stealth', 'Reactive', 'Reflective', 'Hardened']
-    return techBase === 'Clan'
-      ? [...common, 'Ferro-Fibrous (Clan)']
-      : [...common, 'Ferro-Fibrous', 'Light Ferro-Fibrous', 'Heavy Ferro-Fibrous']
-  }
-  
-  const getHeatSinkOptions = (techBase: string): HeatSinkType[] => {
-    const common: HeatSinkType[] = ['Single', 'Compact', 'Laser']
-    return techBase === 'Clan'
-      ? [...common, 'Double (Clan)']
-      : [...common, 'Double']
-  }
+  // Remove local getHeatSinkOptions function since we now use central utility
   
 
   // Update configuration
@@ -134,15 +133,15 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Structure:</label>
               <select 
-                value={config.structureType} 
+                value={config.structureType.type} 
                 onChange={(e) => {
                   console.log('Structure change:', e.target.value)
-                  updateConfig({ structureType: e.target.value as StructureType })
+                  updateConfig({ structureType: { ...config.structureType, type: e.target.value } })
                 }}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
-                {getStructureOptions(config.techBase).map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {structureOptions.map(option => (
+                  <option key={option.type} value={option.type}>{option.type}</option>
                 ))}
               </select>
             </div>
@@ -150,12 +149,12 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Engine:</label>
               <select 
-                value={config.engineType} 
-                onChange={(e) => updateConfig({ engineType: e.target.value as EngineType })}
+                value={config.engineType.type} 
+                onChange={(e) => updateConfig({ engineType: { ...config.engineType, type: e.target.value } })}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
                 {engineOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
+                  <option key={option.type} value={option.type}>{option.type}</option>
                 ))}
               </select>
             </div>
@@ -163,8 +162,8 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Gyro:</label>
               <select 
-                value={config.gyroType} 
-                onChange={(e) => updateConfig({ gyroType: e.target.value as GyroType })}
+                value={config.gyroType.type} 
+                onChange={(e) => updateConfig({ gyroType: { ...config.gyroType, type: e.target.value } })}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
                 {gyroOptions.map(option => (
@@ -287,10 +286,8 @@ export function SystemComponentControls() {
                   onChange={(e) => updateConfig({ heatSinkType: e.target.value as HeatSinkType })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
-                  {getHeatSinkOptions(config.techBase).map(option => (
-                    <option key={option} value={option}>
-                      {config.techBase === 'Inner Sphere' && option === 'Double' ? 'IS Double' : option}
-                    </option>
+                  {heatSinkOptions.map(option => (
+                    <option key={option.type} value={option.type}>{option.type}</option>
                   ))}
                 </select>
               </div>
@@ -362,8 +359,8 @@ export function SystemComponentControls() {
                   onChange={(e) => updateConfig({ armorType: e.target.value as ArmorType })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
-                  {getArmorOptions(config.techBase).map(option => (
-                    <option key={option} value={option}>{option}</option>
+                  {armorOptions.map(option => (
+                    <option key={option.type} value={option.type}>{option.type}</option>
                   ))}
                 </select>
               </div>

@@ -7,6 +7,7 @@
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
 import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
+import { getMaxArmorPoints } from '../../utils/internalStructureTable';
 
 export interface BattleTechRule {
   id: string;
@@ -510,7 +511,7 @@ export class RuleManagementManager {
    */
   private validateMaximumArmor(config: UnitConfiguration, equipment?: any[]): RuleComplianceResult {
     equipment = equipment || [];
-    const maxArmor = this.calculateMaxArmor(config.tonnage);
+    const maxArmor = getMaxArmorPoints(config.tonnage);
     const totalArmor = this.calculateTotalArmor(config, equipment);
     const compliant = totalArmor <= maxArmor;
 
@@ -789,7 +790,7 @@ export class RuleManagementManager {
    * Calculate max armor
    */
   private calculateMaxArmor(tonnage: number): number {
-    return tonnage * 2; // Simplified: 2 points per ton
+    return getMaxArmorPoints(tonnage);
   }
 
   /**

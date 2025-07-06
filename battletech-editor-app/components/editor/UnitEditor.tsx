@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditableUnit, EditorTab } from '../../types/editor';
-import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
+import { ArmorTabV2 } from './tabs/ArmorTabV2';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
 import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
@@ -10,7 +10,7 @@ import { useUnitEditor } from '../../hooks/editor/useUnitEditor';
 // Tab definitions
 const EDITOR_TABS = [
   { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
-  { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
+  { id: 'armor', label: 'Armor', component: ArmorTabV2 },
   { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
   { id: 'criticals', label: 'Criticals', component: CriticalsTabIntegrated },
   { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },

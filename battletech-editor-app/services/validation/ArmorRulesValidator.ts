@@ -9,7 +9,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
-import { getInternalStructurePoints, getMaxArmorPointsForLocation } from '../../utils/internalStructureTable';
+import { getInternalStructurePoints, getMaxArmorPoints, getMaxArmorPointsForLocation } from '../../utils/internalStructureTable';
 
 export interface ArmorValidation {
   isValid: boolean;
@@ -103,8 +103,8 @@ export class ArmorRulesValidator {
    * Calculate maximum armor for a given tonnage
    */
   static calculateMaxArmor(tonnage: number): number {
-    // Standard BattleTech rule: maximum armor = tonnage * 2
-    return tonnage * 2;
+    // Use official BattleTech rule for max armor points
+    return getMaxArmorPoints(tonnage);
   }
   
   /**

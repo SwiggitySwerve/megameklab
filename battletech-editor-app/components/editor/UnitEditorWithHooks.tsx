@@ -15,7 +15,7 @@ import { calculateGyroWeight } from '../../utils/gyroCalculations';
 import { getCockpitWeight } from '../../utils/cockpitCalculations';
 import { HEAT_SINK_SPECIFICATIONS } from '../../utils/heatSinkCalculations';
 import StructureTabWithHooks from './tabs/StructureTabWithHooks';
-import ArmorTabWithHooks from './tabs/ArmorTabWithHooks';
+import { ArmorTabV2 } from './tabs/ArmorTabV2';
 import EquipmentTabWithHooks from './tabs/EquipmentTabWithHooks';
 import CriticalsTabIntegrated from './tabs/CriticalsTabIntegrated';
 import FluffTabWithHooks from './tabs/FluffTabWithHooks';
@@ -234,7 +234,7 @@ function UnitEditorContent({ readOnly = false }: { readOnly?: boolean }) {
   // Tab configuration
   const tabs = [
     { id: 'structure', label: 'Structure', component: StructureTabWithHooks },
-    { id: 'armor', label: 'Armor', component: ArmorTabWithHooks },
+    { id: 'armor', label: 'Armor', component: ArmorTabV2 },
     { id: 'equipment', label: 'Equipment', component: EquipmentTabWithHooks },
     { id: 'criticals', label: 'Criticals', component: CriticalsTabIntegrated },
     { id: 'fluff', label: 'Fluff', component: FluffTabWithHooks },

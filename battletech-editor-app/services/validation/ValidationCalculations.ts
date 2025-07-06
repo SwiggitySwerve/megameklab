@@ -6,7 +6,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
-import { getTotalInternalStructure } from '../../utils/internalStructureTable';
+import { getTotalInternalStructure, getMaxArmorPoints } from '../../utils/internalStructureTable';
 import { calculateGyroWeight } from '../../utils/gyroCalculations';
 import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
 import { EngineType, GyroType } from '../../types/systemComponents';
@@ -65,7 +65,7 @@ export const ValidationCalculations = {
   },
 
   calculateMaxArmor(tonnage: number): number {
-    return tonnage * 2;
+    return getMaxArmorPoints(tonnage);
   },
 
   calculateArmorWeight(totalArmor: number, armorType: string): number {

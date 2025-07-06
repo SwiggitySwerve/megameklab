@@ -7,6 +7,7 @@
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { ComponentConfiguration } from '../../types/componentConfiguration';
 import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
+import { getMaxArmorPoints } from '../../utils/internalStructureTable';
 
 export interface WeightCalculationResult {
   totalWeight: number;
@@ -319,7 +320,7 @@ export class CalculationUtilitiesManager {
    * Calculate max armor
    */
   private calculateMaxArmor(tonnage: number): number {
-    return tonnage * 2; // Simplified: 2 points per ton
+    return getMaxArmorPoints(tonnage);
   }
 
   /**
