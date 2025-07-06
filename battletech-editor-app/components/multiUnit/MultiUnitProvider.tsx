@@ -10,6 +10,7 @@ import { UnitCriticalManager, UnitConfiguration, CompleteUnitState } from '../..
 import { EngineType, GyroType } from '../../utils/criticalSlots/SystemComponentRules'
 import { EquipmentAllocation } from '../../utils/criticalSlots/CriticalSlot'
 import { MultiTabDebouncedSaveManager, SaveManagerBrowserHandlers } from '../../utils/DebouncedSaveManager'
+import { createComponentConfiguration, createDefaultComponentConfiguration } from '../../types/componentConfiguration'
 
 // Tab unit interface
 export interface TabUnit {
@@ -28,6 +29,17 @@ interface MultiUnitState {
   activeTabId: string | null
   nextTabNumber: number
 }
+
+// Action types for proper state management
+type MultiUnitAction = 
+  | { type: 'CREATE_TAB'; payload: { id: string; name: string; unitManager: UnitCriticalManager; stateManager: UnitStateManager } }
+  | { type: 'SET_ACTIVE_TAB'; payload: { tabId: string } }
+  | { type: 'UPDATE_TAB_CONFIG'; payload: { tabId: string; config: UnitConfiguration } }
+  | { type: 'CLOSE_TAB'; payload: { tabId: string } }
+  | { type: 'RENAME_TAB'; payload: { tabId: string; newName: string } }
+  | { type: 'DUPLICATE_TAB'; payload: { sourceTabId: string; newTabId: string; newName: string; unitManager: UnitCriticalManager; stateManager: UnitStateManager } }
+  | { type: 'SET_NEXT_TAB_NUMBER'; payload: { nextNumber: number } }
+  | { type: 'INITIALIZE_TABS'; payload: { tabs: TabUnit[]; activeTabId: string | null; nextTabNumber: number } }
 
 // Context value interface
 interface MultiUnitContextValue {
@@ -52,6 +64,7 @@ interface MultiUnitContextValue {
   summary: any
   isConfigLoaded: boolean
   selectedEquipmentId: string | null
+  unitVersion: number // CRITICAL: Include unit version to force re-renders
   
   // Active tab action functions
   changeEngine: (engineType: EngineType) => void
@@ -79,10 +92,10 @@ const createDefaultConfiguration = (): UnitConfiguration => ({
   walkMP: 4,
   engineRating: 200,
   runMP: 6,
-  engineType: 'Standard',
-  gyroType: 'Standard',
-  structureType: 'Standard',
-  armorType: 'Standard',
+  engineType: 'Standard' as EngineType,
+  gyroType: createDefaultComponentConfiguration('gyro', 'Inner Sphere'),
+  structureType: createDefaultComponentConfiguration('structure', 'Inner Sphere'),
+  armorType: createDefaultComponentConfiguration('armor', 'Inner Sphere'),
   armorAllocation: {
     HD: { front: 9, rear: 0 },
     CT: { front: 20, rear: 6 },
@@ -94,13 +107,13 @@ const createDefaultConfiguration = (): UnitConfiguration => ({
     RL: { front: 20, rear: 0 }
   },
   armorTonnage: 8.0,
-  heatSinkType: 'Single',
+  heatSinkType: createDefaultComponentConfiguration('heatSink', 'Inner Sphere'),
   totalHeatSinks: 10,
   internalHeatSinks: 8,
   externalHeatSinks: 2,
   enhancementType: null,
   jumpMP: 0,
-  jumpJetType: 'Standard Jump Jet',
+  jumpJetType: createDefaultComponentConfiguration('jumpJet', 'Inner Sphere'),
   jumpJetCounts: {},
   hasPartialWing: false,
   mass: 50
@@ -130,12 +143,135 @@ interface EnhancedTabData {
   version: string
 }
 
+// CRITICAL: Implement reducer function for proper state management
+function multiUnitReducer(state: MultiUnitState, action: MultiUnitAction): MultiUnitState {
+  switch (action.type) {
+    case 'CREATE_TAB': {
+      const newTab: TabUnit = {
+        id: action.payload.id,
+        name: action.payload.name,
+        unitManager: action.payload.unitManager,
+        stateManager: action.payload.stateManager,
+        created: new Date(),
+        modified: new Date(),
+        isModified: false
+      }
+      
+      return {
+        ...state,
+        tabs: [...state.tabs, newTab],
+        activeTabId: action.payload.id,
+        nextTabNumber: state.nextTabNumber + 1
+      }
+    }
+    
+    case 'SET_ACTIVE_TAB': {
+      return {
+        ...state,
+        activeTabId: action.payload.tabId
+      }
+    }
+    
+    case 'UPDATE_TAB_CONFIG': {
+      const updatedTabs = state.tabs.map(tab => {
+        if (tab.id === action.payload.tabId) {
+          return {
+            ...tab,
+            unitManager: tab.unitManager,
+            isModified: true,
+            modified: new Date()
+          }
+        }
+        return tab
+      })
+      
+      return {
+        ...state,
+        tabs: updatedTabs
+      }
+    }
+    
+    case 'CLOSE_TAB': {
+      const remainingTabs = state.tabs.filter(tab => tab.id !== action.payload.tabId)
+      let newActiveTabId = state.activeTabId
+      
+      // If we're closing the active tab, switch to another tab
+      if (state.activeTabId === action.payload.tabId) {
+        newActiveTabId = remainingTabs.length > 0 ? remainingTabs[0].id : null
+      }
+      
+      return {
+        ...state,
+        tabs: remainingTabs,
+        activeTabId: newActiveTabId
+      }
+    }
+    
+    case 'RENAME_TAB': {
+      const updatedTabs = state.tabs.map(tab => {
+        if (tab.id === action.payload.tabId) {
+          return {
+            ...tab,
+            name: action.payload.newName,
+            modified: new Date()
+          }
+        }
+        return tab
+      })
+      
+      return {
+        ...state,
+        tabs: updatedTabs
+      }
+    }
+    
+    case 'DUPLICATE_TAB': {
+      const newTab: TabUnit = {
+        id: action.payload.newTabId,
+        name: action.payload.newName,
+        unitManager: action.payload.unitManager,
+        stateManager: action.payload.stateManager,
+        created: new Date(),
+        modified: new Date(),
+        isModified: false
+      }
+      
+      return {
+        ...state,
+        tabs: [...state.tabs, newTab],
+        activeTabId: action.payload.newTabId,
+        nextTabNumber: state.nextTabNumber + 1
+      }
+    }
+    
+    case 'SET_NEXT_TAB_NUMBER': {
+      return {
+        ...state,
+        nextTabNumber: action.payload.nextNumber
+      }
+    }
+    
+    case 'INITIALIZE_TABS': {
+      return {
+        ...state,
+        tabs: action.payload.tabs,
+        activeTabId: action.payload.activeTabId,
+        nextTabNumber: action.payload.nextTabNumber
+      }
+    }
+    
+    default:
+      return state
+  }
+}
+
 interface MultiUnitProviderProps {
   children: React.ReactNode
 }
 
 export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
-  const [state, setState] = useState<MultiUnitState>({
+  // CRITICAL: Implement proper reducer pattern for complex state management
+  const [state, dispatch] = useReducer(multiUnitReducer, {
     tabs: [],
     activeTabId: null,
     nextTabNumber: 1
@@ -144,6 +280,9 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   const [selectedEquipmentId, setSelectedEquipmentId] = useState<string | null>(null)
   const [isClient, setIsClient] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  
+  // CRITICAL FIX: Add unit version to force context value changes
+  const [unitVersion, setUnitVersion] = useState(0)
   
   // PROPER ARCHITECTURE: No manual state versioning needed
   // React will naturally re-render when unit reference changes
@@ -189,10 +328,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         }
         
         if (tabs.length > 0) {
-          setState({
-            tabs,
-            activeTabId: metadata.activeTabId || tabs[0].id,
-            nextTabNumber: metadata.nextTabNumber
+          dispatch({
+            type: 'INITIALIZE_TABS',
+            payload: {
+              tabs,
+              activeTabId: metadata.activeTabId || tabs[0].id,
+              nextTabNumber: metadata.nextTabNumber
+            }
           })
           setIsInitialized(true)
           return
@@ -219,10 +361,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       
       // Create first tab
       const firstTab = createTabFromData('tab-1', tabName, initialConfig)
-      setState({
-        tabs: [firstTab],
-        activeTabId: firstTab.id,
-        nextTabNumber: 2
+      dispatch({
+        type: 'INITIALIZE_TABS',
+        payload: {
+          tabs: [firstTab],
+          activeTabId: firstTab.id,
+          nextTabNumber: 2
+        }
       })
       
       // Save initial state
@@ -240,10 +385,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       
       // Fallback: create default tab
       const defaultTab = createTabFromData('tab-1', 'New Mech', createDefaultConfiguration())
-      setState({
-        tabs: [defaultTab],
-        activeTabId: defaultTab.id,
-        nextTabNumber: 2
+      dispatch({
+        type: 'INITIALIZE_TABS',
+        payload: {
+          tabs: [defaultTab],
+          activeTabId: defaultTab.id,
+          nextTabNumber: 2
+        }
       })
     }
     
@@ -452,18 +600,31 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     const newTab = createTabFromData(tabId, tabName, tabConfig)
     
     const newTabs = [...state.tabs, newTab]
-    const newState = {
-      tabs: newTabs,
-      activeTabId: tabId,
-      nextTabNumber: state.nextTabNumber + 1
-    }
     
-    setState(newState)
+    dispatch({
+      type: 'CREATE_TAB',
+      payload: {
+        id: tabId,
+        name: tabName,
+        unitManager: newTab.unitManager,
+        stateManager: newTab.stateManager
+      }
+    })
+    
+    dispatch({
+      type: 'SET_ACTIVE_TAB',
+      payload: { tabId }
+    })
+    
+    dispatch({
+      type: 'SET_NEXT_TAB_NUMBER',
+      payload: { nextNumber: state.nextTabNumber + 1 }
+    })
     
     // Save to localStorage
     const metadata: TabsMetadata = {
       activeTabId: tabId,
-      nextTabNumber: newState.nextTabNumber,
+      nextTabNumber: state.nextTabNumber + 1,
       tabOrder: newTabs.map(t => t.id),
       tabNames: Object.fromEntries(newTabs.map(t => [t.id, t.name]))
     }
@@ -486,10 +647,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         tab.isModified = false
         tab.modified = new Date()
         
-        setState(prevState => ({
-          ...prevState,
-          tabs: [{ ...tab }]
-        }))
+        dispatch({
+          type: 'UPDATE_TAB_CONFIG',
+          payload: { 
+            tabId: tab.id, 
+            config: defaultConfig 
+          }
+        })
         
         saveTabData(tab.id, defaultConfig)
       }
@@ -504,13 +668,17 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       newActiveTabId = newTabs[0]?.id || null
     }
     
-    const newState = {
-      tabs: newTabs,
-      activeTabId: newActiveTabId,
-      nextTabNumber: state.nextTabNumber
-    }
+    dispatch({
+      type: 'CLOSE_TAB',
+      payload: { tabId }
+    })
     
-    setState(newState)
+    if (newActiveTabId !== state.activeTabId) {
+      dispatch({
+        type: 'SET_ACTIVE_TAB',
+        payload: { tabId: newActiveTabId || '' }
+      })
+    }
     
     // Update localStorage
     const metadata: TabsMetadata = {
@@ -534,10 +702,10 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   const setActiveTab = useCallback((tabId: string) => {
     if (state.activeTabId === tabId) return
     
-    setState(prevState => ({
-      ...prevState,
-      activeTabId: tabId
-    }))
+    dispatch({
+      type: 'SET_ACTIVE_TAB',
+      payload: { tabId }
+    })
     
     // Update metadata
     const metadata: TabsMetadata = {
@@ -552,23 +720,17 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   
   // Rename tab
   const renameTab = useCallback((tabId: string, newName: string) => {
-    const newTabs = state.tabs.map(tab => 
-      tab.id === tabId 
-        ? { ...tab, name: newName, modified: new Date(), isModified: true }
-        : tab
-    )
-    
-    setState(prevState => ({
-      ...prevState,
-      tabs: newTabs
-    }))
+    dispatch({
+      type: 'RENAME_TAB',
+      payload: { tabId, newName }
+    })
     
     // Update metadata
     const metadata: TabsMetadata = {
       activeTabId: state.activeTabId,
       nextTabNumber: state.nextTabNumber,
-      tabOrder: newTabs.map(t => t.id),
-      tabNames: Object.fromEntries(newTabs.map(t => [t.id, t.name]))
+      tabOrder: state.tabs.map(t => t.id),
+      tabNames: Object.fromEntries(state.tabs.map(t => [t.id, t.name]))
     }
     
     saveTabsMetadata(metadata)
@@ -588,6 +750,35 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
   // Get active tab
   const activeTab = state.tabs.find(t => t.id === state.activeTabId) || null
   
+  // CRITICAL FIX: Subscribe to active tab's unit state changes
+  useEffect(() => {
+    console.log('[MultiUnitProvider] Subscription useEffect triggered:', {
+      hasActiveTab: !!activeTab,
+      hasUnitManager: !!activeTab?.unitManager,
+      activeTabId: activeTab?.id
+    })
+    
+    if (!activeTab?.unitManager) {
+      console.log('[MultiUnitProvider] No active tab or unit manager, skipping subscription')
+      return
+    }
+    
+    console.log('[MultiUnitProvider] Setting up subscription to active tab unit changes')
+    
+    // Subscribe to unit state changes
+    const unsubscribe = activeTab.unitManager.subscribe(() => {
+      console.log('[MultiUnitProvider] Unit state changed, forcing re-render')
+      setUnitVersion(v => v + 1) // Increment unit version to force context value change
+      forceUpdate()
+    })
+    
+    // Cleanup subscription when active tab changes
+    return () => {
+      console.log('[MultiUnitProvider] Cleaning up unit subscription')
+      unsubscribe()
+    }
+  }, [activeTab?.unitManager]) // Re-subscribe when active tab's unit manager changes
+
   // Proxy functions for active tab's unit operations
   const updateActiveTabConfiguration = useCallback((config: UnitConfiguration) => {
     if (!activeTab) return
@@ -600,16 +791,22 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     activeTab.modified = new Date()
     
     // Update state to trigger re-render
-    setState(prevState => ({
-      ...prevState,
-      tabs: prevState.tabs.map(tab => 
-        tab.id === activeTab.id ? { ...activeTab } : tab
-      )
-    }))
+    dispatch({
+      type: 'UPDATE_TAB_CONFIG',
+      payload: { 
+        tabId: activeTab.id, 
+        config: activeTab.unitManager.getConfiguration() 
+      }
+    })
     
     // CRITICAL FIX: Save complete state instead of just basic config
     // Configuration changes can include special components that need complete serialization
     saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
+    
+    // FALLBACK: Force re-render immediately to ensure UI updates
+    console.log('[MultiUnitProvider] Forcing immediate re-render after configuration update')
+    setUnitVersion(v => v + 1) // Increment unit version to force context value change
+    forceUpdate()
     
     console.log('[MultiUnitProvider] Configuration update complete with full state persistence')
   }, [activeTab])
@@ -632,12 +829,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
     // PROPER ARCHITECTURE: Fresh data from unit each render
     unit: activeTab?.unitManager || null,
     engineType: activeTab?.unitManager.getEngineType() || null,
-    gyroType: activeTab?.unitManager.getGyroType() || null,
+    gyroType: (activeTab?.unitManager.getGyroType() as GyroType) || null,
     unallocatedEquipment: activeTab?.unitManager.getUnallocatedEquipment() || [],
     validation: activeTab?.stateManager.getUnitSummary().validation || null,
     summary: activeTab?.stateManager.getUnitSummary().summary || null,
     isConfigLoaded: isInitialized,
     selectedEquipmentId,
+    unitVersion, // CRITICAL: Include unit version to force re-renders
     
     // Active tab action functions with enhanced persistence
     changeEngine: (engineType: EngineType) => {
@@ -645,7 +843,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       activeTab.stateManager.handleEngineChange(engineType)
       activeTab.isModified = true
       activeTab.modified = new Date()
-      setState(prevState => ({ ...prevState })) // Force re-render
+      dispatch({
+        type: 'UPDATE_TAB_CONFIG',
+        payload: { 
+          tabId: activeTab.id, 
+          config: activeTab.unitManager.getConfiguration() 
+        }
+      })
       
       // Save complete state with debouncing (configuration changes are significant)
       saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
@@ -655,7 +859,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       activeTab.stateManager.handleGyroChange(gyroType)
       activeTab.isModified = true
       activeTab.modified = new Date()
-      setState(prevState => ({ ...prevState })) // Force re-render
+      dispatch({
+        type: 'UPDATE_TAB_CONFIG',
+        payload: { 
+          tabId: activeTab.id, 
+          config: activeTab.unitManager.getConfiguration() 
+        }
+      })
       
       // Save complete state with debouncing (configuration changes are significant)
       saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
@@ -668,7 +878,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       if (result) {
         activeTab.isModified = true
         activeTab.modified = new Date()
-        setState(prevState => ({ ...prevState })) // Force re-render
+        dispatch({
+          type: 'UPDATE_TAB_CONFIG',
+          payload: { 
+            tabId: activeTab.id, 
+            config: activeTab.unitManager.getConfiguration() 
+          }
+        })
         
         // Save complete state with debouncing
         saveCompleteState(activeTab.id, activeTab.unitManager)
@@ -681,7 +897,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       activeTab.stateManager.addUnallocatedEquipment(equipment)
       activeTab.isModified = true
       activeTab.modified = new Date()
-      setState(prevState => ({ ...prevState })) // Force re-render
+      dispatch({
+        type: 'UPDATE_TAB_CONFIG',
+        payload: { 
+          tabId: activeTab.id, 
+          config: activeTab.unitManager.getConfiguration() 
+        }
+      })
       
       // Save complete state with debouncing
       saveCompleteState(activeTab.id, activeTab.unitManager)
@@ -693,7 +915,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       if (result) {
         activeTab.isModified = true
         activeTab.modified = new Date()
-        setState(prevState => ({ ...prevState })) // Force re-render
+        dispatch({
+          type: 'UPDATE_TAB_CONFIG',
+          payload: { 
+            tabId: activeTab.id, 
+            config: activeTab.unitManager.getConfiguration() 
+          }
+        })
         
         // Save complete state with debouncing
         saveCompleteState(activeTab.id, activeTab.unitManager)
@@ -706,7 +934,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
       activeTab.stateManager.resetUnit(config)
       activeTab.isModified = true
       activeTab.modified = new Date()
-      setState(prevState => ({ ...prevState })) // Force re-render
+      dispatch({
+        type: 'UPDATE_TAB_CONFIG',
+        payload: { 
+          tabId: activeTab.id, 
+          config: activeTab.unitManager.getConfiguration() 
+        }
+      })
       
       // Save complete state immediately (reset is a significant operation)
       saveCompleteStateImmediately(activeTab.id, activeTab.unitManager)
@@ -751,12 +985,13 @@ export function MultiUnitProvider({ children }: MultiUnitProviderProps) {
         // The unit's observer pattern will automatically trigger forceUpdate() via the subscription
         
         // Force comprehensive state update
-        setState(prevState => ({
-          ...prevState,
-          tabs: prevState.tabs.map(tab => 
-            tab.id === activeTab.id ? { ...activeTab } : tab
-          )
-        }))
+        dispatch({
+          type: 'UPDATE_TAB_CONFIG',
+          payload: { 
+            tabId: activeTab.id, 
+            config: activeTab.unitManager.getConfiguration() 
+          }
+        })
         
         // Log final state for debugging
         const finalUnallocated = activeTab.unitManager.getUnallocatedEquipment()
@@ -825,6 +1060,7 @@ export function useUnit() {
     summary: multiUnit.summary,
     isConfigLoaded: multiUnit.isConfigLoaded,
     selectedEquipmentId: multiUnit.selectedEquipmentId,
+    unitVersion: multiUnit.unitVersion, // CRITICAL: Include unit version
     changeEngine: multiUnit.changeEngine,
     changeGyro: multiUnit.changeGyro,
     updateConfiguration: multiUnit.updateConfiguration,

@@ -46,11 +46,34 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   const { unit, updateConfiguration } = useUnit();
   const config = unit.getConfiguration();
 
+  // Enhanced configuration with tech progression (with defaults for missing fields)
+  const enhancedConfig = {
+    ...config,
+    introductionYear: (config as any).introductionYear || 3068,
+    rulesLevel: (config as any).rulesLevel || 'Standard',
+    techProgression: (config as any).techProgression || {
+      chassis: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      gyro: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      engine: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      heatsink: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      targeting: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      myomer: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      movement: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere',
+      armor: config.techBase.includes('Clan') ? 'Clan' : 'Inner Sphere'
+    }
+  };
+
   // Selection state for side panel editing
   const [selectedSection, setSelectedSection] = React.useState<string | null>(null);
 
-  // Armor type options based on tech base - use central utility
-  const armorTypeOptions = getAvailableArmorTypes(config).map(option => option.type);
+  // Use the armor subsystem tech base for filtering
+  const armorTechBase = enhancedConfig.techProgression?.armor || enhancedConfig.techBase || 'Inner Sphere';
+  const armorTypeOptions = getAvailableArmorTypes(enhancedConfig, armorTechBase).map(option => option.type);
+
+  // Debugging: Log armorTypeOptions, armorType, and enhancedConfig
+  console.log('[ArmorTabV2] armorTypeOptions:', armorTypeOptions);
+  console.log('[ArmorTabV2] armorType:', typeof config.armorType === 'string' ? config.armorType : (config.armorType as any)?.type || 'Standard');
+  console.log('[ArmorTabV2] enhancedConfig:', enhancedConfig);
 
   // ===== USE DATA MODEL ONLY - NO MANUAL CALCULATIONS =====
   // All calculations come from the data model to ensure consistency

@@ -56,6 +56,18 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   private readonly slotValidationManager: SlotValidationManager;
   private readonly specialComponentManager: SpecialComponentManager;
 
+  // Standard slot counts for different locations
+  private readonly STANDARD_SLOT_COUNTS = {
+    head: 6,
+    centerTorso: 12,
+    leftTorso: 12,
+    rightTorso: 12,
+    leftArm: 12,
+    rightArm: 12,
+    leftLeg: 6,
+    rightLeg: 6
+  };
+
   constructor() {
     this.slotCalculationManager = new SlotCalculationManager();
     this.slotAllocationManager = new SlotAllocationManager();
@@ -1013,7 +1025,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
 }
 
 // Backwards compatibility: Static methods that delegate to instance implementation
-export class CriticalSlotCalculator {
+export class CriticalSlotCalculatorStatic {
   // Legacy static method for backwards compatibility
   static calculateStructuralSlots(config: UnitConfiguration): any {
     const instance = new CriticalSlotCalculatorImpl();
@@ -1032,7 +1044,7 @@ export class CriticalSlotCalculator {
   // Legacy static method for complete breakdown
   static getCompleteBreakdown(config: UnitConfiguration, sections: any, equipment: any[]): any {
     const instance = new CriticalSlotCalculatorImpl();
-    const structural = CriticalSlotCalculator.calculateStructuralSlots(config);
+    const structural = CriticalSlotCalculatorStatic.calculateStructuralSlots(config);
     
     return {
       structural,
@@ -1070,6 +1082,9 @@ export class CriticalSlotCalculator {
     };
   }
 }
+
+// Export the static class as CriticalSlotCalculator for backwards compatibility
+export const CriticalSlotCalculator = CriticalSlotCalculatorStatic;
 
 // Export factory function for dependency injection
 export const createCriticalSlotCalculator = (): CriticalSlotCalculator => {

@@ -43,6 +43,8 @@ export const TechProgressionPanel: React.FC<TechProgressionPanelProps> = ({
   onTechProgressionChange,
   isMixed
 }) => {
+  // Debugging: Log isMixed and readOnly
+  console.log('[TechProgressionPanel] isMixed:', isMixed, 'readOnly:', readOnly);
   
   // Helper function to get current component for a subsystem
   const getCurrentComponentForSubsystem = (subsystem: keyof TechProgression, config: any): string => {
@@ -81,10 +83,10 @@ export const TechProgressionPanel: React.FC<TechProgressionPanelProps> = ({
       <div key={`tech-progression-${renderKey}-${JSON.stringify(techProgression)}`} className="space-y-2">
         {Object.entries(SUBSYSTEM_LABELS).map(([subsystem, label]) => {
           const currentTechBase = techProgression[subsystem as keyof TechProgression];
-          
           // Get current component value using our helper function
           const currentValue = getCurrentComponentForSubsystem(subsystem as keyof TechProgression, currentConfig);
-          
+          // If not mixed, lock to master tech base
+          const lockedTechBase = isMixed ? currentTechBase : (currentConfig.techBase || 'Inner Sphere');
           return (
             <div key={subsystem} className="grid grid-cols-3 gap-2 items-center">
               {/* Subsystem Label with Current Component */}
@@ -96,28 +98,26 @@ export const TechProgressionPanel: React.FC<TechProgressionPanelProps> = ({
                   </div>
                 )}
               </div>
-              
               {/* Inner Sphere Option */}
               <button
                 onClick={() => onTechProgressionChange(subsystem as keyof TechProgression, 'Inner Sphere')}
-                disabled={readOnly}
+                disabled={readOnly || !isMixed}
                 className={`px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
-                  currentTechBase === 'Inner Sphere'
-                    ? 'bg-orange-600 text-white border border-orange-500 shadow-md'
-                    : 'bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:border-orange-500/50 hover:bg-slate-600/50'
+                  lockedTechBase === 'Inner Sphere'
+                    ? 'bg-green-600 text-white border border-green-500 shadow-md'
+                    : 'bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:border-green-500/50 hover:bg-slate-600/50'
                 }`}
               >
                 Inner Sphere
               </button>
-              
               {/* Clan Option */}
               <button
                 onClick={() => onTechProgressionChange(subsystem as keyof TechProgression, 'Clan')}
-                disabled={readOnly}
+                disabled={readOnly || !isMixed}
                 className={`px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
-                  currentTechBase === 'Clan'
-                    ? 'bg-green-600 text-white border border-green-500 shadow-md'
-                    : 'bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:border-green-500/50 hover:bg-slate-600/50'
+                  lockedTechBase === 'Clan'
+                    ? 'bg-orange-600 text-white border border-orange-500 shadow-md'
+                    : 'bg-slate-700/50 text-slate-300 border border-slate-600/50 hover:border-orange-500/50 hover:bg-slate-600/50'
                 }`}
               >
                 Clan

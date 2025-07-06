@@ -3,7 +3,7 @@ import { ArmorType, ARMOR_TYPES } from './armorTypes';
 import { EngineType, StructureType, HeatSinkType } from '../types/systemComponents';
 import { UnitConfiguration } from './criticalSlots/UnitCriticalManagerTypes';
 import { ComponentConfiguration, TechBase } from '../types/componentConfiguration';
-// TODO: Import ENGINE_TYPES and STRUCTURE_TYPES from their actual locations if available
+import { COMPONENT_DATABASE } from './componentDatabase';
 
 // Helper function to create ComponentConfiguration objects
 function createComponentConfig(type: string, techBase: TechBase): ComponentConfiguration {
@@ -11,94 +11,125 @@ function createComponentConfig(type: string, techBase: TechBase): ComponentConfi
 }
 
 // Example: filter armor types
-export function getAvailableArmorTypes(config: UnitConfiguration): ComponentConfiguration[] {
-  const techBase = config.techBase || 'Inner Sphere';
-  const rulesLevel = (config as any).rulesLevel || 'Standard';
-  // Optionally filter by tech progression, rules level, etc.
-  return ARMOR_TYPES
-    .filter(type => type.techBase === techBase || type.techBase === 'Both')
-    .map(type => createComponentConfig(type.name, techBase));
+export function getAvailableArmorTypes(config: UnitConfiguration, overrideTechBase?: string): ComponentConfiguration[] {
+  const techBase = overrideTechBase || config.techBase || 'Inner Sphere';
+  const introductionYear = (config as any).introductionYear || 3025;
+
+  // Debugging: Log config, techBase, introductionYear, and database
+  console.log('[getAvailableArmorTypes] config:', config);
+  console.log('[getAvailableArmorTypes] techBase:', techBase);
+  console.log('[getAvailableArmorTypes] introductionYear:', introductionYear);
+
+  let armorComponents: any[] = [];
+  if (techBase === 'Mixed') {
+    const is = COMPONENT_DATABASE.armor['Inner Sphere'] || [];
+    const clan = COMPONENT_DATABASE.armor['Clan'] || [];
+    armorComponents = [...is, ...clan];
+    console.log('[getAvailableArmorTypes] Mixed mode: combining IS and Clan:', armorComponents);
+  } else {
+    armorComponents = COMPONENT_DATABASE.armor[techBase] || [];
+    console.log('[getAvailableArmorTypes] database:', COMPONENT_DATABASE.armor[techBase]);
+  }
+
+  // Filter by introduction year and rules level
+  const availableComponents = armorComponents.filter((component: any) => {
+    return component.introductionYear <= introductionYear;
+  });
+
+  return availableComponents.map((component: any) =>
+    createComponentConfig(component.name, component.techBase || techBase)
+  );
 }
 
-// TODO: Implement and use STRUCTURE_TYPES array if available
+// PROPER IMPLEMENTATION: Use component database for structure types
 export function getAvailableStructureTypes(config: UnitConfiguration): ComponentConfiguration[] {
   const techBase = config.techBase || 'Inner Sphere';
-  // Placeholder: return all possible structure types for now
-  const structureTypes = [
-    'Standard',
-    'Endo Steel',
-    'Endo Steel (Clan)',
-    'Composite',
-    'Reinforced',
-    'Industrial',
-  ];
+  const introductionYear = (config as any).introductionYear || 3025;
   
-  return structureTypes.map(type => createComponentConfig(type, techBase));
+  // Get structure components from database for the specified tech base
+  const structureComponents = COMPONENT_DATABASE.chassis[techBase] || [];
+  
+  // Filter by introduction year and rules level
+  const availableComponents = structureComponents.filter((component: any) => {
+    return component.introductionYear <= introductionYear;
+  });
+  
+  return availableComponents.map((component: any) => 
+    createComponentConfig(component.name, techBase)
+  );
 }
 
-// TODO: Implement and use ENGINE_TYPES array if available
+// PROPER IMPLEMENTATION: Use component database for engine types
 export function getAvailableEngineTypes(config: UnitConfiguration): ComponentConfiguration[] {
   const techBase = config.techBase || 'Inner Sphere';
-  // Placeholder: return all possible engine types for now
-  const engineTypes = [
-    'Standard',
-    'XL (IS)',
-    'XL (Clan)',
-    'Light',
-    'XXL',
-    'Compact',
-    'ICE',
-    'Fuel Cell',
-  ];
+  const introductionYear = (config as any).introductionYear || 3025;
   
-  return engineTypes.map(type => createComponentConfig(type, techBase));
+  // Get engine components from database for the specified tech base
+  const engineComponents = COMPONENT_DATABASE.engine[techBase] || [];
+  
+  // Filter by introduction year and rules level
+  const availableComponents = engineComponents.filter((component: any) => {
+    return component.introductionYear <= introductionYear;
+  });
+  
+  return availableComponents.map((component: any) => 
+    createComponentConfig(component.name, techBase)
+  );
 }
 
-// TODO: Implement and use HEAT_SINK_TYPES array if available
+// NEW: Use component database for gyro types
+export function getAvailableGyroTypes(config: UnitConfiguration): ComponentConfiguration[] {
+  const techBase = config.techBase || 'Inner Sphere';
+  const introductionYear = (config as any).introductionYear || 3025;
+  
+  // Get gyro components from database for the specified tech base
+  const gyroComponents = COMPONENT_DATABASE.gyro[techBase] || [];
+  
+  // Filter by introduction year
+  const availableComponents = gyroComponents.filter((component: any) => {
+    return component.introductionYear <= introductionYear;
+  });
+  
+  return availableComponents.map((component: any) => 
+    createComponentConfig(component.name, techBase)
+  );
+}
+
+// PROPER IMPLEMENTATION: Use component database for heat sink types
 export function getAvailableHeatSinkTypes(config: UnitConfiguration): ComponentConfiguration[] {
   const techBase = config.techBase || 'Inner Sphere';
-  // Placeholder: return all possible heat sink types for now
-  const heatSinkTypes = [
-    'Single',
-    'Double',
-    'Double (Clan)',
-    'Compact',
-    'Laser',
-  ];
+  const introductionYear = (config as any).introductionYear || 3025;
   
-  return heatSinkTypes.map(type => createComponentConfig(type, techBase));
+  // Get heat sink components from database for the specified tech base
+  const heatSinkComponents = COMPONENT_DATABASE.heatsink?.[techBase] || [];
+  
+  // Filter by introduction year and rules level
+  const availableComponents = heatSinkComponents.filter((component: any) => {
+    return component.introductionYear <= introductionYear;
+  });
+  
+  return availableComponents.map((component: any) => 
+    createComponentConfig(component.name, techBase)
+  );
 }
 
 // Legacy functions for backward compatibility (return strings)
 export function getAvailableArmorTypeStrings(config: UnitConfiguration): string[] {
-  const techBase = config.techBase || 'Inner Sphere';
-  return ARMOR_TYPES
-    .filter(type => type.techBase === techBase || type.techBase === 'Both')
-    .map(type => type.name);
+  return getAvailableArmorTypes(config).map(component => component.type);
 }
 
 export function getAvailableStructureTypeStrings(config: UnitConfiguration): string[] {
-  const techBase = config.techBase || 'Inner Sphere';
-  return [
-    'Standard',
-    'Endo Steel',
-    'Endo Steel (Clan)',
-    'Composite',
-    'Reinforced',
-    'Industrial',
-  ];
+  return getAvailableStructureTypes(config).map(component => component.type);
 }
 
 export function getAvailableEngineTypeStrings(config: UnitConfiguration): string[] {
-  const techBase = config.techBase || 'Inner Sphere';
-  return [
-    'Standard',
-    'XL (IS)',
-    'XL (Clan)',
-    'Light',
-    'XXL',
-    'Compact',
-    'ICE',
-    'Fuel Cell',
-  ];
+  return getAvailableEngineTypes(config).map(component => component.type);
+}
+
+export function getAvailableGyroTypeStrings(config: UnitConfiguration): string[] {
+  return getAvailableGyroTypes(config).map(component => component.type);
+}
+
+export function getAvailableHeatSinkTypeStrings(config: UnitConfiguration): string[] {
+  return getAvailableHeatSinkTypes(config).map(component => component.type);
 } 

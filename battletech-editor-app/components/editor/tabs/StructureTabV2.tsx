@@ -200,7 +200,7 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
   };
 
   // Get dynamic component options based on tech progression
-  const filteredOptions = getFilteredComponentOptions(enhancedConfig.techProgression);
+  const filteredOptions = getFilteredComponentOptions(enhancedConfig.techProgression, enhancedConfig);
 
   // Helper functions to handle ComponentConfiguration vs string migration
   const getStructureTypeValue = (): string => {

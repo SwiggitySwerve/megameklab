@@ -203,16 +203,17 @@ describe('SystemComponentControls', () => {
     test('should handle structure type changes', () => {
       render(<SystemComponentControls />);
 
-      // Get all "Standard" selects and target the structure one (typically first in chassis section)
+      // Get the structure select (first Standard select in chassis section)
       const standardSelects = screen.getAllByDisplayValue('Standard');
-      expect(standardSelects.length).toBeGreaterThan(0);
-      const structureSelect = standardSelects[0]; // Structure is typically first
+      const structureSelect = standardSelects[0];
       
       fireEvent.change(structureSelect, { target: { value: 'Endo Steel' } });
 
       expect(consoleSpy.log).toHaveBeenCalledWith('Structure change:', 'Endo Steel');
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ structureType: 'Endo Steel' })
+        expect.objectContaining({ 
+          structureType: { type: 'Endo Steel', techBase: 'Inner Sphere' }
+        })
       );
     });
 
@@ -224,10 +225,10 @@ describe('SystemComponentControls', () => {
       expect(standardSelects.length).toBeGreaterThan(1);
       const engineSelect = standardSelects[1]; // Engine is typically second
       
-      fireEvent.change(engineSelect, { target: { value: 'XL' } });
+      fireEvent.change(engineSelect, { target: { value: 'XL (IS)' } });
 
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ engineType: 'XL' })
+        expect.objectContaining({ engineType: 'XL (IS)' })
       );
     });
 
@@ -242,7 +243,9 @@ describe('SystemComponentControls', () => {
       fireEvent.change(gyroSelect, { target: { value: 'XL' } });
 
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ gyroType: 'XL' })
+        expect.objectContaining({ 
+          gyroType: { type: 'XL', techBase: 'Inner Sphere' }
+        })
       );
     });
   });
@@ -343,7 +346,7 @@ describe('SystemComponentControls', () => {
 
       render(<SystemComponentControls />);
 
-      const heatSinkSelect = screen.getByDisplayValue('IS Double');
+      const heatSinkSelect = screen.getByDisplayValue('Double');
       expect(heatSinkSelect).toBeInTheDocument();
     });
 
@@ -434,7 +437,9 @@ describe('SystemComponentControls', () => {
       fireEvent.change(jumpTypeSelect, { target: { value: 'Improved Jump Jet' } });
 
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ jumpJetType: 'Improved Jump Jet' })
+        expect.objectContaining({ 
+          jumpJetType: { type: 'Improved Jump Jet', techBase: 'Inner Sphere' }
+        })
       );
     });
 
@@ -469,7 +474,9 @@ describe('SystemComponentControls', () => {
       fireEvent.change(heatSinkTypeSelect, { target: { value: 'Double' } });
 
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ heatSinkType: 'Double' })
+        expect.objectContaining({ 
+          heatSinkType: { type: 'Double', techBase: 'Inner Sphere' }
+        })
       );
     });
 
@@ -583,7 +590,9 @@ describe('SystemComponentControls', () => {
       fireEvent.change(armorTypeSelect, { target: { value: 'Ferro-Fibrous' } });
 
       expect(mockUpdateConfiguration).toHaveBeenCalledWith(
-        expect.objectContaining({ armorType: 'Ferro-Fibrous' })
+        expect.objectContaining({ 
+          armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' }
+        })
       );
     });
   });
@@ -906,7 +915,7 @@ describe('SystemComponentControls', () => {
 
       render(<SystemComponentControls />);
 
-      expect(mockJumpJetCalculations.getAvailableJumpJetTypes).toHaveBeenCalledWith('Clan', 'Advanced');
+      expect(mockJumpJetCalculations.getAvailableJumpJetTypes).toHaveBeenCalledWith('Clan', 'Standard');
       expect(mockJumpJetCalculations.validateJumpJetConfiguration).toHaveBeenCalledWith(
         { 'Improved Jump Jet': 5 },
         5,

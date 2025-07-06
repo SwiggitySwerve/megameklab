@@ -11,13 +11,14 @@ import {
   ArmorType, 
   HeatSinkType, 
   UnitConfigurationBuilder, 
-  UnitConfiguration 
+  UnitConfiguration
 } from '../../utils/criticalSlots/UnitCriticalManager'
 import { 
   getAvailableStructureTypes, 
   getAvailableArmorTypes, 
   getAvailableEngineTypes,
-  getAvailableHeatSinkTypes
+  getAvailableHeatSinkTypes,
+  getAvailableGyroTypes
 } from '../../utils/componentOptionFiltering'
 import { 
   JumpJetType, 
@@ -31,6 +32,7 @@ import {
   calculateJumpJetCriticalSlots,
   JUMP_JET_VARIANTS
 } from '../../utils/jumpJetCalculations'
+import { ComponentConfiguration } from '../../types/componentConfiguration'
 
 export function SystemComponentControls() {
   const { unit, validation, updateConfiguration, removeEquipment, addEquipmentToUnit } = useUnit()
@@ -38,15 +40,30 @@ export function SystemComponentControls() {
   
   // Use configuration values directly
   const jumpMP = config.jumpMP || 0
-  const selectedJumpJetType = config.jumpJetType || { type: 'Standard Jump Jet', techBase: 'Inner Sphere' }
-  const jumpJetTypeName = selectedJumpJetType.type || 'Standard Jump Jet'
   
-  // Get available jump jet types for current tech base
-  const availableJumpJetTypes = getAvailableJumpJetTypes(config.techBase, 'Advanced')
+  // Get available jump jet types for current tech base and rules level
+  const availableJumpJetTypes = getAvailableJumpJetTypes(config.techBase, 'Standard')
+  
+  // Handle jump jet type - can be ComponentConfiguration object or string
+  let jumpJetTypeName: string = 'Standard Jump Jet'
+  if (config.jumpJetType) {
+    if (typeof config.jumpJetType === 'string') {
+      jumpJetTypeName = config.jumpJetType
+    } else if (config.jumpJetType.type) {
+      jumpJetTypeName = config.jumpJetType.type
+    }
+  }
+  
+  // Ensure we have a valid jump jet type
+  if (!availableJumpJetTypes.includes(jumpJetTypeName as JumpJetType)) {
+    jumpJetTypeName = availableJumpJetTypes[0] || 'Standard Jump Jet'
+  }
+  
+  const jumpJetAllocation = { [jumpJetTypeName]: jumpMP }
   
   // Calculate jump jet validation
   const jumpJetValidation = validateJumpJetConfiguration(
-    { [jumpJetTypeName]: jumpMP },
+    jumpJetAllocation,
     jumpMP,
     config.walkMP,
     config.runMP,
@@ -54,10 +71,10 @@ export function SystemComponentControls() {
   )
   
   // Calculate jump jet stats
-  const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight({ [jumpJetTypeName]: jumpMP }, config.tonnage, false) : 0
-  const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits({ [jumpJetTypeName]: jumpMP }, config.tonnage) : 0
-  const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat({ [jumpJetTypeName]: jumpMP }, jumpMP) : 0
-  const maxAllowedJumpMP = getMaxAllowedJumpMP(jumpJetTypeName, config.walkMP, config.runMP)
+  const jumpJetWeight = jumpMP > 0 ? calculateTotalJumpJetWeight(jumpJetAllocation, config.tonnage, false) : 0
+  const jumpJetCrits = jumpMP > 0 ? calculateTotalJumpJetCrits(jumpJetAllocation, config.tonnage) : 0
+  const jumpJetHeat = jumpMP > 0 ? calculateJumpJetHeat(jumpJetAllocation, jumpMP) : 0
+  const maxAllowedJumpMP = getMaxAllowedJumpMP(jumpJetTypeName as JumpJetType, config.walkMP, config.runMP)
   
   // Generate tonnage options (20-100 in 5-ton increments)
   const tonnageOptions = Array.from({ length: 17 }, (_, i) => 20 + (i * 5))
@@ -67,16 +84,26 @@ export function SystemComponentControls() {
   
   // Tech base dependent options - use central utility
   const engineOptions = getAvailableEngineTypes(config)
-  const gyroOptions: GyroType[] = ['Standard', 'XL', 'Compact', 'Heavy-Duty']
+  const gyroOptions = getAvailableGyroTypes(config)
   
   // Remove local filtering functions and use central utility
   const structureOptions = getAvailableStructureTypes(config)
   const armorOptions = getAvailableArmorTypes(config)
   const heatSinkOptions = getAvailableHeatSinkTypes(config)
   
-  // Remove local getHeatSinkOptions function since we now use central utility
+  // Helper function to extract component type
+  const getComponentType = (component: ComponentConfiguration | string | undefined): string => {
+    if (!component) return 'Standard'
+    if (typeof component === 'string') return component
+    return component.type
+  }
   
-
+  // Helper function to create ComponentConfiguration from string
+  const createComponentConfig = (type: string, techBase: string): ComponentConfiguration => ({
+    type,
+    techBase: techBase as 'Inner Sphere' | 'Clan'
+  })
+  
   // Update configuration
   const updateConfig = useCallback((updates: Partial<UnitConfiguration>) => {
     console.log('SystemComponentControls.updateConfig called with:', updates)
@@ -133,10 +160,10 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Structure:</label>
               <select 
-                value={config.structureType.type} 
+                value={getComponentType(config.structureType)} 
                 onChange={(e) => {
                   console.log('Structure change:', e.target.value)
-                  updateConfig({ structureType: { ...config.structureType, type: e.target.value } })
+                  updateConfig({ structureType: createComponentConfig(e.target.value, config.techBase) })
                 }}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
@@ -149,12 +176,23 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Engine:</label>
               <select 
-                value={config.engineType.type} 
-                onChange={(e) => updateConfig({ engineType: { ...config.engineType, type: e.target.value } })}
+                value={(() => {
+                  // Handle both string and ComponentConfiguration engine types
+                  if (typeof config.engineType === 'string') {
+                    // Find matching option for the string type
+                    const matchingOption = engineOptions.find(option => option.type === config.engineType);
+                    return matchingOption ? JSON.stringify(matchingOption) : JSON.stringify(engineOptions[0]);
+                  }
+                  return JSON.stringify(config.engineType);
+                })()}
+                onChange={e => {
+                  const selected = JSON.parse(e.target.value);
+                  updateConfig({ engineType: selected });
+                }}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
                 {engineOptions.map(option => (
-                  <option key={option.type} value={option.type}>{option.type}</option>
+                  <option key={option.type + option.techBase} value={JSON.stringify(option)}>{option.type}</option>
                 ))}
               </select>
             </div>
@@ -162,12 +200,12 @@ export function SystemComponentControls() {
             <div className="grid grid-cols-2 gap-2 items-center">
               <label className="text-gray-300 text-xs">Gyro:</label>
               <select 
-                value={config.gyroType.type} 
-                onChange={(e) => updateConfig({ gyroType: { ...config.gyroType, type: e.target.value } })}
+                value={getComponentType(config.gyroType)} 
+                onChange={(e) => updateConfig({ gyroType: createComponentConfig(e.target.value, config.techBase) })}
                 className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
               >
                 {gyroOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
+                  <option key={option.type} value={option.type}>{option.type}</option>
                 ))}
               </select>
             </div>
@@ -238,13 +276,16 @@ export function SystemComponentControls() {
               <div className="grid grid-cols-3 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Jump Type:</label>
                 <select 
-                  value={selectedJumpJetType}
-                  onChange={(e) => updateConfig({ jumpJetType: e.target.value as JumpJetType })}
+                  value={jumpJetTypeName}
+                  onChange={e => {
+                    const selectedType = e.target.value as JumpJetType
+                    updateConfig({ jumpJetType: createComponentConfig(selectedType, config.techBase) })
+                  }}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500 col-span-2"
                 >
-                  {availableJumpJetTypes.map(type => (
-                    <option key={type} value={type}>
-                      {JUMP_JET_VARIANTS[type].name}
+                  {availableJumpJetTypes.map(option => (
+                    <option key={option} value={option}>
+                      {JUMP_JET_VARIANTS[option]?.name || option}
                     </option>
                   ))}
                 </select>
@@ -282,8 +323,8 @@ export function SystemComponentControls() {
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Type:</label>
                 <select 
-                  value={config.heatSinkType} 
-                  onChange={(e) => updateConfig({ heatSinkType: e.target.value as HeatSinkType })}
+                  value={getComponentType(config.heatSinkType)} 
+                  onChange={(e) => updateConfig({ heatSinkType: createComponentConfig(e.target.value, config.techBase) })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   {heatSinkOptions.map(option => (
@@ -319,7 +360,7 @@ export function SystemComponentControls() {
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Total Dissipation:</label>
                 <div className="bg-gray-700 p-1 rounded border border-gray-600 text-white text-center text-xs">
-                  {config.heatSinkType === 'Double' || config.heatSinkType === 'Double (Clan)' 
+                  {getComponentType(config.heatSinkType) === 'Double' || getComponentType(config.heatSinkType) === 'Double (Clan)' 
                     ? config.totalHeatSinks * 2 
                     : config.totalHeatSinks}
                 </div>
@@ -355,8 +396,8 @@ export function SystemComponentControls() {
               <div className="grid grid-cols-2 gap-2 items-center">
                 <label className="text-gray-300 text-xs">Armor Type:</label>
                 <select 
-                  value={config.armorType} 
-                  onChange={(e) => updateConfig({ armorType: e.target.value as ArmorType })}
+                  value={getComponentType(config.armorType)} 
+                  onChange={(e) => updateConfig({ armorType: createComponentConfig(e.target.value, config.techBase) })}
                   className="bg-gray-700 text-white text-xs p-1 rounded border border-gray-600 focus:border-blue-500"
                 >
                   {armorOptions.map(option => (
@@ -406,7 +447,7 @@ export function SystemComponentControls() {
               <h4 className="text-red-200 text-xs font-medium mb-1">Errors:</h4>
               <ul className="text-red-300 text-xs space-y-1">
                 {validation.errors.map((error: string, index: number) => (
-                  <li key={index}>• {error}</li>
+                  <li key={`validation-${index}`}>• {error}</li>
                 ))}
                 {engineValidation.errors.map((error: string, index: number) => (
                   <li key={`engine-${index}`}>• {error}</li>
@@ -423,7 +464,7 @@ export function SystemComponentControls() {
               <h4 className="text-yellow-200 text-xs font-medium mb-1">Warnings:</h4>
               <ul className="text-yellow-300 text-xs space-y-1">
                 {validation.warnings && validation.warnings.map((warning: string, index: number) => (
-                  <li key={index}>• {warning}</li>
+                  <li key={`warning-${index}`}>• {warning}</li>
                 ))}
                 {jumpJetValidation.warnings.map((warning: string, index: number) => (
                   <li key={`jumpjet-warn-${index}`}>• Jump Jets: {warning}</li>
