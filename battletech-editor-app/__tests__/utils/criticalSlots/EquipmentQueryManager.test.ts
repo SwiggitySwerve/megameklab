@@ -94,7 +94,7 @@ describe('EquipmentQueryManager', () => {
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50,
-      enhancementType: null
+      enhancements: []
     }
     equipmentManager = new EquipmentQueryManager(mockSections, mockUnallocated, mockConfig)
   })

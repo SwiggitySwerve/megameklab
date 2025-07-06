@@ -96,7 +96,7 @@ const mockUnit = {
     tonnage: 70,
     unitType: 'BattleMech',
     techBase: 'Inner Sphere',
-    enhancementType: 'None', // This should be restored to TSM
+    enhancements: [], // This should be restored to TSM
     structureType: 'Standard',
     engineType: 'Standard',
     gyroType: 'Standard',
@@ -145,7 +145,7 @@ describe('Dropdown Timing Fix', () => {
       tonnage: 70,
       unitType: 'BattleMech',
       techBase: 'Inner Sphere',
-      enhancementType: 'None',
+      enhancements: [],
       structureType: 'Standard',
       engineType: 'Standard',
       gyroType: 'Standard',
@@ -195,7 +195,7 @@ describe('Dropdown Timing Fix', () => {
       // Should not have restored TSM yet due to database not loaded
       const tsmCall = calls.find(call => 
         call[0].techProgression?.myomer === 'Triple Strength Myomer' ||
-        call[0].enhancementType === 'Triple Strength Myomer'
+        call[0].enhancements?.some(enh => enh.name === 'Triple Strength Myomer')
       );
       expect(tsmCall).toBeUndefined();
       console.log('✅ TSM correctly NOT restored (database not ready)');
@@ -349,7 +349,7 @@ describe('Dropdown Timing Fix', () => {
       const calls = mockUpdateConfiguration.mock.calls;
       const tsmCall = calls.find(call => 
         call[0].techProgression?.myomer === 'Triple Strength Myomer' ||
-        call[0].enhancementType === 'Triple Strength Myomer'
+        call[0].enhancements?.some(enh => enh.name === 'Triple Strength Myomer')
       );
       
       if (tsmCall) {

@@ -42,7 +42,7 @@ const MockStructureTabFocused = () => {
     gyroType: 'Standard',
     engineType: 'Standard',
     heatSinkType: 'Single',
-    enhancementType: 'None',
+    enhancements: [],
     armorType: 'Standard',
     techProgression: {
       chassis: 'Inner Sphere',
@@ -182,7 +182,7 @@ jest.mock('../../components/multiUnit/MultiUnitProvider', () => ({
         gyroType: 'Standard',
         engineType: 'Standard',
         heatSinkType: 'Single',
-        enhancementType: 'None',
+        enhancements: [],
         armorType: 'Standard',
         targetingType: 'None',
         movementType: 'Standard Jump Jets',

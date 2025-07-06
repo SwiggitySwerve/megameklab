@@ -105,7 +105,7 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: 10,
       internalHeatSinks: this.calculateInternalHeatSinksForEngine(tonnage * walkMP, legacy.engineType),
       externalHeatSinks: 0,
-      enhancementType: null,
+      enhancements: [],
       mass: tonnage
     })
   }
@@ -146,7 +146,7 @@ export class UnitConfigurationBuilder {
       totalHeatSinks: 10,
       internalHeatSinks: 8, // 200 rating ÷ 25 = 8 heat sinks
       externalHeatSinks: 2, // 10 total - 8 internal = 2 external
-      enhancementType: null,
+      enhancements: [],
       mass: 50
     }
   }

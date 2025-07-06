@@ -49,7 +49,7 @@ describe('ValidationOrchestrationManager', () => {
       totalHeatSinks: 20,
       internalHeatSinks: 12,
       externalHeatSinks: 8,
-      enhancementType: null,
+      enhancements: [],
       mass: 100
     };
 

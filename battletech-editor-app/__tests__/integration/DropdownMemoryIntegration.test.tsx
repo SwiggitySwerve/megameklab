@@ -35,31 +35,21 @@ Object.defineProperty(window, 'localStorage', {
 
 // Mock unit configuration with realistic data
 const createMockUnit = (enhancementType: string | null = null) => ({
-  getConfiguration: jest.fn(() => ({
-    chassis: 'Test Chassis',
-    model: 'TEST-1',
-    tonnage: 70,
-    unitType: 'BattleMech',
-    techBase: 'Inner Sphere',
-    enhancementType, // This is what should be restored
-    structureType: 'Standard',
-    engineType: 'Standard',
-    gyroType: 'Standard',
-    heatSinkType: 'Standard',
-    armorType: 'Standard',
-    targetingType: 'Standard',
-    movementType: 'Standard',
-    techProgression: {
-      chassis: 'Inner Sphere',
-      gyro: 'Inner Sphere',
-      engine: 'Inner Sphere',
-      heatsink: 'Inner Sphere',
-      targeting: 'Inner Sphere',
-      myomer: 'Inner Sphere',
-      movement: 'Inner Sphere',
-      armor: 'Inner Sphere'
-    }
-  }))
+  getConfiguration: () => ({
+    tonnage: 50,
+    walkMP: 4,
+    runMP: 6,
+    jumpMP: 0,
+    structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+    engineType: { type: 'Standard', techBase: 'Inner Sphere' },
+    gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+    heatSinkType: { type: 'Standard', techBase: 'Inner Sphere' },
+    enhancements: enhancementType ? [{ type: enhancementType, techBase: 'Inner Sphere' }] : [], // This is what should be restored
+    armorType: { type: 'Standard', techBase: 'Inner Sphere' },
+    targetingType: { type: 'Standard', techBase: 'Inner Sphere' },
+    movementType: { type: 'Standard', techBase: 'Inner Sphere' }
+  }),
+  updateConfiguration: jest.fn()
 });
 
 // Structure Tab Component Mock with actual dropdown logic
@@ -68,13 +58,8 @@ const MockStructureTab = () => {
   const config = mockUnit.getConfiguration();
   
   const getEnhancementTypeValue = (): string => {
-    if (!config.enhancementType) return 'None';
-    if (typeof config.enhancementType === 'string') {
-      return config.enhancementType;
-    } else if (config.enhancementType && typeof config.enhancementType === 'object') {
-      return (config.enhancementType as any).type;
-    }
-    return 'None';
+    if (!config.enhancements || config.enhancements.length === 0) return 'None';
+    return config.enhancements[0].type;
   };
 
   const enhancementValue = getEnhancementTypeValue();
@@ -153,7 +138,7 @@ describe('Dropdown Memory Integration', () => {
       
       // Look for TSM restoration in update calls
       const tsmRestoration = updateCalls.find(call => 
-        call[0] && call[0].enhancementType === 'Triple Strength Myomer'
+        call[0] && call[0].enhancements && call[0].enhancements.some((e: any) => e.type === 'Triple Strength Myomer')
       );
       
       if (tsmRestoration) {
@@ -233,7 +218,7 @@ describe('Dropdown Memory Integration', () => {
       
       // Verify restoration actually happened
       const tsmCall = mockUpdateConfiguration.mock.calls.find(call => 
-        call[0] && call[0].enhancementType === 'Triple Strength Myomer'
+        call[0] && call[0].enhancements && call[0].enhancements.some((e: any) => e.type === 'Triple Strength Myomer')
       );
       expect(tsmCall).toBeDefined();
     });
@@ -316,7 +301,7 @@ describe('Dropdown Memory Integration', () => {
       // Check for restoration calls
       const restorationCall = updateCalls.find(call => 
         call[0] && (
-          call[0].enhancementType === 'Triple Strength Myomer' ||
+          call[0].enhancements && call[0].enhancements.some((e: any) => e.type === 'Triple Strength Myomer') ||
           call[0].heatSinkType === 'Double' ||
           call[0].structureType === 'Endo Steel'
         )
@@ -329,8 +314,9 @@ describe('Dropdown Memory Integration', () => {
         const configUpdate = restorationCall[0];
         
         // Should have proper property names
-        if (configUpdate.enhancementType) {
-          expect(typeof configUpdate.enhancementType).toBe('string');
+        if (configUpdate.enhancements) {
+          expect(configUpdate.enhancements.length).toBe(1);
+          expect(typeof configUpdate.enhancements[0].type).toBe('string');
         }
         if (configUpdate.heatSinkType) {
           expect(typeof configUpdate.heatSinkType).toBe('string');

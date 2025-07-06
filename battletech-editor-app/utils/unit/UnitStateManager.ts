@@ -351,7 +351,7 @@ export class UnitStateManagerImpl implements UnitStateManager {
       internalHeatSinks: 0,
       externalHeatSinks: 0,
       // Enhancement systems
-      enhancementType: null,
+      enhancements: [],
       // Jump jet defaults
       jumpMP: 0,
       jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },

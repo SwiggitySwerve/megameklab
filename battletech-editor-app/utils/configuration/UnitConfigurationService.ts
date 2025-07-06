@@ -5,6 +5,7 @@
  */
 
 import { getInternalStructurePoints } from '../internalStructureTable';
+import { ComponentConfiguration } from '../../types/componentConfiguration';
 
 // Import types from the existing UnitCriticalManager
 export type EngineType = 'Standard' | 'XL' | 'Clan XL' | 'Light' | 'Clan Light' | 'XXL' | 'Compact' | 'ICE' | 'Fuel Cell';
@@ -59,7 +60,7 @@ export interface UnitConfiguration {
   externalHeatSinks: number;
   
   // Enhancement systems
-  enhancementType?: 'MASC' | 'Triple Strength Myomer' | null;
+  enhancements?: ComponentConfiguration[];
   
   // Legacy compatibility
   mass: number;
@@ -489,7 +490,7 @@ export class UnitConfigurationService {
       internalHeatSinks: 0,
       externalHeatSinks: 0,
       // Enhancement systems
-      enhancementType: null,
+      enhancements: [],
       // Jump jet defaults
       jumpMP: 0,
       jumpJetType: 'Standard Jump Jet',

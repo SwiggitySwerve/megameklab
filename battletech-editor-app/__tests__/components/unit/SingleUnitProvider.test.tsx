@@ -45,7 +45,7 @@ function createTestConfig(overrides: Partial<UnitConfiguration> = {}): UnitConfi
       RL: { front: 41, rear: 0 }
     },
     armorTonnage: 19.0,
-    enhancementType: null,
+    enhancements: [],
     jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
     jumpJetCounts: {},
     hasPartialWing: false,

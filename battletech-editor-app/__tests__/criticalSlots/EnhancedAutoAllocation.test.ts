@@ -44,7 +44,7 @@ describe('Enhanced Auto-Allocation System', () => {
       jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' as const },
       jumpJetCounts: {},
       hasPartialWing: false,
-      enhancementType: { type: 'None', techBase: 'Inner Sphere' as const },
+      enhancements: [],
       mass: 50
     }
 

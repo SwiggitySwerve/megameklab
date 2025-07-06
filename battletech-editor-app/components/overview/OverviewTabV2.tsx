@@ -77,7 +77,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     ...config,
     introductionYear: (config as any).introductionYear || 3068,
     rulesLevel: (config as any).rulesLevel || 'Standard',
-    techBase: config.techBase || 'Inner Sphere',
+    techBase: (config.techBase as 'Inner Sphere' | 'Clan' | 'Mixed') || 'Inner Sphere',
     techProgression: (config as any).techProgression || {
       chassis: 'Inner Sphere',
       gyro: 'Inner Sphere',
@@ -339,19 +339,29 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     return restorationUpdates
   }
   
+  // Fix property map to exclude myomer since it's now an array
+  const propertyMap = {
+    chassis: 'structureType',
+    gyro: 'gyroType', 
+    engine: 'engineType',
+    heatsink: 'heatSinkType',
+    armor: 'armorType',
+    targeting: 'targetingType',
+    movement: 'movementType'
+    // myomer removed - now handled as enhancements array
+  };
+
   // Helper function to get current component for a subsystem
   const getCurrentComponentForSubsystem = (subsystem: keyof TechProgression, config: any): string => {
-    const propertyMap = {
-      chassis: 'structureType',
-      gyro: 'gyroType', 
-      engine: 'engineType',
-      heatsink: 'heatSinkType',
-      myomer: 'enhancementType',
-      armor: 'armorType',
-      targeting: 'targetingType',
-      movement: 'movementType'
-    };
-    const property = propertyMap[subsystem];
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      if (Array.isArray(config.enhancements) && config.enhancements.length > 0) {
+        return config.enhancements[0].type; // Return first enhancement type
+      }
+      return 'Standard';
+    }
+    
+    const property = propertyMap[subsystem as keyof typeof propertyMap];
     if (!property) return 'Standard';
     const value = config[property];
     if (value && typeof value === 'object' && 'type' in value) {
@@ -362,17 +372,12 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
 
   // Helper function to get config property for subsystem
   const getConfigPropertyForSubsystem = (subsystem: keyof TechProgression): string | null => {
-    const propertyMap = {
-      chassis: 'structureType',
-      gyro: 'gyroType', 
-      engine: 'engineType',
-      heatsink: 'heatSinkType',
-      myomer: 'enhancementType',
-      armor: 'armorType',
-      targeting: 'targetingType',
-      movement: 'movementType'
-    };
-    return propertyMap[subsystem] || null;
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      return 'enhancements';
+    }
+    
+    return propertyMap[subsystem as keyof typeof propertyMap] || null;
   }
 
   // Handle configuration updates with auto-calculation
@@ -570,8 +575,8 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   const currentEra = getEraForYear(enhancedConfig.introductionYear)
   const isMixedTechEnabled = (enhancedConfig.techBase as string) === 'Mixed'
   const primaryTechBase = enhancedConfig.techBase // Use the actual tech base setting
-  // FIX: isMixed should be true if master tech base is Mixed
-  const isMixed = enhancedConfig.techBase === 'Mixed';
+  // Fix: isMixed should be true if master tech base is Mixed
+  const isMixed = enhancedConfig.techBase === 'Mixed' as const;
 
   // Debug log for isMixed and techProgression
   console.log('[OverviewTabV2] isMixed:', isMixed, 'techProgression:', enhancedConfig.techProgression);

@@ -45,7 +45,7 @@ const mockUnit = {
     tonnage: 70,
     unitType: 'BattleMech',
     techBase: 'Inner Sphere',
-    enhancementType: 'Triple Strength Myomer', // Start with TSM
+    enhancements: [{ type: 'Triple Strength Myomer', techBase: 'Inner Sphere' }], // Start with TSM
     structureType: 'Standard',
     engineType: 'Standard',
     gyroType: 'Standard',
@@ -124,7 +124,7 @@ describe('Memory Restoration Integration Tests', () => {
       // STEP 3: Simulate the configuration update (Clan shows "None")
       mockUnit.getConfiguration.mockReturnValue({
         ...mockUnit.getConfiguration(),
-        enhancementType: 'None',
+        enhancements: [],
         techProgression: {
           ...mockUnit.getConfiguration().techProgression,
           myomer: 'Clan'
@@ -155,7 +155,7 @@ describe('Memory Restoration Integration Tests', () => {
       
       const calls = mockUpdateConfiguration.mock.calls;
       const tsmRestorationCall = calls.find(call => 
-        call[0].enhancementType === 'Triple Strength Myomer' ||
+        call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer') ||
         JSON.stringify(call[0]).includes('Triple Strength Myomer')
       );
       
@@ -245,7 +245,7 @@ describe('Memory Restoration Integration Tests', () => {
         
         // Look for a call that restores the component configuration
         const restorationCall = calls.find(call => 
-          call[0].enhancementType === 'Triple Strength Myomer' ||
+          call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer') ||
           JSON.stringify(call[0]).includes('Triple Strength Myomer')
         );
         
@@ -267,7 +267,7 @@ describe('Memory Restoration Integration Tests', () => {
       // Start with Clan MASC configuration
       mockUnit.getConfiguration.mockReturnValue({
         ...mockUnit.getConfiguration(),
-        enhancementType: 'MASC',
+        enhancements: [{ type: 'MASC', techBase: 'Inner Sphere' }],
         techProgression: {
           ...mockUnit.getConfiguration().techProgression,
           myomer: 'Clan'
@@ -295,7 +295,7 @@ describe('Memory Restoration Integration Tests', () => {
       // Simulate Inner Sphere state (shows None)
       mockUnit.getConfiguration.mockReturnValue({
         ...mockUnit.getConfiguration(),
-        enhancementType: 'None',
+        enhancements: [],
         techProgression: {
           ...mockUnit.getConfiguration().techProgression,
           myomer: 'Inner Sphere'
@@ -316,7 +316,7 @@ describe('Memory Restoration Integration Tests', () => {
       // Check if MASC was restored
       const calls = mockUpdateConfiguration.mock.calls;
       const mascRestorationCall = calls.find(call => 
-        call[0].enhancementType === 'MASC' ||
+        call[0].enhancements.some((enh: any) => enh.type === 'MASC') ||
         JSON.stringify(call[0]).includes('MASC')
       );
       
@@ -337,7 +337,7 @@ describe('Memory Restoration Integration Tests', () => {
       // Set up complex initial state
       mockUnit.getConfiguration.mockReturnValue({
         ...mockUnit.getConfiguration(),
-        enhancementType: 'Triple Strength Myomer',
+        enhancements: [{ type: 'Triple Strength Myomer', techBase: 'Inner Sphere' }],
         targetingType: 'Standard',
         engineType: 'XL Engine',
         techProgression: {

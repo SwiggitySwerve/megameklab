@@ -47,7 +47,7 @@ describe('Heat Sink Generation', () => {
       hasPartialWing: false,
       mass: 50,
       gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
-      enhancementType: null
+      enhancements: []
     }
 
     console.log('=== TEST: Creating UnitCriticalManager with configuration ===')
@@ -119,7 +119,7 @@ describe('Heat Sink Generation', () => {
       hasPartialWing: false,
       mass: 75,
       gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
-      enhancementType: null
+      enhancements: []
     }
 
     console.log('=== TEST: Double Heat Sinks ===')
@@ -177,7 +177,7 @@ describe('Heat Sink Generation', () => {
       hasPartialWing: false,
       mass: 50,
       gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
-      enhancementType: null
+      enhancements: []
     }
 
     console.log('=== TEST: Configuration Changes ===')
@@ -272,7 +272,7 @@ describe('Heat Sink Generation', () => {
       hasPartialWing: false,
       mass: 20,
       gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
-      enhancementType: null
+      enhancements: []
     }
 
     console.log('=== TEST: No External Heat Sinks ===')

@@ -45,7 +45,7 @@ describe('ConfigurationManager', () => {
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50,
-      enhancementType: null
+      enhancements: []
     }
 
     configManager = new ConfigurationManager(defaultConfig)

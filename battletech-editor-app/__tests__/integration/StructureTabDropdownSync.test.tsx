@@ -38,7 +38,7 @@ const StructureTabWithMemorySync = () => {
   const [config, setConfig] = React.useState({
     tonnage: 70,
     techBase: 'Inner Sphere',
-    enhancementType: 'None',  // This will be updated by memory restoration
+    enhancements: [],  // This will be updated by memory restoration
     structureType: 'Standard',
     heatSinkType: 'Single',
     armorType: 'Standard',
@@ -60,10 +60,10 @@ const StructureTabWithMemorySync = () => {
     const interval = setInterval(() => {
       // Check if updateConfiguration was called with enhancementType
       const lastCall = mockUpdateConfiguration.mock.calls[mockUpdateConfiguration.mock.calls.length - 1];
-      if (lastCall && lastCall[0] && lastCall[0].enhancementType) {
+      if (lastCall && lastCall[0] && lastCall[0].enhancements) {
         setConfig(prev => ({
           ...prev,
-          enhancementType: lastCall[0].enhancementType
+          enhancements: lastCall[0].enhancements
         }));
       }
     }, 50);
@@ -71,18 +71,7 @@ const StructureTabWithMemorySync = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Helper function to get enhancement value (same logic as actual Structure tab)
-  const getEnhancementTypeValue = (): string => {
-    if (!config.enhancementType) return 'None';
-    if (typeof config.enhancementType === 'string') {
-      return config.enhancementType;
-    } else if (config.enhancementType && typeof config.enhancementType === 'object') {
-      return (config.enhancementType as any).type;
-    }
-    return 'None';
-  };
-
-  const enhancementValue = getEnhancementTypeValue();
+  const enhancements = config.enhancements;
   
   return (
     <div data-testid="structure-tab-sync">
@@ -93,7 +82,7 @@ const StructureTabWithMemorySync = () => {
         <label>Enhancement Type</label>
         <select 
           data-testid="enhancement-dropdown-sync"
-          value={enhancementValue}
+          value={enhancements.length > 0 ? enhancements[0].type : 'None'}
           onChange={() => {}} // Read-only for testing
         >
           <option value="None">None</option>
@@ -104,10 +93,10 @@ const StructureTabWithMemorySync = () => {
 
       {/* Display current config for debugging */}
       <div data-testid="config-display">
-        Config Enhancement: {JSON.stringify(config.enhancementType)}
+        Config Enhancement: {JSON.stringify(config.enhancements)}
       </div>
       <div data-testid="dropdown-value-display">
-        Dropdown Value: {enhancementValue}
+        Dropdown Value: {enhancements.length > 0 ? enhancements[0].type : 'None'}
       </div>
     </div>
   );
@@ -125,7 +114,7 @@ jest.mock('../../components/multiUnit/MultiUnitProvider', () => ({
         tonnage: 70,
         unitType: 'BattleMech',
         techBase: 'Inner Sphere',
-        enhancementType: 'None',
+        enhancements: [],
         structureType: 'Standard',
         engineType: 'Standard',
         gyroType: 'Standard',
@@ -188,7 +177,7 @@ describe('Structure Tab Dropdown Sync', () => {
     await waitFor(() => {
       const updateCalls = mockUpdateConfiguration.mock.calls;
       const tsmRestoration = updateCalls.find(call => 
-        call[0] && call[0].enhancementType === 'Triple Strength Myomer'
+        call[0] && call[0].enhancements && call[0].enhancements.length > 0 && call[0].enhancements[0].type === 'Triple Strength Myomer'
       );
       
       expect(tsmRestoration).toBeDefined();
@@ -301,7 +290,7 @@ describe('Structure Tab Dropdown Sync', () => {
       const updateCalls = mockUpdateConfiguration.mock.calls;
       const restorationCall = updateCalls.find(call => 
         call[0] && (
-          call[0].enhancementType === 'Triple Strength Myomer' ||
+          call[0].enhancements && call[0].enhancements.length > 0 && call[0].enhancements[0].type === 'Triple Strength Myomer' ||
           call[0].heatSinkType === 'Double' ||
           call[0].structureType === 'Endo Steel'
         )
@@ -313,8 +302,8 @@ describe('Structure Tab Dropdown Sync', () => {
         // Verify data model structure
         const configUpdate = restorationCall[0];
         
-        if (configUpdate.enhancementType) {
-          expect(typeof configUpdate.enhancementType).toBe('string');
+        if (configUpdate.enhancements && configUpdate.enhancements.length > 0) {
+          expect(typeof configUpdate.enhancements[0].type).toBe('string');
         }
         if (configUpdate.heatSinkType) {
           expect(typeof configUpdate.heatSinkType).toBe('string');

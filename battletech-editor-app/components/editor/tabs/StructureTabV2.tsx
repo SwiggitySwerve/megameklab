@@ -54,11 +54,13 @@ import {
 } from '../../../types/componentConfiguration';
 
 // Import movement calculations
-import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement } from '../../../utils/movementCalculations';
+import { calculateEnhancedMovement, formatEngineMovementInfo, formatCondensedMovement, getAvailableMovementEnhancements } from '../../../utils/movementCalculations';
+import { TechProgression } from '../../../utils/techProgression';
 
 // Import structure and armor calculations
 import { calculateStructureWeight, getStructureSlots } from '../../../utils/structureCalculations';
-import { getArmorSlots } from '../../../utils/armorCalculations';
+import { calculateMaxArmorTonnage } from '../../../utils/armorAllocation';
+import { getArmorType } from '../../../utils/armorTypes';
 import { isComponentAvailable } from '../../../utils/componentDatabaseHelpers';
 
 /**
@@ -147,7 +149,7 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
       const savedComponent = memoryState.techBaseMemory[subsystem as keyof typeof memoryState.techBaseMemory]?.[techBase as 'Inner Sphere' | 'Clan'];
       
       if (savedComponent && savedComponent !== 'None' && savedComponent !== 'Standard') {
-        const configProperty = getConfigPropertyForSubsystem(subsystem as string);
+        const configProperty = getConfigPropertyForSubsystem(subsystem as keyof TechProgression);
         if (configProperty) {
           restorationUpdates[configProperty] = savedComponent;
           console.log(`[StructureTab] 💾 ✅ Restored ${subsystem} (${techBase}) → ${savedComponent}`);
@@ -159,45 +161,46 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     return restorationUpdates;
   };
 
-  // 🔥 HELPER FUNCTIONS (same pattern as Overview tab)
-  const getCurrentComponentForSubsystem = (subsystem: string, config: any): string => {
-    const propertyMap = {
-      chassis: 'structureType',
-      gyro: 'gyroType', 
-      engine: 'engineType',
-      heatsink: 'heatSinkType',
-      myomer: 'enhancementType',
-      armor: 'armorType',
-      targeting: 'targetingType',
-      movement: 'movementType'
-    } as any;
-    
-    const property = propertyMap[subsystem];
-    if (!property) return 'Standard';
-    
-    const value = config[property];
-    if (typeof value === 'string') {
-      return value;
-    } else if (value && typeof value === 'object') {
-      return value.type || 'Standard';
-    }
-    return 'Standard';
+  // Fix property map to exclude myomer since it's now an array
+  const propertyMap = {
+    chassis: 'structureType',
+    gyro: 'gyroType', 
+    engine: 'engineType',
+    heatsink: 'heatSinkType',
+    armor: 'armorType',
+    targeting: 'targetingType',
+    movement: 'movementType'
+    // myomer removed - now handled as enhancements array
   };
 
-  const getConfigPropertyForSubsystem = (subsystem: string): string | null => {
-    const propertyMap = {
-      chassis: 'structureType',
-      gyro: 'gyroType', 
-      engine: 'engineType',
-      heatsink: 'heatSinkType',
-      myomer: 'enhancementType',
-      armor: 'armorType',
-      targeting: 'targetingType',
-      movement: 'movementType'
-    } as any;
+  // Helper function to get current component for a subsystem
+  const getCurrentComponentForSubsystem = (subsystem: keyof TechProgression, config: any): string => {
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      if (Array.isArray(config.enhancements) && config.enhancements.length > 0) {
+        return config.enhancements[0].type; // Return first enhancement type
+      }
+      return 'Standard';
+    }
     
-    return propertyMap[subsystem] || null;
-  };
+    const property = propertyMap[subsystem as keyof typeof propertyMap];
+    if (!property) return 'Standard';
+    const value = config[property];
+    if (value && typeof value === 'object' && 'type' in value) {
+      return value.type;
+    }
+    return value || 'Standard';
+  }
+
+  // Helper function to get config property for subsystem
+  const getConfigPropertyForSubsystem = (subsystem: keyof TechProgression): string | null => {
+    // Special case for myomer/enhancements
+    if (subsystem === 'myomer') {
+      return 'enhancements';
+    }
+    
+    return propertyMap[subsystem as keyof typeof propertyMap] || null;
+  }
 
   // Get dynamic component options based on tech progression
   const filteredOptions = getFilteredComponentOptions(enhancedConfig.techProgression, enhancedConfig);
@@ -221,15 +224,20 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     return 'Standard';
   };
 
-  const getEnhancementTypeValue = (): string => {
-    if (!config.enhancementType) return 'None';
-    if (typeof config.enhancementType === 'string') {
-      return config.enhancementType;
-    } else if (config.enhancementType && typeof config.enhancementType === 'object') {
-      return config.enhancementType.type;
-    }
-    return 'None';
+  // Remove all enhancementType references and use only enhancements array
+  const getEnhancements = () => {
+    if (Array.isArray(config.enhancements)) return config.enhancements;
+    // No legacy enhancementType support needed; only use enhancements array
+    return [];
   };
+  const enhancements = getEnhancements();
+
+  // Replace static ENHANCEMENT_OPTIONS with dynamic system
+  const ENHANCEMENT_OPTIONS = getAvailableMovementEnhancements().map(enh => ({
+    type: enh.type,
+    label: enh.name,
+    description: enh.description
+  }));
 
   const getHeatSinkTypeValue = (): string => {
     if (typeof config.heatSinkType === 'string') {
@@ -259,14 +267,11 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     : config.totalHeatSinks;
 
   // Use shared movement utility for consistent display - convert ComponentConfiguration to string
-  const enhancementValue = getEnhancementTypeValue();
-  const typedEnhancementType = enhancementValue === 'None' ? null : 
-    (enhancementValue === 'MASC' || enhancementValue === 'Triple Strength Myomer') ? 
-    enhancementValue as 'MASC' | 'Triple Strength Myomer' : null;
+  const typedEnhancementType = enhancements.length === 0 ? null : enhancements.map(e => e.type).join(', ');
   
   const movementConfig = {
     ...config,
-    enhancementType: typedEnhancementType
+    enhancements: enhancements
   };
   const enhancedMovement = calculateEnhancedMovement(movementConfig);
   const calculatedRunMP = config.runMP; // Use base run MP for data model consistency
@@ -276,14 +281,14 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
     let newConfig = { ...config, ...updates };
 
     // Auto-calculate engine rating and movement when tonnage, walkMP, or enhancement changes
-    if ('tonnage' in updates || 'walkMP' in updates || 'enhancementType' in updates) {
-      const tonnage = updates.tonnage || config.tonnage;
-      const walkMP = updates.walkMP || config.walkMP;
-      const enhancementType = updates.enhancementType !== undefined ? updates.enhancementType : config.enhancementType;
+    if ('tonnage' in updates || 'walkMP' in updates || 'enhancements' in updates) {
+      const tonnage = Number(updates.tonnage ?? config.tonnage);
+      const walkMP = Number(updates.walkMP ?? config.walkMP);
+      const enhancements = updates.enhancements ?? config.enhancements;
       const engineRating = Math.min(tonnage * walkMP, 400);
 
       // Calculate enhanced movement using shared utility
-      const movementConfig = { walkMP, runMP: Math.floor(walkMP * 1.5), jumpMP: newConfig.jumpMP, enhancementType };
+      const movementConfig = { walkMP, runMP: Math.floor(walkMP * 1.5), jumpMP: newConfig.jumpMP, enhancements };
       const enhancedMovement = calculateEnhancedMovement(movementConfig);
 
       newConfig = {
@@ -390,7 +395,7 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
             </div>
 
             {/* Second Row: Engine Type + Rating */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="text-slate-300 text-xs font-medium block mb-2">Engine Type</label>
                 {isConfigLoaded ? (
@@ -424,19 +429,28 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
               </div>
             </div>
 
-            {/* Movement Summary - Full Width */}
-            {isConfigLoaded ? (
-              <div className="mt-4 text-xs text-slate-300 text-center bg-slate-700/40 rounded-md px-3 py-2 border border-slate-600/30">
-                <span className="font-medium">Walk:</span> {config.walkMP} MP |
-                <span className="font-medium"> Run:</span> {config.runMP} MP |
-                <span className="font-medium"> Max:</span> {maxWalkMP} MP
-              </div>
-            ) : (
-              <div className="mt-4 h-8 bg-slate-600/50 rounded-md animate-pulse"></div>
-            )}
+            {/* Engine Supercharger */}
+            <div className="mt-3">
+              <label className="flex items-center text-sm">
+                <input
+                  type="checkbox"
+                  checked={enhancements.some(e => e.type === 'Supercharger')}
+                  onChange={e => {
+                    const newEnhancements = e.target.checked
+                      ? [...enhancements, { type: 'Supercharger', techBase: config.techBase as 'Inner Sphere' | 'Clan' }]
+                      : enhancements.filter(enh => enh.type !== 'Supercharger');
+                    updateConfig({ enhancements: newEnhancements });
+                  }}
+                  disabled={readOnly}
+                  className="mr-2"
+                />
+                <span className="text-slate-200">Engine Supercharger</span>
+                <span className="text-slate-400 text-xs ml-1">(Doubles run speed when active)</span>
+              </label>
+            </div>
           </div>
 
-          {/* 2. System Components - Combines Structure & Gyro + Enhancement */}
+          {/* 2. System Components - Combines Structure & Gyro + Myomer Enhancements */}
           <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 shadow-lg hover:border-slate-600/50 transition-all duration-200">
             <h3 className="text-slate-100 font-semibold text-sm mb-3 flex items-center gap-2">
               <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
@@ -481,35 +495,76 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
               </div>
             </div>
 
-            {/* Second Row: Enhancement Type */}
+            {/* Myomer Enhancements (TSM and MASC only) */}
             <div>
-              <label className="text-slate-300 text-xs block mb-1">Enhancement Type</label>
-              <select
-                value={getEnhancementTypeValue()}
-                onChange={(e) => updateConfig({ enhancementType: e.target.value === 'None' ? null : e.target.value })}
-                disabled={readOnly}
-                className="w-full px-2 py-1 bg-slate-700 border border-slate-600 rounded text-sm text-slate-100 focus:border-blue-500"
-              >
-                <option value="None">None</option>
-                <option value="MASC">MASC</option>
-                <option value="Triple Strength Myomer">Triple Strength Myomer</option>
-              </select>
+              <label className="text-slate-300 text-xs block mb-1">Myomer Enhancements:</label>
+              {ENHANCEMENT_OPTIONS.filter(opt => opt.type === 'Triple Strength Myomer' || opt.type === 'MASC').map(opt => {
+                const isChecked = enhancements.some(e => e.type === opt.type);
+                const isTSM = opt.type === 'Triple Strength Myomer';
+                const isMASC = opt.type === 'MASC';
+                const hasTSM = enhancements.some(e => e.type === 'Triple Strength Myomer');
+                const hasMASC = enhancements.some(e => e.type === 'MASC');
+                
+                // Disable MASC if TSM is selected, and vice versa (both are myomer components)
+                const isDisabled = (isTSM && hasMASC) || (isMASC && hasTSM);
+                
+                return (
+                  <label key={opt.type} className={`flex items-center mb-2 text-sm ${isDisabled ? 'opacity-50' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      disabled={readOnly || isDisabled}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          // If selecting TSM, remove MASC; if selecting MASC, remove TSM
+                          let newEnhancements = enhancements.filter(enh => enh.type !== opt.type);
+                          if (isTSM) {
+                            newEnhancements = newEnhancements.filter(enh => enh.type !== 'MASC');
+                          } else if (isMASC) {
+                            newEnhancements = newEnhancements.filter(enh => enh.type !== 'Triple Strength Myomer');
+                          }
+                          newEnhancements.push({ type: opt.type, techBase: config.techBase as 'Inner Sphere' | 'Clan' });
+                          updateConfig({ enhancements: newEnhancements });
+                        } else {
+                          const newEnhancements = enhancements.filter(enh => enh.type !== opt.type);
+                          updateConfig({ enhancements: newEnhancements });
+                        }
+                      }}
+                      className="mr-2"
+                    />
+                    <span className={`text-slate-200 ${isDisabled ? 'line-through' : ''}`}>{opt.label}</span>
+                    {opt.description && opt.description !== opt.label && (
+                      <span className="text-slate-400 text-xs ml-1">({opt.description})</span>
+                    )}
+                    {isDisabled && (
+                      <span className="text-orange-400 text-xs ml-1">(Mutually exclusive)</span>
+                    )}
+                  </label>
+                );
+              })}
             </div>
 
             {/* Enhancement Details - Conditional Full Width */}
-            {getEnhancementTypeValue() === 'MASC' && (
+            {enhancements.some(e => e.type === 'MASC') && (
               <div className="mt-3 text-xs text-slate-400 bg-slate-700/30 rounded px-3 py-2">
                 <div>• Doubles run speed when active</div>
                 <div>• Generates 5 heat per activation</div>
                 <div>• Risk of system damage if overused</div>
               </div>
             )}
-            {getEnhancementTypeValue() === 'Triple Strength Myomer' && (
+            {enhancements.some(e => e.type === 'Triple Strength Myomer') && (
               <div className="mt-3 text-xs text-slate-400 bg-slate-700/30 rounded px-3 py-2">
                 <div>• Activates at 9+ heat levels</div>
                 <div>• +1 Walk MP, recalculated Run MP</div>
                 <div>• Doubles physical attack damage</div>
                 <div>• Heat: {heatDissipation - config.totalHeatSinks}/9+ for activation</div>
+              </div>
+            )}
+            {enhancements.some(e => e.type === 'Supercharger') && (
+              <div className="mt-3 text-xs text-slate-400 bg-slate-700/30 rounded px-3 py-2">
+                <div>• Doubles run speed when active</div>
+                <div>• Can be used with MASC (2.5× multiplier)</div>
+                <div>• Risk of engine damage if overused</div>
               </div>
             )}
           </div>
@@ -592,7 +647,7 @@ export const StructureTabV2: React.FC<StructureTabV2Props> = ({ readOnly = false
                   {enhancedMovement.runDisplay}
                 </div>
                 <div className="text-xs text-slate-400 text-center mt-1.5">
-                  Auto-calc {getEnhancementTypeValue() !== 'None' ? `(${getEnhancementTypeValue()})` : ''}
+                  Auto-calc {typedEnhancementType !== null ? `(${typedEnhancementType})` : ''}
                 </div>
               </div>
               <div>

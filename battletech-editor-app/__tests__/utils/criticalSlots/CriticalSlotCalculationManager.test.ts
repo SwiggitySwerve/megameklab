@@ -43,7 +43,7 @@ describe('CriticalSlotCalculationManager', () => {
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50,
-      enhancementType: null
+      enhancements: []
     }
   })
 

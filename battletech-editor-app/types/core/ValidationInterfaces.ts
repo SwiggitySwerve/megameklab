@@ -48,7 +48,7 @@ export interface IUnitConfiguration {
   readonly structureType: string;
   readonly armorType: string;
   readonly heatSinkType: string;
-  readonly enhancementType?: string;
+  readonly enhancements?: ComponentConfiguration[];
   readonly jumpJetType?: string;
   readonly armorAllocation: IArmorAllocation;
   readonly metadata?: Record<string, any>;

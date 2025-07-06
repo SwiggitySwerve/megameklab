@@ -45,7 +45,7 @@ describe('CriticalSlotCalculator - Comprehensive System Component Tests', () => 
         jumpJetCounts: {},
         hasPartialWing: false,
         mass: 50,
-        enhancementType: 'Standard' as any
+        enhancements: []
       };
 
       const structural = CriticalSlotCalculator.calculateStructuralSlots(baseConfig);
@@ -405,7 +405,7 @@ function createTestConfig(overrides: Partial<UnitConfiguration> = {}): UnitConfi
     jumpJetCounts: {},
     hasPartialWing: false,
     mass: 50,
-    enhancementType: 'Standard' as any
+    enhancements: []
   };
 
   return { ...defaultConfig, ...overrides };

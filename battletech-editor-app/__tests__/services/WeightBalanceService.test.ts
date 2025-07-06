@@ -58,7 +58,7 @@ describe('WeightBalanceService', () => {
       totalHeatSinks: 10,
       internalHeatSinks: 8,
       externalHeatSinks: 2,
-      enhancementType: null,
+      enhancements: [],
       jumpMP: 0,
       jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},

@@ -104,7 +104,7 @@ describe('UnitStateManager', () => {
         jumpJetCounts: {},
         hasPartialWing: false,
         mass: 100,
-        enhancementType: null
+        enhancements: []
       };
 
       const stateManager = new UnitStateManager(customConfig);
@@ -473,7 +473,7 @@ describe('UnitStateManager', () => {
         jumpJetCounts: {},
         hasPartialWing: false,
         mass: 20,
-        enhancementType: null
+        enhancements: []
       };
 
       const oldConfig = {
@@ -728,7 +728,7 @@ describe('UnitStateManager', () => {
         jumpJetCounts: {},
         hasPartialWing: false,
         mass: 55,
-        enhancementType: null
+        enhancements: []
       };
 
       // Mock the resetToBaseConfiguration method

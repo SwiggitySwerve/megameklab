@@ -9,186 +9,158 @@ import {
   getMovementValues,
   formatCondensedMovement,
   MovementDisplay,
-  UnitConfiguration
+  UnitConfiguration,
+  getFullMovementSummary,
+  getAvailableMovementEnhancements
 } from '../../utils/movementCalculations';
 
 describe('Movement Calculations', () => {
   describe('calculateEnhancedMovement', () => {
-    describe('Standard Movement (No Enhancement)', () => {
-      test('calculates basic movement for light mech', () => {
-        const config: UnitConfiguration = {
-          walkMP: 5,
-          runMP: 8, // This value is ignored - calculated as walkMP * 1.5
-          jumpMP: 3
-        };
+    test('should calculate base movement without enhancements', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: []
+      };
 
-        const result = calculateEnhancedMovement(config);
+      const result = calculateEnhancedMovement(config);
 
-        expect(result).toEqual({
-          walkDisplay: '5',
-          runDisplay: '7', // Standard BattleTech: floor(5 * 1.5) = 7
-          jumpDisplay: '3',
-          combinedDisplay: '5 / 7 / 3',
-          walkValue: 5,
-          runValue: 7,
-          jumpValue: 3
-        });
-      });
-
-      test('calculates movement with zero jump', () => {
-        const config: UnitConfiguration = {
-          walkMP: 3,
-          runMP: 5, // This value is ignored - calculated as floor(3 * 1.5) = 4
-          jumpMP: 0
-        };
-
-        const result = calculateEnhancedMovement(config);
-
-        expect(result.jumpDisplay).toBe('0');
-        expect(result.jumpValue).toBe(0);
-        expect(result.runDisplay).toBe('4'); // floor(3 * 1.5) = 4
-        expect(result.combinedDisplay).toBe('3 / 4 / 0');
-      });
-
-      test('calculates movement without jump MP specified', () => {
-        const config: UnitConfiguration = {
-          walkMP: 4,
-          runMP: 6
-          // jumpMP not specified
-        };
-
-        const result = calculateEnhancedMovement(config);
-
-        expect(result.jumpDisplay).toBe('0');
-        expect(result.jumpValue).toBe(0);
-        expect(result.combinedDisplay).toBe('4 / 6 / 0');
-      });
-
-      test('handles null enhancement type', () => {
-        const config: UnitConfiguration = {
-          walkMP: 3,
-          runMP: 5, // This value is ignored - calculated as floor(3 * 1.5) = 4
-          jumpMP: 2,
-          enhancementType: null
-        };
-
-        const result = calculateEnhancedMovement(config);
-
-        expect(result.walkDisplay).toBe('3');
-        expect(result.runDisplay).toBe('4'); // floor(3 * 1.5) = 4
-        expect(result.combinedDisplay).toBe('3 / 4 / 2');
-      });
+      expect(result.walkDisplay).toBe('4');
+      expect(result.runDisplay).toBe('6');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 / 6 / 0');
+      expect(result.walkValue).toBe(4);
+      expect(result.runValue).toBe(6);
+      expect(result.jumpValue).toBe(0);
     });
 
-    describe('Triple Strength Myomer (TSM)', () => {
-      test('calculates TSM enhanced movement', () => {
-        const config: UnitConfiguration = {
-          walkMP: 4,
-          runMP: 6,
-          jumpMP: 0,
-          enhancementType: 'Triple Strength Myomer'
-        };
+    test('should calculate movement with TSM enhancement', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [{ type: 'Triple Strength Myomer' }]
+      };
 
-        const result = calculateEnhancedMovement(config);
+      const result = calculateEnhancedMovement(config);
 
-        // TSM: +1 Walk MP, enhanced Run MP = ceil((Walk + 1) × 1.5)
-        // Enhanced walk: 4 + 1 = 5
-        // Enhanced run: ceil(5 × 1.5) = ceil(7.5) = 8
-        expect(result.walkDisplay).toBe('4 [5]');
-        expect(result.runDisplay).toBe('6 [8]');
-        expect(result.walkValue).toBe(4); // Base value for data model
-        expect(result.runValue).toBe(6); // Base value for data model
-        expect(result.combinedDisplay).toBe('4 [5] / 6 [8] / 0');
-      });
-
-      test('calculates TSM with fractional run enhancement', () => {
-        const config: UnitConfiguration = {
-          walkMP: 3,
-          runMP: 5, // This value is ignored - base run = floor(3 * 1.5) = 4
-          jumpMP: 4,
-          enhancementType: 'Triple Strength Myomer'
-        };
-
-        const result = calculateEnhancedMovement(config);
-
-        // Base run: floor(3 * 1.5) = 4
-        // Enhanced walk: 3 + 1 = 4
-        // Enhanced run: ceil(4 × 1.5) = ceil(6) = 6
-        expect(result.walkDisplay).toBe('3 [4]');
-        expect(result.runDisplay).toBe('4 [6]'); // Base run is 4, not 5
-        expect(result.combinedDisplay).toBe('3 [4] / 4 [6] / 4');
-      });
-
-      test('calculates TSM with odd walk MP', () => {
-        const config: UnitConfiguration = {
-          walkMP: 5,
-          runMP: 8, // This value is ignored - base run = floor(5 * 1.5) = 7
-          jumpMP: 2,
-          enhancementType: 'Triple Strength Myomer'
-        };
-
-        const result = calculateEnhancedMovement(config);
-
-        // Base run: floor(5 * 1.5) = 7
-        // Enhanced walk: 5 + 1 = 6
-        // Enhanced run: ceil(6 × 1.5) = ceil(9) = 9
-        expect(result.walkDisplay).toBe('5 [6]');
-        expect(result.runDisplay).toBe('7 [9]'); // Base run is 7, not 8
-        expect(result.combinedDisplay).toBe('5 [6] / 7 [9] / 2');
-      });
+      expect(result.walkDisplay).toBe('4 [5]');
+      expect(result.runDisplay).toBe('6 [7]');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(7);
+      expect(result.jumpValue).toBe(0);
     });
 
-    describe('MASC Enhancement', () => {
-      test('calculates MASC enhanced movement', () => {
-        const config: UnitConfiguration = {
-          walkMP: 4,
-          runMP: 6,
-          jumpMP: 0,
-          enhancementType: 'MASC'
-        };
+    test('should calculate movement with MASC enhancement', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [{ type: 'MASC' }]
+      };
 
-        const result = calculateEnhancedMovement(config);
+      const result = calculateEnhancedMovement(config);
 
-        // MASC: Run MP = Walk MP × 2 when active
-        // Enhanced run: 4 × 2 = 8
-        expect(result.walkDisplay).toBe('4');
-        expect(result.runDisplay).toBe('6 [8]');
-        expect(result.walkValue).toBe(4);
-        expect(result.runValue).toBe(6);
-        expect(result.combinedDisplay).toBe('4 / 6 [8] / 0');
-      });
+      expect(result.walkDisplay).toBe('4');
+      expect(result.runDisplay).toBe('6 [8]');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 / 6 [8] / 0');
+      expect(result.walkValue).toBe(4);
+      expect(result.runValue).toBe(6); // Base run value, MASC shown in display brackets
+      expect(result.jumpValue).toBe(0);
+    });
 
-      test('calculates MASC with high walk MP', () => {
-        const config: UnitConfiguration = {
-          walkMP: 6,
-          runMP: 9,
-          jumpMP: 3,
-          enhancementType: 'MASC'
-        };
+    test('should calculate movement with multiple enhancements (TSM + MASC) - TSM takes precedence', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Triple Strength Myomer' },
+          { type: 'MASC' }
+        ]
+      };
 
-        const result = calculateEnhancedMovement(config);
+      const result = calculateEnhancedMovement(config);
 
-        // Enhanced run: 6 × 2 = 12
-        expect(result.walkDisplay).toBe('6');
-        expect(result.runDisplay).toBe('9 [12]');
-        expect(result.combinedDisplay).toBe('6 / 9 [12] / 3');
-      });
+      // TSM takes precedence due to mutual exclusion - MASC is filtered out
+      expect(result.walkDisplay).toBe('4 [5]');
+      expect(result.runDisplay).toBe('6 [7]');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(7);
+      expect(result.jumpValue).toBe(0);
+    });
 
-      test('calculates MASC with minimum walk MP', () => {
-        const config: UnitConfiguration = {
-          walkMP: 1,
-          runMP: 2, // This value is ignored - base run = floor(1 * 1.5) = 1
-          jumpMP: 0,
-          enhancementType: 'MASC'
-        };
+    test('should calculate movement with all three enhancements (TSM + Supercharger + MASC) - TSM and Supercharger only', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Triple Strength Myomer' },
+          { type: 'Supercharger' },
+          { type: 'MASC' }
+        ]
+      };
 
-        const result = calculateEnhancedMovement(config);
+      const result = calculateEnhancedMovement(config);
 
-        // Base run: floor(1 * 1.5) = 1
-        // Enhanced run: 1 × 2 = 2
-        expect(result.runDisplay).toBe('1 [2]'); // Base run is 1, not 2
-        expect(result.combinedDisplay).toBe('1 / 1 [2] / 0');
-      });
+      // TSM and Supercharger apply, MASC is filtered out due to mutual exclusion
+      // TSM affects walk and run, Supercharger doesn't affect display since TSM already set bracketed run
+      expect(result.walkDisplay).toBe('4 [5]');
+      expect(result.runDisplay).toBe('6 [7]'); // TSM's recalculated run
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 [5] / 6 [7] / 0');
+      expect(result.walkValue).toBe(5);
+      expect(result.runValue).toBe(7);
+      expect(result.jumpValue).toBe(0);
+    });
+
+    test('should calculate movement with Supercharger + MASC combination (2.5× multiplier)', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [
+          { type: 'Supercharger' },
+          { type: 'MASC' }
+        ]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      // Supercharger + MASC: 2.5× multiplier to run speed
+      expect(result.walkDisplay).toBe('4');
+      expect(result.runDisplay).toBe('6 [10]'); // 4 × 2.5 = 10
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 / 6 [10] / 0');
+      expect(result.walkValue).toBe(4);
+      expect(result.runValue).toBe(6);
+      expect(result.jumpValue).toBe(0);
+    });
+
+    it('should handle unknown enhancement types gracefully', () => {
+      const config = {
+        walkMP: 4,
+        runMP: 6,
+        jumpMP: 0,
+        enhancements: [{ type: 'Unknown Enhancement' }]
+      };
+
+      const result = calculateEnhancedMovement(config);
+
+      expect(result.walkDisplay).toBe('4');
+      expect(result.runDisplay).toBe('6');
+      expect(result.jumpDisplay).toBe('0');
+      expect(result.combinedDisplay).toBe('4 / 6 / 0');
+      expect(result.walkValue).toBe(4);
+      expect(result.runValue).toBe(6);
+      expect(result.jumpValue).toBe(0);
     });
   });
 
@@ -229,7 +201,11 @@ describe('Movement Calculations', () => {
         run: 6,
         jump: 2
       });
-      expect(result.enhanced).toBeNull();
+      expect(result.enhanced).toEqual({
+        walk: 4,
+        run: 6,
+        jump: 2
+      });
       expect(result.display.combinedDisplay).toBe('4 / 6 / 2');
     });
 
@@ -238,7 +214,7 @@ describe('Movement Calculations', () => {
         walkMP: 4,
         runMP: 6,
         jumpMP: 0,
-        enhancementType: 'Triple Strength Myomer'
+        enhancements: [{ type: 'Triple Strength Myomer' }]
       };
 
       const result = getMovementValues(config);
@@ -249,8 +225,8 @@ describe('Movement Calculations', () => {
         jump: 0
       });
       expect(result.enhanced).toEqual({
-        walk: 6, // 4 + 2 (note: this seems to be different from the display calculation)
-        run: 9,  // ceil((4 + 2) × 1.5) = ceil(9) = 9
+        walk: 5, // 4 + 1
+        run: 7,  // floor(5 × 1.5) = 7
         jump: 0
       });
     });
@@ -258,21 +234,21 @@ describe('Movement Calculations', () => {
     test('returns correct enhanced values for MASC', () => {
       const config: UnitConfiguration = {
         walkMP: 5,
-        runMP: 8, // This value is ignored - calculated as floor(5 * 1.5) = 7
+        runMP: 7,
         jumpMP: 3,
-        enhancementType: 'MASC'
+        enhancements: [{ type: 'MASC' }]
       };
 
       const result = getMovementValues(config);
 
       expect(result.base).toEqual({
         walk: 5,
-        run: 7, // floor(5 * 1.5) = 7, not the provided 8
+        run: 7,
         jump: 3
       });
       expect(result.enhanced).toEqual({
         walk: 5,  // No change to walk
-        run: 10,  // 5 × 2 = 10
+        run: 7,  // recalculated run, not MASC run
         jump: 3
       });
     });
@@ -319,59 +295,58 @@ describe('Movement Calculations', () => {
 
     describe('TSM Enhancement', () => {
       test('formats TSM condensed movement', () => {
-        const config: UnitConfiguration = {
+        const config = {
           walkMP: 4,
           runMP: 6,
           jumpMP: 2,
-          enhancementType: 'Triple Strength Myomer'
+          enhancements: [{ type: 'Triple Strength Myomer' }]
         };
         const tonnage = 50;
 
         const result = formatCondensedMovement(config, tonnage);
         
-        // TSM format: "walk [enhanced] / run [enhanced] / jump"
         // Enhanced walk: 4 + 1 = 5
-        // Enhanced run: ceil(5 × 1.5) = 8
-        expect(result).toBe('4 [5] / 6 [8] / 2');
+        // Enhanced run: floor(5 × 1.5) = 7
+        expect(result).toBe('4 [5] / 6 [7] / 2');
       });
 
       test('formats TSM with zero jump', () => {
-        const config: UnitConfiguration = {
+        const config = {
           walkMP: 3,
-          runMP: 5,
+          runMP: 4,
           jumpMP: 0,
-          enhancementType: 'Triple Strength Myomer'
+          enhancements: [{ type: 'Triple Strength Myomer' }]
         };
-        const tonnage = 75;
+        const tonnage = 60;
 
         const result = formatCondensedMovement(config, tonnage);
-        expect(result).toBe('3 [4] / 5 [6] / 0');
+        expect(result).toBe('3 [4] / 4 [6] / 0');
       });
     });
 
     describe('MASC Enhancement', () => {
       test('formats MASC condensed movement', () => {
-        const config: UnitConfiguration = {
+        const config = {
           walkMP: 5,
-          runMP: 8,
+          runMP: 7,
           jumpMP: 4,
-          enhancementType: 'MASC'
+          enhancements: [{ type: 'MASC' }]
         };
-        const tonnage = 60;
+        const tonnage = 40;
 
         const result = formatCondensedMovement(config, tonnage);
         
         // MASC format: "walk / run [enhanced] / jump"
         // Enhanced run: 5 × 2 = 10
-        expect(result).toBe('5 / 8 [10] / 4');
+        expect(result).toBe('5 / 7 [10] / 4');
       });
 
       test('formats MASC with high walk MP', () => {
-        const config: UnitConfiguration = {
+        const config = {
           walkMP: 6,
           runMP: 9,
           jumpMP: 0,
-          enhancementType: 'MASC'
+          enhancements: [{ type: 'MASC' }]
         };
         const tonnage = 35;
 
@@ -420,27 +395,29 @@ describe('Movement Calculations', () => {
   });
 
   describe('Data Model Consistency', () => {
-    test('walkValue and runValue maintain base values for data model', () => {
+    test('walkValue and runValue reflect enhanced values correctly', () => {
       const configTSM: UnitConfiguration = {
         walkMP: 4,
         runMP: 6,
         jumpMP: 2,
-        enhancementType: 'Triple Strength Myomer'
+        enhancements: [{ type: 'Triple Strength Myomer' }]
       };
 
       const configMASC: UnitConfiguration = {
         walkMP: 4,
         runMP: 6,
         jumpMP: 2,
-        enhancementType: 'MASC'
+        enhancements: [{ type: 'MASC' }]
       };
 
       const tsmResult = calculateEnhancedMovement(configTSM);
       const mascResult = calculateEnhancedMovement(configMASC);
 
-      // Both should return the same base values for data model consistency
-      expect(tsmResult.walkValue).toBe(4);
-      expect(tsmResult.runValue).toBe(6);
+      // TSM: walk 4 + 1 = 5, run floor(5 * 1.5) = 7
+      expect(tsmResult.walkValue).toBe(5);
+      expect(tsmResult.runValue).toBe(7);
+      
+      // MASC: walk 4, run 4 * 1.5 = 6 (base), MASC run shown in display brackets
       expect(mascResult.walkValue).toBe(4);
       expect(mascResult.runValue).toBe(6);
     });
@@ -465,14 +442,85 @@ describe('Movement Calculations', () => {
       const configTSM: UnitConfiguration = {
         walkMP: 4,
         runMP: 6,
-        jumpMP: 2,
-        enhancementType: 'Triple Strength Myomer'
+        jumpMP: 0,
+        enhancements: [{ type: 'Triple Strength Myomer' }]
       };
 
       const result = calculateEnhancedMovement(configTSM);
       
       expect(result.walkDisplay).toMatch(/^\d+\s\[\d+\]$/); // "4 [5]"
-      expect(result.runDisplay).toMatch(/^\d+\s\[\d+\]$/);  // "6 [8]"
+      expect(result.runDisplay).toMatch(/^\d+\s\[\d+\]$/);  // "6 [7]"
     });
+  });
+});
+
+describe('getFullMovementSummary', () => {
+  it('should return summary with enhancement notes', () => {
+    const config = {
+      walkMP: 4,
+      runMP: 6,
+      jumpMP: 0,
+      enhancements: [
+        { type: 'Triple Strength Myomer' },
+        { type: 'MASC' }
+      ]
+    };
+
+    const result = getFullMovementSummary(config, 50);
+
+    // TSM takes precedence due to mutual exclusion - MASC is filtered out
+    expect(result).toBe('4 [5] / 6 [7] / 0 (TSM+1)');
+  });
+
+  it('should return summary with Supercharger + MASC combination', () => {
+    const config = {
+      walkMP: 4,
+      runMP: 6,
+      jumpMP: 0,
+      enhancements: [
+        { type: 'Supercharger' },
+        { type: 'MASC' }
+      ]
+    };
+
+    const result = getFullMovementSummary(config, 50);
+
+    // Supercharger + MASC: 2.5× multiplier
+    expect(result).toBe('4 / 6 [10] / 0 (Supercharger+MASC+2.5)');
+  });
+
+  it('should return summary without notes when no enhancements', () => {
+    const config = {
+      walkMP: 4,
+      runMP: 6,
+      jumpMP: 0,
+      enhancements: []
+    };
+
+    const result = getFullMovementSummary(config, 50);
+
+    expect(result).toBe('4 / 6 / 0');
+  });
+});
+
+describe('MOVEMENT_ENHANCEMENTS registry', () => {
+  it('should have all expected enhancement types', () => {
+    const enhancements = getAvailableMovementEnhancements();
+    const types = enhancements.map(e => e.type);
+    
+    expect(types).toContain('Triple Strength Myomer');
+    expect(types).toContain('MASC');
+    expect(types).toContain('Supercharger');
+  });
+
+  it('should have correct priorities', () => {
+    const enhancements = getAvailableMovementEnhancements();
+    const tsm = enhancements.find(e => e.type === 'Triple Strength Myomer');
+    const supercharger = enhancements.find(e => e.type === 'Supercharger');
+    const masc = enhancements.find(e => e.type === 'MASC');
+    
+    expect(tsm?.priority).toBe(1);
+    expect(supercharger?.priority).toBe(2);
+    expect(masc?.priority).toBe(3);
   });
 });

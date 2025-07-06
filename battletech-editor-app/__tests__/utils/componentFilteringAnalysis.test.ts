@@ -45,7 +45,7 @@ describe('Component Filtering Analysis', () => {
     totalHeatSinks: 10,
     internalHeatSinks: 10,
     externalHeatSinks: 0,
-    enhancementType: null,
+    enhancements: [],
     mass: 50,
     introductionYear: 3070,
     rulesLevel: 'Standard'

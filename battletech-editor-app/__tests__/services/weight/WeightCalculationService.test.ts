@@ -53,7 +53,7 @@ describe('WeightCalculationService', () => {
       totalHeatSinks: 10,
       internalHeatSinks: 10,
       externalHeatSinks: 0,
-      enhancementType: null,
+      enhancements: [],
       mass: 75
     };
 

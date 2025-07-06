@@ -272,13 +272,7 @@ export function migrateToTypedConfiguration(legacy: any): Result<ICompleteUnitCo
           rightLeg: 0
         }
       },
-      enhancement: {
-        type: legacy.enhancementType || 'None',
-        techBase,
-        weight: legacy.enhancementWeight || 0,
-        slots: legacy.enhancementSlots || 0,
-        effect: {}
-      },
+      enhancement: legacy.enhancementType ? [{ type: legacy.enhancementType, techBase: 'Inner Sphere' }] : [],
       equipment: legacy.equipment || [],
       groups: legacy.groups || [],
       metadata: {

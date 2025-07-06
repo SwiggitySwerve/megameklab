@@ -4,6 +4,7 @@
  */
 
 import { UnitConfiguration } from './criticalSlots/UnitCriticalManager'
+import { EngineType } from './criticalSlots/SystemComponentRules'
 import { 
   TechProgression, 
   TechRating, 
@@ -241,10 +242,10 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
     runMP,
     jumpMP,
     engineRating,
-    engineType: migrateStringToComponentConfiguration('engine', engineTypeString, techBaseType),
+    engineType: engineTypeString as EngineType,
     
     // Jump jets
-    jumpJetType: 'Standard Jump Jet',
+    jumpJetType: migrateStringToComponentConfiguration('jumpJet', 'Standard Jump Jet', techBaseType),
     jumpJetCounts: {},
     hasPartialWing: false,
     
@@ -264,9 +265,9 @@ function buildBaseConfiguration(legacyData: LegacyUnitData): UnitConfiguration {
     externalHeatSinks,
     
     // Enhancement systems
-    enhancementType: parseEnhancementType(legacyData.myomer?.type) ? 
-      migrateStringToComponentConfiguration('enhancement', parseEnhancementType(legacyData.myomer?.type)!, techBaseType) : 
-      null,
+    enhancements: parseEnhancementType(legacyData.myomer?.type) ?
+      [migrateStringToComponentConfiguration('enhancement', parseEnhancementType(legacyData.myomer?.type)!, techBaseType)] :
+      [],
     
     // Legacy compatibility
     mass: tonnage

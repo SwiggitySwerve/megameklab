@@ -234,7 +234,7 @@ function mapSubsystemToTechName(subsystem: string, unitConfig?: any): string {
       // Analyze equipment for targeting systems
       return analyzeTargetingTech(unitConfig) || 'Standard Targeting'
     case 'myomer':
-      return unitConfig.enhancementType || 'Standard Myomer'
+      return getMyomerType(unitConfig)
     case 'movement':
       return analyzeMovementTech(unitConfig) || 'Standard Movement'
     default:
@@ -428,4 +428,15 @@ export function autoUpdateTechRating(
   unitConfig: any
 ): TechRating {
   return calculateTechRating(introductionYear, techProgression, unitConfig)
+}
+
+/**
+ * Update getMyomerType to work with enhancements array
+ */
+export function getMyomerType(unitConfig: any): string {
+  if (!unitConfig.enhancements || unitConfig.enhancements.length === 0) {
+    return 'Standard Myomer'
+  }
+  // Return the first enhancement type, or 'Standard Myomer' if none
+  return unitConfig.enhancements[0].type || 'Standard Myomer'
 }

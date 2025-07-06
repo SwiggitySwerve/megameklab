@@ -43,7 +43,7 @@ const MockAllTabsWithDropdowns = () => {
     structureType: 'Standard',
     gyroType: 'Standard',
     heatSinkType: 'Single',
-    enhancementType: 'None',
+    enhancements: [],
     // Armor tab components
     armorType: 'Standard',
     // Other potential components
@@ -77,14 +77,6 @@ const MockAllTabsWithDropdowns = () => {
   }, []);
 
   // Helper functions to get component values (same logic as actual tabs)
-  const getEnhancementTypeValue = (): string => {
-    if (!config.enhancementType) return 'None';
-    if (typeof config.enhancementType === 'string') {
-      return config.enhancementType;
-    }
-    return 'None';
-  };
-
   const getStructureTypeValue = (): string => {
     if (typeof config.structureType === 'string') {
       return config.structureType;
@@ -153,7 +145,7 @@ const MockAllTabsWithDropdowns = () => {
           <option value="Double (Clan)">Double (Clan)</option>
         </select>
         
-        <select data-testid="enhancement-dropdown" value={getEnhancementTypeValue()}>
+        <select data-testid="enhancement-dropdown" value={config.enhancements.join(', ')}>
           <option value="None">None</option>
           <option value="MASC">MASC</option>
           <option value="Triple Strength Myomer">Triple Strength Myomer</option>
@@ -178,7 +170,7 @@ const MockAllTabsWithDropdowns = () => {
         <div data-testid="structure-config">Structure: {config.structureType}</div>
         <div data-testid="gyro-config">Gyro: {config.gyroType}</div>
         <div data-testid="heatsink-config">HeatSink: {config.heatSinkType}</div>
-        <div data-testid="enhancement-config">Enhancement: {config.enhancementType}</div>
+        <div data-testid="enhancement-config">Enhancement: {config.enhancements.join(', ')}</div>
         <div data-testid="armor-config">Armor: {config.armorType}</div>
       </div>
     </div>
@@ -201,7 +193,7 @@ jest.mock('../../components/multiUnit/MultiUnitProvider', () => ({
         structureType: 'Standard',
         gyroType: 'Standard',
         heatSinkType: 'Single',
-        enhancementType: 'None',
+        enhancements: [],
         armorType: 'Standard',
         targetingType: 'None',
         movementType: 'Standard Jump Jets',
@@ -284,7 +276,7 @@ describe('Comprehensive Dropdown Memory Integration', () => {
           call[0].engineType === 'XL' ||
           call[0].gyroType === 'Compact' ||
           call[0].heatSinkType === 'Double' ||
-          call[0].enhancementType === 'Triple Strength Myomer' ||
+          call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer') ||
           call[0].armorType === 'Ferro-Fibrous'
         )
       );
@@ -299,7 +291,7 @@ describe('Comprehensive Dropdown Memory Integration', () => {
         if (comprehensiveRestoration[0].engineType) restoredComponents.push('engine');
         if (comprehensiveRestoration[0].gyroType) restoredComponents.push('gyro');
         if (comprehensiveRestoration[0].heatSinkType) restoredComponents.push('heatsink');
-        if (comprehensiveRestoration[0].enhancementType) restoredComponents.push('enhancement');
+        if (comprehensiveRestoration[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer')) restoredComponents.push('enhancement');
         if (comprehensiveRestoration[0].armorType) restoredComponents.push('armor');
         
         console.log(`🔢 Restored ${restoredComponents.length} component types: ${restoredComponents.join(', ')}`);
@@ -464,7 +456,7 @@ describe('Comprehensive Dropdown Memory Integration', () => {
         
         // Verify data model structure for all component types
         const configUpdate = dataModelCall[0];
-        const componentTypes = ['structureType', 'engineType', 'gyroType', 'heatSinkType', 'enhancementType', 'armorType'];
+        const componentTypes = ['structureType', 'engineType', 'gyroType', 'heatSinkType', 'enhancements', 'armorType'];
         
         componentTypes.forEach(componentType => {
           if (configUpdate[componentType]) {

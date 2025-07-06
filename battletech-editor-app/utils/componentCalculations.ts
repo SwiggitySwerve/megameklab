@@ -6,6 +6,7 @@ import { calculateInternalHeatSinks } from './heatSinkCalculations';
 import { calculateArmorWeight } from './armorCalculations';
 import { calculateGyroWeight as calculateGyroWeightCentralized } from './gyroCalculations';
 import { GyroType, StructureType, EngineType, ArmorType } from '../types/systemComponents';
+import { ComponentConfiguration } from '../types/componentConfiguration';
 
 export interface ComponentWeights {
   structure: number;
@@ -156,20 +157,28 @@ export function calculateJumpJetWeight(jumpMP: number, tonnage: number, jumpType
 }
 
 // Calculate enhancement weight (MASC, TSM, etc.)
-export function calculateEnhancementWeight(tonnage: number, enhancementType?: string): number {
-  if (!enhancementType || enhancementType === 'None') return 0;
+export function calculateEnhancementWeight(tonnage: number, enhancements?: ComponentConfiguration[]): number {
+  if (!enhancements || enhancements.length === 0) return 0;
   
-  switch (enhancementType) {
-    case 'MASC':
-      // MASC weighs 1 ton per 20 tons of mech
-      return Math.ceil(tonnage / 20);
-    case 'Triple Strength Myomer':
-    case 'Industrial TSM':
-      // TSM has no weight, just critical slots
-      return 0;
-    default:
-      return 0;
+  let totalWeight = 0;
+  for (const enhancement of enhancements) {
+    switch (enhancement.type) {
+      case 'MASC':
+        totalWeight += Math.ceil(tonnage * 0.05);
+        break;
+      case 'Triple Strength Myomer':
+        totalWeight += Math.ceil(tonnage * 0.07);
+        break;
+      case 'Supercharger':
+        totalWeight += Math.ceil(tonnage * 0.05);
+        break;
+      default:
+        // Unknown enhancement type, no weight
+        break;
+    }
   }
+  
+  return totalWeight;
 }
 
 // Calculate total component weights
@@ -186,7 +195,7 @@ export function calculateComponentWeights(unit: any): ComponentWeights {
   const jumpType = unit.data?.movement?.jump_type || 'Jump Jet';
   const armorPoints = unit.data?.armor?.total_armor_points || 0;
   const armorType = unit.data?.armor?.type || 'Standard';
-  const enhancementType = unit.data?.myomer?.type;
+  const enhancements = unit.data?.enhancements || [];
   
   const weights = {
     structure: calculateStructureWeight(tonnage, castToStructureType(structureType)),
@@ -196,7 +205,7 @@ export function calculateComponentWeights(unit: any): ComponentWeights {
     heatSinks: calculateHeatSinkWeight(heatSinkCount, heatSinkType),
     armor: calculateArmorWeight(armorPoints, castToArmorType(armorType)),
     jumpJets: calculateJumpJetWeight(jumpMP, tonnage, jumpType),
-    enhancement: calculateEnhancementWeight(tonnage, enhancementType),
+    enhancement: calculateEnhancementWeight(tonnage, enhancements),
     total: 0
   };
   
@@ -215,9 +224,7 @@ export function calculateComponentCrits(unit: any): ComponentCrits {
   const jumpMP = unit.data?.movement?.jump_mp || 0;
   const jumpType = unit.data?.movement?.jump_type || 'Jump Jet';
   const armorType = unit.data?.armor?.type || 'Standard';
-  const enhancementType = unit.data?.myomer?.type;
-  const heatSinkCount = unit.data?.heat_sinks?.count || 10;
-  const heatSinkType = unit.data?.heat_sinks?.type || 'Single';
+  const enhancements = unit.data?.enhancements || [];
   
   const crits = {
     structure: 0,
@@ -321,14 +328,16 @@ export function calculateComponentCrits(unit: any): ComponentCrits {
   }
   
   // Enhancement crits
-  switch (enhancementType) {
-    case 'MASC':
-      crits.enhancement = Math.ceil((unit.mass || 20) / 20); // 1 per 20 tons
-      break;
-    case 'Triple Strength Myomer':
-    case 'Industrial TSM':
-      crits.enhancement = 6; // 1 per location except head
-      break;
+  for (const enhancement of enhancements) {
+    switch (enhancement.type) {
+      case 'MASC':
+        crits.enhancement = Math.ceil((unit.mass || 20) / 20); // 1 per 20 tons
+        break;
+      case 'Triple Strength Myomer':
+      case 'Industrial TSM':
+        crits.enhancement = 6; // 1 per location except head
+        break;
+    }
   }
   
   crits.total = Object.values(crits).reduce((sum, crit) => sum + crit, 0);
@@ -442,9 +451,9 @@ export function calculateEarliestPossibleYear(unit: any): number {
   years.push(componentIntroductionYears[armorType + ' Armor'] || componentIntroductionYears[armorType] || 2439);
   
   // Enhancement
-  const enhancementType = unit.data?.myomer?.type;
-  if (enhancementType && enhancementType !== 'None') {
-    years.push(componentIntroductionYears[enhancementType] || 2439);
+  const enhancements = unit.data?.enhancements || [];
+  for (const enhancement of enhancements) {
+    years.push(componentIntroductionYears[enhancement.type] || 2439);
   }
   
   // Jump Type

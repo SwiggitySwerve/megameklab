@@ -9,6 +9,7 @@ import {
   getAvailableArmorTypes, 
   getAvailableEngineTypes 
 } from './componentOptionFiltering';
+import { ComponentConfiguration } from '../types/componentConfiguration';
 
 /**
  * Component option mappings based on tech progression settings
@@ -109,18 +110,18 @@ export function validateComponentSelection(
     gyroType?: string
     engineType?: string
     heatSinkType?: string
-    enhancementType?: string | null
+    enhancements?: ComponentConfiguration[]
     armorType?: string
     jumpJetType?: string
   }
 ): {
   isValid: boolean
   invalidSelections: string[]
-  suggestedReplacements: Record<string, string>
+  suggestedReplacements: Record<string, string | ComponentConfiguration[]>
 } {
   const filteredOptions = getFilteredComponentOptions(techProgression)
   const invalidSelections: string[] = []
-  const suggestedReplacements: Record<string, string> = {}
+  const suggestedReplacements: Record<string, string | ComponentConfiguration[]> = {}
 
   // Check each component type
   if (currentSelections.structureType && !filteredOptions.structure.includes(currentSelections.structureType)) {
@@ -143,10 +144,10 @@ export function validateComponentSelection(
     suggestedReplacements.heatSinkType = 'Single'
   }
 
-  if (currentSelections.enhancementType && currentSelections.enhancementType !== 'None' && 
-      !filteredOptions.enhancement.includes(currentSelections.enhancementType)) {
+  if (currentSelections.enhancements && currentSelections.enhancements.length > 0 && 
+      !filteredOptions.enhancement.includes(currentSelections.enhancements[0].type)) {
     invalidSelections.push('enhancement')
-    suggestedReplacements.enhancementType = 'None'
+    suggestedReplacements.enhancements = []
   }
 
   if (currentSelections.armorType && !filteredOptions.armor.includes(currentSelections.armorType)) {
@@ -178,7 +179,7 @@ export function autoCorrectComponentSelections(
     gyroType: currentConfig.gyroType,
     engineType: currentConfig.engineType,
     heatSinkType: currentConfig.heatSinkType,
-    enhancementType: currentConfig.enhancementType,
+    enhancements: currentConfig.enhancements,
     armorType: currentConfig.armorType,
     jumpJetType: currentConfig.jumpJetType
   })

@@ -180,7 +180,7 @@ function CustomizerV2Content() {
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Movement</span>
               <span className="font-medium text-slate-200">
-                {unitConfig.walkMP}/{Math.floor(unitConfig.walkMP * 1.5)}/{unitConfig.jumpMP || 0}
+                {formatCondensedMovement(unitConfig, unitConfig.tonnage)}
               </span>
               <span className="text-slate-500 text-xs">walk / run / jump</span>
             </div>

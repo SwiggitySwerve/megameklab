@@ -202,7 +202,7 @@ describe('State Persistence Tests', () => {
       console.log('🧪 Testing MASC Enhancement Persistence')
       
       const config = createTestConfiguration({
-        enhancementType: 'MASC',
+        enhancements: [{ type: 'MASC', techBase: 'Inner Sphere' }],
         gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
         structureType: { type: 'Standard', techBase: 'Inner Sphere' },
         armorType: { type: 'Standard', techBase: 'Inner Sphere' },
@@ -220,14 +220,14 @@ describe('State Persistence Tests', () => {
       const newUnitManager = new UnitCriticalManager(restoredState!.configuration)
       newUnitManager.deserializeCompleteState(restoredState!)
       
-      expect(newUnitManager.getConfiguration().enhancementType).toBe('MASC')
+      expect(newUnitManager.getConfiguration().enhancements).toEqual([{ type: 'MASC', techBase: 'Inner Sphere' }])
       
       console.log('✅ MASC enhancement persistence test passed')
     })
 
     test('Triple Strength Myomer enhancement persists correctly', () => {
       const config = createTestConfiguration({
-        enhancementType: 'Triple Strength Myomer',
+        enhancements: [{ type: 'Triple Strength Myomer', techBase: 'Inner Sphere' }],
         gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
         structureType: { type: 'Standard', techBase: 'Inner Sphere' },
         armorType: { type: 'Standard', techBase: 'Inner Sphere' },
@@ -244,7 +244,7 @@ describe('State Persistence Tests', () => {
       const newUnitManager = new UnitCriticalManager(restoredState!.configuration)
       newUnitManager.deserializeCompleteState(restoredState!)
       
-      expect(newUnitManager.getConfiguration().enhancementType).toBe('Triple Strength Myomer')
+      expect(newUnitManager.getConfiguration().enhancements).toEqual([{ type: 'Triple Strength Myomer', techBase: 'Inner Sphere' }])
       
       console.log('✅ Triple Strength Myomer persistence test passed')
     })
@@ -262,7 +262,7 @@ describe('State Persistence Tests', () => {
         gyroType: { type: 'Compact', techBase: 'Inner Sphere' },
         structureType: { type: 'Endo Steel', techBase: 'Inner Sphere' },
         armorType: { type: 'Ferro-Fibrous', techBase: 'Inner Sphere' },
-        enhancementType: 'MASC',
+        enhancements: [{ type: 'MASC', techBase: 'Inner Sphere' }],
         heatSinkType: { type: 'Double', techBase: 'Inner Sphere' },
         externalHeatSinks: 5,
         jumpMP: 3,
@@ -308,7 +308,7 @@ describe('State Persistence Tests', () => {
       expect(restoredConfig.gyroType.type).toBe('Compact')
       expect(restoredConfig.structureType.type).toBe('Endo Steel')
       expect(restoredConfig.armorType.type).toBe('Ferro-Fibrous')
-      expect(restoredConfig.enhancementType).toBe('MASC')
+      expect(restoredConfig.enhancements).toEqual([{ type: 'MASC', techBase: 'Inner Sphere' }])
       expect(restoredConfig.heatSinkType.type).toBe('Double')
       expect(restoredConfig.externalHeatSinks).toBe(5)
       expect(restoredConfig.jumpMP).toBe(3)
@@ -436,7 +436,7 @@ function createTestConfiguration(overrides: Partial<UnitConfiguration> = {}): Un
     totalHeatSinks: 10,
     internalHeatSinks: 8,
     externalHeatSinks: 2,
-    enhancementType: null,
+    enhancements: [],
     jumpMP: 0,
     jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
     jumpJetCounts: {},

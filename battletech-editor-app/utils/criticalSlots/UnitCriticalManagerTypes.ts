@@ -124,7 +124,7 @@ export interface UnitConfiguration {
   externalHeatSinks: number          // Auto-calculated (total - internal)
   
   // Enhancement systems
-  enhancementType: ComponentConfiguration | null  // Movement enhancement systems (MASC, TSM, etc.)
+  enhancements: ComponentConfiguration[] // Movement enhancement systems (MASC, TSM, Supercharger, etc.)
   
   // Legacy compatibility
   mass: number                       // Alias for tonnage

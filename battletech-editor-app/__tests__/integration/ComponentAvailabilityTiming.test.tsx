@@ -40,7 +40,7 @@ const mockUnit = {
     tonnage: 70,
     unitType: 'BattleMech',
     techBase: 'Inner Sphere',
-    enhancementType: 'None', // Start with None to test restoration
+    enhancements: [], // Start with None to test restoration
     structureType: 'Standard',
     engineType: 'Standard',
     gyroType: 'Standard',
@@ -195,8 +195,7 @@ describe('Component Availability Timing Tests', () => {
         
         // Check if TSM was restored (flexible for new system)
         const restorationCall = calls.find(call => 
-          call[0].enhancementType === 'Triple Strength Myomer' ||
-          JSON.stringify(call[0]).includes('Triple Strength Myomer')
+          call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer')
         );
         
         if (restorationCall) {
@@ -241,8 +240,7 @@ describe('Component Availability Timing Tests', () => {
         
         // Check if TSM was restored (flexible for new system)
         const restorationCall = calls.find(call => 
-          call[0].enhancementType === 'Triple Strength Myomer' ||
-          JSON.stringify(call[0]).includes('Triple Strength Myomer')
+          call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer')
         );
         
         if (restorationCall) {
@@ -288,7 +286,7 @@ describe('Component Availability Timing Tests', () => {
         
         // Should not restore invalid component, should use default
         const invalidRestorationCall = calls.find(call => 
-          call[0].enhancementType === 'Obsolete Component'
+          call[0].enhancements.some((enh: any) => enh.type === 'Obsolete Component')
         );
         
         expect(invalidRestorationCall).toBeUndefined();
@@ -357,7 +355,7 @@ describe('Component Availability Timing Tests', () => {
       await waitFor(() => {
         const calls = mockUpdateConfiguration.mock.calls;
         const prematureRestoration = calls.find(call => 
-          call[0].enhancementType === 'Triple Strength Myomer'
+          call[0].enhancements.some((enh: any) => enh.type === 'Triple Strength Myomer')
         );
         
         // Should NOT restore yet
