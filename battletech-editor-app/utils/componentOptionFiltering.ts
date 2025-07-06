@@ -42,8 +42,8 @@ export function getAvailableArmorTypes(config: UnitConfiguration, overrideTechBa
 }
 
 // PROPER IMPLEMENTATION: Use component database for structure types
-export function getAvailableStructureTypes(config: UnitConfiguration): ComponentConfiguration[] {
-  const techBase = config.techBase || 'Inner Sphere';
+export function getAvailableStructureTypes(config: UnitConfiguration, overrideTechBase?: TechBase): ComponentConfiguration[] {
+  const techBase = overrideTechBase || config.techBase || 'Inner Sphere';
   const introductionYear = (config as any).introductionYear || 3025;
   
   // Get structure components from database for the specified tech base
@@ -60,8 +60,8 @@ export function getAvailableStructureTypes(config: UnitConfiguration): Component
 }
 
 // PROPER IMPLEMENTATION: Use component database for engine types
-export function getAvailableEngineTypes(config: UnitConfiguration): ComponentConfiguration[] {
-  const techBase = config.techBase || 'Inner Sphere';
+export function getAvailableEngineTypes(config: UnitConfiguration, overrideTechBase?: TechBase): ComponentConfiguration[] {
+  const techBase = overrideTechBase || config.techBase || 'Inner Sphere';
   const introductionYear = (config as any).introductionYear || 3025;
   
   // Get engine components from database for the specified tech base

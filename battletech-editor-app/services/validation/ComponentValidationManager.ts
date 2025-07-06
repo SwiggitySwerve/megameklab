@@ -662,7 +662,7 @@ export class ComponentValidationManager {
   }
   
   /**
-   * Extract component type from ComponentConfiguration or string
+   * Extract component type from ComponentConfiguration or string (migration support)
    */
   private extractComponentType(component: ComponentConfiguration | string): string {
     return typeof component === 'string' ? component : component.type

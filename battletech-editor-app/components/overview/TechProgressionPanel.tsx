@@ -80,7 +80,7 @@ export const TechProgressionPanel: React.FC<TechProgressionPanelProps> = ({
         Technology Progression
       </h3>
       
-      <div key={`tech-progression-${renderKey}-${JSON.stringify(techProgression)}`} className="space-y-2">
+      <div key={`tech-progression-${renderKey}`} className="space-y-2">
         {Object.entries(SUBSYSTEM_LABELS).map(([subsystem, label]) => {
           const currentTechBase = techProgression[subsystem as keyof TechProgression];
           // Get current component value using our helper function

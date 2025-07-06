@@ -96,6 +96,10 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     // Special case for myomer/enhancements
     if (subsystem === 'myomer') {
       const value = config.enhancementType || 'Standard'
+      // Handle ComponentConfiguration objects
+      if (value && typeof value === 'object' && 'type' in value) {
+        return value.type
+      }
       return value
     }
     
@@ -103,6 +107,10 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
     if (!property) return 'Standard'
     
     const value = config[property]
+    // Handle ComponentConfiguration objects
+    if (value && typeof value === 'object' && 'type' in value) {
+      return value.type
+    }
     return value || 'Standard'
   }, [propertyMap])
 
@@ -408,7 +416,9 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
             <div className="text-right">
               <div className="text-sm text-slate-400">Tech Rating</div>
               <div className="text-lg font-bold text-slate-100">
-                {enhancedConfig.techRating || 'D'}
+                {typeof enhancedConfig.techRating === 'object' 
+                  ? enhancedConfig.techRating?.era2801_3050 || 'D'
+                  : enhancedConfig.techRating || 'D'}
               </div>
             </div>
           </div>
@@ -416,62 +426,58 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        {/* Basic Information Section */}
-        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
-          <h3 className="text-lg font-semibold text-slate-100 mb-4">Basic Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Introduction Year
-              </label>
-              <input
-                type="number"
-                value={enhancedConfig.introductionYear || 3025}
-                onChange={(e) => handleConfigUpdate({ introductionYear: parseInt(e.target.value) || 3025 })}
-                disabled={readOnly}
-                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-                min="2500"
-                max="3150"
-              />
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Condensed Basic Information + Master Tech Base Section */}
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 shadow-lg">
+          <h3 className="text-lg font-semibold text-slate-100 mb-3">Unit Configuration</h3>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Introduction Year
+                </label>
+                <input
+                  type="number"
+                  value={enhancedConfig.introductionYear || 3025}
+                  onChange={(e) => handleConfigUpdate({ introductionYear: parseInt(e.target.value) || 3025 })}
+                  disabled={readOnly}
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                  min="2500"
+                  max="3150"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Rules Level
+                </label>
+                <select
+                  value={enhancedConfig.rulesLevel || 'Standard'}
+                  onChange={(e) => handleConfigUpdate({ rulesLevel: e.target.value })}
+                  disabled={readOnly}
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                >
+                  <option value="Introductory">Introductory</option>
+                  <option value="Standard">Standard</option>
+                  <option value="Advanced">Advanced</option>
+                  <option value="Experimental">Experimental</option>
+                </select>
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Rules Level
+              <label className="block text-sm font-medium text-slate-300 mb-1">
+                Master Tech Base
               </label>
               <select
-                value={enhancedConfig.rulesLevel || 'Standard'}
-                onChange={(e) => handleConfigUpdate({ rulesLevel: e.target.value })}
+                value={enhancedConfig.techBase || 'Inner Sphere'}
+                onChange={(e) => handleMasterTechBaseChange(e.target.value as 'Inner Sphere' | 'Clan' | 'Mixed')}
                 disabled={readOnly}
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               >
-                <option value="Introductory">Introductory</option>
-                <option value="Standard">Standard</option>
-                <option value="Advanced">Advanced</option>
-                <option value="Experimental">Experimental</option>
+                <option value="Inner Sphere">Inner Sphere</option>
+                <option value="Clan">Clan</option>
+                <option value="Mixed">Mixed Tech</option>
               </select>
             </div>
-          </div>
-        </div>
-
-        {/* Master Tech Base Section */}
-        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
-          <h3 className="text-lg font-semibold text-slate-100 mb-4">Master Tech Base</h3>
-          <div className="flex flex-wrap gap-3">
-            {(['Inner Sphere', 'Clan', 'Mixed'] as const).map((techBase) => (
-              <button
-                key={techBase}
-                onClick={() => handleMasterTechBaseChange(techBase)}
-                disabled={readOnly}
-                className={`px-4 py-2 rounded-md font-medium transition-colors ${
-                  enhancedConfig.techBase === techBase
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
-              >
-                {techBase}
-              </button>
-            ))}
           </div>
           <p className="text-sm text-slate-400 mt-2">
             {isMixed 
@@ -481,37 +487,27 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
           </p>
         </div>
 
-        {/* Tech Progression Section */}
-        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 shadow-lg">
-          <h3 className="text-lg font-semibold text-slate-100 mb-4">Technology Progression</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(['chassis', 'gyro', 'engine', 'heatsink', 'targeting', 'myomer', 'movement', 'armor'] as const).map((subsystem) => (
-              <div key={subsystem} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-md">
-                <span className="text-slate-300 capitalize">{subsystem}</span>
-                <div className="flex gap-2">
-                  {(['Inner Sphere', 'Clan'] as const).map((techBase) => (
-                    <button
-                      key={techBase}
-                      onClick={() => handleTechProgressionChange(subsystem, techBase)}
-                      disabled={readOnly || !isMixed}
-                      className={`px-3 py-1 text-xs rounded transition-colors ${
-                        enhancedConfig.techProgression?.[subsystem] === techBase
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-600 text-slate-300 hover:bg-slate-500'
-                      } disabled:opacity-50 disabled:cursor-not-allowed`}
-                    >
-                      {techBase === 'Inner Sphere' ? 'IS' : 'Clan'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
+        {/* Two Column Layout: Tech Progression + Tech Rating (2/3 to 1/3 split) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column: Tech Progression (2/3 width) */}
+          <div className="lg:col-span-2">
+            <TechProgressionPanel
+              techProgression={enhancedConfig.techProgression}
+              currentConfig={enhancedConfig}
+              readOnly={readOnly}
+              renderKey={renderKey}
+              onTechProgressionChange={handleTechProgressionChange}
+              isMixed={isMixed}
+            />
           </div>
-          {!isMixed && (
-            <p className="text-sm text-slate-400 mt-2">
-              Enable Mixed tech base to configure individual subsystems
-            </p>
-          )}
+
+          {/* Right Column: Tech Rating (1/3 width) */}
+          <div className="lg:col-span-1">
+            <TechRatingPanel
+              techRating={enhancedConfig.techRating}
+              introductionYear={enhancedConfig.introductionYear || 3025}
+            />
+          </div>
         </div>
 
         {/* Component Configuration Section */}

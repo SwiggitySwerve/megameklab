@@ -23,8 +23,7 @@ function castToGyroType(gyroType: string): GyroType {
 }
 
 export const ValidationCalculations = {
-  extractComponentType(component: ComponentConfiguration | string): string {
-    if (typeof component === 'string') return component;
+  extractComponentType(component: ComponentConfiguration): string {
     return component.type;
   },
 

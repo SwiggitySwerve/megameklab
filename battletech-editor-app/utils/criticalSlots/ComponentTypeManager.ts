@@ -18,83 +18,61 @@ import { EngineType, GyroType } from './SystemComponentRules'
 
 export class ComponentTypeManager {
   /**
-   * Extract type string from ComponentConfiguration or return string as-is
+   * Extract type string from ComponentConfiguration
+   * @deprecated Use component.type directly instead
    */
-  static extractComponentType(component: ComponentConfiguration | string): string {
-    if (typeof component === 'string') {
-      return component // Legacy compatibility
-    }
+  static extractComponentType(component: ComponentConfiguration): string {
     return component.type
   }
 
   /**
-   * Extract tech base from ComponentConfiguration or infer from string
+   * Extract tech base from ComponentConfiguration
+   * @deprecated Use component.techBase directly instead
    */
-  static extractTechBase(component: ComponentConfiguration | string, fallback: TechBase = 'Inner Sphere'): TechBase {
-    if (typeof component === 'string') {
-      // Infer tech base from string (legacy compatibility)
-      return component.includes('Clan') ? 'Clan' : fallback
-    }
+  static extractTechBase(component: ComponentConfiguration): TechBase {
     return component.techBase
-  }
-
-  /**
-   * Get structure type as string
-   */
-  static getStructureTypeString(structureType: StructureType): string {
-    return ComponentTypeManager.extractComponentType(structureType)
-  }
-
-  /**
-   * Get armor type as string
-   */
-  static getArmorTypeString(armorType: ArmorType): string {
-    return ComponentTypeManager.extractComponentType(armorType)
-  }
-
-  /**
-   * Get heat sink type as string
-   */
-  static getHeatSinkTypeString(heatSinkType: HeatSinkType): string {
-    return ComponentTypeManager.extractComponentType(heatSinkType)
-  }
-
-  /**
-   * Get jump jet type as string
-   */
-  static getJumpJetTypeString(jumpJetType: JumpJetType): string {
-    return ComponentTypeManager.extractComponentType(jumpJetType)
-  }
-
-  /**
-   * Get gyro type as string
-   */
-  static getGyroTypeString(gyroType: GyroType): string {
-    return ComponentTypeManager.extractComponentType(gyroType)
   }
 
   /**
    * Get engine type as string
    */
   static getEngineTypeString(engineType: EngineType): string {
-    return ComponentTypeManager.extractComponentType(engineType)
+    return engineType
   }
 
   /**
-   * Validate component type against allowed types
+   * Get gyro type as string
    */
-  static validateComponentType(
-    componentType: string, 
-    allowedTypes: string[], 
-    category: ComponentCategory
-  ): { isValid: boolean; error?: string } {
-    if (!allowedTypes.includes(componentType)) {
-      return {
-        isValid: false,
-        error: `Invalid ${category} type: ${componentType}. Allowed types: ${allowedTypes.join(', ')}`
-      }
-    }
-    return { isValid: true }
+  static getGyroTypeString(gyroType: ComponentConfiguration): string {
+    return gyroType.type
+  }
+
+  /**
+   * Get structure type as string
+   */
+  static getStructureTypeString(structureType: ComponentConfiguration): string {
+    return structureType.type
+  }
+
+  /**
+   * Get armor type as string
+   */
+  static getArmorTypeString(armorType: ComponentConfiguration): string {
+    return armorType.type
+  }
+
+  /**
+   * Get heat sink type as string
+   */
+  static getHeatSinkTypeString(heatSinkType: ComponentConfiguration): string {
+    return heatSinkType.type
+  }
+
+  /**
+   * Get jump jet type as string
+   */
+  static getJumpJetTypeString(jumpJetType: ComponentConfiguration): string {
+    return jumpJetType.type
   }
 
   /**
@@ -119,54 +97,20 @@ export class ComponentTypeManager {
   }
 
   /**
-   * Get all available component type names for a category and tech base
+   * Validate component configuration
    */
-  static getAvailableTypes(category: ComponentCategory, techBase: TechBase = 'Inner Sphere'): string[] {
-    return getComponentTypeNames(category, techBase)
-  }
-
-  /**
-   * Check if component is Clan technology
-   */
-  static isClanComponent(component: ComponentConfiguration | string): boolean {
-    const techBase = ComponentTypeManager.extractTechBase(component)
-    return techBase === 'Clan'
-  }
-
-  /**
-   * Check if component is Inner Sphere technology
-   */
-  static isInnerSphereComponent(component: ComponentConfiguration | string): boolean {
-    const techBase = ComponentTypeManager.extractTechBase(component)
-    return techBase === 'Inner Sphere'
-  }
-
-  /**
-   * Get component display name
-   */
-  static getDisplayName(component: ComponentConfiguration | string): string {
-    const type = ComponentTypeManager.extractComponentType(component)
-    const techBase = ComponentTypeManager.extractTechBase(component)
-    
-    if (techBase === 'Clan' && !type.includes('Clan')) {
-      return `${type} (Clan)`
-    }
-    
-    return type
-  }
-
-  /**
-   * Compare two components for equality
-   */
-  static areComponentsEqual(
-    component1: ComponentConfiguration | string,
-    component2: ComponentConfiguration | string
+  static validateComponentConfiguration(
+    category: ComponentCategory,
+    config: ComponentConfiguration
   ): boolean {
-    const type1 = ComponentTypeManager.extractComponentType(component1)
-    const type2 = ComponentTypeManager.extractComponentType(component2)
-    const techBase1 = ComponentTypeManager.extractTechBase(component1)
-    const techBase2 = ComponentTypeManager.extractTechBase(component2)
-    
-    return type1 === type2 && techBase1 === techBase2
+    const availableTypes = getComponentTypeNames(category, config.techBase)
+    return availableTypes.includes(config.type)
+  }
+
+  /**
+   * Get available component types for category and tech base
+   */
+  static getAvailableTypes(category: ComponentCategory, techBase: TechBase): string[] {
+    return getComponentTypeNames(category, techBase)
   }
 } 

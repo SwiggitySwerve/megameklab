@@ -8,6 +8,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { SingleUnitProvider, useSingleUnit } from '../../components/unit/SingleUnitProvider'
 import { UnitPersistenceService, parseUnitId } from '../../utils/unit/UnitPersistenceService'
+import { getComponentType } from '../../utils/componentTypeUtils';
 
 // Component that uses the unit context
 function UnitDisplay() {
@@ -114,19 +115,19 @@ function UnitDisplay() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Gyro:</span>
-                <span>{config.gyroType}</span>
+                <span>{getComponentType(config.gyroType)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Structure:</span>
-                <span>{config.structureType}</span>
+                <span>{getComponentType(config.structureType)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Armor:</span>
-                <span>{config.armorType}</span>
+                <span>{getComponentType(config.armorType)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Heat Sinks:</span>
-                <span>{config.totalHeatSinks} {config.heatSinkType}</span>
+                <span>{config.totalHeatSinks} {getComponentType(config.heatSinkType)}</span>
               </div>
             </div>
           </div>
@@ -297,7 +298,7 @@ function UnitDisplay() {
                 Structure Type
               </label>
               <select
-                value={config.structureType}
+                value={getComponentType(config.structureType)}
                 onChange={(e) => updateConfiguration({
                   ...config,
                   structureType: e.target.value as any
@@ -318,7 +319,7 @@ function UnitDisplay() {
                 Armor Type
               </label>
               <select
-                value={config.armorType}
+                value={getComponentType(config.armorType)}
                 onChange={(e) => updateConfiguration({
                   ...config,
                   armorType: e.target.value as any

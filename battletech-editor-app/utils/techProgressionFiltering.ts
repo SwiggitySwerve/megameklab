@@ -90,12 +90,12 @@ export function getFilteredComponentOptions(techProgression: TechProgression, co
   } as any;
 
   return {
-    structure: getAvailableStructureTypes(mockConfig).map(option => option.type),
+    structure: getAvailableStructureTypes(mockConfig, techProgression.chassis).map(option => option.type),
     gyro: getGyroOptions(techProgression.gyro),
-    engine: getAvailableEngineTypes(mockConfig).map(option => option.type),
+    engine: getAvailableEngineTypes(mockConfig, techProgression.engine).map(option => option.type),
     heatSink: getHeatSinkOptions(techProgression.heatsink),
     enhancement: getEnhancementOptions(techProgression.myomer),
-    armor: getAvailableArmorTypes(mockConfig).map(option => option.type),
+    armor: getAvailableArmorTypes(mockConfig, techProgression.armor).map(option => option.type),
     jumpJet: getJumpJetOptions(techProgression.movement)
   }
 }

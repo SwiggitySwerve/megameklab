@@ -40,21 +40,21 @@ export interface UnitConfiguration {
   
   // Jump jets
   jumpMP: number;
-  jumpJetType: JumpJetType;
+  jumpJetType: ComponentConfiguration;
   jumpJetCounts: Partial<Record<JumpJetType, number>>;
   hasPartialWing: boolean;
   
   // System components
-  gyroType: GyroType;
-  structureType: StructureType;
-  armorType: ArmorType;
+  gyroType: ComponentConfiguration;
+  structureType: ComponentConfiguration;
+  armorType: ComponentConfiguration;
   
   // Armor allocation - Single Source of Truth approach
   armorAllocation: ArmorAllocation;
   armorTonnage: number;
   
   // Heat management
-  heatSinkType: HeatSinkType;
+  heatSinkType: ComponentConfiguration;
   totalHeatSinks: number;
   internalHeatSinks: number;
   externalHeatSinks: number;
@@ -433,9 +433,9 @@ export class UnitConfigurationService {
       engineRating: tonnage * walkMP,
       runMP: Math.floor(walkMP * 1.5),
       engineType: legacy.engineType,
-      gyroType: legacy.gyroType,
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: legacy.gyroType, techBase: 'Inner Sphere' },
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       // Default armor allocation (minimal)
       armorAllocation: {
         HD: { front: 9, rear: 0 },
@@ -448,13 +448,13 @@ export class UnitConfigurationService {
         RL: { front: 15, rear: 0 }
       },
       armorTonnage: 0, // Will be calculated
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
       // Jump jet defaults
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: tonnage // Legacy compatibility
@@ -470,9 +470,9 @@ export class UnitConfigurationService {
       engineRating: 200,
       runMP: 6,
       engineType: 'Standard',
-      gyroType: 'Standard',
-      structureType: 'Standard',
-      armorType: 'Standard',
+      gyroType: { type: 'Standard', techBase: 'Inner Sphere' },
+      structureType: { type: 'Standard', techBase: 'Inner Sphere' },
+      armorType: { type: 'Standard', techBase: 'Inner Sphere' },
       // Default armor allocation (reasonable distribution)
       armorAllocation: {
         HD: { front: 9, rear: 0 },
@@ -485,7 +485,7 @@ export class UnitConfigurationService {
         RL: { front: 30, rear: 0 }
       },
       armorTonnage: 0, // User input
-      heatSinkType: 'Single',
+      heatSinkType: { type: 'Single', techBase: 'Inner Sphere' },
       totalHeatSinks: 10,
       internalHeatSinks: 0,
       externalHeatSinks: 0,
@@ -493,7 +493,7 @@ export class UnitConfigurationService {
       enhancements: [],
       // Jump jet defaults
       jumpMP: 0,
-      jumpJetType: 'Standard Jump Jet',
+      jumpJetType: { type: 'Standard Jump Jet', techBase: 'Inner Sphere' },
       jumpJetCounts: {},
       hasPartialWing: false,
       mass: 50
@@ -534,18 +534,18 @@ export class UnitConfigurationService {
     };
   }
   
-  private getArmorEfficiency(armorType: ArmorType): number {
-    const armorPointsPerTon: Record<ArmorType, number> = {
+  private getArmorEfficiency(armorType: ComponentConfiguration): number {
+    const armorPointsPerTon: Record<string, number> = {
       'Standard': 16,
-          // Import from centralized constants
-    ...require('../../constants/BattleTechConstructionRules').ARMOR_POINTS_PER_TON,
+      // Import from centralized constants
+      ...require('../../constants/BattleTechConstructionRules').ARMOR_POINTS_PER_TON,
       'Stealth': 16,
       'Reactive': 16,
       'Reflective': 16,
       'Hardened': 8
     };
     
-    return armorPointsPerTon[armorType] || 16;
+    return armorPointsPerTon[armorType.type] || 16;
   }
   
   private getMaxArmorPointsForLocation(location: string, tonnage: number): number {
@@ -630,34 +630,29 @@ export class UnitConfigurationService {
   }
   
   private validateJumpJets(config: UnitConfiguration, result: ConfigurationValidationResult): void {
-    if (config.jumpMP > config.walkMP) {
-      result.warnings.push('Jump MP typically should not exceed Walk MP');
+    if (config.jumpMP > 0 && !config.jumpJetType) {
+      result.errors.push('Jump MP specified but no jump jet type configured');
     }
     
-    if (config.jumpMP > 8) {
-      result.warnings.push('Jump MP over 8 is extremely rare');
+    if (config.jumpMP > config.walkMP) {
+      result.warnings.push('Jump MP should not exceed walk MP');
     }
   }
   
   private validateTechBaseConsistency(config: UnitConfiguration, result: ConfigurationValidationResult): void {
-    // Check for tech base consistency with type-safe validation
-    const clanEngineTypes: EngineType[] = ['Clan XL', 'Clan Light'];
-    const clanStructureTypes: StructureType[] = ['Endo Steel (Clan)'];
-    const clanArmorTypes: ArmorType[] = ['Ferro-Fibrous (Clan)'];
-    const clanHeatSinkTypes: HeatSinkType[] = ['Double (Clan)'];
+    const components = [
+      { name: 'gyro', config: config.gyroType },
+      { name: 'structure', config: config.structureType },
+      { name: 'armor', config: config.armorType },
+      { name: 'heatSink', config: config.heatSinkType },
+      { name: 'jumpJet', config: config.jumpJetType }
+    ];
     
-    const clanTech = clanEngineTypes.includes(config.engineType) ||
-                    clanStructureTypes.includes(config.structureType) ||
-                    clanArmorTypes.includes(config.armorType) ||
-                    clanHeatSinkTypes.includes(config.heatSinkType);
-    
-    if (clanTech && config.techBase !== 'Clan') {
-      result.warnings.push('Unit uses Clan technology but tech base is Inner Sphere');
-    }
-    
-    if (!clanTech && config.techBase === 'Clan') {
-      result.warnings.push('Unit tech base is Clan but no Clan technology detected');
-    }
+    components.forEach(({ name, config: componentConfig }) => {
+      if (componentConfig.techBase !== config.techBase) {
+        result.warnings.push(`${name} tech base (${componentConfig.techBase}) doesn't match unit tech base (${config.techBase})`);
+      }
+    });
   }
 }
 

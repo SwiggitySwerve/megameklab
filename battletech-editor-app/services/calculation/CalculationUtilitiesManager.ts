@@ -5,6 +5,7 @@
 
 import { UnitConfiguration } from '../../utils/criticalSlots/UnitCriticalManager';
 import { calculateInternalHeatSinks } from '../../utils/heatSinkCalculations';
+import { ComponentConfiguration } from '../../types/componentConfiguration';
 
 export interface CalculationResult {
   value: number;
@@ -675,11 +676,9 @@ export class CalculationUtilitiesManager {
   }
 
   /**
-   * Extract component type (stub for test compatibility)
+   * Extract component type from ComponentConfiguration
    */
-  extractComponentType(component: any): string {
-    if (!component) return 'Unknown';
-    if (typeof component === 'string') return component;
+  extractComponentType(component: ComponentConfiguration): string {
     return component.type || 'Unknown';
   }
 

@@ -10,6 +10,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { getComponentType } from '../../utils/componentTypeUtils';
 
 // Mock the MultiUnitProvider and related components
 const MockMultiUnitProvider = ({ children }: { children: React.ReactNode }) => {
@@ -168,7 +169,7 @@ const MockUnitBasicInfo = ({ unit }: { unit: any }) => {
   return React.createElement('div', { 'data-testid': 'unit-basic-info' },
     React.createElement('h3', {}, `${config.chassis} ${config.model}`),
     React.createElement('p', {}, `Tonnage: ${config.tonnage}`),
-    React.createElement('p', {}, `Engine: ${config.engineType}`)
+    React.createElement('p', {}, `Engine: ${getComponentType(config.engineType)}`)
   )
 }
 

@@ -13,6 +13,7 @@ import {
   clearMemoryStorage 
 } from '../../utils/memoryPersistence';
 import { createDefaultMemory } from '../../utils/techBaseMemory';
+import { getComponentType } from '../../utils/componentTypeUtils';
 
 // Mock localStorage
 const mockStorage: Record<string, string> = {};
@@ -159,8 +160,8 @@ const MockStructureTabFocused = () => {
       {/* Config Debug */}
       <div data-testid="config-debug">
         <h4>Config Debug</h4>
-        <div data-testid="structure-config-debug">Structure Config: {JSON.stringify(config.structureType)}</div>
-        <div data-testid="gyro-config-debug">Gyro Config: {JSON.stringify(config.gyroType)}</div>
+        <div data-testid="structure-config-debug">Structure Config: {getComponentType(config.structureType)}</div>
+        <div data-testid="gyro-config-debug">Gyro Config: {getComponentType(config.gyroType)}</div>
       </div>
     </div>
   );

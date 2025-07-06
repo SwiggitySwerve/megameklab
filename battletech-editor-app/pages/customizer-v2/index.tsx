@@ -25,6 +25,9 @@ import { EquipmentTabV2 } from '../../components/editor/tabs/EquipmentTabV2';
 import { CriticalsTabV2 } from '../../components/editor/tabs/CriticalsTabV2';
 import { FluffTabV2 } from '../../components/editor/tabs/FluffTabV2';
 
+// Import reset functionality
+import { ResetConfirmationDialog } from '../../components/common/ResetConfirmationDialog';
+
 // Inner component that uses the V2 data model with V1 UI design
 function CustomizerV2Content() {
   const { unit, unitVersion } = useUnit();
@@ -32,6 +35,7 @@ function CustomizerV2Content() {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [isEquipmentTrayExpanded, setIsEquipmentTrayExpanded] = useState(false);
   const [isDebugVisible, setIsDebugVisible] = useState(false);
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
 
   // Get the current unit configuration directly from the unit
   const unitConfig = useMemo(() => unit.getConfiguration(), [unit, unitVersion]);
@@ -65,7 +69,15 @@ function CustomizerV2Content() {
     setActiveTab(initialTab);
   }, [router.query.tab]);
 
-  const handleTabChange = (tabId: string) => {
+  // Save active tab to localStorage when it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('customizer-v2-active-tab', activeTab);
+    }
+  }, [activeTab]);
+
+  // Handle tab change with URL update
+  const handleTabChange = useCallback((tabId: string) => {
     setActiveTab(tabId);
     
     // Update URL query parameter
@@ -74,162 +86,51 @@ function CustomizerV2Content() {
       pathname: router.pathname,
       query: newQuery
     }, undefined, { shallow: true });
-    
-    // Also save to localStorage as backup
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('customizer-v2-active-tab', tabId);
+  }, [router]);
+
+  // Handle reset completion
+  const handleResetComplete = useCallback((success: boolean) => {
+    if (success) {
+      console.log('[CustomizerV2Content] Reset completed successfully');
+      // Optionally show a success notification or redirect
+    } else {
+      console.error('[CustomizerV2Content] Reset failed');
+      // Optionally show an error notification
     }
-  };
+  }, []);
 
-  // Debug: Log all equipment on the unit (allocated and unallocated)
-  useEffect(() => {
-    const sections = unit.getAllSections();
-    const allocatedEquipment: Array<{ location: string; name: string; weight: number; heat: number }> = [];
-    sections.forEach(section => {
-      const sectionEquipment = section.getAllEquipment();
-      sectionEquipment.forEach(equipment => {
-        allocatedEquipment.push({
-          location: section.getLocation?.() || section.location || 'Unknown',
-          name: equipment.equipmentData?.name || 'Unknown',
-          weight: equipment.equipmentData?.weight || 0,
-          heat: equipment.equipmentData?.heat || 0
-        });
-      });
-    });
-
-    const unallocatedEquipmentList = unallocatedEquipment.map(eq => ({
-      name: eq.equipmentData?.name || 'Unknown',
-      weight: eq.equipmentData?.weight || 0,
-      heat: eq.equipmentData?.heat || 0
-    }));
-
-    console.log('[EQUIPMENT_DEBUG] Allocated Equipment:', allocatedEquipment);
-    console.log('[EQUIPMENT_DEBUG] Unallocated Equipment:', unallocatedEquipmentList);
-  }, [unit, unallocatedEquipment, unitVersion]);
-
-  // Calculate current weight including all equipment (allocated and unallocated)
-  const calculateCurrentWeight = useCallback((): number => {
-    const baseWeight = unit.getUsedTonnage(); // System components only
-    
-    // Add allocated equipment weight
-    let allocatedWeight = 0;
-    const sections = unit.getAllSections();
-    sections.forEach(section => {
-      const sectionEquipment = section.getAllEquipment();
-      sectionEquipment.forEach(equipment => {
-        allocatedWeight += equipment.equipmentData?.weight || 0;
-      });
-    });
-    
-    // Add unallocated equipment weight
-    const unallocatedWeight = unallocatedEquipment.reduce((total, equipment) => {
-      return total + (equipment.equipmentData?.weight || 0);
-    }, 0);
-    
-    const totalWeight = baseWeight + allocatedWeight + unallocatedWeight;
-    
-    // Debug logging
-    console.log('[TopBar] Weight Calculation:', {
-      baseWeight: baseWeight.toFixed(1),
-      allocatedWeight: allocatedWeight.toFixed(1),
-      unallocatedWeight: unallocatedWeight.toFixed(1),
-      totalWeight: totalWeight.toFixed(1),
-      unitTonnage: unitConfig.tonnage
-    });
-    
-    return totalWeight;
-  }, [unit, unallocatedEquipment, unitVersion]);
-
-  // Calculate heat balance including all equipment heat generation
-  const calculateHeatBalance = useCallback((): { generated: number; dissipated: number } => {
-    // Base heat generation from unit (system components)
-    let generated = unit.getHeatGeneration();
-    
-    // Add heat from allocated equipment
-    const sections = unit.getAllSections();
-    sections.forEach(section => {
-      const sectionEquipment = section.getAllEquipment();
-      sectionEquipment.forEach(equipment => {
-        generated += equipment.equipmentData?.heat || 0;
-      });
-    });
-    
-    // Add heat from unallocated equipment
-    unallocatedEquipment.forEach(equipment => {
-      generated += equipment.equipmentData?.heat || 0;
-    });
-    
-    const dissipated = unit.getHeatDissipation();
-    
-    // Debug logging
-    console.log('[TopBar] Heat Calculation:', {
-      baseHeat: unit.getHeatGeneration(),
-      allocatedHeat: sections.reduce((sum, section) => 
-        sum + section.getAllEquipment().reduce((s, eq) => s + (eq.equipmentData?.heat || 0), 0), 0),
-      unallocatedHeat: unallocatedEquipment.reduce((sum, eq) => sum + (eq.equipmentData?.heat || 0), 0),
-      totalGenerated: generated,
-      dissipated
-    });
-    
-    return {
-      generated,
-      dissipated
-    };
-  }, [unit, unallocatedEquipment, unitVersion]);
-
-  // Calculate critical slots using unit's breakdown method
-  const calculateCriticalSlots = useCallback((): { total: number; used: number; available: number } => {
-    const breakdown = unit.getCriticalSlotBreakdown();
-    
-    return {
-      total: breakdown.totals.capacity,
-      used: breakdown.totals.used,
-      available: breakdown.totals.remaining
-    };
-  }, [unit, unitVersion]);
-
-  // Calculate movement using unit configuration and enhancements
-  const calculateMovement = useCallback((): { walk: number; run: number; jump: number; display: string } => {
-    const config = unit.getConfiguration();
-    const movement = formatCondensedMovement(config, config.tonnage);
-    
-    // Parse the movement display to get individual values
-    const parts = movement.split(' / ');
-    const walkPart = parts[0];
-    const runPart = parts[1];
-    const jumpPart = parts[2];
-    
-    // Extract base and enhanced values
-    const walkMatch = walkPart.match(/(\d+)(?:\s*\[(\d+)\])?/);
-    const runMatch = runPart.match(/(\d+)(?:\s*\[(\d+)\])?/);
-    const jumpMatch = jumpPart.match(/(\d+)/);
-    
-    const walk = walkMatch ? parseInt(walkMatch[2] || walkMatch[1]) : config.walkMP;
-    const run = runMatch ? parseInt(runMatch[2] || runMatch[1]) : config.runMP;
-    const jump = jumpMatch ? parseInt(jumpMatch[1]) : config.jumpMP;
-    
-    return {
-      walk,
-      run,
-      jump,
-      display: movement
-    };
-  }, [unit, unitVersion]);
-
-  // Memoize the calculated values to prevent unnecessary recalculations
-  const currentWeight = useMemo(() => calculateCurrentWeight(), [calculateCurrentWeight]);
-  const heatBalance = useMemo(() => calculateHeatBalance(), [calculateHeatBalance]);
-  const criticalSlots = useMemo(() => calculateCriticalSlots(), [calculateCriticalSlots]);
-  const movement = useMemo(() => calculateMovement(), [calculateMovement]);
-
-  // Tab configuration - Overview is now the first tab
+  // Tab definitions
   const tabs = useMemo(() => [
-    { id: 'overview', label: 'Overview', component: OverviewTabV2 },
-    { id: 'structure', label: 'Structure', component: StructureTabV2 },
-    { id: 'armor', label: 'Armor', component: ArmorTabV2 },
-    { id: 'equipment', label: 'Equipment', component: EquipmentTabV2 },
-    { id: 'criticals', label: 'Criticals', component: CriticalsTabV2 },
-    { id: 'fluff', label: 'Fluff', component: FluffTabV2 },
+    {
+      id: 'overview',
+      label: 'Overview',
+      component: OverviewTabV2
+    },
+    {
+      id: 'structure',
+      label: 'Structure',
+      component: StructureTabV2
+    },
+    {
+      id: 'armor',
+      label: 'Armor',
+      component: ArmorTabV2
+    },
+    {
+      id: 'equipment',
+      label: 'Equipment',
+      component: EquipmentTabV2
+    },
+    {
+      id: 'criticals',
+      label: 'Criticals',
+      component: CriticalsTabV2
+    },
+    {
+      id: 'fluff',
+      label: 'Fluff',
+      component: FluffTabV2
+    }
   ], []);
 
   // Memoize the active tab component to prevent unnecessary re-renders
@@ -259,44 +160,41 @@ function CustomizerV2Content() {
           </div>
 
           {/* Center: Statistics Grid */}
-          <div className="grid grid-cols-6 gap-4 text-sm">
-            {/* Weight */}
-            <div className="flex flex-col items-center text-center">
-              <span className="text-slate-400 text-xs mb-1">Weight</span>
-              <span className={`font-medium ${currentWeight > unitConfig.tonnage ? 'text-red-400' : 'text-slate-200'
-                }`}>
-                {currentWeight.toFixed(1)} / {unitConfig.tonnage}
-              </span>
-              <span className="text-slate-500 text-xs">tons</span>
-            </div>
-
-            {/* Heat */}
-            <div className="flex flex-col items-center text-center">
-              <span className="text-slate-400 text-xs mb-1">Heat</span>
-              <span className={`font-medium ${heatBalance.generated > heatBalance.dissipated ? 'text-orange-400' : 'text-green-400'
-                }`}>
-                {heatBalance.generated} / {heatBalance.dissipated}
-              </span>
-              <span className="text-slate-500 text-xs">gen / sink</span>
-            </div>
-
+          <div className="flex items-center space-x-8">
             {/* Movement */}
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Movement</span>
               <span className="font-medium text-slate-200">
-                {movement.display}
+                {formatCondensedMovement(unitConfig, unitConfig.tonnage)}
               </span>
-              <span className="text-slate-500 text-xs">walk / run / jump</span>
+              <span className="text-slate-500 text-xs">MP</span>
             </div>
 
-            {/* Critical Slots */}
+            {/* Weight */}
             <div className="flex flex-col items-center text-center">
-              <span className="text-slate-400 text-xs mb-1">Crits</span>
-              <span className={`font-medium ${criticalSlots.used > criticalSlots.total ? 'text-red-400' : 'text-slate-200'
-                }`}>
-                {criticalSlots.used} / {criticalSlots.total}
+              <span className="text-slate-400 text-xs mb-1">Weight</span>
+              <span className="font-medium text-slate-200">
+                {unitConfig.tonnage}
               </span>
-              <span className="text-slate-500 text-xs">used / total</span>
+              <span className="text-slate-500 text-xs">tons</span>
+            </div>
+
+            {/* Heat Sinks */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Heat</span>
+              <span className="font-medium text-slate-200">
+                {unitConfig.totalHeatSinks || 10}
+              </span>
+              <span className="text-slate-500 text-xs">sinks</span>
+            </div>
+
+            {/* Armor */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Armor</span>
+              <span className="font-medium text-slate-200">
+                {unitConfig.armorTonnage ? Math.floor(unitConfig.armorTonnage * 16) : 0}
+              </span>
+              <span className="text-slate-500 text-xs">points</span>
             </div>
 
             {/* Rules Level */}
@@ -318,14 +216,27 @@ function CustomizerV2Content() {
             </div>
           </div>
 
-          {/* Right: Debug Button */}
-          <button
-            onClick={() => setIsDebugVisible(!isDebugVisible)}
-            className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
-            title="Toggle Debug Panel"
-          >
-            Debug
-          </button>
+          {/* Right: Action Buttons */}
+          <div className="flex items-center space-x-2">
+            {/* Reset Button */}
+            <button
+              onClick={() => setIsResetDialogOpen(true)}
+              className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded transition-colors flex items-center"
+              title="Reset Customizer"
+            >
+              <span className="mr-1">🔄</span>
+              Reset
+            </button>
+
+            {/* Debug Button */}
+            <button
+              onClick={() => setIsDebugVisible(!isDebugVisible)}
+              className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
+              title="Toggle Debug Panel"
+            >
+              Debug
+            </button>
+          </div>
         </div>
       </div>
 
@@ -355,22 +266,17 @@ function CustomizerV2Content() {
 
       {/* Conditional Debug Panel */}
       {isDebugVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-slate-800 rounded-lg p-4 max-w-4xl max-h-[80vh] overflow-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-slate-100 font-semibold">Debug Panel</h3>
-              <button
-                onClick={() => setIsDebugVisible(false)}
-                className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-200 rounded transition-colors"
-              >
-                Close
-              </button>
-            </div>
-            <EquipmentAllocationDebugPanel />
-          </div>
+        <div className="fixed bottom-4 right-4 w-96 h-64 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+          <EquipmentAllocationDebugPanel />
         </div>
       )}
 
+      {/* Reset Confirmation Dialog */}
+      <ResetConfirmationDialog
+        isOpen={isResetDialogOpen}
+        onClose={() => setIsResetDialogOpen(false)}
+        onResetComplete={handleResetComplete}
+      />
     </div>
   );
 }

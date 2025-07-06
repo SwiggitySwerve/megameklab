@@ -30,7 +30,6 @@ import * as fs from 'fs/promises';
 import * as os from 'os';
 
 // Import our service layer
-import { ServiceOrchestrator } from '../services/integration/ServiceOrchestrator';
 import { LocalStorageService } from '../services/local/LocalStorageService';
 import { BackupService } from '../services/local/BackupService';
 
@@ -58,7 +57,6 @@ interface IDesktopAppConfig {
 class BattleTechEditorApp {
   private mainWindow: BrowserWindow | null = null;
   private tray: Tray | null = null;
-  private serviceOrchestrator: ServiceOrchestrator | null = null;
   private localStorage: LocalStorageService | null = null;
   private backupService: BackupService | null = null;
   
@@ -275,14 +273,7 @@ class BattleTechEditorApp {
         await this.backupService.initialize();
       }
 
-      // Initialize service orchestrator
-      this.serviceOrchestrator = new ServiceOrchestrator({
-        enableRealTimeUpdates: true,
-        enableAutoCalculation: true,
-        enableAutoValidation: true,
-        enableCaching: true
-      });
-      await this.serviceOrchestrator.initialize();
+      // Service orchestrator removed - not implemented yet
 
       console.log('✅ Services initialized successfully');
     } catch (error) {
@@ -443,53 +434,10 @@ class BattleTechEditorApp {
   private setupIpcHandlers(): void {
     console.log('📡 Setting up IPC handlers...');
 
-    // Service orchestrator communication
-    ipcMain.handle('service-call', async (event, method: string, ...args: any[]) => {
-      try {
-        if (!this.serviceOrchestrator) {
-          throw new Error('Service orchestrator not initialized');
-        }
-
-        // Type-safe service method calls
-        const orchestrator = this.serviceOrchestrator;
-        let result: any;
-
-        // Define allowed service methods for type safety
-        switch (method) {
-          case 'loadUnit':
-            result = await orchestrator.loadUnit(args[0]);
-            break;
-          case 'saveUnit':
-            result = await orchestrator.saveUnit(args[0]);
-            break;
-          case 'addEquipment':
-            result = await orchestrator.addEquipment(args[0], args[1], args[2]);
-            break;
-          case 'removeEquipment':
-            result = await orchestrator.removeEquipment(args[0], args[1]);
-            break;
-          case 'validateUnit':
-            result = await orchestrator.validateUnit(args[0]);
-            break;
-          case 'calculateWeight':
-            result = await orchestrator.calculateWeight(args[0]);
-            break;
-          case 'calculateHeat':
-            result = await orchestrator.calculateHeat(args[0]);
-            break;
-          default:
-            throw new Error(`Unknown service method: ${method}`);
-        }
-
-        return { success: true, data: result };
-      } catch (error) {
-        console.error(`Service call failed (${method}):`, error);
-        return { 
-          success: false, 
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        };
-      }
-    });
+    // Service orchestrator communication - disabled until implemented
+    // ipcMain.handle('service-call', async (event, method: string, ...args: any[]) => {
+    //   // Service orchestrator not implemented yet
+    // });
 
     // File operations
     ipcMain.handle('save-file', async (event, defaultPath: string, filters: any[]) => {
@@ -575,16 +523,16 @@ class BattleTechEditorApp {
   private setupPeriodicTasks(): void {
     console.log('⏰ Setting up periodic tasks...');
 
-    // Auto-save
-    setInterval(async () => {
-      if (this.serviceOrchestrator) {
-        try {
-          await this.sendToRenderer('auto-save-trigger');
-        } catch (error) {
-          console.error('Auto-save trigger failed:', error);
-        }
-      }
-    }, this.config.autoSaveInterval);
+    // Auto-save - disabled until service orchestrator is implemented
+    // setInterval(async () => {
+    //   if (this.serviceOrchestrator) {
+    //     try {
+    //       await this.sendToRenderer('auto-save-trigger');
+    //     } catch (error) {
+    //       console.error('Auto-save trigger failed:', error);
+    //     }
+    //   }
+    // }, this.config.autoSaveInterval);
 
     // Auto-backup
     if (this.config.enableBackups) {

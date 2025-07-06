@@ -13,6 +13,7 @@ import {
   clearMemoryStorage 
 } from '../../utils/memoryPersistence';
 import { createDefaultMemory } from '../../utils/techBaseMemory';
+import { getComponentType } from '../../utils/componentTypeUtils';
 
 // Mock localStorage
 const mockStorage: Record<string, string> = {};
@@ -167,11 +168,11 @@ const MockAllTabsWithDropdowns = () => {
       <div data-testid="config-display">
         <h4>Current Config</h4>
         <div data-testid="engine-config">Engine: {config.engineType}</div>
-        <div data-testid="structure-config">Structure: {config.structureType}</div>
-        <div data-testid="gyro-config">Gyro: {config.gyroType}</div>
-        <div data-testid="heatsink-config">HeatSink: {config.heatSinkType}</div>
+        <div data-testid="structure-config">Structure: {getComponentType(config.structureType)}</div>
+        <div data-testid="gyro-config">Gyro: {getComponentType(config.gyroType)}</div>
+        <div data-testid="heatsink-config">HeatSink: {getComponentType(config.heatSinkType)}</div>
         <div data-testid="enhancement-config">Enhancement: {config.enhancements.join(', ')}</div>
-        <div data-testid="armor-config">Armor: {config.armorType}</div>
+        <div data-testid="armor-config">Armor: {getComponentType(config.armorType)}</div>
       </div>
     </div>
   );

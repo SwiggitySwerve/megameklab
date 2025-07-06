@@ -222,7 +222,7 @@ export function SingleUnitProvider({
     // Unit data (fresh from unit each render)
     unit,
     engineType: unit?.getEngineType() || null,
-    gyroType: unit?.getGyroType() || null,
+    gyroType: (unit?.getGyroType() as GyroType) || null,
     unallocatedEquipment: unit?.getUnallocatedEquipment() || [],
     validation: stateManager?.getUnitSummary().validation || null,
     summary: stateManager?.getUnitSummary().summary || null,

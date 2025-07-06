@@ -80,12 +80,10 @@ export class SystemComponentServiceImpl implements SystemComponentService {
   // ===== HELPER METHODS =====
   
   /**
-   * Extract type string from ComponentConfiguration or return string as-is
+   * Extract type string from ComponentConfiguration
+   * @deprecated Use component.type directly instead
    */
-  private static extractComponentType(component: ComponentConfiguration | string): string {
-    if (typeof component === 'string') {
-      return component; // Legacy compatibility
-    }
+  private static extractComponentType(component: ComponentConfiguration): string {
     return component.type;
   }
 

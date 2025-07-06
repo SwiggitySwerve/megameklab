@@ -170,9 +170,8 @@ export class StructureRulesValidator {
   /**
    * Extract component type from configuration
    */
-  private static extractComponentType(component: ComponentConfiguration | string | undefined): string {
+  private static extractComponentType(component: ComponentConfiguration | undefined): string {
     if (!component) return 'Standard'; // Default fallback
-    if (typeof component === 'string') return component;
     return component.type;
   }
   
