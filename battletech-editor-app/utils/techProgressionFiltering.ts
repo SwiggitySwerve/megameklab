@@ -7,7 +7,9 @@ import { TechProgression } from './techProgression'
 import { 
   getAvailableStructureTypes, 
   getAvailableArmorTypes, 
-  getAvailableEngineTypes 
+  getAvailableEngineTypes, 
+  getAvailableGyroTypes,
+  getAvailableHeatSinkTypes
 } from './componentOptionFiltering';
 import { ComponentConfiguration } from '../types/componentConfiguration';
 
@@ -91,9 +93,9 @@ export function getFilteredComponentOptions(techProgression: TechProgression, co
 
   return {
     structure: getAvailableStructureTypes(mockConfig, techProgression.chassis).map(option => option.type),
-    gyro: getGyroOptions(techProgression.gyro),
+    gyro: getAvailableGyroTypes(mockConfig, techProgression.gyro).map(option => option.type),
     engine: getAvailableEngineTypes(mockConfig, techProgression.engine).map(option => option.type),
-    heatSink: getHeatSinkOptions(techProgression.heatsink),
+    heatSink: getAvailableHeatSinkTypes(mockConfig, techProgression.heatsink).map(option => option.type),
     enhancement: getEnhancementOptions(techProgression.myomer),
     armor: getAvailableArmorTypes(mockConfig, techProgression.armor).map(option => option.type),
     jumpJet: getJumpJetOptions(techProgression.movement)

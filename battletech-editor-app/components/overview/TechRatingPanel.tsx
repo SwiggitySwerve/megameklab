@@ -13,7 +13,7 @@ import { TECH_ERAS } from '../../utils/techRating'
 import { TechRating } from '../../utils/techProgression'
 
 interface TechRatingPanelProps {
-  techRating: TechRating
+  techRating?: TechRating
   introductionYear: number
 }
 
@@ -31,6 +31,25 @@ export const TechRatingPanel: React.FC<TechRatingPanelProps> = ({
   techRating,
   introductionYear
 }) => {
+  
+  // Add null checks and default values with correct property names
+  const safeTechRating: TechRating = techRating || {
+    era2100_2800: 'X',
+    era2801_3050: 'D',
+    era3051_3082: 'E',
+    era3083_Now: 'F'
+  }
+  
+  // Map era keys to TechRating property names
+  const getRatingForEra = (era: string): string => {
+    switch (era) {
+      case '2100-2800': return safeTechRating.era2100_2800
+      case '2801-3050': return safeTechRating.era2801_3050
+      case '3051-3082': return safeTechRating.era3051_3082
+      case '3083-Now': return safeTechRating.era3083_Now
+      default: return 'X'
+    }
+  }
   
   // Rating color scheme
   const getRatingColor = (rating: string) => {
@@ -55,7 +74,7 @@ export const TechRatingPanel: React.FC<TechRatingPanelProps> = ({
       
       <div className="space-y-3">
         {Object.entries(TECH_ERAS).map(([era, info]) => {
-          const rating = techRating[era as keyof TechRating]
+          const rating = getRatingForEra(era)
           const isCurrentEra = introductionYear >= info.start && introductionYear <= info.end
           
           return (

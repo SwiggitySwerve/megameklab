@@ -77,7 +77,7 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
         armor: 'Inner Sphere'
       }
     }
-  }, [unit, renderKey])
+  }, [unit, renderKey, unit?.getConfiguration()])
 
   // Memoize property map to prevent recreation on every render
   const propertyMap = useMemo(() => ({
@@ -126,10 +126,20 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
 
   // Handle configuration updates with auto-calculation
   const handleConfigUpdate = useCallback((updates: any) => {
-    console.log('[OverviewTab] Updating configuration:', updates)
-    const newConfig = { ...enhancedConfig, ...updates }
+    if (readOnly) {
+      return
+    }
+    
+    // Get current configuration directly from unit to avoid stale closure
+    const currentConfig = unit?.getConfiguration()
+    if (!currentConfig) {
+      console.error('[OverviewTab] No current configuration available')
+      return
+    }
+    
+    const newConfig = { ...currentConfig, ...updates }
     updateConfiguration(newConfig)
-  }, [enhancedConfig, updateConfiguration])
+  }, [unit, updateConfiguration, readOnly])
 
   // Memory restoration function
   const applyMemoryRestoration = useCallback((config: any, memoryState: ComponentMemoryState): any => {
@@ -393,14 +403,6 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
   // Fix: isMixed should be true if master tech base is Mixed
   const isMixed = enhancedConfig.techBase === 'Mixed' as const
 
-  // Debug log for isMixed and techProgression
-  console.log('[OverviewTabV2] isMixed:', isMixed, 'techProgression:', enhancedConfig.techProgression)
-
-  console.log('[DEBUG] Render OverviewTabV2', {
-    techBase: enhancedConfig.techBase,
-    techProgression: enhancedConfig.techProgression
-  })
-
   return (
     <div className="h-full flex flex-col">
       {/* Header with unit info - Fixed */}
@@ -434,16 +436,26 @@ export const OverviewTabV2: React.FC<OverviewTabV2Props> = ({ readOnly = false }
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Introduction Year
+                  Introduction Year {readOnly && <span className="text-red-400">(READ ONLY)</span>}
                 </label>
                 <input
                   type="number"
                   value={enhancedConfig.introductionYear || 3025}
-                  onChange={(e) => handleConfigUpdate({ introductionYear: parseInt(e.target.value) || 3025 })}
+                  onChange={(e) => {
+                    handleConfigUpdate({ introductionYear: parseInt(e.target.value) || 3025 })
+                  }}
                   disabled={readOnly}
-                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                  className={`w-full px-3 py-2 border rounded-md text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    readOnly 
+                      ? 'bg-slate-600 border-slate-500 opacity-50 cursor-not-allowed' 
+                      : 'bg-slate-700 border-slate-600'
+                  }`}
                   min="2500"
                   max="3150"
+                  style={{ 
+                    color: readOnly ? '#94a3b8' : '#f1f5f9',
+                    backgroundColor: readOnly ? '#475569' : '#374151'
+                  }}
                 />
               </div>
               <div>

@@ -14,7 +14,8 @@ import {
   ComponentCategory, 
   createComponentConfiguration,
   migrateStringToComponentConfiguration,
-  getComponentTypeNames
+  getComponentTypeNames,
+  getComponentDefinition
 } from '../../types/componentConfiguration'
 
 // Import types and builder from extracted files
@@ -301,22 +302,16 @@ export class UnitCriticalManager {
    * Get critical slot requirements for armor type
    */
   private getArmorCriticalSlots(armorType: ArmorType): number {
-    return this.armorManagementManager.getArmorCriticalSlots(armorType)
+    const def = getComponentDefinition('armor', armorType);
+    return def?.slots ?? 0;
   }
 
   /**
    * Get critical slot requirements for structure type
    */
   private getStructureCriticalSlots(structureType: StructureType): number {
-    const structureSlotMap: Record<StructureType, number> = {
-      'Standard': 0,
-      'Endo Steel': 14,
-      'Endo Steel (Clan)': 7,
-      'Composite': 0,
-      'Reinforced': 0,
-      'Industrial': 0
-    }
-    return structureSlotMap[structureType] || 0
+    const def = getComponentDefinition('structure', structureType);
+    return def?.slots ?? 0;
   }
 
   /**
@@ -739,19 +734,32 @@ export class UnitCriticalManager {
   }
 
   /**
-   * Add special component pieces to unallocated equipment
-   * CRITICAL FIX: Ensure absolutely unique group IDs to prevent "lot assignment" bug
+   * Helper: Count assigned slots for a dynamic component (structure/armor)
+   */
+  private countAssignedSlots(type: string, componentType: 'structure' | 'armor'): number {
+    let count = 0;
+    this.sections.forEach(section => {
+      section.getAllEquipment().forEach(eq => {
+        const eqData = eq.equipmentData as SpecialEquipmentObject;
+        if (eqData.name === type && eqData.componentType === componentType) {
+          count++;
+        }
+      });
+    });
+    return count;
+  }
+
+  /**
+   * Add special component pieces to unallocated pool, only for unassigned slots
    */
   private addSpecialComponents(type: StructureType | ArmorType, componentType: 'structure' | 'armor', requiredSlots: number): void {
-    console.log(`[UnitCriticalManager] Adding special components: ${type} (${componentType}) - ${requiredSlots} slots`)
-    const components = this.createSpecialComponentEquipment(type, componentType, requiredSlots)
-    console.log(`[UnitCriticalManager] Created ${components.length} component pieces:`, components)
-    
+    const assigned = this.countAssignedSlots(type, componentType);
+    const unallocatedNeeded = Math.max(0, requiredSlots - assigned);
+    if (unallocatedNeeded === 0) return;
+    const components = this.createSpecialComponentEquipment(type, componentType, unallocatedNeeded);
     components.forEach((component, index) => {
-      // CRITICAL FIX: Generate absolutely unique group IDs using global counter
-      UnitCriticalManager.globalComponentCounter++
-      const uniqueGroupId = `${component.id}_group_${UnitCriticalManager.globalComponentCounter}_${Date.now()}_${index}`
-      
+      UnitCriticalManager.globalComponentCounter++;
+      const uniqueGroupId = `${component.id}_group_${UnitCriticalManager.globalComponentCounter}_${Date.now()}_${index}`;
       const allocation: EquipmentAllocation = {
         equipmentData: component,
         equipmentGroupId: uniqueGroupId,
@@ -759,28 +767,9 @@ export class UnitCriticalManager {
         startSlotIndex: -1,
         endSlotIndex: -1,
         occupiedSlots: []
-      }
-      this.unallocatedEquipment.push(allocation)
-      console.log(`[UnitCriticalManager] Added component to unallocated with unique ID:`, {
-        name: component.name,
-        groupId: uniqueGroupId,
-        componentType: component.componentType
-      })
-    })
-    
-    console.log(`[UnitCriticalManager] Total unallocated equipment count: ${this.unallocatedEquipment.length}`)
-    
-    // CRITICAL DEBUG: Check for duplicate group IDs after adding
-    const groupIds = this.unallocatedEquipment.map(eq => eq.equipmentGroupId)
-    const uniqueGroupIds = new Set(groupIds)
-    if (groupIds.length !== uniqueGroupIds.size) {
-      console.error('[UnitCriticalManager] CRITICAL ERROR: Duplicate group IDs detected after adding special components!')
-      console.error('Total:', groupIds.length, 'Unique:', uniqueGroupIds.size)
-      
-      // Find and log duplicates
-      const duplicates = groupIds.filter((id, index, arr) => arr.indexOf(id) !== index)
-      console.error('Duplicate group IDs:', Array.from(new Set(duplicates)))
-    }
+      };
+      this.unallocatedEquipment.push(allocation);
+    });
   }
 
   /**

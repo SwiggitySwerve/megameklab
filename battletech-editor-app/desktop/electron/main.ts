@@ -55,8 +55,8 @@ interface IDesktopAppConfig {
  * Main application class
  */
 class BattleTechEditorApp {
-  private mainWindow: BrowserWindow | null = null;
-  private tray: Tray | null = null;
+  private mainWindow: typeof BrowserWindow | null = null;
+  private tray: typeof Tray | null = null;
   private localStorage: LocalStorageService | null = null;
   private backupService: BackupService | null = null;
   

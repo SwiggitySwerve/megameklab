@@ -267,6 +267,28 @@ export const COMPONENT_DATABASE: ComponentDatabase = {
         introductionYear: 2439,
         isDefault: true,
         description: "Standard gyroscope"
+      },
+      {
+        name: "XL (Clan)",
+        id: "xl_clan",
+        weightMod: 0.5,
+        criticalSlots: 4,
+        techLevel: "Advanced",
+        rulesLevel: "Advanced",
+        introductionYear: 2824,
+        description: "Clan Extra-Light gyroscope with superior efficiency",
+        gameEffect: "50% weight reduction, 4 critical slots in center torso"
+      },
+      {
+        name: "Compact (Clan)",
+        id: "compact_clan",
+        weightMod: 1.5,
+        criticalSlots: 1,
+        techLevel: "Advanced",
+        rulesLevel: "Advanced",
+        introductionYear: 2824,
+        description: "Clan Compact gyroscope with improved efficiency",
+        gameEffect: "50% weight increase, only 1 critical slot"
       }
     ]
   },
@@ -327,6 +349,18 @@ export const COMPONENT_DATABASE: ComponentDatabase = {
     ],
     "Clan": [
       {
+        name: "Single (Clan)",
+        id: "single_clan",
+        weight: 1.0,
+        criticalSlots: 1,
+        dissipation: 1,
+        techLevel: "Introductory",
+        rulesLevel: "Introductory",
+        introductionYear: 2439,
+        description: "Clan single heat sink with improved efficiency",
+        gameEffect: "1 heat dissipation, 1 critical slot, 1 ton"
+      },
+      {
         name: "Double (Clan)",
         id: "double_clan",
         weight: 1.0,
@@ -338,6 +372,18 @@ export const COMPONENT_DATABASE: ComponentDatabase = {
         isDefault: true,
         description: "Clan double heat sink with superior critical slot efficiency",
         gameEffect: "2 heat dissipation, 2 critical slots, 1 ton"
+      },
+      {
+        name: "Compact (Clan)",
+        id: "compact_clan",
+        weight: 0.5,
+        criticalSlots: 1,
+        dissipation: 1,
+        techLevel: "Advanced",
+        rulesLevel: "Advanced",
+        introductionYear: 2824,
+        description: "Clan compact heat sink with improved efficiency",
+        gameEffect: "1 heat dissipation, 1 critical slot, 0.5 tons"
       }
     ]
   },

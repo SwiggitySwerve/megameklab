@@ -43,6 +43,21 @@ function CustomizerV2Content() {
   // Get unallocated equipment for weight calculations
   const unallocatedEquipment = useMemo(() => unit.getUnallocatedEquipment(), [unit, unitVersion]);
 
+  // Get unit statistics for the top bar
+  const unitStats = useMemo(() => ({
+    usedTonnage: unit.getUsedTonnage(),
+    totalTonnage: unitConfig.tonnage,
+    totalCriticalSlots: unit.getTotalCriticalSlots(),
+    usedCriticalSlots: unit.getTotalUsedCriticalSlots(),
+    remainingCriticalSlots: unit.getRemainingCriticalSlots(),
+    armorPoints: unit.getMaxArmorPoints(),
+    allocatedArmorPoints: unit.getAllocatedArmorPoints(),
+    heatDissipation: unit.getHeatDissipation(),
+    heatGeneration: unit.getHeatGeneration(),
+    isOverweight: unit.isOverweight(),
+    validation: unit.validate()
+  }), [unit, unitVersion, unitConfig.tonnage]);
+
   // Initialize active tab from URL query or localStorage
   useEffect(() => {
     const getInitialTab = () => {
@@ -173,10 +188,19 @@ function CustomizerV2Content() {
             {/* Weight */}
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Weight</span>
-              <span className="font-medium text-slate-200">
-                {unitConfig.tonnage}
+              <span className={`font-medium ${unitStats.isOverweight ? 'text-red-400' : 'text-slate-200'}`}>
+                {unitStats.usedTonnage.toFixed(1)}/{unitStats.totalTonnage}
               </span>
               <span className="text-slate-500 text-xs">tons</span>
+            </div>
+
+            {/* Critical Slots */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Critical</span>
+              <span className="font-medium text-slate-200">
+                {unitStats.usedCriticalSlots}/{unitStats.totalCriticalSlots}
+              </span>
+              <span className="text-slate-500 text-xs">slots</span>
             </div>
 
             {/* Heat Sinks */}
@@ -188,11 +212,20 @@ function CustomizerV2Content() {
               <span className="text-slate-500 text-xs">sinks</span>
             </div>
 
+            {/* Heat Status */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Heat</span>
+              <span className={`font-medium ${unitStats.heatGeneration > unitStats.heatDissipation ? 'text-red-400' : 'text-green-400'}`}>
+                {unitStats.heatGeneration}/{unitStats.heatDissipation}
+              </span>
+              <span className="text-slate-500 text-xs">gen/diss</span>
+            </div>
+
             {/* Armor */}
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Armor</span>
               <span className="font-medium text-slate-200">
-                {unitConfig.armorTonnage ? Math.floor(unitConfig.armorTonnage * 16) : 0}
+                {unitStats.allocatedArmorPoints}/{unitStats.armorPoints}
               </span>
               <span className="text-slate-500 text-xs">points</span>
             </div>
@@ -201,7 +234,7 @@ function CustomizerV2Content() {
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Rules</span>
               <span className="font-medium text-slate-200">
-                Standard
+                {(unitConfig as any).rulesLevel || 'Standard'}
               </span>
               <span className="text-slate-500 text-xs">level</span>
             </div>
@@ -210,14 +243,33 @@ function CustomizerV2Content() {
             <div className="flex flex-col items-center text-center">
               <span className="text-slate-400 text-xs mb-1">Era</span>
               <span className="font-medium text-slate-200">
-                3025
+                {(unitConfig as any).introductionYear || 3025}
               </span>
               <span className="text-slate-500 text-xs">year</span>
+            </div>
+
+            {/* Tech Rating */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-slate-400 text-xs mb-1">Tech</span>
+              <span className="font-medium text-slate-200">
+                {typeof (unitConfig as any).techRating === 'object' 
+                  ? (unitConfig as any).techRating?.era2801_3050 || 'D'
+                  : (unitConfig as any).techRating || 'D'}
+              </span>
+              <span className="text-slate-500 text-xs">rating</span>
             </div>
           </div>
 
           {/* Right: Action Buttons */}
           <div className="flex items-center space-x-2">
+            {/* Validation Status */}
+            <div className="flex items-center mr-4">
+              <div className={`w-2 h-2 rounded-full mr-2 ${unitStats.validation.isValid ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              <span className={`text-xs ${unitStats.validation.isValid ? 'text-green-400' : 'text-red-400'}`}>
+                {unitStats.validation.isValid ? 'Valid' : `${unitStats.validation.errors.length} Errors`}
+              </span>
+            </div>
+
             {/* Reset Button */}
             <button
               onClick={() => setIsResetDialogOpen(true)}

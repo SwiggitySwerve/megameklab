@@ -78,8 +78,8 @@ export function getAvailableEngineTypes(config: UnitConfiguration, overrideTechB
 }
 
 // NEW: Use component database for gyro types
-export function getAvailableGyroTypes(config: UnitConfiguration): ComponentConfiguration[] {
-  const techBase = config.techBase || 'Inner Sphere';
+export function getAvailableGyroTypes(config: UnitConfiguration, overrideTechBase?: TechBase): ComponentConfiguration[] {
+  const techBase = overrideTechBase || config.techBase || 'Inner Sphere';
   const introductionYear = (config as any).introductionYear || 3025;
   
   // Get gyro components from database for the specified tech base
@@ -96,8 +96,8 @@ export function getAvailableGyroTypes(config: UnitConfiguration): ComponentConfi
 }
 
 // PROPER IMPLEMENTATION: Use component database for heat sink types
-export function getAvailableHeatSinkTypes(config: UnitConfiguration): ComponentConfiguration[] {
-  const techBase = config.techBase || 'Inner Sphere';
+export function getAvailableHeatSinkTypes(config: UnitConfiguration, overrideTechBase?: TechBase): ComponentConfiguration[] {
+  const techBase = overrideTechBase || config.techBase || 'Inner Sphere';
   const introductionYear = (config as any).introductionYear || 3025;
   
   // Get heat sink components from database for the specified tech base

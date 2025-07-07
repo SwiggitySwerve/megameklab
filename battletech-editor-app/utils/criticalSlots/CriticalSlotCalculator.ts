@@ -9,6 +9,7 @@
 
 import { UnitConfiguration } from './UnitCriticalManager';
 import { ComponentConfiguration, TechBase } from '../../types/componentConfiguration';
+import { ComponentDatabaseService } from '../../services/ComponentDatabaseService';
 import { SlotCalculationManager, SlotRequirements, AvailableSlots, SlotUtilization } from './SlotCalculationManager';
 import { SlotAllocationManager, AllocationResult, OptimizationResult, SlotConflict, ConflictResolution, ReorganizationSuggestion } from './SlotAllocationManager';
 import { SlotValidationManager, ValidationResult, EfficiencyAnalysis, SlotReport, AvailableSlotLocation, ValidationError, ValidationWarning } from './SlotValidationManager';
@@ -72,6 +73,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   private readonly slotAllocationManager: SlotAllocationManager;
   private readonly slotValidationManager: SlotValidationManager;
   private readonly specialComponentManager: SpecialComponentManager;
+  private readonly componentDatabaseService: ComponentDatabaseService;
 
   // Standard slot counts for different locations
   private readonly STANDARD_SLOT_COUNTS = {
@@ -90,6 +92,7 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
     this.slotAllocationManager = new SlotAllocationManager();
     this.slotValidationManager = new SlotValidationManager();
     this.specialComponentManager = new SpecialComponentManager();
+    this.componentDatabaseService = ComponentDatabaseService.getInstance();
   }
 
   // ===== CORE SLOT CALCULATIONS =====
@@ -789,34 +792,92 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   }
   
   public calculateSystemComponentSlots(config: UnitConfiguration): number {
-    // System components (engine, gyro, cockpit, actuators)
-    const engineSlots = this.getEngineSlots(config.engineType);
-    const gyroSlots = this.getGyroSlots(this.extractComponentType(config.gyroType));
-    const headSlots = 5; // Life Support (2) + Sensors (2) + Cockpit (1)
-    const actuatorSlots = 16; // 4 per arm/leg (8 arms + 8 legs = 16 total)
+    // Use component database for accurate slot calculations
+    const { componentDatabase } = require('../../services/ComponentDatabaseService');
     
-    return engineSlots + gyroSlots + headSlots + actuatorSlots;
+    const engineSlots = componentDatabase.getEngineCriticalSlots(
+      this.getEngineId(config.engineType),
+      this.getGyroId(this.extractComponentType(config.gyroType))
+    );
+    
+    const gyroSlots = componentDatabase.getGyroCriticalSlots(
+      this.getGyroId(this.extractComponentType(config.gyroType))
+    );
+    
+    const totalEngineSlots = engineSlots.centerTorso.length + 
+                           engineSlots.leftTorso.length + 
+                           engineSlots.rightTorso.length;
+    const totalGyroSlots = gyroSlots.centerTorso.length;
+    
+    return totalEngineSlots + totalGyroSlots;
+  }
+  
+  private getEngineId(engineType: string): string {
+    // Map engine type to component database ID
+    const engineMap: Record<string, string> = {
+      'Standard': 'standard_fusion_engine',
+      'XL': 'xl_fusion_engine',
+      'Light': 'light_fusion_engine',
+      'XXL': 'xxl_fusion_engine',
+      'Compact': 'compact_fusion_engine',
+      'ICE': 'standard_fusion_engine', // Use standard for now
+      'Fuel Cell': 'standard_fusion_engine' // Use standard for now
+    };
+    return engineMap[engineType] || 'standard_fusion_engine';
+  }
+  
+  private getGyroId(gyroType: string): string {
+    // Map gyro type to component database ID
+    const gyroMap: Record<string, string> = {
+      'Standard': 'standard_gyro',
+      'XL': 'xl_gyro',
+      'Compact': 'compact_gyro',
+      'Heavy-Duty': 'heavy_duty_gyro'
+    };
+    return gyroMap[gyroType] || 'standard_gyro';
   }
   
   public calculateSpecialComponentSlots(config: UnitConfiguration): number {
+    // Use component database for accurate slot calculations
+    const { componentDatabase } = require('../../services/ComponentDatabaseService');
+    
     let slots = 0;
     
-    // Endo Steel structure
+    // Structure slots
     const structureType = this.extractComponentType(config.structureType);
-    if (structureType === 'Endo Steel') slots += 14;
-    else if (structureType === 'Endo Steel (Clan)') slots += 7;
+    const structureSlots = componentDatabase.getStructureCriticalSlots(
+      this.getStructureId(structureType)
+    );
+    slots += Object.values(structureSlots).reduce((sum: number, slotArray: unknown) => sum + (slotArray as number[]).length, 0);
     
-    // Ferro-Fibrous armor variants
+    // Armor slots
     const armorType = this.extractComponentType(config.armorType);
-    if (armorType === 'Ferro-Fibrous') slots += 14;
-    else if (armorType === 'Ferro-Fibrous (Clan)') slots += 7;
-    else if (armorType === 'Light Ferro-Fibrous') slots += 7;
-    else if (armorType === 'Heavy Ferro-Fibrous') slots += 21;
-    else if (armorType === 'Stealth') slots += 12;
-    else if (armorType === 'Reactive') slots += 14;
-    else if (armorType === 'Reflective') slots += 10;
+    const armorSlots = componentDatabase.getArmorCriticalSlots(
+      this.getArmorId(armorType)
+    );
+    slots += Object.values(armorSlots).reduce((sum: number, slotArray: unknown) => sum + (slotArray as number[]).length, 0);
     
     return slots;
+  }
+  
+  private getStructureId(structureType: string): string {
+    // Map structure type to component database ID
+    const structureMap: Record<string, string> = {
+      'Standard': 'standard_structure',
+      'Endo Steel': 'endo_steel_structure',
+      'Endo Steel (Clan)': 'endo_steel_clan_structure'
+    };
+    return structureMap[structureType] || 'standard_structure';
+  }
+  
+  private getArmorId(armorType: string): string {
+    // Map armor type to component database ID
+    const armorMap: Record<string, string> = {
+      'Standard': 'standard_armor',
+      'Ferro-Fibrous': 'ferro_fibrous_armor',
+      'Ferro-Fibrous (Clan)': 'ferro_fibrous_clan_armor'
+    };
+    return armorMap[armorType] || 'standard_armor';
   }
   
   private calculateEquipmentSlots(equipment: any[]): number {
@@ -856,26 +917,40 @@ export class CriticalSlotCalculatorImpl implements CriticalSlotCalculator {
   }
   
   public getEngineSlots(engineType: string): number {
-    switch (engineType) {
-      case 'Standard': return 6; // 3 CT + 3 side torsos
-      case 'XL': return 12; // 6 CT + 3 each side torso
-      case 'Light': return 10; // 4 CT + 3 each side torso
-      case 'XXL': return 18; // 6 CT + 6 each side torso
-      case 'Compact': return 3; // 3 CT only
-      case 'ICE':
-      case 'Fuel Cell': return 6; // 3 CT + 3 side torsos
-      default: return 6; // Standard fusion engine
-    }
+    // Map engine type to component database ID
+    const engineId = this.mapEngineTypeToId(engineType);
+    const engineSlots = this.componentDatabaseService.getEngineCriticalSlots(engineId, 'standard_gyro');
+    return engineSlots.centerTorso.length + engineSlots.leftTorso.length + engineSlots.rightTorso.length;
+  }
+  
+  private mapEngineTypeToId(engineType: string): string {
+    const engineMap: Record<string, string> = {
+      'Standard': 'standard_fusion_engine',
+      'XL': 'xl_fusion_engine',
+      'Light': 'light_fusion_engine',
+      'XXL': 'xxl_fusion_engine',
+      'Compact': 'compact_fusion_engine',
+      'ICE': 'ice_engine',
+      'Fuel Cell': 'fuel_cell_engine'
+    };
+    return engineMap[engineType] || 'standard_fusion_engine';
   }
   
   public getGyroSlots(gyroType: string): number {
-    switch (gyroType) {
-      case 'Standard': return 4; // 4 slots in center torso
-      case 'XL': return 6; // 6 slots in center torso
-      case 'Compact': return 2; // 2 slots in center torso
-      case 'Heavy-Duty': return 4; // 4 slots in center torso
-      default: return 4; // Standard gyro
-    }
+    // Map gyro type to component database ID
+    const gyroId = this.mapGyroTypeToId(gyroType);
+    const gyroSlots = this.componentDatabaseService.getGyroCriticalSlots(gyroId);
+    return gyroSlots.centerTorso.length;
+  }
+  
+  private mapGyroTypeToId(gyroType: string): string {
+    const gyroMap: Record<string, string> = {
+      'Standard': 'standard_gyro',
+      'XL': 'xl_gyro',
+      'Compact': 'compact_gyro',
+      'Heavy-Duty': 'heavy_duty_gyro'
+    };
+    return gyroMap[gyroType] || 'standard_gyro';
   }
   
   private generateUtilizationRecommendations(byLocation: any, bottlenecks: string[]): string[] {
@@ -1389,66 +1464,46 @@ export class CriticalSlotCalculatorStatic {
     // Get the new location-based breakdown
     const locationBreakdown = instance.calculateLocationBreakdown(config, equipment);
     
-    // CRITICAL FIX: Calculate allocated equipment slots from sections, excluding system components
+    // CRITICAL FIX: Calculate allocated equipment slots from sections - count ALL equipment
     let allocatedSlots = 0;
     if (sections && sections instanceof Map) {
       sections.forEach((section: any) => {
         if (section && typeof section.getAllEquipment === 'function') {
           const sectionEquipment = section.getAllEquipment();
           sectionEquipment.forEach((eq: any) => {
-            // Skip system components that are already counted in structural.total
-            const isSystemComponent = eq.equipmentData?.componentType === 'structure' || 
-                                    eq.equipmentData?.componentType === 'armor' ||
-                                    eq.equipmentData?.componentType === 'heatSink' ||
-                                    eq.equipmentData?.componentType === 'engine' ||
-                                    eq.equipmentData?.componentType === 'gyro' ||
-                                    eq.equipmentData?.componentType === 'jumpJet';
-            
-            if (!isSystemComponent) {
-              // Count slots used by user equipment only
-              if (eq.equipmentData && eq.equipmentData.crits) {
-                allocatedSlots += eq.equipmentData.crits;
-              } else if (eq.equipmentData && eq.equipmentData.requiredSlots) {
-                allocatedSlots += eq.equipmentData.requiredSlots;
-              } else {
-                // Default to 1 slot if not specified
-                allocatedSlots += 1;
-              }
+            // Count ALL equipment slots (including system components)
+            if (eq.equipmentData && eq.equipmentData.crits) {
+              allocatedSlots += eq.equipmentData.crits;
+            } else if (eq.equipmentData && eq.equipmentData.requiredSlots) {
+              allocatedSlots += eq.equipmentData.requiredSlots;
+            } else {
+              // Default to 1 slot if not specified
+              allocatedSlots += 1;
             }
           });
         }
       });
     }
     
-    // CRITICAL FIX: Calculate unallocated equipment slots, excluding system components
+    // CRITICAL FIX: Calculate unallocated equipment slots - count ALL equipment
     let unallocatedSlots = 0;
     if (equipment && Array.isArray(equipment)) {
       equipment.forEach((eq: any) => {
-        // Skip system components that are already counted in structural.total
-        const isSystemComponent = eq.equipmentData?.componentType === 'structure' || 
-                                eq.equipmentData?.componentType === 'armor' ||
-                                eq.equipmentData?.componentType === 'heatSink' ||
-                                eq.equipmentData?.componentType === 'engine' ||
-                                eq.equipmentData?.componentType === 'gyro' ||
-                                eq.equipmentData?.componentType === 'jumpJet';
-        
-        if (!isSystemComponent) {
-          // Count slots used by user equipment only
-          if (eq.equipmentData && eq.equipmentData.crits) {
-            unallocatedSlots += eq.equipmentData.crits;
-          } else if (eq.equipmentData && eq.equipmentData.requiredSlots) {
-            unallocatedSlots += eq.equipmentData.requiredSlots;
-          } else {
-            // Default to 1 slot if not specified
-            unallocatedSlots += 1;
-          }
+        // Count ALL equipment slots (including system components)
+        if (eq.equipmentData && eq.equipmentData.crits) {
+          unallocatedSlots += eq.equipmentData.crits;
+        } else if (eq.equipmentData && eq.equipmentData.requiredSlots) {
+          unallocatedSlots += eq.equipmentData.requiredSlots;
+        } else {
+          // Default to 1 slot if not specified
+          unallocatedSlots += 1;
         }
       });
     }
     
-    // CRITICAL FIX: Calculate total used slots (structural + user equipment only)
-    const totalUsedSlots = structural.total + allocatedSlots;
-    const equipmentBurden = structural.total + allocatedSlots + unallocatedSlots;
+    // CRITICAL FIX: Calculate total used slots (allocated + unallocated equipment, since it includes everything)
+    const totalUsedSlots = allocatedSlots + unallocatedSlots;
+    const equipmentBurden = allocatedSlots + unallocatedSlots;
     
     // Enhanced debug logging
     console.log('[CriticalSlotCalculator] getCompleteBreakdown calculation:', {
@@ -1464,13 +1519,74 @@ export class CriticalSlotCalculatorStatic {
         total: allocatedSlots + unallocatedSlots
       },
       totals: {
-        used: totalUsedSlots,           // Structural + allocated user equipment
-        burden: equipmentBurden,        // Structural + all user equipment
+        used: totalUsedSlots,           // Allocated + unallocated equipment
+        burden: equipmentBurden,        // Allocated + unallocated equipment
         capacity: 78,
         remaining: Math.max(0, 78 - totalUsedSlots),
         overCapacity: Math.max(0, equipmentBurden - 78)
       }
     });
+    
+    // CRITICAL DEBUG: Show final slot calculations
+    console.log('[CriticalSlotCalculator] Final slot calculations:', {
+      allocatedSlots,
+      unallocatedSlots,
+      totalUsedSlots,
+      equipmentBurden,
+      capacity: 78,
+      remaining: Math.max(0, 78 - totalUsedSlots)
+    });
+    
+    // CRITICAL DEBUG: Show detailed structural breakdown
+    console.log('[CriticalSlotCalculator] Detailed structural breakdown:', {
+      fixedComponents: structural.fixedComponents, // 17 (Cockpit + Life Support + Sensors + Actuators)
+      systemComponents: structural.systemComponents, // Engine + Gyro slots
+      specialComponents: structural.specialComponents, // Structure + Armor + Jump Jets
+      total: structural.total
+    });
+    
+    // CRITICAL DEBUG: Log ALL equipment to see what's being counted
+    if (equipment && Array.isArray(equipment)) {
+      console.log('[CriticalSlotCalculator] ALL equipment in unallocated pool:', 
+        equipment.map((eq: any) => ({
+          name: eq.equipmentData?.name,
+          componentType: eq.equipmentData?.componentType,
+          crits: eq.equipmentData?.crits || eq.equipmentData?.requiredSlots || 1,
+          isSystemComponent: eq.equipmentData?.componentType === 'structure' || 
+                           eq.equipmentData?.componentType === 'armor' ||
+                           eq.equipmentData?.componentType === 'heatSink' ||
+                           eq.equipmentData?.componentType === 'engine' ||
+                           eq.equipmentData?.componentType === 'gyro' ||
+                           eq.equipmentData?.componentType === 'jumpJet'
+        }))
+      );
+      
+      // CRITICAL DEBUG: Show counts
+      console.log('[CriticalSlotCalculator] Equipment counts:', {
+        totalEquipment: equipment.length,
+        equipmentWithCrits: equipment.filter(eq => eq.equipmentData?.crits).length,
+        equipmentWithRequiredSlots: equipment.filter(eq => eq.equipmentData?.requiredSlots).length,
+        equipmentWithDefaultSlots: equipment.filter(eq => !eq.equipmentData?.crits && !eq.equipmentData?.requiredSlots).length
+      });
+    }
+    
+    // CRITICAL DEBUG: Log allocated equipment from sections
+    if (sections && sections instanceof Map) {
+      let totalAllocated = 0;
+      sections.forEach((section: any, location: string) => {
+        if (section && typeof section.getAllEquipment === 'function') {
+          const sectionEquipment = section.getAllEquipment();
+          totalAllocated += sectionEquipment.length;
+          console.log(`[CriticalSlotCalculator] ${location} has ${sectionEquipment.length} equipment:`, 
+            sectionEquipment.map((eq: any) => ({
+              name: eq.equipmentData?.name,
+              crits: eq.equipmentData?.crits || eq.equipmentData?.requiredSlots || 1
+            }))
+          );
+        }
+      });
+      console.log('[CriticalSlotCalculator] Total allocated equipment:', totalAllocated);
+    }
     
     return {
       structural,

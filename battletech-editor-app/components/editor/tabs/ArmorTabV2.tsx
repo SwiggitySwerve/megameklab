@@ -70,11 +70,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   const armorTechBase = enhancedConfig.techProgression?.armor || enhancedConfig.techBase || 'Inner Sphere';
   const armorTypeOptions = getAvailableArmorTypes(enhancedConfig, armorTechBase).map(option => option.type);
 
-  // Debugging: Log armorTypeOptions, armorType, and enhancedConfig
-  console.log('[ArmorTabV2] armorTypeOptions:', armorTypeOptions);
-  console.log('[ArmorTabV2] armorType:', typeof config.armorType === 'string' ? config.armorType : (config.armorType as any)?.type || 'Standard');
-  console.log('[ArmorTabV2] enhancedConfig:', enhancedConfig);
-
   // ===== USE DATA MODEL ONLY - NO MANUAL CALCULATIONS =====
   // All calculations come from the data model to ensure consistency
 
@@ -123,8 +118,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   const handleArmorTypeChange = (newArmorType: string) => {
     if (readOnly) return;
     
-    console.log(`[ArmorTab] Armor type change: ${newArmorType}`);
-    
     // Determine tech base from the new value
     const newTechBase = newArmorType.includes('Clan') ? 'Clan' : 'Inner Sphere';
     
@@ -165,8 +158,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
     // Preserve tonnage but cap to new maximum if necessary
     const preservedTonnage = Math.min(currentTonnage, newMaxTonnage);
     
-    console.log(`[ArmorTab] Armor tonnage preservation: ${currentTonnage}t → ${preservedTonnage}t (max: ${newMaxTonnage}t)`);
-    
     const finalUpdates = {
       ...componentUpdate,
       techProgression: newProgression,
@@ -174,7 +165,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
       ...(isMixed && (config.techBase as string) !== 'Mixed' ? { techBase: 'Mixed' } : {})
     };
     
-    console.log(`[ArmorTab] Updating config with:`, finalUpdates);
     updateConfigurationWithValidation(finalUpdates);
   };
 
@@ -198,7 +188,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   // Auto-reduce armor tonnage when maximum changes (unit tonnage or armor type changes)
   React.useEffect(() => {
     if (currentArmorTonnage > maxArmorTonnage) {
-      console.log(`Auto-reducing armor tonnage from ${currentArmorTonnage} to max ${maxArmorTonnage}`);
       handleArmorTonnageChange(maxArmorTonnage);
     }
   }, [maxArmorTonnage, config.tonnage, config.armorType]);
@@ -206,7 +195,6 @@ export const ArmorTabV2: React.FC<ArmorTabV2Props> = ({ readOnly = false }) => {
   // Ensure armor points are calculated from tonnage on load
   React.useEffect(() => {
     if (currentArmorTonnage > 0 && availableArmorPoints === 0) {
-      console.log(`Recalculating armor points from tonnage: ${currentArmorTonnage}t`);
       // The data model will automatically calculate points from tonnage
       // No manual update needed - computed properties handle this
     }

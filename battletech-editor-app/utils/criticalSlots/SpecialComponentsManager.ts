@@ -12,6 +12,7 @@ import {
   ArmorType, 
   SpecialEquipmentObject 
 } from './UnitCriticalManagerTypes'
+import { getComponentDefinition } from '../../types/componentConfiguration';
 
 export class SpecialComponentsManager {
   private sections: Map<string, CriticalSection>
@@ -48,50 +49,16 @@ export class SpecialComponentsManager {
    * Get critical slots required for armor type
    */
   private getArmorCriticalSlots(armorType: ArmorType): number {
-    switch (armorType) {
-      case 'Standard':
-        return 0
-      case 'Ferro-Fibrous':
-        return 14
-      case 'Ferro-Fibrous (Clan)':
-        return 7
-      case 'Light Ferro-Fibrous':
-        return 7
-      case 'Heavy Ferro-Fibrous':
-        return 21
-      case 'Stealth':
-        return 14
-      case 'Reactive':
-        return 14
-      case 'Reflective':
-        return 14
-      case 'Hardened':
-        return 14
-      default:
-        return 0
-    }
+    const def = getComponentDefinition('armor', armorType);
+    return def?.slots ?? 0;
   }
 
   /**
    * Get critical slots required for structure type
    */
   private getStructureCriticalSlots(structureType: StructureType): number {
-    switch (structureType) {
-      case 'Standard':
-        return 0
-      case 'Endo Steel':
-        return 14
-      case 'Endo Steel (Clan)':
-        return 7
-      case 'Composite':
-        return 0
-      case 'Reinforced':
-        return 0
-      case 'Industrial':
-        return 0
-      default:
-        return 0
-    }
+    const def = getComponentDefinition('structure', structureType);
+    return def?.slots ?? 0;
   }
 
   /**
@@ -101,29 +68,20 @@ export class SpecialComponentsManager {
     const structureType = this.getStructureTypeString()
     const armorType = this.getArmorTypeString()
 
-    console.log('[SpecialComponentsManager] Initializing special components')
-    console.log('  structureType:', structureType, 'armorType:', armorType)
+    // Always clear all special components before adding
+    this.clearSpecialComponentsByType('structure')
+    this.clearSpecialComponentsByType('armor')
 
-    // Add structure components if missing
+    // Add structure components for the required slot count
     const structureSlots = this.getStructureCriticalSlots(structureType)
-    const currentStructureCount = this.unallocatedEquipment.filter(eq => 
-      SpecialComponentsManager.getComponentType(eq.equipmentData) === 'structure'
-    ).length
-    console.log('  Structure: required', structureSlots, 'present', currentStructureCount)
-    if (structureSlots > 0 && currentStructureCount < structureSlots) {
-      console.log('  Adding', structureSlots - currentStructureCount, 'structure components')
-      this.addSpecialComponents(structureType, 'structure', structureSlots - currentStructureCount)
+    if (structureSlots > 0) {
+      this.addSpecialComponents(structureType, 'structure', structureSlots)
     }
 
-    // Add armor components if missing
+    // Add armor components for the required slot count
     const armorSlots = this.getArmorCriticalSlots(armorType)
-    const currentArmorCount = this.unallocatedEquipment.filter(eq => 
-      SpecialComponentsManager.getComponentType(eq.equipmentData) === 'armor'
-    ).length
-    console.log('  Armor: required', armorSlots, 'present', currentArmorCount)
-    if (armorSlots > 0 && currentArmorCount < armorSlots) {
-      console.log('  Adding', armorSlots - currentArmorCount, 'armor components')
-      this.addSpecialComponents(armorType, 'armor', armorSlots - currentArmorCount)
+    if (armorSlots > 0) {
+      this.addSpecialComponents(armorType, 'armor', armorSlots)
     }
   }
 
